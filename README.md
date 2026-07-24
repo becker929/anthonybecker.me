@@ -1,12 +1,13 @@
 # anthonybecker.me
 
-Personal site. Static HTML/CSS, no build step — deployed via Cloudflare Pages.
+Personal site. Static HTML/CSS, no build step — deployed as a Cloudflare
+Worker (static assets) via Workers Builds.
 
 ## Deploy
 
-Connected to Cloudflare Pages via the GitHub integration. Pushing to `main`
-deploys to production; other branches get preview deployments. Build output
-is the repo root (no build command needed).
+Connected to Cloudflare Workers Builds via the GitHub integration, configured
+by `wrangler.toml` (assets served straight from the repo root, no build
+command needed). Pushing to `main` deploys to production.
 
 ## Local preview
 
