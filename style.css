@@ -35,3 +35,53 @@ h1 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
+
+.demo-list {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  text-align: left;
+}
+
+.demo-list li {
+  margin-bottom: 1rem;
+}
+
+.demo-list a {
+  color: var(--fg);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.demo-list a:hover {
+  opacity: 0.7;
+}
+
+.demo-list .demo-number {
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+  margin-right: 0.4em;
+}
+
+.demo-list p {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.demo-list .empty,
+.demo-list .error {
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+nav.crumbs {
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+nav.crumbs a {
+  color: var(--fg);
+}

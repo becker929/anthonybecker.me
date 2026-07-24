@@ -1,0 +1,7 @@
+# Canonical demo path: /demos/1/disappearing-ink/
+/demos/1                   /demos/1/disappearing-ink/  301
+/demos/1/                  /demos/1/disappearing-ink/  301
+/demos/disappearing-ink    /demos/1/disappearing-ink/  301
+/demos/disappearing-ink/   /demos/1/disappearing-ink/  301
+/disappearing-ink          /demos/1/disappearing-ink/  301
+/disappearing-ink/         /demos/1/disappearing-ink/  301

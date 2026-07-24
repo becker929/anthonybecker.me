@@ -13,3 +13,13 @@ is the repo root (no build command needed).
 ```
 python3 -m http.server 8000
 ```
+
+## Demos
+
+Demos live at `/demos/<n>/<slug>/`. Both `/` and `/demos/` list them by
+reading `demos/manifest.json`, so adding a new demo means dropping its
+files in `demos/<n>/<slug>/` and adding one entry to the manifest — no
+other page needs to change.
+
+Redirects (old/short paths → canonical `/demos/<n>/<slug>/`) live in
+`_redirects`, read natively by Cloudflare.

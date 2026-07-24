@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Vanishing Ink</title>
+<style>
+  :root {
+    --paper: #0d0f10;
+    --ink: #6fd8c8;
+    --ink-dim: #3a7a70;
+    --label: #5a6462;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--paper);
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
+    font-family: 'Courier New', ui-monospace, monospace;
+  }
+  #canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+  .hud {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 18px 22px;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .hud .title {
+    color: var(--label);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .hud .title span {
+    color: var(--ink-dim);
+  }
+  .hint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--label);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.6s ease;
+    z-index: 10;
+    text-align: center;
+    width: 90%;
+  }
+  .hint.hidden { opacity: 0; }
+
+  .controls {
+    position: fixed;
+    top: 16px;
+    right: 18px;
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+  }
+  .dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .dot.active { border-color: rgba(255,255,255,0.7); transform: scale(1.15); }
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <div class="title">vanishing <span>ink</span></div>
+</div>
+
+<div class="controls" id="controls"></div>
+
+<canvas id="canvas"></canvas>
+<div class="hint" id="hint">draw with finger or mouse — it fades in a few seconds</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const hint = document.getElementById('hint');
+  const controlsEl = document.getElementById('controls');
+
+  const PALETTE = [
+    { name: 'teal',   stroke: 'rgba(111, 216, 200,',  glow: 'rgba(111, 216, 200,' },
+    { name: 'amber',  stroke: 'rgba(230, 168, 89,',   glow: 'rgba(230, 168, 89,' },
+    { name: 'violet', stroke: 'rgba(178, 140, 230,',  glow: 'rgba(178, 140, 230,' },
+    { name: 'rose',   stroke: 'rgba(224, 110, 128,',  glow: 'rgba(224, 110, 128,' }
+  ];
+  let activeColor = PALETTE[0];
+
+  PALETTE.forEach((c, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.style.background = c.stroke + '1)';
+    dot.addEventListener('pointerdown', (e) => {
+      e.stopPropagation();
+      activeColor = c;
+      [...controlsEl.children].forEach(el => el.classList.remove('active'));
+      dot.classList.add('active');
+    });
+    controlsEl.appendChild(dot);
+  });
+
+  let dpr = Math.max(1, window.devicePixelRatio || 1);
+
+  function resize() {
+    dpr = Math.max(1, window.devicePixelRatio || 1);
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // A stroke point carries its own birth time so it can fade independently.
+  const LIFETIME = 2600; // ms until fully gone
+  let points = []; // {x, y, t, strokeId, color}
+  let activeStrokes = new Map(); // pointerId -> {lastX, lastY, strokeId, color}
+  let strokeCounter = 0;
+  let everDrawn = false;
+
+  function addPoint(x, y, strokeId, color) {
+    points.push({ x, y, t: performance.now(), strokeId, color });
+  }
+
+  function handleStart(id, x, y) {
+    if (!everDrawn) {
+      everDrawn = true;
+      hint.classList.add('hidden');
+    }
+    strokeCounter++;
+    activeStrokes.set(id, { lastX: x, lastY: y, strokeId: strokeCounter, color: activeColor });
+    addPoint(x, y, strokeCounter, activeColor);
+  }
+
+  function handleMove(id, x, y) {
+    const s = activeStrokes.get(id);
+    if (!s) return;
+    const dist = Math.hypot(x - s.lastX, y - s.lastY);
+    const steps = Math.max(1, Math.floor(dist / 2));
+    for (let i = 1; i <= steps; i++) {
+      const ix = s.lastX + (x - s.lastX) * (i / steps);
+      const iy = s.lastY + (y - s.lastY) * (i / steps);
+      addPoint(ix, iy, s.strokeId, s.color);
+    }
+    s.lastX = x;
+    s.lastY = y;
+  }
+
+  function handleEnd(id) {
+    activeStrokes.delete(id);
+  }
+
+  canvas.addEventListener('pointerdown', (e) => {
+    canvas.setPointerCapture(e.pointerId);
+    handleStart(e.pointerId, e.clientX, e.clientY);
+  });
+  canvas.addEventListener('pointermove', (e) => {
+    if (activeStrokes.has(e.pointerId)) {
+      handleMove(e.pointerId, e.clientX, e.clientY);
+    }
+  });
+  canvas.addEventListener('pointerup', (e) => handleEnd(e.pointerId));
+  canvas.addEventListener('pointercancel', (e) => handleEnd(e.pointerId));
+  canvas.addEventListener('pointerleave', (e) => handleEnd(e.pointerId));
+
+  // Belt-and-suspenders: swallow raw touch events (single and multi-finger)
+  // at the document level so the host page/artifact viewer never sees a
+  // drag/swipe gesture to act on, even before pointer events resolve.
+  const swallow = (e) => { e.preventDefault(); };
+  document.addEventListener('touchstart', swallow, { passive: false });
+  document.addEventListener('touchmove', swallow, { passive: false });
+  document.addEventListener('touchend', swallow, { passive: false });
+  document.addEventListener('gesturestart', swallow, { passive: false });
+  document.addEventListener('gesturechange', swallow, { passive: false });
+
+  function draw() {
+    const now = performance.now();
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    // group points by stroke to draw connected, tapering lines
+    const byStroke = new Map();
+    points = points.filter(p => (now - p.t) < LIFETIME);
+    for (const p of points) {
+      if (!byStroke.has(p.strokeId)) byStroke.set(p.strokeId, []);
+      byStroke.get(p.strokeId).push(p);
+    }
+
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    for (const pts of byStroke.values()) {
+      if (pts.length === 1) {
+        const p = pts[0];
+        const age = now - p.t;
+        const life = 1 - age / LIFETIME;
+        if (life <= 0) continue;
+        const alpha = Math.pow(life, 1.4);
+        const r = 1.75 * (0.4 + life * 0.6);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r * 3.2, 0, Math.PI * 2);
+        ctx.fillStyle = p.color.glow + (alpha * 0.25) + ')';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color.stroke + alpha + ')';
+        ctx.fill();
+        continue;
+      }
+      for (let i = 1; i < pts.length; i++) {
+        const a = pts[i - 1];
+        const b = pts[i];
+        const age = now - b.t;
+        const life = 1 - age / LIFETIME; // 1 -> 0
+        if (life <= 0) continue;
+
+        const alpha = Math.pow(life, 1.4);
+        const width = 3.5 * (0.4 + life * 0.6);
+
+        // soft glow pass
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = b.color.glow + (alpha * 0.25) + ')';
+        ctx.lineWidth = width * 3.2;
+        ctx.stroke();
+
+        // core ink pass
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = b.color.stroke + alpha + ')';
+        ctx.lineWidth = width;
+        ctx.stroke();
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
