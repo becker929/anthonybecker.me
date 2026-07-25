@@ -1,0 +1,91 @@
+<!doctype html>
+<!--
+  Dev-only offline test harness for renderer.js. Not linked from anywhere in
+  the app; loads hand-written fixtures with no network calls and no server
+  logic, per the build order in the design brief (§12 step 1: "renderer,
+  offline"). Driven by test/render.spec.mjs via Playwright.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Display"; src: url("fonts/Display-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "Display"; src: url("fonts/Display-Bold.ttf"); font-weight: 700; }
+  @font-face { font-family: "Body"; src: url("fonts/Body-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "Body"; src: url("fonts/Body-Bold.ttf"); font-weight: 700; }
+  @font-face { font-family: "Body"; src: url("fonts/Body-Italic.ttf"); font-style: italic; }
+  body { background: #333; }
+  canvas { border: 1px solid #666; margin: 8px; }
+</style>
+</head>
+<body>
+<canvas id="canvas-card-1" width="750" height="1050"></canvas>
+<canvas id="canvas-card-2" width="750" height="1050"></canvas>
+<canvas id="canvas-card-1-rerender" width="750" height="1050" style="display:none"></canvas>
+<script type="module">
+  import { renderCard } from "./renderer.js";
+
+  window.__renderErrors = [];
+  window.__renderDone = false;
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error(`Failed to load ${src}`));
+      img.src = src;
+    });
+  }
+
+  async function loadJson(src) {
+    const resp = await fetch(src);
+    if (!resp.ok) throw new Error(`Failed to fetch ${src}: ${resp.status}`);
+    return resp.json();
+  }
+
+  async function buildAssets(template, card) {
+    const assets = new Map();
+    for (const layer of template.layers) {
+      if (layer.type === "image") {
+        assets.set(layer.src, await loadImage(`fixtures/${layer.src}`));
+      }
+      if (layer.type === "portrait") {
+        assets.set(layer.mask, await loadImage(`fixtures/${layer.mask}`));
+      }
+    }
+    assets.set("portrait", await loadImage(`fixtures/${card.portrait.asset}`));
+    assets.set("gem", await loadImage("fixtures/gem_placeholder.png"));
+    return assets;
+  }
+
+  async function main() {
+    try {
+      const template = await loadJson("fixtures/template.json");
+      const card1 = await loadJson("fixtures/card-1.json");
+      const card2 = await loadJson("fixtures/card-2.json");
+
+      await document.fonts.ready;
+
+      const assets1 = await buildAssets(template, card1);
+      const assets2 = await buildAssets(template, card2);
+
+      const ctx1 = document.getElementById("canvas-card-1").getContext("2d");
+      const ctx2 = document.getElementById("canvas-card-2").getContext("2d");
+      renderCard(ctx1, template, card1, assets1);
+      renderCard(ctx2, template, card2, assets2);
+
+      // Re-render card 1 into a fresh canvas from the same inputs to check
+      // same-process determinism (§2).
+      const ctxRerender = document.getElementById("canvas-card-1-rerender").getContext("2d");
+      renderCard(ctxRerender, template, card1, assets1);
+    } catch (err) {
+      window.__renderErrors.push(String(err && err.stack || err));
+    } finally {
+      window.__renderDone = true;
+    }
+  }
+
+  main();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "card_fixture_02",
+  "template_version": 3,
+  "title": "The Unnumbered Reliquary Warden of the Last Ember Vault",
+  "portrait": {
+    "asset": "portrait_placeholder.png",
+    "style_version": 4,
+    "user_prompt": "an ancient armored warden guarding a vault of embers",
+    "interaction_id": "int_fixture_02",
+    "lineage": [
+      {
+        "instruction": "an ancient armored warden guarding a vault of embers",
+        "asset": "portrait_placeholder.png",
+        "interaction_id": "int_fixture_02"
+      },
+      {
+        "instruction": "make the armor darker and add more embers drifting upward",
+        "asset": "portrait_placeholder.png",
+        "interaction_id": "int_fixture_02b"
+      }
+    ]
+  },
+  "flavor": {
+    "text": "It has stood at the vault door since before the vault had a name, counting embers that never stop falling, and it will still be counting long after whoever reads this is gone.",
+    "source": "hand-written",
+    "prompt_version": 2
+  },
+  "gem": "gem_ember_03",
+  "stats": [
+    { "label": "ATK", "value": "12" },
+    { "label": "DEF", "value": "9" },
+    { "label": "COST", "value": "6" }
+  ],
+  "updated_at": "2026-07-25T00:05:00.000Z"
+}
