@@ -1,6 +1,9 @@
 name = "anthonybecker-me"
 compatibility_date = "2026-07-24"
+main = "src/index.js"
 
 [assets]
 directory = "."
+binding = "ASSETS"
 not_found_handling = "404-page"
+run_worker_first = ["/studio-c33f3ea406426b41*", "/private/c33f3ea406426b41/*"]
