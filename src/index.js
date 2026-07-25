@@ -6,17 +6,14 @@
 // back through this fetch() handler.
 import { listCards, loadCard, saveCard } from "./cards.js";
 import { putBlob, getBlob } from "./blobs.js";
+import { handlePortrait } from "./portrait.js";
+import { noindex, jsonError, jsonOk } from "./http.js";
 
 const BASE = "/studio-c33f3ea406426b41";
 const PRIVATE_DIR = "/private/c33f3ea406426b41";
 const COOKIE_NAME = "studio_auth";
 const SESSION_MS = 30 * 24 * 60 * 60 * 1000;
 const GEMINI_MODEL = "gemini-2.5-flash-image";
-
-function noindex(headers) {
-  headers.set("X-Robots-Tag", "noindex, nofollow");
-  return headers;
-}
 
 async function hmacHex(key, message) {
   const enc = new TextEncoder();
@@ -168,19 +165,6 @@ async function handleGenerate(request, env) {
   );
 }
 
-function jsonError(status, message) {
-  return new Response(JSON.stringify({ error: message }), {
-    status,
-    headers: noindex(new Headers({ "Content-Type": "application/json" })),
-  });
-}
-
-function jsonOk(body) {
-  return new Response(JSON.stringify(body), {
-    headers: noindex(new Headers({ "Content-Type": "application/json" })),
-  });
-}
-
 async function handleListCards(env) {
   const cards = await listCards(env.CARD_DB);
   return jsonOk(cards);
@@ -282,6 +266,10 @@ export default {
 
     if (sub === "api/blobs" && request.method === "POST") {
       return handleUploadBlob(request, env);
+    }
+
+    if (sub === "api/portrait" && request.method === "POST") {
+      return handlePortrait(request, env);
     }
 
     if (sub.startsWith("blob/") && request.method === "GET") {

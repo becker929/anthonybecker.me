@@ -1,0 +1,5 @@
+{
+  "name": "worker-src",
+  "private": true,
+  "type": "module"
+}

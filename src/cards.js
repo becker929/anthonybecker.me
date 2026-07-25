@@ -47,3 +47,18 @@ export async function saveCard(db, id, card) {
     .run();
   return stored;
 }
+
+// Durable audit log for portrait revision turns (§9's `interactions`
+// table). Written alongside the card's embedded lineage, not instead of
+// it — this is what still lets you reconstruct history if a card write
+// were ever lost, since it's a plain append-only insert.
+export async function recordInteraction(db, { cardId, seq, instruction, assetHash }) {
+  const created_at = new Date().toISOString();
+  await db
+    .prepare(
+      `INSERT INTO interactions (id, card_id, seq, instruction, asset_hash, created_at)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+    )
+    .bind(crypto.randomUUID(), cardId, seq, instruction, assetHash, created_at)
+    .run();
+}

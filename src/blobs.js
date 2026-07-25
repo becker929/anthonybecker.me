@@ -17,6 +17,17 @@ function base64ToBytes(base64) {
   return bytes;
 }
 
+// Chunked to avoid blowing the call stack on String.fromCharCode(...bytes)
+// for anything image-sized.
+export function bytesToBase64(bytes) {
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+  }
+  return btoa(binary);
+}
+
 // Stores `data` (base64) under its content hash if not already present.
 // Returns the hash. Idempotent and safe to retry.
 export async function putBlob(bucket, { mimeType, data }) {
@@ -48,4 +59,16 @@ export function isValidHash(hash) {
 export async function getBlob(bucket, hash) {
   if (!isValidHash(hash)) return null;
   return bucket.get(`blob/${hash}`);
+}
+
+// Convenience for feeding a stored blob back into a model call as an
+// inline reference image.
+export async function getBlobAsBase64(bucket, hash) {
+  const obj = await getBlob(bucket, hash);
+  if (!obj) return null;
+  const bytes = new Uint8Array(await obj.arrayBuffer());
+  return {
+    mimeType: obj.httpMetadata?.contentType || "application/octet-stream",
+    data: bytesToBase64(bytes),
+  };
 }
