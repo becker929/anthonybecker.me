@@ -1667,16 +1667,9 @@ const AttackButton = memo(function AttackButton({ slot, x, y, name, enabled, onA
       aria-label={`Attack with ${name}`}
       style={S.attackButton(x, y, enabled)}
     >
-      {/* Drawn rather than an emoji glyph, so it looks the same crossed-swords
-          shape on every platform instead of whatever the local font ships. */}
-      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-        <g fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 20 L19 4" />
-          <path d="M3.5 21.5 L7 18" />
-          <path d="M19 20 L5 4" />
-          <path d="M20.5 21.5 L17 18" />
-        </g>
-      </svg>
+      <span aria-hidden="true" style={S.attackButtonGlyph(enabled)}>
+        🗡️
+      </span>
     </button>
   );
 });
@@ -1902,6 +1895,15 @@ const S = {
     animation: enabled ? "sword-wiggle 1.9s ease-in-out infinite" : "none",
     transition: "opacity 160ms ease, background 160ms ease, border-color 160ms ease",
     touchAction: "manipulation",
+  }),
+  // Full-color emoji ignores `color`, so dimming for the disabled state has
+  // to happen here via opacity instead of riding along with the button's
+  // currentColor the way the old stroked SVG did.
+  attackButtonGlyph: (enabled) => ({
+    fontSize: 15,
+    lineHeight: 1,
+    opacity: enabled ? 1 : 0.5,
+    transition: "opacity 160ms ease",
   }),
   board: {
     position: "relative",
