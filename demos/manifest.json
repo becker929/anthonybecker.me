@@ -5,5 +5,12 @@
     "title": "Disappearing Ink",
     "description": "Draw with a finger or mouse — the ink fades away a few seconds after it's laid down.",
     "path": "/demos/1/disappearing-ink/"
+  },
+  {
+    "number": 2,
+    "slug": "card-battler",
+    "title": "Card Battler",
+    "description": "A small turn-based card game and an animation-architecture demo in one — drag cards to the board, watch scripted strikes play out, and tune the motion, shake, and particle \"juice\" live.",
+    "path": "/demos/2/card-battler/"
   }
 ]
