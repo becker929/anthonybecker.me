@@ -9,3 +9,4 @@ node_modules/
 wrangler.toml
 README.md
 src/
+d1/

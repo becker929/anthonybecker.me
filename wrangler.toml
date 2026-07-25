@@ -7,3 +7,19 @@ directory = "."
 binding = "ASSETS"
 not_found_handling = "404-page"
 run_worker_first = ["/studio-c33f3ea406426b41*", "/private/c33f3ea406426b41/*"]
+
+# Trading-card design system storage (see private/c33f3ea406426b41/cards/).
+# database_id below is a placeholder — run `wrangler d1 create
+# anthonybecker-cards` and replace it with the real id before deploying.
+# `wrangler dev` (local mode, the default) works fine with the placeholder.
+[[d1_databases]]
+binding = "CARD_DB"
+database_name = "anthonybecker-cards"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "d1/migrations"
+
+# Run `wrangler r2 bucket create anthonybecker-cards` once before deploying;
+# no id to fill in for R2, the bucket_name below is authoritative.
+[[r2_buckets]]
+binding = "CARD_BUCKET"
+bucket_name = "anthonybecker-cards"
