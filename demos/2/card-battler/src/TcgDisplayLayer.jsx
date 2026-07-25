@@ -91,6 +91,7 @@ const emptyScene = () => ({
     graveyard: [],
     life: START_LIFE,
     playsLeft: 0,
+    attackedIds: [], // cards that have already struck this turn, cleared on beginTurn
   },
   opponent: {
     drawn: 0,
@@ -221,6 +222,19 @@ function strike(scene, side, slot) {
   };
 }
 
+// The player's other write into the scene, alongside play(). Attacking is a
+// choice made one card at a time — the attack phase between playing a card
+// and ending the turn — so a card can strike at most once before attackedIds
+// is cleared by the next beginTurn.
+function attack(scene, slot) {
+  if (scene.phase !== "play" || scene.turn !== "player") return null;
+  const card = scene.player.field[slot];
+  if (!card || scene.player.attackedIds.includes(card.id)) return null;
+  const result = strike(scene, "player", slot);
+  if (!result) return null;
+  return { ...result, scene: patch(result.scene, "player", { attackedIds: [...scene.player.attackedIds, card.id] }) };
+}
+
 function beginTurn(scene, side) {
   if (scene.phase === "over") return scene;
   if (stranded(scene, "player") && stranded(scene, "opponent")) {
@@ -232,7 +246,7 @@ function beginTurn(scene, side) {
     phase: "play",
     round: side === "player" ? scene.round + 1 : scene.round,
   };
-  return side === "player" ? patch(next, "player", { playsLeft: 1 }) : next;
+  return side === "player" ? patch(next, "player", { playsLeft: 1, attackedIds: [] }) : next;
 }
 
 const firstFreeSlot = (scene) => {
@@ -527,8 +541,9 @@ const openingBeats = () => [
 // Delays are breathing room, not load-bearing timing: the shell will not start
 // a beat while the scene is still settling, so these can be sized for rhythm
 // rather than padded against the longest animation they might collide with.
+// The player's own strikes are no longer in here — each is a beat of its own,
+// queued by a sword button in the attack phase, before the turn ever ends.
 const endTurnBeats = () => [
-  beat("Your board attacks", 260, (s) => ({ scene: s, then: strikeBeats(s, "player") })),
   beat("Opponent's turn", 380, (s) => ({ scene: beginTurn(s, "opponent") })),
   beat("Opponent draws", 300, (s) => ({ scene: draw(s, "opponent") })),
   beat("Opponent plays", 360, (s) => ({ scene: opponentPlay(s) })),
@@ -579,6 +594,7 @@ const ZONE_DEPTH = { oppHand: 1, oppGraveyard: 2, graveyard: 2, oppField: 3, fie
 const FLIGHT_DEPTH = 800; // anything in the air clears the board
 const HELD_DEPTH = 1000;
 const JUICE_DEPTH = 1200; // above every card, including the held one
+const ATTACK_BUTTON_DEPTH = 700; // above field cards, below anything in flight
 
 const INK = {
   table: "#101c18",
@@ -1155,6 +1171,12 @@ export default function TcgDisplayLayer() {
   const settled = !running && flights.size === 0;
   const yourMove = settled && scene.phase === "play" && scene.turn === "player";
   const canPlay = yourMove && scene.player.playsLeft > 0;
+  // The attack phase: every field card not yet in attackedIds is still owed a
+  // sword button. Once none are, ending the turn is the only thing left to do,
+  // and the button says so.
+  const attacksAvailable =
+    yourMove && scene.player.field.some((card) => card && !scene.player.attackedIds.includes(card.id));
+  const readyToEndTurn = yourMove && !attacksAvailable;
 
   // `released` is where the pointer let the card go. It is the one position in
   // the whole shell that place() cannot derive, because it is a fact about the
@@ -1176,6 +1198,21 @@ export default function TcgDisplayLayer() {
     if (current.phase === "setup") return setQueue(openingBeats());
     if (current.turn === "player") setQueue(endTurnBeats());
   }, [queue.length]);
+
+  // The attack phase's one intent: strike with a single field card, queued as
+  // a single beat so it runs through the same clash-flight machinery as every
+  // other strike. Guarded the same way play() is guarded inside attack() —
+  // this is only ever an optimistic nudge to try, never a source of truth.
+  const attackWithSlot = useCallback(
+    (slot) => {
+      const current = sceneRef.current;
+      if (queue.length > 0 || current.phase !== "play" || current.turn !== "player") return;
+      const card = current.player.field[slot];
+      if (!card || current.player.attackedIds.includes(card.id)) return;
+      setQueue([beat(`${card.name} attacks`, 0, (s) => attack(s, slot) ?? { scene: s })]);
+    },
+    [queue.length]
+  );
 
   const reset = useCallback(() => {
     setQueue([]);
@@ -1299,8 +1336,13 @@ export default function TcgDisplayLayer() {
   const status =
     gate ? ""
     : !settled ? (beatLabel ?? "…")
-    : canPlay ? "Your turn. Drag a card to an open slot."
-    : "No plays left — end the turn to attack.";
+    : attacksAvailable
+      ? canPlay
+        ? "Drag a card to play it, or strike with the sword buttons."
+        : "Strike with the sword buttons, then end your turn."
+      : canPlay
+        ? "Your turn. Drag a card to an open slot."
+        : "All attacks made — end your turn.";
 
   return (
     <div className="tcg-poc" style={S.frame}>
@@ -1312,7 +1354,7 @@ export default function TcgDisplayLayer() {
             mid-game, so it stays out of the board and in the chrome, where it
             can never sit on top of a card. */}
         {!gate && (
-          <button onClick={advance} disabled={!settled} style={S.turnButton(!settled)}>
+          <button onClick={advance} disabled={!settled} style={S.turnButton(!settled, readyToEndTurn)}>
             End turn
           </button>
         )}
@@ -1380,6 +1422,29 @@ export default function TcgDisplayLayer() {
               />
             );
           })}
+
+          {/* The attack phase, entire: one sword per field card that hasn't
+              struck yet this turn, sitting below the card it belongs to. Drawn
+              only on the player's own turn — the opponent has no such button,
+              it strikes on its own beat. */}
+          {scene.phase === "play" &&
+            scene.turn === "player" &&
+            scene.player.field.map((card, slot) => {
+              if (!card) return null;
+              const { x, y } = fieldTransform(slot, "player", board);
+              const struck = scene.player.attackedIds.includes(card.id);
+              return (
+                <AttackButton
+                  key={`attack-${slot}`}
+                  slot={slot}
+                  x={x}
+                  y={y + CARD.height / 2 + 16}
+                  name={card.name}
+                  enabled={settled && !struck}
+                  onAttack={attackWithSlot}
+                />
+              );
+            })}
 
           {Array.from(departing, ([id, { card, transform, mine }]) => (
             <Card key={id} id={id} card={card} mine={mine} transform={transform} depth={0} departing />
@@ -1588,6 +1653,34 @@ const Slot = memo(function Slot({ x, y, state }) {
   return <div style={S.slot(x, y, state)} />;
 });
 
+// One sword per attacker, idling with a cute little wiggle so it reads as
+// something you can poke. Goes still and dims the moment it can't be pressed
+// — mid-animation, already struck, or not your turn — a native `disabled`
+// button being the simplest way to make that also true for the keyboard and
+// for hit-testing.
+const AttackButton = memo(function AttackButton({ slot, x, y, name, enabled, onAttack }) {
+  return (
+    <button
+      type="button"
+      disabled={!enabled}
+      onClick={() => onAttack(slot)}
+      aria-label={`Attack with ${name}`}
+      style={S.attackButton(x, y, enabled)}
+    >
+      {/* Drawn rather than an emoji glyph, so it looks the same crossed-swords
+          shape on every platform instead of whatever the local font ships. */}
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <g fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 20 L19 4" />
+          <path d="M3.5 21.5 L7 18" />
+          <path d="M19 20 L5 4" />
+          <path d="M20.5 21.5 L17 18" />
+        </g>
+      </svg>
+    </button>
+  );
+});
+
 // Re-keyed on the wound nonce so the flash animation restarts on every hit;
 // it is one small element, so the remount is cheaper than a parity dance.
 const LifePlate = memo(function LifePlate({ side, life, wound }) {
@@ -1705,6 +1798,14 @@ ${flightFrames("flight-1")}
   0% { opacity: .9; transform: scale(.82); }
   100% { opacity: 0; transform: scale(2.1); }
 }
+@keyframes sword-wiggle {
+  0%, 100% { transform: rotate(-16deg); }
+  50% { transform: rotate(16deg); }
+}
+@keyframes end-turn-shimmer {
+  0%, 100% { box-shadow: 0 0 0 rgba(232, 196, 103, 0); }
+  50% { box-shadow: 0 0 14px 4px rgba(232, 196, 103, .75); }
+}
 ${SHAKE_LEVELS.flatMap((level) => [0, 1].map((v) => shakeFrames(`shake-${level}-${v}`, shakeOf(settings, level).px))).join("\n")}
 .tcg-poc [role="button"]:focus-visible { outline: 2px solid ${INK.brass}; outline-offset: 3px; border-radius: 6px; }
 .tcg-poc button:focus-visible { outline: 2px solid ${INK.brass}; outline-offset: 2px; }
@@ -1756,18 +1857,50 @@ const S = {
   },
   status: { flex: 1, color: INK.text, opacity: 0.8, minWidth: 0 },
   // The mid-game action. Quiet next to the gate lettering — it is a button you
-  // press many times a game, not a threshold you cross twice.
-  turnButton: (disabled) => ({
+  // press many times a game, not a threshold you cross twice. `shimmer` is the
+  // one exception: once the attack phase has nothing left owed to it, the
+  // button itself says so, in the one color nothing else on the table uses.
+  turnButton: (disabled, shimmer) => ({
     flexShrink: 0,
     padding: "6px 14px",
     minHeight: 34,
     borderRadius: 4,
-    border: `1px solid ${disabled ? INK.rule : "#3d6252"}`,
+    border: `1px solid ${shimmer ? "#e8c467" : disabled ? INK.rule : "#3d6252"}`,
     background: disabled ? "transparent" : "#1d3830",
-    color: disabled ? INK.dim : INK.text,
+    color: shimmer ? "#f7e4a8" : disabled ? INK.dim : INK.text,
     font: "inherit",
     letterSpacing: 0.4,
     cursor: disabled ? "default" : "pointer",
+    touchAction: "manipulation",
+    animation: shimmer ? "end-turn-shimmer 1.6s ease-in-out infinite" : "none",
+  }),
+  // Below the card it belongs to, small and round, wiggling like it wants to
+  // be pressed. Disabled state is flat and still — no motion is the tell that
+  // nothing will happen if you press it.
+  attackButton: (x, y, enabled) => ({
+    position: "absolute",
+    left: x - 16,
+    top: y,
+    width: 32,
+    height: 32,
+    borderRadius: "50%",
+    border: `1px solid ${enabled ? INK.brass : INK.rule}`,
+    background: enabled
+      ? "linear-gradient(180deg, #3a5c4c, #1c342a)"
+      : "rgba(20,32,28,.45)",
+    color: enabled ? INK.parchment : INK.dim,
+    fontSize: 15,
+    lineHeight: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 0,
+    cursor: enabled ? "pointer" : "default",
+    boxShadow: enabled ? "0 2px 8px rgba(0,0,0,.4)" : "none",
+    zIndex: ATTACK_BUTTON_DEPTH,
+    transformOrigin: "50% 0%",
+    animation: enabled ? "sword-wiggle 1.9s ease-in-out infinite" : "none",
+    transition: "opacity 160ms ease, background 160ms ease, border-color 160ms ease",
     touchAction: "manipulation",
   }),
   board: {
