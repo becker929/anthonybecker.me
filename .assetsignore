@@ -1,4 +1,11 @@
+# Everything here is repo furniture, not site content. Without these lines
+# wrangler walks the whole directory and serves them: .git objects, agent
+# config, and build scratch all become fetchable URLs.
 .git
 .gitignore
+.claude/
+.wrangler/
+node_modules/
 wrangler.toml
 README.md
+src/
