@@ -595,6 +595,7 @@ const FLIGHT_DEPTH = 800; // anything in the air clears the board
 const HELD_DEPTH = 1000;
 const JUICE_DEPTH = 1200; // above every card, including the held one
 const ATTACK_BUTTON_DEPTH = 700; // above field cards, below anything in flight
+const HAND_HALO = { width: 380, height: 150 }; // sized to sit under the fan, not the board
 
 const INK = {
   table: "#101c18",
@@ -1220,7 +1221,9 @@ export default function TcgDisplayLayer() {
   // and the button says so.
   const attacksAvailable =
     yourMove && scene.player.field.some((card) => card && !scene.player.attackedIds.includes(card.id));
-  const readyToEndTurn = yourMove && !attacksAvailable;
+  // Both action kinds have to be spent — a card still in hand is a strike not
+  // yet chosen not to make, exactly like an unstruck field card.
+  const readyToEndTurn = yourMove && !attacksAvailable && !canPlay;
 
   // `released` is where the pointer let the card go. It is the one position in
   // the whole shell that place() cannot derive, because it is a fact about the
@@ -1424,6 +1427,11 @@ export default function TcgDisplayLayer() {
 
           <LifePlate side="opponent" life={scene.opponent.life} wound={wound} />
           <LifePlate side="player" life={scene.player.life} wound={wound} />
+
+          {/* The hand's tell: a card still owed a play, glowing under the fan
+              exactly as long as one is. Gone the instant the play is made,
+              same as a struck sword button. */}
+          {canPlay && <div style={S.handHalo(board)} />}
 
           {["opponent", "player"].map((side) =>
             Array.from({ length: FIELD_SLOTS }, (_, slot) => {
@@ -1843,6 +1851,10 @@ ${flightFrames("flight-1")}
   0%, 100% { box-shadow: 0 0 0 rgba(232, 196, 103, 0); }
   50% { box-shadow: 0 0 14px 4px rgba(232, 196, 103, .75); }
 }
+@keyframes hand-halo-pulse {
+  0%, 100% { opacity: .5; }
+  50% { opacity: .85; }
+}
 ${SHAKE_LEVELS.flatMap((level) => [0, 1].map((v) => shakeFrames(`shake-${level}-${v}`, shakeOf(settings, level).px))).join("\n")}
 .tcg-poc [role="button"]:focus-visible { outline: 2px solid ${INK.brass}; outline-offset: 3px; border-radius: 6px; }
 .tcg-poc button:focus-visible { outline: 2px solid ${INK.brass}; outline-offset: 2px; }
@@ -1989,6 +2001,24 @@ const S = {
     }, transparent)`,
     transition: "background 300ms ease",
     pointerEvents: "none",
+  }),
+  // The hand's own tell, the mirror of the sword wiggle: a soft glow under the
+  // cards rather than motion on them, since a whole hand moving would read as
+  // noise. Centred a little below the card row so its brightest point falls
+  // in the open table beneath the fan rather than under the card art, where
+  // it would be spent hiding behind the very thing it is meant to be seen
+  // under. Sits low in the stack, behind every card either way.
+  handHalo: (board) => ({
+    position: "absolute",
+    left: board.width / 2 - HAND_HALO.width / 2,
+    top: board.height - HAND.fromBottom + CARD.height / 2 + 26 - HAND_HALO.height / 2,
+    width: HAND_HALO.width,
+    height: HAND_HALO.height,
+    borderRadius: "50%",
+    background: "radial-gradient(closest-side, rgba(232,196,103,.5), rgba(232,196,103,0) 68%)",
+    animation: "hand-halo-pulse 2.6s ease-in-out infinite",
+    pointerEvents: "none",
+    zIndex: 0,
   }),
   lifePlate: (side) => ({
     position: "absolute",
