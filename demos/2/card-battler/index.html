@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Card Battler — Anthony Becker</title>
-<meta name="description" content="A small turn-based card battler built to show off a scripted animation architecture: drag cards to the board, watch strikes play out as full flight paths, and tune the motion, shake, and particle 'juice' live.">
+<meta name="description" content="A small turn-based card battler built to show off a scripted animation architecture: drag cards to the board and watch strikes play out as full flight paths, shake and sparks included.">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
@@ -18,6 +18,11 @@
     align-items: flex-start;
     justify-content: center;
     padding: 28px 16px;
+  }
+  /* On a phone the table should be the screen, so the page gives back the
+     margin it was spending on chrome. */
+  @media (max-width: 700px) {
+    body { padding: 8px 8px env(safe-area-inset-bottom, 8px); }
   }
   #root {
     width: 100%;

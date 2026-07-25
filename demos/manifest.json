@@ -10,7 +10,7 @@
     "number": 2,
     "slug": "card-battler",
     "title": "Card Battler",
-    "description": "A small turn-based card game and an animation-architecture demo in one — drag cards to the board, watch scripted strikes play out, and tune the motion, shake, and particle \"juice\" live.",
+    "description": "A small turn-based card game and an animation-architecture demo in one — drag cards to the board and watch scripted strikes play out in full flight paths, shake and sparks included.",
     "path": "/demos/2/card-battler/"
   }
 ]
