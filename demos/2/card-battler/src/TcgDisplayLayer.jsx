@@ -595,6 +595,7 @@ const FLIGHT_DEPTH = 800; // anything in the air clears the board
 const HELD_DEPTH = 1000;
 const JUICE_DEPTH = 1200; // above every card, including the held one
 const ATTACK_BUTTON_DEPTH = 700; // above field cards, below anything in flight
+const HAND_HALO = { width: 380, height: 150 }; // sized to sit under the fan, not the board
 
 const INK = {
   table: "#101c18",
@@ -723,6 +724,17 @@ const BURSTS = {
   impact: ["motes", "clouds"],
   cast: ["motes", "arcs"],
   break: ["motes", "sparks"],
+};
+
+// A small pool per event so two hits in a row don't sound identical; picked
+// from the loudest, most physical samples in the set so they read over the
+// particle work rather than under it.
+const SOUND_POOLS = {
+  clash: ["sounds/Debris1.wav", "sounds/Debris2.wav"],
+  burn: ["sounds/Explosion1.wav", "sounds/Explosion3.wav", "sounds/Explosion5.wav"],
+  break: ["sounds/Explosion1.wav", "sounds/Explosion3.wav", "sounds/Explosion5.wav"],
+  victory: ["sounds/VictoryBig.wav"],
+  defeat: ["sounds/Decompression.wav"],
 };
 
 // Every juice number a slider can reach, flat so the copied JSON is the
@@ -869,6 +881,30 @@ function useJuice(after, settingsRef) {
   return { bursts, shake, burst, rumble };
 }
 
+// One <audio> element per source, reused and restarted rather than recreated,
+// except when an event's own sound is still ringing — then a clone plays
+// alongside it, so two clashes half a beat apart don't cut each other off.
+function useSound() {
+  const pool = useRef(new Map());
+
+  return useCallback((event) => {
+    const choices = SOUND_POOLS[event];
+    if (!choices || choices.length === 0) return;
+    const src = choices[(Math.random() * choices.length) | 0];
+
+    let base = pool.current.get(src);
+    if (!base) {
+      base = new Audio(src);
+      base.preload = "auto";
+      pool.current.set(src, base);
+    }
+    const voice = base.paused ? base : base.cloneNode(true);
+    voice.volume = 0.55;
+    voice.currentTime = 0;
+    voice.play().catch(() => {}); // autoplay can be blocked before the first gesture
+  }, []);
+}
+
 // Flights in the air, keyed by card. `launch` stamps each one with a sequence
 // number and schedules its own removal; a flight only ever clears itself, so a
 // card that has already been given a follow-on flight is never yanked out from
@@ -952,6 +988,7 @@ export default function TcgDisplayLayer() {
 
   const { bursts, shake, burst, rumble } = useJuice(after, settingsRef);
   const { flights, launch, clear: clearFlights } = useFlights(after);
+  const sound = useSound();
 
   const [scene, setScene] = useState(emptyScene);
   const [queue, setQueue] = useState([]);
@@ -976,6 +1013,11 @@ export default function TcgDisplayLayer() {
   useEffect(() => {
     sceneRef.current = scene;
   }, [scene]);
+
+  useEffect(() => {
+    if (scene.outcome === "player") sound("victory");
+    else if (scene.outcome) sound("defeat"); // opponent win or stalemate: no fanfare either way
+  }, [scene.outcome, sound]);
 
   // Shake amplitudes live in settings, so the keyframe text is rebuilt when a
   // slider moves — and only then. The game path never touches this memo.
@@ -1078,6 +1120,7 @@ export default function TcgDisplayLayer() {
           const origin = at(command.id);
           if (origin) burst("break", origin.x, origin.y);
           rumble("strong");
+          sound("break");
         }
       }
 
@@ -1096,15 +1139,17 @@ export default function TcgDisplayLayer() {
         if (fx.kind === "burn") {
           setWound({ side: OTHER[fx.side], nonce: fx.slot + Date.now() });
           rumble("strong");
+          sound("burn");
         } else {
           rumble(isMagic(attacker) ? "intense" : "subtle");
+          sound("clash");
         }
       }
 
       sceneRef.current = next;
       setScene(next);
     },
-    [board, after, burst, rumble, launch, hold]
+    [board, after, burst, rumble, sound, launch, hold]
   );
 
   /* ── the beat runner ─────────────────────────────────────────────────────
@@ -1176,7 +1221,9 @@ export default function TcgDisplayLayer() {
   // and the button says so.
   const attacksAvailable =
     yourMove && scene.player.field.some((card) => card && !scene.player.attackedIds.includes(card.id));
-  const readyToEndTurn = yourMove && !attacksAvailable;
+  // Both action kinds have to be spent — a card still in hand is a strike not
+  // yet chosen not to make, exactly like an unstruck field card.
+  const readyToEndTurn = yourMove && !attacksAvailable && !canPlay;
 
   // `released` is where the pointer let the card go. It is the one position in
   // the whole shell that place() cannot derive, because it is a fact about the
@@ -1380,6 +1427,11 @@ export default function TcgDisplayLayer() {
 
           <LifePlate side="opponent" life={scene.opponent.life} wound={wound} />
           <LifePlate side="player" life={scene.player.life} wound={wound} />
+
+          {/* The hand's tell: a card still owed a play, glowing under the fan
+              exactly as long as one is. Gone the instant the play is made,
+              same as a struck sword button. */}
+          {canPlay && <div style={S.handHalo(board)} />}
 
           {["opponent", "player"].map((side) =>
             Array.from({ length: FIELD_SLOTS }, (_, slot) => {
@@ -1799,6 +1851,10 @@ ${flightFrames("flight-1")}
   0%, 100% { box-shadow: 0 0 0 rgba(232, 196, 103, 0); }
   50% { box-shadow: 0 0 14px 4px rgba(232, 196, 103, .75); }
 }
+@keyframes hand-halo-pulse {
+  0%, 100% { opacity: .5; }
+  50% { opacity: .85; }
+}
 ${SHAKE_LEVELS.flatMap((level) => [0, 1].map((v) => shakeFrames(`shake-${level}-${v}`, shakeOf(settings, level).px))).join("\n")}
 .tcg-poc [role="button"]:focus-visible { outline: 2px solid ${INK.brass}; outline-offset: 3px; border-radius: 6px; }
 .tcg-poc button:focus-visible { outline: 2px solid ${INK.brass}; outline-offset: 2px; }
@@ -1903,6 +1959,7 @@ const S = {
     fontSize: 15,
     lineHeight: 1,
     opacity: enabled ? 1 : 0.5,
+    transform: "rotate(180deg)",
     transition: "opacity 160ms ease",
   }),
   board: {
@@ -1944,6 +2001,24 @@ const S = {
     }, transparent)`,
     transition: "background 300ms ease",
     pointerEvents: "none",
+  }),
+  // The hand's own tell, the mirror of the sword wiggle: a soft glow under the
+  // cards rather than motion on them, since a whole hand moving would read as
+  // noise. Centred a little below the card row so its brightest point falls
+  // in the open table beneath the fan rather than under the card art, where
+  // it would be spent hiding behind the very thing it is meant to be seen
+  // under. Sits low in the stack, behind every card either way.
+  handHalo: (board) => ({
+    position: "absolute",
+    left: board.width / 2 - HAND_HALO.width / 2,
+    top: board.height - HAND.fromBottom + CARD.height / 2 + 26 - HAND_HALO.height / 2,
+    width: HAND_HALO.width,
+    height: HAND_HALO.height,
+    borderRadius: "50%",
+    background: "radial-gradient(closest-side, rgba(232,196,103,.5), rgba(232,196,103,0) 68%)",
+    animation: "hand-halo-pulse 2.6s ease-in-out infinite",
+    pointerEvents: "none",
+    zIndex: 0,
   }),
   lifePlate: (side) => ({
     position: "absolute",
