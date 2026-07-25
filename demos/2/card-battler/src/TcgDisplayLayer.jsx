@@ -725,6 +725,17 @@ const BURSTS = {
   break: ["motes", "sparks"],
 };
 
+// A small pool per event so two hits in a row don't sound identical; picked
+// from the loudest, most physical samples in the set so they read over the
+// particle work rather than under it.
+const SOUND_POOLS = {
+  clash: ["sounds/Debris1.wav", "sounds/Debris2.wav"],
+  burn: ["sounds/Explosion1.wav", "sounds/Explosion3.wav", "sounds/Explosion5.wav"],
+  break: ["sounds/Explosion1.wav", "sounds/Explosion3.wav", "sounds/Explosion5.wav"],
+  victory: ["sounds/VictoryBig.wav"],
+  defeat: ["sounds/Decompression.wav"],
+};
+
 // Every juice number a slider can reach, flat so the copied JSON is the
 // settings, verbatim. Motion sits alongside particles because the timing of an
 // action is as much a tuned quantity as the dust it throws.
@@ -869,6 +880,30 @@ function useJuice(after, settingsRef) {
   return { bursts, shake, burst, rumble };
 }
 
+// One <audio> element per source, reused and restarted rather than recreated,
+// except when an event's own sound is still ringing — then a clone plays
+// alongside it, so two clashes half a beat apart don't cut each other off.
+function useSound() {
+  const pool = useRef(new Map());
+
+  return useCallback((event) => {
+    const choices = SOUND_POOLS[event];
+    if (!choices || choices.length === 0) return;
+    const src = choices[(Math.random() * choices.length) | 0];
+
+    let base = pool.current.get(src);
+    if (!base) {
+      base = new Audio(src);
+      base.preload = "auto";
+      pool.current.set(src, base);
+    }
+    const voice = base.paused ? base : base.cloneNode(true);
+    voice.volume = 0.55;
+    voice.currentTime = 0;
+    voice.play().catch(() => {}); // autoplay can be blocked before the first gesture
+  }, []);
+}
+
 // Flights in the air, keyed by card. `launch` stamps each one with a sequence
 // number and schedules its own removal; a flight only ever clears itself, so a
 // card that has already been given a follow-on flight is never yanked out from
@@ -952,6 +987,7 @@ export default function TcgDisplayLayer() {
 
   const { bursts, shake, burst, rumble } = useJuice(after, settingsRef);
   const { flights, launch, clear: clearFlights } = useFlights(after);
+  const sound = useSound();
 
   const [scene, setScene] = useState(emptyScene);
   const [queue, setQueue] = useState([]);
@@ -976,6 +1012,11 @@ export default function TcgDisplayLayer() {
   useEffect(() => {
     sceneRef.current = scene;
   }, [scene]);
+
+  useEffect(() => {
+    if (scene.outcome === "player") sound("victory");
+    else if (scene.outcome) sound("defeat"); // opponent win or stalemate: no fanfare either way
+  }, [scene.outcome, sound]);
 
   // Shake amplitudes live in settings, so the keyframe text is rebuilt when a
   // slider moves — and only then. The game path never touches this memo.
@@ -1078,6 +1119,7 @@ export default function TcgDisplayLayer() {
           const origin = at(command.id);
           if (origin) burst("break", origin.x, origin.y);
           rumble("strong");
+          sound("break");
         }
       }
 
@@ -1096,15 +1138,17 @@ export default function TcgDisplayLayer() {
         if (fx.kind === "burn") {
           setWound({ side: OTHER[fx.side], nonce: fx.slot + Date.now() });
           rumble("strong");
+          sound("burn");
         } else {
           rumble(isMagic(attacker) ? "intense" : "subtle");
+          sound("clash");
         }
       }
 
       sceneRef.current = next;
       setScene(next);
     },
-    [board, after, burst, rumble, launch, hold]
+    [board, after, burst, rumble, sound, launch, hold]
   );
 
   /* ── the beat runner ─────────────────────────────────────────────────────
@@ -1903,6 +1947,7 @@ const S = {
     fontSize: 15,
     lineHeight: 1,
     opacity: enabled ? 1 : 0.5,
+    transform: "rotate(180deg)",
     transition: "opacity 160ms ease",
   }),
   board: {
