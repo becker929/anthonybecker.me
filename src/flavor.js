@@ -1,4 +1,4 @@
-// POST /api/flavor — generate a card's flavor text (§7). A separate model
+// POST /api/flavor — generate a card's flavor text. A separate model
 // call from the portrait, with its own versioned system prompt. The
 // character limit is enforced here in code, never trusted from the model:
 // validate the returned length, retry once (threaded so the model knows

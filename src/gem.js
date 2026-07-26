@@ -1,4 +1,4 @@
-// Routes for the shared gem pool (§8). Candidate art is generated against
+// Routes for the shared gem pool. Candidate art is generated against
 // a key color chosen deterministically from the declared palette *before*
 // the prompt is built — the model has to be told the exact background to
 // paint, so the color can't be picked after the fact. New gems always

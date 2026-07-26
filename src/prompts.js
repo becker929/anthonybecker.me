@@ -1,4 +1,4 @@
-// Versioned system prompts for portrait generation (§6). style_version is
+// Versioned system prompts for portrait generation. style_version is
 // recorded on the card for provenance — there is no bulk restyle feature,
 // so old cards keep whatever prompt text produced them even after this
 // registry moves on. Never edit an existing entry; add a new version.
@@ -55,7 +55,7 @@ export function portraitSystemPrompt(styleVersion) {
   return prompt;
 }
 
-// Flavor text (§7): a separate model call with its own versioned prompt,
+// Flavor text: a separate model call with its own versioned prompt,
 // never bundled with the image call. The character budget is stated here
 // too so the model's first attempt is usually already in range, but it is
 // never trusted — see text-limit.js and flavor.js for the actual
@@ -100,8 +100,8 @@ the missing field names as keys — no markdown fences, no commentary, no
 extra keys. "palette" values must be lowercase "#rrggbb" hex strings.`;
 }
 
-// Gem art (§8): not versioned/stored per-gem — the brief's gems table has
-// no prompt-version column, only style-provenance for portraits matters.
+// Gem art: not versioned/stored per-gem — the gems table has no
+// prompt-version column, and only portraits need style provenance.
 // keyColorHex must be injected as the required background *before*
 // generation, since it's chosen ahead of time and can't be changed after
 // the fact (there's nothing to key out otherwise).

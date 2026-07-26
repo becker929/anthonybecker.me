@@ -1,4 +1,4 @@
-// R2 content-addressed blob storage (§9). Every object lives at
+// R2 content-addressed blob storage. Every object lives at
 // `blob/<sha256-hex>` and is immutable — a new version is a new hash, never
 // an overwrite. That's what makes duplicate uploads free and cached
 // responses safe to serve with permanent cache headers.

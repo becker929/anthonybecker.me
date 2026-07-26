@@ -1,0 +1,12 @@
+{
+  "name": "anthonybecker-me",
+  "private": true,
+  "scripts": {
+    "test": "npm run test:worker && npm run test:cards",
+    "test:worker": "node --test src/test/*.test.js",
+    "test:cards": "node --test private/c33f3ea406426b41/cards/test/*.test.js",
+    "test:render": "node private/c33f3ea406426b41/cards/test/render.spec.mjs",
+    "fixtures": "node private/c33f3ea406426b41/cards/test/generate-fixtures.mjs",
+    "preview": "python3 -m http.server 8000"
+  }
+}

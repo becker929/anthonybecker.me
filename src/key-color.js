@@ -1,10 +1,10 @@
-// Deterministic chroma-key color selection (§8). No Gemini image model can
+// Deterministic chroma-key color selection. No Gemini image model can
 // output a transparent background, so transparency is manufactured via
 // chroma key — and the key color must be chosen BEFORE generation, since
 // the model has to be told to paint it. This runs server-side, ahead of
 // the prompt, for exactly that reason.
 //
-// Candidates are the fixed small set from the brief; selection picks
+// Candidates are a deliberately small fixed set; selection picks
 // whichever maximizes the *minimum* distance to any declared palette
 // color — the color least likely to be confused with anything actually
 // painted on the gem, not just far on average.

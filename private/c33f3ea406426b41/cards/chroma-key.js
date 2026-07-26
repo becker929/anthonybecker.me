@@ -1,11 +1,11 @@
-// Pure, deterministic chroma-key masking (§8). Operates on an ImageData-
+// Pure, deterministic chroma-key masking. Operates on an ImageData-
 // shaped object ({data: Uint8ClampedArray, width, height} — a real canvas
 // ImageData satisfies this, and so does a plain object in tests), so it
 // needs no canvas to unit test.
 //
 // Raw gem art and its mask_params are the stored source of truth; this
 // function re-derives the masked bitmap every time it's needed and never
-// itself gets persisted (§8: "never store only the masked output").
+// itself gets persisted — never store only the masked output.
 //
 // This file is loaded directly by the browser (not bundled), so it must
 // not import from src/ — see key-color.js for the (server-side) key-color
