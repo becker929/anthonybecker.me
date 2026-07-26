@@ -121,6 +121,24 @@ test("listBattleReadyCards returns only published cards, projected to id/name/po
   assert.deepEqual(pool[0], { id: "card_1", name: "Ashfall Herald", power: 7, rarity: "legendary", imageHash: VALID_HASH });
 });
 
+test("listBattleReadyCards excludes a battle_ready card left over from before the image requirement", async () => {
+  // Simulates a card published while battle_ready only required power+rarity,
+  // before publishCard started requiring an image too. The flag is stale
+  // relative to today's rules and must not surface an image-less card.
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", title: "Cherry Bomb", power: 26, rarity: "uncommon", battle_ready: true, battler_image: null });
+
+  const pool = await listBattleReadyCards(db);
+  assert.equal(pool.length, 0);
+});
+
+test("isPublishedImageHash rejects a stale battle_ready card missing valid stats", async () => {
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", power: null, rarity: "common", battle_ready: true, battler_image: VALID_HASH });
+
+  assert.equal(await isPublishedImageHash(db, VALID_HASH), false);
+});
+
 test("listBattleReadyCards migrates older stored cards before filtering", async () => {
   const db = new FakeD1();
   const v1 = { schema_version: 1, id: "card_old", title: "Pre-battler Card" };

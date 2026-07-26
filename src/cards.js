@@ -16,6 +16,17 @@ export async function listCards(db) {
   });
 }
 
+// Shared by every read that decides what's actually in the public pool.
+// `battle_ready` alone isn't trusted: it's a flag written at some point in
+// the past, and the rules for what counts as valid can tighten later (the
+// image requirement was added after some cards had already been published
+// under the older rules). Re-checking here means a stale flag can't leave a
+// half-valid card — say, missing art — sitting in the public pool forever;
+// it just needs a re-publish to satisfy the current rules again.
+function isBattleReady(card) {
+  return card.battle_ready === true && hasValidBattleStats(card);
+}
+
 // The public, unauthenticated read path for the card-battler demos: only
 // cards an operator has explicitly published (see publishCard below),
 // projected down to the fields a battler needs. No prompts, lineage, or
@@ -26,7 +37,7 @@ export async function listBattleReadyCards(db) {
     .all();
   return results
     .map((row) => migrateCard(JSON.parse(row.json)))
-    .filter((card) => card.battle_ready === true)
+    .filter(isBattleReady)
     .map((card) => ({
       id: card.id,
       name: card.title,
@@ -44,7 +55,7 @@ export async function isPublishedImageHash(db, hash) {
   const { results } = await db.prepare("SELECT id, json, updated_at FROM cards").all();
   return results.some((row) => {
     const card = migrateCard(JSON.parse(row.json));
-    return card.battle_ready === true && card.battler_image === hash;
+    return isBattleReady(card) && card.battler_image === hash;
   });
 }
 
