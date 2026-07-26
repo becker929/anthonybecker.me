@@ -1,7 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { listBattleReadyCards, publishCard, saveCard, loadCard } from "../cards.js";
+import { listBattleReadyCards, publishCard, saveCard, loadCard, isPublishedImageHash } from "../cards.js";
 import { FakeD1 } from "./fakes.js";
+
+const VALID_HASH = "a".repeat(64);
+const OTHER_HASH = "b".repeat(64);
 
 function seedCard(db, overrides = {}) {
   const card = {
@@ -15,6 +18,7 @@ function seedCard(db, overrides = {}) {
     power: null,
     rarity: "common",
     battle_ready: false,
+    battler_image: null,
     ...overrides,
   };
   db.cards.set(card.id, {
@@ -29,7 +33,7 @@ function seedCard(db, overrides = {}) {
 test("publishCard rejects a card with no power", async () => {
   const db = new FakeD1();
   seedCard(db, { power: null, rarity: "rare" });
-  const result = await publishCard(db, "card_1");
+  const result = await publishCard(db, "card_1", { imageHash: VALID_HASH });
   assert.match(result.error, /power/);
   const stored = await loadCard(db, "card_1");
   assert.equal(stored.battle_ready, false);
@@ -39,7 +43,7 @@ test("publishCard rejects a non-positive or non-numeric power", async () => {
   const db = new FakeD1();
   for (const power of [0, -3, "7", NaN]) {
     seedCard(db, { power, rarity: "rare" });
-    const result = await publishCard(db, "card_1");
+    const result = await publishCard(db, "card_1", { imageHash: VALID_HASH });
     assert.match(result.error, /power/, String(power));
   }
 });
@@ -47,29 +51,62 @@ test("publishCard rejects a non-positive or non-numeric power", async () => {
 test("publishCard rejects a missing or unknown rarity", async () => {
   const db = new FakeD1();
   seedCard(db, { power: 5, rarity: "mythic" });
-  const result = await publishCard(db, "card_1");
+  const result = await publishCard(db, "card_1", { imageHash: VALID_HASH });
   assert.match(result.error, /rarity/);
 });
 
 test("publishCard rejects an unknown card id", async () => {
   const db = new FakeD1();
-  const result = await publishCard(db, "nope");
+  const result = await publishCard(db, "nope", { imageHash: VALID_HASH });
   assert.equal(result.notFound, true);
 });
 
-test("publishCard sets battle_ready once power and rarity are both valid", async () => {
+test("publishCard rejects a missing or malformed image hash", async () => {
+  const db = new FakeD1();
+  for (const imageHash of [undefined, null, "", "not-a-hash", "a".repeat(63)]) {
+    seedCard(db, { power: 5, rarity: "rare" });
+    const result = await publishCard(db, "card_1", { imageHash });
+    assert.match(result.error, /image/i, String(imageHash));
+    const stored = await loadCard(db, "card_1");
+    assert.equal(stored.battle_ready, false);
+  }
+});
+
+test("publishCard sets battle_ready and stores the image hash once everything is valid", async () => {
   const db = new FakeD1();
   seedCard(db, { power: 7, rarity: "legendary" });
-  const result = await publishCard(db, "card_1");
+  const result = await publishCard(db, "card_1", { imageHash: VALID_HASH });
   assert.equal(result.card.battle_ready, true);
+  assert.equal(result.card.battler_image, VALID_HASH);
   const stored = await loadCard(db, "card_1");
   assert.equal(stored.battle_ready, true);
   assert.equal(stored.power, 7);
+  assert.equal(stored.battler_image, VALID_HASH);
 });
 
-test("listBattleReadyCards returns only published cards, projected to id/name/power/rarity", async () => {
+test("publishCard re-publishing without a new imageHash keeps the card's existing image", async () => {
   const db = new FakeD1();
-  seedCard(db, { id: "card_1", title: "Ashfall Herald", power: 7, rarity: "legendary", battle_ready: true });
+  seedCard(db, { power: 7, rarity: "legendary" });
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
+
+  // Operator bumps power and republishes without re-rendering art.
+  const edited = { ...(await loadCard(db, "card_1")), power: 9 };
+  await saveCard(db, "card_1", edited);
+  const result = await publishCard(db, "card_1", {});
+  assert.equal(result.card.battle_ready, true);
+  assert.equal(result.card.battler_image, VALID_HASH);
+});
+
+test("listBattleReadyCards returns only published cards, projected to id/name/power/rarity/imageHash", async () => {
+  const db = new FakeD1();
+  seedCard(db, {
+    id: "card_1",
+    title: "Ashfall Herald",
+    power: 7,
+    rarity: "legendary",
+    battle_ready: true,
+    battler_image: VALID_HASH,
+  });
   seedCard(db, { id: "card_2", title: "Unfinished Draft", power: null, rarity: "common", battle_ready: false });
   db.cards.get("card_2").json = JSON.stringify({
     ...JSON.parse(db.cards.get("card_1").json),
@@ -81,7 +118,7 @@ test("listBattleReadyCards returns only published cards, projected to id/name/po
 
   const pool = await listBattleReadyCards(db);
   assert.equal(pool.length, 1);
-  assert.deepEqual(pool[0], { id: "card_1", name: "Ashfall Herald", power: 7, rarity: "legendary" });
+  assert.deepEqual(pool[0], { id: "card_1", name: "Ashfall Herald", power: 7, rarity: "legendary", imageHash: VALID_HASH });
 });
 
 test("listBattleReadyCards migrates older stored cards before filtering", async () => {
@@ -95,17 +132,18 @@ test("listBattleReadyCards migrates older stored cards before filtering", async 
 
 test("saveCard round-trips the new battler fields", async () => {
   const db = new FakeD1();
-  const card = seedCard(db, { power: 3, rarity: "uncommon", battle_ready: true });
+  const card = seedCard(db, { power: 3, rarity: "uncommon", battle_ready: true, battler_image: VALID_HASH });
   const saved = await saveCard(db, "card_1", card);
   assert.equal(saved.power, 3);
   assert.equal(saved.rarity, "uncommon");
   assert.equal(saved.battle_ready, true);
+  assert.equal(saved.battler_image, VALID_HASH);
 });
 
 test("saveCard silently drops battle_ready if the saved card no longer has valid power/rarity", async () => {
   const db = new FakeD1();
   seedCard(db, { power: 5, rarity: "rare" });
-  await publishCard(db, "card_1");
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
 
   // Operator clears power mid-edit and saves without re-publishing.
   const edited = { ...(await loadCard(db, "card_1")), power: null };
@@ -114,4 +152,43 @@ test("saveCard silently drops battle_ready if the saved card no longer has valid
 
   const pool = await listBattleReadyCards(db);
   assert.equal(pool.length, 0);
+});
+
+test("saveCard silently drops battle_ready if the image hash becomes invalid", async () => {
+  const db = new FakeD1();
+  seedCard(db, { power: 5, rarity: "rare" });
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
+
+  const edited = { ...(await loadCard(db, "card_1")), battler_image: null };
+  const saved = await saveCard(db, "card_1", edited);
+  assert.equal(saved.battle_ready, false);
+});
+
+test("isPublishedImageHash is true only for the hash a battle_ready card currently points at", async () => {
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", power: 5, rarity: "rare" });
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
+
+  assert.equal(await isPublishedImageHash(db, VALID_HASH), true);
+  assert.equal(await isPublishedImageHash(db, OTHER_HASH), false);
+});
+
+test("isPublishedImageHash is false for an unpublished card's image (never made it into the pool)", async () => {
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", power: null, rarity: "common", battler_image: VALID_HASH, battle_ready: false });
+
+  assert.equal(await isPublishedImageHash(db, VALID_HASH), false);
+});
+
+test("isPublishedImageHash goes false once a card is republished with a different image", async () => {
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", power: 5, rarity: "rare" });
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
+
+  const edited = { ...(await loadCard(db, "card_1")) };
+  await saveCard(db, "card_1", edited);
+  await publishCard(db, "card_1", { imageHash: OTHER_HASH });
+
+  assert.equal(await isPublishedImageHash(db, VALID_HASH), false);
+  assert.equal(await isPublishedImageHash(db, OTHER_HASH), true);
 });

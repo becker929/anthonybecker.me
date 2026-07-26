@@ -77,6 +77,24 @@ chamfered corners.
 - **Gem art: store the raw bytes plus `mask_params`, never only the masked
   output.** `chroma-key.js` re-derives the mask every time it is needed.
 
+## Publishing to the battler
+
+The card-battler demos (`demos/3/cards`) are public and unauthenticated;
+this studio is not. Rather than exposing any gated route to them, `app.js`
+renders `#preview-canvas` to a PNG and uploads it through the ordinary
+`api/blobs` route at the moment a card is published (`uploadRenderedCardImage`
+in `app.js`) — this page is the one place that's guaranteed to have the
+frame, portrait, and gem assets already decoded and drawn. `publishCard`
+(`src/cards.js` at the repo root) requires that upload's hash — along with a
+positive `power` and a known `rarity` — before flipping `battle_ready`, and
+stores the hash as `battler_image` on the card.
+
+The one public image route, `GET /api/battler-cards/image/:hash`, only ever
+serves a hash that is *currently* some `battle_ready` card's `battler_image`
+(`isPublishedImageHash`). Every other blob — raw portraits, gem art, an
+image a card has since replaced or unpublished — stays reachable only
+through this studio's own gated blob route.
+
 ## Tests
 
 `npm run test:cards` covers the pure logic under Node. `npm run test:render`

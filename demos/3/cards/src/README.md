@@ -23,6 +23,22 @@ Nothing reads the deck arrays until the player clicks "Begin", so the fetch
 happens after mount with no loading flash on the board itself — only the
 gate button says "Loading…" until the pool request settles.
 
+## Card art
+
+Each pool card can carry `image`, a URL under `/api/battler-cards/image/...`
+pointing at a flattened PNG of the whole card (portrait, frame, stats — the
+same render Card Studio's own preview shows), captured in the operator's
+browser at publish time and uploaded through the existing blob route. See
+`publishCard`/`isPublishedImageHash` in `src/cards.js` at the repo root: that
+route only ever serves a hash that is *currently* some battle_ready card's
+image, never the raw gated portrait/gem/frame assets.
+
+`S.face` in `CardPoolBattler.jsx` draws `card.image` as the card's
+background with a bottom scrim (`RARITY_RING`-style, see the comment there)
+so the name label stays legible over arbitrary art, and falls back to the
+original flat parchment/ash gradient if a card has no image — either the
+fixed fallback deck, or a card published before this field existed.
+
 Rebuild after editing:
 
 ```

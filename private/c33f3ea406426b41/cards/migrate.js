@@ -16,13 +16,16 @@ const MIGRATIONS = {
   // v1 cards predate the battler integration: no power stat was ever
   // collected, so `power` defaults to null (not battle-ready) rather than
   // a guessed number. `battle_ready` is a one-way gate flipped by
-  // publishCard() once an operator sets a real power and rarity.
+  // publishCard() once an operator sets a real power and rarity and the
+  // studio has rendered+uploaded a flattened PNG of the card as
+  // `battler_image` (a blob hash, same scheme as portrait/gem art).
   1: (card) => ({
     ...card,
     schema_version: 2,
     power: null,
     rarity: "common",
     battle_ready: false,
+    battler_image: null,
   }),
 };
 

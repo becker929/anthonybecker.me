@@ -140,6 +140,11 @@ function toBattlerCard(prefix, poolCard) {
     power: poolCard.power,
     rarity: poolCard.rarity,
     magic: poolCard.rarity === "legendary",
+    // Absolute path: /api/battler-cards/image/<hash>, served publicly by
+    // the Worker regardless of how deep this demo's own URL sits. Absent
+    // for a card published before art was required, or for the fallback
+    // deck, which has no `image` at all — S.face treats that as "no art".
+    image: poolCard.image || null,
   };
 }
 
@@ -1808,7 +1813,7 @@ const Card = memo(function Card({
         {card.faceUp ? (
           <>
             <span style={S.power(mine)}>{card.power}</span>
-            <span style={S.name}>{card.name}</span>
+            <span style={S.name(card)}>{card.name}</span>
             {isMagic(card) && <span style={S.sigil}>✦</span>}
           </>
         ) : (
@@ -2254,6 +2259,16 @@ const S = {
     const stock = mine
       ? `linear-gradient(158deg, ${INK.parchment} 0%, ${INK.parchmentEdge} 100%)`
       : `linear-gradient(158deg, ${INK.ash} 0%, ${INK.ashEdge} 100%)`;
+    // card.image is the studio's flattened render of the whole card (title,
+    // portrait, flavor, stats already baked in) — the same render an
+    // operator sees in Card Studio, just shrunk to card-slot size here. The
+    // bottom scrim keeps the name label (drawn on top, see S.name) legible
+    // over whatever the art looks like. `stock` stays as a background layer
+    // under the image, so a 404'd/loading image still shows the plain card
+    // back instead of a blank rectangle.
+    const faceBackground = card.image
+      ? `linear-gradient(180deg, rgba(10,14,12,0) 52%, rgba(10,14,12,.82) 100%), url("${card.image}") center / cover no-repeat, ${stock}`
+      : stock;
     const edge = mine ? INK.brass : INK.verdigris;
     const animation =
       perishing ? `perish ${perishMs}ms cubic-bezier(.2,.7,.3,1) both`
@@ -2279,7 +2294,7 @@ const S = {
       alignItems: "center",
       justifyContent: "center",
       background: card.faceUp
-        ? stock
+        ? faceBackground
         : `linear-gradient(158deg, ${mine ? INK.back : INK.oppBack} 0%, ${mine ? "#1b332c" : "#241a1f"} 100%)`,
       border: `1px solid ${card.faceUp ? edge : mine ? "#162923" : "#2a1e22"}`,
       boxShadow,
@@ -2304,14 +2319,18 @@ const S = {
     alignItems: "center",
     justifyContent: "center",
   }),
-  name: {
+  // A function of card because the color has to invert over card art: the
+  // parchment/ash stock is light (dark text), but the bottom scrim over an
+  // image is dark (needs light text + a shadow to stay legible on any art).
+  name: (card) => ({
     fontFamily: SERIF,
     fontSize: 12,
     lineHeight: 1.2,
-    color: "#2c2410",
+    color: card.image ? "#f3ead0" : "#2c2410",
+    textShadow: card.image ? "0 1px 3px rgba(0,0,0,.85)" : "none",
     textAlign: "center",
     padding: "0 7px",
-  },
+  }),
   sigil: { position: "absolute", bottom: 5, right: 7, fontSize: 11, color: "#3d6b86" },
   backMark: {
     width: 24,
