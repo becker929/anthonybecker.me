@@ -3,7 +3,7 @@
 // this page) are reached via "../api/..." and "../blob/...".
 import { renderCard } from "./renderer.js";
 import { applyChromaKey } from "./chroma-key.js";
-import { migrateCard } from "./migrate.js";
+import { migrateCard, CURRENT_SCHEMA_VERSION } from "./migrate.js";
 
 const imageCache = new Map();
 function loadImage(src) {
@@ -93,6 +93,11 @@ const els = {
   gemSelect: document.getElementById("gem-select"),
   statsList: document.getElementById("stats-list"),
   addStatBtn: document.getElementById("add-stat-btn"),
+  powerInput: document.getElementById("power-input"),
+  raritySelect: document.getElementById("rarity-select"),
+  battleReadyBadge: document.getElementById("battle-ready-badge"),
+  publishCardBtn: document.getElementById("publish-card-btn"),
+  publishStatus: document.getElementById("publish-status"),
   saveCardBtn: document.getElementById("save-card-btn"),
   saveStatus: document.getElementById("save-status"),
   canvas: document.getElementById("preview-canvas"),
@@ -130,7 +135,7 @@ async function selectCard(id) {
 els.newCardBtn.addEventListener("click", async () => {
   const id = `card_${crypto.randomUUID()}`;
   const shell = {
-    schema_version: 1,
+    schema_version: CURRENT_SCHEMA_VERSION,
     id,
     template_version: template.version,
     title: "",
@@ -138,6 +143,9 @@ els.newCardBtn.addEventListener("click", async () => {
     flavor: { text: "", source: "generated", prompt_version: null },
     gem: null,
     stats: [],
+    power: null,
+    rarity: "common",
+    battle_ready: false,
   };
   currentCard = await apiFetch(`api/cards/${id}`, {
     method: "PUT",
@@ -160,9 +168,18 @@ function renderForm() {
   els.flavorText.value = currentCard.flavor?.text || "";
   els.gemSelect.value = currentCard.gem || "";
   renderStatsList();
+  els.powerInput.value = currentCard.power ?? "";
+  els.raritySelect.value = currentCard.rarity || "common";
+  renderBattleReadyBadge();
   setStatus(els.portraitStatus, "", "");
   setStatus(els.flavorStatus, "", "");
   setStatus(els.saveStatus, "", "");
+  setStatus(els.publishStatus, "", "");
+}
+
+function renderBattleReadyBadge() {
+  els.battleReadyBadge.textContent = currentCard.battle_ready ? "published" : "unpublished";
+  els.battleReadyBadge.classList.toggle("ready", !!currentCard.battle_ready);
 }
 
 els.title.addEventListener("input", () => {
@@ -213,6 +230,37 @@ els.addStatBtn.addEventListener("click", () => {
 els.gemSelect.addEventListener("change", () => {
   currentCard.gem = els.gemSelect.value || null;
   renderPreview();
+});
+
+els.powerInput.addEventListener("input", () => {
+  const value = els.powerInput.value.trim();
+  currentCard.power = value === "" ? null : Number(value);
+});
+
+els.raritySelect.addEventListener("change", () => {
+  currentCard.rarity = els.raritySelect.value;
+});
+
+els.publishCardBtn.addEventListener("click", async () => {
+  els.publishCardBtn.disabled = true;
+  setStatus(els.publishStatus, "Saving…", "busy");
+  try {
+    // Publish reads the card back from storage, not from this form, so an
+    // edit typed here (a new power, a rarity change) has to be persisted
+    // first or the server would validate against the stale saved copy.
+    await saveCurrentCard();
+    setStatus(els.publishStatus, "Publishing…", "busy");
+    currentCard = migrateCard(
+      await apiFetch(`api/cards/${currentCard.id}/publish`, { method: "POST" }),
+    );
+    renderBattleReadyBadge();
+    setStatus(els.publishStatus, "Saved and published — live in the battler pool.", "ok");
+    await refreshCardList();
+  } catch (err) {
+    setStatus(els.publishStatus, err.message, "error");
+  } finally {
+    els.publishCardBtn.disabled = false;
+  }
 });
 
 els.flavorText.addEventListener("input", () => {
@@ -300,17 +348,24 @@ els.generateFlavorBtn.addEventListener("click", async () => {
 });
 
 // ---------- Save ----------
-els.saveCardBtn.addEventListener("click", async () => {
+// Shared by the Save button and Publish (publishCard validates against
+// what's in the database, so publishing has to save first).
+async function saveCurrentCard() {
   if (flavorEditedByHand) {
     currentCard.flavor = { ...currentCard.flavor, text: els.flavorText.value, source: "hand-written" };
   }
+  currentCard = await apiFetch(`api/cards/${currentCard.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(currentCard),
+  });
+  return currentCard;
+}
+
+els.saveCardBtn.addEventListener("click", async () => {
   setStatus(els.saveStatus, "Saving…", "busy");
   try {
-    currentCard = await apiFetch(`api/cards/${currentCard.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(currentCard),
-    });
+    await saveCurrentCard();
     setStatus(els.saveStatus, "Saved.", "ok");
     await refreshCardList();
   } catch (err) {
