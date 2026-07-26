@@ -86,9 +86,6 @@ const OPPONENT_DECK = [...DEFAULT_OPPONENT_DECK];
 const DECK = { player: PLAYER_DECK, opponent: OPPONENT_DECK };
 
 const DECK_SIZE = 8;
-// Below this, the published pool can't fill two decks worth a shuffle —
-// fall back to the fixed demo decks rather than showing a nearly-empty game.
-const MIN_POOL_SIZE = 6;
 const RARITY_WEIGHT = { common: 6, uncommon: 3, rare: 1.5, legendary: 1 };
 
 function replaceDeckContents(target, cards) {
@@ -147,9 +144,13 @@ function toBattlerCard(prefix, poolCard) {
 }
 
 // pool: [{id, name, power, rarity}], as returned by /api/battler-cards.
-// Returns null (meaning "use the fallback decks") if the pool is too thin.
+// No minimum pool size beyond "not empty" — rarity weighting decides who
+// shows up, and weightedSample repeats cards (with replacement) once a
+// small pool runs out, so even a single published card fills both decks.
+// Returns null (meaning "use the fallback decks") only when nothing has
+// been published yet.
 function buildDecksFromPool(pool) {
-  if (!Array.isArray(pool) || pool.length < MIN_POOL_SIZE) return null;
+  if (!Array.isArray(pool) || pool.length === 0) return null;
   const playerRng = mulberry32(dailySeed(0));
   const opponentRng = mulberry32(dailySeed(1));
   const player = weightedSample(pool, DECK_SIZE, playerRng).map((c) => toBattlerCard("p", c));

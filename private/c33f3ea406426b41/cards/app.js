@@ -235,10 +235,12 @@ els.gemSelect.addEventListener("change", () => {
 els.powerInput.addEventListener("input", () => {
   const value = els.powerInput.value.trim();
   currentCard.power = value === "" ? null : Number(value);
+  renderPreview();
 });
 
 els.raritySelect.addEventListener("change", () => {
   currentCard.rarity = els.raritySelect.value;
+  renderPreview();
 });
 
 els.publishCardBtn.addEventListener("click", async () => {

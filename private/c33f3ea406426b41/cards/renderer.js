@@ -22,8 +22,19 @@ function resolveSlotText(card, slot) {
       return card.title;
     case "flavor":
       return card.flavor.text;
-    case "stats":
-      return card.stats.map((s) => `${s.label} ${s.value}`).join("\n");
+    case "stats": {
+      // Power and rarity lead the block, ahead of whatever freeform stats an
+      // operator added — they're the two fields the battler pool depends on,
+      // so the card itself should say them rather than only the studio form.
+      // Older (pre-battler) cards carry neither field; skip rather than print
+      // "undefined". wrap-shrink on this slot already handles the variable
+      // line count.
+      const lines = [];
+      if (typeof card.power === "number") lines.push(`POWER ${card.power}`);
+      if (card.rarity) lines.push(card.rarity.toUpperCase());
+      for (const s of card.stats) lines.push(`${s.label} ${s.value}`);
+      return lines.join("\n");
+    }
     default:
       throw new Error(`Unknown text slot "${slot}".`);
   }
