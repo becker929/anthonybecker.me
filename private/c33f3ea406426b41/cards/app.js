@@ -146,6 +146,7 @@ els.newCardBtn.addEventListener("click", async () => {
     power: null,
     rarity: "common",
     battle_ready: false,
+    battler_image: null,
   };
   currentCard = await apiFetch(`api/cards/${id}`, {
     method: "PUT",
@@ -235,10 +236,12 @@ els.gemSelect.addEventListener("change", () => {
 els.powerInput.addEventListener("input", () => {
   const value = els.powerInput.value.trim();
   currentCard.power = value === "" ? null : Number(value);
+  renderPreview();
 });
 
 els.raritySelect.addEventListener("change", () => {
   currentCard.rarity = els.raritySelect.value;
+  renderPreview();
 });
 
 els.publishCardBtn.addEventListener("click", async () => {
@@ -249,9 +252,15 @@ els.publishCardBtn.addEventListener("click", async () => {
     // edit typed here (a new power, a rarity change) has to be persisted
     // first or the server would validate against the stale saved copy.
     await saveCurrentCard();
+    setStatus(els.publishStatus, "Rendering card image…", "busy");
+    const imageHash = await uploadRenderedCardImage();
     setStatus(els.publishStatus, "Publishing…", "busy");
     currentCard = migrateCard(
-      await apiFetch(`api/cards/${currentCard.id}/publish`, { method: "POST" }),
+      await apiFetch(`api/cards/${currentCard.id}/publish`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image_hash: imageHash }),
+      }),
     );
     renderBattleReadyBadge();
     setStatus(els.publishStatus, "Saved and published — live in the battler pool.", "ok");
@@ -420,6 +429,34 @@ async function renderPreview() {
   const assets = await buildAssets();
   const ctx = els.canvas.getContext("2d");
   renderCard(ctx, template, currentCard, assets);
+}
+
+// ---------- Battler art ----------
+// The public battler demos can't reach the gated blob/frame-asset routes,
+// so a flattened PNG is captured here — the one moment this page definitely
+// has portrait, gem, and frame art all decoded and drawn — and uploaded
+// through the existing blob route. publishCard stores the resulting hash.
+function canvasBlobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.slice(reader.result.indexOf(",") + 1));
+    reader.onerror = () => reject(new Error("Could not read the rendered card image."));
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function uploadRenderedCardImage() {
+  await renderPreview(); // make sure the canvas reflects the current form state
+  const blob = await new Promise((resolve, reject) => {
+    els.canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Could not capture the rendered card image."))), "image/png");
+  });
+  const data = await canvasBlobToBase64(blob);
+  const { hash } = await apiFetch("api/blobs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mimeType: "image/png", data }),
+  });
+  return hash;
 }
 
 // ---------- Gems tab ----------

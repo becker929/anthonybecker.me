@@ -4,6 +4,7 @@
 // cards happens in JS after the same flat read, not via a WHERE clause,
 // so that stays true.
 import { migrateCard, CURRENT_SCHEMA_VERSION, RARITIES } from "../private/c33f3ea406426b41/cards/migrate.js";
+import { isValidHash } from "./blobs.js";
 
 export async function listCards(db) {
   const { results } = await db
@@ -26,7 +27,25 @@ export async function listBattleReadyCards(db) {
   return results
     .map((row) => migrateCard(JSON.parse(row.json)))
     .filter((card) => card.battle_ready === true)
-    .map((card) => ({ id: card.id, name: card.title, power: card.power, rarity: card.rarity }));
+    .map((card) => ({
+      id: card.id,
+      name: card.title,
+      power: card.power,
+      rarity: card.rarity,
+      imageHash: card.battler_image,
+    }));
+}
+
+// Does `hash` belong to the currently published render of some battle-ready
+// card? This is the check behind the public image route: it must stay true
+// only for the one blob a battle_ready card currently points at, never for
+// raw portrait/gem art or a hash a card has since moved away from.
+export async function isPublishedImageHash(db, hash) {
+  const { results } = await db.prepare("SELECT id, json, updated_at FROM cards").all();
+  return results.some((row) => {
+    const card = migrateCard(JSON.parse(row.json));
+    return card.battle_ready === true && card.battler_image === hash;
+  });
 }
 
 // Returns null if not found. Applies schema migration on read so
@@ -45,7 +64,8 @@ function hasValidBattleStats(card) {
     typeof card.power === "number" &&
     Number.isFinite(card.power) &&
     card.power > 0 &&
-    RARITIES.includes(card.rarity)
+    RARITIES.includes(card.rarity) &&
+    isValidHash(card.battler_image)
   );
 }
 
@@ -86,7 +106,14 @@ export async function saveCard(db, id, card) {
 // Deliberately not folded into saveCard: a card is built incrementally
 // (title, then portrait, then flavor, ...) and shouldn't be blocked from
 // saving mid-edit just because power/rarity aren't set yet.
-export async function publishCard(db, id) {
+//
+// imageHash is a blob hash the caller has *already uploaded* (via the
+// existing api/blobs route) — a flattened PNG of the rendered card,
+// captured client-side at publish time since that's the one moment the
+// operator's browser definitely has the frame/portrait/gem assets loaded.
+// publishCard only records the hash; it never renders or uploads anything
+// itself, same division of labor as saveCard not touching portraits.
+export async function publishCard(db, id, { imageHash } = {}) {
   const card = await loadCard(db, id);
   if (!card) return { notFound: true };
   if (typeof card.power !== "number" || !Number.isFinite(card.power) || card.power <= 0) {
@@ -95,7 +122,11 @@ export async function publishCard(db, id) {
   if (!RARITIES.includes(card.rarity)) {
     return { error: `Card needs a rarity (one of: ${RARITIES.join(", ")}) before it can be published.` };
   }
-  const saved = await saveCard(db, id, { ...card, battle_ready: true });
+  const battler_image = imageHash || card.battler_image;
+  if (!isValidHash(battler_image)) {
+    return { error: "A rendered card image is required to publish — re-render the preview and try again." };
+  }
+  const saved = await saveCard(db, id, { ...card, battler_image, battle_ready: true });
   return { card: saved };
 }
 

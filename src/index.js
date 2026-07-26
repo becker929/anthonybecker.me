@@ -4,7 +4,7 @@
 // PRIVATE_DIR are always rejected — the only way assets from there get
 // served is the internal env.ASSETS.fetch() call below, which never goes
 // back through this fetch() handler.
-import { listCards, loadCard, saveCard, publishCard, listBattleReadyCards } from "./cards.js";
+import { listCards, loadCard, saveCard, publishCard, listBattleReadyCards, isPublishedImageHash } from "./cards.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
@@ -193,8 +193,16 @@ async function handleSaveCard(request, env, id) {
   }
 }
 
-async function handlePublishCard(env, id) {
-  const result = await publishCard(env.CARD_DB, id);
+async function handlePublishCard(request, env, id) {
+  // A body is optional: re-publishing without a fresh render falls back to
+  // whatever image hash the card already carries (publishCard handles that).
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    // no body, or not JSON — treated the same as "no new image supplied"
+  }
+  const result = await publishCard(env.CARD_DB, id, { imageHash: body?.image_hash });
   if (result.notFound) return jsonError(404, "Card not found.");
   if (result.error) return jsonError(400, result.error);
   return jsonOk(result.card);
@@ -202,10 +210,31 @@ async function handlePublishCard(env, id) {
 
 // Public, unauthenticated: the card-battler demos read the published pool
 // from here, never from the gated studio API. Only battle_ready cards, and
-// only the fields a battler needs — see listBattleReadyCards.
+// only the fields a battler needs — see listBattleReadyCards. The image
+// URL points at handleBattlerCardImage below, not at the gated blob route.
 async function handleBattlerCards(env) {
   const cards = await listBattleReadyCards(env.CARD_DB);
-  return jsonOk(cards);
+  return jsonOk(
+    cards.map(({ imageHash, ...rest }) => ({
+      ...rest,
+      image: imageHash ? `/api/battler-cards/image/${imageHash}` : null,
+    })),
+  );
+}
+
+// Public, unauthenticated, but not a blanket blob route: this only serves a
+// hash if it is *currently* some battle_ready card's rendered image. Every
+// other blob (raw portraits, gem art, an image a card has since replaced or
+// unpublished) stays reachable only through the gated studio blob route.
+async function handleBattlerCardImage(env, hash) {
+  const isPublished = await isPublishedImageHash(env.CARD_DB, hash);
+  if (!isPublished) return new Response("Not found", { status: 404 });
+  const obj = await getBlob(env.CARD_BUCKET, hash);
+  if (!obj) return new Response("Not found", { status: 404 });
+  const headers = new Headers();
+  headers.set("Content-Type", obj.httpMetadata?.contentType || "application/octet-stream");
+  headers.set("Cache-Control", "public, max-age=31536000, immutable");
+  return new Response(obj.body, { headers });
 }
 
 async function handleUploadBlob(request, env) {
@@ -250,6 +279,10 @@ export default {
       return handleBattlerCards(env);
     }
 
+    if (path.startsWith("/api/battler-cards/image/") && request.method === "GET") {
+      return handleBattlerCardImage(env, path.slice("/api/battler-cards/image/".length));
+    }
+
     if (path === BASE) {
       return Response.redirect(`${url.origin}${BASE}/`, 301);
     }
@@ -289,7 +322,7 @@ export default {
     }
 
     if (sub.startsWith("api/cards/") && sub.endsWith("/publish") && request.method === "POST") {
-      return handlePublishCard(env, sub.slice("api/cards/".length, -"/publish".length));
+      return handlePublishCard(request, env, sub.slice("api/cards/".length, -"/publish".length));
     }
 
     if (sub === "api/blobs" && request.method === "POST") {
