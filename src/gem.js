@@ -3,8 +3,8 @@
 // the prompt is built — the model has to be told the exact background to
 // paint, so the color can't be picked after the fact. New gems always
 // start unapproved; POST .../approve is the only way into the pool.
-import { generateGemArt as defaultGenerateGemArt } from "./gemini.js";
-import { gemSystemPrompt } from "./prompts.js";
+import { generateGemArt as defaultGenerateGemArt, generateText as defaultGenerateText } from "./gemini.js";
+import { gemSystemPrompt, gemFieldFillSystemPrompt } from "./prompts.js";
 import { selectKeyColor } from "./key-color.js";
 import { putBlob } from "./blobs.js";
 import { listGems, insertGem, updateGemMaskParams, approveGem } from "./gems.js";
@@ -12,6 +12,54 @@ import { jsonError, jsonOk } from "./http.js";
 import { DEFAULT_MASK_PARAMS } from "../private/c33f3ea406426b41/cards/chroma-key.js";
 
 const HEX_COLOR_RE = /^#[0-9a-f]{6}$/i;
+
+// Builds the fill-in prompt from whichever of name/instruction/palette the
+// operator already gave, listing exactly what's missing so the model fills
+// in only that and nothing else.
+export function buildGemFieldFillInput({ name, instruction, palette }) {
+  const known = [];
+  if (name) known.push(`Name: ${name}`);
+  if (instruction) known.push(`Instruction: ${instruction}`);
+  if (palette.length > 0) known.push(`Palette: ${palette.join(", ")}`);
+
+  const missing = [];
+  if (!name) missing.push("name");
+  if (!instruction) missing.push("instruction");
+  if (palette.length === 0) missing.push("palette");
+
+  return [
+    known.length > 0 ? `Already supplied:\n${known.join("\n")}` : "Nothing has been supplied yet.",
+    `Fill in only these missing fields: ${missing.join(", ")}.`,
+  ].join("\n\n");
+}
+
+// Parses the model's fill-in response defensively — it's free-form text
+// generation, not a structured API, so a malformed or partial reply must
+// surface as a normal generation failure rather than throwing deep inside
+// JSON.parse.
+export function parseGemFieldFill(text, missingKeys) {
+  let parsed;
+  try {
+    parsed = JSON.parse(text.trim().replace(/^```(?:json)?\s*|\s*```$/g, ""));
+  } catch {
+    throw new Error("Could not parse the generated fields as JSON.");
+  }
+  const filled = {};
+  for (const key of missingKeys) {
+    if (key === "palette") {
+      if (!Array.isArray(parsed.palette) || parsed.palette.length === 0) {
+        throw new Error("Generated palette was missing or empty.");
+      }
+      filled.palette = parsed.palette;
+    } else {
+      if (typeof parsed[key] !== "string" || !parsed[key].trim()) {
+        throw new Error(`Generated ${key} was missing or empty.`);
+      }
+      filled[key] = parsed[key].trim();
+    }
+  }
+  return filled;
+}
 
 export async function handleListGems(request, env) {
   const url = new URL(request.url);
@@ -22,6 +70,7 @@ export async function handleListGems(request, env) {
 
 export async function handleCreateGem(request, env, deps = {}) {
   const generateGemArt = deps.generateGemArt || defaultGenerateGemArt;
+  const generateText = deps.generateText || defaultGenerateText;
 
   let body;
   try {
@@ -30,15 +79,41 @@ export async function handleCreateGem(request, env, deps = {}) {
     return jsonError(400, "Invalid JSON body.");
   }
 
-  const name = typeof body.name === "string" ? body.name.trim() : "";
-  const instruction = typeof body.instruction === "string" ? body.instruction.trim() : "";
-  const palette = Array.isArray(body.palette) ? body.palette : [];
+  let name = typeof body.name === "string" ? body.name.trim() : "";
+  let instruction = typeof body.instruction === "string" ? body.instruction.trim() : "";
+  let palette = Array.isArray(body.palette) ? body.palette : [];
 
-  if (!name) return jsonError(400, "name is required.");
-  if (!instruction) return jsonError(400, "instruction is required.");
-  if (palette.length === 0) return jsonError(400, "palette must be a non-empty array of hex colors.");
-  if (!palette.every((hex) => typeof hex === "string" && HEX_COLOR_RE.test(hex))) {
+  if (!name && !instruction && palette.length === 0) {
+    return jsonError(400, "At least one of name, instruction, or palette is required.");
+  }
+  if (palette.length > 0 && !palette.every((hex) => typeof hex === "string" && HEX_COLOR_RE.test(hex))) {
     return jsonError(400, "Every palette entry must be a #rrggbb hex color.");
+  }
+
+  const missing = [];
+  if (!name) missing.push("name");
+  if (!instruction) missing.push("instruction");
+  if (palette.length === 0) missing.push("palette");
+
+  if (missing.length > 0) {
+    let filled;
+    try {
+      const result = await generateText(env, {
+        instruction: buildGemFieldFillInput({ name, instruction, palette }),
+        systemInstruction: gemFieldFillSystemPrompt(),
+        previousInteractionId: null,
+      });
+      filled = parseGemFieldFill(result.text, missing);
+    } catch (err) {
+      return jsonError(502, `Failed to fill in missing gem fields: ${err.message}`);
+    }
+    if (filled.name) name = filled.name;
+    if (filled.instruction) instruction = filled.instruction;
+    if (filled.palette) palette = filled.palette;
+
+    if (!palette.every((hex) => typeof hex === "string" && HEX_COLOR_RE.test(hex))) {
+      return jsonError(502, "Generated palette contained an invalid hex color.");
+    }
   }
 
   const keyColor = selectKeyColor(palette);
