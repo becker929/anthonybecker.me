@@ -4,16 +4,18 @@
 // PRIVATE_DIR are always rejected — the only way assets from there get
 // served is the internal env.ASSETS.fetch() call below, which never goes
 // back through this fetch() handler.
+import { listCards, loadCard, saveCard } from "./cards.js";
+import { putBlob, getBlob } from "./blobs.js";
+import { handlePortrait } from "./portrait.js";
+import { handleFlavor } from "./flavor.js";
+import { handleListGems, handleCreateGem, handleUpdateGemMask, handleApproveGem } from "./gem.js";
+import { noindex, jsonError, jsonOk } from "./http.js";
+
 const BASE = "/studio-c33f3ea406426b41";
 const PRIVATE_DIR = "/private/c33f3ea406426b41";
 const COOKIE_NAME = "studio_auth";
 const SESSION_MS = 30 * 24 * 60 * 60 * 1000;
 const GEMINI_MODEL = "gemini-2.5-flash-image";
-
-function noindex(headers) {
-  headers.set("X-Robots-Tag", "noindex, nofollow");
-  return headers;
-}
 
 async function hmacHex(key, message) {
   const enc = new TextEncoder();
@@ -165,11 +167,54 @@ async function handleGenerate(request, env) {
   );
 }
 
-function jsonError(status, message) {
-  return new Response(JSON.stringify({ error: message }), {
-    status,
-    headers: noindex(new Headers({ "Content-Type": "application/json" })),
-  });
+async function handleListCards(env) {
+  const cards = await listCards(env.CARD_DB);
+  return jsonOk(cards);
+}
+
+async function handleLoadCard(env, id) {
+  const card = await loadCard(env.CARD_DB, id);
+  if (!card) return jsonError(404, "Card not found.");
+  return jsonOk(card);
+}
+
+async function handleSaveCard(request, env, id) {
+  let card;
+  try {
+    card = await request.json();
+  } catch {
+    return jsonError(400, "Invalid JSON body.");
+  }
+  try {
+    const saved = await saveCard(env.CARD_DB, id, card);
+    return jsonOk(saved);
+  } catch (err) {
+    return jsonError(400, err.message);
+  }
+}
+
+async function handleUploadBlob(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError(400, "Invalid JSON body.");
+  }
+  try {
+    const hash = await putBlob(env.CARD_BUCKET, body);
+    return jsonOk({ hash });
+  } catch (err) {
+    return jsonError(400, err.message);
+  }
+}
+
+async function handleGetBlob(env, hash) {
+  const obj = await getBlob(env.CARD_BUCKET, hash);
+  if (!obj) return new Response("Not found", { status: 404 });
+  const headers = new Headers();
+  headers.set("Content-Type", obj.httpMetadata?.contentType || "application/octet-stream");
+  headers.set("Cache-Control", "public, max-age=31536000, immutable");
+  return new Response(obj.body, { headers });
 }
 
 export default {
@@ -207,6 +252,50 @@ export default {
 
     if (sub === "api/generate" && request.method === "POST") {
       return handleGenerate(request, env);
+    }
+
+    if (sub === "api/cards" && request.method === "GET") {
+      return handleListCards(env);
+    }
+
+    if (sub.startsWith("api/cards/") && request.method === "GET") {
+      return handleLoadCard(env, sub.slice("api/cards/".length));
+    }
+
+    if (sub.startsWith("api/cards/") && request.method === "PUT") {
+      return handleSaveCard(request, env, sub.slice("api/cards/".length));
+    }
+
+    if (sub === "api/blobs" && request.method === "POST") {
+      return handleUploadBlob(request, env);
+    }
+
+    if (sub === "api/portrait" && request.method === "POST") {
+      return handlePortrait(request, env);
+    }
+
+    if (sub === "api/flavor" && request.method === "POST") {
+      return handleFlavor(request, env);
+    }
+
+    if (sub === "api/gems" && request.method === "GET") {
+      return handleListGems(request, env);
+    }
+
+    if (sub === "api/gems" && request.method === "POST") {
+      return handleCreateGem(request, env);
+    }
+
+    if (sub.startsWith("api/gems/") && sub.endsWith("/approve") && request.method === "POST") {
+      return handleApproveGem(env, sub.slice("api/gems/".length, -"/approve".length));
+    }
+
+    if (sub.startsWith("api/gems/") && request.method === "PATCH") {
+      return handleUpdateGemMask(request, env, sub.slice("api/gems/".length));
+    }
+
+    if (sub.startsWith("blob/") && request.method === "GET") {
+      return handleGetBlob(env, sub.slice("blob/".length));
     }
 
     const assetUrl = new URL(request.url);
