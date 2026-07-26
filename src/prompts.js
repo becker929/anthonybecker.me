@@ -3,7 +3,7 @@
 // so old cards keep whatever prompt text produced them even after this
 // registry moves on. Never edit an existing entry; add a new version.
 
-export const CURRENT_STYLE_VERSION = 1;
+export const CURRENT_STYLE_VERSION = 2;
 
 const PORTRAIT_SYSTEM_PROMPTS = {
   1: `You are generating a single character portrait for a trading card game.
@@ -21,6 +21,30 @@ Frame the subject as a three-quarter or waist-up portrait, facing
 slightly off-camera, filling most of the vertical space with a small
 amount of environmental background visible behind them — the background
 should read as atmosphere, not a busy separate scene.`,
+
+  // v2 exists because the template's aperture became landscape: v1's "filling
+  // most of the vertical space" framing composes for a tall crop and reads
+  // badly wide. The edge-margin note matters because the renderer cover-fits,
+  // trimming a little off the left and right of a 4:3 image.
+  2: `You are generating a single character portrait for a trading card game.
+
+Output only the character illustration itself, filling the entire frame
+edge to edge. Do not include a card frame, border, mat, vignette, drop
+shadow suggesting a frame, text, numbers, logos, watermarks, or any other
+card furniture — those are composited on afterward by separate artwork
+and would conflict with it if present here.
+
+Style: painterly digital illustration, confident brushwork, dramatic
+directional lighting with a clear light source, a restrained and
+cohesive color palette (2-3 dominant hues plus accents, not a rainbow).
+
+Composition: this is a wide, landscape frame. Frame the subject as a
+three-quarter or chest-up portrait, facing slightly off-camera, centred
+horizontally and filling most of the frame's height. Use the width to
+either side for environmental background that reads as atmosphere, not a
+busy separate scene. Keep the subject's head and any critical detail well
+inside the middle of the frame and away from the left and right edges —
+a narrow strip along each vertical edge may be cropped.`,
 };
 
 export function portraitSystemPrompt(styleVersion) {

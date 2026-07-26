@@ -52,7 +52,7 @@ test("generatePortrait sends the documented Interactions API request shape", asy
   assert.equal(body.input[0].text, "a herald");
   assert.equal(body.system_instruction, "no frames");
   assert.equal(body.response_format.type, "image");
-  assert.equal(body.response_format.aspect_ratio, "3:4");
+  assert.equal(body.response_format.aspect_ratio, "4:3");
   assert.equal(body.response_format.image_size, "1K");
   assert.equal("previous_interaction_id" in body, false);
 });
