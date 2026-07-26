@@ -7,6 +7,8 @@
 import { listCards, loadCard, saveCard } from "./cards.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
+import { handleFlavor } from "./flavor.js";
+import { handleListGems, handleCreateGem, handleUpdateGemMask, handleApproveGem } from "./gem.js";
 import { noindex, jsonError, jsonOk } from "./http.js";
 
 const BASE = "/studio-c33f3ea406426b41";
@@ -270,6 +272,26 @@ export default {
 
     if (sub === "api/portrait" && request.method === "POST") {
       return handlePortrait(request, env);
+    }
+
+    if (sub === "api/flavor" && request.method === "POST") {
+      return handleFlavor(request, env);
+    }
+
+    if (sub === "api/gems" && request.method === "GET") {
+      return handleListGems(request, env);
+    }
+
+    if (sub === "api/gems" && request.method === "POST") {
+      return handleCreateGem(request, env);
+    }
+
+    if (sub.startsWith("api/gems/") && sub.endsWith("/approve") && request.method === "POST") {
+      return handleApproveGem(env, sub.slice("api/gems/".length, -"/approve".length));
+    }
+
+    if (sub.startsWith("api/gems/") && request.method === "PATCH") {
+      return handleUpdateGemMask(request, env, sub.slice("api/gems/".length));
     }
 
     if (sub.startsWith("blob/") && request.method === "GET") {

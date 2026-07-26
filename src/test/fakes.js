@@ -6,6 +6,7 @@ export class FakeD1 {
   constructor() {
     this.cards = new Map(); // id -> { id, schema_version, json, updated_at }
     this.interactions = [];
+    this.gems = new Map(); // id -> row shape matching the gems table columns
   }
 
   prepare(sql) {
@@ -37,6 +38,17 @@ export class FakeD1 {
     } else if (sql.includes("INSERT INTO interactions")) {
       const [id, card_id, seq, instruction, asset_hash, created_at] = args;
       this.interactions.push({ id, card_id, seq, instruction, asset_hash, created_at });
+    } else if (sql.includes("INSERT INTO gems")) {
+      const [id, name, palette, key_color, raw_hash, mask_params, created_at] = args;
+      this.gems.set(id, { id, name, palette, key_color, raw_hash, mask_params, approved: 0, created_at });
+    } else if (sql.includes("UPDATE gems SET mask_params")) {
+      const [mask_params, id] = args;
+      const row = this.gems.get(id);
+      if (row) row.mask_params = mask_params;
+    } else if (sql.includes("UPDATE gems SET approved")) {
+      const [id] = args;
+      const row = this.gems.get(id);
+      if (row) row.approved = 1;
     } else {
       throw new Error(`FakeD1: unhandled run() for: ${sql}`);
     }
@@ -47,6 +59,9 @@ export class FakeD1 {
       const row = this.cards.get(args[0]);
       return row ? { json: row.json } : null;
     }
+    if (sql.includes("SELECT * FROM gems WHERE id")) {
+      return this.gems.get(args[0]) || null;
+    }
     throw new Error(`FakeD1: unhandled first() for: ${sql}`);
   }
 
@@ -56,6 +71,12 @@ export class FakeD1 {
         .sort((a, b) => (a.updated_at < b.updated_at ? 1 : -1))
         .map(({ id, json, updated_at }) => ({ id, json, updated_at }));
       return { results };
+    }
+    if (sql.includes("SELECT * FROM gems")) {
+      let rows = [...this.gems.values()];
+      if (sql.includes("WHERE approved = 1")) rows = rows.filter((r) => r.approved === 1);
+      rows = rows.sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
+      return { results: rows };
     }
     throw new Error(`FakeD1: unhandled all() for: ${sql}`);
   }

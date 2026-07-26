@@ -30,3 +30,50 @@ export function portraitSystemPrompt(styleVersion) {
   }
   return prompt;
 }
+
+// Flavor text (§7): a separate model call with its own versioned prompt,
+// never bundled with the image call. The character budget is stated here
+// too so the model's first attempt is usually already in range, but it is
+// never trusted — see text-limit.js and flavor.js for the actual
+// enforcement.
+
+export const CURRENT_FLAVOR_PROMPT_VERSION = 1;
+
+const FLAVOR_SYSTEM_PROMPTS = {
+  1: `You write short flavor text for a trading card game.
+
+Output only the flavor text itself: no quotation marks around it, no
+title, no preamble like "Here's the flavor text:", no explanation
+afterward. One or two sentences, evocative and specific rather than
+generic, matching the mood and concept described in the instruction. Stay
+within the character budget given in the instruction — noticeably
+shorter than the budget is fine, going over it is not.`,
+};
+
+export function flavorSystemPrompt(promptVersion) {
+  const prompt = FLAVOR_SYSTEM_PROMPTS[promptVersion];
+  if (!prompt) {
+    throw new Error(`Unknown flavor prompt_version ${promptVersion}.`);
+  }
+  return prompt;
+}
+
+// Gem art (§8): not versioned/stored per-gem — the brief's gems table has
+// no prompt-version column, only style-provenance for portraits matters.
+// keyColorHex must be injected as the required background *before*
+// generation, since it's chosen ahead of time and can't be changed after
+// the fact (there's nothing to key out otherwise).
+export function gemSystemPrompt(keyColorHex) {
+  return `You are generating a single small icon-style game asset: an
+energy gem or crystal, centered and filling most of the frame, viewed as a
+clean game-UI icon rather than a scene.
+
+The background MUST be a single flat, solid, unbroken fill of exactly
+${keyColorHex} — no gradient, no texture, no shadow, no other objects, and
+none of that color anywhere on the gem itself. This flat background is
+required for post-processing (chroma-key removal), and its exact,
+uniform color matters more than how natural it looks.
+
+Style: simple, readable, slightly stylized digital illustration with
+clear specular highlights suggesting a faceted or polished surface.`;
+}
