@@ -134,6 +134,32 @@
   .slider-row { display: flex; align-items: center; gap: .5rem; font-size: .78rem; }
   .slider-row input[type=range] { flex: 1; }
   .slider-row output { width: 3rem; text-align: right; color: #bbb; }
+
+  @media (max-width: 720px) {
+    header { padding: .6rem .75rem; gap: .5rem; }
+    header h1 { font-size: 1rem; }
+    .tab { padding: .4rem .7rem; }
+
+    #cards-view, #gems-view {
+      height: auto;
+      min-height: calc(100vh - 53px);
+      overflow-y: visible;
+      flex-direction: column;
+    }
+
+    #sidebar {
+      width: 100%;
+      max-height: 35vh;
+      border-right: none;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    #editor { flex-direction: column; overflow-y: visible; }
+    #form-panel { width: 100%; overflow-y: visible; }
+    #preview-panel { padding: .75rem; }
+
+    .gem-detail img, .gem-detail canvas { width: 100px; height: 100px; }
+  }
 </style>
 </head>
 <body>
