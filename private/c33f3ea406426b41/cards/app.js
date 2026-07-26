@@ -243,13 +243,18 @@ els.raritySelect.addEventListener("change", () => {
 
 els.publishCardBtn.addEventListener("click", async () => {
   els.publishCardBtn.disabled = true;
-  setStatus(els.publishStatus, "Publishing…", "busy");
+  setStatus(els.publishStatus, "Saving…", "busy");
   try {
+    // Publish reads the card back from storage, not from this form, so an
+    // edit typed here (a new power, a rarity change) has to be persisted
+    // first or the server would validate against the stale saved copy.
+    await saveCurrentCard();
+    setStatus(els.publishStatus, "Publishing…", "busy");
     currentCard = migrateCard(
       await apiFetch(`api/cards/${currentCard.id}/publish`, { method: "POST" }),
     );
     renderBattleReadyBadge();
-    setStatus(els.publishStatus, "Published — live in the battler pool.", "ok");
+    setStatus(els.publishStatus, "Saved and published — live in the battler pool.", "ok");
     await refreshCardList();
   } catch (err) {
     setStatus(els.publishStatus, err.message, "error");
@@ -343,17 +348,24 @@ els.generateFlavorBtn.addEventListener("click", async () => {
 });
 
 // ---------- Save ----------
-els.saveCardBtn.addEventListener("click", async () => {
+// Shared by the Save button and Publish (publishCard validates against
+// what's in the database, so publishing has to save first).
+async function saveCurrentCard() {
   if (flavorEditedByHand) {
     currentCard.flavor = { ...currentCard.flavor, text: els.flavorText.value, source: "hand-written" };
   }
+  currentCard = await apiFetch(`api/cards/${currentCard.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(currentCard),
+  });
+  return currentCard;
+}
+
+els.saveCardBtn.addEventListener("click", async () => {
   setStatus(els.saveStatus, "Saving…", "busy");
   try {
-    currentCard = await apiFetch(`api/cards/${currentCard.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(currentCard),
-    });
+    await saveCurrentCard();
     setStatus(els.saveStatus, "Saved.", "ok");
     await refreshCardList();
   } catch (err) {
