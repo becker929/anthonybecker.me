@@ -81,6 +81,8 @@
 
   .panel { background: #1c1c1c; border-radius: 8px; padding: .85rem; display: flex; flex-direction: column; gap: .5rem; }
   .panel h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: #999; margin: 0; }
+  .badge { font-size: .7rem; padding: .1rem .4rem; border-radius: 4px; background: #333; text-transform: none; letter-spacing: normal; color: #bbb; }
+  .badge.ready { background: #1f5c3a; color: #7cf5a0; }
   label { font-size: .8rem; color: #bbb; }
   input[type=text], input[type=number], textarea, select {
     width: 100%;
@@ -214,6 +216,21 @@
         <h2>Stats</h2>
         <div id="stats-list"></div>
         <button class="secondary small" id="add-stat-btn">+ Add Stat</button>
+      </div>
+
+      <div class="panel">
+        <h2>Battler <span class="badge" id="battle-ready-badge">unpublished</span></h2>
+        <label>Power</label>
+        <input type="number" id="power-input" min="1" step="1" placeholder="e.g. 7">
+        <label>Rarity</label>
+        <select id="rarity-select">
+          <option value="common">Common</option>
+          <option value="uncommon">Uncommon</option>
+          <option value="rare">Rare</option>
+          <option value="legendary">Legendary</option>
+        </select>
+        <button class="secondary" id="publish-card-btn">Publish to Battler</button>
+        <div class="status" id="publish-status"></div>
       </div>
 
       <button id="save-card-btn">Save Card</button>

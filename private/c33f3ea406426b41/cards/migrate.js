@@ -4,13 +4,26 @@
 // separate so the dispatch mechanism is unit-testable without a real
 // multi-version history to exercise it against.
 
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
+
+// Valid rarity tags. Order is significant elsewhere (deck-weighting in the
+// battler demo) — rarer tiers come last.
+export const RARITIES = ["common", "uncommon", "rare", "legendary"];
 
 // Keyed by the version a card is migrating FROM. migrations[N] takes a
 // schema_version-N card and returns a schema_version-(N+1) card.
 const MIGRATIONS = {
-  // No migrations yet — schema_version 1 is the only version that has
-  // ever existed.
+  // v1 cards predate the battler integration: no power stat was ever
+  // collected, so `power` defaults to null (not battle-ready) rather than
+  // a guessed number. `battle_ready` is a one-way gate flipped by
+  // publishCard() once an operator sets a real power and rarity.
+  1: (card) => ({
+    ...card,
+    schema_version: 2,
+    power: null,
+    rarity: "common",
+    battle_ready: false,
+  }),
 };
 
 export function runMigrations(card, migrations, currentVersion) {

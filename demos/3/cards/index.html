@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Cards — Anthony Becker</title>
+<meta name="description" content="A turn-based card battler that draws its decks live from Card Studio's published card pool, weighted by rarity.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%;
+    min-height: 100%;
+    background: #0a1512;
+    overscroll-behavior: none;
+  }
+  body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 28px 16px;
+  }
+  /* On a phone the table should be the screen, so the page gives back the
+     margin it was spending on chrome. */
+  @media (max-width: 700px) {
+    body { padding: 8px 8px env(safe-area-inset-bottom, 8px); }
+  }
+  #root {
+    width: 100%;
+    max-width: 960px;
+  }
+  noscript {
+    color: #cfded6;
+    font-family: ui-monospace, monospace;
+  }
+</style>
+</head>
+<body>
+<div id="root">
+  <noscript>This demo needs JavaScript.</noscript>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

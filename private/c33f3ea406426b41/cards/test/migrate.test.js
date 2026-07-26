@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { migrateCard, runMigrations, CURRENT_SCHEMA_VERSION } from "../migrate.js";
+import { migrateCard, runMigrations, CURRENT_SCHEMA_VERSION, RARITIES } from "../migrate.js";
 
 test("migrateCard: a current-version card passes through unchanged", () => {
   const card = { schema_version: CURRENT_SCHEMA_VERSION, id: "card_x", title: "Test" };
@@ -43,4 +43,14 @@ test("runMigrations: chains multiple steps in order (v0->v1->v2)", () => {
 test("runMigrations: guards against a step that doesn't advance schema_version", () => {
   const migrations = { 0: (card) => ({ ...card, schema_version: 0 }) };
   assert.throws(() => runMigrations({ schema_version: 0 }, migrations, 1), /did not advance/);
+});
+
+test("migrateCard: a v1 card gets battler defaults (unpublished, no power, common rarity)", () => {
+  const v1 = { schema_version: 1, id: "card_x", title: "Test" };
+  const result = migrateCard(v1);
+  assert.equal(result.schema_version, CURRENT_SCHEMA_VERSION);
+  assert.equal(result.power, null);
+  assert.equal(result.rarity, "common");
+  assert.equal(result.battle_ready, false);
+  assert.ok(RARITIES.includes(result.rarity));
 });

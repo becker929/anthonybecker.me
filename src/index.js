@@ -4,7 +4,7 @@
 // PRIVATE_DIR are always rejected — the only way assets from there get
 // served is the internal env.ASSETS.fetch() call below, which never goes
 // back through this fetch() handler.
-import { listCards, loadCard, saveCard } from "./cards.js";
+import { listCards, loadCard, saveCard, publishCard, listBattleReadyCards } from "./cards.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
@@ -193,6 +193,21 @@ async function handleSaveCard(request, env, id) {
   }
 }
 
+async function handlePublishCard(env, id) {
+  const result = await publishCard(env.CARD_DB, id);
+  if (result.notFound) return jsonError(404, "Card not found.");
+  if (result.error) return jsonError(400, result.error);
+  return jsonOk(result.card);
+}
+
+// Public, unauthenticated: the card-battler demos read the published pool
+// from here, never from the gated studio API. Only battle_ready cards, and
+// only the fields a battler needs — see listBattleReadyCards.
+async function handleBattlerCards(env) {
+  const cards = await listBattleReadyCards(env.CARD_DB);
+  return jsonOk(cards);
+}
+
 async function handleUploadBlob(request, env) {
   let body;
   try {
@@ -226,6 +241,13 @@ export default {
     // the authenticated passthrough below (via env.ASSETS.fetch) may serve it.
     if (path === PRIVATE_DIR || path.startsWith(`${PRIVATE_DIR}/`)) {
       return new Response("Not found", { status: 404 });
+    }
+
+    // The one deliberately unauthenticated read out of the studio's data:
+    // the published card pool for the public card-battler demos. Everything
+    // else under CARD_DB stays behind the BASE password gate below.
+    if (path === "/api/battler-cards" && request.method === "GET") {
+      return handleBattlerCards(env);
     }
 
     if (path === BASE) {
@@ -264,6 +286,10 @@ export default {
 
     if (sub.startsWith("api/cards/") && request.method === "PUT") {
       return handleSaveCard(request, env, sub.slice("api/cards/".length));
+    }
+
+    if (sub.startsWith("api/cards/") && sub.endsWith("/publish") && request.method === "POST") {
+      return handlePublishCard(env, sub.slice("api/cards/".length, -"/publish".length));
     }
 
     if (sub === "api/blobs" && request.method === "POST") {
