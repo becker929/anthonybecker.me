@@ -208,7 +208,7 @@ async function pixel(canvasId, x, y) {
 }
 
 // Determinism: same template+card+assets rendered twice in this process
-// must produce byte-identical canvas output (§2).
+// must produce byte-identical canvas output.
 {
   const [d1, d2] = await Promise.all([
     page.evaluate(() => document.getElementById("canvas-card-1").toDataURL()),

@@ -1,6 +1,6 @@
-// D1 CRUD for cards (§9). The card is stored as one opaque JSON column —
-// deliberately not normalized, per the design brief: atomic writes and
-// ORDER BY updated_at are the entire query surface a flat pile needs.
+// D1 CRUD for cards. The card is stored as one opaque JSON column,
+// deliberately not normalized: atomic writes and ORDER BY updated_at are
+// the entire query surface a flat pile needs.
 import { migrateCard, CURRENT_SCHEMA_VERSION } from "../private/c33f3ea406426b41/cards/migrate.js";
 
 export async function listCards(db) {
@@ -13,7 +13,7 @@ export async function listCards(db) {
   });
 }
 
-// Returns null if not found. Applies schema migration on read (§5) so
+// Returns null if not found. Applies schema migration on read so
 // callers always see a current-version card regardless of what's stored.
 export async function loadCard(db, id) {
   const row = await db.prepare("SELECT json FROM cards WHERE id = ?").bind(id).first();
@@ -48,7 +48,7 @@ export async function saveCard(db, id, card) {
   return stored;
 }
 
-// Durable audit log for portrait revision turns (§9's `interactions`
+// Durable audit log for portrait revision turns (the `interactions`
 // table). Written alongside the card's embedded lineage, not instead of
 // it — this is what still lets you reconstruct history if a card write
 // were ever lost, since it's a plain append-only insert.

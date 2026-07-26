@@ -2,7 +2,7 @@
 // draws each. Deterministic and synchronous — every asset it touches must
 // already be a decoded, drawable image in `assets`. It never fetches
 // anything and never calls a model. Callers must await document.fonts.ready
-// before calling this (see cards/README notes) so text metrics are stable.
+// before calling this (see README.md) so text metrics are stable.
 import { fitShrink, fitWrapShrink } from "./fit-text.js";
 
 // assets keys:

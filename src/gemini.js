@@ -1,13 +1,13 @@
 // Thin client for Gemini's Interactions API (POST /v1beta/interactions),
-// used for portrait generation (§6), flavor text (§7), and gem art (§8).
+// used for portrait generation, flavor text, and gem art.
 // Multi-turn edits thread through previous_interaction_id; that id lives on
 // Google's servers and can expire, which is why callers must persist every
 // successful turn immediately rather than trusting the thread to stay
 // alive (see portrait.js).
 //
-// Model ids are pinned here deliberately (§10: "the image models are
-// moving fast and preview ids get retired") — update these two constants
-// when they rotate, nowhere else.
+// Model ids are pinned here deliberately: the image models move fast and
+// preview ids get retired. Update these two constants when they rotate,
+// nowhere else.
 const IMAGE_MODEL = "gemini-3.1-flash-image";
 const TEXT_MODEL = "gemini-3.6-flash";
 
@@ -132,7 +132,7 @@ export async function generateGemArt(env, { instruction, systemInstruction }) {
   });
 }
 
-// Plain text generation (flavor text, §7). No response_format needed —
+// Plain text generation (flavor text). No response_format needed —
 // text is the default output.
 export async function generateText(env, { instruction, systemInstruction, previousInteractionId }) {
   const body = {

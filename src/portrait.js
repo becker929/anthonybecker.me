@@ -1,5 +1,5 @@
-// POST /api/portrait — generate or continue a card's portrait (§6). The
-// governing rule from the design brief: every successful turn (instruction,
+// POST /api/portrait — generate or continue a card's portrait. The
+// governing rule: every successful turn (instruction,
 // resulting bytes, interaction id) is mirrored into our own storage before
 // this handler responds. previous_interaction_id is state on Google's
 // servers and can expire; once it does, only what we mirrored here still

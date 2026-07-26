@@ -1,5 +1,5 @@
-// Schema migration, applied on read (§5: "migration is a function per
-// version bump, applied on read. Keep it boring."). runMigrations is the
+// Schema migration, applied on read: one function per version bump, kept
+// deliberately boring. runMigrations is the
 // generic dispatcher; migrateCard wires it to the real registry. Kept
 // separate so the dispatch mechanism is unit-testable without a real
 // multi-version history to exercise it against.

@@ -1,7 +1,6 @@
-// D1 CRUD for the shared gem pool (§8/§9). Unlike cards, gems are stored
-// in real columns rather than an opaque blob — the brief's schema for this
-// table already names each field, and there's no free-form per-gem shape
-// to preserve.
+// D1 CRUD for the shared gem pool. Unlike cards, gems are stored in real
+// columns rather than an opaque blob: the gems table names every field
+// explicitly, and there's no free-form per-gem shape to preserve.
 function rowToGem(row) {
   return {
     id: row.id,
@@ -28,8 +27,8 @@ export async function loadGem(db, id) {
   return row ? rowToGem(row) : null;
 }
 
-// New gems always start unapproved (§8: "must be explicitly approved
-// before entering the pool").
+// New gems always start unapproved — a gem must be explicitly approved
+// before it enters the pool, and POST .../approve is the only way in.
 export async function insertGem(db, { id, name, palette, keyColor, rawHash, maskParams }) {
   const created_at = new Date().toISOString();
   await db

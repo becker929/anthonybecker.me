@@ -2,8 +2,8 @@
 <!--
   Dev-only offline test harness for renderer.js. Not linked from anywhere in
   the app; loads hand-written fixtures with no network calls and no server
-  logic, per the build order in the design brief (§12 step 1: "renderer,
-  offline"). Driven by test/render.spec.mjs via Playwright.
+  logic — the renderer is meant to be verifiable entirely offline.
+  Driven by test/render.spec.mjs via Playwright.
 -->
 <html>
 <head>
@@ -81,7 +81,7 @@
       renderCard(ctx2, template, card2, assets2);
 
       // Re-render card 1 into a fresh canvas from the same inputs to check
-      // same-process determinism (§2).
+      // same-process determinism.
       const ctxRerender = document.getElementById("canvas-card-1-rerender").getContext("2d");
       renderCard(ctxRerender, template, card1, assets1);
 
