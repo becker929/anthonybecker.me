@@ -22,6 +22,10 @@
 <canvas id="canvas-card-1" width="750" height="1050"></canvas>
 <canvas id="canvas-card-2" width="750" height="1050"></canvas>
 <canvas id="canvas-card-1-rerender" width="750" height="1050" style="display:none"></canvas>
+<!-- Portrait layer alone, no frame art. Lets the aspect check measure the
+     art's own geometry without the frame's darks interfering. -->
+<canvas id="canvas-card-1-portrait" width="750" height="1050" style="display:none"></canvas>
+<canvas id="canvas-card-2-portrait" width="750" height="1050" style="display:none"></canvas>
 <script type="module">
   import { renderCard } from "./renderer.js";
 
@@ -57,6 +61,8 @@
     assets.set("gem", await loadImage("fixtures/gem_placeholder.png"));
     return assets;
   }
+  // card-1 carries 4:3 art (what generation produces now) and card-2 carries
+  // legacy 3:4 art, so both cover-fit paths render in this harness.
 
   async function main() {
     try {
@@ -78,6 +84,10 @@
       // same-process determinism (§2).
       const ctxRerender = document.getElementById("canvas-card-1-rerender").getContext("2d");
       renderCard(ctxRerender, template, card1, assets1);
+
+      const portraitOnly = { ...template, layers: template.layers.filter((l) => l.type === "portrait") };
+      renderCard(document.getElementById("canvas-card-1-portrait").getContext("2d"), portraitOnly, card1, assets1);
+      renderCard(document.getElementById("canvas-card-2-portrait").getContext("2d"), portraitOnly, card2, assets2);
     } catch (err) {
       window.__renderErrors.push(String(err && err.stack || err));
     } finally {

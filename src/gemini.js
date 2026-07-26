@@ -11,10 +11,13 @@
 const IMAGE_MODEL = "gemini-3.1-flash-image";
 const TEXT_MODEL = "gemini-3.6-flash";
 
-// The portrait aperture is fixed 3:4 (§6) — every portrait is generated at
-// exactly that ratio so fitting it into the template is a plain scale,
-// never a crop. Gems are small square icons.
-const PORTRAIT_ASPECT_RATIO = "3:4";
+// The template's portrait aperture is landscape (631x523 ≈ 1.21:1 as measured
+// off the frame art), so portraits are generated at the nearest ratio the API
+// offers and the renderer cover-fits the small remainder. This is no longer
+// the exact-ratio-so-never-a-crop arrangement the original 3:4 aperture had;
+// cards generated before this change carry 3:4 art and get centre-cropped.
+// Gems are small square icons.
+const PORTRAIT_ASPECT_RATIO = "4:3";
 const GEM_ASPECT_RATIO = "1:1";
 
 export class GeminiThreadExpiredError extends Error {}

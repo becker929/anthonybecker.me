@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "id": "card_fixture_01",
-  "template_version": 3,
+  "template_version": 5,
   "title": "Ashfall Herald",
   "portrait": {
     "asset": "portrait_placeholder.png",
-    "style_version": 4,
+    "style_version": 2,
     "user_prompt": "a herald wreathed in ash and embers",
     "interaction_id": "int_fixture_01",
     "lineage": [
@@ -23,8 +23,14 @@
   },
   "gem": "gem_ember_03",
   "stats": [
-    { "label": "ATK", "value": "7" },
-    { "label": "COST", "value": "3" }
+    {
+      "label": "ATK",
+      "value": "7"
+    },
+    {
+      "label": "COST",
+      "value": "3"
+    }
   ],
   "updated_at": "2026-07-25T00:00:00.000Z"
 }

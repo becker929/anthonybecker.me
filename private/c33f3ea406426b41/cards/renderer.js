@@ -43,9 +43,19 @@ function drawPortraitLayer(ctx, layer, assets) {
   off.width = w;
   off.height = h;
   const offCtx = off.getContext("2d");
-  // Aperture is fixed 3:4 and art is generated at that exact ratio (§6), so
-  // fitting is a plain scale-to-fill — no cropping logic needed here.
-  offCtx.drawImage(portrait, 0, 0, w, h);
+
+  // Cover-fit: scale to fill the aperture preserving aspect, centred, letting
+  // the overflow crop. The frame's aperture is not the ratio art is generated
+  // at (and older cards carry art from a different ratio again), so a plain
+  // scale-to-fill would stretch faces. Cropping a little is the lesser evil,
+  // and generation is pointed at a close ratio so there is little to crop.
+  const iw = portrait.naturalWidth || portrait.width;
+  const ih = portrait.naturalHeight || portrait.height;
+  const scale = Math.max(w / iw, h / ih);
+  const dw = iw * scale;
+  const dh = ih * scale;
+  offCtx.drawImage(portrait, (w - dw) / 2, (h - dh) / 2, dw, dh);
+
   offCtx.globalCompositeOperation = "destination-in";
   offCtx.drawImage(mask, 0, 0, w, h);
 
@@ -79,8 +89,12 @@ function drawTextLayer(ctx, layer, card) {
   ctx.fillStyle = layer.color || "#000";
 
   const drawX = align === "right" ? x + w : align === "center" ? x + w / 2 : x;
+  // valign "middle" centres the wrapped block in the rect. Slots that sit in
+  // a painted bar (title, stats) need it: once fitShrink drops the size, a
+  // top-aligned line rides the top edge of the bar instead of the centre.
+  const drawY = layer.valign === "middle" ? y + (h - lines.length * lineHeight) / 2 : y;
   lines.forEach((line, i) => {
-    ctx.fillText(line, drawX, y + i * lineHeight);
+    ctx.fillText(line, drawX, drawY + i * lineHeight);
   });
 }
 
