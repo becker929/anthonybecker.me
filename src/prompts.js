@@ -58,6 +58,24 @@ export function flavorSystemPrompt(promptVersion) {
   return prompt;
 }
 
+// Gem field fill-in: an operator may submit a gem with only one or two of
+// name/instruction/palette set. Rather than reject the request, the missing
+// fields are inferred from whichever ones were supplied so a single idea
+// (e.g. just an instruction, or just a name) is enough to get started.
+export function gemFieldFillSystemPrompt() {
+  return `You help complete a trading-card energy gem's fields for an
+internal card-creation tool. The operator has supplied some of: name (a
+short evocative 2-4 word title), instruction (one or two sentences
+describing the gem's appearance, for an image-generation prompt), and
+palette (1-3 "#rrggbb" hex colors capturing the gem's color scheme).
+
+You will be told which fields are already known and which are missing.
+Infer ONLY the missing fields, staying consistent with whatever was
+supplied. Respond with a single minified JSON object containing exactly
+the missing field names as keys — no markdown fences, no commentary, no
+extra keys. "palette" values must be lowercase "#rrggbb" hex strings.`;
+}
+
 // Gem art (§8): not versioned/stored per-gem — the brief's gems table has
 // no prompt-version column, only style-provenance for portraits matters.
 // keyColorHex must be injected as the required background *before*

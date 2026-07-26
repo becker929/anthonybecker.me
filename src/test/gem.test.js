@@ -61,24 +61,88 @@ test("creates a gem: picks the key color, injects it into the prompt, stores raw
   assert.ok(db.gems.get(body.gem.id));
 });
 
-test("rejects a missing name, instruction, empty palette, or invalid hex entries", async () => {
+test("rejects an entirely empty body or invalid hex entries", async () => {
   const db = new FakeD1();
   const bucket = new FakeR2();
   const fail = async () => { throw new Error("should not be called"); };
 
   const cases = [
-    { instruction: "x", palette: ["#000000"] }, // missing name
-    { name: "x", palette: ["#000000"] }, // missing instruction
-    { name: "x", instruction: "x", palette: [] }, // empty palette
-    { name: "x", instruction: "x", palette: ["not-a-color"] }, // bad hex
+    {}, // nothing supplied at all — no context to fill in from
+    { name: "x", instruction: "x", palette: ["not-a-color"] }, // bad hex, not just missing
   ];
   for (const body of cases) {
     const resp = await handleCreateGem(
       req("http://x/api/gems", { body: JSON.stringify(body) }),
       env(db, bucket),
-      { generateGemArt: fail },
+      { generateGemArt: fail, generateText: fail },
     );
     assert.equal(resp.status, 400, JSON.stringify(body));
+  }
+});
+
+test("fills in a missing name, instruction, or palette from whatever was supplied", async () => {
+  const db = new FakeD1();
+  const bucket = new FakeR2();
+  const fakeGenerateGemArt = async () => ({ interactionId: "int_1", mimeType: "image/png", data: PNG_B64 });
+
+  const cases = [
+    {
+      body: { instruction: "a faceted ember crystal", palette: ["#8a2d1c"] },
+      fillText: JSON.stringify({ name: "Ember Shard" }),
+      missing: ["name"],
+    },
+    {
+      body: { name: "Ember Shard", palette: ["#8a2d1c"] },
+      fillText: JSON.stringify({ instruction: "a faceted ember crystal" }),
+      missing: ["instruction"],
+    },
+    {
+      body: { name: "Ember Shard", instruction: "a faceted ember crystal" },
+      fillText: JSON.stringify({ palette: ["#8a2d1c"] }),
+      missing: ["palette"],
+    },
+  ];
+
+  for (const { body, fillText, missing } of cases) {
+    let seenMissing;
+    const fakeGenerateText = async (_env, args) => {
+      seenMissing = missing;
+      assert.ok(args.instruction.includes(missing[0]), JSON.stringify({ body, args }));
+      return { interactionId: "int_fill", text: fillText };
+    };
+
+    const resp = await handleCreateGem(
+      req("http://x/api/gems", { body: JSON.stringify(body) }),
+      env(db, bucket),
+      { generateGemArt: fakeGenerateGemArt, generateText: fakeGenerateText },
+    );
+    assert.equal(resp.status, 200, JSON.stringify({ body, respStatus: resp.status }));
+    const result = await resp.json();
+    assert.equal(result.gem.name, "Ember Shard");
+    assert.deepEqual(result.gem.palette, ["#8a2d1c"]);
+    assert.deepEqual(seenMissing, missing);
+  }
+});
+
+test("a fill-in response that is unparseable or invalid returns 502 and writes nothing", async () => {
+  const db = new FakeD1();
+  const bucket = new FakeR2();
+  const fail = async () => { throw new Error("should not be called"); };
+
+  const badResponses = [
+    "not json at all",
+    JSON.stringify({ name: "" }), // empty string doesn't count as filled
+    JSON.stringify({ palette: [] }), // empty array doesn't count as filled
+    JSON.stringify({ palette: ["not-a-color"] }), // invalid hex from the model itself
+  ];
+  for (const text of badResponses) {
+    const resp = await handleCreateGem(
+      req("http://x/api/gems", { body: JSON.stringify({ instruction: "x", palette: ["#000000"] }) }),
+      env(db, bucket),
+      { generateGemArt: fail, generateText: async () => ({ interactionId: "int_1", text }) },
+    );
+    assert.equal(resp.status, 502, text);
+    assert.equal(db.gems.size, 0, text);
   }
 });
 

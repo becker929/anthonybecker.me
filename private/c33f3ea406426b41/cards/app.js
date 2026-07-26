@@ -467,8 +467,8 @@ gemEls.generateBtn.addEventListener("click", async () => {
   const name = gemEls.name.value.trim();
   const palette = gemEls.palette.value.split(",").map((s) => s.trim()).filter(Boolean);
   const instruction = gemEls.instruction.value.trim();
-  if (!name || !instruction || palette.length === 0) {
-    return setStatus(gemEls.createStatus, "Name, palette, and description are all required.", "error");
+  if (!name && !instruction && palette.length === 0) {
+    return setStatus(gemEls.createStatus, "Give at least a name, a palette, or a description — the rest will be filled in.", "error");
   }
 
   gemEls.generateBtn.disabled = true;
