@@ -63,19 +63,20 @@ async function pixel(canvasId, x, y) {
   );
 }
 
-// Outer border ring (frame_over gold, #caa24a) must paint over the
-// background plate near the canvas edge.
+// Outer border bevel ring (frame_over metal, #8a8d93) must paint over the
+// background plate near the canvas edge (mid-top edge, clear of the
+// rounded corners).
 {
-  const [r, g, b] = await pixel("canvas-card-1", 5, 5);
-  assertClose(r, 0xca, 10, "border pixel red");
-  assertClose(g, 0xa2, 10, "border pixel green");
-  assertClose(b, 0x4a, 10, "border pixel blue");
-  console.log("ok - frame_over border drawn on top at (5,5)");
+  const [r, g, b] = await pixel("canvas-card-1", 375, 17);
+  assertClose(r, 0x8a, 12, "border pixel red");
+  assertClose(g, 0x8d, 12, "border pixel green");
+  assertClose(b, 0x93, 12, "border pixel blue");
+  console.log("ok - frame_over border drawn on top at (375,17)");
 }
 
 // Portrait center: masked portrait art must show through, not the
-// background plate and not fully opaque frame_over (only its 10px bezel
-// overlaps the aperture, so the center is untouched).
+// background plate and not the opaque frame_over bezel (only its 10px ring
+// overlaps the aperture edge, so the center is untouched).
 {
   const [r, g, b, a] = await pixel("canvas-card-1", 375, 500);
   assertEqual(a, 255, "portrait center alpha");
@@ -86,21 +87,21 @@ async function pixel(canvasId, x, y) {
 
 // Gem layer draws on top of everything at its rect center.
 {
-  const [r, g, b, a] = await pixel("canvas-card-1", 650, 100);
+  const [r, g, b, a] = await pixel("canvas-card-1", 640, 115);
   assertEqual(a, 255, "gem center alpha");
   if (g <= r && g <= b) throw new Error(`gem center (${r},${g},${b}) doesn't look like the green/teal gem placeholder`);
-  console.log("ok - gem art drawn on top at (650,100)");
+  console.log("ok - gem art drawn on top at (640,115)");
 }
 
 // Title text layer painted something (non-background) somewhere in its rect.
+// Title is light text (#f1ede4) on the dark title bar.
 {
   const found = await page.evaluate(() => {
     const ctx = document.getElementById("canvas-card-1").getContext("2d");
-    const [x, y, w, h] = [60, 960, 500, 60];
+    const [x, y, w, h] = [62, 52, 480, 42];
     const data = ctx.getImageData(x, y, w, h).data;
     for (let i = 0; i < data.length; i += 4) {
-      // fillStyle default is black text; look for a dark, opaque pixel.
-      if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40 && data[i + 3] > 200) return true;
+      if (data[i] > 200 && data[i + 1] > 200 && data[i + 2] > 200 && data[i + 3] > 200) return true;
     }
     return false;
   });
@@ -111,14 +112,14 @@ async function pixel(canvasId, x, y) {
 // Both cards rendered without throwing, including card-2's long title/
 // flavor text, which forces the shrink and wrap-shrink paths respectively —
 // exercised here for integration, exact sizing already covered by
-// fit-text.test.js.
+// fit-text.test.js. Flavor is dark text (#26221c) on the light flavor panel.
 {
   const found = await page.evaluate(() => {
     const ctx = document.getElementById("canvas-card-2").getContext("2d");
-    const [x, y, w, h] = [60, 1000, 500, 40];
+    const [x, y, w, h] = [74, 876, 480, 110];
     const data = ctx.getImageData(x, y, w, h).data;
     for (let i = 0; i < data.length; i += 4) {
-      if (data[i] < 40 && data[i + 1] < 40 && data[i + 2] < 40 && data[i + 3] > 200) return true;
+      if (data[i] < 60 && data[i + 1] < 60 && data[i + 2] < 60 && data[i + 3] > 200) return true;
     }
     return false;
   });

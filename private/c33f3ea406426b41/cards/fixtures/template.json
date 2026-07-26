@@ -1,40 +1,43 @@
 {
-  "version": 3,
+  "version": 4,
   "canvas": [750, 1050],
   "layers": [
     { "type": "image", "src": "frame_bg.png" },
-    { "type": "portrait", "rect": [45, 60, 660, 880], "mask": "aperture.png" },
+    { "type": "portrait", "rect": [145, 200, 460, 614], "mask": "aperture.png" },
     { "type": "image", "src": "frame_over.png" },
-    { "type": "gem", "rect": [590, 40, 120, 120] },
+    { "type": "gem", "rect": [580, 55, 120, 120] },
     {
       "type": "text",
       "slot": "title",
-      "rect": [60, 960, 500, 60],
+      "rect": [62, 52, 480, 42],
       "font": "Display",
-      "size": 44,
+      "size": 40,
       "fit": "shrink",
-      "min": 28,
-      "align": "left"
-    },
-    {
-      "type": "text",
-      "slot": "flavor",
-      "rect": [60, 1000, 500, 40],
-      "font": "Body",
-      "size": 18,
-      "fit": "wrap-shrink",
-      "min": 12,
-      "align": "left"
+      "min": 18,
+      "align": "left",
+      "color": "#f1ede4"
     },
     {
       "type": "text",
       "slot": "stats",
-      "rect": [600, 960, 110, 80],
+      "rect": [62, 116, 380, 66],
       "font": "Body",
-      "size": 20,
+      "size": 24,
       "fit": "wrap-shrink",
       "min": 14,
-      "align": "right"
+      "align": "left",
+      "color": "#f1ede4"
+    },
+    {
+      "type": "text",
+      "slot": "flavor",
+      "rect": [74, 876, 480, 110],
+      "font": "Body",
+      "size": 24,
+      "fit": "wrap-shrink",
+      "min": 13,
+      "align": "left",
+      "color": "#26221c"
     }
   ]
 }
