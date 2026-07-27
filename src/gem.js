@@ -5,6 +5,7 @@
 // start unapproved; POST .../approve is the only way into the pool.
 import { generateGemArt as defaultGenerateGemArt, generateText as defaultGenerateText } from "./gemini.js";
 import { gemSystemPrompt, gemFieldFillSystemPrompt } from "./prompts.js";
+import { resolveSkills } from "./skills.js";
 import { selectKeyColor } from "./key-color.js";
 import { putBlob } from "./blobs.js";
 import { listGems, insertGem, updateGemMaskParams, approveGem } from "./gems.js";
@@ -100,7 +101,7 @@ export async function handleCreateGem(request, env, deps = {}) {
     try {
       const result = await generateText(env, {
         instruction: buildGemFieldFillInput({ name, instruction, palette }),
-        systemInstruction: gemFieldFillSystemPrompt(),
+        systemInstruction: await gemFieldFillSystemPrompt(env.CARD_DB),
         previousInteractionId: null,
       });
       filled = parseGemFieldFill(result.text, missing);
@@ -117,11 +118,11 @@ export async function handleCreateGem(request, env, deps = {}) {
   }
 
   const keyColor = selectKeyColor(palette);
-  const systemInstruction = gemSystemPrompt(keyColor.hex);
+  const systemInstruction = await gemSystemPrompt(env.CARD_DB, keyColor.hex);
 
   let result;
   try {
-    result = await generateGemArt(env, { instruction, systemInstruction });
+    result = await generateGemArt(env, { instruction: await resolveSkills(env.CARD_DB, instruction), systemInstruction });
   } catch (err) {
     return jsonError(502, err.message);
   }

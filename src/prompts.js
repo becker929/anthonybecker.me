@@ -1,12 +1,30 @@
-// Versioned system prompts for portrait generation. style_version is
-// recorded on the card for provenance — there is no bulk restyle feature,
-// so old cards keep whatever prompt text produced them even after this
-// registry moves on. Never edit an existing entry; add a new version.
+// System prompts per generator, stored in D1 (table `prompts`) instead of
+// hardcoded in source — an operator edits them from the studio's Prompts
+// tab with no deploy. Still append-only under the hood, the same
+// discipline the card schema migrations use: saving never overwrites a
+// row, it inserts the next version number for that generator. A card's
+// stored style_version/prompt_version always resolves to the exact text
+// that produced it, no matter how many later edits happen.
+//
+// /name references inside a prompt's authored text are NOT expanded at
+// save time — see resolveSkills in skills.js. They resolve against the
+// live skill pool fresh every time a prompt is actually used for
+// generation (resolvedPrompt below), never cached or stored. The raw
+// getters (getPromptVersion, getCurrentPrompt, listPromptVersions) return
+// the authored text as-is, slash references intact — that's what the
+// studio's editor and version history read from.
+import { resolveSkills } from "./skills.js";
 
-export const CURRENT_STYLE_VERSION = 2;
+export const GENERATORS = ["portrait", "flavor", "gem", "gem_field_fill"];
 
-const PORTRAIT_SYSTEM_PROMPTS = {
-  1: `You are generating a single character portrait for a trading card game.
+// Seed text: exactly what this file hardcoded before prompts moved to D1.
+// Used only to populate a generator's very first version, the one time
+// its row count is zero. Not a second source of truth to keep in sync —
+// once seeded, the database is authoritative and this is never read again
+// for that generator.
+const SEED_PROMPTS = {
+  portrait: {
+    1: `You are generating a single character portrait for a trading card game.
 
 Output only the character illustration itself, filling the entire frame
 edge to edge. Do not include a card frame, border, mat, vignette, drop
@@ -22,11 +40,11 @@ slightly off-camera, filling most of the vertical space with a small
 amount of environmental background visible behind them — the background
 should read as atmosphere, not a busy separate scene.`,
 
-  // v2 exists because the template's aperture became landscape: v1's "filling
-  // most of the vertical space" framing composes for a tall crop and reads
-  // badly wide. The edge-margin note matters because the renderer cover-fits,
-  // trimming a little off the left and right of a 4:3 image.
-  2: `You are generating a single character portrait for a trading card game.
+    // v2 exists because the template's aperture became landscape: v1's "filling
+    // most of the vertical space" framing composes for a tall crop and reads
+    // badly wide. The edge-margin note matters because the renderer cover-fits,
+    // trimming a little off the left and right of a 4:3 image.
+    2: `You are generating a single character portrait for a trading card game.
 
 Output only the character illustration itself, filling the entire frame
 edge to edge. Do not include a card frame, border, mat, vignette, drop
@@ -45,26 +63,10 @@ either side for environmental background that reads as atmosphere, not a
 busy separate scene. Keep the subject's head and any critical detail well
 inside the middle of the frame and away from the left and right edges —
 a narrow strip along each vertical edge may be cropped.`,
-};
+  },
 
-export function portraitSystemPrompt(styleVersion) {
-  const prompt = PORTRAIT_SYSTEM_PROMPTS[styleVersion];
-  if (!prompt) {
-    throw new Error(`Unknown portrait style_version ${styleVersion}.`);
-  }
-  return prompt;
-}
-
-// Flavor text: a separate model call with its own versioned prompt,
-// never bundled with the image call. The character budget is stated here
-// too so the model's first attempt is usually already in range, but it is
-// never trusted — see text-limit.js and flavor.js for the actual
-// enforcement.
-
-export const CURRENT_FLAVOR_PROMPT_VERSION = 1;
-
-const FLAVOR_SYSTEM_PROMPTS = {
-  1: `You write short flavor text for a trading card game.
+  flavor: {
+    1: `You write short flavor text for a trading card game.
 
 Output only the flavor text itself: no quotation marks around it, no
 title, no preamble like "Here's the flavor text:", no explanation
@@ -72,22 +74,30 @@ afterward. One or two sentences, evocative and specific rather than
 generic, matching the mood and concept described in the instruction. Stay
 within the character budget given in the instruction — noticeably
 shorter than the budget is fine, going over it is not.`,
-};
+  },
 
-export function flavorSystemPrompt(promptVersion) {
-  const prompt = FLAVOR_SYSTEM_PROMPTS[promptVersion];
-  if (!prompt) {
-    throw new Error(`Unknown flavor prompt_version ${promptVersion}.`);
-  }
-  return prompt;
-}
+  // Not versioned/stored per-gem before this moved to D1 either — the gems
+  // table has no prompt-version column, and only portraits need style
+  // provenance. {{key_color}} is substituted after skill resolution (see
+  // gemSystemPrompt) since it's chosen per-generation and can't live in
+  // the stored template text.
+  gem: {
+    1: `You are generating a single small icon-style game asset: an
+energy gem or crystal, centered and filling most of the frame, viewed as a
+clean game-UI icon rather than a scene.
 
-// Gem field fill-in: an operator may submit a gem with only one or two of
-// name/instruction/palette set. Rather than reject the request, the missing
-// fields are inferred from whichever ones were supplied so a single idea
-// (e.g. just an instruction, or just a name) is enough to get started.
-export function gemFieldFillSystemPrompt() {
-  return `You help complete a trading-card energy gem's fields for an
+The background MUST be a single flat, solid, unbroken fill of exactly
+{{key_color}} — no gradient, no texture, no shadow, no other objects, and
+none of that color anywhere on the gem itself. This flat background is
+required for post-processing (chroma-key removal), and its exact,
+uniform color matters more than how natural it looks.
+
+Style: simple, readable, slightly stylized digital illustration with
+clear specular highlights suggesting a faceted or polished surface.`,
+  },
+
+  gem_field_fill: {
+    1: `You help complete a trading-card energy gem's fields for an
 internal card-creation tool. The operator has supplied some of: name (a
 short evocative 2-4 word title), instruction (one or two sentences
 describing the gem's appearance, for an image-generation prompt), and
@@ -97,25 +107,120 @@ You will be told which fields are already known and which are missing.
 Infer ONLY the missing fields, staying consistent with whatever was
 supplied. Respond with a single minified JSON object containing exactly
 the missing field names as keys — no markdown fences, no commentary, no
-extra keys. "palette" values must be lowercase "#rrggbb" hex strings.`;
+extra keys. "palette" values must be lowercase "#rrggbb" hex strings.`,
+  },
+};
+
+function assertGenerator(generator) {
+  if (!GENERATORS.includes(generator)) {
+    throw new Error(`Unknown generator "${generator}".`);
+  }
 }
 
-// Gem art: not versioned/stored per-gem — the gems table has no
-// prompt-version column, and only portraits need style provenance.
-// keyColorHex must be injected as the required background *before*
-// generation, since it's chosen ahead of time and can't be changed after
-// the fact (there's nothing to key out otherwise).
-export function gemSystemPrompt(keyColorHex) {
-  return `You are generating a single small icon-style game asset: an
-energy gem or crystal, centered and filling most of the frame, viewed as a
-clean game-UI icon rather than a scene.
+async function ensureSeeded(db, generator) {
+  const { count } = await db
+    .prepare("SELECT COUNT(*) as count FROM prompts WHERE generator = ?")
+    .bind(generator)
+    .first();
+  if (count > 0) return;
+  const versions = SEED_PROMPTS[generator];
+  for (const version of Object.keys(versions).map(Number).sort((a, b) => a - b)) {
+    await db
+      .prepare("INSERT INTO prompts (id, generator, version, text, created_at) VALUES (?, ?, ?, ?, ?)")
+      .bind(`prompt_${crypto.randomUUID()}`, generator, version, versions[version], new Date().toISOString())
+      .run();
+  }
+}
 
-The background MUST be a single flat, solid, unbroken fill of exactly
-${keyColorHex} — no gradient, no texture, no shadow, no other objects, and
-none of that color anywhere on the gem itself. This flat background is
-required for post-processing (chroma-key removal), and its exact,
-uniform color matters more than how natural it looks.
+// Raw text as authored (may contain /name references) — for the studio's
+// editor and version history. Never for sending to a model directly.
+export async function getPromptVersion(db, generator, version) {
+  assertGenerator(generator);
+  await ensureSeeded(db, generator);
+  const row = await db
+    .prepare("SELECT version, text, created_at FROM prompts WHERE generator = ? AND version = ?")
+    .bind(generator, version)
+    .first();
+  if (!row) throw new Error(`Unknown ${generator} prompt version ${version}.`);
+  return row;
+}
 
-Style: simple, readable, slightly stylized digital illustration with
-clear specular highlights suggesting a faceted or polished surface.`;
+export async function getCurrentPrompt(db, generator) {
+  assertGenerator(generator);
+  await ensureSeeded(db, generator);
+  // ensureSeeded guarantees at least one row exists for this generator.
+  return db
+    .prepare("SELECT version, text, created_at FROM prompts WHERE generator = ? ORDER BY version DESC LIMIT 1")
+    .bind(generator)
+    .first();
+}
+
+export async function listPromptVersions(db, generator) {
+  assertGenerator(generator);
+  await ensureSeeded(db, generator);
+  const { results } = await db
+    .prepare("SELECT version, text, created_at FROM prompts WHERE generator = ? ORDER BY version DESC")
+    .bind(generator)
+    .all();
+  return results;
+}
+
+export async function listCurrentPrompts(db) {
+  const rows = [];
+  for (const generator of GENERATORS) {
+    rows.push({ generator, ...(await getCurrentPrompt(db, generator)) });
+  }
+  return rows;
+}
+
+// Always creates a new version — there is no in-place edit. Saving
+// identical text still creates a new row; it's the studio UI's job to
+// disable Save when nothing changed, not this function's.
+export async function createPromptVersion(db, generator, text) {
+  assertGenerator(generator);
+  if (typeof text !== "string" || !text.trim()) {
+    throw new Error("Prompt text is required.");
+  }
+  const current = await getCurrentPrompt(db, generator);
+  const version = current.version + 1;
+  const created_at = new Date().toISOString();
+  await db
+    .prepare("INSERT INTO prompts (id, generator, version, text, created_at) VALUES (?, ?, ?, ?, ?)")
+    .bind(`prompt_${crypto.randomUUID()}`, generator, version, text, created_at)
+    .run();
+  return { generator, version, text, created_at };
+}
+
+// Resolved text — /name expanded against the live skill pool — for a
+// generator to actually send. version === null/undefined means "current".
+async function resolvedPrompt(db, generator, version) {
+  const row = version == null ? await getCurrentPrompt(db, generator) : await getPromptVersion(db, generator, version);
+  return { version: row.version, text: await resolveSkills(db, row.text) };
+}
+
+export async function portraitSystemPrompt(db, styleVersion) {
+  return (await resolvedPrompt(db, "portrait", styleVersion)).text;
+}
+
+export async function currentStyleVersion(db) {
+  return (await getCurrentPrompt(db, "portrait")).version;
+}
+
+export async function flavorSystemPrompt(db, promptVersion) {
+  return (await resolvedPrompt(db, "flavor", promptVersion)).text;
+}
+
+export async function currentFlavorPromptVersion(db) {
+  return (await getCurrentPrompt(db, "flavor")).version;
+}
+
+export async function gemFieldFillSystemPrompt(db) {
+  return (await resolvedPrompt(db, "gem_field_fill")).text;
+}
+
+// keyColorHex must be injected after skill resolution, since it's chosen
+// ahead of generation and can't be a skill itself (it changes every call).
+export async function gemSystemPrompt(db, keyColorHex) {
+  const { text } = await resolvedPrompt(db, "gem");
+  return text.replaceAll("{{key_color}}", keyColorHex);
 }

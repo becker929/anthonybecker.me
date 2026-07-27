@@ -161,12 +161,58 @@
   .slider-row input[type=range] { flex: 1; }
   .slider-row output { width: 3rem; text-align: right; color: #bbb; }
 
+  #prompts-view { height: calc(100vh - 53px); }
+  #prompts-main { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; }
+  #skills-panel { width: 320px; border-left: 1px solid #2a2a2a; padding: 1rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; }
+  .generator-tab { background: none; border: 1px solid #3a3a3a; color: #bbb; padding: .35rem .7rem; border-radius: 6px; cursor: pointer; font-size: .8rem; }
+  .generator-tab.active { background: #4a7dff; border-color: #4a7dff; color: #fff; }
+  .prompt-textarea { min-height: 220px; font-family: ui-monospace, monospace; font-size: .82rem; }
+  .resolved-preview {
+    white-space: pre-wrap;
+    background: #0d0d0d;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    padding: .6rem;
+    font-size: .8rem;
+    color: #bbb;
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 0;
+    font-family: ui-monospace, monospace;
+  }
+  .prompt-history-row { padding: .35rem .5rem; border-radius: 6px; cursor: pointer; font-size: .78rem; color: #999; }
+  .prompt-history-row:hover { background: #1c1c1c; }
+  .prompt-history-row.current { color: #7cf5a0; }
+  .skill-row { padding: .35rem .5rem; border-radius: 6px; cursor: pointer; font-size: .82rem; font-family: ui-monospace, monospace; }
+  .skill-row:hover { background: #1c1c1c; }
+  .skill-row.selected { background: #24314f; }
+
+  /* Attached by attachSlashAutocomplete() in app.js — the textarea is moved
+     into this wrapper at runtime so the dropdown can anchor right below it
+     regardless of what else shares the surrounding .panel. */
+  .textarea-wrap { position: relative; }
+  .slash-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #1c1c1c;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    max-height: 160px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .4);
+  }
+  .slash-item { padding: .4rem .6rem; font-size: .82rem; font-family: ui-monospace, monospace; cursor: pointer; }
+  .slash-item:hover { background: #24314f; }
+
   @media (max-width: 720px) {
     header { padding: .6rem .75rem; gap: .5rem; }
     header h1 { font-size: 1rem; }
     .tab { padding: .4rem .7rem; }
 
-    #cards-view, #gems-view {
+    #cards-view, #gems-view, #prompts-view {
       height: auto;
       min-height: calc(100vh - 53px);
       overflow-y: visible;
@@ -185,6 +231,8 @@
     #preview-panel { padding: .75rem; }
 
     .gem-detail img, .gem-detail canvas { width: 100px; height: 100px; }
+
+    #skills-panel { width: 100%; border-left: none; border-top: 1px solid #2a2a2a; }
   }
 </style>
 </head>
@@ -193,6 +241,7 @@
   <h1>Card Studio</h1>
   <button class="tab active" data-view="cards">Cards</button>
   <button class="tab" data-view="gems">Gems</button>
+  <button class="tab" data-view="prompts">Prompts</button>
 </header>
 
 <main id="cards-view" class="active">
@@ -324,6 +373,60 @@
         </div>
         <div class="status" id="gem-detail-status"></div>
       </div>
+    </div>
+  </div>
+</main>
+
+<main id="prompts-view">
+  <div id="prompts-main">
+    <div class="row" id="generator-tabs">
+      <button class="generator-tab active" data-generator="portrait">Portrait</button>
+      <button class="generator-tab" data-generator="flavor">Flavor</button>
+      <button class="generator-tab" data-generator="gem">Gem</button>
+      <button class="generator-tab" data-generator="gem_field_fill">Gem Field-Fill</button>
+    </div>
+
+    <div class="panel">
+      <h2>System prompt <span class="badge" id="prompt-version-badge">v1</span></h2>
+      <textarea
+        id="prompt-text"
+        class="prompt-textarea"
+        placeholder="System prompt text. Type /name to include a skill — it resolves fresh every time this generator runs."
+      ></textarea>
+      <div class="row">
+        <button class="secondary" id="preview-prompt-btn">Preview Resolved</button>
+        <button id="save-prompt-btn" disabled>Save New Version</button>
+      </div>
+      <div class="status" id="prompt-save-status"></div>
+      <div>
+        <label>Resolved preview</label>
+        <pre class="resolved-preview" id="prompt-preview"></pre>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Version history</h2>
+      <div id="prompt-history-list"></div>
+    </div>
+  </div>
+
+  <div id="skills-panel">
+    <div class="panel">
+      <h2>Skills</h2>
+      <div id="skill-list"></div>
+      <button class="secondary small" id="new-skill-btn">+ New Skill</button>
+    </div>
+    <div class="panel">
+      <h2>Edit skill</h2>
+      <label>Name (used as /name)</label>
+      <input type="text" id="skill-name-input" placeholder="e.g. no-text">
+      <label>Text</label>
+      <textarea id="skill-text-input" placeholder="Text inserted wherever /name is used..."></textarea>
+      <div class="row">
+        <button class="secondary" id="delete-skill-btn" style="display:none">Delete</button>
+        <button id="save-skill-btn">Save Skill</button>
+      </div>
+      <div class="status" id="skill-status"></div>
     </div>
   </div>
 </main>

@@ -18,6 +18,8 @@ import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
 import { handleListGems, handleCreateGem, handleUpdateGemMask, handleApproveGem } from "./gem.js";
+import { listCurrentPrompts, listPromptVersions, createPromptVersion, GENERATORS } from "./prompts.js";
+import { resolveSkills, listSkills, createSkill, updateSkill, deleteSkill } from "./skills.js";
 import { noindex, jsonError, jsonOk } from "./http.js";
 
 const BASE = "/studio-c33f3ea406426b41";
@@ -284,6 +286,88 @@ async function handleGetBlob(env, hash) {
   return new Response(obj.body, { headers });
 }
 
+async function handleListPrompts(env) {
+  const prompts = await listCurrentPrompts(env.CARD_DB);
+  return jsonOk(prompts);
+}
+
+async function handleListPromptVersions(env, generator) {
+  if (!GENERATORS.includes(generator)) return jsonError(400, `Unknown generator "${generator}".`);
+  const versions = await listPromptVersions(env.CARD_DB, generator);
+  return jsonOk(versions);
+}
+
+async function handleCreatePromptVersion(request, env, generator) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError(400, "Invalid JSON body.");
+  }
+  try {
+    const created = await createPromptVersion(env.CARD_DB, generator, body.text);
+    return jsonOk(created);
+  } catch (err) {
+    return jsonError(400, err.message);
+  }
+}
+
+// Lets the studio preview what a piece of *unsaved* draft text resolves
+// to — the point of the live preview is checking a /name reference before
+// committing to a new prompt version, not just after.
+async function handleResolvePrompt(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError(400, "Invalid JSON body.");
+  }
+  const text = typeof body.text === "string" ? body.text : "";
+  const resolved = await resolveSkills(env.CARD_DB, text);
+  return jsonOk({ resolved });
+}
+
+async function handleListSkills(env) {
+  const skills = await listSkills(env.CARD_DB);
+  return jsonOk(skills);
+}
+
+async function handleCreateSkill(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError(400, "Invalid JSON body.");
+  }
+  try {
+    const skill = await createSkill(env.CARD_DB, { name: body.name, text: body.text });
+    return jsonOk(skill);
+  } catch (err) {
+    return jsonError(400, err.message);
+  }
+}
+
+async function handleUpdateSkill(request, env, id) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError(400, "Invalid JSON body.");
+  }
+  try {
+    const skill = await updateSkill(env.CARD_DB, id, { name: body.name, text: body.text });
+    if (!skill) return jsonError(404, "Skill not found.");
+    return jsonOk(skill);
+  } catch (err) {
+    return jsonError(400, err.message);
+  }
+}
+
+async function handleDeleteSkill(env, id) {
+  await deleteSkill(env.CARD_DB, id);
+  return jsonOk({ ok: true });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -382,6 +466,38 @@ export default {
 
     if (sub.startsWith("api/gems/") && request.method === "PATCH") {
       return handleUpdateGemMask(request, env, sub.slice("api/gems/".length));
+    }
+
+    if (sub === "api/prompts" && request.method === "GET") {
+      return handleListPrompts(env);
+    }
+
+    if (sub === "api/prompts/resolve" && request.method === "POST") {
+      return handleResolvePrompt(request, env);
+    }
+
+    if (sub.startsWith("api/prompts/") && sub.endsWith("/versions") && request.method === "GET") {
+      return handleListPromptVersions(env, sub.slice("api/prompts/".length, -"/versions".length));
+    }
+
+    if (sub.startsWith("api/prompts/") && request.method === "POST") {
+      return handleCreatePromptVersion(request, env, sub.slice("api/prompts/".length));
+    }
+
+    if (sub === "api/skills" && request.method === "GET") {
+      return handleListSkills(env);
+    }
+
+    if (sub === "api/skills" && request.method === "POST") {
+      return handleCreateSkill(request, env);
+    }
+
+    if (sub.startsWith("api/skills/") && request.method === "PATCH") {
+      return handleUpdateSkill(request, env, sub.slice("api/skills/".length));
+    }
+
+    if (sub.startsWith("api/skills/") && request.method === "DELETE") {
+      return handleDeleteSkill(env, sub.slice("api/skills/".length));
     }
 
     if (sub.startsWith("blob/") && request.method === "GET") {

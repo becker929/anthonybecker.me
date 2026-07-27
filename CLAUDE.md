@@ -81,7 +81,17 @@ go there — only the 404 rule keeps it back, and it is matched by prefix.
   committed, which left ~25 authoritative-looking claims nobody could
   verify — including one stale invariant that silently became wrong. State
   the constraint directly instead.
-- Prompt registries (`src/prompts.js`) are append-only: never edit an
-  existing `style_version`/`prompt_version` entry, add a new one and bump
-  the `CURRENT_*` constant. Old cards record which version produced them
-  and there is no bulk restyle.
+- System prompts (portrait/flavor/gem/gem_field_fill) live in D1 (table
+  `prompts`), editable from the studio's Prompts tab — `src/prompts.js` is
+  the D1-backed accessor, not the prompt text itself; it only seeds a
+  generator's very first version from its old hardcoded text, once. They
+  are still append-only: saving a prompt never edits a row, it inserts the
+  next version number for that generator. A card's stored
+  `style_version`/`prompt_version` always resolves to the exact text that
+  produced it — there is no bulk restyle.
+- Skills (table `skills`, `src/skills.js`) are a separate, deliberately
+  *unversioned* pool of named reusable prompt snippets, referenced by
+  `/name` from any prompt or per-card instruction/guidance text. Unlike
+  prompts, editing a skill changes every reference to it immediately —
+  `resolveSkills` expands `/name` fresh at generation time, never at save
+  time, and never caches the resolved text anywhere.
