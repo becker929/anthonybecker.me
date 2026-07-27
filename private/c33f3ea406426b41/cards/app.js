@@ -724,11 +724,261 @@ gemEls.approveBtn.addEventListener("click", async () => {
   }
 });
 
+// ---------- Slash-command autocomplete ----------
+// Attaches a lightweight /name autocomplete to any textarea: typing "/" plus
+// letters shows matching skill names in a dropdown anchored right below the
+// field; clicking one (or Enter/Tab) inserts "/name " at the cursor. Skills
+// are read from the module-level skillNames[], refreshed by refreshSkills()
+// below whenever the Skills panel changes something — this does not fetch
+// on its own.
+let skillNames = [];
+
+function attachSlashAutocomplete(textarea) {
+  const wrap = document.createElement("div");
+  wrap.className = "textarea-wrap";
+  textarea.parentElement.insertBefore(wrap, textarea);
+  wrap.appendChild(textarea);
+
+  const dropdown = document.createElement("div");
+  dropdown.className = "slash-autocomplete";
+  dropdown.style.display = "none";
+  wrap.appendChild(dropdown);
+
+  function currentToken() {
+    const pos = textarea.selectionStart;
+    const uptoCaret = textarea.value.slice(0, pos);
+    const match = uptoCaret.match(/(?:^|\s)\/([a-zA-Z0-9-]*)$/);
+    return match ? { partial: match[1], start: pos - match[1].length - 1 } : null;
+  }
+
+  function render() {
+    const token = currentToken();
+    const matches = token ? skillNames.filter((n) => n.startsWith(token.partial.toLowerCase())).slice(0, 8) : [];
+    if (matches.length === 0) {
+      dropdown.style.display = "none";
+      return;
+    }
+    dropdown.innerHTML = "";
+    matches.forEach((name) => {
+      const item = document.createElement("div");
+      item.className = "slash-item";
+      item.textContent = `/${name}`;
+      // mousedown (not click) fires before the textarea loses focus/selection.
+      item.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        const value = textarea.value;
+        const before = value.slice(0, token.start);
+        const after = value.slice(textarea.selectionStart);
+        const inserted = `/${name} `;
+        textarea.value = before + inserted + after;
+        const caret = before.length + inserted.length;
+        textarea.setSelectionRange(caret, caret);
+        dropdown.style.display = "none";
+        textarea.dispatchEvent(new Event("input", { bubbles: true }));
+        textarea.focus();
+      });
+      dropdown.appendChild(item);
+    });
+    dropdown.style.display = "block";
+  }
+
+  textarea.addEventListener("input", render);
+  textarea.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") dropdown.style.display = "none";
+  });
+  textarea.addEventListener("blur", () => {
+    // Delayed so a mousedown-select on a dropdown item still registers.
+    setTimeout(() => {
+      dropdown.style.display = "none";
+    }, 150);
+  });
+}
+
+// ---------- Prompts tab ----------
+const promptEls = {
+  generatorTabs: document.querySelectorAll(".generator-tab"),
+  versionBadge: document.getElementById("prompt-version-badge"),
+  text: document.getElementById("prompt-text"),
+  saveBtn: document.getElementById("save-prompt-btn"),
+  saveStatus: document.getElementById("prompt-save-status"),
+  previewBtn: document.getElementById("preview-prompt-btn"),
+  preview: document.getElementById("prompt-preview"),
+  historyList: document.getElementById("prompt-history-list"),
+};
+
+let currentGenerator = "portrait";
+let loadedPromptText = ""; // last-loaded/saved text, for the disable-Save-when-unchanged guard
+
+function updateSaveButtonState() {
+  promptEls.saveBtn.disabled = promptEls.text.value === loadedPromptText;
+}
+
+async function loadPromptHistory(generator) {
+  const versions = await apiFetch(`api/prompts/${generator}/versions`);
+  promptEls.historyList.innerHTML = "";
+  const current = versions[0]?.version;
+  for (const v of versions) {
+    const row = document.createElement("div");
+    row.className = "prompt-history-row" + (v.version === current ? " current" : "");
+    row.textContent = `v${v.version}${v.version === current ? " (current)" : ""} — ${v.created_at}`;
+    // Loads that version's text into the editor for viewing/copying — does
+    // NOT save. Saving only ever happens from the current text via Save,
+    // which always appends a new version rather than resurrecting an old one.
+    row.addEventListener("click", () => {
+      promptEls.text.value = v.text;
+      updateSaveButtonState();
+      promptEls.preview.textContent = "";
+    });
+    promptEls.historyList.appendChild(row);
+  }
+}
+
+async function loadPrompt(generator) {
+  currentGenerator = generator;
+  promptEls.generatorTabs.forEach((btn) => btn.classList.toggle("active", btn.dataset.generator === generator));
+  const prompts = await apiFetch("api/prompts");
+  const current = prompts.find((p) => p.generator === generator);
+  promptEls.versionBadge.textContent = `v${current.version}`;
+  promptEls.text.value = current.text;
+  loadedPromptText = current.text;
+  promptEls.preview.textContent = "";
+  setStatus(promptEls.saveStatus, "", "");
+  updateSaveButtonState();
+  await loadPromptHistory(generator);
+}
+
+promptEls.generatorTabs.forEach((btn) => {
+  btn.addEventListener("click", () => loadPrompt(btn.dataset.generator));
+});
+
+promptEls.text.addEventListener("input", updateSaveButtonState);
+
+promptEls.previewBtn.addEventListener("click", async () => {
+  const { resolved } = await apiFetch("api/prompts/resolve", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: promptEls.text.value }),
+  });
+  promptEls.preview.textContent = resolved;
+});
+
+promptEls.saveBtn.addEventListener("click", async () => {
+  setStatus(promptEls.saveStatus, "Saving…", "busy");
+  try {
+    const created = await apiFetch(`api/prompts/${currentGenerator}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: promptEls.text.value }),
+    });
+    loadedPromptText = created.text;
+    promptEls.versionBadge.textContent = `v${created.version}`;
+    updateSaveButtonState();
+    setStatus(promptEls.saveStatus, `Saved as v${created.version}.`, "ok");
+    await loadPromptHistory(currentGenerator);
+  } catch (err) {
+    setStatus(promptEls.saveStatus, err.message, "error");
+  }
+});
+
+// ---------- Skills panel ----------
+const skillEls = {
+  list: document.getElementById("skill-list"),
+  nameInput: document.getElementById("skill-name-input"),
+  textInput: document.getElementById("skill-text-input"),
+  saveBtn: document.getElementById("save-skill-btn"),
+  newBtn: document.getElementById("new-skill-btn"),
+  deleteBtn: document.getElementById("delete-skill-btn"),
+  status: document.getElementById("skill-status"),
+};
+
+let editingSkillId = null;
+
+// The one place skillNames[] (read by every attached autocomplete) gets
+// refreshed — called on boot and after any create/update/delete here.
+async function refreshSkills() {
+  const skills = await apiFetch("api/skills");
+  skillNames = skills.map((s) => s.name);
+
+  skillEls.list.innerHTML = "";
+  for (const s of skills) {
+    const row = document.createElement("div");
+    row.className = "skill-row" + (editingSkillId === s.id ? " selected" : "");
+    row.textContent = `/${s.name}`;
+    row.addEventListener("click", () => selectSkillForEdit(s));
+    skillEls.list.appendChild(row);
+  }
+  return skills;
+}
+
+function selectSkillForEdit(skill) {
+  editingSkillId = skill.id;
+  skillEls.nameInput.value = skill.name;
+  skillEls.textInput.value = skill.text;
+  skillEls.deleteBtn.style.display = "inline-block";
+  setStatus(skillEls.status, "", "");
+}
+
+skillEls.newBtn.addEventListener("click", () => {
+  editingSkillId = null;
+  skillEls.nameInput.value = "";
+  skillEls.textInput.value = "";
+  skillEls.deleteBtn.style.display = "none";
+  setStatus(skillEls.status, "", "");
+});
+
+skillEls.saveBtn.addEventListener("click", async () => {
+  const name = skillEls.nameInput.value.trim();
+  const text = skillEls.textInput.value;
+  if (!name) return setStatus(skillEls.status, "Name is required.", "error");
+  setStatus(skillEls.status, "Saving…", "busy");
+  try {
+    if (editingSkillId) {
+      await apiFetch(`api/skills/${editingSkillId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, text }),
+      });
+    } else {
+      const created = await apiFetch("api/skills", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, text }),
+      });
+      editingSkillId = created.id;
+      skillEls.deleteBtn.style.display = "inline-block";
+    }
+    setStatus(skillEls.status, "Saved.", "ok");
+    await refreshSkills();
+  } catch (err) {
+    setStatus(skillEls.status, err.message, "error");
+  }
+});
+
+skillEls.deleteBtn.addEventListener("click", async () => {
+  if (!editingSkillId) return;
+  const name = skillEls.nameInput.value.trim();
+  if (!confirm(`Delete skill "/${name}"? Any prompt referencing it will just show the literal "/${name}" once it's gone.`)) {
+    return;
+  }
+  await apiFetch(`api/skills/${editingSkillId}`, { method: "DELETE" });
+  editingSkillId = null;
+  skillEls.nameInput.value = "";
+  skillEls.textInput.value = "";
+  skillEls.deleteBtn.style.display = "none";
+  setStatus(skillEls.status, "Deleted.", "ok");
+  await refreshSkills();
+});
+
 // ---------- Boot ----------
 async function init() {
   template = await (await fetch("fixtures/template.json")).json();
   els.newCardBtn.disabled = false;
   await refreshCardList();
   await refreshGemList();
+  await refreshSkills();
+  await loadPrompt(currentGenerator);
+  attachSlashAutocomplete(els.portraitInstruction);
+  attachSlashAutocomplete(els.flavorGuidance);
+  attachSlashAutocomplete(promptEls.text);
 }
 init();

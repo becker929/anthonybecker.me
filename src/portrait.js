@@ -5,7 +5,8 @@
 // servers and can expire; once it does, only what we mirrored here still
 // exists.
 import { generatePortrait as defaultGeneratePortrait, GeminiThreadExpiredError } from "./gemini.js";
-import { portraitSystemPrompt, CURRENT_STYLE_VERSION } from "./prompts.js";
+import { portraitSystemPrompt, currentStyleVersion } from "./prompts.js";
+import { resolveSkills } from "./skills.js";
 import { putBlob, getBlobAsBase64 } from "./blobs.js";
 import { loadCard, saveCard, recordInteraction } from "./cards.js";
 import { jsonError, jsonOk } from "./http.js";
@@ -30,7 +31,7 @@ export async function handlePortrait(request, env, deps = {}) {
     typeof body.previous_interaction_id === "string" ? body.previous_interaction_id : null;
   const referenceAsset = typeof body.reference_asset === "string" ? body.reference_asset : null;
   const styleVersion =
-    typeof body.style_version === "number" ? body.style_version : CURRENT_STYLE_VERSION;
+    typeof body.style_version === "number" ? body.style_version : await currentStyleVersion(env.CARD_DB);
   const resolution = body.resolution === "2K" ? "2K" : "1K";
 
   if (!cardId) return jsonError(400, "card_id is required.");
@@ -46,7 +47,7 @@ export async function handlePortrait(request, env, deps = {}) {
 
   let systemInstruction;
   try {
-    systemInstruction = portraitSystemPrompt(styleVersion);
+    systemInstruction = await portraitSystemPrompt(env.CARD_DB, styleVersion);
   } catch (err) {
     return jsonError(400, err.message);
   }
@@ -57,10 +58,15 @@ export async function handlePortrait(request, env, deps = {}) {
     if (!referenceImage) return jsonError(400, "reference_asset not found.");
   }
 
+  // The model sees /name expanded; the card's lineage and user_prompt keep
+  // the raw text the operator actually typed, same as any other authored
+  // provenance field in this app.
+  const resolvedInstruction = await resolveSkills(env.CARD_DB, instruction);
+
   let result;
   try {
     result = await generatePortrait(env, {
-      instruction,
+      instruction: resolvedInstruction,
       systemInstruction,
       previousInteractionId,
       referenceImage,

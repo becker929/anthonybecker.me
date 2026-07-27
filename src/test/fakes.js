@@ -7,6 +7,8 @@ export class FakeD1 {
     this.cards = new Map(); // id -> { id, schema_version, json, updated_at }
     this.interactions = [];
     this.gems = new Map(); // id -> row shape matching the gems table columns
+    this.prompts = new Map(); // id -> { id, generator, version, text, created_at }
+    this.skills = new Map(); // id -> { id, name, text, updated_at }
   }
 
   prepare(sql) {
@@ -49,6 +51,19 @@ export class FakeD1 {
       const [id] = args;
       const row = this.gems.get(id);
       if (row) row.approved = 1;
+    } else if (sql.includes("INSERT INTO prompts")) {
+      const [id, generator, version, text, created_at] = args;
+      this.prompts.set(id, { id, generator, version, text, created_at });
+    } else if (sql.includes("INSERT INTO skills")) {
+      const [id, name, text, updated_at] = args;
+      this.skills.set(id, { id, name, text, updated_at });
+    } else if (sql.includes("UPDATE skills SET")) {
+      const [name, text, updated_at, id] = args;
+      const row = this.skills.get(id);
+      if (row) Object.assign(row, { name, text, updated_at });
+    } else if (sql.includes("DELETE FROM skills")) {
+      const [id] = args;
+      this.skills.delete(id);
     } else {
       throw new Error(`FakeD1: unhandled run() for: ${sql}`);
     }
@@ -62,10 +77,28 @@ export class FakeD1 {
     if (sql.includes("SELECT * FROM gems WHERE id")) {
       return this.gems.get(args[0]) || null;
     }
+    if (sql.includes("SELECT COUNT(*) as count FROM prompts WHERE generator")) {
+      const count = [...this.prompts.values()].filter((r) => r.generator === args[0]).length;
+      return { count };
+    }
+    if (sql.includes("FROM prompts WHERE generator = ? AND version = ?")) {
+      const [generator, version] = args;
+      return [...this.prompts.values()].find((r) => r.generator === generator && r.version === version) || null;
+    }
+    if (sql.includes("FROM prompts WHERE generator = ? ORDER BY version DESC")) {
+      const rows = [...this.prompts.values()].filter((r) => r.generator === args[0]).sort((a, b) => b.version - a.version);
+      return rows[0] || null;
+    }
+    if (sql.includes("FROM skills WHERE id = ?")) {
+      return this.skills.get(args[0]) || null;
+    }
+    if (sql.includes("FROM skills WHERE name = ?")) {
+      return [...this.skills.values()].find((r) => r.name === args[0]) || null;
+    }
     throw new Error(`FakeD1: unhandled first() for: ${sql}`);
   }
 
-  _all(sql) {
+  _all(sql, args) {
     if (sql.includes("SELECT id, json, updated_at FROM cards")) {
       const results = [...this.cards.values()]
         .sort((a, b) => (a.updated_at < b.updated_at ? 1 : -1))
@@ -76,6 +109,14 @@ export class FakeD1 {
       let rows = [...this.gems.values()];
       if (sql.includes("WHERE approved = 1")) rows = rows.filter((r) => r.approved === 1);
       rows = rows.sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
+      return { results: rows };
+    }
+    if (sql.includes("FROM prompts WHERE generator = ? ORDER BY version DESC")) {
+      const rows = [...this.prompts.values()].filter((r) => r.generator === args[0]).sort((a, b) => b.version - a.version);
+      return { results: rows };
+    }
+    if (sql.includes("FROM skills")) {
+      const rows = [...this.skills.values()].sort((a, b) => (a.name < b.name ? -1 : 1));
       return { results: rows };
     }
     throw new Error(`FakeD1: unhandled all() for: ${sql}`);

@@ -4,7 +4,8 @@
 // validate the returned length, retry once (threaded so the model knows
 // what it wrote and can shorten it), then truncate at a word boundary.
 import { generateText as defaultGenerateText } from "./gemini.js";
-import { flavorSystemPrompt, CURRENT_FLAVOR_PROMPT_VERSION } from "./prompts.js";
+import { flavorSystemPrompt, currentFlavorPromptVersion } from "./prompts.js";
+import { resolveSkills } from "./skills.js";
 import { loadCard, saveCard } from "./cards.js";
 import { truncateAtWordBoundary } from "./text-limit.js";
 import { jsonError, jsonOk } from "./http.js";
@@ -33,7 +34,7 @@ export async function handleFlavor(request, env, deps = {}) {
   const cardId = typeof body.card_id === "string" ? body.card_id : "";
   const guidance = typeof body.guidance === "string" ? body.guidance.trim() : "";
   const promptVersion =
-    typeof body.prompt_version === "number" ? body.prompt_version : CURRENT_FLAVOR_PROMPT_VERSION;
+    typeof body.prompt_version === "number" ? body.prompt_version : await currentFlavorPromptVersion(env.CARD_DB);
   const maxChars =
     Number.isInteger(body.max_chars) && body.max_chars > 0 ? body.max_chars : DEFAULT_MAX_CHARS;
 
@@ -46,15 +47,15 @@ export async function handleFlavor(request, env, deps = {}) {
 
   let systemInstruction;
   try {
-    systemInstruction = flavorSystemPrompt(promptVersion);
+    systemInstruction = await flavorSystemPrompt(env.CARD_DB, promptVersion);
   } catch (err) {
     return jsonError(400, err.message);
   }
 
   const input = buildFlavorInput({
     title: card.title,
-    theme: card.portrait?.user_prompt,
-    guidance,
+    theme: await resolveSkills(env.CARD_DB, card.portrait?.user_prompt),
+    guidance: await resolveSkills(env.CARD_DB, guidance),
     maxChars,
   });
 
