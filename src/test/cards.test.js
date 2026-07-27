@@ -1,6 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { listBattleReadyCards, publishCard, saveCard, loadCard, isPublishedImageHash } from "../cards.js";
+import {
+  listBattleReadyCards,
+  publishCard,
+  saveCard,
+  loadCard,
+  isPublishedImageHash,
+  listCards,
+  archiveCard,
+  unarchiveCard,
+} from "../cards.js";
 import { FakeD1 } from "./fakes.js";
 
 const VALID_HASH = "a".repeat(64);
@@ -8,7 +17,7 @@ const OTHER_HASH = "b".repeat(64);
 
 function seedCard(db, overrides = {}) {
   const card = {
-    schema_version: 2,
+    schema_version: 3,
     id: "card_1",
     title: "Ashfall Herald",
     portrait: null,
@@ -19,6 +28,7 @@ function seedCard(db, overrides = {}) {
     rarity: "common",
     battle_ready: false,
     battler_image: null,
+    archived: false,
     ...overrides,
   };
   db.cards.set(card.id, {
@@ -121,6 +131,24 @@ test("listBattleReadyCards returns only published cards, projected to id/name/po
   assert.deepEqual(pool[0], { id: "card_1", name: "Ashfall Herald", power: 7, rarity: "legendary", imageHash: VALID_HASH });
 });
 
+test("listBattleReadyCards excludes a battle_ready card left over from before the image requirement", async () => {
+  // Simulates a card published while battle_ready only required power+rarity,
+  // before publishCard started requiring an image too. The flag is stale
+  // relative to today's rules and must not surface an image-less card.
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", title: "Cherry Bomb", power: 26, rarity: "uncommon", battle_ready: true, battler_image: null });
+
+  const pool = await listBattleReadyCards(db);
+  assert.equal(pool.length, 0);
+});
+
+test("isPublishedImageHash rejects a stale battle_ready card missing valid stats", async () => {
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", power: null, rarity: "common", battle_ready: true, battler_image: VALID_HASH });
+
+  assert.equal(await isPublishedImageHash(db, VALID_HASH), false);
+});
+
 test("listBattleReadyCards migrates older stored cards before filtering", async () => {
   const db = new FakeD1();
   const v1 = { schema_version: 1, id: "card_old", title: "Pre-battler Card" };
@@ -191,4 +219,89 @@ test("isPublishedImageHash goes false once a card is republished with a differen
 
   assert.equal(await isPublishedImageHash(db, VALID_HASH), false);
   assert.equal(await isPublishedImageHash(db, OTHER_HASH), true);
+});
+
+test("archiveCard pulls a published card out of the pool immediately", async () => {
+  const db = new FakeD1();
+  seedCard(db, { power: 5, rarity: "rare" });
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
+
+  const result = await archiveCard(db, "card_1");
+  assert.equal(result.card.archived, true);
+  assert.equal(result.card.battle_ready, false);
+
+  const pool = await listBattleReadyCards(db);
+  assert.equal(pool.length, 0);
+});
+
+test("archiveCard rejects an unknown card id", async () => {
+  const db = new FakeD1();
+  const result = await archiveCard(db, "nope");
+  assert.equal(result.notFound, true);
+});
+
+test("unarchiveCard clears archived but does not restore battle_ready on its own", async () => {
+  const db = new FakeD1();
+  seedCard(db, { power: 5, rarity: "rare" });
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
+  await archiveCard(db, "card_1");
+
+  const result = await unarchiveCard(db, "card_1");
+  assert.equal(result.card.archived, false);
+  assert.equal(result.card.battle_ready, false); // requires a deliberate re-publish
+
+  const pool = await listBattleReadyCards(db);
+  assert.equal(pool.length, 0);
+
+  await publishCard(db, "card_1", {});
+  assert.equal((await listBattleReadyCards(db)).length, 1);
+});
+
+test("publishCard rejects an archived card", async () => {
+  const db = new FakeD1();
+  seedCard(db, { power: 5, rarity: "rare" });
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
+  await archiveCard(db, "card_1");
+
+  const result = await publishCard(db, "card_1", { imageHash: VALID_HASH });
+  assert.match(result.error, /archived/i);
+});
+
+test("saveCard cannot smuggle battle_ready back onto an archived card", async () => {
+  const db = new FakeD1();
+  seedCard(db, { power: 5, rarity: "rare" });
+  await publishCard(db, "card_1", { imageHash: VALID_HASH });
+  await archiveCard(db, "card_1");
+
+  const edited = { ...(await loadCard(db, "card_1")), battle_ready: true };
+  const saved = await saveCard(db, "card_1", edited);
+  assert.equal(saved.battle_ready, false);
+});
+
+test("listCards excludes archived cards by default and archivedOnly shows just them", async () => {
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", title: "Active Card" });
+  seedCard(db, { id: "card_2", title: "Archived Card", archived: true });
+
+  const active = await listCards(db);
+  assert.deepEqual(active.map((c) => c.id), ["card_1"]);
+
+  const archived = await listCards(db, { archivedOnly: true });
+  assert.deepEqual(archived.map((c) => c.id), ["card_2"]);
+});
+
+test("listCards projects power/rarity/battle_ready/archived for the sidebar's at-a-glance status", async () => {
+  const db = new FakeD1();
+  seedCard(db, { id: "card_1", title: "Ashfall Herald", power: 7, rarity: "legendary", battle_ready: true, battler_image: VALID_HASH });
+
+  const [row] = await listCards(db);
+  assert.deepEqual(row, {
+    id: "card_1",
+    title: "Ashfall Herald",
+    updated_at: "2026-01-01T00:00:00.000Z",
+    power: 7,
+    rarity: "legendary",
+    battle_ready: true,
+    archived: false,
+  });
 });

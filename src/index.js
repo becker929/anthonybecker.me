@@ -4,7 +4,16 @@
 // PRIVATE_DIR are always rejected — the only way assets from there get
 // served is the internal env.ASSETS.fetch() call below, which never goes
 // back through this fetch() handler.
-import { listCards, loadCard, saveCard, publishCard, listBattleReadyCards, isPublishedImageHash } from "./cards.js";
+import {
+  listCards,
+  loadCard,
+  saveCard,
+  publishCard,
+  archiveCard,
+  unarchiveCard,
+  listBattleReadyCards,
+  isPublishedImageHash,
+} from "./cards.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
@@ -167,9 +176,23 @@ async function handleGenerate(request, env) {
   );
 }
 
-async function handleListCards(env) {
-  const cards = await listCards(env.CARD_DB);
+async function handleListCards(request, env) {
+  const url = new URL(request.url);
+  const archivedOnly = url.searchParams.get("archived") === "1";
+  const cards = await listCards(env.CARD_DB, { archivedOnly });
   return jsonOk(cards);
+}
+
+async function handleArchiveCard(env, id) {
+  const result = await archiveCard(env.CARD_DB, id);
+  if (result.notFound) return jsonError(404, "Card not found.");
+  return jsonOk(result.card);
+}
+
+async function handleUnarchiveCard(env, id) {
+  const result = await unarchiveCard(env.CARD_DB, id);
+  if (result.notFound) return jsonError(404, "Card not found.");
+  return jsonOk(result.card);
 }
 
 async function handleLoadCard(env, id) {
@@ -310,7 +333,7 @@ export default {
     }
 
     if (sub === "api/cards" && request.method === "GET") {
-      return handleListCards(env);
+      return handleListCards(request, env);
     }
 
     if (sub.startsWith("api/cards/") && request.method === "GET") {
@@ -323,6 +346,14 @@ export default {
 
     if (sub.startsWith("api/cards/") && sub.endsWith("/publish") && request.method === "POST") {
       return handlePublishCard(request, env, sub.slice("api/cards/".length, -"/publish".length));
+    }
+
+    if (sub.startsWith("api/cards/") && sub.endsWith("/archive") && request.method === "POST") {
+      return handleArchiveCard(env, sub.slice("api/cards/".length, -"/archive".length));
+    }
+
+    if (sub.startsWith("api/cards/") && sub.endsWith("/unarchive") && request.method === "POST") {
+      return handleUnarchiveCard(env, sub.slice("api/cards/".length, -"/unarchive".length));
     }
 
     if (sub === "api/blobs" && request.method === "POST") {

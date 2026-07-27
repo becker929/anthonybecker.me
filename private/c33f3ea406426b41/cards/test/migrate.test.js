@@ -52,5 +52,24 @@ test("migrateCard: a v1 card gets battler defaults (unpublished, no power, commo
   assert.equal(result.power, null);
   assert.equal(result.rarity, "common");
   assert.equal(result.battle_ready, false);
+  assert.equal(result.archived, false);
   assert.ok(RARITIES.includes(result.rarity));
+});
+
+test("migrateCard: a v2 card (already live in production before archiving existed) gets archived: false", () => {
+  const v2 = {
+    schema_version: 2,
+    id: "card_x",
+    title: "Test",
+    power: 5,
+    rarity: "rare",
+    battle_ready: true,
+    battler_image: "a".repeat(64),
+  };
+  const result = migrateCard(v2);
+  assert.equal(result.schema_version, CURRENT_SCHEMA_VERSION);
+  assert.equal(result.archived, false);
+  // Migrating forward must not disturb fields the v2->v3 step doesn't own.
+  assert.equal(result.battle_ready, true);
+  assert.equal(result.power, 5);
 });

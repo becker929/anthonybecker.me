@@ -4,7 +4,7 @@
 // separate so the dispatch mechanism is unit-testable without a real
 // multi-version history to exercise it against.
 
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 3;
 
 // Valid rarity tags. Order is significant elsewhere (deck-weighting in the
 // battler demo) — rarer tiers come last.
@@ -26,6 +26,17 @@ const MIGRATIONS = {
     rarity: "common",
     battle_ready: false,
     battler_image: null,
+  }),
+  // v2 cards predate archiving. `archived` defaults false so nothing already
+  // published silently disappears from the pool the moment this migration
+  // runs. Unlike the v1->v2 step, v2 shipped to production before this was
+  // written, so this is a genuine new step rather than an amendment to it —
+  // real cards exist at schema_version 2 and must migrate forward, not be
+  // rewritten in place.
+  2: (card) => ({
+    ...card,
+    schema_version: 3,
+    archived: false,
   }),
 };
 

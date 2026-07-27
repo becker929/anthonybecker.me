@@ -59,6 +59,17 @@
     color: #bbb;
     cursor: pointer;
   }
+  #sidebar button.toggle-archived {
+    width: 100%;
+    padding: .35rem;
+    margin-bottom: .5rem;
+    border-radius: 6px;
+    border: 1px solid #3a3a3a;
+    background: none;
+    color: #999;
+    font-size: .75rem;
+    cursor: pointer;
+  }
   .card-row {
     padding: .5rem;
     border-radius: 6px;
@@ -69,6 +80,19 @@
   .card-row.selected { background: #24314f; }
   .card-row .t { color: #eee; }
   .card-row .d { color: #777; font-size: .75rem; }
+  .card-row .meta { display: flex; gap: .3rem; flex-wrap: wrap; margin: .25rem 0; }
+  .rarity-chip {
+    font-size: .68rem;
+    padding: .05rem .35rem;
+    border-radius: 4px;
+    text-transform: capitalize;
+    background: #333;
+    color: #bbb;
+  }
+  .rarity-chip.rarity-uncommon { background: #1f4a42; color: #7cd9c4; }
+  .rarity-chip.rarity-rare { background: #1c3a5c; color: #8ec4f5; }
+  .rarity-chip.rarity-legendary { background: #5c4a1c; color: #f5d98e; }
+  .power-chip { font-size: .68rem; padding: .05rem .35rem; border-radius: 4px; background: #222; color: #999; }
 
   #editor {
     flex: 1;
@@ -174,6 +198,7 @@
 <main id="cards-view" class="active">
   <div id="sidebar">
     <button class="new" id="new-card-btn" disabled>+ New Card</button>
+    <button class="toggle-archived" id="toggle-archived-btn">Show archived</button>
     <div id="card-list"></div>
   </div>
   <div id="editor" style="display:none">
@@ -231,6 +256,12 @@
         </select>
         <button class="secondary" id="publish-card-btn">Publish to Battler</button>
         <div class="status" id="publish-status"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Card lifecycle <span class="badge" id="archived-badge" style="display:none">archived</span></h2>
+        <button class="secondary" id="archive-card-btn">Archive</button>
+        <div class="status" id="archive-status"></div>
       </div>
 
       <button id="save-card-btn">Save Card</button>
