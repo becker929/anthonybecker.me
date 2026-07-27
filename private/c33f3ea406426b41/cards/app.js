@@ -60,26 +60,47 @@ function setStatus(el, text, kind) {
   el.className = "status" + (kind ? ` ${kind}` : "");
 }
 
-// ---------- Tabs ----------
-document.querySelectorAll(".tab").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach((b) => b.classList.remove("active"));
-    document.querySelectorAll("main").forEach((m) => m.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById(`${btn.dataset.view}-view`).classList.add("active");
-  });
-});
-
 // ---------- Shared state ----------
 let template = null;
 let currentCard = null;
 let gems = [];
 let flavorEditedByHand = false;
+let showingArchived = false;
+
+// Tracks typing since the last load/save/create — not a deep diff against
+// the server copy, just "has anything been typed that hasn't round-tripped
+// yet." Coarse but cheap, and it's the same three navigation actions
+// (selecting another card, New Card, going back to the list) that would
+// otherwise silently drop that typing with no warning at all.
+let formDirty = false;
+function markDirty() {
+  formDirty = true;
+}
+function confirmDiscardIfDirty() {
+  return !formDirty || confirm("You have unsaved changes on this card. Discard them?");
+}
+
+// ---------- Tabs ----------
+document.querySelectorAll(".tab").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    if (btn.dataset.view === "cards" && els.editor.style.display !== "none" && !confirmDiscardIfDirty()) {
+      return;
+    }
+    document.querySelectorAll(".tab").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll("main").forEach((m) => m.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(`${btn.dataset.view}-view`).classList.add("active");
+    // The Cards tab always lands on the list, never on whatever card editor
+    // happened to be open — going back to it is a deliberate re-select.
+    if (btn.dataset.view === "cards") await showCardList();
+  });
+});
 
 const els = {
   cardList: document.getElementById("card-list"),
   editor: document.getElementById("editor"),
   newCardBtn: document.getElementById("new-card-btn"),
+  toggleArchivedBtn: document.getElementById("toggle-archived-btn"),
   title: document.getElementById("title-input"),
   portraitInstruction: document.getElementById("portrait-instruction"),
   portraitResolution: document.getElementById("portrait-resolution"),
@@ -98,6 +119,9 @@ const els = {
   battleReadyBadge: document.getElementById("battle-ready-badge"),
   publishCardBtn: document.getElementById("publish-card-btn"),
   publishStatus: document.getElementById("publish-status"),
+  archiveCardBtn: document.getElementById("archive-card-btn"),
+  archivedBadge: document.getElementById("archived-badge"),
+  archiveStatus: document.getElementById("archive-status"),
   saveCardBtn: document.getElementById("save-card-btn"),
   saveStatus: document.getElementById("save-status"),
   canvas: document.getElementById("preview-canvas"),
@@ -105,7 +129,7 @@ const els = {
 
 // ---------- Card list ----------
 async function refreshCardList() {
-  const cards = await apiFetch("api/cards");
+  const cards = await apiFetch(`api/cards${showingArchived ? "?archived=1" : ""}`);
   els.cardList.innerHTML = "";
   for (const c of cards) {
     const row = document.createElement("div");
@@ -113,18 +137,55 @@ async function refreshCardList() {
     const t = document.createElement("div");
     t.className = "t";
     t.textContent = c.title || "(untitled)";
+
+    // At-a-glance status, so scanning a growing list doesn't mean opening
+    // every card to check whether it's published or what rarity it is.
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    const rarityChip = document.createElement("span");
+    rarityChip.className = `rarity-chip rarity-${c.rarity || "common"}`;
+    rarityChip.textContent = c.rarity || "common";
+    const powerChip = document.createElement("span");
+    powerChip.className = "power-chip";
+    powerChip.textContent = typeof c.power === "number" ? `PWR ${c.power}` : "no power";
+    const statusBadge = document.createElement("span");
+    statusBadge.className = "badge" + (c.battle_ready ? " ready" : "");
+    statusBadge.textContent = c.battle_ready ? "published" : "unpublished";
+    meta.append(rarityChip, powerChip, statusBadge);
+
     const d = document.createElement("div");
     d.className = "d";
     d.textContent = c.updated_at || "";
-    row.append(t, d);
-    row.addEventListener("click", () => selectCard(c.id));
+    row.append(t, meta, d);
+    row.addEventListener("click", () => {
+      if (!confirmDiscardIfDirty()) return;
+      selectCard(c.id);
+    });
     els.cardList.appendChild(row);
   }
 }
 
+async function showCardList() {
+  currentCard = null;
+  formDirty = false;
+  els.editor.style.display = "none";
+  await refreshCardList();
+}
+
+els.toggleArchivedBtn.addEventListener("click", async () => {
+  if (!confirmDiscardIfDirty()) return;
+  showingArchived = !showingArchived;
+  els.toggleArchivedBtn.textContent = showingArchived ? "Show active" : "Show archived";
+  currentCard = null;
+  formDirty = false;
+  els.editor.style.display = "none";
+  await refreshCardList();
+});
+
 async function selectCard(id) {
   currentCard = migrateCard(await apiFetch(`api/cards/${id}`));
   flavorEditedByHand = false;
+  formDirty = false;
   portraitRestartFromAsset = null;
   els.editor.style.display = "flex";
   renderForm();
@@ -133,6 +194,7 @@ async function selectCard(id) {
 }
 
 els.newCardBtn.addEventListener("click", async () => {
+  if (!confirmDiscardIfDirty()) return;
   const id = `card_${crypto.randomUUID()}`;
   const shell = {
     schema_version: CURRENT_SCHEMA_VERSION,
@@ -147,6 +209,7 @@ els.newCardBtn.addEventListener("click", async () => {
     rarity: "common",
     battle_ready: false,
     battler_image: null,
+    archived: false,
   };
   currentCard = await apiFetch(`api/cards/${id}`, {
     method: "PUT",
@@ -154,6 +217,7 @@ els.newCardBtn.addEventListener("click", async () => {
     body: JSON.stringify(shell),
   });
   flavorEditedByHand = false;
+  formDirty = false;
   portraitRestartFromAsset = null;
   els.editor.style.display = "flex";
   renderForm();
@@ -172,10 +236,12 @@ function renderForm() {
   els.powerInput.value = currentCard.power ?? "";
   els.raritySelect.value = currentCard.rarity || "common";
   renderBattleReadyBadge();
+  renderArchiveState();
   setStatus(els.portraitStatus, "", "");
   setStatus(els.flavorStatus, "", "");
   setStatus(els.saveStatus, "", "");
   setStatus(els.publishStatus, "", "");
+  setStatus(els.archiveStatus, "", "");
 }
 
 function renderBattleReadyBadge() {
@@ -183,8 +249,14 @@ function renderBattleReadyBadge() {
   els.battleReadyBadge.classList.toggle("ready", !!currentCard.battle_ready);
 }
 
+function renderArchiveState() {
+  els.archiveCardBtn.textContent = currentCard.archived ? "Unarchive" : "Archive";
+  els.archivedBadge.style.display = currentCard.archived ? "inline-block" : "none";
+}
+
 els.title.addEventListener("input", () => {
   currentCard.title = els.title.value;
+  markDirty();
 });
 
 function renderStatsList() {
@@ -207,14 +279,17 @@ function renderStatsList() {
     row.append(labelInput, valueInput, removeBtn);
     labelInput.addEventListener("input", () => {
       currentCard.stats[i].label = labelInput.value;
+      markDirty();
       renderPreview();
     });
     valueInput.addEventListener("input", () => {
       currentCard.stats[i].value = valueInput.value;
+      markDirty();
       renderPreview();
     });
     removeBtn.addEventListener("click", () => {
       currentCard.stats.splice(i, 1);
+      markDirty();
       renderStatsList();
       renderPreview();
     });
@@ -224,23 +299,27 @@ function renderStatsList() {
 
 els.addStatBtn.addEventListener("click", () => {
   currentCard.stats.push({ label: "", value: "" });
+  markDirty();
   renderStatsList();
   renderPreview();
 });
 
 els.gemSelect.addEventListener("change", () => {
   currentCard.gem = els.gemSelect.value || null;
+  markDirty();
   renderPreview();
 });
 
 els.powerInput.addEventListener("input", () => {
   const value = els.powerInput.value.trim();
   currentCard.power = value === "" ? null : Number(value);
+  markDirty();
   renderPreview();
 });
 
 els.raritySelect.addEventListener("change", () => {
   currentCard.rarity = els.raritySelect.value;
+  markDirty();
   renderPreview();
 });
 
@@ -274,7 +353,36 @@ els.publishCardBtn.addEventListener("click", async () => {
 
 els.flavorText.addEventListener("input", () => {
   flavorEditedByHand = true;
+  markDirty();
   renderPreview();
+});
+
+// ---------- Archive ----------
+els.archiveCardBtn.addEventListener("click", async () => {
+  const archiving = !currentCard.archived;
+  if (archiving) {
+    const confirmMsg =
+      `Archive "${currentCard.title || "(untitled)"}"? It leaves the battler pool and the main card list` +
+      (formDirty ? " (any unsaved edits here will be discarded)" : "") +
+      ". You can unarchive it later.";
+    if (!confirm(confirmMsg)) return;
+  }
+  els.archiveCardBtn.disabled = true;
+  setStatus(els.archiveStatus, archiving ? "Archiving…" : "Unarchiving…", "busy");
+  try {
+    currentCard = migrateCard(
+      await apiFetch(`api/cards/${currentCard.id}/${archiving ? "archive" : "unarchive"}`, { method: "POST" }),
+    );
+    formDirty = false;
+    renderBattleReadyBadge();
+    renderArchiveState();
+    setStatus(els.archiveStatus, archiving ? "Archived." : "Unarchived.", "ok");
+    await refreshCardList();
+  } catch (err) {
+    setStatus(els.archiveStatus, err.message, "error");
+  } finally {
+    els.archiveCardBtn.disabled = false;
+  }
 });
 
 // ---------- Portrait generation ----------
@@ -368,6 +476,7 @@ async function saveCurrentCard() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(currentCard),
   });
+  formDirty = false;
   return currentCard;
 }
 

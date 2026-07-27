@@ -6,14 +6,28 @@
 import { migrateCard, CURRENT_SCHEMA_VERSION, RARITIES } from "../private/c33f3ea406426b41/cards/migrate.js";
 import { isValidHash } from "./blobs.js";
 
-export async function listCards(db) {
+// The studio's own sidebar list. Archived cards are excluded by default —
+// that's the whole point of archiving, to stop taking up space here — but
+// archivedOnly flips it to show *only* archived cards, for the one place
+// that needs to see them again: unarchiving. Enriched with power/rarity/
+// battle_ready/archived (not just title) so the sidebar can show status at
+// a glance without opening every card.
+export async function listCards(db, { archivedOnly = false } = {}) {
   const { results } = await db
     .prepare("SELECT id, json, updated_at FROM cards ORDER BY updated_at DESC")
     .all();
-  return results.map((row) => {
-    const card = JSON.parse(row.json);
-    return { id: row.id, title: card.title, updated_at: row.updated_at };
-  });
+  return results
+    .map((row) => ({ updated_at: row.updated_at, card: migrateCard(JSON.parse(row.json)) }))
+    .filter(({ card }) => (archivedOnly ? card.archived === true : !card.archived))
+    .map(({ updated_at, card }) => ({
+      id: card.id,
+      title: card.title,
+      updated_at,
+      power: card.power,
+      rarity: card.rarity,
+      battle_ready: card.battle_ready,
+      archived: card.archived,
+    }));
 }
 
 // Shared by every read that decides what's actually in the public pool.
@@ -72,6 +86,7 @@ export async function loadCard(db, id) {
 // publishCard flips it.
 function hasValidBattleStats(card) {
   return (
+    !card.archived &&
     typeof card.power === "number" &&
     Number.isFinite(card.power) &&
     card.power > 0 &&
@@ -127,6 +142,9 @@ export async function saveCard(db, id, card) {
 export async function publishCard(db, id, { imageHash } = {}) {
   const card = await loadCard(db, id);
   if (!card) return { notFound: true };
+  if (card.archived) {
+    return { error: "Card is archived — unarchive it before publishing." };
+  }
   if (typeof card.power !== "number" || !Number.isFinite(card.power) || card.power <= 0) {
     return { error: "Card needs a positive numeric power stat before it can be published." };
   }
@@ -138,6 +156,26 @@ export async function publishCard(db, id, { imageHash } = {}) {
     return { error: "A rendered card image is required to publish — re-render the preview and try again." };
   }
   const saved = await saveCard(db, id, { ...card, battler_image, battle_ready: true });
+  return { card: saved };
+}
+
+// Archiving pulls a card out of the pool immediately (battle_ready: false,
+// set explicitly rather than left to hasValidBattleStats to catch) and out
+// of the studio's default card list (see listCards' archivedOnly filter).
+// It's the soft kind: unarchiveCard reverses the flag, but never restores
+// battle_ready on its own — getting back into the public pool is always a
+// deliberate re-publish, the same as any other battle_ready transition.
+export async function archiveCard(db, id) {
+  const card = await loadCard(db, id);
+  if (!card) return { notFound: true };
+  const saved = await saveCard(db, id, { ...card, archived: true, battle_ready: false });
+  return { card: saved };
+}
+
+export async function unarchiveCard(db, id) {
+  const card = await loadCard(db, id);
+  if (!card) return { notFound: true };
+  const saved = await saveCard(db, id, { ...card, archived: false });
   return { card: saved };
 }
 
