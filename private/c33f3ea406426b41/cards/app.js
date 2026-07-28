@@ -106,11 +106,13 @@ const els = {
   portraitResolution: document.getElementById("portrait-resolution"),
   generatePortraitBtn: document.getElementById("generate-portrait-btn"),
   portraitStatus: document.getElementById("portrait-status"),
+  portraitProvenance: document.getElementById("portrait-provenance"),
   flavorGuidance: document.getElementById("flavor-guidance"),
   flavorMaxChars: document.getElementById("flavor-max-chars"),
   generateFlavorBtn: document.getElementById("generate-flavor-btn"),
   flavorText: document.getElementById("flavor-text"),
   flavorStatus: document.getElementById("flavor-status"),
+  flavorProvenance: document.getElementById("flavor-provenance"),
   gemSelect: document.getElementById("gem-select"),
   statsList: document.getElementById("stats-list"),
   addStatBtn: document.getElementById("add-stat-btn"),
@@ -237,11 +239,31 @@ function renderForm() {
   els.raritySelect.value = currentCard.rarity || "common";
   renderBattleReadyBadge();
   renderArchiveState();
+  renderProvenance();
   setStatus(els.portraitStatus, "", "");
   setStatus(els.flavorStatus, "", "");
   setStatus(els.saveStatus, "", "");
   setStatus(els.publishStatus, "", "");
   setStatus(els.archiveStatus, "", "");
+}
+
+// Which prompt version actually produced this card's art and flavor. Cards
+// have always recorded it; this just surfaces it. Read-only on purpose:
+// generation always uses the current prompt, and an old version is
+// reachable from the Prompts tab's history rather than re-run from here.
+function renderProvenance() {
+  const styleVersion = currentCard.portrait?.style_version;
+  els.portraitProvenance.textContent = styleVersion
+    ? `Generated with portrait prompt v${styleVersion}.`
+    : "";
+
+  const flavor = currentCard.flavor;
+  els.flavorProvenance.textContent =
+    flavor?.source === "generated" && flavor.prompt_version
+      ? `Generated with flavor prompt v${flavor.prompt_version}.`
+      : flavor?.source === "hand-written"
+        ? "Hand-written."
+        : "";
 }
 
 function renderBattleReadyBadge() {
@@ -420,6 +442,7 @@ els.generatePortraitBtn.addEventListener("click", async () => {
     const updated = migrateCard(result.card);
     currentCard.portrait = updated.portrait;
     currentCard.updated_at = updated.updated_at;
+    renderProvenance();
     portraitRestartFromAsset = null;
     els.portraitInstruction.value = "";
     setStatus(els.portraitStatus, "Done.", "ok");
@@ -454,6 +477,7 @@ els.generateFlavorBtn.addEventListener("click", async () => {
     currentCard.flavor = updated.flavor;
     currentCard.updated_at = updated.updated_at;
     els.flavorText.value = currentCard.flavor.text;
+    renderProvenance();
     flavorEditedByHand = false;
     setStatus(els.flavorStatus, result.truncated ? "Done (truncated to fit)." : "Done.", "ok");
     await renderPreview();
@@ -727,11 +751,34 @@ gemEls.approveBtn.addEventListener("click", async () => {
 // ---------- Slash-command autocomplete ----------
 // Attaches a lightweight /name autocomplete to any textarea: typing "/" plus
 // letters shows matching skill names in a dropdown anchored right below the
-// field; clicking one (or Enter/Tab) inserts "/name " at the cursor. Skills
-// are read from the module-level skillNames[], refreshed by refreshSkills()
-// below whenever the Skills panel changes something — this does not fetch
-// on its own.
-let skillNames = [];
+// field; clicking one inserts "/name " at the cursor. Skills are read from
+// the module-level allSkills[], refreshed by refreshSkills() below whenever
+// the Skills panel changes something — this does not fetch on its own.
+//
+// Archived skills are deliberately absent from the dropdown: they still
+// resolve wherever they're already referenced, but nothing should nudge you
+// into picking one up for new text.
+let allSkills = [];
+const activeSkillNames = () => allSkills.filter((s) => !s.archived).map((s) => s.name);
+
+// Mirrors SLASH_RE / findArchivedReferences in src/skills.js. Deliberately
+// duplicated rather than imported: that file is Worker code and this is
+// browser code, and the dependency between the two directories only runs
+// the other way (src/cards.js imports migrate.js from here). Keep the two
+// in step — the server's copy is the one that actually decides what
+// resolves; this one only drives the editor's warning.
+const SLASH_RE = /(?<=^|\s)\/([a-zA-Z][a-zA-Z0-9-]*)/g;
+
+function findArchivedReferences(text, skills) {
+  if (!text) return [];
+  const archived = new Set(skills.filter((s) => s.archived).map((s) => s.name));
+  const found = new Set();
+  for (const match of text.matchAll(SLASH_RE)) {
+    const name = match[1].toLowerCase();
+    if (archived.has(name)) found.add(name);
+  }
+  return [...found];
+}
 
 function attachSlashAutocomplete(textarea) {
   const wrap = document.createElement("div");
@@ -753,7 +800,9 @@ function attachSlashAutocomplete(textarea) {
 
   function render() {
     const token = currentToken();
-    const matches = token ? skillNames.filter((n) => n.startsWith(token.partial.toLowerCase())).slice(0, 8) : [];
+    const matches = token
+      ? activeSkillNames().filter((n) => n.startsWith(token.partial.toLowerCase())).slice(0, 8)
+      : [];
     if (matches.length === 0) {
       dropdown.style.display = "none";
       return;
@@ -804,6 +853,7 @@ const promptEls = {
   previewBtn: document.getElementById("preview-prompt-btn"),
   preview: document.getElementById("prompt-preview"),
   historyList: document.getElementById("prompt-history-list"),
+  archivedRefWarning: document.getElementById("archived-ref-warning"),
 };
 
 let currentGenerator = "portrait";
@@ -813,6 +863,23 @@ function updateSaveButtonState() {
   promptEls.saveBtn.disabled = promptEls.text.value === loadedPromptText;
 }
 
+// An archived skill still resolves, so referencing one isn't an error —
+// but it is worth saying out loud, since the autocomplete deliberately
+// won't offer it and it's likely a leftover from before it was retired.
+function updateArchivedRefWarning() {
+  const archived = findArchivedReferences(promptEls.text.value, allSkills);
+  if (archived.length === 0) {
+    setStatus(promptEls.archivedRefWarning, "", "");
+    return;
+  }
+  const names = archived.map((n) => `/${n}`).join(", ");
+  setStatus(
+    promptEls.archivedRefWarning,
+    `References archived ${archived.length === 1 ? "skill" : "skills"}: ${names}. Still resolves, but it has been retired.`,
+    "warn",
+  );
+}
+
 async function loadPromptHistory(generator) {
   const versions = await apiFetch(`api/prompts/${generator}/versions`);
   promptEls.historyList.innerHTML = "";
@@ -820,15 +887,53 @@ async function loadPromptHistory(generator) {
   for (const v of versions) {
     const row = document.createElement("div");
     row.className = "prompt-history-row" + (v.version === current ? " current" : "");
-    row.textContent = `v${v.version}${v.version === current ? " (current)" : ""} — ${v.created_at}`;
-    // Loads that version's text into the editor for viewing/copying — does
-    // NOT save. Saving only ever happens from the current text via Save,
-    // which always appends a new version rather than resurrecting an old one.
-    row.addEventListener("click", () => {
+
+    // Clicking the label loads that version into the editor for viewing or
+    // editing; it does not save. Restore is the one-click path that makes
+    // an old version current again — still by appending a new version, so
+    // history stays append-only either way.
+    const label = document.createElement("span");
+    label.className = "label";
+    label.textContent = `v${v.version}${v.version === current ? " (current)" : ""} — ${v.created_at}`;
+    label.addEventListener("click", () => {
       promptEls.text.value = v.text;
       updateSaveButtonState();
+      updateArchivedRefWarning();
       promptEls.preview.textContent = "";
     });
+    row.appendChild(label);
+
+    if (v.version !== current) {
+      const restoreBtn = document.createElement("button");
+      restoreBtn.className = "secondary small";
+      restoreBtn.textContent = "Restore";
+      restoreBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        if (!confirm(`Restore v${v.version} as the current ${generator} prompt? It will be saved as a new version.`)) {
+          return;
+        }
+        setStatus(promptEls.saveStatus, "Restoring…", "busy");
+        try {
+          const created = await apiFetch(`api/prompts/${generator}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: v.text }),
+          });
+          promptEls.text.value = created.text;
+          loadedPromptText = created.text;
+          promptEls.versionBadge.textContent = `v${created.version}`;
+          updateSaveButtonState();
+          updateArchivedRefWarning();
+          promptEls.preview.textContent = "";
+          setStatus(promptEls.saveStatus, `Restored v${v.version} as v${created.version}.`, "ok");
+          await loadPromptHistory(generator);
+        } catch (err) {
+          setStatus(promptEls.saveStatus, err.message, "error");
+        }
+      });
+      row.appendChild(restoreBtn);
+    }
+
     promptEls.historyList.appendChild(row);
   }
 }
@@ -844,6 +949,7 @@ async function loadPrompt(generator) {
   promptEls.preview.textContent = "";
   setStatus(promptEls.saveStatus, "", "");
   updateSaveButtonState();
+  updateArchivedRefWarning();
   await loadPromptHistory(generator);
 }
 
@@ -851,7 +957,10 @@ promptEls.generatorTabs.forEach((btn) => {
   btn.addEventListener("click", () => loadPrompt(btn.dataset.generator));
 });
 
-promptEls.text.addEventListener("input", updateSaveButtonState);
+promptEls.text.addEventListener("input", () => {
+  updateSaveButtonState();
+  updateArchivedRefWarning();
+});
 
 promptEls.previewBtn.addEventListener("click", async () => {
   const { resolved } = await apiFetch("api/prompts/resolve", {
@@ -884,69 +993,92 @@ promptEls.saveBtn.addEventListener("click", async () => {
 const skillEls = {
   list: document.getElementById("skill-list"),
   nameInput: document.getElementById("skill-name-input"),
+  nameLabel: document.getElementById("skill-name-label"),
   textInput: document.getElementById("skill-text-input"),
   saveBtn: document.getElementById("save-skill-btn"),
   newBtn: document.getElementById("new-skill-btn"),
-  deleteBtn: document.getElementById("delete-skill-btn"),
+  archiveBtn: document.getElementById("archive-skill-btn"),
+  archivedBadge: document.getElementById("skill-archived-badge"),
   status: document.getElementById("skill-status"),
 };
 
-let editingSkillId = null;
+let editingSkill = null; // the full skill being edited, or null for a new one
 
-// The one place skillNames[] (read by every attached autocomplete) gets
-// refreshed — called on boot and after any create/update/delete here.
+// The one place allSkills[] (read by every attached autocomplete and by the
+// archived-reference warning) gets refreshed — called on boot and after any
+// create/update/archive here.
 async function refreshSkills() {
-  const skills = await apiFetch("api/skills");
-  skillNames = skills.map((s) => s.name);
+  allSkills = await apiFetch("api/skills");
 
   skillEls.list.innerHTML = "";
-  for (const s of skills) {
+  for (const s of allSkills) {
     const row = document.createElement("div");
-    row.className = "skill-row" + (editingSkillId === s.id ? " selected" : "");
-    row.textContent = `/${s.name}`;
+    row.className =
+      "skill-row" + (editingSkill?.id === s.id ? " selected" : "") + (s.archived ? " archived" : "");
+    const name = document.createElement("span");
+    name.className = "name";
+    name.textContent = `/${s.name}`;
+    row.appendChild(name);
+    if (s.archived) {
+      const badge = document.createElement("span");
+      badge.className = "badge";
+      badge.textContent = "archived";
+      row.appendChild(badge);
+    }
     row.addEventListener("click", () => selectSkillForEdit(s));
     skillEls.list.appendChild(row);
   }
-  return skills;
+  // A skill's archived state can change what the open prompt references.
+  updateArchivedRefWarning();
+  return allSkills;
+}
+
+function renderSkillForm() {
+  const editing = editingSkill !== null;
+  skillEls.nameInput.value = editing ? editingSkill.name : "";
+  skillEls.textInput.value = editing ? editingSkill.text : "";
+  // The name is immutable once created: renaming would orphan every /name
+  // reference already out there, exactly the way deleting would.
+  skillEls.nameInput.disabled = editing;
+  skillEls.nameLabel.textContent = editing
+    ? "Name (fixed — make a new skill to use a different name)"
+    : "Name (used as /name)";
+  skillEls.archiveBtn.style.display = editing ? "inline-block" : "none";
+  skillEls.archiveBtn.textContent = editing && editingSkill.archived ? "Unarchive" : "Archive";
+  skillEls.archivedBadge.style.display = editing && editingSkill.archived ? "inline-block" : "none";
+  setStatus(skillEls.status, "", "");
 }
 
 function selectSkillForEdit(skill) {
-  editingSkillId = skill.id;
-  skillEls.nameInput.value = skill.name;
-  skillEls.textInput.value = skill.text;
-  skillEls.deleteBtn.style.display = "inline-block";
-  setStatus(skillEls.status, "", "");
+  editingSkill = skill;
+  renderSkillForm();
 }
 
 skillEls.newBtn.addEventListener("click", () => {
-  editingSkillId = null;
-  skillEls.nameInput.value = "";
-  skillEls.textInput.value = "";
-  skillEls.deleteBtn.style.display = "none";
-  setStatus(skillEls.status, "", "");
+  editingSkill = null;
+  renderSkillForm();
 });
 
 skillEls.saveBtn.addEventListener("click", async () => {
-  const name = skillEls.nameInput.value.trim();
   const text = skillEls.textInput.value;
-  if (!name) return setStatus(skillEls.status, "Name is required.", "error");
   setStatus(skillEls.status, "Saving…", "busy");
   try {
-    if (editingSkillId) {
-      await apiFetch(`api/skills/${editingSkillId}`, {
+    if (editingSkill) {
+      editingSkill = await apiFetch(`api/skills/${editingSkill.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, text }),
+        body: JSON.stringify({ text }),
       });
     } else {
-      const created = await apiFetch("api/skills", {
+      const name = skillEls.nameInput.value.trim();
+      if (!name) return setStatus(skillEls.status, "Name is required.", "error");
+      editingSkill = await apiFetch("api/skills", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, text }),
       });
-      editingSkillId = created.id;
-      skillEls.deleteBtn.style.display = "inline-block";
     }
+    renderSkillForm();
     setStatus(skillEls.status, "Saved.", "ok");
     await refreshSkills();
   } catch (err) {
@@ -954,19 +1086,26 @@ skillEls.saveBtn.addEventListener("click", async () => {
   }
 });
 
-skillEls.deleteBtn.addEventListener("click", async () => {
-  if (!editingSkillId) return;
-  const name = skillEls.nameInput.value.trim();
-  if (!confirm(`Delete skill "/${name}"? Any prompt referencing it will just show the literal "/${name}" once it's gone.`)) {
-    return;
+skillEls.archiveBtn.addEventListener("click", async () => {
+  if (!editingSkill) return;
+  const archiving = !editingSkill.archived;
+  if (archiving) {
+    const message =
+      `Archive "/${editingSkill.name}"? Prompts already referencing it keep working — ` +
+      "it just stops being offered for new text, and shows as archived where it's used.";
+    if (!confirm(message)) return;
   }
-  await apiFetch(`api/skills/${editingSkillId}`, { method: "DELETE" });
-  editingSkillId = null;
-  skillEls.nameInput.value = "";
-  skillEls.textInput.value = "";
-  skillEls.deleteBtn.style.display = "none";
-  setStatus(skillEls.status, "Deleted.", "ok");
-  await refreshSkills();
+  setStatus(skillEls.status, archiving ? "Archiving…" : "Unarchiving…", "busy");
+  try {
+    editingSkill = await apiFetch(`api/skills/${editingSkill.id}/${archiving ? "archive" : "unarchive"}`, {
+      method: "POST",
+    });
+    renderSkillForm();
+    setStatus(skillEls.status, archiving ? "Archived." : "Unarchived.", "ok");
+    await refreshSkills();
+  } catch (err) {
+    setStatus(skillEls.status, err.message, "error");
+  }
 });
 
 // ---------- Boot ----------

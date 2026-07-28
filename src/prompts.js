@@ -17,6 +17,10 @@ import { resolveSkills } from "./skills.js";
 
 export const GENERATORS = ["portrait", "flavor", "gem", "gem_field_fill"];
 
+// Substituted into the gem prompt per generation (see gemSystemPrompt) and
+// required to be present when saving one (see createPromptVersion).
+export const KEY_COLOR_PLACEHOLDER = "{{key_color}}";
+
 // Seed text: exactly what this file hardcoded before prompts moved to D1.
 // Used only to populate a generator's very first version, the one time
 // its row count is zero. Not a second source of truth to keep in sync —
@@ -181,6 +185,18 @@ export async function createPromptVersion(db, generator, text) {
   if (typeof text !== "string" || !text.trim()) {
     throw new Error("Prompt text is required.");
   }
+  // The gem prompt is the one place a placeholder is load-bearing rather
+  // than cosmetic: gemSystemPrompt substitutes the per-generation key
+  // color into it, and chroma-key removal depends on the model having
+  // been told that exact flat background to paint. Drop the placeholder
+  // and generation still "succeeds" — it just returns art nothing can key
+  // out, with no error anywhere until someone looks at the gem.
+  if (generator === "gem" && !text.includes(KEY_COLOR_PLACEHOLDER)) {
+    throw new Error(
+      `The gem prompt must contain ${KEY_COLOR_PLACEHOLDER} — it is replaced with the chosen key color, ` +
+        "and without it the generated art cannot be chroma-keyed.",
+    );
+  }
   const current = await getCurrentPrompt(db, generator);
   const version = current.version + 1;
   const created_at = new Date().toISOString();
@@ -222,5 +238,5 @@ export async function gemFieldFillSystemPrompt(db) {
 // ahead of generation and can't be a skill itself (it changes every call).
 export async function gemSystemPrompt(db, keyColorHex) {
   const { text } = await resolvedPrompt(db, "gem");
-  return text.replaceAll("{{key_color}}", keyColorHex);
+  return text.replaceAll(KEY_COLOR_PLACEHOLDER, keyColorHex);
 }

@@ -1,6 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { listSkills, createSkill, updateSkill, deleteSkill, resolveSkills, isValidSkillName } from "../skills.js";
+import {
+  listSkills,
+  createSkill,
+  updateSkill,
+  archiveSkill,
+  unarchiveSkill,
+  resolveSkills,
+  isValidSkillName,
+  findArchivedReferences,
+} from "../skills.js";
 import { FakeD1 } from "./fakes.js";
 
 test("isValidSkillName accepts lowercase letters/digits/hyphens starting with a letter", () => {
@@ -25,16 +34,13 @@ test("createSkill rejects an invalid name", async () => {
   await assert.rejects(() => createSkill(db, { name: "has space", text: "x" }), /letter/);
 });
 
-test("updateSkill can rename and change text, rejecting a rename collision", async () => {
+test("updateSkill changes text and leaves the name alone (names are immutable)", async () => {
   const db = new FakeD1();
   const a = await createSkill(db, { name: "alpha", text: "a text" });
-  await createSkill(db, { name: "beta", text: "b text" });
 
-  const renamed = await updateSkill(db, a.id, { name: "gamma", text: "new text" });
-  assert.equal(renamed.name, "gamma");
-  assert.equal(renamed.text, "new text");
-
-  await assert.rejects(() => updateSkill(db, a.id, { name: "beta" }), /already exists/);
+  const updated = await updateSkill(db, a.id, { name: "gamma", text: "new text" });
+  assert.equal(updated.text, "new text");
+  assert.equal(updated.name, "alpha", "a rename would orphan existing /alpha references");
 });
 
 test("updateSkill on an unknown id returns null", async () => {
@@ -43,12 +49,55 @@ test("updateSkill on an unknown id returns null", async () => {
   assert.equal(result, null);
 });
 
-test("deleteSkill removes it from listSkills", async () => {
+test("archiveSkill flags it without removing it from the pool", async () => {
   const db = new FakeD1();
-  const skill = await createSkill(db, { name: "temp", text: "x" });
-  assert.equal((await listSkills(db)).length, 1);
-  await deleteSkill(db, skill.id);
-  assert.equal((await listSkills(db)).length, 0);
+  const skill = await createSkill(db, { name: "retired", text: "old guidance" });
+  const archived = await archiveSkill(db, skill.id);
+  assert.equal(archived.archived, true);
+
+  const all = await listSkills(db);
+  assert.equal(all.length, 1, "archiving must never remove the skill");
+  assert.equal(all[0].archived, true);
+});
+
+test("an archived skill still resolves for prompts already referencing it", async () => {
+  const db = new FakeD1();
+  const skill = await createSkill(db, { name: "retired", text: "still expands" });
+  await archiveSkill(db, skill.id);
+  assert.equal(await resolveSkills(db, "Use /retired here."), "Use still expands here.");
+});
+
+test("unarchiveSkill puts it back into normal use", async () => {
+  const db = new FakeD1();
+  const skill = await createSkill(db, { name: "seasonal", text: "x" });
+  await archiveSkill(db, skill.id);
+  const restored = await unarchiveSkill(db, skill.id);
+  assert.equal(restored.archived, false);
+});
+
+test("archive/unarchive on an unknown id returns null", async () => {
+  const db = new FakeD1();
+  assert.equal(await archiveSkill(db, "nope"), null);
+  assert.equal(await unarchiveSkill(db, "nope"), null);
+});
+
+test("an archived skill's name stays taken — no reuse under the same name", async () => {
+  const db = new FakeD1();
+  const skill = await createSkill(db, { name: "taken", text: "original" });
+  await archiveSkill(db, skill.id);
+  await assert.rejects(() => createSkill(db, { name: "taken", text: "impostor" }), /already exists/);
+});
+
+test("findArchivedReferences reports only the archived names a text actually uses", async () => {
+  const db = new FakeD1();
+  const old = await createSkill(db, { name: "old-tone", text: "x" });
+  await createSkill(db, { name: "live-tone", text: "y" });
+  await archiveSkill(db, old.id);
+  const skills = await listSkills(db);
+
+  assert.deepEqual(findArchivedReferences("Use /old-tone and /live-tone.", skills), ["old-tone"]);
+  assert.deepEqual(findArchivedReferences("Only /live-tone here.", skills), []);
+  assert.deepEqual(findArchivedReferences("", skills), []);
 });
 
 test("resolveSkills expands /name against the current skill pool", async () => {

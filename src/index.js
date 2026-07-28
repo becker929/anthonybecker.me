@@ -19,7 +19,7 @@ import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
 import { handleListGems, handleCreateGem, handleUpdateGemMask, handleApproveGem } from "./gem.js";
 import { listCurrentPrompts, listPromptVersions, createPromptVersion, GENERATORS } from "./prompts.js";
-import { resolveSkills, listSkills, createSkill, updateSkill, deleteSkill } from "./skills.js";
+import { resolveSkills, listSkills, createSkill, updateSkill, archiveSkill, unarchiveSkill } from "./skills.js";
 import { noindex, jsonError, jsonOk } from "./http.js";
 
 const BASE = "/studio-c33f3ea406426b41";
@@ -355,7 +355,9 @@ async function handleUpdateSkill(request, env, id) {
     return jsonError(400, "Invalid JSON body.");
   }
   try {
-    const skill = await updateSkill(env.CARD_DB, id, { name: body.name, text: body.text });
+    // Text only — a skill's name is immutable once created, since renaming
+    // would orphan every existing /name reference (see skills.js).
+    const skill = await updateSkill(env.CARD_DB, id, { text: body.text });
     if (!skill) return jsonError(404, "Skill not found.");
     return jsonOk(skill);
   } catch (err) {
@@ -363,9 +365,18 @@ async function handleUpdateSkill(request, env, id) {
   }
 }
 
-async function handleDeleteSkill(env, id) {
-  await deleteSkill(env.CARD_DB, id);
-  return jsonOk({ ok: true });
+// Archive replaces delete outright: a retired skill still resolves for the
+// prompts already referencing it, it just stops being offered for new use.
+async function handleArchiveSkill(env, id) {
+  const skill = await archiveSkill(env.CARD_DB, id);
+  if (!skill) return jsonError(404, "Skill not found.");
+  return jsonOk(skill);
+}
+
+async function handleUnarchiveSkill(env, id) {
+  const skill = await unarchiveSkill(env.CARD_DB, id);
+  if (!skill) return jsonError(404, "Skill not found.");
+  return jsonOk(skill);
 }
 
 export default {
@@ -496,8 +507,12 @@ export default {
       return handleUpdateSkill(request, env, sub.slice("api/skills/".length));
     }
 
-    if (sub.startsWith("api/skills/") && request.method === "DELETE") {
-      return handleDeleteSkill(env, sub.slice("api/skills/".length));
+    if (sub.startsWith("api/skills/") && sub.endsWith("/archive") && request.method === "POST") {
+      return handleArchiveSkill(env, sub.slice("api/skills/".length, -"/archive".length));
+    }
+
+    if (sub.startsWith("api/skills/") && sub.endsWith("/unarchive") && request.method === "POST") {
+      return handleUnarchiveSkill(env, sub.slice("api/skills/".length, -"/unarchive".length));
     }
 
     if (sub.startsWith("blob/") && request.method === "GET") {
