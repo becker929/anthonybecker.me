@@ -56,14 +56,15 @@ export class FakeD1 {
       this.prompts.set(id, { id, generator, version, text, created_at });
     } else if (sql.includes("INSERT INTO skills")) {
       const [id, name, text, updated_at] = args;
-      this.skills.set(id, { id, name, text, updated_at });
-    } else if (sql.includes("UPDATE skills SET")) {
-      const [name, text, updated_at, id] = args;
+      this.skills.set(id, { id, name, text, archived: 0, updated_at });
+    } else if (sql.includes("UPDATE skills SET archived")) {
+      const [archived, updated_at, id] = args;
       const row = this.skills.get(id);
-      if (row) Object.assign(row, { name, text, updated_at });
-    } else if (sql.includes("DELETE FROM skills")) {
-      const [id] = args;
-      this.skills.delete(id);
+      if (row) Object.assign(row, { archived, updated_at });
+    } else if (sql.includes("UPDATE skills SET text")) {
+      const [text, updated_at, id] = args;
+      const row = this.skills.get(id);
+      if (row) Object.assign(row, { text, updated_at });
     } else {
       throw new Error(`FakeD1: unhandled run() for: ${sql}`);
     }
