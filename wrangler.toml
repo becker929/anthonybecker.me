@@ -31,14 +31,12 @@ binding = "CARD_BUCKET"
 bucket_name = "anthonybecker-cards"
 
 # Audio renders uploaded from Hammerspoon via scripts/upload-audio.sh.
-# Before deploying: run `wrangler r2 bucket create anthonybecker-audio`
 [[r2_buckets]]
 binding = "AUDIO_BUCKET"
 bucket_name = "anthonybecker-audio"
 
 # KV namespace for the latest-render pointer polled by /audio.
-# Before deploying: run `wrangler kv namespace create AUDIO_KV` and
-# paste the returned id below.
+# Namespace: anthonybecker_me (id: 49b4801f51cb441ea636c619a75f12c8)
 [[kv_namespaces]]
 binding = "AUDIO_KV"
-id = "REPLACE_WITH_NAMESPACE_ID"
+id = "49b4801f51cb441ea636c619a75f12c8"
