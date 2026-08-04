@@ -78,6 +78,17 @@ export async function handleAudioLatest(env) {
   });
 }
 
+export async function handleAudioLatestUpdate(request, env) {
+  const auth = request.headers.get("Authorization") || "";
+  if (!env.AUDIO_UPDATE_SECRET || auth !== `Bearer ${env.AUDIO_UPDATE_SECRET}`) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  const key = (await request.text()).trim();
+  if (!key) return new Response("Bad Request", { status: 400 });
+  await env.AUDIO_KV.put("audio:latest", key);
+  return new Response("OK");
+}
+
 export async function handleAudioFile(request, env, filename) {
   const rangeHeader = request.headers.get("Range");
   const rangeOpt = rangeHeader ? parseRange(rangeHeader) : undefined;

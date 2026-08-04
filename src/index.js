@@ -14,7 +14,7 @@ import {
   listBattleReadyCards,
   isPublishedImageHash,
 } from "./cards.js";
-import { handleAudioPage, handleAudioLatest, handleAudioFile } from "./audio.js";
+import { handleAudioPage, handleAudioLatest, handleAudioLatestUpdate, handleAudioFile } from "./audio.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
@@ -391,9 +391,10 @@ export default {
       return handleBattlerCardImage(env, path.slice("/api/battler-cards/image/".length));
     }
 
-    // Public audio player — no auth required.
+    // Audio player routes.
     if (path === "/audio" || path === "/audio/") return handleAudioPage();
-    if (path === "/audio/latest") return handleAudioLatest(env);
+    if (path === "/audio/latest" && request.method === "GET") return handleAudioLatest(env);
+    if (path === "/audio/latest" && request.method === "PUT") return handleAudioLatestUpdate(request, env);
     if (path.startsWith("/audio/") && path.length > "/audio/".length) {
       return handleAudioFile(request, env, path.slice("/audio/".length));
     }
