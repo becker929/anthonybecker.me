@@ -103,6 +103,15 @@ export async function handleAudioFile(request, env, filename) {
   headers.set("etag", object.httpEtag);
   headers.set("Accept-Ranges", "bytes");
 
+  if (object.range) {
+    const start = object.range.offset ?? 0;
+    const len = object.range.length ?? object.size - start;
+    headers.set("Content-Length", String(len));
+    headers.set("Content-Range", `bytes ${start}-${start + len - 1}/${object.size}`);
+  } else {
+    headers.set("Content-Length", String(object.size));
+  }
+
   return new Response(object.body, {
     status: object.range ? 206 : 200,
     headers,
