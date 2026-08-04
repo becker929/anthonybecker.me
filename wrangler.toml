@@ -13,7 +13,7 @@ not_found_handling = "404-page"
 # one part of this system meant to be reachable with no password), so they
 # need their own entry or every card-battler demo silently falls back to
 # its fixed placeholder deck with no error anywhere.
-run_worker_first = ["/studio-c33f3ea406426b41*", "/private/c33f3ea406426b41/*", "/api/battler-cards*"]
+run_worker_first = ["/studio-c33f3ea406426b41*", "/private/c33f3ea406426b41/*", "/api/battler-cards*", "/audio*"]
 
 # Trading-card design system storage (see private/c33f3ea406426b41/cards/).
 [[d1_databases]]
@@ -29,3 +29,14 @@ migrations_dir = "d1/migrations"
 [[r2_buckets]]
 binding = "CARD_BUCKET"
 bucket_name = "anthonybecker-cards"
+
+# Audio renders uploaded from Hammerspoon via scripts/upload-audio.sh.
+[[r2_buckets]]
+binding = "AUDIO_BUCKET"
+bucket_name = "anthonybecker-audio"
+
+# KV namespace for the latest-render pointer polled by /audio.
+# Namespace: anthonybecker_me (id: 49b4801f51cb441ea636c619a75f12c8)
+[[kv_namespaces]]
+binding = "AUDIO_KV"
+id = "49b4801f51cb441ea636c619a75f12c8"
