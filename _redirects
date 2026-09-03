@@ -13,3 +13,11 @@
 /demos/card-battler/       /demos/2/card-battler/  301
 /card-battler              /demos/2/card-battler/  301
 /card-battler/             /demos/2/card-battler/  301
+
+# Canonical demo path: /demos/4/buster-whack/
+/demos/4                   /demos/4/buster-whack/  301
+/demos/4/                  /demos/4/buster-whack/  301
+/demos/buster-whack        /demos/4/buster-whack/  301
+/demos/buster-whack/       /demos/4/buster-whack/  301
+/buster-whack              /demos/4/buster-whack/  301
+/buster-whack/             /demos/4/buster-whack/  301

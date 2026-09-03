@@ -19,5 +19,12 @@
     "title": "Cards",
     "description": "The same card battler, restocked live from a trading-card design tool: every deck is drawn from a published card pool and weighted by rarity.",
     "path": "/demos/3/cards/"
+  },
+  {
+    "number": 4,
+    "slug": "buster-whack",
+    "title": "Buster Whack",
+    "description": "A virus-busting arcade game on an unbounded road: wipe each arena's guard, take the ground, walk to the next fight. Charge shots, dodge the bolts they fire back, and bomb what stands in a 3x3.",
+    "path": "/demos/4/buster-whack/"
   }
 ]

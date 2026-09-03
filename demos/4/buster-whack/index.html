@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Buster Whack — Anthony Becker</title>
+<meta name="description" content="A virus-busting arcade game on an unbounded road: wipe each arena's guard, take the ground, walk to the next fight. Charge shots, dodge the bolts they fire back, and bomb what stands in a 3x3.">
+<meta name="theme-color" content="#0d1117">
+<style>
+  /* The game is the page. It sizes itself to this box and swallows its own
+     touch gestures, so the page itself must not scroll or bounce. */
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #0d1117;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+  #game {
+    width: 100%;
+    height: 100%;
+    /* keep the controls clear of a phone's home indicator */
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  noscript {
+    display: block;
+    padding: 24px;
+    color: #aab4ce;
+    font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace;
+  }
+</style>
+</head>
+<body>
+<div id="game"><noscript>Buster Whack needs JavaScript.</noscript></div>
+<script type="module">
+  // Bundled at build time from becker929/buster-whack (see README.md here):
+  // one file, no imports, no runtime CDN — the way this site's demos ship.
+  import { mountBusterWhack } from "./buster-whack.js";
+  mountBusterWhack(document.getElementById("game"), { storageKey: "bw_best" });
+</script>
+</body>
+</html>
