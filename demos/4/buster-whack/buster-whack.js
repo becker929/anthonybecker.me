@@ -583,7 +583,12 @@ var TUNING_SCHEMA = [
     ["WAVE_SIZE_BASE", 2, 1, 6, 1, "viruses", "Viruses dealt together in arena 0."],
     ["WAVE_SIZE_PER_ARENAS", 25, 1, 200, 1, "arenas", "One more per wave every this many arenas."],
     ["WAVE_SIZE_MAX", 5, 1, 8, 1, "viruses", "The most dealt together."],
-    ["MAX_ALIVE", 6, 1, 12, 1, "viruses", "Hard ceiling on the board: wave plus runner plus rare."]
+    ["MAX_ALIVE", 6, 1, 12, 1, "viruses", "Hard ceiling on the board: wave plus runner plus rare."],
+    ["STASH_SLOTS", 4, 1, 12, 1, "slots", "How much you can carry: a bomb is one slot, a bell is three."],
+    ["SHARD_DROP_BASE", 0.18, 0, 1, 0.02, "p", "Chance a taken arena leaves a shard on the road."],
+    ["SHARD_DROP_PER", 4e-3, 0, 0.1, 1e-3, "p", "Plus this per arena, so the far road is better stocked."],
+    ["SHARD_DROP_MAX", 0.45, 0, 1, 0.05, "p", ""],
+    ["SHARD_UNLOCK", 20, 0, 500, 1, "arena", "Shards start turning up on the road from this arena."]
   ]],
   ["story unlocks", [
     ["UNLOCK_GUARD", 10, 0, 500, 1, "arena", "Steel guards from this arena on."],
@@ -825,6 +830,7 @@ function assemble(v, applied, version) {
   t.spreaderWaveChance = perArena(v.SPREADER_CHANCE_BASE, v.SPREADER_CHANCE_PER, v.SPREADER_CHANCE_MAX);
   t.darterWaveChance = perArena(v.DARTER_CHANCE_BASE, v.DARTER_CHANCE_PER, v.DARTER_CHANCE_MAX);
   t.wardenWaveChance = perArena(v.WARDEN_CHANCE_BASE, v.WARDEN_CHANCE_PER, v.WARDEN_CHANCE_MAX);
+  t.shardDropChance = (idx) => Math.min(v.SHARD_DROP_MAX, v.SHARD_DROP_BASE + Math.max(0, idx - v.SHARD_UNLOCK) * v.SHARD_DROP_PER);
   t.drainRate = (idx) => Math.min(v.DRAIN_MAX, v.DRAIN_BASE + Math.max(0, idx) * v.DRAIN_PER_ARENA);
   t.upMs = (del) => Math.max(v.UP_MS_MIN, v.UP_MS_BASE - del * v.UP_MS_PER_KILL);
   t.level = (del) => 1 + Math.floor(del / v.LEVEL_PER_KILLS);
@@ -960,6 +966,109 @@ function clearArena(world, rng, opts = {}) {
   return { cleared: a, road, tower: t, next };
 }
 
+// src/core/tasks.js
+var TASKS = [
+  { id: "sweep", text: "Take an arena without being hit.", counter: "cleanArenas", need: 1, reward: { pulse: 3 } },
+  { id: "spare", text: "Let three runners past.", counter: "spared", need: 3, reward: { pulse: 4 } },
+  { id: "steel", text: "Break four steel guards.", counter: "guards", need: 4, reward: { points: 2e3 } },
+  { id: "chain", text: "Delete eight in a row without missing.", counter: "chain8", need: 1, reward: { pulse: 4 } },
+  { id: "clean", text: "Clear three waves with nothing left standing.", counter: "perfectWaves", need: 3, reward: { bombs: 1 } },
+  { id: "charge", text: "Take six with a charged shot.", counter: "charged", need: 6, reward: { pulse: 5 } },
+  { id: "shutter", text: "Break two sentinels while they are open.", counter: "sentinels", need: 2, reward: { points: 3e3 } },
+  { id: "far", text: "Take five arenas.", counter: "arenas", need: 5, reward: { pulse: 6 } }
+];
+var TASK_BY_ID = Object.fromEntries(TASKS.map((t) => [t.id, t]));
+function newTaskState() {
+  return {
+    lastNpc: null,
+    // one task exchange per person, however long you talk
+    counts: {
+      cleanArenas: 0,
+      spared: 0,
+      guards: 0,
+      sentinels: 0,
+      chain8: 0,
+      perfectWaves: 0,
+      charged: 0,
+      arenas: 0
+    },
+    active: null,
+    // { id, base } -- base is the counter when taken
+    done: [],
+    // ids, in the order they were paid
+    hitThisArena: false
+    // reset when an arena is entered; a clean take needs it false
+  };
+}
+function progress(tasks) {
+  if (!tasks.active) return null;
+  const task = TASK_BY_ID[tasks.active.id];
+  if (!task) return null;
+  const have = Math.max(0, (tasks.counts[task.counter] || 0) - tasks.active.base);
+  return { task, have: Math.min(have, task.need), need: task.need, met: have >= task.need };
+}
+function nextTask(tasks) {
+  if (tasks.active) return null;
+  for (const t of TASKS) if (!tasks.done.includes(t.id)) return t;
+  return null;
+}
+function takeTask(tasks, id) {
+  const task = TASK_BY_ID[id];
+  if (!task || tasks.active || tasks.done.includes(id)) return false;
+  tasks.active = { id, base: tasks.counts[task.counter] || 0 };
+  return true;
+}
+function claimTask(tasks) {
+  const p = progress(tasks);
+  if (!p || !p.met) return null;
+  tasks.done.push(p.task.id);
+  tasks.active = null;
+  return { id: p.task.id, ...p.task.reward };
+}
+function taskExchange(state, npcId, events) {
+  const t = state.tasks;
+  if (!t || t.lastNpc === npcId) return;
+  t.lastNpc = npcId;
+  const p = progress(t);
+  if (p && p.met) {
+    const paid = claimTask(t);
+    const parts = [];
+    if (paid.pulse) {
+      state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + paid.pulse);
+      parts.push("+" + paid.pulse.toFixed(1) + "s");
+    }
+    if (paid.points) {
+      state.score += paid.points;
+      parts.push("+" + paid.points);
+    }
+    if (paid.bombs) {
+      state.bombs += paid.bombs;
+      parts.push("+" + paid.bombs + " bomb");
+    }
+    events.push({ type: "taskDone", npc: npcId, id: paid.id, text: "Done. " + parts.join(", ") + ".", reward: paid });
+    events.push({ type: "statsChanged" });
+    return;
+  }
+  if (p) {
+    events.push({
+      type: "taskProgress",
+      npc: npcId,
+      id: p.task.id,
+      text: p.task.text + " (" + p.have + " of " + p.need + ")",
+      have: p.have,
+      need: p.need
+    });
+    return;
+  }
+  const next = nextTask(t);
+  if (!next) {
+    events.push({ type: "taskNone", npc: npcId });
+    return;
+  }
+  takeTask(t, next.id);
+  events.push({ type: "taskGiven", npc: npcId, id: next.id, text: next.text });
+}
+
 // src/core/rng.js
 function mulberry32(seed) {
   let a = seed >>> 0;
@@ -998,6 +1107,17 @@ function createState(opts = {}) {
     // ADVANCE inventory and ordnance. Pickups live on road tiles; a bomb in
     // flight is { fromCol,fromRow,toCol,toRow,t0,dur }; blasts are fx.
     bombs: 0,
+    // bombs in the stash: kept equal by syncStash()
+    stash: [],
+    // what you are carrying, oldest first; the top is used
+    parry: false,
+    // the spell shard: the next bolt that would land does not
+    cloakUntil: -1e9,
+    // the sock shard: nothing aims at you until then
+    lastShotTier: null,
+    // what the footnote shard would echo
+    echo: null,
+    // { tier, share } while an echoed shot is resolving
     bombsInFlight: [],
     pickups: [],
     // { col, row, kind }
@@ -1015,6 +1135,8 @@ function createState(opts = {}) {
     score: 0,
     best: opts.best || 0,
     deletions: 0,
+    // the bonus-task ledger: counters, what is taken, what has been paid
+    tasks: newTaskState(),
     shots: 0,
     whiffs: 0,
     chain: 0,
@@ -1213,6 +1335,49 @@ function clearFx(state) {
   state.hitStopMs = 0;
 }
 
+// src/core/items.js
+var ITEMS = {
+  bomb: { id: "bomb", name: "BOMB", slots: 1, effect: "blast", canon: "item.bomb" },
+  // the five shards, with the bible's own costs
+  spell: { id: "spell", name: "SPELL", slots: 1, effect: "parry", canon: "shard.spell" },
+  footnote: { id: "footnote", name: "FOOTNOTE", slots: 1, effect: "echo", arg: 0.5, canon: "shard.footnote" },
+  sock: { id: "sock", name: "SOCK", slots: 2, effect: "cloak", arg: 1400, canon: "shard.sock" },
+  weather: { id: "weather", name: "WEATHER", slots: 2, effect: "summon", arg: "darter", canon: "shard.weather" },
+  bell: { id: "bell", name: "BELL", slots: 3, effect: "provoke", canon: "shard.bell" }
+};
+var SHARDS = ["spell", "footnote", "sock", "weather", "bell"];
+var itemDef = (id) => ITEMS[id] || null;
+function slotsUsed(stash) {
+  let n = 0;
+  for (const id of stash) n += ITEMS[id] ? ITEMS[id].slots : 1;
+  return n;
+}
+function fits(stash, id, cap) {
+  const def = ITEMS[id];
+  if (!def) return false;
+  return slotsUsed(stash) + def.slots <= cap;
+}
+function stow(stash, id, cap) {
+  if (!fits(stash, id, cap)) return false;
+  stash.push(id);
+  return true;
+}
+var topOf = (stash) => stash.length ? stash[stash.length - 1] : null;
+var takeTop = (stash) => stash.length ? stash.pop() : null;
+function stashView(stash) {
+  const out = [];
+  for (let i = stash.length - 1; i >= 0; i--) {
+    const def = ITEMS[stash[i]];
+    if (def) out.push({ id: def.id, name: def.name, slots: def.slots });
+  }
+  return out;
+}
+function syncStash(state) {
+  let n = 0;
+  for (const id of state.stash) if (id === "bomb") n++;
+  state.bombs = n;
+}
+
 // src/core/movement.js
 var moveMs = (state) => modeById(state.modeId).hop ? state.tuning.TAP_MOVE_MS : state.tuning.MOVE_REPEAT_MS;
 var moveReady = (state) => state.clock - state.lastMoveAt >= moveMs(state);
@@ -1381,10 +1546,17 @@ function land(state, col, row, events) {
     for (let i = state.pickups.length - 1; i >= 0; i--) {
       const pk = state.pickups[i];
       if (pk.col !== col || pk.row !== row) continue;
+      const pp0 = panel(state, col, row);
+      if (!stow(state.stash, pk.kind, state.tuning.STASH_SLOTS)) {
+        state.fx.popups.push({ x: pp0.x + pp0.w / 2, y: pp0.y - 8, t0: state.clock, text: "STASH FULL", color: "#8a96b8" });
+        events.push({ type: "stashFull", kind: pk.kind, col, row });
+        continue;
+      }
       state.pickups.splice(i, 1);
-      if (pk.kind === "bomb") state.bombs++;
-      const pp = panel(state, col, row);
-      state.fx.popups.push({ x: pp.x + pp.w / 2, y: pp.y - 8, t0: state.clock, text: "+BOMB", color: "#ff9f45" });
+      syncStash(state);
+      const pp = pp0;
+      const took = itemDef(pk.kind);
+      state.fx.popups.push({ x: pp.x + pp.w / 2, y: pp.y - 8, t0: state.clock, text: "+" + (took ? took.name : "?"), color: "#ff9f45" });
       events.push({ type: "pickup", kind: pk.kind, col, row, x: pp.x + pp.w / 2, y: pp.y, bombs: state.bombs });
       events.push({ type: "statsChanged" });
     }
@@ -1395,6 +1567,42 @@ function land(state, col, row, events) {
   state.player.col = col;
   state.player.row = row;
   if (moved) events.push({ type: "playerMoved", col, row });
+}
+
+// src/core/tasks-count.js
+var CHAIN_RUN = 8;
+function bumpTask(state, what, info = {}) {
+  const t = state.tasks;
+  if (!t) return;
+  const c = t.counts;
+  switch (what) {
+    case "kill": {
+      const def = enemyDef(info.type);
+      if (def.armor === "steel") c.guards++;
+      if (def.armor === "shutter") c.sentinels++;
+      if (info.tier === "charged") c.charged++;
+      if (info.chain > 0 && info.chain % CHAIN_RUN === 0) c.chain8++;
+      break;
+    }
+    case "spared":
+      c.spared++;
+      break;
+    case "hurt":
+      t.hitThisArena = true;
+      break;
+    case "waveCleared":
+      c.perfectWaves++;
+      break;
+    case "arenaEntered":
+      t.hitThisArena = false;
+      break;
+    case "arenaTaken":
+      c.arenas++;
+      if (!t.hitThisArena) c.cleanArenas++;
+      break;
+    default:
+      break;
+  }
 }
 
 // src/core/select.js
@@ -1550,6 +1758,11 @@ function resetGame(state, events, modeId) {
   state.path = null;
   state.arenasCleared = 0;
   state.bombs = 0;
+  state.stash.length = 0;
+  state.parry = false;
+  state.cloakUntil = -1e9;
+  state.lastShotTier = null;
+  state.echo = null;
   state.bombsInFlight.length = 0;
   state.pickups.length = 0;
   state.fx.blasts.length = 0;
@@ -1651,6 +1864,7 @@ function updateWorld(state, events) {
     state.camAnchor = a.x0;
     state.nextSpawnAt = now + state.tuning.ARENA_ENTRY_DELAY_MS;
     state.levelT0 = now;
+    bumpTask(state, "arenaEntered");
     events.push({ type: "arenaEntered", index: a.idx, x0: a.x0 });
     if (a.idx >= state.tuning.ROAD_END) state.unlimited = true;
     const st = modeById(state.modeId).story ? null : ADVANCE_STAGES.find((x) => x.arena === a.idx);
@@ -1868,6 +2082,7 @@ function endWave(state, events) {
   if (state.timeLeft < state.tuning.LOW_TIME) lull = Math.min(lull, state.tuning.LOW_TIME_LULL_MS);
   lull = Math.round(lull);
   let timeBonus = 0, points = 0;
+  if (cleared) bumpTask(state, "waveCleared");
   if (cleared) {
     timeBonus = state.tuning.waveClearBonus(wave.virusCount) * state.tuning.pulseScale(state.deletions, advancingMode(state));
     state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + timeBonus);
@@ -1907,12 +2122,24 @@ function endWave(state, events) {
     const { cleared: a, road, tower: tower2, next } = clearArena(state.world, state.rng, { tower: roost || void 0, tuning: state.tuning });
     if (tower2) state.routeIdx++;
     state.arenasCleared++;
+    bumpTask(state, "arenaTaken");
     if (a.idx === 0 || state.rng() < state.tuning.BOMB_PICKUP_CHANCE) {
       const pc = road.x0 + Math.floor(state.rng() * road.cols);
       const pr = road.rows === 1 ? ROAD_MID_ROW : Math.floor(state.rng() * ROWS);
       state.pickups.push({ col: pc, row: pr, kind: "bomb" });
       const pp = panel(state, pc, pr);
       events.push({ type: "pickupSpawned", kind: "bomb", col: pc, row: pr, x: pp.x + pp.w / 2, y: pp.y });
+    }
+    if (a.idx >= state.tuning.SHARD_UNLOCK && state.rng() < state.tuning.shardDropChance(a.idx)) {
+      const reach = Math.min(SHARDS.length, 1 + Math.floor((a.idx - state.tuning.SHARD_UNLOCK) / 15));
+      const kind = SHARDS[Math.floor(state.rng() * reach)];
+      const sc = road.x0 + Math.floor(state.rng() * road.cols);
+      const sr = road.rows === 1 ? ROAD_MID_ROW : Math.floor(state.rng() * ROWS);
+      if (!state.pickups.some((q) => q.col === sc && q.row === sr)) {
+        state.pickups.push({ col: sc, row: sr, kind });
+        const sp = panel(state, sc, sr);
+        events.push({ type: "pickupSpawned", kind, col: sc, row: sr, x: sp.x + sp.w / 2, y: sp.y });
+      }
     }
     const arenaBonus = state.tuning.ARENA_CLEAR_BONUS * state.tuning.pulseScale(state.deletions, advancingMode(state));
     state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + arenaBonus);
@@ -2025,7 +2252,7 @@ function updateEnemies(state, events) {
           events.push({ type: "enemyAim", col: e.col, row: e.row, boltKind: e.boltKind });
           break;
         }
-        const aiming = e.willAttack && !e.fired;
+        const aiming = e.willAttack && !e.fired && now >= (state.cloakUntil || -1e9);
         const def = enemyDef(e.type);
         const hopEvery = !def.hopKey || def.hopWhenHeld && !e.persistent ? Infinity : state.tuning[def.hopKey];
         if (!aiming && now - e.lastHop >= hopEvery) {
@@ -2055,6 +2282,7 @@ function updateEnemies(state, events) {
               text: "spared +" + state.tuning.ALLY_SPARE_BONUS.toFixed(1) + "s",
               color: "#58c7ff"
             });
+            bumpTask(state, "spared");
             events.push({
               type: "allySpared",
               col: e.col,
@@ -2145,7 +2373,16 @@ function updateBolts(state, dt, events) {
     const b = state.bolts[i];
     b.x -= b.speed * dt;
     if (b.row === state.player.row && now >= state.hurtUntil && Math.abs(b.x - px) <= hitR) {
+      if (now < (state.cloakUntil || 0)) continue;
       state.bolts.splice(i, 1);
+      if (state.parry) {
+        state.parry = false;
+        ripple(state, state.player.col, state.player.row, "#c9f6ff", now, 2);
+        state.fx.popups.push({ x: px, y: pr.y - 8, t0: now, text: "PARRIED", color: "#c9f6ff" });
+        events.push({ type: "parried", col: state.player.col, row: state.player.row, x: px, y: pr.y });
+        events.push({ type: "statsChanged" });
+        continue;
+      }
       takeHit(state, events);
       continue;
     }
@@ -2156,7 +2393,7 @@ function contextAction(state, events) {
   if (state.mode !== "playing" || state.paused) return;
   const n = npcBeside(state.world, state.player.col, state.player.row);
   if (!n) {
-    throwBomb(state, events);
+    useTop(state, events);
     return;
   }
   state.talks[n.id] = (state.talks[n.id] || 0) + 1;
@@ -2172,6 +2409,80 @@ function contextAction(state, events) {
     x: p.x + p.w / 2,
     y: p.y
   });
+  taskExchange(state, n.id, events);
+}
+function useTop(state, events) {
+  if (state.mode !== "playing" || state.paused) return;
+  const id = topOf(state.stash);
+  if (!id) {
+    events.push({ type: "bombEmpty" });
+    return;
+  }
+  const def = itemDef(id);
+  if (!def) {
+    takeTop(state.stash);
+    syncStash(state);
+    return;
+  }
+  if (def.effect === "blast") {
+    throwBomb(state, events);
+    return;
+  }
+  takeTop(state.stash);
+  syncStash(state);
+  const now = state.clock;
+  const p = panel(state, state.player.col, state.player.row);
+  const pop = (text, color) => state.fx.popups.push({ x: p.x + p.w / 2, y: p.y - 8, t0: now, text, color });
+  switch (def.effect) {
+    case "parry":
+      state.parry = true;
+      pop("PARRY SET", "#c9f6ff");
+      break;
+    case "cloak":
+      state.cloakUntil = now + def.arg;
+      pop("CLOAK", "#a9defc");
+      break;
+    case "provoke": {
+      let n = 0;
+      for (const e of state.enemies) {
+        if (!e.willAttack || e.fired || e.state !== "up") continue;
+        fireBolt(state, e, events);
+        e.fired = true;
+        e.refireAt = now + state.tuning.REFIRE_MS;
+        n++;
+      }
+      pop("BELL \xD7" + n, "#ffd23f");
+      break;
+    }
+    case "summon":
+      summonOne(state, def.arg, events);
+      pop("SUMMONED", "#5ee87c");
+      break;
+    case "echo":
+      if (state.lastShotTier) {
+        state.echo = { tier: state.lastShotTier, share: def.arg };
+        shoot(state, state.lastShotTier, events);
+        state.echo = null;
+        pop("ECHO", "#45e0e8");
+      } else {
+        pop("NOTHING TO ECHO", "#8a96b8");
+      }
+      break;
+    default:
+      break;
+  }
+  events.push({ type: "itemUsed", item: def.id, effect: def.effect, stash: state.stash.slice() });
+  events.push({ type: "statsChanged" });
+}
+function summonOne(state, type, events) {
+  if (state.enemies.length >= state.tuning.MAX_ALIVE) return;
+  const a = activeArena(state.world);
+  if (a.owner !== "enemy") return;
+  for (let col = a.x0 + a.cols - 1; col > state.player.col; col--) {
+    if (state.enemies.some((e) => e.col === col && e.row === state.player.row)) continue;
+    spawnFromSlot(state, { col, row: state.player.row, type, persistent: true, tier: 0 }, events);
+    return;
+  }
 }
 function throwBomb(state, events) {
   if (state.mode !== "playing" || state.paused) return;
@@ -2182,7 +2493,9 @@ function throwBomb(state, events) {
   const now = state.clock;
   const a = activeArena(state.world);
   const toCol = Math.min(state.player.col + state.tuning.BOMB_RANGE, a.x0 + a.cols - 1);
-  state.bombs--;
+  const at = state.stash.lastIndexOf("bomb");
+  if (at >= 0) state.stash.splice(at, 1);
+  syncStash(state);
   state.bombsInFlight.push({
     fromCol: state.player.col,
     fromRow: state.player.row,
@@ -2307,6 +2620,7 @@ function takeHit(state, events) {
   ripple(state, state.player.col, state.player.row, "#ff5470", now, 3);
   shake(state, SHAKE.hurt, now);
   hitStop(state, now, HITSTOP.hurt);
+  bumpTask(state, "hurt");
   events.push({
     type: "playerHit",
     col: state.player.col,
@@ -2350,14 +2664,16 @@ function deleteEnemy(state, target, tierName, land2, events) {
   state.chain++;
   if (state.chain > state.bestChain) state.bestChain = state.chain;
   const mult = multOf(state.chain);
+  bumpTask(state, "kill", { type: target.type, tier: tierName, chain: state.chain });
   if (state.wave && target.wave === state.wave.index) state.wave.kills++;
   const baseKey = enemyDef(target.type).scoreKey || tierName;
-  const pts = (state.tuning.PTS[baseKey] === void 0 ? state.tuning.PTS[tierName] : state.tuning.PTS[baseKey]) * mult;
+  const share = state.echo ? state.echo.share : 1;
+  const pts = Math.round((state.tuning.PTS[baseKey] === void 0 ? state.tuning.PTS[tierName] : state.tuning.PTS[baseKey]) * mult * share);
   state.score += pts;
   state.deletions++;
   const bf = state.tuning.pulseScale(state.deletions, modeById(state.modeId).advancing);
   const factor = baseKey === "rare" ? Math.sqrt(bf) : bf;
-  const timeBonus = (state.tuning.BONUS[baseKey] === void 0 ? state.tuning.BONUS[tierName] : state.tuning.BONUS[baseKey]) * factor;
+  const timeBonus = (state.tuning.BONUS[baseKey] === void 0 ? state.tuning.BONUS[tierName] : state.tuning.BONUS[baseKey]) * factor * share;
   state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + timeBonus);
   spawnBits(state, cx, cy, BIT_COUNT[baseKey] || BIT_COUNT.guard, DEBRIS[target.type] || DEBRIS.guard, {
     at: land2,
@@ -2427,6 +2743,7 @@ function shoot(state, tierName, events) {
   state.fx.muzzleT0 = now;
   state.fx.muzzleTier = tierName;
   state.shots++;
+  if (!state.echo) state.lastShotTier = tierName;
   const row = state.player.row;
   let target = null;
   for (const e of state.enemies) {
@@ -2965,6 +3282,22 @@ var TEMPLATE = `
     transition: opacity 240ms ease;
   }
   #place.on { opacity: 1; }
+  /* The stash: what you are carrying, top first -- the leftmost name is what
+     the context button would spend. */
+  #stash {
+    position: absolute;
+    right: 28px;
+    top: 74px;
+    color: var(--bw-ink-dim);
+    font: 600 11px/1 var(--bw-mono);
+    letter-spacing: 0.18em;
+    text-align: right;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+  #stash.has { opacity: 1; }
+  #stash::first-letter { color: var(--bw-accent); }
   #say b { display: block; color: var(--bw-accent); font-size: 11px; letter-spacing: 0.22em; margin-bottom: 3px; }
   #say b:empty { display: none; }
   #bombBtn.talk {
@@ -3399,6 +3732,7 @@ var TEMPLATE = `
     <div id="deck" aria-hidden="true"></div>
     <div id="say" role="status" aria-live="polite"><b id="sayWho"></b><span id="sayText"></span></div>
     <div id="place" aria-live="polite"></div>
+    <div id="stash" aria-live="polite" aria-label="Stash"></div>
     <button id="pauseBtn" aria-label="Pause">II</button>
     <button id="bombBtn" class="empty" aria-label="Throw bomb"><span id="bombLabel">BOMB</span><b id="bombCount">0</b></button>
     <button id="fireBtn" aria-label="Fire"><span>FIRE</span><span class="glyph">&#9679;</span></button>
@@ -3436,7 +3770,8 @@ var IDS = [
   "say",
   "sayWho",
   "sayText",
-  "place"
+  "place",
+  "stash"
 ];
 function createUI(container) {
   const root = container.shadowRoot || container.attachShadow({ mode: "open" });
@@ -3536,14 +3871,20 @@ function placeTouchControls(els, G) {
   els.say.style.top = "auto";
   els.say.style.bottom = G.h - top + 10 + "px";
 }
-function renderBombs(els, n, verb = "bomb") {
+function renderBombs(els, n, verb = "bomb", stash = null) {
   const talk = verb !== "bomb";
-  const label = { read: "READ", talk: "TALK", next: "NEXT", done: "DONE" }[verb] || "BOMB";
-  els.bombCount.textContent = String(n);
+  const top = stash && stash.length ? stash[0] : null;
+  const label = { read: "READ", talk: "TALK", next: "NEXT", done: "DONE" }[verb] || (top ? top.name : "BOMB");
+  const count = talk ? n : top ? stash.filter((it) => it.id === top.id).length : 0;
+  els.bombCount.textContent = String(talk ? n : count);
   els.bombLabel.textContent = label;
-  els.bombBtn.setAttribute("aria-label", talk ? label[0] + label.slice(1).toLowerCase() : "Throw bomb");
+  els.bombBtn.setAttribute("aria-label", talk ? label[0] + label.slice(1).toLowerCase() : "Use " + label.toLowerCase());
   els.bombBtn.classList.toggle("talk", talk);
-  els.bombBtn.classList.toggle("empty", !talk && n <= 0);
+  els.bombBtn.classList.toggle("empty", !talk && !top);
+  if (els.stash) {
+    els.stash.textContent = stash && stash.length ? stash.map((it) => it.name).join(" \xB7 ") : "";
+    els.stash.classList.toggle("has", !!(stash && stash.length));
+  }
 }
 function denyBomb(els) {
   els.bombBtn.classList.remove("deny");
@@ -5341,19 +5682,22 @@ function createStory({ say, hush, place, onError, load = Canon.load }) {
     if (onError) onError(e);
     return null;
   });
+  function beatText(what) {
+    return what && typeof what === "object" && what.plain !== void 0 ? what.plain : canon.t(what);
+  }
   function nthOpen(list, n) {
-    const open = list.filter((beats) => canon.t(beats[0][1]) !== "");
+    const open = list.filter((beats) => beatText(beats[0][1]) !== "");
     if (!open.length) return null;
     return open[Math.min(n, open.length - 1)];
   }
   function showBeat() {
     const [who, what] = convo.beats[convo.i];
-    say(who ? canon.t(who) : "", canon.t(what));
+    say(who ? canon.t(who) : "", beatText(what));
   }
   function press(npc, verb) {
     if (convo && convo.npc === npc) {
       convo.i++;
-      if (convo.i < convo.beats.length && canon.t(convo.beats[convo.i][1]) !== "") {
+      if (convo.i < convo.beats.length && beatText(convo.beats[convo.i][1]) !== "") {
         showBeat();
         return;
       }
@@ -5366,7 +5710,7 @@ function createStory({ say, hush, place, onError, load = Canon.load }) {
     }
     const beats = nthOpen(TALKS[npc] || [], done[npc] || 0);
     if (!beats) return;
-    convo = { npc, beats, i: 0 };
+    convo = { npc, beats: beats.slice(), i: 0 };
     showBeat();
   }
   function close() {
@@ -5401,6 +5745,18 @@ function createStory({ say, hush, place, onError, load = Canon.load }) {
         press(ev.npc, ev.verb);
         break;
       }
+      // The bonus task is the last thing this person says: what they are
+      // asking for, how far along it is, or what they are paying out. It
+      // arrives with the talk it belongs to, so it lands as one more press
+      // of TALK rather than a box that appears on its own.
+      case "taskGiven":
+      case "taskProgress":
+      case "taskDone": {
+        if (!active || !ev.text) return;
+        if (!convo || convo.npc !== ev.npc) return;
+        convo.beats.push([convo.beats[0][0], { plain: ev.text }]);
+        break;
+      }
       default:
         break;
     }
@@ -5410,7 +5766,15 @@ function createStory({ say, hush, place, onError, load = Canon.load }) {
     /** Feed every core event; the module ignores what is not its business. */
     handleAll(events) {
       for (const ev of events) {
-        if (!["runStarted", "towerEntered", "arenaEntered", "talk"].includes(ev.type)) continue;
+        if (![
+          "runStarted",
+          "towerEntered",
+          "arenaEntered",
+          "talk",
+          "taskGiven",
+          "taskProgress",
+          "taskDone"
+        ].includes(ev.type)) continue;
         if (!canon) pending.push(ev);
         else handle(ev);
       }
@@ -6011,6 +6375,33 @@ function paintPickup(ctx, r, frame = 0) {
   ctx.fillStyle = frame ? "#ffffff" : "#ff5470";
   ctx.fillRect(r * 1, -r * 1.8, 3, 3);
 }
+var SHARD_LOOK = {
+  spell: { body: "#c9f6ff", edge: "#4f8dff" },
+  footnote: { body: "#ffe08a", edge: "#e8a020" },
+  sock: { body: "#a9defc", edge: "#2a7ab8" },
+  weather: { body: "#a6f5bb", edge: "#1f7c3d" },
+  bell: { body: "#f0d7ff", edge: "#5f2f7a" }
+};
+function paintShard(ctx, r, look, frame = 0) {
+  ctx.fillStyle = look.edge;
+  ctx.beginPath();
+  ctx.moveTo(0, -r * 1.25);
+  ctx.lineTo(r * 0.85, -r * 0.2);
+  ctx.lineTo(0, r * 1.05);
+  ctx.lineTo(-r * 0.85, -r * 0.2);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = look.body;
+  ctx.beginPath();
+  ctx.moveTo(0, -r * 0.9);
+  ctx.lineTo(r * 0.5, -r * 0.18);
+  ctx.lineTo(0, r * 0.7);
+  ctx.lineTo(-r * 0.5, -r * 0.18);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = frame ? "#ffffff" : look.edge;
+  ctx.fillRect(-r * 0.16, -r * 0.62, r * 0.3, r * 0.36);
+}
 var ceil = Math.ceil;
 function manifestFor(G) {
   const ents = {};
@@ -6055,6 +6446,13 @@ function manifestFor(G) {
     states: { idle: { frames: 2, ms: 120 } },
     paint: (ctx, frame) => paintPickup(ctx, pr, frame)
   };
+  for (const [kind, look] of Object.entries(SHARD_LOOK)) {
+    ents["pickup." + kind] = {
+      cell: { w: 2 * ceil(pr * 0.9) + 4, h: ceil(pr * 1.3) + ceil(pr * 1.1) + 4, ax: ceil(pr * 0.9) + 2, ay: ceil(pr * 1.3) + 2 },
+      states: { idle: { frames: 2, ms: 120 } },
+      paint: (ctx, frame) => paintShard(ctx, pr, look, frame)
+    };
+  }
   return { pw: G.pw, ph: G.ph, entities: ents };
 }
 function frameAt(spec, now) {
@@ -6136,8 +6534,9 @@ function drawPickups(ctx, state, now) {
     const p = panel2(G, pk.col, pk.row);
     const cx = p.x + p.w / 2, cy = p.y + p.h * 0.5 + Math.sin(now / 260) * 3;
     const r = pickupRadius(G);
+    const shard = SHARD_LOOK[pk.kind];
     ctx.globalAlpha = 0.35 + 0.15 * Math.sin(now / 180);
-    ctx.fillStyle = "#ff9f45";
+    ctx.fillStyle = shard ? shard.body : "#ff9f45";
     ctx.beginPath();
     ctx.arc(cx, cy, r * 1.9, 0, Math.PI * 2 - RING_GAP);
     ctx.fill();
@@ -6145,7 +6544,8 @@ function drawPickups(ctx, state, now) {
     ctx.save();
     ctx.translate(Math.round(cx), Math.round(cy));
     const f = frameAt({ frames: 2, ms: 120 }, now);
-    body(ctx, "pickup.bomb", "idle", f, (c) => paintPickup(c, r, f));
+    if (shard) body(ctx, "pickup." + pk.kind, "idle", f, (c) => paintShard(c, r, shard, f));
+    else body(ctx, "pickup.bomb", "idle", f, (c) => paintPickup(c, r, f));
     ctx.restore();
   }
 }
@@ -7498,7 +7898,7 @@ function mountBusterWhack(container, options = {}) {
   let verb = "bomb";
   function refreshStats() {
     renderStats(els, statsView(state));
-    renderBombs(els, state.bombs || 0, verb);
+    renderBombs(els, state.bombs || 0, verb, stashView(state.stash || []));
   }
   const story = createStory({
     say: (who, text) => renderSay(els, who, text),
@@ -7701,6 +8101,21 @@ export {
  * renderer, as a translate. Deterministic: road heights come from state.rng.
  */
 /*!
+ * Bonus tasks: a thing to do on the road, asked for by the people on the
+ * towers, paid out when you have done it.
+ *
+ * A task is data: an id, the plain sentence the player reads, the counter it
+ * watches and how much of it is wanted, and what it pays. Progress is counted
+ * from the moment the task was taken -- the baseline is snapshotted then --
+ * so nothing can be claimed by walking up with it already done.
+ *
+ * The core owns the counters and the ledger; the shell decides when someone
+ * says any of it out loud. The text here is the player's instructions, not
+ * canon: plain, mechanical, and safe to read in a reply.
+ *
+ * Pure module. No DOM, no clock, no randomness.
+ */
+/*!
  * Seedable PRNG (mulberry32).
  *
  * The core never calls Math.random(); it draws from an rng function held on
@@ -7719,9 +8134,36 @@ export {
  * reproduces a run frame for frame, debris included.
  */
 /*!
+ * Items: what you can be carrying, and what it does when you use it.
+ *
+ * The stash is one list with a capacity in slots. The bomb is the first item
+ * and the five shards are the rest, named and costed by the bible; each row
+ * here names an effect from the vocabulary below, and the core applies it.
+ * The context button uses the top of the stash -- the last thing you picked
+ * up -- so what a press will do is always the thing the HUD shows on top.
+ *
+ * Effects, as a small closed vocabulary:
+ *
+ *   blast        the bomb: an arc onto a panel ahead, splashing a 3x3
+ *   parry        the next bolt that would land on you does not
+ *   cloak        nothing aims at you for a while
+ *   provoke      everything armed on the board fires this instant
+ *   summon       one virus of a named type arrives in your row
+ *   echo         your last shot is taken again, for a share of its worth
+ *
+ * Pure module. No DOM, no clock, no randomness.
+ */
+/*!
  * Movement: the step ration, the hop, paths, taps, and landing on a square.
  * The world decides where you may stand; this decides when and how you get
  * there.
+ */
+/*!
+ * The counters the bonus tasks watch. One function, called from the places
+ * where the thing being counted actually happens, so no module has to learn
+ * the task table to keep it fed.
+ *
+ * Pure module. No DOM, no clock, no randomness.
  */
 /*!
  * Pure selectors — the view model the renderer, the HUD and the overlays read.
