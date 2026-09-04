@@ -3471,7 +3471,8 @@ var TEMPLATE = `
   #place {
     position: absolute;
     left: 28px;
-    top: 74px;
+    /* clear of the pulse bar, which the canvas draws at y 66..78 */
+    top: 84px;
     color: var(--bw-ink-dim);
     font: 600 11px/1 var(--bw-mono);
     letter-spacing: 0.22em;
@@ -3486,7 +3487,8 @@ var TEMPLATE = `
   #stash {
     position: absolute;
     right: 28px;
-    top: 74px;
+    top: 84px;
+    max-width: 45%;
     color: var(--bw-ink-dim);
     font: 600 11px/1 var(--bw-mono);
     letter-spacing: 0.18em;
@@ -3496,7 +3498,7 @@ var TEMPLATE = `
     transition: opacity 240ms ease;
   }
   #stash.has { opacity: 1; }
-  #stash::first-letter { color: var(--bw-accent); }
+  #stash b { color: var(--bw-accent); font-weight: 600; }
   #say b { display: block; color: var(--bw-accent); font-size: 11px; letter-spacing: 0.22em; margin-bottom: 3px; }
   #say b:empty { display: none; }
   #bombBtn.talk {
@@ -4132,7 +4134,25 @@ function renderBombs(els, n, verb = "bomb", stash = null) {
   els.bombBtn.classList.toggle("talk", talk);
   els.bombBtn.classList.toggle("empty", !talk && !top);
   if (els.stash) {
-    els.stash.textContent = stash && stash.length ? stash.map((it) => it.name).join(" \xB7 ") : "";
+    els.stash.textContent = "";
+    if (stash && stash.length) {
+      const order = [], seen = /* @__PURE__ */ new Map();
+      for (const it of stash) {
+        if (!seen.has(it.id)) {
+          seen.set(it.id, 0);
+          order.push(it);
+        }
+        seen.set(it.id, seen.get(it.id) + 1);
+      }
+      const doc = els.stash.ownerDocument;
+      order.forEach((it, i) => {
+        const n2 = seen.get(it.id);
+        const tag = doc.createElement(i === 0 ? "b" : "span");
+        tag.textContent = it.name + (n2 > 1 ? " \xD7" + n2 : "");
+        els.stash.appendChild(tag);
+        if (i < order.length - 1) els.stash.appendChild(doc.createTextNode(" \xB7 "));
+      });
+    }
     els.stash.classList.toggle("has", !!(stash && stash.length));
   }
 }
@@ -6043,7 +6063,7 @@ function createStory({ say, hush, place, onError, load = Canon.load }) {
      */
     label(npc) {
       if (!convo || convo.npc !== npc) return null;
-      const more = convo.i + 1 < convo.beats.length && canon.t(convo.beats[convo.i + 1][1]) !== "";
+      const more = convo.i + 1 < convo.beats.length && beatText(convo.beats[convo.i + 1][1]) !== "";
       return more ? "next" : "done";
     },
     /** Walking away from the person closes the box; it is theirs, not the road's. */
