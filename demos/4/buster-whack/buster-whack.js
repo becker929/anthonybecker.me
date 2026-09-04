@@ -60,6 +60,207 @@ __export(constants_exports, {
   towerSpec: () => towerSpec,
   waveSize: () => waveSize
 });
+
+// src/core/enemies.js
+var ATTACKS = {
+  // one bolt down the firer's own lane: the game's original shot
+  bolt: { shots: [{ dRow: 0, delayKey: null, speedKey: null, radiusKey: null }] },
+  // a fan: the firer's lane and both neighbours at once. Standing still is
+  // the wrong answer to it; so is stepping one lane.
+  spread: { shots: [
+    { dRow: -1, delayKey: null, speedKey: null, radiusKey: null },
+    { dRow: 0, delayKey: null, speedKey: null, radiusKey: null },
+    { dRow: 1, delayKey: null, speedKey: null, radiusKey: null }
+  ] },
+  // two down one lane, the second a beat behind: dodging back too early is
+  // the mistake it punishes
+  volley: { shots: [
+    { dRow: 0, delayKey: null, speedKey: null, radiusKey: null },
+    { dRow: 0, delayKey: "VOLLEY_GAP_MS", speedKey: null, radiusKey: null }
+  ] },
+  // a slow fat one that owns the lane while it crosses: leave, or be hit
+  wall: { shots: [
+    { dRow: 0, delayKey: null, speedKey: "WALL_SPEED_FACTOR", radiusKey: "WALL_RADIUS_FACTOR" }
+  ] }
+};
+var ENEMIES = {
+  mett: {
+    canon: "enemy.rot.01",
+    family: "rot",
+    friendly: false,
+    hpKey: null,
+    riseKey: "RISE_MS",
+    lifeKey: null,
+    hopKey: "MET_HOP_MS",
+    hopWhenHeld: true,
+    retaliate: true,
+    attack: "bolt",
+    bolt: "slow",
+    armor: null,
+    stagger: false,
+    scoreKey: null
+  },
+  guard: {
+    canon: "enemy.sweeper.01",
+    family: "sweeper",
+    friendly: false,
+    hpKey: null,
+    riseKey: "RISE_MS",
+    lifeKey: null,
+    hopKey: null,
+    hopWhenHeld: false,
+    // The anchor of a formation already demands the one thing that pins you
+    // in place (a held charge); making it shoot too would punish the exact
+    // behaviour it exists to teach.
+    retaliate: false,
+    attack: null,
+    bolt: "slow",
+    armor: "steel",
+    stagger: false,
+    scoreKey: "guard"
+  },
+  hopper: {
+    canon: "enemy.static.01",
+    family: "static",
+    friendly: false,
+    hpKey: "HOPPER_HP",
+    riseKey: "RISE_MS",
+    lifeKey: "HOPPER_LIFE",
+    hopKey: "HOP_MS",
+    hopWhenHeld: false,
+    retaliate: true,
+    attack: "bolt",
+    bolt: "fast",
+    armor: null,
+    stagger: true,
+    scoreKey: "hopper"
+  },
+  ally: {
+    canon: "ally",
+    family: "prog",
+    friendly: true,
+    hpKey: null,
+    riseKey: "ALLY_RISE_MS",
+    lifeKey: null,
+    hopKey: null,
+    hopWhenHeld: false,
+    retaliate: false,
+    attack: null,
+    bolt: "slow",
+    armor: null,
+    stagger: false,
+    scoreKey: null
+  },
+  rare: {
+    canon: "enemy.rot.01",
+    family: "rot",
+    friendly: false,
+    hpKey: null,
+    riseKey: "RISE_MS",
+    lifeKey: "RARE_LIFE",
+    hopKey: null,
+    hopWhenHeld: false,
+    retaliate: false,
+    attack: null,
+    bolt: "slow",
+    armor: null,
+    stagger: false,
+    scoreKey: "rare"
+  },
+  sentinel: {
+    canon: "enemy.sweeper.01",
+    family: "sweeper",
+    friendly: false,
+    hpKey: null,
+    riseKey: "RISE_MS",
+    lifeKey: null,
+    // hp and timings come from the mark
+    hopKey: null,
+    hopWhenHeld: false,
+    retaliate: true,
+    attack: "bolt",
+    bolt: "slow",
+    armor: "shutter",
+    stagger: true,
+    scoreKey: "sentinel"
+  },
+  // ---- the rot that learned to fan out, to clog a lane, and the static
+  // that learned to shoot twice. Each is one row here and one attack above.
+  spreader: {
+    canon: "enemy.rot.02",
+    family: "rot",
+    friendly: false,
+    hpKey: "SPREADER_HP",
+    riseKey: "RISE_MS",
+    lifeKey: null,
+    hopKey: null,
+    hopWhenHeld: false,
+    retaliate: true,
+    attack: "spread",
+    bolt: "slow",
+    armor: null,
+    stagger: true,
+    scoreKey: "spreader"
+  },
+  warden: {
+    canon: "enemy.rot.03",
+    family: "rot",
+    friendly: false,
+    hpKey: "WARDEN_HP",
+    riseKey: "RISE_MS",
+    lifeKey: null,
+    hopKey: null,
+    hopWhenHeld: false,
+    retaliate: true,
+    attack: "wall",
+    bolt: "slow",
+    armor: null,
+    stagger: true,
+    scoreKey: "warden"
+  },
+  darter: {
+    canon: "enemy.static.02",
+    family: "static",
+    friendly: false,
+    hpKey: "DARTER_HP",
+    riseKey: "RISE_MS",
+    lifeKey: "HOPPER_LIFE",
+    hopKey: "DARTER_HOP_MS",
+    hopWhenHeld: false,
+    retaliate: true,
+    attack: "volley",
+    bolt: "fast",
+    armor: null,
+    stagger: true,
+    scoreKey: "darter"
+  }
+};
+var ENEMY_TYPES = Object.keys(ENEMIES);
+var inBoard = (row) => row >= 0 && row < ROWS;
+var DEF_FALLBACK = ENEMIES.mett;
+var enemyDef = (type) => ENEMIES[type] || DEF_FALLBACK;
+var boltKindFor = (type) => enemyDef(type).bolt;
+var canRetaliate = (type) => enemyDef(type).retaliate;
+function hpOf(tuning, type) {
+  const key = enemyDef(type).hpKey;
+  return key ? tuning[key] : 1;
+}
+function riseMsOf(tuning, type) {
+  return tuning[enemyDef(type).riseKey];
+}
+function shotsOf(tuning, type) {
+  const def = enemyDef(type);
+  const atk = def.attack ? ATTACKS[def.attack] : null;
+  if (!atk) return [];
+  return atk.shots.map((s) => ({
+    dRow: s.dRow,
+    delay: s.delayKey ? tuning[s.delayKey] : 0,
+    speedFactor: s.speedKey ? tuning[s.speedKey] : 1,
+    radiusFactor: s.radiusKey ? tuning[s.radiusKey] : 1
+  }));
+}
+
+// src/core/constants.js
 var ROWS = 3;
 var COLS = 6;
 var PCOLS = 3;
@@ -159,7 +360,6 @@ var FORMATIONS = [
 ];
 var UNLOCK = { guard: 1, retaliate: 2, ally: 3, hopper: 4, rare: 5 };
 var HURT_SHAKE_MS = 260;
-var boltKindFor = (type) => type === "hopper" ? "fast" : "slow";
 var multOf = (chain) => chain >= 20 ? 4 : chain >= 10 ? 3 : chain >= 5 ? 2 : 1;
 var STAGES = [
   { wave: 16, at: 26, title: "STEEL GUARDS" },
@@ -193,6 +393,9 @@ var HITSTOP = {
   guard: 46,
   hopper: 30,
   rare: 96,
+  spreader: 38,
+  warden: 44,
+  darter: 32,
   block: 12,
   stagger: 18,
   prog: 34,
@@ -206,6 +409,9 @@ var SHAKE = {
   guard: { amp: 7, ms: 190 },
   hopper: { amp: 4.5, ms: 150 },
   rare: { amp: 13, ms: 380 },
+  spreader: { amp: 6, ms: 175 },
+  warden: { amp: 7.5, ms: 200 },
+  darter: { amp: 5, ms: 160 },
   prog: { amp: 6, ms: 220 },
   hurt: { amp: 9, ms: HURT_SHAKE_MS },
   chain: { amp: 6, ms: 260 }
@@ -216,6 +422,9 @@ var DEBRIS = {
   hopper: ["#5ee87c", "#a6f5bb", "#c8ffd8"],
   ally: ["#58c7ff", "#a9defc", "#e2f4ff"],
   rare: ["#fff3c4", "#ffc95a", "#ffd23f"],
+  spreader: ["#ffa23f", "#ffd0a0", "#ffe8d0"],
+  warden: ["#c07be0", "#e0bcf0", "#f0dcff"],
+  darter: ["#3fd8b0", "#a0f0dc", "#d8fff4"],
   player: ["#ff5470", "#ff9f45", "#ffd7de"]
 };
 var BIT_COUNT = {
@@ -224,6 +433,9 @@ var BIT_COUNT = {
   guard: 13,
   hopper: 11,
   rare: 22,
+  spreader: 12,
+  warden: 13,
+  darter: 11,
   block: 4,
   stagger: 5,
   prog: 8,
@@ -309,12 +521,18 @@ var TUNING_SCHEMA = [
     ["PTS_HOPPER", 250, 0, 5e3, 10, "pts", "A hopper."],
     ["PTS_SENTINEL", 500, 0, 5e3, 10, "pts", "A sentinel."],
     ["PTS_RARE", 1e3, 0, 1e4, 50, "pts", "A rare virus (retired modes)."],
+    ["PTS_SPREADER", 350, 0, 5e3, 10, "pts", "A spreader: the rot that fires across three lanes."],
+    ["PTS_WARDEN", 450, 0, 5e3, 10, "pts", "A warden: the rot that walls a lane."],
+    ["PTS_DARTER", 300, 0, 5e3, 10, "pts", "A darter: the static that shoots twice."],
     ["BONUS_NORMAL", 1.2, 0, 10, 0.1, "s", "Pulse for a plain deletion, before overclock decay."],
     ["BONUS_CHARGED", 2.5, 0, 10, 0.1, "s", "Pulse for a charged deletion."],
     ["BONUS_GUARD", 3, 0, 10, 0.1, "s", "Pulse for a steel guard."],
     ["BONUS_HOPPER", 1.8, 0, 10, 0.1, "s", "Pulse for a hopper."],
     ["BONUS_SENTINEL", 3, 0, 10, 0.1, "s", "Pulse for a sentinel."],
     ["BONUS_RARE", 8, 0, 30, 0.5, "s", "Pulse for a rare."],
+    ["BONUS_SPREADER", 2.2, 0, 10, 0.1, "s", "Pulse for a spreader."],
+    ["BONUS_WARDEN", 2.6, 0, 10, 0.1, "s", "Pulse for a warden."],
+    ["BONUS_DARTER", 2, 0, 10, 0.1, "s", "Pulse for a darter."],
     ["ALLY_TIME_PENALTY", 3, 0, 10, 0.1, "s", "Pulse lost for shooting a runner."],
     ["ALLY_PTS_PENALTY", 200, 0, 5e3, 10, "pts", "Points lost for shooting a runner."],
     ["ALLY_SPARE_BONUS", 0.5, 0, 5, 0.1, "s", "Pulse for letting a runner pass."],
@@ -340,6 +558,7 @@ var TUNING_SCHEMA = [
     ["HOP_MS", 550, 100, 2e3, 10, "ms", "A hopper's own hop between panels."],
     ["HOP_GROW_MS", 120, 20, 500, 10, "ms", "A hopper regrowing after a hop."],
     ["HOPPER_LIFE", 2200, 500, 1e4, 50, "ms", "How long a hopper stays up (arcade)."],
+    ["DARTER_HOP_MS", 340, 100, 2e3, 10, "ms", "A darter moves half again as often as a hopper."],
     ["RARE_LIFE", 650, 100, 5e3, 50, "ms", "How long a rare stays up."],
     ["ALLY_RISE_MS", 460, 100, 2e3, 10, "ms", "A runner surfaces slowly and cannot be hit until up."],
     ["MET_HOP_MS", 1500, 300, 5e3, 50, "ms", "A persistent mett shuffles a panel this often."],
@@ -369,7 +588,10 @@ var TUNING_SCHEMA = [
     ["UNLOCK_HOPPER", 40, 0, 500, 1, "arena", "Hoppers from this arena on."],
     ["UNLOCK_SENTINEL1", 50, 0, 500, 1, "arena", "Sentinels (mark I) from this arena on."],
     ["UNLOCK_SWARM", 60, 0, 500, 1, "arena", "Tighter lulls from this arena on."],
+    ["UNLOCK_SPREADER", 60, 0, 500, 1, "arena", "Spreaders from this arena on."],
+    ["UNLOCK_DARTER", 80, 0, 500, 1, "arena", "Darters from this arena on."],
     ["UNLOCK_SENTINEL2", 70, 0, 500, 1, "arena", "Sentinel mark II from this arena on."],
+    ["UNLOCK_WARDEN", 90, 0, 500, 1, "arena", "Wardens from this arena on."],
     ["UNLOCK_SENTINEL3", 90, 0, 500, 1, "arena", "Sentinel mark III from this arena on."],
     ["ROAD_END", 100, 10, 1e3, 1, "arena", "Past this the run is unlimited: nothing new is held back."]
   ]],
@@ -381,7 +603,10 @@ var TUNING_SCHEMA = [
     ["ADV_ALLY", 30, 0, 500, 1, "arena", ""],
     ["ADV_SENTINEL2", 40, 0, 500, 1, "arena", ""],
     ["ADV_SWARM", 55, 0, 500, 1, "arena", ""],
-    ["ADV_SENTINEL3", 70, 0, 500, 1, "arena", ""]
+    ["ADV_SENTINEL3", 70, 0, 500, 1, "arena", ""],
+    ["ADV_SPREADER", 35, 0, 500, 1, "arena", ""],
+    ["ADV_DARTER", 45, 0, 500, 1, "arena", ""],
+    ["ADV_WARDEN", 60, 0, 500, 1, "arena", ""]
   ]],
   ["waves", [
     ["WAVE_STAGGER_BASE", 420, 50, 2e3, 10, "ms", "Gap between arrivals inside a wave, at wave 0."],
@@ -409,10 +634,22 @@ var TUNING_SCHEMA = [
     ["RARE_LOW_TIME_FACTOR", 2.5, 1, 10, 0.5, "x", "Rares are this much likelier when the clock is low."],
     ["SENTINEL_CHANCE_BASE", 0.35, 0, 1, 0.05, "p", "Chance a wave carries a sentinel, once unlocked."],
     ["SENTINEL_CHANCE_PER", 6e-3, 0, 0.1, 1e-3, "p", "Plus this per arena past the unlock."],
-    ["SENTINEL_CHANCE_MAX", 0.7, 0, 1, 0.05, "p", ""]
+    ["SENTINEL_CHANCE_MAX", 0.7, 0, 1, 0.05, "p", ""],
+    ["SPREADER_CHANCE_BASE", 0.3, 0, 1, 0.05, "p", "Chance one slot is a spreader, once unlocked."],
+    ["SPREADER_CHANCE_PER", 6e-3, 0, 0.1, 1e-3, "p", "Plus this per arena past the unlock."],
+    ["SPREADER_CHANCE_MAX", 0.55, 0, 1, 0.05, "p", ""],
+    ["DARTER_CHANCE_BASE", 0.25, 0, 1, 0.05, "p", "Chance one slot is a darter, once unlocked."],
+    ["DARTER_CHANCE_PER", 6e-3, 0, 0.1, 1e-3, "p", "Plus this per arena past the unlock."],
+    ["DARTER_CHANCE_MAX", 0.5, 0, 1, 0.05, "p", ""],
+    ["WARDEN_CHANCE_BASE", 0.22, 0, 1, 0.05, "p", "Chance one slot is a warden, once unlocked."],
+    ["WARDEN_CHANCE_PER", 5e-3, 0, 0.1, 1e-3, "p", "Plus this per arena past the unlock."],
+    ["WARDEN_CHANCE_MAX", 0.45, 0, 1, 0.05, "p", ""]
   ]],
   ["counterattack", [
     ["ATTACK_START", 12, 0, 500, 1, "kills", "Kill count before anything shoots (arcade); ramps read from here."],
+    ["VOLLEY_GAP_MS", 260, 40, 1500, 10, "ms", "The beat between the two shots of a volley."],
+    ["WALL_SPEED_FACTOR", 0.55, 0.1, 1, 0.05, "x", "A wall bolt crosses a panel this much faster than a plain one."],
+    ["WALL_RADIUS_FACTOR", 1.7, 1, 4, 0.1, "x", "A wall bolt is this much wider."],
     ["BOLT_HIT_R", 0.28, 0.05, 1, 0.01, "panels", "A bolt lands within this fraction of a panel."],
     ["ATTACK_CHANCE_MET_BASE", 0.24, 0, 1, 0.01, "p", "Per-mett chance to retaliate at the attack start."],
     ["ATTACK_CHANCE_MET_PER", 4e-3, 0, 0.1, 1e-3, "p", "Plus this per kill past the start."],
@@ -445,6 +682,10 @@ var TUNING_SCHEMA = [
     ["SENTINEL_3_HP", 3, 1, 10, 1, "hits", ""],
     ["SENTINEL_3_OPEN_MS", 780, 200, 5e3, 50, "ms", ""],
     ["SENTINEL_3_CLOSED_MS", 1050, 200, 5e3, 50, "ms", ""],
+    ["HOPPER_HP", 2, 1, 8, 1, "hits", "Hits to delete a hopper (a charged shot takes it outright)."],
+    ["SPREADER_HP", 2, 1, 8, 1, "hits", "Hits to delete a spreader."],
+    ["WARDEN_HP", 2, 1, 8, 1, "hits", "Hits to delete a warden."],
+    ["DARTER_HP", 2, 1, 8, 1, "hits", "Hits to delete a darter."],
     ["SENTINEL_CHARGED_DMG", 2, 1, 10, 1, "hits", "A charged shot counts as this many hits on a sentinel."]
   ]],
   ["bomb", [
@@ -503,7 +744,10 @@ function assemble(v, applied, version) {
     guard: v.PTS_GUARD,
     hopper: v.PTS_HOPPER,
     sentinel: v.PTS_SENTINEL,
-    rare: v.PTS_RARE
+    rare: v.PTS_RARE,
+    spreader: v.PTS_SPREADER,
+    warden: v.PTS_WARDEN,
+    darter: v.PTS_DARTER
   };
   t.BONUS = {
     normal: v.BONUS_NORMAL,
@@ -511,7 +755,10 @@ function assemble(v, applied, version) {
     guard: v.BONUS_GUARD,
     hopper: v.BONUS_HOPPER,
     sentinel: v.BONUS_SENTINEL,
-    rare: v.BONUS_RARE
+    rare: v.BONUS_RARE,
+    spreader: v.BONUS_SPREADER,
+    warden: v.BONUS_WARDEN,
+    darter: v.BONUS_DARTER
   };
   t.SENTINEL = {
     1: { hp: v.SENTINEL_1_HP, openMs: v.SENTINEL_1_OPEN_MS, closedMs: v.SENTINEL_1_CLOSED_MS },
@@ -527,7 +774,10 @@ function assemble(v, applied, version) {
     swarm: v.UNLOCK_SWARM,
     sentinel2: v.UNLOCK_SENTINEL2,
     sentinel3: v.UNLOCK_SENTINEL3,
-    unlimited: v.ROAD_END
+    unlimited: v.ROAD_END,
+    spreader: v.UNLOCK_SPREADER,
+    darter: v.UNLOCK_DARTER,
+    warden: v.UNLOCK_WARDEN
   };
   t.ADV_UNLOCK = {
     guard: v.ADV_GUARD,
@@ -538,7 +788,10 @@ function assemble(v, applied, version) {
     sentinel2: v.ADV_SENTINEL2,
     swarm: v.ADV_SWARM,
     sentinel3: v.ADV_SENTINEL3,
-    unlimited: v.ROAD_END
+    unlimited: v.ROAD_END,
+    spreader: v.ADV_SPREADER,
+    darter: v.ADV_DARTER,
+    warden: v.ADV_WARDEN
   };
   t.unlockTable = (mode) => mode.story ? t.STORY_UNLOCK : t.ADV_UNLOCK;
   t.HOP_TOTAL_MS = v.HOP_WINDUP_MS + v.HOP_MOVE_MS + v.HOP_SETTLE_MS;
@@ -564,6 +817,10 @@ function assemble(v, applied, version) {
     const k = past(del);
     return type === "hopper" ? Math.min(v.ATTACK_CHANCE_HOP_MAX, v.ATTACK_CHANCE_HOP_BASE + k * v.ATTACK_CHANCE_HOP_PER) : Math.min(v.ATTACK_CHANCE_MET_MAX, v.ATTACK_CHANCE_MET_BASE + k * v.ATTACK_CHANCE_MET_PER);
   };
+  const perArena = (base, per, max) => (k) => Math.min(max, base + Math.max(0, k) * per);
+  t.spreaderWaveChance = perArena(v.SPREADER_CHANCE_BASE, v.SPREADER_CHANCE_PER, v.SPREADER_CHANCE_MAX);
+  t.darterWaveChance = perArena(v.DARTER_CHANCE_BASE, v.DARTER_CHANCE_PER, v.DARTER_CHANCE_MAX);
+  t.wardenWaveChance = perArena(v.WARDEN_CHANCE_BASE, v.WARDEN_CHANCE_PER, v.WARDEN_CHANCE_MAX);
   t.upMs = (del) => Math.max(v.UP_MS_MIN, v.UP_MS_BASE - del * v.UP_MS_PER_KILL);
   t.level = (del) => 1 + Math.floor(del / v.LEVEL_PER_KILLS);
   t.bonusFactor = (del) => del < v.OC_START ? 1 : Math.pow(v.OC_SLOPE, del - v.OC_START);
@@ -1439,7 +1696,6 @@ function freeSlot(state, planned) {
   const [col, row] = free[Math.floor(state.rng() * free.length)];
   return { col, row };
 }
-var canRetaliate = (type) => type === "mett" || type === "hopper" || type === "sentinel";
 function unlocked(state, key) {
   const mode = modeById(state.modeId);
   if (mode.advancing) {
@@ -1503,6 +1759,18 @@ function planWave(state) {
       pick.tier = mark > 1 && state.rng() < 0.35 ? mark - 1 : mark;
     }
   }
+  for (const [key, chance] of [
+    ["spreader", "spreaderWaveChance"],
+    ["darter", "darterWaveChance"],
+    ["warden", "wardenWaveChance"]
+  ]) {
+    if (!unlocked(state, key)) continue;
+    const at = state.tuning.unlockTable(modeById(state.modeId))[key];
+    if (state.rng() >= state.tuning[chance](arena2.idx - at)) continue;
+    const plain = slots.filter((sl) => sl.type === "mett");
+    if (!plain.length) continue;
+    plain[Math.floor(state.rng() * plain.length)].type = key;
+  }
   if (unlocked(state, "ally") && state.rng() < state.tuning.allyWaveChance(chanceStage - UNLOCK.ally)) {
     const spot = freeSlot(state, slots);
     if (spot) slots.push({ ...spot, type: "ally", at: now + slots.length * stagger });
@@ -1556,8 +1824,8 @@ function spawnFromSlot(state, slot, events) {
     t0: now,
     persistent: !!slot.persistent,
     refireAt: Infinity,
-    riseMs: type === "ally" ? state.tuning.ALLY_RISE_MS : state.tuning.RISE_MS,
-    hp: sent ? sent.hp : type === "hopper" ? 2 : 1,
+    riseMs: riseMsOf(state.tuning, type),
+    hp: sent ? sent.hp : hpOf(state.tuning, type),
     tier,
     lastHop: now,
     hopT0: -1e9,
@@ -1705,8 +1973,9 @@ function updateWave(state, events) {
 }
 function lifeOf(state, e) {
   if (e.persistent) return Infinity;
-  if (e.type === "rare") return state.tuning.RARE_LIFE;
-  const base = e.type === "hopper" ? state.tuning.HOPPER_LIFE : state.tuning.upMs(state.deletions);
+  const lifeKey = enemyDef(e.type).lifeKey;
+  const base = lifeKey ? state.tuning[lifeKey] : state.tuning.upMs(state.deletions);
+  if (e.type === "rare") return base;
   if (!e.willAttack) return base;
   return Math.max(base, aimOf(state, e) + state.tuning.ATTACK_FOLLOW_MS);
 }
@@ -1718,6 +1987,7 @@ function updateEnemies(state, events) {
   for (let i = state.enemies.length - 1; i >= 0; i--) {
     const e = state.enemies[i];
     const t = now - e.t0;
+    if (e.pending) updatePending(state, e, events);
     switch (e.state) {
       case "rising":
         if (t >= (e.riseMs || state.tuning.RISE_MS)) {
@@ -1745,7 +2015,8 @@ function updateEnemies(state, events) {
           break;
         }
         const aiming = e.willAttack && !e.fired;
-        const hopEvery = e.type === "hopper" ? state.tuning.HOP_MS : e.type === "mett" && e.persistent ? state.tuning.MET_HOP_MS : Infinity;
+        const def = enemyDef(e.type);
+        const hopEvery = !def.hopKey || def.hopWhenHeld && !e.persistent ? Infinity : state.tuning[def.hopKey];
         if (!aiming && now - e.lastHop >= hopEvery) {
           hopTo(state, e, events);
           e.lastHop = now;
@@ -1804,28 +2075,51 @@ function hopTo(state, e, events) {
   const p = panel(state, c, r);
   events.push({ type: "hopperHop", col: c, row: r, x: p.x + p.w / 2, y: p.y });
 }
-function fireBolt(state, e, events) {
-  const p = panel(state, e.col, e.row);
+function launchBolt(state, e, shot, events) {
+  const row = e.row + shot.dRow;
+  if (!inBoard(row)) return;
+  const p = panel(state, e.col, row);
   const kind = e.boltKind || boltKindFor(e.type);
   state.bolts.push({
-    row: e.row,
+    row,
     x: p.x + p.w / 2,
-    speed: state.G.pw / state.tuning.boltPanelMs(state.deletions, kind),
     // px per ms, travelling left
+    speed: state.G.pw / state.tuning.boltPanelMs(state.deletions, kind) * shot.speedFactor,
     kind,
-    radius: state.G.pw * state.tuning.BOLT[kind].radiusFrac,
+    radius: state.G.pw * state.tuning.BOLT[kind].radiusFrac * shot.radiusFactor,
     heavy: kind === "slow"
   });
   events.push({
     type: "enemyFired",
     enemyType: e.type,
     col: e.col,
-    row: e.row,
+    row,
     kind,
     heavy: kind === "slow",
     x: p.x + p.w / 2,
     y: p.y
   });
+}
+function fireBolt(state, e, events) {
+  const shots = shotsOf(state.tuning, e.type);
+  const now = state.clock;
+  for (const shot of shots) {
+    if (shot.delay > 0) (e.pending || (e.pending = [])).push({ at: now + shot.delay, shot });
+    else launchBolt(state, e, shot, events);
+  }
+}
+function updatePending(state, e, events) {
+  const q = e.pending;
+  if (!q || !q.length) return;
+  const now = state.clock;
+  for (let i = 0; i < q.length; ) {
+    if (q[i].at > now) {
+      i++;
+      continue;
+    }
+    launchBolt(state, e, q[i].shot, events);
+    q.splice(i, 1);
+  }
 }
 
 // src/core/combat.js
@@ -2046,7 +2340,7 @@ function deleteEnemy(state, target, tierName, land2, events) {
   if (state.chain > state.bestChain) state.bestChain = state.chain;
   const mult = multOf(state.chain);
   if (state.wave && target.wave === state.wave.index) state.wave.kills++;
-  const baseKey = target.type === "guard" ? "guard" : target.type === "hopper" ? "hopper" : target.type === "rare" ? "rare" : target.type === "sentinel" ? "sentinel" : tierName;
+  const baseKey = enemyDef(target.type).scoreKey || tierName;
   const pts = (state.tuning.PTS[baseKey] === void 0 ? state.tuning.PTS[tierName] : state.tuning.PTS[baseKey]) * mult;
   state.score += pts;
   state.deletions++;
@@ -2189,7 +2483,7 @@ function shoot(state, tierName, events) {
     events.push({ type: "statsChanged" });
     return;
   }
-  if (target.type === "guard" && tierName === "normal") {
+  if (enemyDef(target.type).armor === "steel" && tierName === "normal") {
     state.fx.sparks.push({ x: p.x + p.w * 0.28, y: p.y + p.h * 0.2, t0: land2 });
     state.fx.popups.push({ x: cx, y: p.y - 8, t0: land2, text: "GUARD", color: "#8a96b8" });
     spawnBits(
@@ -2205,7 +2499,7 @@ function shoot(state, tierName, events) {
     events.push({ type: "guardBlocked", col: target.col, row: target.row, x: cx, y: p.y });
     return;
   }
-  if (target.type === "sentinel") {
+  if (enemyDef(target.type).armor === "shutter") {
     const open = target.willAttack ? !target.fired : true;
     if (!open) {
       state.fx.sparks.push({ x: p.x + p.w * 0.28, y: p.y + p.h * 0.2, t0: land2 });
@@ -2234,7 +2528,7 @@ function shoot(state, tierName, events) {
       return;
     }
   }
-  if (target.type === "hopper" && tierName === "normal" && target.hp > 1) {
+  if (enemyDef(target.type).stagger && tierName === "normal" && target.hp > 1) {
     target.hp--;
     state.fx.sparks.push({ x: cx, y: p.y + p.h * 0.2, t0: land2 });
     state.fx.popups.push({ x: cx, y: p.y - 8, t0: land2, text: "1 more", color: "#5ee87c" });
@@ -5541,6 +5835,10 @@ var SKINS = {
   hopper: { dome: "#5ee87c", stripe: "#1f7c3d" },
   ally: { dome: "#58c7ff", stripe: "#2a7ab8" },
   rare: { dome: "#fff3c4", stripe: "#e8a020" },
+  // the later rot and static: each wears the family's hue, darker and harder
+  spreader: { dome: "#ffa23f", stripe: "#a85a12" },
+  warden: { dome: "#c07be0", stripe: "#5f2f7a" },
+  darter: { dome: "#3fd8b0", stripe: "#12705a" },
   // the sentinel is drawn on its own path below; this is for debris and ghosts
   sentinel: { dome: "#b48cff", stripe: "#5a3f9a" }
 };
@@ -5597,6 +5895,22 @@ function paintEnemy(ctx, { bw, bh }, type) {
     ctx.fillStyle = "#2a7ab8";
     ctx.fillRect(-bw * 0.06, -bh * 0.34, bw * 0.12, bh * 0.22);
     ctx.fillRect(-bw * 0.24, -bh * 0.28, bw * 0.48, bh * 0.1);
+  } else if (type === "spreader") {
+    ctx.fillStyle = "#232c42";
+    ctx.fillRect(-bw * 0.46, -bh * 0.34, bw * 0.92, bh * 0.24);
+    ctx.fillStyle = "#ffd7a8";
+    for (const dx of [-0.32, -0.06, 0.2]) ctx.fillRect(bw * dx, -bh * 0.3, bw * 0.12, bh * 0.16);
+  } else if (type === "warden") {
+    ctx.fillStyle = "#232c42";
+    ctx.fillRect(-bw * 0.5, -bh * 0.34, bw * 1, bh * 0.24);
+    ctx.fillStyle = "#f0d7ff";
+    ctx.fillRect(-bw * 0.38, -bh * 0.29, bw * 0.76, bh * 0.13);
+  } else if (type === "darter") {
+    ctx.fillStyle = "#232c42";
+    ctx.fillRect(-bw * 0.42, -bh * 0.34, bw * 0.84, bh * 0.24);
+    ctx.fillStyle = "#d8fff4";
+    ctx.fillRect(-bw * 0.16, -bh * 0.3, bw * 0.1, bh * 0.14);
+    ctx.fillRect(bw * 0.06, -bh * 0.3, bw * 0.1, bh * 0.14);
   } else {
     ctx.fillStyle = "#232c42";
     ctx.fillRect(-bw * 0.42, -bh * 0.34, bw * 0.84, bh * 0.24);
@@ -5689,7 +6003,7 @@ function manifestFor(G) {
   const ents = {};
   const eb = enemyBox(G), pb = playerBox(G), ib = itemBox(G), pr = pickupRadius(G);
   const bodyCell = (halfW, up, down) => ({ w: 2 * ceil(halfW) + 4, h: ceil(up) + ceil(down) + 4, ax: ceil(halfW) + 2, ay: ceil(up) + 2 });
-  for (const type of ["mett", "guard", "hopper", "ally", "rare"]) {
+  for (const type of ["mett", "guard", "hopper", "ally", "rare", "spreader", "warden", "darter"]) {
     ents["enemy." + type] = {
       cell: bodyCell(eb.bw * 0.62, eb.bh * 1, 0),
       states: { up: { frames: 1, ms: 0 } },
@@ -6514,7 +6828,8 @@ function blastOf(e) {
   if (e.type === "ally") return BLASTS.prog;
   if (e.type === "rare") return BLASTS.rare;
   if (e.type === "guard") return BLASTS.guard;
-  if (e.type === "hopper") return BLASTS.hopper;
+  if (e.type === "hopper" || e.type === "darter") return BLASTS.hopper;
+  if (e.type === "spreader" || e.type === "warden") return BLASTS.guard;
   return e.tier && e.tier.scale && e.tier.scale.peak >= 1.9 ? BLASTS.charged : BLASTS.normal;
 }
 function blastPhase(state, now, e) {
@@ -7311,6 +7626,23 @@ export {
   mount_default as default,
   mountBusterWhack
 };
+/*!
+ * The enemy table: every virus as data, and the attacks they use.
+ *
+ * One entry per type says what the thing *is* — how many hits it takes, how
+ * long it stays up, whether it moves, whether it shoots and with what, what
+ * armour it wears and what it is worth. The numbers behind those answers are
+ * tuning (see tuning.js); this table names which of them each type reads, so
+ * a new virus is a row here plus its numbers there, not a new branch in five
+ * files.
+ *
+ * Attacks are their own vocabulary. An attack is a list of shots, each with a
+ * row offset and a delay, and optional factors on the bolt's speed and size.
+ * That is enough for every pattern the game fires: a single bolt, a fan across
+ * three lanes, a two-shot volley down one, or a slow fat wall.
+ *
+ * Pure module. No DOM, no clock, no randomness.
+ */
 /*!
  * Tuning tables, ramp functions and layout math.
  *
