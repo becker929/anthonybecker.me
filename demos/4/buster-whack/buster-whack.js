@@ -8,31 +8,10 @@ var __export = (target, all) => {
 var constants_exports = {};
 __export(constants_exports, {
   ADVANCE_STAGES: () => ADVANCE_STAGES,
-  ADV_UNLOCK: () => ADV_UNLOCK,
-  ALLY_PTS_PENALTY: () => ALLY_PTS_PENALTY,
-  ALLY_RISE_MS: () => ALLY_RISE_MS,
-  ALLY_SPARE_BONUS: () => ALLY_SPARE_BONUS,
-  ALLY_TIME_PENALTY: () => ALLY_TIME_PENALTY,
-  ARENA_CLEAR_BONUS: () => ARENA_CLEAR_BONUS,
-  ARENA_CLEAR_PTS: () => ARENA_CLEAR_PTS,
-  ARENA_ENTRY_DELAY_MS: () => ARENA_ENTRY_DELAY_MS,
-  ARENA_WAVE_GAP_MS: () => ARENA_WAVE_GAP_MS,
-  ATTACK_FOLLOW_MS: () => ATTACK_FOLLOW_MS,
-  ATTACK_START: () => ATTACK_START,
   BIT_COUNT: () => BIT_COUNT,
   BIT_GRAVITY: () => BIT_GRAVITY,
   BIT_MS: () => BIT_MS,
-  BOLT: () => BOLT,
-  BOLT_HIT_R: () => BOLT_HIT_R,
-  BOMB_ARC_MS: () => BOMB_ARC_MS,
-  BOMB_BLAST_MS: () => BOMB_BLAST_MS,
-  BOMB_PICKUP_CHANCE: () => BOMB_PICKUP_CHANCE,
-  BOMB_RADIUS: () => BOMB_RADIUS,
-  BOMB_RANGE: () => BOMB_RANGE,
-  BONUS: () => BONUS,
-  CAM_TAU_MS: () => CAM_TAU_MS,
   CHAIN_BREAK_MS: () => CHAIN_BREAK_MS,
-  CHARGE_MS: () => CHARGE_MS,
   COLS: () => COLS,
   DEBRIS: () => DEBRIS,
   DEFAULT_MODE: () => DEFAULT_MODE,
@@ -41,154 +20,63 @@ __export(constants_exports, {
   FORMATIONS: () => FORMATIONS,
   GHOST_MS: () => GHOST_MS,
   HITSTOP: () => HITSTOP,
-  HIT_IFRAME_MS: () => HIT_IFRAME_MS,
-  HIT_MS: () => HIT_MS,
-  HIT_TIME_PENALTY: () => HIT_TIME_PENALTY,
-  HOPPER_LIFE: () => HOPPER_LIFE,
-  HOP_COMMIT_MS: () => HOP_COMMIT_MS,
-  HOP_GROW_MS: () => HOP_GROW_MS,
-  HOP_MOVE_MS: () => HOP_MOVE_MS,
-  HOP_MS: () => HOP_MS,
-  HOP_SETTLE_MS: () => HOP_SETTLE_MS,
-  HOP_TOTAL_MS: () => HOP_TOTAL_MS,
-  HOP_WINDUP_MS: () => HOP_WINDUP_MS,
   HURT_FLASH_MS: () => HURT_FLASH_MS,
   HURT_SHAKE_MS: () => HURT_SHAKE_MS,
   LANE_MS: () => LANE_MS,
-  LOW_TIME: () => LOW_TIME,
-  LOW_TIME_LULL_MS: () => LOW_TIME_LULL_MS,
   LULL_TIGHTEN_STAGE: () => LULL_TIGHTEN_STAGE,
-  MAX_ALIVE: () => MAX_ALIVE,
   MAX_BITS: () => MAX_BITS,
   MAX_HITSTOP: () => MAX_HITSTOP,
-  MET_HOP_MS: () => MET_HOP_MS,
   MODES: () => MODES,
-  MOVE_REPEAT_MS: () => MOVE_REPEAT_MS,
   MUZZLE_MS: () => MUZZLE_MS,
-  NARROW_ROAD_CHANCE: () => NARROW_ROAD_CHANCE,
-  OC_SLOPE: () => OC_SLOPE,
-  OC_START: () => OC_START,
   PCOLS: () => PCOLS,
   POPUP_MS: () => POPUP_MS,
-  PTS: () => PTS,
-  RARE_LIFE: () => RARE_LIFE,
   RAY_IMPACT_MS: () => RAY_IMPACT_MS,
-  REFIRE_MS: () => REFIRE_MS,
   RETIRED_MODES: () => RETIRED_MODES,
   RING_GAP: () => RING_GAP,
   RIPPLE_MS: () => RIPPLE_MS,
-  RISE_MS: () => RISE_MS,
   RM: () => RM,
   ROAD_COLS: () => ROAD_COLS,
-  ROAD_END: () => ROAD_END,
   ROAD_MID_ROW: () => ROAD_MID_ROW,
   ROWS: () => ROWS,
-  SENTINEL: () => SENTINEL,
-  SENTINEL_CHARGED_DMG: () => SENTINEL_CHARGED_DMG,
   SHAKE: () => SHAKE,
-  SINK_MS: () => SINK_MS,
   SPARK_MS: () => SPARK_MS,
   STAGES: () => STAGES,
-  STAGE_BONUS: () => STAGE_BONUS,
-  START_TIME: () => START_TIME,
   STORY_ROUTE: () => STORY_ROUTE,
-  STORY_UNLOCK: () => STORY_UNLOCK,
-  TAP_MOVE_MS: () => TAP_MOVE_MS,
   TAP_SLACK: () => TAP_SLACK,
   TAU: () => TAU,
   TIERS: () => TIERS,
-  TIME_CAP: () => TIME_CAP,
   TOWER_COLS: () => TOWER_COLS,
-  TOWER_EVERY: () => TOWER_EVERY,
   TOWER_SPECS: () => TOWER_SPECS,
   UNLOCK: () => UNLOCK,
-  WAVE_CLEAR_LULL: () => WAVE_CLEAR_LULL,
-  WAVE_CLEAR_PTS: () => WAVE_CLEAR_PTS,
-  WAVE_GRACE_MS: () => WAVE_GRACE_MS,
   WAVE_SIZE: () => WAVE_SIZE,
-  aimMs: () => aimMs,
-  allyWaveChance: () => allyWaveChance,
-  arenaPlan: () => arenaPlan,
-  attackChance: () => attackChance,
   boltKindFor: () => boltKindFor,
-  boltPanelMs: () => boltPanelMs,
-  bonusFactor: () => bonusFactor,
-  dodgeWindowMs: () => dodgeWindowMs,
-  guardWaveChance: () => guardWaveChance,
-  hopperWaveChance: () => hopperWaveChance,
   impulseValue: () => impulseValue,
   laneY: () => laneY,
   layout: () => layout,
-  level: () => level,
   makeImpulse: () => makeImpulse,
   modeById: () => modeById,
   multOf: () => multOf,
   panelRect: () => panelRect,
-  rareWaveChance: () => rareWaveChance,
-  sentinelWaveChance: () => sentinelWaveChance,
   towerSpec: () => towerSpec,
-  unlockTable: () => unlockTable,
-  upMs: () => upMs,
-  waveClearBonus: () => waveClearBonus,
-  waveLullMs: () => waveLullMs,
-  waveSize: () => waveSize,
-  waveStaggerMs: () => waveStaggerMs
+  waveSize: () => waveSize
 });
 var ROWS = 3;
 var COLS = 6;
 var PCOLS = 3;
 var ROAD_COLS = 3;
 var ROAD_MID_ROW = 1;
-var NARROW_ROAD_CHANCE = 0.5;
-var ARENA_CLEAR_BONUS = 3;
-var ARENA_CLEAR_PTS = 1500;
-var ARENA_ENTRY_DELAY_MS = 650;
-var CAM_TAU_MS = 170;
-var ARENA_WAVE_GAP_MS = 550;
-var REFIRE_MS = 1400;
-function arenaPlan(idx) {
-  const pool = Math.min(20, 4 + Math.floor(idx * 0.16));
-  const waveSize2 = Math.min(5, 2 + Math.floor(idx / 25));
-  return { pool, waveSize: waveSize2 };
-}
-var ROAD_END = 100;
-var ADV_UNLOCK = {
-  guard: 5,
-  retaliate: 9,
-  hopper: 15,
-  sentinel1: 20,
-  ally: 30,
-  sentinel2: 40,
-  swarm: 55,
-  sentinel3: 70,
-  unlimited: ROAD_END
-};
 var ADVANCE_STAGES = [
-  { arena: ADV_UNLOCK.guard, title: "STEEL GUARDS" },
-  { arena: ADV_UNLOCK.retaliate, title: "RETALIATION" },
-  { arena: ADV_UNLOCK.hopper, title: "HOPPERS" },
-  { arena: ADV_UNLOCK.sentinel1, title: "SENTINELS" },
-  { arena: ADV_UNLOCK.ally, title: "PROGS ONLINE" },
-  { arena: ADV_UNLOCK.sentinel2, title: "SENTINEL MK II" },
-  { arena: ADV_UNLOCK.swarm, title: "SWARM" },
-  { arena: ADV_UNLOCK.sentinel3, title: "SENTINEL MK III" },
-  { arena: ADV_UNLOCK.unlimited, title: "UNLIMITED" }
+  { arena: 5, title: "STEEL GUARDS" },
+  { arena: 9, title: "RETALIATION" },
+  { arena: 15, title: "HOPPERS" },
+  { arena: 20, title: "SENTINELS" },
+  { arena: 30, title: "PROGS ONLINE" },
+  { arena: 40, title: "SENTINEL MK II" },
+  { arena: 55, title: "SWARM" },
+  { arena: 70, title: "SENTINEL MK III" },
+  { arena: 100, title: "UNLIMITED" }
 ];
-var MET_HOP_MS = 1500;
-var SENTINEL = {
-  1: { hp: 1, openMs: 1400, closedMs: 1500 },
-  2: { hp: 2, openMs: 1050, closedMs: 1250 },
-  3: { hp: 3, openMs: 780, closedMs: 1050 }
-};
-var SENTINEL_CHARGED_DMG = 2;
-var sentinelWaveChance = (idx) => Math.min(0.7, 0.35 + (idx - ADV_UNLOCK.sentinel1) * 6e-3);
-var BOMB_RANGE = 3;
-var BOMB_ARC_MS = 640;
-var BOMB_RADIUS = 1;
-var BOMB_PICKUP_CHANCE = 0.6;
-var BOMB_BLAST_MS = 460;
 var TOWER_COLS = 6;
-var TOWER_EVERY = 10;
 var STORY_ROUTE = [
   "roost.01",
   "roost.02",
@@ -215,36 +103,6 @@ var TOWER_SPECS = {
   "roost.08": { npcs: [{ id: "item.journal.steward", col: 3, row: 1, verb: "read" }] }
 };
 var towerSpec = (roost) => TOWER_SPECS[roost] || { npcs: [] };
-var STORY_UNLOCK = {
-  guard: 10,
-  ally: 20,
-  retaliate: 30,
-  hopper: 40,
-  sentinel1: 50,
-  swarm: 60,
-  sentinel2: 70,
-  sentinel3: 90,
-  unlimited: ROAD_END
-};
-var unlockTable = (mode) => mode.story ? STORY_UNLOCK : ADV_UNLOCK;
-var HOP_WINDUP_MS = 30;
-var HOP_MOVE_MS = 80;
-var HOP_SETTLE_MS = 55;
-var HOP_TOTAL_MS = HOP_WINDUP_MS + HOP_MOVE_MS + HOP_SETTLE_MS;
-var HOP_COMMIT_MS = HOP_WINDUP_MS + HOP_MOVE_MS / 2;
-var START_TIME = 30;
-var TIME_CAP = 45;
-var BONUS = { sentinel: 3, normal: 1.2, charged: 2.5, guard: 3, hopper: 1.8, rare: 8 };
-var PTS = { sentinel: 500, normal: 100, charged: 300, guard: 400, hopper: 250, rare: 1e3 };
-var ALLY_TIME_PENALTY = 3;
-var ALLY_PTS_PENALTY = 200;
-var ALLY_SPARE_BONUS = 0.5;
-var CHARGE_MS = 700;
-var RISE_MS = 220;
-var SINK_MS = 180;
-var HIT_MS = 280;
-var MOVE_REPEAT_MS = 130;
-var TAP_MOVE_MS = 195;
 var TAP_SLACK = 0.4;
 var MODES = [
   // The game: the Rookery's story on one strip. Two-thumb controls -- the
@@ -258,8 +116,7 @@ var MODES = [
     story: true,
     controls: "pad",
     hop: true,
-    tapMove: true,
-    moveMs: TAP_MOVE_MS
+    tapMove: true
   }
 ];
 var RETIRED_MODES = [
@@ -270,46 +127,28 @@ var RETIRED_MODES = [
     advancing: true,
     controls: "touch",
     hop: true,
-    tapMove: true,
-    moveMs: TAP_MOVE_MS
+    tapMove: true
   },
   {
     id: "advance",
     name: "ADVANCE",
     blurb: "ring + fire",
     advancing: true,
-    controls: "pad",
-    moveMs: MOVE_REPEAT_MS
+    controls: "pad"
   },
   {
     id: "classic",
     name: "CLASSIC",
     blurb: "hold the line",
     advancing: false,
-    controls: "pad",
-    moveMs: MOVE_REPEAT_MS
+    controls: "pad"
   }
 ];
 var DEFAULT_MODE = "story";
 var modeById = (id) => MODES.find((m) => m.id === id) || RETIRED_MODES.find((m) => m.id === id) || MODES[0];
-var HOP_MS = 550;
-var HOP_GROW_MS = 120;
-var HOPPER_LIFE = 2200;
-var RARE_LIFE = 650;
-var ALLY_RISE_MS = 460;
-var upMs = (del) => Math.max(520, 1250 - del * 18);
-var level = (del) => 1 + Math.floor(del / 6);
-var MAX_ALIVE = 6;
 var WAVE_SIZE = [2, 2, 3, 3, 3, 4, 4, 4, 5];
 var waveSize = (stageIdx) => WAVE_SIZE[Math.max(0, Math.min(WAVE_SIZE.length - 1, stageIdx))];
-var waveStaggerMs = (w) => Math.max(170, 420 - w * 4);
 var LULL_TIGHTEN_STAGE = 7;
-var waveLullMs = (w, stage = 0) => Math.max(620, (1900 - w * 10) * (stage >= LULL_TIGHTEN_STAGE ? 0.7 : 1));
-var WAVE_CLEAR_LULL = 0.62;
-var LOW_TIME_LULL_MS = 420;
-var waveClearBonus = (n) => 0.55 + 0.3 * n;
-var WAVE_CLEAR_PTS = 60;
-var WAVE_GRACE_MS = 900;
 var FORMATIONS = [
   { name: "spine", anchor: 0, slots: [[4, 1], [4, 0], [4, 2], [3, 1], [5, 1]] },
   { name: "rank", anchor: 2, slots: [[5, 1], [4, 1], [3, 1], [5, 0], [5, 2]] },
@@ -319,40 +158,8 @@ var FORMATIONS = [
   { name: "wedge", anchor: 0, slots: [[5, 1], [4, 0], [4, 2], [3, 1], [3, 0]] }
 ];
 var UNLOCK = { guard: 1, retaliate: 2, ally: 3, hopper: 4, rare: 5 };
-var guardWaveChance = (stage) => Math.min(0.8, 0.4 + (stage - UNLOCK.guard) * 0.08);
-var hopperWaveChance = (stage) => Math.min(0.65, 0.35 + (stage - UNLOCK.hopper) * 0.08);
-var allyWaveChance = (stage) => Math.min(0.45, 0.25 + (stage - UNLOCK.ally) * 0.05);
-var rareWaveChance = (stage, timeLeft) => (0.05 + (stage - UNLOCK.rare) * 0.01) * (timeLeft < LOW_TIME * 2 ? 2.5 : 1);
-var ATTACK_START = 12;
-var HIT_TIME_PENALTY = 2.5;
-var HIT_IFRAME_MS = 800;
 var HURT_SHAKE_MS = 260;
-var BOLT_HIT_R = 0.28;
-var ATTACK_FOLLOW_MS = 300;
-var BOLT = {
-  slow: {
-    radiusFrac: 0.19,
-    aimMs: (del) => Math.max(340, 560 - Math.max(0, del - ATTACK_START) * 0.8),
-    panelMs: (del) => Math.max(175, 300 - Math.max(0, del - ATTACK_START) * 0.45)
-  },
-  fast: {
-    radiusFrac: 0.135,
-    aimMs: (del) => Math.max(480, 780 - Math.max(0, del - ATTACK_START) * 1.1),
-    panelMs: (del) => Math.max(72, 130 - Math.max(0, del - ATTACK_START) * 0.2)
-  }
-};
-var dodgeWindowMs = (del, kind, panels = 3) => BOLT[kind].aimMs(del) + Math.max(0, panels - BOLT_HIT_R) * BOLT[kind].panelMs(del);
 var boltKindFor = (type) => type === "hopper" ? "fast" : "slow";
-var aimMs = (del, kind = "slow") => BOLT[kind].aimMs(del);
-var boltPanelMs = (del, kind = "slow") => BOLT[kind].panelMs(del);
-var attackChance = (del, type = "mett") => {
-  if (del < ATTACK_START) return 0;
-  const t = Math.max(0, del - ATTACK_START);
-  return type === "hopper" ? Math.min(0.45, 0.18 + t * 3e-3) : Math.min(0.55, 0.24 + t * 4e-3);
-};
-var OC_START = 170;
-var OC_SLOPE = 0.988;
-var bonusFactor = (del) => del < OC_START ? 1 : Math.pow(OC_SLOPE, del - OC_START);
 var multOf = (chain) => chain >= 20 ? 4 : chain >= 10 ? 3 : chain >= 5 ? 2 : 1;
 var STAGES = [
   { wave: 16, at: 26, title: "STEEL GUARDS" },
@@ -360,11 +167,11 @@ var STAGES = [
   { wave: 40, at: 78, title: "PROGS ONLINE" },
   { wave: 52, at: 105, title: "HOPPERS" },
   { wave: 64, at: 130, title: "RARE VIRUS" },
-  { wave: 76, at: OC_START, title: "OVERCLOCK" },
+  { wave: 76, at: 170, title: "OVERCLOCK" },
+  // the shipped OC_START
   { wave: 90, at: 195, title: "SWARM" },
   { wave: 106, at: 235, title: "MAXIMUM LOAD" }
 ];
-var STAGE_BONUS = 2;
 var POPUP_MS = 650;
 var SPARK_MS = 140;
 var RAY_IMPACT_MS = 130;
@@ -380,7 +187,6 @@ var FLARE_MS = 520;
 var CHAIN_BREAK_MS = 620;
 var GHOST_MS = 170;
 var LANE_MS = 240;
-var LOW_TIME = 6;
 var HITSTOP = {
   normal: 26,
   charged: 52,
@@ -486,6 +292,296 @@ function laneY(G, row) {
   return panelRect(G, 0, row).y + G.ph * 0.78 - G.ph * 1.15 * 0.42;
 }
 
+// src/core/tuning.js
+var TUNING_SCHEMA = [
+  ["clock", [
+    ["START_TIME", 30, 5, 120, 1, "s", "Pulse at the start of a run."],
+    ["TIME_CAP", 45, 10, 180, 1, "s", "The most pulse you can hold."],
+    ["LOW_TIME", 6, 1, 20, 0.5, "s", "Below this the clock is low: alarm, red pips, shorter lulls, more rares."],
+    ["HIT_TIME_PENALTY", 2.5, 0, 10, 0.1, "s", "Pulse lost to one hit."],
+    ["HIT_IFRAME_MS", 800, 0, 3e3, 50, "ms", "Invulnerable after a hit for this long."],
+    ["STAGE_BONUS", 2, 0, 10, 0.1, "s", "Pulse for passing a stage card (retired modes)."]
+  ]],
+  ["scoring", [
+    ["PTS_NORMAL", 100, 0, 5e3, 10, "pts", "A plain deletion."],
+    ["PTS_CHARGED", 300, 0, 5e3, 10, "pts", "A charged deletion."],
+    ["PTS_GUARD", 400, 0, 5e3, 10, "pts", "A steel guard."],
+    ["PTS_HOPPER", 250, 0, 5e3, 10, "pts", "A hopper."],
+    ["PTS_SENTINEL", 500, 0, 5e3, 10, "pts", "A sentinel."],
+    ["PTS_RARE", 1e3, 0, 1e4, 50, "pts", "A rare virus (retired modes)."],
+    ["BONUS_NORMAL", 1.2, 0, 10, 0.1, "s", "Pulse for a plain deletion, before overclock decay."],
+    ["BONUS_CHARGED", 2.5, 0, 10, 0.1, "s", "Pulse for a charged deletion."],
+    ["BONUS_GUARD", 3, 0, 10, 0.1, "s", "Pulse for a steel guard."],
+    ["BONUS_HOPPER", 1.8, 0, 10, 0.1, "s", "Pulse for a hopper."],
+    ["BONUS_SENTINEL", 3, 0, 10, 0.1, "s", "Pulse for a sentinel."],
+    ["BONUS_RARE", 8, 0, 30, 0.5, "s", "Pulse for a rare."],
+    ["ALLY_TIME_PENALTY", 3, 0, 10, 0.1, "s", "Pulse lost for shooting a runner."],
+    ["ALLY_PTS_PENALTY", 200, 0, 5e3, 10, "pts", "Points lost for shooting a runner."],
+    ["ALLY_SPARE_BONUS", 0.5, 0, 5, 0.1, "s", "Pulse for letting a runner pass."],
+    ["ARENA_CLEAR_BONUS", 3, 0, 15, 0.1, "s", "Pulse for taking an arena."],
+    ["ARENA_CLEAR_PTS", 1500, 0, 1e4, 50, "pts", "Points for taking an arena."],
+    ["WAVE_CLEAR_PTS", 60, 0, 1e3, 5, "pts", "Points per virus for a perfect wave, times the multiplier."],
+    ["WAVE_CLEAR_BONUS_BASE", 0.55, 0, 5, 0.05, "s", "Pulse for a perfect wave, plus per-virus below."],
+    ["WAVE_CLEAR_BONUS_PER", 0.3, 0, 2, 0.05, "s", "Extra pulse per virus in a perfect wave."],
+    ["OC_START", 170, 20, 1e3, 5, "kills", "Deletions after which pulse rewards decay (overclock)."],
+    ["OC_SLOPE", 0.988, 0.9, 1, 1e-3, "x", "Per-deletion decay factor past overclock."],
+    ["LEVEL_PER_KILLS", 6, 1, 50, 1, "kills", "Kills per level in the retired kill-counted modes."]
+  ]],
+  ["timings", [
+    ["CHARGE_MS", 700, 200, 2e3, 10, "ms", "Hold FIRE this long for a charged shot."],
+    ["RISE_MS", 220, 50, 1e3, 10, "ms", "A virus surfacing."],
+    ["SINK_MS", 180, 50, 1e3, 10, "ms", "A virus sinking away."],
+    ["HIT_MS", 280, 50, 1e3, 10, "ms", "A virus's hit reaction."],
+    ["MOVE_REPEAT_MS", 130, 30, 500, 10, "ms", "Ring repeat in the retired step-on-the-spot modes."],
+    ["TAP_MOVE_MS", 195, 60, 1e3, 5, "ms", "The step ration: one hop per this."],
+    ["HOP_WINDUP_MS", 30, 0, 300, 5, "ms", "The crouch before a hop."],
+    ["HOP_MOVE_MS", 80, 20, 500, 5, "ms", "The hop's arc."],
+    ["HOP_SETTLE_MS", 55, 0, 300, 5, "ms", "The landing squash."],
+    ["HOP_MS", 550, 100, 2e3, 10, "ms", "A hopper's own hop between panels."],
+    ["HOP_GROW_MS", 120, 20, 500, 10, "ms", "A hopper regrowing after a hop."],
+    ["HOPPER_LIFE", 2200, 500, 1e4, 50, "ms", "How long a hopper stays up (arcade)."],
+    ["RARE_LIFE", 650, 100, 5e3, 50, "ms", "How long a rare stays up."],
+    ["ALLY_RISE_MS", 460, 100, 2e3, 10, "ms", "A runner surfaces slowly and cannot be hit until up."],
+    ["MET_HOP_MS", 1500, 300, 5e3, 50, "ms", "A persistent mett shuffles a panel this often."],
+    ["REFIRE_MS", 1400, 300, 5e3, 50, "ms", "A persistent attacker re-aims this long after firing."],
+    ["ARENA_ENTRY_DELAY_MS", 650, 0, 3e3, 50, "ms", "The beat between stepping into an arena and its wave waking."],
+    ["ARENA_WAVE_GAP_MS", 550, 0, 3e3, 50, "ms", "The beat between a wave dying and the next dealing."],
+    ["CAM_TAU_MS", 170, 30, 1e3, 10, "ms", "Camera ease: 63% of the way per this."],
+    ["ATTACK_FOLLOW_MS", 300, 0, 2e3, 10, "ms", "An attacker outlives its own aim by this."],
+    ["WAVE_GRACE_MS", 900, 0, 5e3, 50, "ms", "A wave gives up once every member has had its chance plus this."],
+    ["LOW_TIME_LULL_MS", 420, 0, 3e3, 10, "ms", "A lull never outstays a nearly dead clock by more than this."]
+  ]],
+  ["world", [
+    ["NARROW_ROAD_CHANCE", 0.5, 0, 1, 0.05, "p", "Chance a road is one row instead of three."],
+    ["TOWER_EVERY", 10, 1, 50, 1, "arenas", "A tower stands before every N-th arena in the story."],
+    ["POOL_BASE", 4, 1, 30, 1, "viruses", "Viruses guarding arena 0."],
+    ["POOL_PER_ARENA", 0.16, 0, 2, 0.01, "viruses", "Extra viruses per arena index."],
+    ["POOL_MAX", 20, 1, 60, 1, "viruses", "The most viruses one arena guards."],
+    ["WAVE_SIZE_BASE", 2, 1, 6, 1, "viruses", "Viruses dealt together in arena 0."],
+    ["WAVE_SIZE_PER_ARENAS", 25, 1, 200, 1, "arenas", "One more per wave every this many arenas."],
+    ["WAVE_SIZE_MAX", 5, 1, 8, 1, "viruses", "The most dealt together."],
+    ["MAX_ALIVE", 6, 1, 12, 1, "viruses", "Hard ceiling on the board: wave plus runner plus rare."]
+  ]],
+  ["story unlocks", [
+    ["UNLOCK_GUARD", 10, 0, 500, 1, "arena", "Steel guards from this arena on."],
+    ["UNLOCK_ALLY", 20, 0, 500, 1, "arena", "Runners from this arena on."],
+    ["UNLOCK_RETALIATE", 30, 0, 500, 1, "arena", "Viruses fire back from this arena on."],
+    ["UNLOCK_HOPPER", 40, 0, 500, 1, "arena", "Hoppers from this arena on."],
+    ["UNLOCK_SENTINEL1", 50, 0, 500, 1, "arena", "Sentinels (mark I) from this arena on."],
+    ["UNLOCK_SWARM", 60, 0, 500, 1, "arena", "Tighter lulls from this arena on."],
+    ["UNLOCK_SENTINEL2", 70, 0, 500, 1, "arena", "Sentinel mark II from this arena on."],
+    ["UNLOCK_SENTINEL3", 90, 0, 500, 1, "arena", "Sentinel mark III from this arena on."],
+    ["ROAD_END", 100, 10, 1e3, 1, "arena", "Past this the run is unlimited: nothing new is held back."]
+  ]],
+  ["arcade unlocks (retired ADVANCE)", [
+    ["ADV_GUARD", 5, 0, 500, 1, "arena", ""],
+    ["ADV_RETALIATE", 9, 0, 500, 1, "arena", ""],
+    ["ADV_HOPPER", 15, 0, 500, 1, "arena", ""],
+    ["ADV_SENTINEL1", 20, 0, 500, 1, "arena", ""],
+    ["ADV_ALLY", 30, 0, 500, 1, "arena", ""],
+    ["ADV_SENTINEL2", 40, 0, 500, 1, "arena", ""],
+    ["ADV_SWARM", 55, 0, 500, 1, "arena", ""],
+    ["ADV_SENTINEL3", 70, 0, 500, 1, "arena", ""]
+  ]],
+  ["waves", [
+    ["WAVE_STAGGER_BASE", 420, 50, 2e3, 10, "ms", "Gap between arrivals inside a wave, at wave 0."],
+    ["WAVE_STAGGER_PER_WAVE", 4, 0, 50, 1, "ms", "The gap shrinks by this per wave."],
+    ["WAVE_STAGGER_MIN", 170, 20, 1e3, 10, "ms", "The gap never drops below this."],
+    ["WAVE_LULL_BASE", 1900, 200, 6e3, 50, "ms", "The pause between waves, at wave 0."],
+    ["WAVE_LULL_PER_WAVE", 10, 0, 100, 1, "ms", "The pause shrinks by this per wave."],
+    ["WAVE_LULL_MIN", 620, 100, 3e3, 10, "ms", "The pause never drops below this."],
+    ["WAVE_LULL_SWARM_FACTOR", 0.7, 0.2, 1, 0.05, "x", "The pause is multiplied by this once SWARM is unlocked."],
+    ["WAVE_CLEAR_LULL", 0.62, 0.1, 1, 0.02, "x", "A perfect clear multiplies the next lull by this."],
+    ["UP_MS_BASE", 1250, 300, 5e3, 10, "ms", "How long a virus stays up at zero kills (arcade)."],
+    ["UP_MS_PER_KILL", 18, 0, 100, 1, "ms", "Stays up this much less per kill."],
+    ["UP_MS_MIN", 520, 100, 3e3, 10, "ms", "Never less than this."],
+    ["GUARD_CHANCE_BASE", 0.4, 0, 1, 0.05, "p", "Chance the anchor slot is a steel guard, once unlocked."],
+    ["GUARD_CHANCE_PER", 0.08, 0, 0.5, 0.01, "p", "Plus this per unlock step."],
+    ["GUARD_CHANCE_MAX", 0.8, 0, 1, 0.05, "p", ""],
+    ["HOPPER_CHANCE_BASE", 0.35, 0, 1, 0.05, "p", "Chance one slot is a hopper, once unlocked."],
+    ["HOPPER_CHANCE_PER", 0.08, 0, 0.5, 0.01, "p", ""],
+    ["HOPPER_CHANCE_MAX", 0.65, 0, 1, 0.05, "p", ""],
+    ["ALLY_CHANCE_BASE", 0.25, 0, 1, 0.05, "p", "Chance a runner tags along, once unlocked."],
+    ["ALLY_CHANCE_PER", 0.05, 0, 0.5, 0.01, "p", ""],
+    ["ALLY_CHANCE_MAX", 0.45, 0, 1, 0.05, "p", ""],
+    ["RARE_CHANCE_BASE", 0.05, 0, 1, 0.01, "p", "Chance a rare leads a wave (retired modes)."],
+    ["RARE_CHANCE_PER", 0.01, 0, 0.2, 5e-3, "p", ""],
+    ["RARE_LOW_TIME_FACTOR", 2.5, 1, 10, 0.5, "x", "Rares are this much likelier when the clock is low."],
+    ["SENTINEL_CHANCE_BASE", 0.35, 0, 1, 0.05, "p", "Chance a wave carries a sentinel, once unlocked."],
+    ["SENTINEL_CHANCE_PER", 6e-3, 0, 0.1, 1e-3, "p", "Plus this per arena past the unlock."],
+    ["SENTINEL_CHANCE_MAX", 0.7, 0, 1, 0.05, "p", ""]
+  ]],
+  ["counterattack", [
+    ["ATTACK_START", 12, 0, 500, 1, "kills", "Kill count before anything shoots (arcade); ramps read from here."],
+    ["BOLT_HIT_R", 0.28, 0.05, 1, 0.01, "panels", "A bolt lands within this fraction of a panel."],
+    ["ATTACK_CHANCE_MET_BASE", 0.24, 0, 1, 0.01, "p", "Per-mett chance to retaliate at the attack start."],
+    ["ATTACK_CHANCE_MET_PER", 4e-3, 0, 0.1, 1e-3, "p", "Plus this per kill past the start."],
+    ["ATTACK_CHANCE_MET_MAX", 0.55, 0, 1, 0.05, "p", ""],
+    ["ATTACK_CHANCE_HOP_BASE", 0.18, 0, 1, 0.01, "p", "Per-hopper chance to retaliate."],
+    ["ATTACK_CHANCE_HOP_PER", 3e-3, 0, 0.1, 1e-3, "p", ""],
+    ["ATTACK_CHANCE_HOP_MAX", 0.45, 0, 1, 0.05, "p", ""],
+    ["BOLT_SLOW_RADIUS", 0.19, 0.05, 0.5, 0.01, "panels", "The mett's shell, as a fraction of panel width."],
+    ["BOLT_SLOW_AIM_BASE", 560, 100, 3e3, 10, "ms", "The mett's telegraph at the attack start."],
+    ["BOLT_SLOW_AIM_PER_KILL", 0.8, 0, 10, 0.1, "ms", "Shorter by this per kill."],
+    ["BOLT_SLOW_AIM_MIN", 340, 50, 3e3, 10, "ms", ""],
+    ["BOLT_SLOW_PANEL_BASE", 300, 30, 2e3, 10, "ms", "The mett's shell crosses one panel in this, at the start."],
+    ["BOLT_SLOW_PANEL_PER_KILL", 0.45, 0, 10, 0.05, "ms", ""],
+    ["BOLT_SLOW_PANEL_MIN", 175, 20, 2e3, 5, "ms", ""],
+    ["BOLT_FAST_RADIUS", 0.135, 0.05, 0.5, 5e-3, "panels", "The hopper's bolt."],
+    ["BOLT_FAST_AIM_BASE", 780, 100, 3e3, 10, "ms", "The hopper's telegraph at the start: the longest in the game."],
+    ["BOLT_FAST_AIM_PER_KILL", 1.1, 0, 10, 0.1, "ms", ""],
+    ["BOLT_FAST_AIM_MIN", 480, 50, 3e3, 10, "ms", ""],
+    ["BOLT_FAST_PANEL_BASE", 130, 20, 1e3, 5, "ms", "The hopper's bolt crosses a panel in this: a blink."],
+    ["BOLT_FAST_PANEL_PER_KILL", 0.2, 0, 10, 0.05, "ms", ""],
+    ["BOLT_FAST_PANEL_MIN", 72, 10, 1e3, 2, "ms", ""]
+  ]],
+  ["sentinels", [
+    ["SENTINEL_1_HP", 1, 1, 10, 1, "hits", "Mark I: hits to delete."],
+    ["SENTINEL_1_OPEN_MS", 1400, 200, 5e3, 50, "ms", "Mark I: the iris is open (and hittable) this long."],
+    ["SENTINEL_1_CLOSED_MS", 1500, 200, 5e3, 50, "ms", "Mark I: closed (armour) this long."],
+    ["SENTINEL_2_HP", 2, 1, 10, 1, "hits", ""],
+    ["SENTINEL_2_OPEN_MS", 1050, 200, 5e3, 50, "ms", ""],
+    ["SENTINEL_2_CLOSED_MS", 1250, 200, 5e3, 50, "ms", ""],
+    ["SENTINEL_3_HP", 3, 1, 10, 1, "hits", ""],
+    ["SENTINEL_3_OPEN_MS", 780, 200, 5e3, 50, "ms", ""],
+    ["SENTINEL_3_CLOSED_MS", 1050, 200, 5e3, 50, "ms", ""],
+    ["SENTINEL_CHARGED_DMG", 2, 1, 10, 1, "hits", "A charged shot counts as this many hits on a sentinel."]
+  ]],
+  ["bomb", [
+    ["BOMB_RANGE", 3, 1, 6, 1, "panels", "Thrown this many columns ahead."],
+    ["BOMB_ARC_MS", 640, 100, 3e3, 10, "ms", "In the air for this long."],
+    ["BOMB_RADIUS", 1, 0, 2, 1, "panels", "Splash reaches this many tiles either side."],
+    ["BOMB_PICKUP_CHANCE", 0.6, 0, 1, 0.05, "p", "Chance a road carries a bomb (the first always does)."],
+    ["BOMB_BLAST_MS", 460, 100, 2e3, 10, "ms", "The blast's lifetime on screen."]
+  ]]
+];
+var TUNING_ENTRIES = TUNING_SCHEMA.flatMap(([group, rows]) => rows.map(([key, def, min, max, step2, unit, desc]) => ({ key, default: def, min, max, step: step2, unit, desc, group })));
+var BY_KEY = new Map(TUNING_ENTRIES.map((e) => [e.key, e]));
+var TUNING_KEYS = TUNING_ENTRIES.map((e) => e.key);
+function defaultValues() {
+  const v = {};
+  for (const e of TUNING_ENTRIES) v[e.key] = e.default;
+  return v;
+}
+function fnv1a(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return (h >>> 0).toString(16).padStart(8, "0");
+}
+function resolveTuning(overrides) {
+  const v = defaultValues();
+  const applied = {};
+  if (overrides && typeof overrides === "object") {
+    for (const [k, raw] of Object.entries(overrides)) {
+      const e = BY_KEY.get(k);
+      if (!e) continue;
+      const num = Number(raw);
+      if (!Number.isFinite(num)) continue;
+      const clamped = Math.min(e.max, Math.max(e.min, num));
+      if (clamped === e.default) continue;
+      v[k] = clamped;
+      applied[k] = clamped;
+    }
+  }
+  const keys = Object.keys(applied).sort();
+  const version = keys.length ? fnv1a(JSON.stringify(keys.map((k) => [k, applied[k]]))) : "default";
+  return Object.freeze(assemble(v, applied, version));
+}
+var DEFAULT = null;
+function defaultTuning() {
+  if (!DEFAULT) DEFAULT = resolveTuning(null);
+  return DEFAULT;
+}
+function assemble(v, applied, version) {
+  const t = { ...v, values: v, overrides: applied, version };
+  t.PTS = {
+    normal: v.PTS_NORMAL,
+    charged: v.PTS_CHARGED,
+    guard: v.PTS_GUARD,
+    hopper: v.PTS_HOPPER,
+    sentinel: v.PTS_SENTINEL,
+    rare: v.PTS_RARE
+  };
+  t.BONUS = {
+    normal: v.BONUS_NORMAL,
+    charged: v.BONUS_CHARGED,
+    guard: v.BONUS_GUARD,
+    hopper: v.BONUS_HOPPER,
+    sentinel: v.BONUS_SENTINEL,
+    rare: v.BONUS_RARE
+  };
+  t.SENTINEL = {
+    1: { hp: v.SENTINEL_1_HP, openMs: v.SENTINEL_1_OPEN_MS, closedMs: v.SENTINEL_1_CLOSED_MS },
+    2: { hp: v.SENTINEL_2_HP, openMs: v.SENTINEL_2_OPEN_MS, closedMs: v.SENTINEL_2_CLOSED_MS },
+    3: { hp: v.SENTINEL_3_HP, openMs: v.SENTINEL_3_OPEN_MS, closedMs: v.SENTINEL_3_CLOSED_MS }
+  };
+  t.STORY_UNLOCK = {
+    guard: v.UNLOCK_GUARD,
+    ally: v.UNLOCK_ALLY,
+    retaliate: v.UNLOCK_RETALIATE,
+    hopper: v.UNLOCK_HOPPER,
+    sentinel1: v.UNLOCK_SENTINEL1,
+    swarm: v.UNLOCK_SWARM,
+    sentinel2: v.UNLOCK_SENTINEL2,
+    sentinel3: v.UNLOCK_SENTINEL3,
+    unlimited: v.ROAD_END
+  };
+  t.ADV_UNLOCK = {
+    guard: v.ADV_GUARD,
+    retaliate: v.ADV_RETALIATE,
+    hopper: v.ADV_HOPPER,
+    sentinel1: v.ADV_SENTINEL1,
+    ally: v.ADV_ALLY,
+    sentinel2: v.ADV_SENTINEL2,
+    swarm: v.ADV_SWARM,
+    sentinel3: v.ADV_SENTINEL3,
+    unlimited: v.ROAD_END
+  };
+  t.unlockTable = (mode) => mode.story ? t.STORY_UNLOCK : t.ADV_UNLOCK;
+  t.HOP_TOTAL_MS = v.HOP_WINDUP_MS + v.HOP_MOVE_MS + v.HOP_SETTLE_MS;
+  t.HOP_COMMIT_MS = v.HOP_WINDUP_MS + v.HOP_MOVE_MS / 2;
+  const past = (del) => Math.max(0, del - v.ATTACK_START);
+  t.BOLT = {
+    slow: {
+      radiusFrac: v.BOLT_SLOW_RADIUS,
+      aimMs: (del) => Math.max(v.BOLT_SLOW_AIM_MIN, v.BOLT_SLOW_AIM_BASE - past(del) * v.BOLT_SLOW_AIM_PER_KILL),
+      panelMs: (del) => Math.max(v.BOLT_SLOW_PANEL_MIN, v.BOLT_SLOW_PANEL_BASE - past(del) * v.BOLT_SLOW_PANEL_PER_KILL)
+    },
+    fast: {
+      radiusFrac: v.BOLT_FAST_RADIUS,
+      aimMs: (del) => Math.max(v.BOLT_FAST_AIM_MIN, v.BOLT_FAST_AIM_BASE - past(del) * v.BOLT_FAST_AIM_PER_KILL),
+      panelMs: (del) => Math.max(v.BOLT_FAST_PANEL_MIN, v.BOLT_FAST_PANEL_BASE - past(del) * v.BOLT_FAST_PANEL_PER_KILL)
+    }
+  };
+  t.aimMs = (del, kind = "slow") => t.BOLT[kind].aimMs(del);
+  t.boltPanelMs = (del, kind = "slow") => t.BOLT[kind].panelMs(del);
+  t.dodgeWindowMs = (del, kind, panels = 3) => t.BOLT[kind].aimMs(del) + Math.max(0, panels - v.BOLT_HIT_R) * t.BOLT[kind].panelMs(del);
+  t.attackChance = (del, type = "mett") => {
+    if (del < v.ATTACK_START) return 0;
+    const k = past(del);
+    return type === "hopper" ? Math.min(v.ATTACK_CHANCE_HOP_MAX, v.ATTACK_CHANCE_HOP_BASE + k * v.ATTACK_CHANCE_HOP_PER) : Math.min(v.ATTACK_CHANCE_MET_MAX, v.ATTACK_CHANCE_MET_BASE + k * v.ATTACK_CHANCE_MET_PER);
+  };
+  t.upMs = (del) => Math.max(v.UP_MS_MIN, v.UP_MS_BASE - del * v.UP_MS_PER_KILL);
+  t.level = (del) => 1 + Math.floor(del / v.LEVEL_PER_KILLS);
+  t.bonusFactor = (del) => del < v.OC_START ? 1 : Math.pow(v.OC_SLOPE, del - v.OC_START);
+  t.arenaPlan = (idx) => ({
+    pool: Math.min(v.POOL_MAX, v.POOL_BASE + Math.floor(idx * v.POOL_PER_ARENA)),
+    waveSize: Math.min(v.WAVE_SIZE_MAX, v.WAVE_SIZE_BASE + Math.floor(idx / v.WAVE_SIZE_PER_ARENAS))
+  });
+  t.waveStaggerMs = (w) => Math.max(v.WAVE_STAGGER_MIN, v.WAVE_STAGGER_BASE - w * v.WAVE_STAGGER_PER_WAVE);
+  t.waveLullMs = (w, tight = false) => Math.max(v.WAVE_LULL_MIN, (v.WAVE_LULL_BASE - w * v.WAVE_LULL_PER_WAVE) * (tight ? v.WAVE_LULL_SWARM_FACTOR : 1));
+  t.waveClearBonus = (n) => v.WAVE_CLEAR_BONUS_BASE + v.WAVE_CLEAR_BONUS_PER * n;
+  t.guardWaveChance = (k) => Math.min(v.GUARD_CHANCE_MAX, v.GUARD_CHANCE_BASE + k * v.GUARD_CHANCE_PER);
+  t.hopperWaveChance = (k) => Math.min(v.HOPPER_CHANCE_MAX, v.HOPPER_CHANCE_BASE + k * v.HOPPER_CHANCE_PER);
+  t.allyWaveChance = (k) => Math.min(v.ALLY_CHANCE_MAX, v.ALLY_CHANCE_BASE + k * v.ALLY_CHANCE_PER);
+  t.rareWaveChance = (k, timeLeft) => (v.RARE_CHANCE_BASE + k * v.RARE_CHANCE_PER) * (timeLeft < v.LOW_TIME * 2 ? v.RARE_LOW_TIME_FACTOR : 1);
+  t.sentinelWaveChance = (k) => Math.min(v.SENTINEL_CHANCE_MAX, v.SENTINEL_CHANCE_BASE + k * v.SENTINEL_CHANCE_PER);
+  return t;
+}
+
 // src/core/world.js
 var TILE = {
   PLAYER: "player",
@@ -496,8 +592,9 @@ var TILE = {
   VOID: "void"
 };
 function createWorld(opts = {}) {
-  if (!opts.story) return { segs: [arena(0, 0)] };
-  return { segs: [tower(0, STORY_ROUTE[0], true), arena(TOWER_COLS, 0, false)] };
+  const t = opts.tuning || defaultTuning();
+  if (!opts.story) return { segs: [arena(0, 0, true, t)] };
+  return { segs: [tower(0, STORY_ROUTE[0], true), arena(TOWER_COLS, 0, false, t)] };
 }
 function tower(x0, roost, entered = false) {
   const spec = towerSpec(roost);
@@ -510,8 +607,8 @@ function tower(x0, roost, entered = false) {
     entered
   };
 }
-function arena(x0, idx, entered = idx === 0) {
-  const plan = arenaPlan(idx);
+function arena(x0, idx, entered = idx === 0, t = defaultTuning()) {
+  const plan = t.arenaPlan(idx);
   return {
     kind: "arena",
     x0,
@@ -577,9 +674,10 @@ function npcBeside(world, wx, row) {
   return null;
 }
 function clearArena(world, rng, opts = {}) {
+  const tun = opts.tuning || defaultTuning();
   const a = activeArena(world);
   a.owner = "player";
-  const narrow = rng() < NARROW_ROAD_CHANCE;
+  const narrow = rng() < tun.NARROW_ROAD_CHANCE;
   const road = {
     kind: "road",
     x0: a.x0 + a.cols,
@@ -594,7 +692,7 @@ function clearArena(world, rng, opts = {}) {
     world.segs.push(t);
     x += t.cols;
   }
-  const next = arena(x, a.idx + 1);
+  const next = arena(x, a.idx + 1, false, tun);
   world.segs.push(next);
   return { cleared: a, road, tower: t, next };
 }
@@ -614,9 +712,11 @@ function mulberry32(seed) {
 // src/core/state.js
 function createState(opts = {}) {
   const seed = opts.seed === void 0 ? 1 : opts.seed;
+  const tuning = opts.tuning && opts.tuning.values ? opts.tuning : resolveTuning(opts.tuning);
   return {
     rng: opts.rng || mulberry32(seed),
     seed,
+    tuning,
     mode: "ready",
     // ready | playing | interlevel | over
     paused: false,
@@ -656,7 +756,7 @@ function createState(opts = {}) {
     whiffs: 0,
     chain: 0,
     bestChain: 0,
-    timeLeft: START_TIME,
+    timeLeft: tuning.START_TIME,
     player: { col: 1, row: 1 },
     // { col,row,type,state,t0,hp, lastHop,hopT0, fx?,tier?, wave,
     //   willAttack,fired, boltKind,aimMs }
@@ -762,155 +862,8 @@ function remap(state, a, b) {
   cb.y = my(cb.y);
 }
 
-// src/core/select.js
-function hopPose(state, now) {
-  const h = state.hop;
-  const still = { col: state.player.col, row: state.player.row, lift: 0, sx: 1, sy: 1, phase: "still" };
-  if (!h) return still;
-  const t = now - h.t0;
-  if (t < 0 || t >= HOP_TOTAL_MS) return still;
-  if (t < HOP_WINDUP_MS) {
-    const k = t / HOP_WINDUP_MS;
-    return { col: h.fromCol, row: h.fromRow, lift: 0, sx: 1 + 0.12 * k, sy: 1 - 0.14 * k, phase: "windup" };
-  }
-  const m = t - HOP_WINDUP_MS;
-  if (m < HOP_MOVE_MS) {
-    const k = m / HOP_MOVE_MS;
-    const e = k < 0.5 ? 2 * k * k : 1 - 2 * (1 - k) * (1 - k);
-    return {
-      col: h.fromCol + (h.toCol - h.fromCol) * e,
-      row: h.fromRow + (h.toRow - h.fromRow) * e,
-      lift: Math.sin(Math.PI * k),
-      sx: 1 - 0.08 * Math.sin(Math.PI * k),
-      sy: 1 + 0.12 * Math.sin(Math.PI * k),
-      phase: "move"
-    };
-  }
-  const st = (m - HOP_MOVE_MS) / HOP_SETTLE_MS;
-  const d = Math.sin(Math.PI * st) * (1 - st);
-  return { col: h.toCol, row: h.toRow, lift: 0, sx: 1 + 0.16 * d, sy: 1 - 0.2 * d, phase: "settle" };
-}
-function contextVerb(state) {
-  const n = npcBeside(state.world, state.player.col, state.player.row);
-  return n ? { verb: n.verb || "talk", npc: n.id } : { verb: "bomb", npc: null };
-}
-function accuracy(state) {
-  return state.shots ? 1 - state.whiffs / state.shots : 0;
-}
-function accuracyText(state) {
-  return state.shots ? Math.round(accuracy(state) * 100) + "%" : "\u2014";
-}
-function computeRank(state) {
-  const acc = accuracy(state);
-  if (acc >= 0.75 && state.bestChain >= 20) return "S";
-  if (acc >= 0.6 && state.bestChain >= 10) return "A";
-  if (acc >= 0.45) return "B";
-  if (acc >= 0.3) return "C";
-  return "D";
-}
-function statsView(state) {
-  return {
-    deletions: String(state.deletions),
-    bestChain: String(state.bestChain),
-    accuracy: accuracyText(state),
-    best: String(state.best)
-  };
-}
-function hudView(state) {
-  const oc = state.deletions >= OC_START;
-  return {
-    score: String(state.score).padStart(6, "0"),
-    chain: state.chain,
-    mult: multOf(state.chain),
-    // advance counts arenas: the level is where you are on the road
-    level: modeById(state.modeId).advancing ? activeArena(state.world).idx + 1 : level(state.deletions),
-    unlimited: !!state.unlimited,
-    bombs: state.bombs || 0,
-    timeLeft: state.timeLeft,
-    timeFrac: Math.max(0, Math.min(1, state.timeLeft / TIME_CAP)),
-    // the clock is paused: nothing here is held against you
-    safe: safeZone(state.world),
-    overclock: oc,
-    overclockFactor: bonusFactor(state.deletions),
-    paused: state.paused,
-    mode: state.mode
-  };
-}
-function interlevelView(state, stage, stageBonus) {
-  return {
-    eyebrow: "",
-    title: stage.title,
-    sub: "",
-    rows: [
-      ["score", String(state.score).padStart(6, "0"), "big"],
-      ["deletions", state.deletions],
-      ["best chain", state.bestChain],
-      ["accuracy", accuracyText(state)],
-      ["stage bonus", "+" + stageBonus.toFixed(1) + "s"],
-      ["time left", state.timeLeft.toFixed(1) + "s"]
-    ]
-  };
-}
-function gameOverView(state) {
-  return {
-    eyebrow: "run complete",
-    title: state.rank,
-    rank: true,
-    sub: state.deletions >= OC_START ? "overclock reached \xD7" + bonusFactor(state.deletions).toFixed(2) : "",
-    rows: [
-      ["score", state.score + " pts", "big"],
-      ["deletions", state.deletions],
-      ["accuracy", accuracyText(state)],
-      ["best chain", state.bestChain],
-      ["best score", state.best]
-    ]
-  };
-}
-
-// src/core/step.js
+// src/core/fx.js
 var panel = (state, col, row) => panelRect(state.G, col, row);
-function step(state, dtMs, intents = {}) {
-  const events = [];
-  const actions = Array.isArray(intents) ? intents : intents.actions || [];
-  const hold = Array.isArray(intents) ? null : intents.hold;
-  for (const a of actions) applyIntent(state, a, events);
-  let adv = dtMs;
-  if (state.mode === "playing" && !state.paused && state.hitStopMs > 0 && state.clock >= state.hitStopAt) {
-    const used = Math.min(state.hitStopMs, adv);
-    state.hitStopMs -= used;
-    adv -= used;
-  }
-  if (state.mode === "playing" && !state.paused) {
-    state.clock += adv;
-    if (!safeZone(state.world)) state.timeLeft -= dtMs / 1e3;
-    if (state.timeLeft <= 0) {
-      state.timeLeft = 0;
-      gameOver(state, events);
-    }
-    if (state.charge.downAt !== null && !state.charge.full && state.clock - state.charge.downAt >= CHARGE_MS) {
-      state.charge.full = true;
-      events.push({ type: "chargeReady" });
-    }
-  }
-  if (hold && (hold.dc || hold.dr)) {
-    const hd = state.holdDir;
-    if (!hd || hd.dc !== hold.dc || hd.dr !== hold.dr) {
-      state.holdDir = { dc: hold.dc, dr: hold.dr };
-      state.holdT0 = state.clock;
-    }
-    move(state, hold.dc, hold.dr, events, true);
-  } else {
-    state.holdDir = null;
-  }
-  updateHop(state, events);
-  flushQueuedMove(state, events);
-  runPath(state, events);
-  updateEnemies(state, events);
-  updateBolts(state, adv, events);
-  checkStageGate(state, events);
-  cullFx(state);
-  return events;
-}
 function hitStop(state, at, ms) {
   if (state.hitStopMs <= 0) {
     state.hitStopAt = at;
@@ -959,74 +912,46 @@ function ripple(state, col, row, color, at, w = 1) {
   state.fx.ripples.push({ col, row, color, w, t0: at, ms: RIPPLE_MS });
   if (state.fx.ripples.length > 12) state.fx.ripples.shift();
 }
-function applyIntent(state, action, events) {
-  switch (action.type) {
-    case "firePressed":
-      firePressed(state, events);
-      break;
-    case "fireReleased":
-      fireReleased(state, events);
-      break;
-    case "move":
-      move(state, action.dc, action.dr, events);
-      break;
-    case "moveTo":
-      moveTo(state, action.col, action.row, events);
-      break;
-    case "tapAt":
-      tapAt(state, action.x, action.y, events);
-      break;
-    case "resetMoveThrottle":
-      state.lastMoveAt = -1e9;
-      break;
-    case "pause":
-      togglePause(state, events);
-      break;
-    case "pauseOnBlur":
-      if (state.mode === "playing" && !state.paused) togglePause(state, events);
-      break;
-    case "startRun":
-      resetGame(state, events, action.modeId);
-      break;
-    case "bomb":
-      contextAction(state, events);
-      break;
-    case "resume":
-      resumeFromInterlevel(state, events);
-      break;
-    case "endRun":
-      gameOver(state, events);
-      break;
-    default:
-      break;
+function cullFx(state) {
+  const now = state.clock;
+  const popups = state.fx.popups;
+  for (let i = popups.length - 1; i >= 0; i--) {
+    if (now - popups[i].t0 >= POPUP_MS) popups.splice(i, 1);
+  }
+  const sparks = state.fx.sparks;
+  for (let i = sparks.length - 1; i >= 0; i--) {
+    if (now - sparks[i].t0 >= SPARK_MS) sparks.splice(i, 1);
+  }
+  const bits = state.fx.bits;
+  for (let i = bits.length - 1; i >= 0; i--) {
+    if (now - bits[i].t0 >= bits[i].ms) bits.splice(i, 1);
+  }
+  const ripples = state.fx.ripples;
+  for (let i = ripples.length - 1; i >= 0; i--) {
+    if (now - ripples[i].t0 >= ripples[i].ms) ripples.splice(i, 1);
   }
 }
-function firePressed(state, events) {
-  if (!state.canFire) return;
-  state.canFire = false;
-  if (state.mode === "ready" || state.mode === "over") {
-    resetGame(state, events);
-    return;
-  }
-  if (state.mode === "interlevel") {
-    resumeFromInterlevel(state, events);
-    return;
-  }
-  if (state.paused) return;
-  shoot(state, "normal", events);
-  state.charge.downAt = state.clock;
-  state.charge.full = false;
+function clearFx(state) {
+  const fx = state.fx;
+  fx.popups.length = 0;
+  fx.sparks.length = 0;
+  fx.bits.length = 0;
+  fx.ripples.length = 0;
+  fx.hurtT0 = -1e9;
+  fx.shake.t0 = -1e9;
+  fx.shake.amp = 0;
+  fx.shake.ms = 0;
+  fx.flare.t0 = -1e9;
+  fx.chainBreak.t0 = -1e9;
+  fx.ghost.t0 = -1e9;
+  fx.ray.t0 = -1e9;
+  fx.muzzleT0 = -1e9;
+  state.hitStopAt = -1e9;
+  state.hitStopMs = 0;
 }
-function fireReleased(state, events) {
-  if (state.canFire) return;
-  state.canFire = true;
-  if (state.charge.downAt !== null && state.charge.full && state.mode === "playing" && !state.paused) {
-    shoot(state, "charged", events);
-  }
-  state.charge.downAt = null;
-  state.charge.full = false;
-}
-var moveMs = (state) => modeById(state.modeId).moveMs || MOVE_REPEAT_MS;
+
+// src/core/movement.js
+var moveMs = (state) => modeById(state.modeId).hop ? state.tuning.TAP_MOVE_MS : state.tuning.MOVE_REPEAT_MS;
 var moveReady = (state) => state.clock - state.lastMoveAt >= moveMs(state);
 var hops = (state) => !!modeById(state.modeId).hop;
 function queueMove(state, q) {
@@ -1104,11 +1029,11 @@ function updateHop(state, events) {
   const h = state.hop;
   if (!h) return;
   const t = state.clock - h.t0;
-  if (!h.committed && t >= HOP_COMMIT_MS) {
+  if (!h.committed && t >= state.tuning.HOP_COMMIT_MS) {
     h.committed = true;
     land(state, h.toCol, h.toRow, events);
   }
-  if (t >= HOP_TOTAL_MS) state.hop = null;
+  if (t >= state.tuning.HOP_TOTAL_MS) state.hop = null;
 }
 function moveTo(state, col, row, events) {
   if (state.mode !== "playing" || state.paused) return;
@@ -1208,6 +1133,138 @@ function land(state, col, row, events) {
   state.player.row = row;
   if (moved) events.push({ type: "playerMoved", col, row });
 }
+
+// src/core/select.js
+function hopPose(state, now) {
+  const h = state.hop;
+  const still = { col: state.player.col, row: state.player.row, lift: 0, sx: 1, sy: 1, phase: "still" };
+  if (!h) return still;
+  const t = now - h.t0;
+  if (t < 0 || t >= state.tuning.HOP_TOTAL_MS) return still;
+  if (t < state.tuning.HOP_WINDUP_MS) {
+    const k = t / state.tuning.HOP_WINDUP_MS;
+    return { col: h.fromCol, row: h.fromRow, lift: 0, sx: 1 + 0.12 * k, sy: 1 - 0.14 * k, phase: "windup" };
+  }
+  const m = t - state.tuning.HOP_WINDUP_MS;
+  if (m < state.tuning.HOP_MOVE_MS) {
+    const k = m / state.tuning.HOP_MOVE_MS;
+    const e = k < 0.5 ? 2 * k * k : 1 - 2 * (1 - k) * (1 - k);
+    return {
+      col: h.fromCol + (h.toCol - h.fromCol) * e,
+      row: h.fromRow + (h.toRow - h.fromRow) * e,
+      lift: Math.sin(Math.PI * k),
+      sx: 1 - 0.08 * Math.sin(Math.PI * k),
+      sy: 1 + 0.12 * Math.sin(Math.PI * k),
+      phase: "move"
+    };
+  }
+  const st = (m - state.tuning.HOP_MOVE_MS) / state.tuning.HOP_SETTLE_MS;
+  const d = Math.sin(Math.PI * st) * (1 - st);
+  return { col: h.toCol, row: h.toRow, lift: 0, sx: 1 + 0.16 * d, sy: 1 - 0.2 * d, phase: "settle" };
+}
+function contextVerb(state) {
+  const n = npcBeside(state.world, state.player.col, state.player.row);
+  return n ? { verb: n.verb || "talk", npc: n.id } : { verb: "bomb", npc: null };
+}
+function accuracy(state) {
+  return state.shots ? 1 - state.whiffs / state.shots : 0;
+}
+function accuracyText(state) {
+  return state.shots ? Math.round(accuracy(state) * 100) + "%" : "\u2014";
+}
+function computeRank(state) {
+  const acc = accuracy(state);
+  if (acc >= 0.75 && state.bestChain >= 20) return "S";
+  if (acc >= 0.6 && state.bestChain >= 10) return "A";
+  if (acc >= 0.45) return "B";
+  if (acc >= 0.3) return "C";
+  return "D";
+}
+function statsView(state) {
+  return {
+    deletions: String(state.deletions),
+    bestChain: String(state.bestChain),
+    accuracy: accuracyText(state),
+    best: String(state.best)
+  };
+}
+function hudView(state) {
+  const oc = state.deletions >= state.tuning.OC_START;
+  return {
+    score: String(state.score).padStart(6, "0"),
+    chain: state.chain,
+    mult: multOf(state.chain),
+    // advance counts arenas: the level is where you are on the road
+    level: modeById(state.modeId).advancing ? activeArena(state.world).idx + 1 : state.tuning.level(state.deletions),
+    unlimited: !!state.unlimited,
+    bombs: state.bombs || 0,
+    timeLeft: state.timeLeft,
+    timeFrac: Math.max(0, Math.min(1, state.timeLeft / state.tuning.TIME_CAP)),
+    // the clock is paused: nothing here is held against you
+    safe: safeZone(state.world),
+    overclock: oc,
+    overclockFactor: state.tuning.bonusFactor(state.deletions),
+    paused: state.paused,
+    mode: state.mode
+  };
+}
+function interlevelView(state, stage, stageBonus) {
+  return {
+    eyebrow: "",
+    title: stage.title,
+    sub: "",
+    rows: [
+      ["score", String(state.score).padStart(6, "0"), "big"],
+      ["deletions", state.deletions],
+      ["best chain", state.bestChain],
+      ["accuracy", accuracyText(state)],
+      ["stage bonus", "+" + stageBonus.toFixed(1) + "s"],
+      ["time left", state.timeLeft.toFixed(1) + "s"]
+    ]
+  };
+}
+function gameOverView(state) {
+  return {
+    eyebrow: "run complete",
+    title: state.rank,
+    rank: true,
+    sub: state.deletions >= state.tuning.OC_START ? "overclock reached \xD7" + state.tuning.bonusFactor(state.deletions).toFixed(2) : "",
+    rows: [
+      ["score", state.score + " pts", "big"],
+      ["deletions", state.deletions],
+      ["accuracy", accuracyText(state)],
+      ["best chain", state.bestChain],
+      ["best score", state.best]
+    ]
+  };
+}
+
+// src/core/flow.js
+function firePressed(state, events) {
+  if (!state.canFire) return;
+  state.canFire = false;
+  if (state.mode === "ready" || state.mode === "over") {
+    resetGame(state, events);
+    return;
+  }
+  if (state.mode === "interlevel") {
+    resumeFromInterlevel(state, events);
+    return;
+  }
+  if (state.paused) return;
+  shoot(state, "normal", events);
+  state.charge.downAt = state.clock;
+  state.charge.full = false;
+}
+function fireReleased(state, events) {
+  if (state.canFire) return;
+  state.canFire = true;
+  if (state.charge.downAt !== null && state.charge.full && state.mode === "playing" && !state.paused) {
+    shoot(state, "charged", events);
+  }
+  state.charge.downAt = null;
+  state.charge.full = false;
+}
 function togglePause(state, events) {
   if (state.mode !== "playing") return;
   state.paused = !state.paused;
@@ -1220,7 +1277,7 @@ function togglePause(state, events) {
 function resetGame(state, events, modeId) {
   const cfg = modeById(modeId || state.modeId);
   state.modeId = cfg.id;
-  state.world = createWorld({ story: !!cfg.story });
+  state.world = createWorld({ story: !!cfg.story, tuning: state.tuning });
   state.talks = {};
   state.routeIdx = 1;
   state.hop = null;
@@ -1243,7 +1300,7 @@ function resetGame(state, events, modeId) {
   state.whiffs = 0;
   state.chain = 0;
   state.bestChain = 0;
-  state.timeLeft = START_TIME;
+  state.timeLeft = state.tuning.START_TIME;
   state.player.col = 1;
   state.player.row = 1;
   state.queuedMove = null;
@@ -1304,13 +1361,13 @@ function enterInterlevel(state, events) {
   state.charge.full = false;
   state.bolts.length = 0;
   state.hitStopMs = 0;
-  state.timeLeft = Math.min(TIME_CAP, state.timeLeft + STAGE_BONUS);
+  state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + state.tuning.STAGE_BONUS);
   events.push({
     type: "stageGate",
     stage,
     index,
     title: stage.title,
-    timeBonus: STAGE_BONUS
+    timeBonus: state.tuning.STAGE_BONUS
   });
   events.push({ type: "statsChanged" });
 }
@@ -1326,10 +1383,10 @@ function updateWorld(state, events) {
   if (!a.entered && state.player.col >= a.x0) {
     a.entered = true;
     state.camAnchor = a.x0;
-    state.nextSpawnAt = now + ARENA_ENTRY_DELAY_MS;
+    state.nextSpawnAt = now + state.tuning.ARENA_ENTRY_DELAY_MS;
     state.levelT0 = now;
     events.push({ type: "arenaEntered", index: a.idx, x0: a.x0 });
-    if (a.idx >= ROAD_END) state.unlimited = true;
+    if (a.idx >= state.tuning.ROAD_END) state.unlimited = true;
     const st = modeById(state.modeId).story ? null : ADVANCE_STAGES.find((x) => x.arena === a.idx);
     if (st) showCard(state, events, st, ADVANCE_STAGES.indexOf(st));
   }
@@ -1343,15 +1400,15 @@ function updateWorld(state, events) {
   state.camClock = now;
   const d = target - state.cam;
   if (Math.abs(d) < 2e-3) state.cam = target;
-  else state.cam += d * (1 - Math.exp(-dt / CAM_TAU_MS));
+  else state.cam += d * (1 - Math.exp(-dt / state.tuning.CAM_TAU_MS));
 }
 function showCard(state, events, stage, index) {
   state.mode = "interlevel";
   state.charge.downAt = null;
   state.charge.full = false;
   state.bolts.length = 0;
-  state.timeLeft = Math.min(TIME_CAP, state.timeLeft + STAGE_BONUS);
-  events.push({ type: "stageGate", stage, index, title: stage.title, timeBonus: STAGE_BONUS });
+  state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + state.tuning.STAGE_BONUS);
+  events.push({ type: "stageGate", stage, index, title: stage.title, timeBonus: state.tuning.STAGE_BONUS });
   events.push({ type: "statsChanged" });
 }
 function resumeFromInterlevel(state, events) {
@@ -1361,6 +1418,8 @@ function resumeFromInterlevel(state, events) {
   if (state.wave) for (const slot of state.wave.queue) slot.at += 700;
   events.push({ type: "resumed" });
 }
+
+// src/core/waves.js
 function freePanels(state, excludeCol, excludeRow) {
   const occ = new Set(state.enemies.map((e) => e.col + "," + e.row));
   const out = [];
@@ -1384,7 +1443,7 @@ var canRetaliate = (type) => type === "mett" || type === "hopper" || type === "s
 function unlocked(state, key) {
   const mode = modeById(state.modeId);
   if (mode.advancing) {
-    const at = unlockTable(mode)[key];
+    const at = state.tuning.unlockTable(mode)[key];
     return at !== void 0 && activeArena(state.world).idx >= at;
   }
   return state.stageIdx >= (UNLOCK[key] === void 0 ? Infinity : UNLOCK[key]);
@@ -1402,12 +1461,12 @@ function planWave(state) {
   let size = waveSize(stage);
   const form = FORMATIONS[Math.floor(state.rng() * FORMATIONS.length)];
   const rot = Math.floor(state.rng() * ROWS);
-  const stagger = waveStaggerMs(idx);
+  const stagger = state.tuning.waveStaggerMs(idx);
   const arena2 = activeArena(state.world);
   const ax0 = arena2.x0;
   const advancing = modeById(state.modeId).advancing;
   if (advancing) {
-    size = Math.min(arena2.waveSize, arena2.pool - arena2.dealt, MAX_ALIVE);
+    size = Math.min(arena2.waveSize, arena2.pool - arena2.dealt, state.tuning.MAX_ALIVE);
     arena2.dealt += size;
   }
   const chanceStage = advancing ? Math.min(STAGES.length, Math.floor(arena2.idx / 8)) : stage;
@@ -1419,23 +1478,24 @@ function planWave(state) {
       row: (row + rot) % ROWS,
       type: "mett",
       at: now + i * stagger,
-      persistent: advancing
+      persistent: advancing,
+      tier: 0
     });
   }
-  if (unlocked(state, "guard") && form.anchor < slots.length && state.rng() < guardWaveChance(chanceStage)) {
+  if (unlocked(state, "guard") && form.anchor < slots.length && state.rng() < state.tuning.guardWaveChance(chanceStage - UNLOCK.guard)) {
     slots[form.anchor].type = "guard";
   }
   if (unlocked(state, "hopper")) {
     const wanted = size >= 4 && state.rng() < 0.35 ? 2 : 1;
     for (let k = 0; k < wanted; k++) {
-      if (state.rng() >= hopperWaveChance(chanceStage)) continue;
+      if (state.rng() >= state.tuning.hopperWaveChance(chanceStage - UNLOCK.hopper)) continue;
       const plain = slots.filter((s) => s.type === "mett");
       if (!plain.length) break;
       plain[Math.floor(state.rng() * plain.length)].type = "hopper";
     }
   }
   const mark = advancing ? sentinelMark(state) : 0;
-  if (mark && state.rng() < sentinelWaveChance(arena2.idx)) {
+  if (mark && state.rng() < state.tuning.sentinelWaveChance(arena2.idx - state.tuning.ADV_UNLOCK.sentinel1)) {
     const plain = slots.filter((s) => s.type === "mett");
     if (plain.length) {
       const pick = plain[Math.floor(state.rng() * plain.length)];
@@ -1443,14 +1503,14 @@ function planWave(state) {
       pick.tier = mark > 1 && state.rng() < 0.35 ? mark - 1 : mark;
     }
   }
-  if (unlocked(state, "ally") && state.rng() < allyWaveChance(chanceStage)) {
+  if (unlocked(state, "ally") && state.rng() < state.tuning.allyWaveChance(chanceStage - UNLOCK.ally)) {
     const spot = freeSlot(state, slots);
     if (spot) slots.push({ ...spot, type: "ally", at: now + slots.length * stagger });
   }
-  if (!advancing && unlocked(state, "rare") && state.rng() < rareWaveChance(stage, state.timeLeft)) {
+  if (!advancing && unlocked(state, "rare") && state.rng() < state.tuning.rareWaveChance(stage - UNLOCK.rare, state.timeLeft)) {
     const spot = freeSlot(state, slots);
     if (spot) {
-      for (const s of slots) s.at += RARE_LIFE * 0.5;
+      for (const s of slots) s.at += state.tuning.RARE_LIFE * 0.5;
       slots.unshift({ ...spot, type: "rare", at: now });
     }
   }
@@ -1463,7 +1523,7 @@ function planWave(state) {
     kills: 0,
     startedAt: now,
     // only ever used to stop a jammed queue from stalling the run
-    deadline: now + slots.length * stagger + HOPPER_LIFE + WAVE_GRACE_MS,
+    deadline: now + slots.length * stagger + state.tuning.HOPPER_LIFE + state.tuning.WAVE_GRACE_MS,
     queue: slots
   };
 }
@@ -1486,8 +1546,8 @@ function spawnFromSlot(state, slot, events) {
   const boltKind = boltKindFor(type);
   const armed = unlocked(state, "retaliate") && canRetaliate(type);
   const tier = slot.tier || 0;
-  const sent = type === "sentinel" ? SENTINEL[tier] || SENTINEL[1] : null;
-  const willAttack = slot.persistent ? armed : armed && state.rng() < attackChance(state.deletions, type);
+  const sent = type === "sentinel" ? state.tuning.SENTINEL[tier] || state.tuning.SENTINEL[1] : null;
+  const willAttack = slot.persistent ? armed : armed && state.rng() < state.tuning.attackChance(state.deletions, type);
   state.enemies.push({
     col: slot.col,
     row: slot.row,
@@ -1496,7 +1556,7 @@ function spawnFromSlot(state, slot, events) {
     t0: now,
     persistent: !!slot.persistent,
     refireAt: Infinity,
-    riseMs: type === "ally" ? ALLY_RISE_MS : RISE_MS,
+    riseMs: type === "ally" ? state.tuning.ALLY_RISE_MS : state.tuning.RISE_MS,
     hp: sent ? sent.hp : type === "hopper" ? 2 : 1,
     tier,
     lastHop: now,
@@ -1506,7 +1566,7 @@ function spawnFromSlot(state, slot, events) {
     // baked at spawn so the telegraph a virus is drawing cannot change length
     // underneath it when the deletion count ticks over mid-aim
     boltKind,
-    aimMs: sent ? sent.openMs : aimMs(state.deletions, boltKind),
+    aimMs: sent ? sent.openMs : state.tuning.aimMs(state.deletions, boltKind),
     fired: false
   });
   const p = panel(state, slot.col, slot.row);
@@ -1525,15 +1585,15 @@ function endWave(state, events) {
   const wave = state.wave;
   const now = state.clock;
   const cleared = wave.virusCount > 0 && wave.kills >= wave.virusCount;
-  let lull = waveLullMs(wave.index, state.stageIdx);
-  if (cleared) lull *= WAVE_CLEAR_LULL;
-  if (state.timeLeft < LOW_TIME) lull = Math.min(lull, LOW_TIME_LULL_MS);
+  let lull = state.tuning.waveLullMs(wave.index, state.stageIdx >= LULL_TIGHTEN_STAGE);
+  if (cleared) lull *= state.tuning.WAVE_CLEAR_LULL;
+  if (state.timeLeft < state.tuning.LOW_TIME) lull = Math.min(lull, state.tuning.LOW_TIME_LULL_MS);
   lull = Math.round(lull);
   let timeBonus = 0, points = 0;
   if (cleared) {
-    timeBonus = waveClearBonus(wave.virusCount) * bonusFactor(state.deletions);
-    state.timeLeft = Math.min(TIME_CAP, state.timeLeft + timeBonus);
-    points = WAVE_CLEAR_PTS * wave.virusCount * multOf(state.chain);
+    timeBonus = state.tuning.waveClearBonus(wave.virusCount) * state.tuning.bonusFactor(state.deletions);
+    state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + timeBonus);
+    points = state.tuning.WAVE_CLEAR_PTS * wave.virusCount * multOf(state.chain);
     state.score += points;
     const p = panel(state, state.player.col, state.player.row);
     state.fx.popups.push({
@@ -1550,7 +1610,7 @@ function endWave(state, events) {
   if (cleared && modeById(state.modeId).advancing) {
     const guard = activeArena(state.world);
     if (guard.dealt < guard.pool) {
-      state.nextSpawnAt = now + ARENA_WAVE_GAP_MS;
+      state.nextSpawnAt = now + state.tuning.ARENA_WAVE_GAP_MS;
       events.push({
         type: "waveEnded",
         index: wave.index,
@@ -1560,24 +1620,24 @@ function endWave(state, events) {
         cleared,
         timeBonus: 0,
         points: 0,
-        lullMs: ARENA_WAVE_GAP_MS
+        lullMs: state.tuning.ARENA_WAVE_GAP_MS
       });
       return;
     }
     const story = !!modeById(state.modeId).story;
-    const roost = story && (guard.idx + 1) % TOWER_EVERY === 0 ? STORY_ROUTE[state.routeIdx] : null;
-    const { cleared: a, road, tower: tower2, next } = clearArena(state.world, state.rng, { tower: roost || void 0 });
+    const roost = story && (guard.idx + 1) % state.tuning.TOWER_EVERY === 0 ? STORY_ROUTE[state.routeIdx] : null;
+    const { cleared: a, road, tower: tower2, next } = clearArena(state.world, state.rng, { tower: roost || void 0, tuning: state.tuning });
     if (tower2) state.routeIdx++;
     state.arenasCleared++;
-    if (a.idx === 0 || state.rng() < BOMB_PICKUP_CHANCE) {
+    if (a.idx === 0 || state.rng() < state.tuning.BOMB_PICKUP_CHANCE) {
       const pc = road.x0 + Math.floor(state.rng() * road.cols);
       const pr = road.rows === 1 ? ROAD_MID_ROW : Math.floor(state.rng() * ROWS);
       state.pickups.push({ col: pc, row: pr, kind: "bomb" });
       const pp = panel(state, pc, pr);
       events.push({ type: "pickupSpawned", kind: "bomb", col: pc, row: pr, x: pp.x + pp.w / 2, y: pp.y });
     }
-    state.timeLeft = Math.min(TIME_CAP, state.timeLeft + ARENA_CLEAR_BONUS);
-    state.score += ARENA_CLEAR_PTS;
+    state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + state.tuning.ARENA_CLEAR_BONUS);
+    state.score += state.tuning.ARENA_CLEAR_PTS;
     state.nextSpawnAt = Infinity;
     events.push({
       type: "arenaCleared",
@@ -1585,8 +1645,8 @@ function endWave(state, events) {
       x0: a.x0,
       roadRows: road.rows,
       nextX0: next.x0,
-      timeBonus: ARENA_CLEAR_BONUS,
-      points: ARENA_CLEAR_PTS
+      timeBonus: state.tuning.ARENA_CLEAR_BONUS,
+      points: state.tuning.ARENA_CLEAR_PTS
     });
   }
   events.push({
@@ -1625,7 +1685,7 @@ function updateWave(state, events) {
         break;
       }
     }
-    if (busy || state.enemies.length >= MAX_ALIVE) {
+    if (busy || state.enemies.length >= state.tuning.MAX_ALIVE) {
       if (now >= wave.deadline) {
         queue.splice(i, 1);
         continue;
@@ -1645,12 +1705,12 @@ function updateWave(state, events) {
 }
 function lifeOf(state, e) {
   if (e.persistent) return Infinity;
-  if (e.type === "rare") return RARE_LIFE;
-  const base = e.type === "hopper" ? HOPPER_LIFE : upMs(state.deletions);
+  if (e.type === "rare") return state.tuning.RARE_LIFE;
+  const base = e.type === "hopper" ? state.tuning.HOPPER_LIFE : state.tuning.upMs(state.deletions);
   if (!e.willAttack) return base;
-  return Math.max(base, aimOf(state, e) + ATTACK_FOLLOW_MS);
+  return Math.max(base, aimOf(state, e) + state.tuning.ATTACK_FOLLOW_MS);
 }
-var aimOf = (state, e) => e.aimMs === void 0 ? aimMs(state.deletions, e.boltKind || boltKindFor(e.type)) : e.aimMs;
+var aimOf = (state, e) => e.aimMs === void 0 ? state.tuning.aimMs(state.deletions, e.boltKind || boltKindFor(e.type)) : e.aimMs;
 function updateEnemies(state, events) {
   if (state.mode !== "playing" || state.paused) return;
   const now = state.clock;
@@ -1660,7 +1720,7 @@ function updateEnemies(state, events) {
     const t = now - e.t0;
     switch (e.state) {
       case "rising":
-        if (t >= (e.riseMs || RISE_MS)) {
+        if (t >= (e.riseMs || state.tuning.RISE_MS)) {
           e.state = "up";
           e.t0 = now;
           e.lastHop = now;
@@ -1685,7 +1745,7 @@ function updateEnemies(state, events) {
           break;
         }
         const aiming = e.willAttack && !e.fired;
-        const hopEvery = e.type === "hopper" ? HOP_MS : e.type === "mett" && e.persistent ? MET_HOP_MS : Infinity;
+        const hopEvery = e.type === "hopper" ? state.tuning.HOP_MS : e.type === "mett" && e.persistent ? state.tuning.MET_HOP_MS : Infinity;
         if (!aiming && now - e.lastHop >= hopEvery) {
           hopTo(state, e, events);
           e.lastHop = now;
@@ -1693,7 +1753,7 @@ function updateEnemies(state, events) {
         if (aiming && t >= aimOf(state, e)) {
           fireBolt(state, e, events);
           e.fired = true;
-          e.refireAt = now + (e.type === "sentinel" ? (SENTINEL[e.tier] || SENTINEL[1]).closedMs : REFIRE_MS);
+          e.refireAt = now + (e.type === "sentinel" ? (state.tuning.SENTINEL[e.tier] || state.tuning.SENTINEL[1]).closedMs : state.tuning.REFIRE_MS);
         }
         if (t >= lifeOf(state, e)) {
           e.state = "sinking";
@@ -1702,15 +1762,15 @@ function updateEnemies(state, events) {
         break;
       }
       case "sinking":
-        if (t >= SINK_MS) {
+        if (t >= state.tuning.SINK_MS) {
           if (e.type === "ally") {
-            state.timeLeft = Math.min(TIME_CAP, state.timeLeft + ALLY_SPARE_BONUS);
+            state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + state.tuning.ALLY_SPARE_BONUS);
             const p = panel(state, e.col, e.row);
             state.fx.popups.push({
               x: p.x + p.w / 2,
               y: p.y,
               t0: now,
-              text: "spared +" + ALLY_SPARE_BONUS.toFixed(1) + "s",
+              text: "spared +" + state.tuning.ALLY_SPARE_BONUS.toFixed(1) + "s",
               color: "#58c7ff"
             });
             events.push({
@@ -1719,7 +1779,7 @@ function updateEnemies(state, events) {
               row: e.row,
               x: p.x + p.w / 2,
               y: p.y,
-              timeBonus: ALLY_SPARE_BONUS
+              timeBonus: state.tuning.ALLY_SPARE_BONUS
             });
           }
           events.push({ type: "enemyEscaped", enemyType: e.type, col: e.col, row: e.row });
@@ -1727,7 +1787,7 @@ function updateEnemies(state, events) {
         }
         break;
       case "hit":
-        if (t >= HIT_MS) state.enemies.splice(i, 1);
+        if (t >= state.tuning.HIT_MS) state.enemies.splice(i, 1);
         break;
     }
   }
@@ -1750,10 +1810,10 @@ function fireBolt(state, e, events) {
   state.bolts.push({
     row: e.row,
     x: p.x + p.w / 2,
-    speed: state.G.pw / boltPanelMs(state.deletions, kind),
+    speed: state.G.pw / state.tuning.boltPanelMs(state.deletions, kind),
     // px per ms, travelling left
     kind,
-    radius: state.G.pw * BOLT[kind].radiusFrac,
+    radius: state.G.pw * state.tuning.BOLT[kind].radiusFrac,
     heavy: kind === "slow"
   });
   events.push({
@@ -1767,13 +1827,15 @@ function fireBolt(state, e, events) {
     y: p.y
   });
 }
+
+// src/core/combat.js
 function updateBolts(state, dt, events) {
   if (state.mode !== "playing" || state.paused) return;
   const now = state.clock;
   const G = state.G;
   const pr = panel(state, state.player.col, state.player.row);
   const px = pr.x + pr.w / 2;
-  const hitR = G.pw * BOLT_HIT_R;
+  const hitR = G.pw * state.tuning.BOLT_HIT_R;
   for (let i = state.bolts.length - 1; i >= 0; i--) {
     const b = state.bolts[i];
     b.x -= b.speed * dt;
@@ -1814,7 +1876,7 @@ function throwBomb(state, events) {
   }
   const now = state.clock;
   const a = activeArena(state.world);
-  const toCol = Math.min(state.player.col + BOMB_RANGE, a.x0 + a.cols - 1);
+  const toCol = Math.min(state.player.col + state.tuning.BOMB_RANGE, a.x0 + a.cols - 1);
   state.bombs--;
   state.bombsInFlight.push({
     fromCol: state.player.col,
@@ -1822,7 +1884,7 @@ function throwBomb(state, events) {
     toCol,
     toRow: state.player.row,
     t0: now,
-    dur: BOMB_ARC_MS
+    dur: state.tuning.BOMB_ARC_MS
   });
   const p = panel(state, state.player.col, state.player.row);
   events.push({
@@ -1845,11 +1907,11 @@ function updateBombs(state, events) {
     detonate(state, b.toCol, b.toRow, events);
   }
   const bl = state.fx.blasts;
-  for (let i = bl.length - 1; i >= 0; i--) if (now - bl[i].t0 > BOMB_BLAST_MS) bl.splice(i, 1);
+  for (let i = bl.length - 1; i >= 0; i--) if (now - bl[i].t0 > state.tuning.BOMB_BLAST_MS) bl.splice(i, 1);
 }
 function detonate(state, col, row, events) {
   const now = state.clock;
-  const R = BOMB_RADIUS;
+  const R = state.tuning.BOMB_RADIUS;
   const p = panel(state, col, row);
   const cx = p.x + p.w / 2, cy = p.y + p.h * 0.5;
   let kills = 0;
@@ -1862,14 +1924,14 @@ function detonate(state, col, row, events) {
       hitFx(e, TIERS.charged, now);
       state.whiffs++;
       breakChain(state, events, "prog");
-      state.timeLeft = Math.max(0, state.timeLeft - ALLY_TIME_PENALTY);
-      state.score = Math.max(0, state.score - ALLY_PTS_PENALTY);
+      state.timeLeft = Math.max(0, state.timeLeft - state.tuning.ALLY_TIME_PENALTY);
+      state.score = Math.max(0, state.score - state.tuning.ALLY_PTS_PENALTY);
       const ep = panel(state, e.col, e.row);
       state.fx.popups.push({
         x: ep.x + ep.w / 2,
         y: ep.y - 8,
         t0: now,
-        text: "PROG HIT \u2212" + ALLY_TIME_PENALTY.toFixed(1) + "s",
+        text: "PROG HIT \u2212" + state.tuning.ALLY_TIME_PENALTY.toFixed(1) + "s",
         color: "#ff5470"
       });
       events.push({
@@ -1879,16 +1941,16 @@ function detonate(state, col, row, events) {
         row: e.row,
         x: ep.x + ep.w / 2,
         y: ep.y,
-        timePenalty: ALLY_TIME_PENALTY,
-        pointsPenalty: ALLY_PTS_PENALTY
+        timePenalty: state.tuning.ALLY_TIME_PENALTY,
+        pointsPenalty: state.tuning.ALLY_PTS_PENALTY
       });
       continue;
     }
     if (e.type === "sentinel") {
       const open = e.willAttack ? !e.fired : true;
       if (!open) continue;
-      if (e.hp > SENTINEL_CHARGED_DMG) {
-        e.hp -= SENTINEL_CHARGED_DMG;
+      if (e.hp > state.tuning.SENTINEL_CHARGED_DMG) {
+        e.hp -= state.tuning.SENTINEL_CHARGED_DMG;
         const ep = panel(state, e.col, e.row);
         events.push({ type: "sentinelHit", col: e.col, row: e.row, x: ep.x + ep.w / 2, y: ep.y, hp: e.hp });
         continue;
@@ -1913,9 +1975,9 @@ function detonate(state, col, row, events) {
 }
 function takeHit(state, events) {
   const now = state.clock;
-  state.hurtUntil = now + HIT_IFRAME_MS;
+  state.hurtUntil = now + state.tuning.HIT_IFRAME_MS;
   state.fx.hurtT0 = now;
-  state.timeLeft = Math.max(0, state.timeLeft - HIT_TIME_PENALTY);
+  state.timeLeft = Math.max(0, state.timeLeft - state.tuning.HIT_TIME_PENALTY);
   breakChain(state, events, "hurt");
   state.charge.downAt = null;
   state.charge.full = false;
@@ -1925,7 +1987,7 @@ function takeHit(state, events) {
     x: p.x + p.w / 2,
     y: p.y - 8,
     t0: now,
-    text: "HIT \u2212" + HIT_TIME_PENALTY.toFixed(1) + "s",
+    text: "HIT \u2212" + state.tuning.HIT_TIME_PENALTY.toFixed(1) + "s",
     color: "#ff5470"
   });
   state.fx.sparks.push({ x: p.x + p.w / 2, y: p.y + p.h * 0.3, t0: now });
@@ -1946,7 +2008,7 @@ function takeHit(state, events) {
     row: state.player.row,
     x: p.x + p.w / 2,
     y: p.y,
-    timePenalty: HIT_TIME_PENALTY
+    timePenalty: state.tuning.HIT_TIME_PENALTY
   });
   events.push({ type: "statsChanged" });
 }
@@ -1985,13 +2047,13 @@ function deleteEnemy(state, target, tierName, land2, events) {
   const mult = multOf(state.chain);
   if (state.wave && target.wave === state.wave.index) state.wave.kills++;
   const baseKey = target.type === "guard" ? "guard" : target.type === "hopper" ? "hopper" : target.type === "rare" ? "rare" : target.type === "sentinel" ? "sentinel" : tierName;
-  const pts = (PTS[baseKey] === void 0 ? PTS[tierName] : PTS[baseKey]) * mult;
+  const pts = (state.tuning.PTS[baseKey] === void 0 ? state.tuning.PTS[tierName] : state.tuning.PTS[baseKey]) * mult;
   state.score += pts;
   state.deletions++;
-  const bf = bonusFactor(state.deletions);
+  const bf = state.tuning.bonusFactor(state.deletions);
   const factor = baseKey === "rare" ? Math.sqrt(bf) : bf;
-  const timeBonus = (BONUS[baseKey] === void 0 ? BONUS[tierName] : BONUS[baseKey]) * factor;
-  state.timeLeft = Math.min(TIME_CAP, state.timeLeft + timeBonus);
+  const timeBonus = (state.tuning.BONUS[baseKey] === void 0 ? state.tuning.BONUS[tierName] : state.tuning.BONUS[baseKey]) * factor;
+  state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + timeBonus);
   spawnBits(state, cx, cy, BIT_COUNT[baseKey] || BIT_COUNT.guard, DEBRIS[target.type] || DEBRIS.guard, {
     at: land2,
     speed: baseKey === "rare" ? 0.4 : baseKey === "charged" ? 0.34 : 0.28,
@@ -2101,13 +2163,13 @@ function shoot(state, tierName, events) {
     hitFx(target, tier, land2);
     state.whiffs++;
     breakChain(state, events, "prog", land2);
-    state.timeLeft = Math.max(0, state.timeLeft - ALLY_TIME_PENALTY);
-    state.score = Math.max(0, state.score - ALLY_PTS_PENALTY);
+    state.timeLeft = Math.max(0, state.timeLeft - state.tuning.ALLY_TIME_PENALTY);
+    state.score = Math.max(0, state.score - state.tuning.ALLY_PTS_PENALTY);
     state.fx.popups.push({
       x: cx,
       y: p.y - 8,
       t0: land2,
-      text: "PROG HIT \u2212" + ALLY_TIME_PENALTY.toFixed(1) + "s",
+      text: "PROG HIT \u2212" + state.tuning.ALLY_TIME_PENALTY.toFixed(1) + "s",
       color: "#ff5470"
     });
     spawnBits(state, cx, cy, BIT_COUNT.prog, DEBRIS.ally, { at: land2, speed: 0.18 });
@@ -2121,8 +2183,8 @@ function shoot(state, tierName, events) {
       row: target.row,
       x: cx,
       y: p.y,
-      timePenalty: ALLY_TIME_PENALTY,
-      pointsPenalty: ALLY_PTS_PENALTY
+      timePenalty: state.tuning.ALLY_TIME_PENALTY,
+      pointsPenalty: state.tuning.ALLY_PTS_PENALTY
     });
     events.push({ type: "statsChanged" });
     return;
@@ -2160,7 +2222,7 @@ function shoot(state, tierName, events) {
       events.push({ type: "guardBlocked", col: target.col, row: target.row, x: cx, y: p.y });
       return;
     }
-    const dmg = tierName === "charged" ? SENTINEL_CHARGED_DMG : 1;
+    const dmg = tierName === "charged" ? state.tuning.SENTINEL_CHARGED_DMG : 1;
     if (target.hp > dmg) {
       target.hp -= dmg;
       state.fx.sparks.push({ x: cx, y: p.y + p.h * 0.2, t0: land2 });
@@ -2200,42 +2262,91 @@ function shoot(state, tierName, events) {
   }
   deleteEnemy(state, target, tierName, land2, events);
 }
-function cullFx(state) {
-  const now = state.clock;
-  const popups = state.fx.popups;
-  for (let i = popups.length - 1; i >= 0; i--) {
-    if (now - popups[i].t0 >= POPUP_MS) popups.splice(i, 1);
+
+// src/core/step.js
+function step(state, dtMs, intents = {}) {
+  const events = [];
+  const actions = Array.isArray(intents) ? intents : intents.actions || [];
+  const hold = Array.isArray(intents) ? null : intents.hold;
+  for (const a of actions) applyIntent(state, a, events);
+  let adv = dtMs;
+  if (state.mode === "playing" && !state.paused && state.hitStopMs > 0 && state.clock >= state.hitStopAt) {
+    const used = Math.min(state.hitStopMs, adv);
+    state.hitStopMs -= used;
+    adv -= used;
   }
-  const sparks = state.fx.sparks;
-  for (let i = sparks.length - 1; i >= 0; i--) {
-    if (now - sparks[i].t0 >= SPARK_MS) sparks.splice(i, 1);
+  if (state.mode === "playing" && !state.paused) {
+    state.clock += adv;
+    if (!safeZone(state.world)) state.timeLeft -= dtMs / 1e3;
+    if (state.timeLeft <= 0) {
+      state.timeLeft = 0;
+      gameOver(state, events);
+    }
+    if (state.charge.downAt !== null && !state.charge.full && state.clock - state.charge.downAt >= state.tuning.CHARGE_MS) {
+      state.charge.full = true;
+      events.push({ type: "chargeReady" });
+    }
   }
-  const bits = state.fx.bits;
-  for (let i = bits.length - 1; i >= 0; i--) {
-    if (now - bits[i].t0 >= bits[i].ms) bits.splice(i, 1);
+  if (hold && (hold.dc || hold.dr)) {
+    const hd = state.holdDir;
+    if (!hd || hd.dc !== hold.dc || hd.dr !== hold.dr) {
+      state.holdDir = { dc: hold.dc, dr: hold.dr };
+      state.holdT0 = state.clock;
+    }
+    move(state, hold.dc, hold.dr, events, true);
+  } else {
+    state.holdDir = null;
   }
-  const ripples = state.fx.ripples;
-  for (let i = ripples.length - 1; i >= 0; i--) {
-    if (now - ripples[i].t0 >= ripples[i].ms) ripples.splice(i, 1);
-  }
+  updateHop(state, events);
+  flushQueuedMove(state, events);
+  runPath(state, events);
+  updateEnemies(state, events);
+  updateBolts(state, adv, events);
+  checkStageGate(state, events);
+  cullFx(state);
+  return events;
 }
-function clearFx(state) {
-  const fx = state.fx;
-  fx.popups.length = 0;
-  fx.sparks.length = 0;
-  fx.bits.length = 0;
-  fx.ripples.length = 0;
-  fx.hurtT0 = -1e9;
-  fx.shake.t0 = -1e9;
-  fx.shake.amp = 0;
-  fx.shake.ms = 0;
-  fx.flare.t0 = -1e9;
-  fx.chainBreak.t0 = -1e9;
-  fx.ghost.t0 = -1e9;
-  fx.ray.t0 = -1e9;
-  fx.muzzleT0 = -1e9;
-  state.hitStopAt = -1e9;
-  state.hitStopMs = 0;
+function applyIntent(state, action, events) {
+  switch (action.type) {
+    case "firePressed":
+      firePressed(state, events);
+      break;
+    case "fireReleased":
+      fireReleased(state, events);
+      break;
+    case "move":
+      move(state, action.dc, action.dr, events);
+      break;
+    case "moveTo":
+      moveTo(state, action.col, action.row, events);
+      break;
+    case "tapAt":
+      tapAt(state, action.x, action.y, events);
+      break;
+    case "resetMoveThrottle":
+      state.lastMoveAt = -1e9;
+      break;
+    case "pause":
+      togglePause(state, events);
+      break;
+    case "pauseOnBlur":
+      if (state.mode === "playing" && !state.paused) togglePause(state, events);
+      break;
+    case "startRun":
+      resetGame(state, events, action.modeId);
+      break;
+    case "bomb":
+      contextAction(state, events);
+      break;
+    case "resume":
+      resumeFromInterlevel(state, events);
+      break;
+    case "endRun":
+      gameOver(state, events);
+      break;
+    default:
+      break;
+  }
 }
 
 // src/shell/dom.js
@@ -3155,8 +3266,8 @@ var FORM_BARS = BARS * PHRASES;
 var PH_LEAD_OCT = [0, 0, 12, 0];
 var PH_STABS = [false, true, true, true];
 var PH_BSECTION = [false, false, true, false];
-var CHARGE_MS2 = 700;
-var LOW_TIME2 = 6;
+var CHARGE_MS = 700;
+var LOW_TIME = 6;
 var A4 = 440;
 var hz = (n) => A4 * Math.pow(2, (n - 69) / 12);
 var PROG_MAIN = [45, 41, 43, 40];
@@ -3176,7 +3287,11 @@ function createAudio(win) {
   let on = true;
   let dead = false;
   const live = /* @__PURE__ */ new Set();
-  const AC = win.AudioContext || win.webkitAudioContext;
+  const AC = (
+    /** @type {any} */
+    win.AudioContext || /** @type {any} */
+    win.webkitAudioContext
+  );
   function build() {
     ac = new AC();
     const limiter = ac.createDynamicsCompressor();
@@ -4000,7 +4115,7 @@ function createAudio(win) {
     chargeStop(0);
     if (!audible()) return;
     const t = ac.currentTime;
-    const secs = CHARGE_MS2 / 1e3;
+    const secs = CHARGE_MS / 1e3;
     const out = gain(0, t);
     out.gain.linearRampToValueAtTime(0.075, t + secs * 0.75);
     out.connect(sfxBus);
@@ -4395,7 +4510,7 @@ function createAudio(win) {
   function observe(view, charging, chargeFull) {
     if (dead || !ac || !view) return;
     music.tier = view.overclock ? 3 : view.level >= 7 ? 2 : view.level >= 3 ? 1 : 0;
-    music.lowTime = view.mode === "playing" && !view.paused && !view.safe && view.timeLeft < LOW_TIME2;
+    music.lowTime = view.mode === "playing" && !view.paused && !view.safe && view.timeLeft < LOW_TIME;
     if (view.mode === "playing" && !view.paused) {
       if (!music.running) musicStart(0);
       else if (!music.playing) musicResume();
@@ -4486,7 +4601,7 @@ function createAudio(win) {
 }
 
 // src/canon/decoder.js
-function fnv1a(s) {
+function fnv1a2(s) {
   let h = 2166136261;
   const bytes = new TextEncoder().encode(s);
   for (const b of bytes) {
@@ -4555,8 +4670,8 @@ function parseContainer(container) {
     const c = line.indexOf(":");
     if (c > 0) meta[line.slice(0, c).trim()] = line.slice(c + 1).trim();
   }
-  const body = rest.split("-----END MESH VAULT-----")[0].replace(/\n/g, "");
-  return { meta: { v: meta.v, id: meta.id, sha256: meta.sha256, len: Number(meta.len) }, body };
+  const body2 = rest.split("-----END MESH VAULT-----")[0].replace(/\n/g, "");
+  return { meta: { v: meta.v, id: meta.id, sha256: meta.sha256, len: Number(meta.len) }, body: body2 };
 }
 var K = [
   1116352408,
@@ -4682,10 +4797,10 @@ async function sha256hex(data) {
   return Array.from(new Uint8Array(d)).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 async function decode(container, m) {
-  const { meta, body } = parseContainer(container);
-  const seed = fnv1a(meta.id + "" + m.salt);
+  const { meta, body: body2 } = parseContainer(container);
+  const seed = fnv1a2(meta.id + "" + m.salt);
   const p = perm(seed, m.block);
-  const enc = unb64custom(body, m.alphabet);
+  const enc = unb64custom(body2, m.alphabet);
   const ks = keystream(seed, enc.length);
   const xored = new Uint8Array(enc.length);
   for (let i = 0; i < enc.length; i++) xored[i] = enc[i] ^ ks[i];
@@ -4708,7 +4823,10 @@ function __drawTheCurtain__() {
   if (__method__) return __method__;
   const reversed = __curtain__.join("");
   const b64 = Array.from(reversed).reverse().join("");
-  const json = typeof atob === "function" ? atob(b64) : Buffer.from(b64, "base64").toString("utf8");
+  const json = typeof atob === "function" ? atob(b64) : (
+    /** @type {any} */
+    globalThis.Buffer.from(b64, "base64").toString("utf8")
+  );
   __method__ = JSON.parse(json);
   return __method__;
 }
@@ -5416,11 +5534,7 @@ function installGestureGuards({ els, on, focusStage }) {
   on(surface, "selectstart", (e) => e.preventDefault());
 }
 
-// src/shell/render.js
-var { EASE: EASE2, impulseValue: impulseValue2, TAU: TAU2, RING_GAP: RING_GAP2 } = constants_exports;
-var panel2 = (G, col, row) => panelRect(G, col, row);
-var MONO = "px ui-monospace, Menlo, Consolas, monospace";
-var font = (weight, size) => weight + " " + size + MONO;
+// src/shell/painters.js
 var SKINS = {
   mett: { dome: "#ffd23f", stripe: "#c9992a" },
   guard: { dome: "#aeb9d6", stripe: "#6c7794" },
@@ -5431,11 +5545,6 @@ var SKINS = {
   sentinel: { dome: "#b48cff", stripe: "#5a3f9a" }
 };
 var SENTINEL_CORE = { 1: "#c48cff", 2: "#ff6fd8", 3: "#ff4d4d" };
-var PANELS = { mine: ["#3a2330", "#7c3652"], theirs: ["#1e2c4d", "#35528f"] };
-var PANELS_OC = { mine: ["#40252c", "#95483f"], theirs: ["#2b2a35", "#7b5733"] };
-var ROAD = ["#121828", "#243050"];
-var ROAD_DASH = "#34416a";
-var TOWER = ["#2a2436", "#5a4a6e"];
 var KEEPER = { robe: "#c9b6ff", hood: "#7d63c4", face: "#fff3c4", eye: "#2b1f4a" };
 var PEOPLE = {
   "npc.keeper.01": { robe: "#ffd7e0", hood: "#c45b7a", face: "#fff3c4", eye: "#3a1a26" },
@@ -5451,6 +5560,196 @@ var PEOPLE = {
   "npc.sweeper.tidy": { robe: "#f0f0f0", hood: "#b5b5b5", face: "#ffffff", eye: "#444" },
   "boss.foreman": { robe: "#f4f4f4", hood: "#8a8a8a", face: "#ffffff", eye: "#444" }
 };
+var enemyBox = (G) => ({ bw: G.pw * 0.4, bh: G.ph * 1 });
+var playerBox = (G) => ({ bw: G.pw * 0.34, bh: G.ph * 1.15 });
+var keeperBox = (G, small) => {
+  const s = small ? 0.72 : 1;
+  return { w: G.pw * 0.3 * s, h: G.ph * 1 * s };
+};
+var itemBox = (G) => ({ w: G.pw * 0.36, h: G.ph * 0.3 });
+var pickupRadius = (G) => Math.min(G.pw, G.ph) * 0.16;
+var SENTINEL_OPEN_FRAMES = 6;
+var irisGap = (frame) => 0.18 + 0.5 * (1 - (frame + 0.5) / SENTINEL_OPEN_FRAMES);
+function blend(fg, bg, a) {
+  const f = parseInt(fg.slice(1), 16), b = parseInt(bg.slice(1), 16);
+  const ch = (sh) => Math.round((f >> sh & 255) * a + (b >> sh & 255) * (1 - a));
+  return "#" + [16, 8, 0].map((sh) => ch(sh).toString(16).padStart(2, "0")).join("");
+}
+function paintEnemy(ctx, { bw, bh }, type) {
+  const skin = SKINS[type] || SKINS.mett;
+  ctx.fillStyle = skin.dome;
+  ctx.beginPath();
+  ctx.arc(0, -bh * 0.42, bw * 0.55, Math.PI, 0);
+  ctx.lineTo(bw * 0.55, -bh * 0.1);
+  ctx.lineTo(-bw * 0.55, -bh * 0.1);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = skin.stripe;
+  ctx.fillRect(-bw * 0.08, -bh * 0.98, bw * 0.16, bh * 0.5);
+  if (type === "guard") {
+    ctx.fillStyle = "#6c7794";
+    ctx.fillRect(-bw * 0.55, -bh * 0.34, bw * 1.1, bh * 0.1);
+    ctx.fillStyle = "#232c42";
+    ctx.fillRect(-bw * 0.42, -bh * 0.24, bw * 0.84, bh * 0.12);
+  } else if (type === "ally") {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(-bw * 0.42, -bh * 0.36, bw * 0.84, bh * 0.26);
+    ctx.fillStyle = "#2a7ab8";
+    ctx.fillRect(-bw * 0.06, -bh * 0.34, bw * 0.12, bh * 0.22);
+    ctx.fillRect(-bw * 0.24, -bh * 0.28, bw * 0.48, bh * 0.1);
+  } else {
+    ctx.fillStyle = "#232c42";
+    ctx.fillRect(-bw * 0.42, -bh * 0.34, bw * 0.84, bh * 0.24);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(-bw * 0.26, -bh * 0.3, bw * 0.12, bh * 0.14);
+    ctx.fillRect(bw * 0.14, -bh * 0.3, bw * 0.12, bh * 0.14);
+  }
+}
+function paintSentinel(ctx, { bw, bh }, tier, openFrame) {
+  const open = openFrame !== null && openFrame !== void 0;
+  const core = SENTINEL_CORE[tier] || SENTINEL_CORE[1];
+  const R = bw * 0.62, cy = -bh * 0.44;
+  ctx.fillStyle = "#3a3452";
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const a = Math.PI / 6 + i * Math.PI / 3;
+    const x = Math.cos(a) * R, y = cy + Math.sin(a) * R * 0.92;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "#6a5f8f";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = "#2a2540";
+  ctx.fillRect(-bw * 0.34, -bh * 0.12, bw * 0.68, bh * 0.1);
+  const gap = open ? irisGap(openFrame) : 0.04;
+  const half = R * 0.62;
+  ctx.fillStyle = blend(core, "#3a3452", open ? 0.92 : 0.25);
+  ctx.beginPath();
+  ctx.arc(0, cy, half * 0.62, 0, Math.PI * 2 - RING_GAP);
+  ctx.fill();
+  ctx.fillStyle = "#1a1728";
+  ctx.fillRect(-half, cy - half, half * 2, half * (1 - gap));
+  ctx.fillRect(-half, cy + half * gap, half * 2, half * (1 - gap));
+  ctx.fillStyle = core;
+  for (let i = 0; i < (tier || 1); i++) ctx.fillRect(-bw * 0.26 + i * bw * 0.16, cy + R * 0.7, bw * 0.1, 3);
+}
+function paintPlayer(ctx, { bw, bh }, full) {
+  ctx.fillStyle = "#4f8dff";
+  ctx.fillRect(-bw / 2, -bh, bw, bh);
+  ctx.fillStyle = "#2f5fc4";
+  ctx.fillRect(-bw / 2, -bh, bw, bh * 0.28);
+  ctx.fillStyle = "#c9f6ff";
+  ctx.fillRect(-bw * 0.28, -bh * 0.62, bw * 0.56, bh * 0.14);
+  const rayY = -bh * 0.42;
+  ctx.fillStyle = full ? "#fff3c4" : "#ffd23f";
+  ctx.fillRect(bw / 2 - 2, rayY - 5, bw * 0.55, 10);
+}
+function paintKeeper(ctx, { w, h }, look, frame = 0) {
+  const dy = frame ? 1 : 0;
+  ctx.fillStyle = look.robe;
+  ctx.fillRect(-w / 2, -h + dy, w, h - dy);
+  ctx.fillStyle = look.hood;
+  ctx.fillRect(-w * 0.6, -h - h * 0.12 + dy, w * 1.2, h * 0.42);
+  ctx.fillStyle = look.face;
+  ctx.fillRect(-w * 0.32, -h + h * 0.06 + dy, w * 0.64, h * 0.2);
+  ctx.fillStyle = look.eye;
+  ctx.fillRect(-w * 0.2, -h + h * 0.12 + dy, 3, 3);
+  ctx.fillRect(w * 0.2 - 3, -h + h * 0.12 + dy, 3, 3);
+}
+function paintItem(ctx, { w, h }) {
+  ctx.fillStyle = "#2a2226";
+  ctx.fillRect(-w * 0.6, h * 0.5, w * 1.2, 4);
+  ctx.fillStyle = "#6b4a3a";
+  ctx.fillRect(-w / 2, -h / 2, w, h);
+  ctx.fillStyle = "#c9b18f";
+  ctx.fillRect(-w / 2 + 3, -h / 2 + 3, w - 6, h - 6);
+  ctx.fillStyle = "#3a2a22";
+  ctx.fillRect(-w / 2 + 6, -1, w * 0.5, 2);
+  ctx.fillRect(-w / 2 + 6, 4, w * 0.35, 2);
+}
+function paintPickup(ctx, r, frame = 0) {
+  ctx.fillStyle = "#1a1f33";
+  ctx.beginPath();
+  ctx.arc(0, 0, r, 0, Math.PI * 2 - RING_GAP);
+  ctx.fill();
+  ctx.strokeStyle = "#ffd23f";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(r * 0.4, -r * 0.8);
+  ctx.lineTo(r * 1.1, -r * 1.6);
+  ctx.stroke();
+  ctx.fillStyle = frame ? "#ffffff" : "#ff5470";
+  ctx.fillRect(r * 1, -r * 1.8, 3, 3);
+}
+var ceil = Math.ceil;
+function manifestFor(G) {
+  const ents = {};
+  const eb = enemyBox(G), pb = playerBox(G), ib = itemBox(G), pr = pickupRadius(G);
+  const bodyCell = (halfW, up, down) => ({ w: 2 * ceil(halfW) + 4, h: ceil(up) + ceil(down) + 4, ax: ceil(halfW) + 2, ay: ceil(up) + 2 });
+  for (const type of ["mett", "guard", "hopper", "ally", "rare"]) {
+    ents["enemy." + type] = {
+      cell: bodyCell(eb.bw * 0.62, eb.bh * 1, 0),
+      states: { up: { frames: 1, ms: 0 } },
+      paint: (ctx) => paintEnemy(ctx, eb, type)
+    };
+  }
+  for (const tier of [1, 2, 3]) {
+    ents["sentinel." + tier] = {
+      cell: bodyCell(eb.bw * 0.7, eb.bh * 0.44 + eb.bw * 0.62 + 2, 0),
+      // the open frames follow the spell, not the clock: the renderer picks one
+      states: { closed: { frames: 1, ms: 0 }, open: { frames: SENTINEL_OPEN_FRAMES, ms: 0, byPhase: true } },
+      paint: (ctx, frame, st) => paintSentinel(ctx, eb, tier, st === "open" ? frame : null)
+    };
+  }
+  ents.player = {
+    cell: { w: ceil(pb.bw / 2) + ceil(pb.bw / 2 + pb.bw * 0.55) + 4, h: ceil(pb.bh) + 4, ax: ceil(pb.bw / 2) + 2, ay: ceil(pb.bh) + 2 },
+    states: { idle: { frames: 1, ms: 0 }, charged: { frames: 1, ms: 0 } },
+    paint: (ctx, frame, st) => paintPlayer(ctx, pb, st === "charged")
+  };
+  const people = { default: KEEPER, ...PEOPLE };
+  for (const [id, look] of Object.entries(people)) {
+    const kb = keeperBox(G, look.small);
+    ents["keeper." + id] = {
+      cell: bodyCell(kb.w * 0.6, kb.h * 1.12, 1),
+      states: { idle: { frames: 2, ms: 700 } },
+      paint: (ctx, frame) => paintKeeper(ctx, kb, look, frame)
+    };
+  }
+  ents["item.journal"] = {
+    cell: { w: 2 * ceil(ib.w * 0.6) + 4, h: ceil(ib.h / 2) + ceil(ib.h * 0.5 + 4) + 4, ax: ceil(ib.w * 0.6) + 2, ay: ceil(ib.h / 2) + 2 },
+    states: { idle: { frames: 1, ms: 0 } },
+    paint: (ctx) => paintItem(ctx, ib)
+  };
+  ents["pickup.bomb"] = {
+    cell: { w: 2 * ceil(pr * 1.3) + 6, h: ceil(pr * 1.9) + ceil(pr) + 6, ax: ceil(pr * 1.3) + 3, ay: ceil(pr * 1.9) + 3 },
+    states: { idle: { frames: 2, ms: 120 } },
+    paint: (ctx, frame) => paintPickup(ctx, pr, frame)
+  };
+  return { pw: G.pw, ph: G.ph, entities: ents };
+}
+function frameAt(spec, now) {
+  if (!spec || spec.frames <= 1 || !spec.ms) return 0;
+  return Math.floor(now / spec.ms) % spec.frames;
+}
+
+// src/shell/render.js
+var ART = null;
+function body(ctx, id, st, frame, painter) {
+  if (ART && ART.paint(ctx, id, st, frame)) return;
+  painter(ctx);
+}
+var { EASE: EASE2, impulseValue: impulseValue2, TAU: TAU2, RING_GAP: RING_GAP2 } = constants_exports;
+var panel2 = (G, col, row) => panelRect(G, col, row);
+var MONO = "px ui-monospace, Menlo, Consolas, monospace";
+var font = (weight, size) => weight + " " + size + MONO;
+var PANELS = { mine: ["#3a2330", "#7c3652"], theirs: ["#1e2c4d", "#35528f"] };
+var PANELS_OC = { mine: ["#40252c", "#95483f"], theirs: ["#2b2a35", "#7b5733"] };
+var ROAD = ["#121828", "#243050"];
+var ROAD_DASH = "#34416a";
+var TOWER = ["#2a2436", "#5a4a6e"];
 function ring(ctx, x, y, r, squash = 1) {
   ctx.beginPath();
   if (squash === 1) {
@@ -5465,9 +5764,10 @@ function ring(ctx, x, y, r, squash = 1) {
     else ctx.moveTo(px, py);
   }
 }
-function draw(ctx, state, now) {
+function draw(ctx, state, now, art = null) {
   const G = state.G;
   const rm = !!state.reducedMotion;
+  ART = art;
   ctx.clearRect(0, 0, G.w, G.h);
   const sh = state.fx.shake;
   const st = now - sh.t0;
@@ -5501,31 +5801,25 @@ function draw(ctx, state, now) {
   drawChainBreak(ctx, state, now);
   ctx.restore();
   drawHUD(ctx, state, now, rm);
+  ART = null;
 }
 function drawPickups(ctx, state, now) {
   const G = state.G;
   for (const pk of state.pickups || []) {
     const p = panel2(G, pk.col, pk.row);
     const cx = p.x + p.w / 2, cy = p.y + p.h * 0.5 + Math.sin(now / 260) * 3;
-    const r = Math.min(p.w, p.h) * 0.16;
+    const r = pickupRadius(G);
     ctx.globalAlpha = 0.35 + 0.15 * Math.sin(now / 180);
     ctx.fillStyle = "#ff9f45";
     ctx.beginPath();
     ctx.arc(cx, cy, r * 1.9, 0, Math.PI * 2 - RING_GAP);
     ctx.fill();
     ctx.globalAlpha = 1;
-    ctx.fillStyle = "#1a1f33";
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2 - RING_GAP);
-    ctx.fill();
-    ctx.strokeStyle = "#ffd23f";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(cx + r * 0.4, cy - r * 0.8);
-    ctx.lineTo(cx + r * 1.1, cy - r * 1.6);
-    ctx.stroke();
-    ctx.fillStyle = Math.floor(now / 120) % 2 ? "#ffffff" : "#ff5470";
-    ctx.fillRect(cx + r * 1, cy - r * 1.8, 3, 3);
+    ctx.save();
+    ctx.translate(Math.round(cx), Math.round(cy));
+    const f = frameAt({ frames: 2, ms: 120 }, now);
+    body(ctx, "pickup.bomb", "idle", f, (c) => paintPickup(c, r, f));
+    ctx.restore();
   }
 }
 function drawBombs(ctx, state, now) {
@@ -5556,8 +5850,8 @@ function drawBombs(ctx, state, now) {
     ctx.fillRect(x + r * 0.6, y - r * 1.5, 3, 3);
   }
   for (const bl of state.fx.blasts || []) {
-    const q = Math.min(1, (now - bl.t0) / BOMB_BLAST_MS);
-    const R = BOMB_RADIUS;
+    const q = Math.min(1, (now - bl.t0) / state.tuning.BOMB_BLAST_MS);
+    const R = state.tuning.BOMB_RADIUS;
     ctx.globalAlpha = 0.55 * (1 - q) ** 1.5;
     ctx.fillStyle = "#ff9f45";
     for (let dc = -R; dc <= R; dc++) for (let dr = -R; dr <= R; dr++) {
@@ -5583,7 +5877,7 @@ function drawBombs(ctx, state, now) {
 }
 function drawPanels(ctx, state, now) {
   const G = state.G;
-  const oc = state.deletions >= OC_START;
+  const oc = state.deletions >= state.tuning.OC_START;
   const skin = oc ? PANELS_OC : PANELS;
   const advancing = modeById(state.modeId).advancing;
   const world = state.world;
@@ -5627,7 +5921,7 @@ function drawPanels(ctx, state, now) {
       if (t === TILE.NPC) {
         const who = npcAt(world, c, r);
         if (who && who.verb === "read") drawItem(ctx, p, now, state, c, r);
-        else drawKeeper(ctx, p, now, state, c, r, PEOPLE[who && who.id] || KEEPER);
+        else drawKeeper(ctx, p, now, state, c, r, PEOPLE[who && who.id] || KEEPER, who && PEOPLE[who.id] ? who.id : "default");
       }
       if (t !== TILE.ENEMY && c === state.player.col && r === state.player.row) {
         ctx.strokeStyle = "#45e0e8";
@@ -5637,21 +5931,15 @@ function drawPanels(ctx, state, now) {
   }
   drawRipples(ctx, state, now);
 }
-function drawKeeper(ctx, p, now, state, col, row, look = KEEPER) {
+function drawKeeper(ctx, p, now, state, col, row, look = KEEPER, id = "default") {
   const cx = p.x + p.w / 2;
   const base = p.y + p.h * 0.8;
-  const breathe = 1 + 0.02 * Math.sin(now / 700 + col);
-  const scale = look.small ? 0.72 : 1;
-  const w = p.w * 0.3 * scale, h = p.h * 1 * breathe * scale;
-  ctx.fillStyle = look.robe;
-  ctx.fillRect(cx - w / 2, base - h, w, h);
-  ctx.fillStyle = look.hood;
-  ctx.fillRect(cx - w * 0.6, base - h - h * 0.12, w * 1.2, h * 0.42);
-  ctx.fillStyle = look.face;
-  ctx.fillRect(cx - w * 0.32, base - h + h * 0.06, w * 0.64, h * 0.2);
-  ctx.fillStyle = look.eye;
-  ctx.fillRect(cx - w * 0.2, base - h + h * 0.12, 3, 3);
-  ctx.fillRect(cx + w * 0.2 - 3, base - h + h * 0.12, 3, 3);
+  const kb = keeperBox(state.G, look.small);
+  const f = Math.floor(now / 700 + col) % 2;
+  ctx.save();
+  ctx.translate(Math.round(cx), Math.round(base));
+  body(ctx, "keeper." + id, "idle", f, (c) => paintKeeper(c, kb, look, f));
+  ctx.restore();
   const beside = Math.abs(state.player.col - col) + Math.abs(state.player.row - row) === 1;
   if (beside) {
     ctx.globalAlpha = 0.6 + 0.4 * Math.sin(now / 220);
@@ -5668,16 +5956,11 @@ function drawKeeper(ctx, p, now, state, col, row, look = KEEPER) {
 }
 function drawItem(ctx, p, now, state, col, row) {
   const cx = p.x + p.w / 2, cy = p.y + p.h * 0.62;
-  const w = p.w * 0.36, h = p.h * 0.3;
-  ctx.fillStyle = "#2a2226";
-  ctx.fillRect(cx - w * 0.6, cy + h * 0.5, w * 1.2, 4);
-  ctx.fillStyle = "#6b4a3a";
-  ctx.fillRect(cx - w / 2, cy - h / 2, w, h);
-  ctx.fillStyle = "#c9b18f";
-  ctx.fillRect(cx - w / 2 + 3, cy - h / 2 + 3, w - 6, h - 6);
-  ctx.fillStyle = "#3a2a22";
-  ctx.fillRect(cx - w / 2 + 6, cy - 1, w * 0.5, 2);
-  ctx.fillRect(cx - w / 2 + 6, cy + 4, w * 0.35, 2);
+  const ib = itemBox(state.G);
+  ctx.save();
+  ctx.translate(Math.round(cx), Math.round(cy));
+  body(ctx, "item.journal", "idle", 0, (c) => paintItem(c, ib));
+  ctx.restore();
   const beside = Math.abs(state.player.col - col) + Math.abs(state.player.row - row) === 1;
   if (beside) {
     ctx.globalAlpha = 0.6 + 0.4 * Math.sin(now / 220);
@@ -5729,7 +6012,7 @@ function drawLane(ctx, state, now) {
 function drawAim(ctx, state, now) {
   if (state.mode !== "playing") return;
   const G = state.G;
-  const fallbackAim = aimMs(state.deletions);
+  const fallbackAim = state.tuning.aimMs(state.deletions);
   for (const e of state.enemies) {
     if (!e.willAttack || e.fired || e.state !== "up") continue;
     const q = Math.min(1, (now - e.t0) / (e.aimMs || fallbackAim));
@@ -5860,14 +6143,15 @@ function drawPlayer(ctx, state, now, rm) {
   const p = panel2(G, pose.col, pose.row);
   const eRecoil = impulseValue2(state.fx.recoil, now);
   const rx = -state.fx.recoil.spec.px * eRecoil;
-  const bw = G.pw * 0.34 * pose.sx, bh = G.ph * 1.15 * pose.sy;
+  const pb = playerBox(G);
+  const bw = pb.bw * pose.sx, bh = pb.bh * pose.sy;
   const cx = p.x + p.w / 2 + rx;
   const baseY = p.y + p.h * 0.78 - pose.lift * G.ph * 0.55;
   const coreY = baseY - bh * 0.5;
   const cdn = state.charge.downAt;
   const charging = cdn !== null && state.mode === "playing";
   const held = charging ? now - cdn : 0;
-  const prog = charging ? Math.min(1, held / CHARGE_MS) : 0;
+  const prog = charging ? Math.min(1, held / state.tuning.CHARGE_MS) : 0;
   if (prog > 0.12) {
     ctx.globalAlpha = 0.08 + 0.26 * prog * prog;
     ctx.fillStyle = state.charge.full ? "#c9f6ff" : "#45e0e8";
@@ -5878,15 +6162,13 @@ function drawPlayer(ctx, state, now, rm) {
   const hurtNow = now < state.hurtUntil;
   const flicker = hurtNow && (rm || Math.floor(now / 70) % 2 === 0);
   if (flicker) ctx.globalAlpha = rm ? 0.68 : 0.35;
-  ctx.fillStyle = "#4f8dff";
-  ctx.fillRect(cx - bw / 2, baseY - bh, bw, bh);
-  ctx.fillStyle = "#2f5fc4";
-  ctx.fillRect(cx - bw / 2, baseY - bh, bw, bh * 0.28);
-  ctx.fillStyle = "#c9f6ff";
-  ctx.fillRect(cx - bw * 0.28, baseY - bh * 0.62, bw * 0.56, bh * 0.14);
+  ctx.save();
+  ctx.translate(Math.round(cx), Math.round(baseY));
+  if (pose.sx !== 1 || pose.sy !== 1) ctx.scale(pose.sx, pose.sy);
+  const full = !!state.charge.full;
+  body(ctx, "player", full ? "charged" : "idle", 0, (c) => paintPlayer(c, pb, full));
+  ctx.restore();
   const rayY = baseY - bh * 0.42;
-  ctx.fillStyle = state.charge.full ? "#fff3c4" : "#ffd23f";
-  ctx.fillRect(cx + bw / 2 - 2, rayY - 5, bw * 0.55, 10);
   ctx.globalAlpha = 1;
   if (charging && held > 120) {
     for (let i = 0; i < 3; i++) {
@@ -5929,7 +6211,7 @@ function drawPlayer(ctx, state, now, rm) {
 function drawStepRation(ctx, state, now, p) {
   const mode = modeById(state.modeId);
   if (mode.controls !== "touch" || state.mode !== "playing") return;
-  const ms = mode.moveMs || MOVE_REPEAT_MS;
+  const ms = mode.hop ? state.tuning.TAP_MOVE_MS : state.tuning.MOVE_REPEAT_MS;
   const t = now - state.lastMoveAt;
   if (t >= 0 && t < ms) {
     const frac = t / ms;
@@ -5951,51 +6233,16 @@ function drawStepRation(ctx, state, now, p) {
     ctx.restore();
   }
 }
-function drawSentinel(ctx, e, now, bw, bh) {
-  const open = e.state === "up" && (e.willAttack ? !e.fired : true);
-  const cfg = SENTINEL[e.tier] || SENTINEL[1];
-  const q = open ? Math.min(1, (now - e.t0) / cfg.openMs) : 0;
-  const core = SENTINEL_CORE[e.tier] || SENTINEL_CORE[1];
-  const R = bw * 0.62, cy = -bh * 0.44;
-  ctx.fillStyle = "#3a3452";
-  ctx.beginPath();
-  for (let i = 0; i < 6; i++) {
-    const a = Math.PI / 6 + i * Math.PI / 3;
-    const x = Math.cos(a) * R, y = cy + Math.sin(a) * R * 0.92;
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  }
-  ctx.closePath();
-  ctx.fill();
-  ctx.strokeStyle = "#6a5f8f";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.fillStyle = "#2a2540";
-  ctx.fillRect(-bw * 0.34, -bh * 0.12, bw * 0.68, bh * 0.1);
-  const gap = open ? 0.18 + 0.5 * (1 - q) : 0.04;
-  const half = R * 0.62;
-  ctx.fillStyle = core;
-  ctx.globalAlpha = open ? 0.85 + 0.15 * Math.sin(now / (60 + 90 * (1 - q))) : 0.25;
-  ctx.beginPath();
-  ctx.arc(0, cy, half * 0.62, 0, Math.PI * 2 - RING_GAP);
-  ctx.fill();
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = "#1a1728";
-  ctx.fillRect(-half, cy - half, half * 2, half * (1 - gap));
-  ctx.fillRect(-half, cy + half * gap, half * 2, half * (1 - gap));
-  ctx.fillStyle = core;
-  for (let i = 0; i < (e.tier || 1); i++) ctx.fillRect(-bw * 0.26 + i * bw * 0.16, cy + R * 0.7, bw * 0.1, 3);
-}
 function drawEnemy(ctx, state, now, e) {
   const G = state.G;
   const p = panel2(G, e.col, e.row);
   const t = now - e.t0;
-  const bw = G.pw * 0.4, bh = G.ph * 1;
+  const { bw, bh } = enemyBox(G);
   let cx = p.x + p.w / 2;
   const baseY = p.y + p.h * 0.78;
   let grow = 1, sx = 1, sy = 1, flash = 0;
-  if (e.state === "rising") grow = EASE2.out2(Math.min(1, t / (e.riseMs || RISE_MS)));
-  else if (e.state === "sinking") grow = 1 - EASE2.out2(t / SINK_MS);
+  if (e.state === "rising") grow = EASE2.out2(Math.min(1, t / (e.riseMs || state.tuning.RISE_MS)));
+  else if (e.state === "sinking") grow = 1 - EASE2.out2(t / state.tuning.SINK_MS);
   else if (e.state === "hit") {
     const tier = e.tier;
     const uniform = 1 + (tier.scale.peak - 1) * impulseValue2(e.fx.scale, now);
@@ -6004,15 +6251,15 @@ function drawEnemy(ctx, state, now, e) {
     sy = uniform * sqy;
     cx += tier.kick.px * impulseValue2(e.fx.kick, now);
     flash = t < 0 ? 0 : Math.max(0, 1 - t / 70);
-    grow = Math.min(1, 1 - Math.max(0, (t - HIT_MS * 0.55) / (HIT_MS * 0.45)));
+    grow = Math.min(1, 1 - Math.max(0, (t - state.tuning.HIT_MS * 0.55) / (state.tuning.HIT_MS * 0.45)));
   }
   const ht = now - e.hopT0;
-  if (e.state === "up" && ht < HOP_GROW_MS) grow *= EASE2.out2(ht / HOP_GROW_MS);
+  if (e.state === "up" && ht < state.tuning.HOP_GROW_MS) grow *= EASE2.out2(ht / state.tuning.HOP_GROW_MS);
   if (grow <= 0) return;
   const skin = SKINS[e.type];
-  if (e.state === "up" && e.hopFromCol !== void 0 && ht >= 0 && ht < HOP_GROW_MS * 2) {
+  if (e.state === "up" && e.hopFromCol !== void 0 && ht >= 0 && ht < state.tuning.HOP_GROW_MS * 2) {
     const from = panel2(G, e.hopFromCol, e.hopFromRow);
-    const k = 1 - ht / (HOP_GROW_MS * 2);
+    const k = 1 - ht / (state.tuning.HOP_GROW_MS * 2);
     ctx.fillStyle = skin.dome;
     for (let i = 1; i <= 2; i++) {
       const f = i / 3;
@@ -6024,41 +6271,20 @@ function drawEnemy(ctx, state, now, e) {
     ctx.globalAlpha = 1;
   }
   ctx.save();
-  ctx.translate(cx, baseY);
+  ctx.translate(Math.round(cx), Math.round(baseY));
   ctx.scale(sx, sy * grow);
   ctx.globalAlpha = e.state === "hit" ? grow : 1;
   if (e.type === "sentinel") {
-    drawSentinel(ctx, e, now, bw, bh);
+    const open = e.state === "up" && !e.fired;
+    const cfg = state.tuning.SENTINEL[e.tier] || state.tuning.SENTINEL[1];
+    const q = open ? Math.min(1, (now - e.t0) / cfg.openMs) : 0;
+    const f = open ? Math.min(SENTINEL_OPEN_FRAMES - 1, Math.floor(q * SENTINEL_OPEN_FRAMES)) : 0;
+    const tier = e.tier || 1;
+    body(ctx, "sentinel." + tier, open ? "open" : "closed", f, (c) => paintSentinel(c, { bw, bh }, tier, open ? f : null));
     ctx.restore();
     return;
   }
-  ctx.fillStyle = skin.dome;
-  ctx.beginPath();
-  ctx.arc(0, -bh * 0.42, bw * 0.55, Math.PI, 0);
-  ctx.lineTo(bw * 0.55, -bh * 0.1);
-  ctx.lineTo(-bw * 0.55, -bh * 0.1);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = skin.stripe;
-  ctx.fillRect(-bw * 0.08, -bh * 0.98, bw * 0.16, bh * 0.5);
-  if (e.type === "guard") {
-    ctx.fillStyle = "#6c7794";
-    ctx.fillRect(-bw * 0.55, -bh * 0.34, bw * 1.1, bh * 0.1);
-    ctx.fillStyle = "#232c42";
-    ctx.fillRect(-bw * 0.42, -bh * 0.24, bw * 0.84, bh * 0.12);
-  } else if (e.type === "ally") {
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(-bw * 0.42, -bh * 0.36, bw * 0.84, bh * 0.26);
-    ctx.fillStyle = "#2a7ab8";
-    ctx.fillRect(-bw * 0.06, -bh * 0.34, bw * 0.12, bh * 0.22);
-    ctx.fillRect(-bw * 0.24, -bh * 0.28, bw * 0.48, bh * 0.1);
-  } else {
-    ctx.fillStyle = "#232c42";
-    ctx.fillRect(-bw * 0.42, -bh * 0.34, bw * 0.84, bh * 0.24);
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(-bw * 0.26, -bh * 0.3, bw * 0.12, bh * 0.14);
-    ctx.fillRect(bw * 0.14, -bh * 0.3, bw * 0.12, bh * 0.14);
-  }
+  body(ctx, "enemy." + e.type, "up", 0, (c) => paintEnemy(c, { bw, bh }, e.type));
   if (e.type === "rare") {
     ctx.globalAlpha = 0.5 + 0.5 * Math.sin(now / 70);
     ctx.strokeStyle = "#ffe08a";
@@ -6413,8 +6639,8 @@ function drawHurtWorld(ctx, state, now, rm) {
     ctx.globalAlpha = 1;
   }
   const left = state.hurtUntil - now;
-  if (left > 0 && left <= HIT_IFRAME_MS && state.mode === "playing") {
-    const k = left / HIT_IFRAME_MS;
+  if (left > 0 && left <= state.tuning.HIT_IFRAME_MS && state.mode === "playing") {
+    const k = left / state.tuning.HIT_IFRAME_MS;
     const ending = k < 0.28;
     ctx.globalAlpha = (ending ? 0.85 : 0.45) * (rm ? 0.75 : 1);
     ctx.strokeStyle = ending ? "#45e0e8" : "#ff8ba0";
@@ -6489,16 +6715,16 @@ function levelUpAt(state) {
 }
 function levelUpFromKills(state) {
   const del = state.deletions;
-  if (del <= 0 || level(del) === level(del - 1)) return -Infinity;
+  if (del <= 0 || state.tuning.level(del) === state.tuning.level(del - 1)) return -Infinity;
   const d = lastDeletion(state);
   return d ? d.at : -Infinity;
 }
-function pipLayout(G) {
+function pipLayout(G, t) {
   const w = G.w - PAD * 2;
   let L = null;
   for (let i = 0; i < PIP_LADDER.length; i++) {
     const secs = PIP_LADDER[i];
-    const n = Math.max(1, Math.round(TIME_CAP / secs));
+    const n = Math.max(1, Math.round(t.TIME_CAP / secs));
     const sections = Math.ceil(n / PIP_SECTION);
     const pw = (w - (n - 1) * PIP_GAP - (sections - 1) * PIP_SECTION_GAP) / n;
     L = { x: PAD, w, n, secs, pw };
@@ -6518,10 +6744,10 @@ function eachPip(L, a, b, fn) {
   }
 }
 function drawTimePips(ctx, state, now, hud, rm) {
-  const L = pipLayout(state.G);
+  const L = pipLayout(state.G, state.tuning);
   const y = PIP_Y, h = PIP_H;
   const playing = hud.mode === "playing";
-  const low = hud.timeLeft < LOW_TIME && playing;
+  const low = hud.timeLeft < state.tuning.LOW_TIME && playing;
   const col = low ? "#ff5470" : hud.overclock ? "#ff9f45" : "#45e0e8";
   const filled = Math.max(0, Math.min(L.n, hud.timeLeft / L.secs));
   ctx.fillStyle = "#232c42";
@@ -6556,7 +6782,7 @@ function drawTimePips(ctx, state, now, hud, rm) {
   if (ht >= 0 && ht < PIP_LOSS_MS && playing) {
     const q = ht / PIP_LOSS_MS;
     const lift = rm ? 0 : 11 * EASE2.out2(q);
-    const lost = HIT_TIME_PENALTY / L.secs;
+    const lost = state.tuning.HIT_TIME_PENALTY / L.secs;
     ctx.globalAlpha = (1 - q) * (rm ? 0.75 : 1);
     ctx.fillStyle = "#ff5470";
     eachPip(L, filled, filled + lost, (x, w) => ctx.fillRect(x, y - lift, w, h * (1 - 0.45 * q)));
@@ -6572,7 +6798,7 @@ function drawTimePips(ctx, state, now, hud, rm) {
     eachPip(
       L,
       filled,
-      filled + BONUS.normal * hud.overclockFactor / L.secs,
+      filled + state.tuning.BONUS.normal * hud.overclockFactor / L.secs,
       (x, w) => ctx.strokeRect(x + 0.5, y + 0.5, Math.max(1, w - 1), h - 1)
     );
     ctx.setLineDash([]);
@@ -6695,9 +6921,9 @@ function drawHUD(ctx, state, now, rm) {
   drawLevel(ctx, state, now, hud, rm);
   drawChain(ctx, state, now, hud);
   drawTimePips(ctx, state, now, hud, rm);
-  const low = hud.timeLeft < LOW_TIME;
+  const low = hud.timeLeft < state.tuning.LOW_TIME;
   if (hud.mode === "playing" && !hud.paused && low && !hud.safe) {
-    const urg = 1 - Math.max(0, hud.timeLeft) / LOW_TIME;
+    const urg = 1 - Math.max(0, hud.timeLeft) / state.tuning.LOW_TIME;
     const pulse = rm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 105);
     const a = (0.08 + 0.2 * urg) * (0.45 + 0.55 * pulse);
     ctx.strokeStyle = "#ff5470";
@@ -6726,6 +6952,119 @@ function drawHUD(ctx, state, now, rm) {
   }
 }
 
+// src/shell/art.js
+function createArt({ makeCanvas }) {
+  let manifest = null;
+  let key = "";
+  let dpr = 1;
+  let cells = /* @__PURE__ */ new Map();
+  let external = null;
+  let externalCells = /* @__PURE__ */ new Map();
+  const cellKey = (id, st, frame) => id + "/" + st + "/" + frame;
+  function ensure(G, deviceScale = 1) {
+    const k = G.pw + "|" + G.ph + "|" + deviceScale;
+    if (k === key) return;
+    key = k;
+    dpr = deviceScale;
+    manifest = manifestFor(G);
+    cells = /* @__PURE__ */ new Map();
+    for (const [id, ent] of Object.entries(manifest.entities)) {
+      for (const [st, spec] of Object.entries(ent.states)) {
+        for (let f = 0; f < spec.frames; f++) {
+          const { w, h, ax, ay } = ent.cell;
+          const cv = makeCanvas(Math.ceil(w * dpr), Math.ceil(h * dpr));
+          const c = cv.getContext("2d");
+          c.setTransform(dpr, 0, 0, dpr, 0, 0);
+          c.translate(ax, ay);
+          ent.paint(c, f, st);
+          cells.set(cellKey(id, st, f), { canvas: c.canvas || cv, w, h, ax, ay });
+        }
+      }
+    }
+    if (external) cutExternal();
+  }
+  function cutExternal() {
+    externalCells = /* @__PURE__ */ new Map();
+    if (!external || !manifest) return;
+    const { manifest: m, image } = external;
+    for (const [id, ent] of Object.entries(m.entities || {})) {
+      const local = manifest.entities[id];
+      if (!local) continue;
+      for (const [st, spec] of Object.entries(ent.states || {})) {
+        if (!local.states[st]) continue;
+        for (let f = 0; f < spec.frames.length; f++) {
+          const src = spec.frames[f];
+          const { w, h, ax, ay } = local.cell;
+          const cv = makeCanvas(Math.ceil(w * dpr), Math.ceil(h * dpr));
+          const c = cv.getContext("2d");
+          c.setTransform(dpr, 0, 0, dpr, 0, 0);
+          const sx = w / src.w, sy = h / src.h;
+          c.imageSmoothingEnabled = !!m.smooth;
+          c.drawImage(image, src.x, src.y, src.w, src.h, ax - src.ax * sx, ay - src.ay * sy, src.w * sx, src.h * sy);
+          externalCells.set(cellKey(id, st, f), { canvas: c.canvas || cv, w, h, ax, ay });
+        }
+      }
+    }
+  }
+  return {
+    ensure,
+    get manifest() {
+      return manifest;
+    },
+    get pack() {
+      return external ? external.manifest.name || "external" : "procedural";
+    },
+    /** Use a loaded pack: { manifest, image }. Cells it lacks keep pack zero. */
+    applyPack(pack) {
+      external = pack;
+      cutExternal();
+    },
+    /** Back to pack zero. */
+    clearPack() {
+      external = null;
+      externalCells = /* @__PURE__ */ new Map();
+    },
+    /** The frame to show for a state at `now`, from the manifest's timing. */
+    frame(id, st, now) {
+      const ent = manifest && manifest.entities[id];
+      return frameAt(ent && ent.states[st], now);
+    },
+    /**
+     * Draw a cell with its anchor at the current origin. Falls back to the
+     * painter when the pack has no such cell, drawing the same pixels.
+     */
+    paint(ctx, id, st, frame = 0) {
+      const k = cellKey(id, st, frame);
+      const cell = externalCells.get(k) || cells.get(k);
+      if (cell) {
+        ctx.drawImage(cell.canvas, -cell.ax, -cell.ay, cell.w, cell.h);
+        return true;
+      }
+      const ent = manifest && manifest.entities[id];
+      if (ent) {
+        ent.paint(ctx, frame, st);
+        return true;
+      }
+      return false;
+    },
+    /** For tooling: the baked cells, by key. Never needed to draw. */
+    get cells() {
+      return cells;
+    }
+  };
+}
+async function loadArtPack(baseUrl, { fetchJson, loadImage }) {
+  try {
+    const base = baseUrl.replace(/\/?$/, "/");
+    const manifest = await fetchJson(base + "manifest.json");
+    if (!manifest || !manifest.entities) return null;
+    const image = await loadImage(base + (manifest.atlas || "atlas.png"));
+    return image ? { manifest, image } : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 // src/shell/mount.js
 var MAX_DT = 50;
 function mountBusterWhack(container, options = {}) {
@@ -6738,6 +7077,25 @@ function mountBusterWhack(container, options = {}) {
   const { root, els } = createUI(container);
   const ctx = els.cv.getContext("2d");
   const audio = createAudio(win);
+  const art = createArt({ makeCanvas: (w, h) => {
+    const c = doc.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    return c;
+  } });
+  if (options.artUrl) {
+    loadArtPack(options.artUrl, {
+      fetchJson: (u) => win.fetch(u, { cache: "no-cache" }).then((r) => r.ok ? r.json() : null),
+      loadImage: (u) => new Promise((res) => {
+        const im = new win.Image();
+        im.onload = () => res(im);
+        im.onerror = () => res(null);
+        im.src = u;
+      })
+    }).then((pack) => {
+      if (pack && !destroyed) art.applyPack(pack);
+    });
+  }
   let destroyed = false;
   let rafId = null;
   let resizeObserver = null;
@@ -6760,7 +7118,7 @@ function mountBusterWhack(container, options = {}) {
   }
   const seed = options.seed !== void 0 ? options.seed : (Date.now() ^ Math.floor(Math.random() * 4294967295)) >>> 0;
   const motionQuery = win.matchMedia ? win.matchMedia("(prefers-reduced-motion: reduce)") : null;
-  const state = createState({ seed, best, reducedMotion: !!(motionQuery && motionQuery.matches) });
+  const state = createState({ seed, best, reducedMotion: !!(motionQuery && motionQuery.matches), tuning: options.tuning });
   if (motionQuery) {
     const onMotion = (e) => {
       state.reducedMotion = e.matches;
@@ -6779,6 +7137,7 @@ function mountBusterWhack(container, options = {}) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     setLayout(state, r.width, r.height, deckInset(els));
     placeTouchControls(els, state.G);
+    art.ensure(state.G, dpr);
   }
   setControls(els, modeById(state.modeId).controls);
   resize();
@@ -6826,7 +7185,7 @@ function mountBusterWhack(container, options = {}) {
     }
   });
   function showInterlevel(ev) {
-    const v = interlevelView(state, ev.stage, ev.timeBonus === void 0 ? STAGE_BONUS : ev.timeBonus);
+    const v = interlevelView(state, ev.stage, ev.timeBonus === void 0 ? state.tuning.STAGE_BONUS : ev.timeBonus);
     showOverlay(doc, els, {
       eyebrow: v.eyebrow,
       title: v.title,
@@ -6920,7 +7279,7 @@ function mountBusterWhack(container, options = {}) {
       refreshStats();
     }
     audio.observe(hudView(state), state.charge.downAt !== null, state.charge.full);
-    draw(ctx, state, state.clock);
+    draw(ctx, state, state.clock, art);
     rafId = raf(frame);
   }
   refreshStats();
@@ -6936,7 +7295,16 @@ function mountBusterWhack(container, options = {}) {
     audio.close();
     root.innerHTML = "";
   }
-  return { destroy };
+  function setTuning(overrides) {
+    if (state.mode === "playing" || state.mode === "interlevel") return false;
+    state.tuning = resolveTuning(overrides);
+    return true;
+  }
+  return { destroy, setTuning, get tuningVersion() {
+    return state.tuning.version;
+  }, get artPack() {
+    return art.pack;
+  } };
 }
 var mount_default = mountBusterWhack;
 export {
@@ -6949,6 +7317,24 @@ export {
  * Pure module: numbers in, numbers out. No DOM, no audio, no randomness,
  * no clock. Everything the game is balanced around lives here so the ramps
  * can be read (and tested) without booting the shell.
+ */
+/*!
+ * Tuning: every number the game is balanced on, as data.
+ *
+ * `TUNING_SCHEMA` names each value with its default, its bounds, its unit
+ * and what it does. `resolveTuning(overrides)` turns a bag of overrides into
+ * the object the simulation reads from `state.tuning`: the scalars, the
+ * small tables assembled from them (bolt kinds, sentinel marks, unlock
+ * arenas), and the ramp functions bound to them. With no overrides the
+ * result is exactly the numbers the game shipped with, so every golden and
+ * every determinism test holds.
+ *
+ * Structural constants (board size, tile kinds, layout math) and presentation
+ * data (colours, fx lifetimes, shake) stay in `constants.js`: they are not
+ * balance. Content (the route, who stands on which tower) is not tuning
+ * either; it will be a document of its own.
+ *
+ * Pure module. No DOM, no clock, no randomness.
  */
 /*!
  * The world: an unbounded horizontal strip of segments.
@@ -6983,8 +7369,32 @@ export {
  * is the point — so nothing here is frozen or copied per frame.
  */
 /*!
+ * Juice authoring. The core owns the fx *data*; `render.js` only reads it.
+ * Every random number here comes from `state.rng`, so a seed still
+ * reproduces a run frame for frame, debris included.
+ */
+/*!
+ * Movement: the step ration, the hop, paths, taps, and landing on a square.
+ * The world decides where you may stand; this decides when and how you get
+ * there.
+ */
+/*!
  * Pure selectors — the view model the renderer, the HUD and the overlays read.
  * Never mutates state.
+ */
+/*!
+ * Run flow: fire presses, pause, a run's start and end, the arcade's stage
+ * gates and cards, and the world watcher that notices you stepping into an
+ * arena or onto a tower and eases the camera.
+ */
+/*!
+ * Waves and viruses: composing a wave, dealing an arena's pool, spawning,
+ * the up-state (aim, hop, re-arm), and the wave ending into a lull or a
+ * taken arena.
+ */
+/*!
+ * Combat: the buster shot, bolts in flight, the bomb, damage to viruses and
+ * to the player, and the chain.
  */
 /*!
  * The simulation.
@@ -7115,6 +7525,26 @@ export {
  *      text field outranks the player.
  */
 /*!
+ * Painters: the bodies of things, drawn at the origin.
+ *
+ * Every character the game shows -- the buster, each virus, the sentinel's
+ * marks, the people on the towers, the journal, a bomb on the road -- is a
+ * painter here: a pure function of a size and a frame that draws the body
+ * with its anchor at (0, 0). Nothing in this file reads the state, the
+ * clock, or the DOM. The renderer decides where and how big; an art pack may
+ * replace any painter with a raster of the same cell.
+ *
+ * These are pack zero: the procedural art the game shipped with. `art.js`
+ * bakes them into an atlas at the current panel size, and the identity check
+ * (tools/art-check.mjs) asserts that a baked cell blitted at an integer
+ * origin is byte-for-byte the painter drawn there.
+ *
+ * Animation is by frame, not by continuous time, so a frame can be a raster:
+ * a state names how many frames it has and how long each lasts, and the
+ * renderer picks the frame from the clock. Effects that are not a body -- the
+ * charge glow, a hit flash, debris, rings, bolts -- stay in the renderer.
+ */
+/*!
  * Canvas renderer.
  *
  * `draw(ctx, state, now)` takes a 2D context, a plain state object (which
@@ -7131,6 +7561,22 @@ export {
  * Accessibility: `state.reducedMotion` damps screen shake, full-screen
  * flashing and every strobe. The renderer cannot read a media query itself, so
  * the shell reads it and hands the answer in as data.
+ */
+/*!
+ * Art: the pack the renderer draws bodies from.
+ *
+ * A pack is a set of cells, one per entity, state and frame, each a raster
+ * with an anchor. Pack zero is baked here from the painters at the current
+ * panel size and device scale, so the game needs no image to run; a loaded
+ * pack (an atlas PNG and a manifest) replaces any cell it names, and the
+ * painter stays the fallback for every cell it does not.
+ *
+ * The renderer never reads the DOM, so it is handed an `art` object built
+ * by the shell with a canvas factory; the headless harness builds one with
+ * @napi-rs/canvas the same way. `paint(ctx, id, state, frame)` draws the
+ * cell with its anchor at the current origin -- the caller has already
+ * translated to an integer position, so a cell and its painter land on the
+ * same pixels. That is the identity the pack tool asserts.
  */
 /*!
  * The shell's wiring: shadow root, canvas, rAF loop, and the bridge between
