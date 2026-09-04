@@ -1072,13 +1072,18 @@ function taskExchange(state, npcId, events) {
 // src/core/rng.js
 function mulberry32(seed) {
   let a = seed >>> 0;
-  return function rng() {
+  const rng = function rng2() {
     a = a + 1831565813 >>> 0;
     let t = a;
     t = Math.imul(t ^ t >>> 15, t | 1);
     t ^= t + Math.imul(t ^ t >>> 7, t | 61);
     return ((t ^ t >>> 14) >>> 0) / 4294967296;
   };
+  rng.save = () => a;
+  rng.restore = (v) => {
+    a = (Number(v) || 0) >>> 0;
+  };
+  return rng;
 }
 
 // src/core/state.js
@@ -1247,6 +1252,238 @@ function remap(state, a, b) {
   cb.y = my(cb.y);
 }
 
+// src/core/version.js
+var VERSION = "1.1.0";
+var SAVE_VERSION = 1;
+var SAVE_GAME_ID = "buster-whack";
+
+// src/core/items.js
+var ITEMS = {
+  bomb: { id: "bomb", name: "BOMB", slots: 1, effect: "blast", canon: "item.bomb" },
+  // the five shards, with the bible's own costs
+  spell: { id: "spell", name: "SPELL", slots: 1, effect: "parry", canon: "shard.spell" },
+  footnote: { id: "footnote", name: "FOOTNOTE", slots: 1, effect: "echo", arg: 0.5, canon: "shard.footnote" },
+  sock: { id: "sock", name: "SOCK", slots: 2, effect: "cloak", arg: 1400, canon: "shard.sock" },
+  weather: { id: "weather", name: "WEATHER", slots: 2, effect: "summon", arg: "darter", canon: "shard.weather" },
+  bell: { id: "bell", name: "BELL", slots: 3, effect: "provoke", canon: "shard.bell" }
+};
+var SHARDS = ["spell", "footnote", "sock", "weather", "bell"];
+var itemDef = (id) => ITEMS[id] || null;
+function slotsUsed(stash) {
+  let n = 0;
+  for (const id of stash) n += ITEMS[id] ? ITEMS[id].slots : 1;
+  return n;
+}
+function fits(stash, id, cap) {
+  const def = ITEMS[id];
+  if (!def) return false;
+  return slotsUsed(stash) + def.slots <= cap;
+}
+function stow(stash, id, cap) {
+  if (!fits(stash, id, cap)) return false;
+  stash.push(id);
+  return true;
+}
+var topOf = (stash) => stash.length ? stash[stash.length - 1] : null;
+var takeTop = (stash) => stash.length ? stash.pop() : null;
+function stashView(stash) {
+  const out = [];
+  for (let i = stash.length - 1; i >= 0; i--) {
+    const def = ITEMS[stash[i]];
+    if (def) out.push({ id: def.id, name: def.name, slots: def.slots });
+  }
+  return out;
+}
+function syncStash(state) {
+  let n = 0;
+  for (const id of state.stash) if (id === "bomb") n++;
+  state.bombs = n;
+}
+
+// src/core/save.js
+var MIGRATIONS = {
+  // 1: the first shape. Nothing to migrate from yet. When version 2 arrives,
+  // add `1: (data) => ({ ...data, manifest: { ...data.manifest, version: 2 } })`
+  // alongside whatever the new shape needs.
+};
+function packSeg(seg) {
+  if (seg.kind === "tower") return { kind: "tower", x0: seg.x0, roost: seg.roost, entered: !!seg.entered };
+  if (seg.kind === "road") return { kind: "road", x0: seg.x0, cols: seg.cols, rows: seg.rows };
+  return {
+    kind: "arena",
+    x0: seg.x0,
+    idx: seg.idx,
+    owner: seg.owner,
+    entered: !!seg.entered,
+    pool: seg.pool,
+    waveSize: seg.waveSize,
+    dealt: seg.dealt
+  };
+}
+function unpackSeg(seg) {
+  if (seg.kind === "tower") {
+    const spec = towerSpec(seg.roost);
+    return {
+      kind: "tower",
+      x0: seg.x0,
+      cols: TOWER_COLS,
+      roost: seg.roost,
+      npcs: spec.npcs.map((n) => ({ ...n, col: seg.x0 + n.col })),
+      entered: !!seg.entered
+    };
+  }
+  if (seg.kind === "road") return { kind: "road", x0: seg.x0, cols: seg.cols, rows: seg.rows };
+  return {
+    kind: "arena",
+    x0: seg.x0,
+    idx: seg.idx,
+    owner: seg.owner,
+    entered: !!seg.entered,
+    pool: seg.pool,
+    waveSize: seg.waveSize,
+    dealt: seg.dealt
+  };
+}
+function whereAmI(state) {
+  let arena2 = 0, roost = null;
+  for (const seg of state.world.segs) {
+    if (seg.kind === "arena") arena2 = Math.max(arena2, seg.idx);
+    if (seg.kind === "tower") roost = seg.roost;
+  }
+  return { arena: arena2, roost, score: state.score, level: state.arenasCleared + 1 };
+}
+function toSave(state, story = null) {
+  return {
+    manifest: {
+      game: SAVE_GAME_ID,
+      version: SAVE_VERSION,
+      build: VERSION,
+      savedAt: Date.now(),
+      at: whereAmI(state)
+    },
+    run: {
+      seed: state.seed,
+      rng: state.rng && state.rng.save ? state.rng.save() : null,
+      modeId: state.modeId,
+      tuning: state.tuning.overrides || {},
+      score: state.score,
+      best: state.best,
+      timeLeft: state.timeLeft,
+      deletions: state.deletions,
+      shots: state.shots,
+      whiffs: state.whiffs,
+      chain: state.chain,
+      bestChain: state.bestChain,
+      arenasCleared: state.arenasCleared,
+      routeIdx: state.routeIdx,
+      stageIdx: state.stageIdx,
+      waveIdx: state.waveIdx,
+      unlimited: !!state.unlimited,
+      player: { col: state.player.col, row: state.player.row },
+      stash: state.stash.slice(),
+      talks: { ...state.talks },
+      tasks: {
+        counts: { ...state.tasks.counts },
+        active: state.tasks.active ? { ...state.tasks.active } : null,
+        done: state.tasks.done.slice(),
+        lastNpc: state.tasks.lastNpc
+      }
+    },
+    world: { segs: state.world.segs.map(packSeg) },
+    story
+  };
+}
+function readSave(raw) {
+  if (!raw || typeof raw !== "object") return { ok: false, reason: "not a save" };
+  const m = raw.manifest;
+  if (!m || typeof m !== "object") return { ok: false, reason: "no manifest" };
+  if (m.game !== SAVE_GAME_ID) return { ok: false, reason: "not a Buster Whack save" };
+  const v = Number(m.version);
+  if (!Number.isInteger(v) || v < 1) return { ok: false, reason: "no manifest version" };
+  if (v > SAVE_VERSION) return { ok: false, reason: "saved by a newer version of the game" };
+  let data = raw;
+  for (let at = v; at < SAVE_VERSION; at++) {
+    const step2 = MIGRATIONS[at];
+    if (!step2) return { ok: false, reason: "saved by version " + v + ", too old to read" };
+    data = step2(data);
+  }
+  if (!data.run || !data.world || !Array.isArray(data.world.segs) || !data.world.segs.length) {
+    return { ok: false, reason: "the save is incomplete" };
+  }
+  const known = MODES.some((m2) => m2.id === data.run.modeId) || RETIRED_MODES.some((m2) => m2.id === data.run.modeId);
+  if (!known) return { ok: false, reason: "unknown mode " + data.run.modeId };
+  return { ok: true, data };
+}
+function applySave(state, data, events) {
+  const run = data.run;
+  state.modeId = run.modeId;
+  if (state.rng && state.rng.restore && run.rng !== null && run.rng !== void 0) state.rng.restore(run.rng);
+  state.world = { segs: data.world.segs.map(unpackSeg) };
+  state.score = run.score;
+  state.best = Math.max(state.best || 0, run.best || 0);
+  state.timeLeft = run.timeLeft;
+  state.deletions = run.deletions;
+  state.shots = run.shots;
+  state.whiffs = run.whiffs;
+  state.chain = run.chain;
+  state.bestChain = run.bestChain;
+  state.arenasCleared = run.arenasCleared;
+  state.routeIdx = run.routeIdx;
+  state.stageIdx = run.stageIdx;
+  state.waveIdx = run.waveIdx;
+  state.unlimited = !!run.unlimited;
+  state.player.col = run.player.col;
+  state.player.row = run.player.row;
+  state.stash.length = 0;
+  for (const id of run.stash || []) state.stash.push(id);
+  syncStash(state);
+  state.talks = { ...run.talks || {} };
+  const t = newTaskState();
+  if (run.tasks) {
+    Object.assign(t.counts, run.tasks.counts || {});
+    t.active = run.tasks.active || null;
+    t.done = (run.tasks.done || []).slice();
+    t.lastNpc = run.tasks.lastNpc || null;
+  }
+  state.tasks = t;
+  state.enemies.length = 0;
+  state.bolts.length = 0;
+  state.bombsInFlight.length = 0;
+  state.pickups.length = 0;
+  state.wave = null;
+  state.waveState = "lull";
+  state.nextSpawnAt = Infinity;
+  state.hop = null;
+  state.path = null;
+  state.queuedMove = null;
+  state.holdDir = null;
+  state.holdT0 = -1e9;
+  state.lastMoveAt = -1e9;
+  state.hurtUntil = -1e9;
+  state.parry = false;
+  state.cloakUntil = -1e9;
+  state.lastShotTier = null;
+  state.echo = null;
+  state.rank = null;
+  state.paused = false;
+  state.mode = "playing";
+  const seg = state.world.segs[state.world.segs.length - 1];
+  state.camAnchor = seg ? seg.x0 : 0;
+  state.cam = Math.max(0, state.player.col - 1);
+  state.camClock = state.clock;
+  state.levelT0 = -1e9;
+  if (events) {
+    events.push({
+      type: "runLoaded",
+      modeId: run.modeId,
+      story: !!modeById(run.modeId).story,
+      at: data.manifest.at
+    });
+    events.push({ type: "statsChanged" });
+  }
+  return data.story || null;
+}
+
 // src/core/fx.js
 var panel = (state, col, row) => panelRect(state.G, col, row);
 function hitStop(state, at, ms) {
@@ -1333,49 +1570,6 @@ function clearFx(state) {
   fx.muzzleT0 = -1e9;
   state.hitStopAt = -1e9;
   state.hitStopMs = 0;
-}
-
-// src/core/items.js
-var ITEMS = {
-  bomb: { id: "bomb", name: "BOMB", slots: 1, effect: "blast", canon: "item.bomb" },
-  // the five shards, with the bible's own costs
-  spell: { id: "spell", name: "SPELL", slots: 1, effect: "parry", canon: "shard.spell" },
-  footnote: { id: "footnote", name: "FOOTNOTE", slots: 1, effect: "echo", arg: 0.5, canon: "shard.footnote" },
-  sock: { id: "sock", name: "SOCK", slots: 2, effect: "cloak", arg: 1400, canon: "shard.sock" },
-  weather: { id: "weather", name: "WEATHER", slots: 2, effect: "summon", arg: "darter", canon: "shard.weather" },
-  bell: { id: "bell", name: "BELL", slots: 3, effect: "provoke", canon: "shard.bell" }
-};
-var SHARDS = ["spell", "footnote", "sock", "weather", "bell"];
-var itemDef = (id) => ITEMS[id] || null;
-function slotsUsed(stash) {
-  let n = 0;
-  for (const id of stash) n += ITEMS[id] ? ITEMS[id].slots : 1;
-  return n;
-}
-function fits(stash, id, cap) {
-  const def = ITEMS[id];
-  if (!def) return false;
-  return slotsUsed(stash) + def.slots <= cap;
-}
-function stow(stash, id, cap) {
-  if (!fits(stash, id, cap)) return false;
-  stash.push(id);
-  return true;
-}
-var topOf = (stash) => stash.length ? stash[stash.length - 1] : null;
-var takeTop = (stash) => stash.length ? stash.pop() : null;
-function stashView(stash) {
-  const out = [];
-  for (let i = stash.length - 1; i >= 0; i--) {
-    const def = ITEMS[stash[i]];
-    if (def) out.push({ id: def.id, name: def.name, slots: def.slots });
-  }
-  return out;
-}
-function syncStash(state) {
-  let n = 0;
-  for (const id of state.stash) if (id === "bomb") n++;
-  state.bombs = n;
 }
 
 // src/core/movement.js
@@ -2959,6 +3153,11 @@ function applyIntent(state, action, events) {
     case "startRun":
       resetGame(state, events, action.modeId);
       break;
+    // A saved run, put back. The shell has already read and checked it; the
+    // core only puts it into place. `action.save` is the migrated data.
+    case "loadRun":
+      if (action.save) applySave(state, action.save, events);
+      break;
     case "bomb":
       contextAction(state, events);
       break;
@@ -3631,6 +3830,35 @@ var TEMPLATE = `
   .sp-start:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
   @keyframes bwBlink { 0%, 62% { opacity: 1; } 63%, 100% { opacity: 0.45; } }
 
+  /* CONTINUE leads when there is a run to come back to; NEW GAME sits under
+     it, quieter, so the destructive one is never the easy one to hit. */
+  .sp-load { margin-bottom: 10px; animation: none; }
+  .sp-load + .sp-start {
+    animation: none;
+    background: none;
+    color: var(--bw-ink-dim);
+    padding: 9px 22px;
+    box-shadow: 0 0 0 2px #05080f, 0 0 0 3px rgba(138, 150, 184, 0.4);
+  }
+  .sp-saveat {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--bw-accent);
+    margin-top: 10px;
+  }
+
+  /* The build, bottom right: small, always there, never in the way. */
+  .sp-version {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    font: 600 9px/1 var(--bw-mono);
+    letter-spacing: 0.22em;
+    color: var(--bw-ink-dim);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
   .sp-coin {
     font-size: 9px;
     letter-spacing: 0.28em;
@@ -3708,8 +3936,11 @@ var TEMPLATE = `
 
         <div id="spModes" class="sp-modes" role="radiogroup" aria-label="Game mode"></div>
 
+        <button id="spLoad" class="sp-start sp-load" hidden>CONTINUE</button>
         <button id="spStart" class="sp-start">PRESS START</button>
+        <div id="spSaveAt" class="sp-saveat" hidden></div>
         <div class="sp-coin">INSERT COIN &#183; CYBERSPACE 2026</div>
+        <div id="spVersion" class="sp-version">V1.0.0</div>
       </div>
     </div>
 
@@ -3753,6 +3984,9 @@ var IDS = [
   "splash",
   "spBest",
   "spStart",
+  "spLoad",
+  "spSaveAt",
+  "spVersion",
   "spModes",
   "spModeRule",
   "dpad",
@@ -3813,10 +4047,26 @@ function hideOverlay(els) {
   els.overlay.classList.add("hidden");
   els.splash.classList.add("hidden");
 }
-function showSplash(els, best) {
+function showSplash(els, best, version = "", save = null) {
   els.spBest.textContent = String(best).padStart(6, "0");
+  if (els.spVersion) els.spVersion.textContent = version ? "V" + version : "";
+  renderSave(els, save);
   hideOverlay(els);
   els.splash.classList.remove("hidden");
+}
+function renderSave(els, save) {
+  if (!els.spLoad) return;
+  const has = !!save;
+  els.spLoad.hidden = !has;
+  els.spStart.textContent = has ? "NEW GAME" : "PRESS START";
+  if (els.spSaveAt) {
+    els.spSaveAt.hidden = !has;
+    if (has) {
+      const at = save.at || {};
+      const where = at.roost ? "ARENA " + at.arena : "ARENA " + (at.arena || 0);
+      els.spSaveAt.textContent = where + " \xB7 " + String(at.score || 0).padStart(6, "0");
+    }
+  }
 }
 function renderModes(els, modes, selectedId) {
   const doc = els.splash.ownerDocument;
@@ -5719,6 +5969,12 @@ function createStory({ say, hush, place, onError, load = Canon.load }) {
   }
   function handle(ev) {
     switch (ev.type) {
+      case "runLoaded": {
+        active = !!ev.story;
+        close();
+        if (place) place("");
+        break;
+      }
       case "runStarted": {
         active = !!ev.story;
         close();
@@ -5768,6 +6024,7 @@ function createStory({ say, hush, place, onError, load = Canon.load }) {
       for (const ev of events) {
         if (![
           "runStarted",
+          "runLoaded",
           "towerEntered",
           "arenaEntered",
           "talk",
@@ -5792,6 +6049,24 @@ function createStory({ say, hush, place, onError, load = Canon.load }) {
     /** Walking away from the person closes the box; it is theirs, not the road's. */
     leave() {
       if (convo) close();
+    },
+    /**
+     * The story half of a saved run: the gate state and how many times each
+     * conversation has been finished. Sealed ids and counters only -- never a
+     * line of canon, so a save file is as mute as the repository is.
+     */
+    snapshot() {
+      if (!canon) return null;
+      return { kv: canon.state.snapshot(), done: { ...done }, seen: [...canon.seenOpen] };
+    },
+    /** …and back, when a run is loaded. */
+    restore(snap) {
+      if (!canon || !snap) return false;
+      close();
+      canon.state.restore(snap.kv || {});
+      done = { ...snap.done || {} };
+      canon.seenOpen = new Set(snap.seen || []);
+      return true;
     },
     get open() {
       return !!convo;
@@ -6137,13 +6412,20 @@ function createInput({ win, host, root, els, on, dispatch, onGesture, onMute, mo
   });
   on(els.splash, "click", () => {
     onGesture();
-    dispatch({ type: "startRun", modeId: modeId() });
+    if (!els.spLoad.hidden) dispatch({ type: "continueRun" });
+    else dispatch({ type: "startRun", modeId: modeId() });
   });
   on(els.spStart, "pointerdown", (e) => {
     e.preventDefault();
     e.stopPropagation();
     onGesture();
     dispatch({ type: "startRun", modeId: modeId() });
+  });
+  on(els.spLoad, "pointerdown", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onGesture();
+    dispatch({ type: "continueRun" });
   });
   installGestureGuards({ els, on, focusStage });
   return {
@@ -7802,6 +8084,7 @@ function mountBusterWhack(container, options = {}) {
     throw new TypeError("mountBusterWhack: container must be a DOM element");
   }
   const storageKey = options.storageKey || "bw_best";
+  const saveKey = options.saveKey || storageKey + "_save";
   const { root, els } = createUI(container);
   const ctx = els.cv.getContext("2d");
   const audio = createAudio(win);
@@ -7946,6 +8229,40 @@ function mountBusterWhack(container, options = {}) {
     input.setControls(mode.controls, { tapMove: !!mode.tapMove });
     resize();
   }
+  function saveHeader() {
+    const data = loadSave();
+    return data ? data.manifest : null;
+  }
+  function loadSave() {
+    let raw = null;
+    try {
+      raw = storage().getItem(saveKey);
+    } catch (e) {
+      return null;
+    }
+    if (!raw) return null;
+    let parsed = null;
+    try {
+      parsed = JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
+    const read = readSave(parsed);
+    return read.ok ? read.data : null;
+  }
+  function writeSave() {
+    if (state.mode !== "playing") return;
+    try {
+      storage().setItem(saveKey, JSON.stringify(toSave(state, story.snapshot())));
+    } catch (e) {
+    }
+  }
+  function dropSave() {
+    try {
+      storage().removeItem(saveKey);
+    } catch (e) {
+    }
+  }
   function handleEvent(ev) {
     switch (ev.type) {
       case "statsChanged":
@@ -7954,6 +8271,16 @@ function mountBusterWhack(container, options = {}) {
       case "runStarted":
         hideOverlay(els);
         applyControls(ev.modeId);
+        dropSave();
+        break;
+      case "runLoaded":
+        hideOverlay(els);
+        applyControls(ev.modeId);
+        break;
+      // the checkpoints: safe ground, nothing in flight
+      case "towerEntered":
+      case "arenaCleared":
+        writeSave();
         break;
       case "resumed":
         hideOverlay(els);
@@ -7977,6 +8304,7 @@ function mountBusterWhack(container, options = {}) {
           } catch (e) {
           }
         }
+        dropSave();
         showOver();
         break;
       case "paused":
@@ -7995,9 +8323,21 @@ function mountBusterWhack(container, options = {}) {
     const dt = Math.min(MAX_DT, nowRaf - lastFrame);
     lastFrame = nowRaf;
     const actions = queue.splice(0, queue.length);
+    let pendingStory = null;
+    for (let i = 0; i < actions.length; i++) {
+      if (actions[i].type !== "continueRun") continue;
+      const data = loadSave();
+      if (!data) {
+        actions[i] = { type: "startRun", modeId: DEFAULT_MODE };
+        continue;
+      }
+      pendingStory = data.story || null;
+      actions[i] = { type: "loadRun", save: data };
+    }
     const events = step(state, dt, { actions, hold: input.hold() });
     audio.handleAll(events);
     story.handleAll(events);
+    if (pendingStory && events.some((e) => e.type === "runLoaded")) story.restore(pendingStory);
     for (const ev of events) handleEvent(ev);
     const ctxv = contextVerb(state);
     if (story.open && (ctxv.verb === "bomb" || story.label(ctxv.npc) === null)) story.leave();
@@ -8011,7 +8351,7 @@ function mountBusterWhack(container, options = {}) {
     rafId = raf(frame);
   }
   refreshStats();
-  showSplash(els, state.best);
+  showSplash(els, state.best, VERSION, saveHeader());
   lastFrame = (win.performance || performance).now();
   rafId = raf(frame);
   function destroy() {
@@ -8129,9 +8469,18 @@ export {
  * is the point — so nothing here is frozen or copied per frame.
  */
 /*!
- * Juice authoring. The core owns the fx *data*; `render.js` only reads it.
- * Every random number here comes from `state.rng`, so a seed still
- * reproduces a run frame for frame, debris included.
+ * What this build is, and what shape its saves are in.
+ *
+ * VERSION is the game's own version, shown on the start screen and written
+ * into every save so a save can say which build made it. It is checked
+ * against package.json by a test, so the two cannot drift.
+ *
+ * SAVE_VERSION is the *manifest* version: the shape of a saved run. Bump it
+ * whenever the saved shape changes in a way an older reader would get wrong.
+ * A save from a newer manifest version is refused rather than guessed at; a
+ * save from an older one is migrated if there is a path, and refused if not.
+ *
+ * Pure module. No DOM, no clock, no randomness.
  */
 /*!
  * Items: what you can be carrying, and what it does when you use it.
@@ -8152,6 +8501,37 @@ export {
  *   echo         your last shot is taken again, for a share of its worth
  *
  * Pure module. No DOM, no clock, no randomness.
+ */
+/*!
+ * Saving a run, and loading one back.
+ *
+ * A save is a manifest and three sections. The manifest carries its own
+ * version, so a reader always knows what it is holding:
+ *
+ *   version 1 — the first shape: run, world and an opaque story section.
+ *
+ * The rules are deliberately strict, because a wrong guess about an old save
+ * is worse than refusing it: a save from a *newer* manifest version is always
+ * refused, and an older one is only accepted if MIGRATIONS has a path from it
+ * to the current version. Anything unreadable is refused with a reason the UI
+ * can show, never thrown.
+ *
+ * What is saved is a run at rest. Saves are taken on safe ground -- a tower,
+ * or an arena just taken -- where there are no enemies in the air, no bolts,
+ * no hop in flight and no clock running, so none of that has to be captured
+ * or restored. What does have to be captured is everything durable: the road
+ * so far, the ledger, what you carry, and the exact position of the random
+ * stream, without which a loaded run would draw different waves.
+ *
+ * The `story` section is opaque here. The core never sees canon text: the
+ * shell puts its own snapshot in and takes it back out.
+ *
+ * Pure module. No DOM, no clock, no randomness.
+ */
+/*!
+ * Juice authoring. The core owns the fx *data*; `render.js` only reads it.
+ * Every random number here comes from `state.rng`, so a seed still
+ * reproduces a run frame for frame, debris included.
  */
 /*!
  * Movement: the step ration, the hop, paths, taps, and landing on a square.
