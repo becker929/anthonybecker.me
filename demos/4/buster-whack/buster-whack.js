@@ -511,6 +511,9 @@ var TUNING_SCHEMA = [
     ["TIME_CAP", 45, 10, 180, 1, "s", "The most pulse you can hold."],
     ["LOW_TIME", 6, 1, 20, 0.5, "s", "Below this the clock is low: alarm, red pips, shorter lulls, more rares."],
     ["HIT_TIME_PENALTY", 2.5, 0, 10, 0.1, "s", "Pulse lost to one hit."],
+    ["DRAIN_BASE", 1, 0.2, 3, 0.05, "x", "Pulse spent per second in a contested arena, at the start of the road."],
+    ["DRAIN_PER_ARENA", 0.02, 0, 0.2, 1e-3, "x", "The road breathes harder: drain rises by this per arena."],
+    ["DRAIN_MAX", 1.45, 0.5, 4, 0.05, "x", "Drain stops rising here, and the viruses carry the rest."],
     ["HIT_IFRAME_MS", 800, 0, 3e3, 50, "ms", "Invulnerable after a hit for this long."],
     ["STAGE_BONUS", 2, 0, 10, 0.1, "s", "Pulse for passing a stage card (retired modes)."]
   ]],
@@ -543,6 +546,7 @@ var TUNING_SCHEMA = [
     ["WAVE_CLEAR_BONUS_PER", 0.3, 0, 2, 0.05, "s", "Extra pulse per virus in a perfect wave."],
     ["OC_START", 170, 20, 1e3, 5, "kills", "Deletions after which pulse rewards decay (overclock)."],
     ["OC_SLOPE", 0.988, 0.9, 1, 1e-3, "x", "Per-deletion decay factor past overclock."],
+    ["ROAD_PULSE", 0.4, 0.1, 2, 0.05, "x", "Pulse rewards on the road, where nothing escapes and every kill pays."],
     ["LEVEL_PER_KILLS", 6, 1, 50, 1, "kills", "Kills per level in the retired kill-counted modes."]
   ]],
   ["timings", [
@@ -821,9 +825,11 @@ function assemble(v, applied, version) {
   t.spreaderWaveChance = perArena(v.SPREADER_CHANCE_BASE, v.SPREADER_CHANCE_PER, v.SPREADER_CHANCE_MAX);
   t.darterWaveChance = perArena(v.DARTER_CHANCE_BASE, v.DARTER_CHANCE_PER, v.DARTER_CHANCE_MAX);
   t.wardenWaveChance = perArena(v.WARDEN_CHANCE_BASE, v.WARDEN_CHANCE_PER, v.WARDEN_CHANCE_MAX);
+  t.drainRate = (idx) => Math.min(v.DRAIN_MAX, v.DRAIN_BASE + Math.max(0, idx) * v.DRAIN_PER_ARENA);
   t.upMs = (del) => Math.max(v.UP_MS_MIN, v.UP_MS_BASE - del * v.UP_MS_PER_KILL);
   t.level = (del) => 1 + Math.floor(del / v.LEVEL_PER_KILLS);
   t.bonusFactor = (del) => del < v.OC_START ? 1 : Math.pow(v.OC_SLOPE, del - v.OC_START);
+  t.pulseScale = (del, advancing) => advancing ? v.ROAD_PULSE : t.bonusFactor(del);
   t.arenaPlan = (idx) => ({
     pool: Math.min(v.POOL_MAX, v.POOL_BASE + Math.floor(idx * v.POOL_PER_ARENA)),
     waveSize: Math.min(v.WAVE_SIZE_MAX, v.WAVE_SIZE_BASE + Math.floor(idx / v.WAVE_SIZE_PER_ARENAS))
@@ -1446,7 +1452,8 @@ function statsView(state) {
   };
 }
 function hudView(state) {
-  const oc = state.deletions >= state.tuning.OC_START;
+  const advancing = !!modeById(state.modeId).advancing;
+  const oc = !advancing && state.deletions >= state.tuning.OC_START;
   return {
     score: String(state.score).padStart(6, "0"),
     chain: state.chain,
@@ -1460,7 +1467,9 @@ function hudView(state) {
     // the clock is paused: nothing here is held against you
     safe: safeZone(state.world),
     overclock: oc,
-    overclockFactor: state.tuning.bonusFactor(state.deletions),
+    overclockFactor: state.tuning.pulseScale(state.deletions, advancing),
+    // what a second in this arena costs: 1 at the start of the road, more later
+    drain: advancing ? state.tuning.drainRate(activeArena(state.world).idx) : 1,
     paused: state.paused,
     mode: state.mode
   };
@@ -1485,7 +1494,7 @@ function gameOverView(state) {
     eyebrow: "run complete",
     title: state.rank,
     rank: true,
-    sub: state.deletions >= state.tuning.OC_START ? "overclock reached \xD7" + state.tuning.bonusFactor(state.deletions).toFixed(2) : "",
+    sub: !modeById(state.modeId).advancing && state.deletions >= state.tuning.OC_START ? "overclock reached \xD7" + state.tuning.bonusFactor(state.deletions).toFixed(2) : "",
     rows: [
       ["score", state.score + " pts", "big"],
       ["deletions", state.deletions],
@@ -1677,6 +1686,7 @@ function resumeFromInterlevel(state, events) {
 }
 
 // src/core/waves.js
+var advancingMode = (state) => !!modeById(state.modeId).advancing;
 function freePanels(state, excludeCol, excludeRow) {
   const occ = new Set(state.enemies.map((e) => e.col + "," + e.row));
   const out = [];
@@ -1859,7 +1869,7 @@ function endWave(state, events) {
   lull = Math.round(lull);
   let timeBonus = 0, points = 0;
   if (cleared) {
-    timeBonus = state.tuning.waveClearBonus(wave.virusCount) * state.tuning.bonusFactor(state.deletions);
+    timeBonus = state.tuning.waveClearBonus(wave.virusCount) * state.tuning.pulseScale(state.deletions, advancingMode(state));
     state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + timeBonus);
     points = state.tuning.WAVE_CLEAR_PTS * wave.virusCount * multOf(state.chain);
     state.score += points;
@@ -1904,7 +1914,8 @@ function endWave(state, events) {
       const pp = panel(state, pc, pr);
       events.push({ type: "pickupSpawned", kind: "bomb", col: pc, row: pr, x: pp.x + pp.w / 2, y: pp.y });
     }
-    state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + state.tuning.ARENA_CLEAR_BONUS);
+    const arenaBonus = state.tuning.ARENA_CLEAR_BONUS * state.tuning.pulseScale(state.deletions, advancingMode(state));
+    state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + arenaBonus);
     state.score += state.tuning.ARENA_CLEAR_PTS;
     state.nextSpawnAt = Infinity;
     events.push({
@@ -1913,7 +1924,7 @@ function endWave(state, events) {
       x0: a.x0,
       roadRows: road.rows,
       nextX0: next.x0,
-      timeBonus: state.tuning.ARENA_CLEAR_BONUS,
+      timeBonus: arenaBonus,
       points: state.tuning.ARENA_CLEAR_PTS
     });
   }
@@ -2344,7 +2355,7 @@ function deleteEnemy(state, target, tierName, land2, events) {
   const pts = (state.tuning.PTS[baseKey] === void 0 ? state.tuning.PTS[tierName] : state.tuning.PTS[baseKey]) * mult;
   state.score += pts;
   state.deletions++;
-  const bf = state.tuning.bonusFactor(state.deletions);
+  const bf = state.tuning.pulseScale(state.deletions, modeById(state.modeId).advancing);
   const factor = baseKey === "rare" ? Math.sqrt(bf) : bf;
   const timeBonus = (state.tuning.BONUS[baseKey] === void 0 ? state.tuning.BONUS[tierName] : state.tuning.BONUS[baseKey]) * factor;
   state.timeLeft = Math.min(state.tuning.TIME_CAP, state.timeLeft + timeBonus);
@@ -2571,7 +2582,9 @@ function step(state, dtMs, intents = {}) {
   }
   if (state.mode === "playing" && !state.paused) {
     state.clock += adv;
-    if (!safeZone(state.world)) state.timeLeft -= dtMs / 1e3;
+    if (!safeZone(state.world)) {
+      state.timeLeft -= dtMs / 1e3 * state.tuning.drainRate(activeArena(state.world).idx);
+    }
     if (state.timeLeft <= 0) {
       state.timeLeft = 0;
       gameOver(state, events);
