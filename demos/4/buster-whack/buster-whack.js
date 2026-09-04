@@ -45,8 +45,13 @@ __export(constants_exports, {
   HIT_MS: () => HIT_MS,
   HIT_TIME_PENALTY: () => HIT_TIME_PENALTY,
   HOPPER_LIFE: () => HOPPER_LIFE,
+  HOP_COMMIT_MS: () => HOP_COMMIT_MS,
   HOP_GROW_MS: () => HOP_GROW_MS,
+  HOP_MOVE_MS: () => HOP_MOVE_MS,
   HOP_MS: () => HOP_MS,
+  HOP_SETTLE_MS: () => HOP_SETTLE_MS,
+  HOP_TOTAL_MS: () => HOP_TOTAL_MS,
+  HOP_WINDUP_MS: () => HOP_WINDUP_MS,
   HURT_FLASH_MS: () => HURT_FLASH_MS,
   HURT_SHAKE_MS: () => HURT_SHAKE_MS,
   LANE_MS: () => LANE_MS,
@@ -69,6 +74,7 @@ __export(constants_exports, {
   RARE_LIFE: () => RARE_LIFE,
   RAY_IMPACT_MS: () => RAY_IMPACT_MS,
   REFIRE_MS: () => REFIRE_MS,
+  RETIRED_MODES: () => RETIRED_MODES,
   RING_GAP: () => RING_GAP,
   RIPPLE_MS: () => RIPPLE_MS,
   RISE_MS: () => RISE_MS,
@@ -85,9 +91,16 @@ __export(constants_exports, {
   STAGES: () => STAGES,
   STAGE_BONUS: () => STAGE_BONUS,
   START_TIME: () => START_TIME,
+  STORY_ROUTE: () => STORY_ROUTE,
+  STORY_UNLOCK: () => STORY_UNLOCK,
+  TAP_MOVE_MS: () => TAP_MOVE_MS,
+  TAP_SLACK: () => TAP_SLACK,
   TAU: () => TAU,
   TIERS: () => TIERS,
   TIME_CAP: () => TIME_CAP,
+  TOWER_COLS: () => TOWER_COLS,
+  TOWER_EVERY: () => TOWER_EVERY,
+  TOWER_SPECS: () => TOWER_SPECS,
   UNLOCK: () => UNLOCK,
   WAVE_CLEAR_LULL: () => WAVE_CLEAR_LULL,
   WAVE_CLEAR_PTS: () => WAVE_CLEAR_PTS,
@@ -113,6 +126,8 @@ __export(constants_exports, {
   panelRect: () => panelRect,
   rareWaveChance: () => rareWaveChance,
   sentinelWaveChance: () => sentinelWaveChance,
+  towerSpec: () => towerSpec,
+  unlockTable: () => unlockTable,
   upMs: () => upMs,
   waveClearBonus: () => waveClearBonus,
   waveLullMs: () => waveLullMs,
@@ -172,12 +187,51 @@ var BOMB_ARC_MS = 640;
 var BOMB_RADIUS = 1;
 var BOMB_PICKUP_CHANCE = 0.6;
 var BOMB_BLAST_MS = 460;
-var MODES = [
-  { id: "advance", name: "ADVANCE", blurb: "take the road", advancing: true },
-  { id: "classic", name: "CLASSIC", blurb: "hold the line", advancing: false }
+var TOWER_COLS = 6;
+var TOWER_EVERY = 10;
+var STORY_ROUTE = [
+  "roost.01",
+  "roost.02",
+  "roost.03",
+  "roost.05",
+  "roost.06",
+  "roost.04",
+  "roost.07",
+  "roost.08",
+  "roost.05",
+  "roost.03",
+  "roost.02",
+  "roost.04",
+  "roost.01"
 ];
-var DEFAULT_MODE = "advance";
-var modeById = (id) => MODES.find((m) => m.id === id) || MODES[0];
+var TOWER_SPECS = {
+  "roost.01": { npcs: [{ id: "npc.keeper.01", col: 3, row: 1, verb: "talk" }] },
+  "roost.02": { npcs: [{ id: "npc.keeper.02", col: 3, row: 1, verb: "talk" }, { id: "npc.side.tally", col: 4, row: 2, verb: "talk" }] },
+  "roost.03": { npcs: [{ id: "npc.keeper.03", col: 3, row: 1, verb: "talk" }, { id: "npc.side.vesper", col: 4, row: 0, verb: "talk" }] },
+  "roost.04": { npcs: [{ id: "npc.keeper.04", col: 3, row: 1, verb: "talk" }, { id: "npc.side.rivet", col: 4, row: 2, verb: "talk" }] },
+  "roost.05": { npcs: [{ id: "npc.keeper.05", col: 3, row: 1, verb: "talk" }, { id: "npc.side.bean", col: 4, row: 0, verb: "talk" }] },
+  "roost.06": { npcs: [{ id: "boss.ferryman", col: 3, row: 1, verb: "talk" }, { id: "npc.sweeper.tidy", col: 4, row: 2, verb: "talk" }] },
+  "roost.07": { npcs: [{ id: "boss.foreman", col: 3, row: 1, verb: "talk" }] },
+  "roost.08": { npcs: [{ id: "item.journal.steward", col: 3, row: 1, verb: "read" }] }
+};
+var towerSpec = (roost) => TOWER_SPECS[roost] || { npcs: [] };
+var STORY_UNLOCK = {
+  guard: 10,
+  ally: 20,
+  retaliate: 30,
+  hopper: 40,
+  sentinel1: 50,
+  swarm: 60,
+  sentinel2: 70,
+  sentinel3: 90,
+  unlimited: ROAD_END
+};
+var unlockTable = (mode) => mode.story ? STORY_UNLOCK : ADV_UNLOCK;
+var HOP_WINDUP_MS = 30;
+var HOP_MOVE_MS = 80;
+var HOP_SETTLE_MS = 55;
+var HOP_TOTAL_MS = HOP_WINDUP_MS + HOP_MOVE_MS + HOP_SETTLE_MS;
+var HOP_COMMIT_MS = HOP_WINDUP_MS + HOP_MOVE_MS / 2;
 var START_TIME = 30;
 var TIME_CAP = 45;
 var BONUS = { sentinel: 3, normal: 1.2, charged: 2.5, guard: 3, hopper: 1.8, rare: 8 };
@@ -190,6 +244,54 @@ var RISE_MS = 220;
 var SINK_MS = 180;
 var HIT_MS = 280;
 var MOVE_REPEAT_MS = 130;
+var TAP_MOVE_MS = 195;
+var TAP_SLACK = 0.4;
+var MODES = [
+  // The game: the Rookery's story on one strip. Two-thumb controls -- the
+  // ring and the quarter-circle FIRE -- with the board taking taps to walk
+  // there, and every step a hop.
+  {
+    id: "story",
+    name: "STORY",
+    blurb: "the Rookery",
+    advancing: true,
+    story: true,
+    controls: "pad",
+    hop: true,
+    tapMove: true,
+    moveMs: TAP_MOVE_MS
+  }
+];
+var RETIRED_MODES = [
+  {
+    id: "onehand",
+    name: "ONE HAND",
+    blurb: "stick \xB7 tap \xB7 fire",
+    advancing: true,
+    controls: "touch",
+    hop: true,
+    tapMove: true,
+    moveMs: TAP_MOVE_MS
+  },
+  {
+    id: "advance",
+    name: "ADVANCE",
+    blurb: "ring + fire",
+    advancing: true,
+    controls: "pad",
+    moveMs: MOVE_REPEAT_MS
+  },
+  {
+    id: "classic",
+    name: "CLASSIC",
+    blurb: "hold the line",
+    advancing: false,
+    controls: "pad",
+    moveMs: MOVE_REPEAT_MS
+  }
+];
+var DEFAULT_MODE = "story";
+var modeById = (id) => MODES.find((m) => m.id === id) || RETIRED_MODES.find((m) => m.id === id) || MODES[0];
 var HOP_MS = 550;
 var HOP_GROW_MS = 120;
 var HOPPER_LIFE = 2200;
@@ -359,17 +461,22 @@ var TIERS = {
     recoil: { px: 12, attackMs: 0, releaseMs: 130, ease: "out3", overshoot: 0.1 }
   }
 };
-function layout(w, h) {
+function layout(w, h, bottomInset = 0) {
   const gw = Math.min(w * 0.9, 760);
   const pw = gw / COLS;
-  const ph = Math.min(pw * 0.62, (h - 180) / ROWS);
+  const hh = h - bottomInset;
+  const reserve = 180;
+  const ph = Math.min(pw * 0.62, (hh - reserve) / ROWS);
   return {
     w,
     h,
     pw,
     ph,
     gx: (w - pw * COLS) / 2,
-    gy: h * 0.52 - ph * ROWS / 2
+    // above a deck the board rests on it: the squares are the tap targets and
+    // FIRE is under the same thumb, so the two should touch
+    gy: bottomInset > 0 ? hh - ph * ROWS : h * 0.52 - ph * ROWS / 2,
+    bottomInset
   };
 }
 function panelRect(G, col, row) {
@@ -384,14 +491,26 @@ var TILE = {
   PLAYER: "player",
   ENEMY: "enemy",
   ROAD: "road",
+  NPC: "npc",
+  // a keeper or item on a tower: not standable, talked to from beside
   VOID: "void"
 };
-function createWorld() {
+function createWorld(opts = {}) {
+  if (!opts.story) return { segs: [arena(0, 0)] };
+  return { segs: [tower(0, STORY_ROUTE[0], true), arena(TOWER_COLS, 0, false)] };
+}
+function tower(x0, roost, entered = false) {
+  const spec = towerSpec(roost);
   return {
-    segs: [arena(0, 0)]
+    kind: "tower",
+    x0,
+    cols: TOWER_COLS,
+    roost,
+    npcs: spec.npcs.map((n) => ({ ...n, col: x0 + n.col })),
+    entered
   };
 }
-function arena(x0, idx) {
+function arena(x0, idx, entered = idx === 0) {
   const plan = arenaPlan(idx);
   return {
     kind: "arena",
@@ -399,7 +518,7 @@ function arena(x0, idx) {
     cols: COLS,
     idx,
     owner: "enemy",
-    entered: idx === 0,
+    entered,
     // the guard: how many viruses hold this road, how many join at once, and
     // how many have been dealt so far. Only advance reads these.
     pool: plan.pool,
@@ -412,6 +531,14 @@ function activeArena(world) {
     if (world.segs[i].kind === "arena") return world.segs[i];
   }
   return world.segs[0];
+}
+function safeZone(world) {
+  const a = activeArena(world);
+  return !(a.entered && a.owner === "enemy");
+}
+function worldEnd(world) {
+  const s = world.segs[world.segs.length - 1];
+  return s.x0 + s.cols;
 }
 function segmentAt(world, wx) {
   if (wx < 0) return null;
@@ -427,6 +554,9 @@ function tileAt(world, wx, row) {
   if (s.kind === "road") {
     return s.rows === ROWS || row === ROAD_MID_ROW ? TILE.ROAD : TILE.VOID;
   }
+  if (s.kind === "tower") {
+    return s.npcs.some((n) => n.col === wx && n.row === row) ? TILE.NPC : TILE.PLAYER;
+  }
   if (s.owner === "player") return TILE.PLAYER;
   return wx - s.x0 < PCOLS ? TILE.PLAYER : TILE.ENEMY;
 }
@@ -434,7 +564,19 @@ function walkable(world, wx, row) {
   const t = tileAt(world, wx, row);
   return t === TILE.PLAYER || t === TILE.ROAD;
 }
-function clearArena(world, rng) {
+function npcAt(world, wx, row) {
+  const s = segmentAt(world, wx);
+  if (!s || s.kind !== "tower") return null;
+  return s.npcs.find((n) => n.col === wx && n.row === row) || null;
+}
+function npcBeside(world, wx, row) {
+  for (const [dc, dr] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+    const n = npcAt(world, wx + dc, row + dr);
+    if (n) return n;
+  }
+  return null;
+}
+function clearArena(world, rng, opts = {}) {
   const a = activeArena(world);
   a.owner = "player";
   const narrow = rng() < NARROW_ROAD_CHANCE;
@@ -444,9 +586,17 @@ function clearArena(world, rng) {
     cols: ROAD_COLS,
     rows: narrow ? 1 : ROWS
   };
-  const next = arena(road.x0 + road.cols, a.idx + 1);
-  world.segs.push(road, next);
-  return { cleared: a, road, next };
+  world.segs.push(road);
+  let x = road.x0 + road.cols;
+  let t = null;
+  if (opts.tower) {
+    t = tower(x, opts.tower);
+    world.segs.push(t);
+    x += t.cols;
+  }
+  const next = arena(x, a.idx + 1);
+  world.segs.push(next);
+  return { cleared: a, road, tower: t, next };
 }
 
 // src/core/rng.js
@@ -526,6 +676,20 @@ function createState(opts = {}) {
     stageIdx: 0,
     charge: { downAt: null, full: false },
     lastMoveAt: -1e9,
+    queuedMove: null,
+    // one-hand: the step held for the end of the cooldown, { kind:"to",col,row } | { kind:"by",dc,dr }
+    holdDir: null,
+    // the direction a stick/ring is holding this frame, { dc, dr }
+    holdT0: -1e9,
+    // when that push began: a push gets one held step, never two
+    talks: {},
+    // story: TALK presses per npc id; the shell picks the line
+    routeIdx: 1,
+    // story: the next tower on STORY_ROUTE
+    hop: null,
+    // touch modes: the step in flight, { fromCol, fromRow, toCol, toRow, t0, committed }
+    path: null,
+    // touch modes: the square a far tap is walking to, { col, row }
     rank: null,
     // hit-stop: freeze the simulation clock for `hitStopMs` once `clock`
     // reaches `hitStopAt` (which is when the tracer actually lands).
@@ -553,9 +717,9 @@ function createState(opts = {}) {
     }
   };
 }
-function setLayout(state, width, height) {
+function setLayout(state, width, height, bottomInset = 0) {
   const old = state.G;
-  const G = layout(width, height);
+  const G = layout(width, height, bottomInset);
   state.G = G;
   if (old && old.pw > 0 && G.pw > 0 && (old.pw !== G.pw || old.ph !== G.ph || old.gx !== G.gx || old.gy !== G.gy)) {
     remap(state, old, G);
@@ -599,6 +763,37 @@ function remap(state, a, b) {
 }
 
 // src/core/select.js
+function hopPose(state, now) {
+  const h = state.hop;
+  const still = { col: state.player.col, row: state.player.row, lift: 0, sx: 1, sy: 1, phase: "still" };
+  if (!h) return still;
+  const t = now - h.t0;
+  if (t < 0 || t >= HOP_TOTAL_MS) return still;
+  if (t < HOP_WINDUP_MS) {
+    const k = t / HOP_WINDUP_MS;
+    return { col: h.fromCol, row: h.fromRow, lift: 0, sx: 1 + 0.12 * k, sy: 1 - 0.14 * k, phase: "windup" };
+  }
+  const m = t - HOP_WINDUP_MS;
+  if (m < HOP_MOVE_MS) {
+    const k = m / HOP_MOVE_MS;
+    const e = k < 0.5 ? 2 * k * k : 1 - 2 * (1 - k) * (1 - k);
+    return {
+      col: h.fromCol + (h.toCol - h.fromCol) * e,
+      row: h.fromRow + (h.toRow - h.fromRow) * e,
+      lift: Math.sin(Math.PI * k),
+      sx: 1 - 0.08 * Math.sin(Math.PI * k),
+      sy: 1 + 0.12 * Math.sin(Math.PI * k),
+      phase: "move"
+    };
+  }
+  const st = (m - HOP_MOVE_MS) / HOP_SETTLE_MS;
+  const d = Math.sin(Math.PI * st) * (1 - st);
+  return { col: h.toCol, row: h.toRow, lift: 0, sx: 1 + 0.16 * d, sy: 1 - 0.2 * d, phase: "settle" };
+}
+function contextVerb(state) {
+  const n = npcBeside(state.world, state.player.col, state.player.row);
+  return n ? { verb: n.verb || "talk", npc: n.id } : { verb: "bomb", npc: null };
+}
 function accuracy(state) {
   return state.shots ? 1 - state.whiffs / state.shots : 0;
 }
@@ -633,6 +828,8 @@ function hudView(state) {
     bombs: state.bombs || 0,
     timeLeft: state.timeLeft,
     timeFrac: Math.max(0, Math.min(1, state.timeLeft / TIME_CAP)),
+    // the clock is paused: nothing here is held against you
+    safe: safeZone(state.world),
     overclock: oc,
     overclockFactor: bonusFactor(state.deletions),
     paused: state.paused,
@@ -685,7 +882,7 @@ function step(state, dtMs, intents = {}) {
   }
   if (state.mode === "playing" && !state.paused) {
     state.clock += adv;
-    state.timeLeft -= dtMs / 1e3;
+    if (!safeZone(state.world)) state.timeLeft -= dtMs / 1e3;
     if (state.timeLeft <= 0) {
       state.timeLeft = 0;
       gameOver(state, events);
@@ -695,7 +892,19 @@ function step(state, dtMs, intents = {}) {
       events.push({ type: "chargeReady" });
     }
   }
-  if (hold && (hold.dc || hold.dr)) move(state, hold.dc, hold.dr, events);
+  if (hold && (hold.dc || hold.dr)) {
+    const hd = state.holdDir;
+    if (!hd || hd.dc !== hold.dc || hd.dr !== hold.dr) {
+      state.holdDir = { dc: hold.dc, dr: hold.dr };
+      state.holdT0 = state.clock;
+    }
+    move(state, hold.dc, hold.dr, events, true);
+  } else {
+    state.holdDir = null;
+  }
+  updateHop(state, events);
+  flushQueuedMove(state, events);
+  runPath(state, events);
   updateEnemies(state, events);
   updateBolts(state, adv, events);
   checkStageGate(state, events);
@@ -761,6 +970,12 @@ function applyIntent(state, action, events) {
     case "move":
       move(state, action.dc, action.dr, events);
       break;
+    case "moveTo":
+      moveTo(state, action.col, action.row, events);
+      break;
+    case "tapAt":
+      tapAt(state, action.x, action.y, events);
+      break;
     case "resetMoveThrottle":
       state.lastMoveAt = -1e9;
       break;
@@ -774,7 +989,7 @@ function applyIntent(state, action, events) {
       resetGame(state, events, action.modeId);
       break;
     case "bomb":
-      throwBomb(state, events);
+      contextAction(state, events);
       break;
     case "resume":
       resumeFromInterlevel(state, events);
@@ -811,13 +1026,43 @@ function fireReleased(state, events) {
   state.charge.downAt = null;
   state.charge.full = false;
 }
-function move(state, dc, dr, events) {
+var moveMs = (state) => modeById(state.modeId).moveMs || MOVE_REPEAT_MS;
+var moveReady = (state) => state.clock - state.lastMoveAt >= moveMs(state);
+var hops = (state) => !!modeById(state.modeId).hop;
+function queueMove(state, q) {
+  if (!hops(state)) return;
+  state.queuedMove = q;
+}
+function flushQueuedMove(state, events) {
+  const q = state.queuedMove;
+  if (!q) return;
+  if (state.mode !== "playing" || state.paused) {
+    state.queuedMove = null;
+    return;
+  }
+  if (!moveReady(state)) return;
+  state.queuedMove = null;
+  if (q.kind === "to") moveTo(state, q.col, q.row, events);
+  else move(state, q.dc, q.dr, events);
+}
+function move(state, dc, dr, events, fromHold = false) {
   if (state.mode !== "playing" || state.paused) return;
-  if (state.clock - state.lastMoveAt < MOVE_REPEAT_MS) return;
-  state.lastMoveAt = state.clock;
+  if (!(dc || dr)) return;
+  state.path = null;
+  if (!moveReady(state)) {
+    if (!fromHold || state.lastMoveAt < state.holdT0) queueMove(state, { kind: "by", dc, dr });
+    return;
+  }
+  if (hops(state) && dc && dr) {
+    if (Math.abs(dc) >= Math.abs(dr)) dr = 0;
+    else dc = 0;
+  }
+  const [col, row] = stepFrom(state, state.player.col, state.player.row, dc, dr);
+  go(state, col, row, events);
+}
+function stepFrom(state, col, row, dc, dr) {
   const world = state.world;
   const wall = Math.floor(state.cam || 0);
-  let col = state.player.col, row = state.player.row;
   const sc = Math.sign(dc), sr = Math.sign(dr);
   for (let i = 0; i < Math.abs(dc); i++) {
     if (col + sc < wall || !walkable(world, col + sc, row)) break;
@@ -828,6 +1073,121 @@ function move(state, dc, dr, events) {
     if (nr < 0 || nr >= ROWS || !walkable(world, col, nr)) break;
     row = nr;
   }
+  return [col, row];
+}
+function go(state, col, row, events) {
+  state.lastMoveAt = state.clock;
+  if (!hops(state)) {
+    land(state, col, row, events);
+    return;
+  }
+  const prev = state.hop;
+  if (prev && !prev.committed) {
+    prev.committed = true;
+    land(state, prev.toCol, prev.toRow, events);
+  }
+  if (col === state.player.col && row === state.player.row) {
+    state.hop = null;
+    return;
+  }
+  state.hop = {
+    fromCol: state.player.col,
+    fromRow: state.player.row,
+    toCol: col,
+    toRow: row,
+    t0: state.clock,
+    committed: false
+  };
+  events.push({ type: "hop", fromCol: state.player.col, fromRow: state.player.row, col, row });
+}
+function updateHop(state, events) {
+  const h = state.hop;
+  if (!h) return;
+  const t = state.clock - h.t0;
+  if (!h.committed && t >= HOP_COMMIT_MS) {
+    h.committed = true;
+    land(state, h.toCol, h.toRow, events);
+  }
+  if (t >= HOP_TOTAL_MS) state.hop = null;
+}
+function moveTo(state, col, row, events) {
+  if (state.mode !== "playing" || state.paused) return;
+  if (col === state.player.col && row === state.player.row) {
+    state.path = null;
+    return;
+  }
+  if (!reachable(state, col, row)) return;
+  ripple(state, col, row, "#4f8dff", state.clock, 1);
+  state.path = { col, row };
+  runPath(state, events);
+}
+function runPath(state, events) {
+  const p = state.path;
+  if (!p) return;
+  if (state.mode !== "playing" || state.paused) {
+    state.path = null;
+    return;
+  }
+  if (p.col === state.player.col && p.row === state.player.row) {
+    state.path = null;
+    return;
+  }
+  if (!moveReady(state)) return;
+  const next = nextStep(state, p.col, p.row);
+  if (!next) {
+    state.path = null;
+    return;
+  }
+  go(state, next[0], next[1], events);
+}
+function nextStep(state, col, row) {
+  const world = state.world;
+  const wall = Math.floor(state.cam || 0);
+  if (row < 0 || row >= ROWS || col < wall) return null;
+  if (!walkable(world, col, row)) return null;
+  const end = worldEnd(world);
+  const key = (c, r) => c * ROWS + r;
+  const from = key(state.player.col, state.player.row);
+  const parent = /* @__PURE__ */ new Map([[from, null]]);
+  const open = [[state.player.col, state.player.row]];
+  let head = 0;
+  while (head < open.length) {
+    const [c, r] = open[head++];
+    if (c === col && r === row) {
+      let k = key(c, r);
+      while (parent.get(k) !== from) k = parent.get(k);
+      return [Math.floor(k / ROWS), k % ROWS];
+    }
+    for (const [nc, nr] of [[c + 1, r], [c - 1, r], [c, r + 1], [c, r - 1]]) {
+      if (nc < wall || nc >= end || nr < 0 || nr >= ROWS) continue;
+      const nk = key(nc, nr);
+      if (parent.has(nk) || !walkable(world, nc, nr)) continue;
+      parent.set(nk, key(c, r));
+      open.push([nc, nr]);
+    }
+  }
+  return null;
+}
+function reachable(state, col, row) {
+  if (col === state.player.col && row === state.player.row) return true;
+  return nextStep(state, col, row) !== null;
+}
+function tapAt(state, x, y, events) {
+  const G = state.G;
+  if (!G.pw || !G.ph) return;
+  const wx = (x + (state.cam || 0) * G.pw - G.gx) / G.pw;
+  const wy = (y - G.gy) / G.ph;
+  let row = Math.floor(wy);
+  if (row === -1 && wy >= -TAP_SLACK) row = 0;
+  if (row === ROWS && wy < ROWS + TAP_SLACK) row = ROWS - 1;
+  const col = Math.floor(wx);
+  if (!moveReady(state) && hops(state)) {
+    if (reachable(state, col, row)) queueMove(state, { kind: "to", col, row });
+    return;
+  }
+  moveTo(state, col, row, events);
+}
+function land(state, col, row, events) {
   const moved = col !== state.player.col || row !== state.player.row;
   if (moved) {
     for (let i = state.pickups.length - 1; i >= 0; i--) {
@@ -860,7 +1220,11 @@ function togglePause(state, events) {
 function resetGame(state, events, modeId) {
   const cfg = modeById(modeId || state.modeId);
   state.modeId = cfg.id;
-  state.world = createWorld();
+  state.world = createWorld({ story: !!cfg.story });
+  state.talks = {};
+  state.routeIdx = 1;
+  state.hop = null;
+  state.path = null;
   state.arenasCleared = 0;
   state.bombs = 0;
   state.bombsInFlight.length = 0;
@@ -882,8 +1246,12 @@ function resetGame(state, events, modeId) {
   state.timeLeft = START_TIME;
   state.player.col = 1;
   state.player.row = 1;
+  state.queuedMove = null;
+  state.lastMoveAt = -1e9;
+  state.holdDir = null;
+  state.holdT0 = -1e9;
   state.enemies.length = 0;
-  state.nextSpawnAt = state.clock + 500;
+  state.nextSpawnAt = activeArena(state.world).entered ? state.clock + 500 : Infinity;
   state.waveIdx = 0;
   state.waveState = "lull";
   state.wave = null;
@@ -892,7 +1260,9 @@ function resetGame(state, events, modeId) {
   state.bolts.length = 0;
   state.hurtUntil = -1e9;
   state.rank = null;
-  events.push({ type: "runStarted", modeId: cfg.id });
+  events.push({ type: "runStarted", modeId: cfg.id, story: !!cfg.story });
+  const first = state.world.segs[0];
+  if (first.kind === "tower") events.push({ type: "towerEntered", roost: first.roost, x0: first.x0 });
   events.push({ type: "statsChanged" });
 }
 function gameOver(state, events) {
@@ -947,6 +1317,12 @@ function enterInterlevel(state, events) {
 function updateWorld(state, events) {
   const now = state.clock;
   const a = activeArena(state.world);
+  for (const seg of state.world.segs) {
+    if (seg.kind === "tower" && !seg.entered && state.player.col >= seg.x0) {
+      seg.entered = true;
+      events.push({ type: "towerEntered", roost: seg.roost, x0: seg.x0 });
+    }
+  }
   if (!a.entered && state.player.col >= a.x0) {
     a.entered = true;
     state.camAnchor = a.x0;
@@ -954,11 +1330,13 @@ function updateWorld(state, events) {
     state.levelT0 = now;
     events.push({ type: "arenaEntered", index: a.idx, x0: a.x0 });
     if (a.idx >= ROAD_END) state.unlimited = true;
-    const st = ADVANCE_STAGES.find((x) => x.arena === a.idx);
+    const st = modeById(state.modeId).story ? null : ADVANCE_STAGES.find((x) => x.arena === a.idx);
     if (st) showCard(state, events, st, ADVANCE_STAGES.indexOf(st));
   }
   const fighting = a.entered && a.owner === "enemy";
-  const want = fighting ? a.x0 : Math.min(a.x0, state.player.col - 1);
+  const here = segmentAt(state.world, state.player.col);
+  const onTower = here && here.kind === "tower";
+  const want = fighting ? a.x0 : Math.min(a.x0, onTower ? here.x0 : state.player.col - 1);
   state.camAnchor = Math.max(state.camAnchor, want);
   const target = state.camAnchor;
   const dt = Math.max(0, now - state.camClock);
@@ -1004,8 +1382,9 @@ function freeSlot(state, planned) {
 }
 var canRetaliate = (type) => type === "mett" || type === "hopper" || type === "sentinel";
 function unlocked(state, key) {
-  if (modeById(state.modeId).advancing) {
-    const at = ADV_UNLOCK[key];
+  const mode = modeById(state.modeId);
+  if (mode.advancing) {
+    const at = unlockTable(mode)[key];
     return at !== void 0 && activeArena(state.world).idx >= at;
   }
   return state.stageIdx >= (UNLOCK[key] === void 0 ? Infinity : UNLOCK[key]);
@@ -1185,7 +1564,10 @@ function endWave(state, events) {
       });
       return;
     }
-    const { cleared: a, road, next } = clearArena(state.world, state.rng);
+    const story = !!modeById(state.modeId).story;
+    const roost = story && (guard.idx + 1) % TOWER_EVERY === 0 ? STORY_ROUTE[state.routeIdx] : null;
+    const { cleared: a, road, tower: tower2, next } = clearArena(state.world, state.rng, { tower: roost || void 0 });
+    if (tower2) state.routeIdx++;
     state.arenasCleared++;
     if (a.idx === 0 || state.rng() < BOMB_PICKUP_CHANCE) {
       const pc = road.x0 + Math.floor(state.rng() * road.cols);
@@ -1403,9 +1785,33 @@ function updateBolts(state, dt, events) {
     if (b.x < G.gx + (activeArena(state.world).x0 - 0.5) * G.pw) state.bolts.splice(i, 1);
   }
 }
+function contextAction(state, events) {
+  if (state.mode !== "playing" || state.paused) return;
+  const n = npcBeside(state.world, state.player.col, state.player.row);
+  if (!n) {
+    throwBomb(state, events);
+    return;
+  }
+  state.talks[n.id] = (state.talks[n.id] || 0) + 1;
+  const p = panel(state, n.col, n.row);
+  ripple(state, n.col, n.row, "#ffd23f", state.clock, 1);
+  events.push({
+    type: "talk",
+    npc: n.id,
+    verb: n.verb || "talk",
+    count: state.talks[n.id],
+    col: n.col,
+    row: n.row,
+    x: p.x + p.w / 2,
+    y: p.y
+  });
+}
 function throwBomb(state, events) {
   if (state.mode !== "playing" || state.paused) return;
-  if (state.bombs <= 0) return;
+  if (state.bombs <= 0) {
+    events.push({ type: "bombEmpty" });
+    return;
+  }
   const now = state.clock;
   const a = activeArena(state.world);
   const toCol = Math.min(state.player.col + BOMB_RANGE, a.x0 + a.cols - 1);
@@ -1513,6 +1919,7 @@ function takeHit(state, events) {
   breakChain(state, events, "hurt");
   state.charge.downAt = null;
   state.charge.full = false;
+  state.path = null;
   const p = panel(state, state.player.col, state.player.row);
   state.fx.popups.push({
     x: p.x + p.w / 2,
@@ -1564,14 +1971,14 @@ function hitFx(target, tier, now) {
     kick: makeImpulse(tier.kick, now)
   };
 }
-function deleteEnemy(state, target, tierName, land, events) {
+function deleteEnemy(state, target, tierName, land2, events) {
   const now = state.clock;
   const tier = TIERS[tierName];
   const p = panel(state, target.col, target.row);
   const cx = p.x + p.w / 2, cy = p.y + p.h * 0.34;
   target.state = "hit";
-  target.t0 = land;
-  hitFx(target, tier, land);
+  target.t0 = land2;
+  hitFx(target, tier, land2);
   const multBefore = multOf(state.chain);
   state.chain++;
   if (state.chain > state.bestChain) state.bestChain = state.chain;
@@ -1586,7 +1993,7 @@ function deleteEnemy(state, target, tierName, land, events) {
   const timeBonus = (BONUS[baseKey] === void 0 ? BONUS[tierName] : BONUS[baseKey]) * factor;
   state.timeLeft = Math.min(TIME_CAP, state.timeLeft + timeBonus);
   spawnBits(state, cx, cy, BIT_COUNT[baseKey] || BIT_COUNT.guard, DEBRIS[target.type] || DEBRIS.guard, {
-    at: land,
+    at: land2,
     speed: baseKey === "rare" ? 0.4 : baseKey === "charged" ? 0.34 : 0.28,
     spread: 1.25
   });
@@ -1595,12 +2002,12 @@ function deleteEnemy(state, target, tierName, land, events) {
     target.col,
     target.row,
     baseKey === "rare" ? "#ffd23f" : baseKey === "guard" ? "#c9f6ff" : "#45e0e8",
-    land,
+    land2,
     baseKey === "rare" ? 4 : 3
   );
-  ripple(state, state.player.col, state.player.row, "#45e0e8", land, 1);
-  shake(state, SHAKE[baseKey] || SHAKE.normal, land);
-  hitStop(state, land, HITSTOP[baseKey] || HITSTOP.normal);
+  ripple(state, state.player.col, state.player.row, "#45e0e8", land2, 1);
+  shake(state, SHAKE[baseKey] || SHAKE.normal, land2);
+  hitStop(state, land2, HITSTOP[baseKey] || HITSTOP.normal);
   events.push({
     type: "hit",
     tier: tierName,
@@ -1617,29 +2024,29 @@ function deleteEnemy(state, target, tierName, land, events) {
   });
   if (mult > multBefore) {
     events.push({ type: "multiplierUp", mult, chain: state.chain });
-    state.fx.flare = { t0: land, mult, x: cx, y: cy };
-    shake(state, SHAKE.chain, land, mult / 2);
-    hitStop(state, land, HITSTOP.chain);
+    state.fx.flare = { t0: land2, mult, x: cx, y: cy };
+    shake(state, SHAKE.chain, land2, mult / 2);
+    hitStop(state, land2, HITSTOP.chain);
     spawnBits(
       state,
       cx,
       cy,
       6 + mult * 2,
       DEBRIS.rare,
-      { at: land, speed: 0.34, spread: 2, ms: 640 }
+      { at: land2, speed: 0.34, spread: 2, ms: 640 }
     );
   }
   state.fx.popups.push({
     x: cx,
     y: p.y - 8,
-    t0: land,
+    t0: land2,
     text: "+" + pts + (mult > 1 ? " \xD7" + mult : ""),
     color: baseKey === "rare" ? "#ffe08a" : baseKey === "guard" || mult > 1 ? "#45e0e8" : "#aab4ce"
   });
   state.fx.popups.push({
     x: cx,
     y: p.y + 12,
-    t0: land + 60,
+    t0: land2 + 60,
     text: "+" + timeBonus.toFixed(1) + "s",
     color: factor < 1 ? "#ff9f45" : "#ffd23f"
   });
@@ -1668,7 +2075,7 @@ function shoot(state, tierName, events) {
   const x1 = target ? panel(state, target.col, row).x + G.pw / 2 : G.gx + G.pw * (ax0 + COLS);
   const dur = Math.max(40, Math.min(95, (x1 - x0) / 5));
   state.fx.ray = { t0: now, row, hitCol: target ? target.col : null, x0, x1, dur, tier: tierName };
-  const land = now + dur;
+  const land2 = now + dur;
   events.push({
     type: "shot",
     tier: tierName,
@@ -1681,7 +2088,7 @@ function shoot(state, tierName, events) {
   if (!target) {
     state.whiffs++;
     events.push({ type: "whiff", tier: tierName, row, x: x1, y: laneY(G, row) });
-    breakChain(state, events, "whiff", land);
+    breakChain(state, events, "whiff", land2);
     events.push({ type: "statsChanged" });
     return;
   }
@@ -1690,23 +2097,23 @@ function shoot(state, tierName, events) {
   const cy = p.y + p.h * 0.34;
   if (target.type === "ally") {
     target.state = "hit";
-    target.t0 = land;
-    hitFx(target, tier, land);
+    target.t0 = land2;
+    hitFx(target, tier, land2);
     state.whiffs++;
-    breakChain(state, events, "prog", land);
+    breakChain(state, events, "prog", land2);
     state.timeLeft = Math.max(0, state.timeLeft - ALLY_TIME_PENALTY);
     state.score = Math.max(0, state.score - ALLY_PTS_PENALTY);
     state.fx.popups.push({
       x: cx,
       y: p.y - 8,
-      t0: land,
+      t0: land2,
       text: "PROG HIT \u2212" + ALLY_TIME_PENALTY.toFixed(1) + "s",
       color: "#ff5470"
     });
-    spawnBits(state, cx, cy, BIT_COUNT.prog, DEBRIS.ally, { at: land, speed: 0.18 });
-    ripple(state, target.col, target.row, "#ff5470", land, 3);
-    shake(state, SHAKE.prog, land);
-    hitStop(state, land, HITSTOP.prog);
+    spawnBits(state, cx, cy, BIT_COUNT.prog, DEBRIS.ally, { at: land2, speed: 0.18 });
+    ripple(state, target.col, target.row, "#ff5470", land2, 3);
+    shake(state, SHAKE.prog, land2);
+    hitStop(state, land2, HITSTOP.prog);
     events.push({
       type: "progHit",
       tier: tierName,
@@ -1721,64 +2128,64 @@ function shoot(state, tierName, events) {
     return;
   }
   if (target.type === "guard" && tierName === "normal") {
-    state.fx.sparks.push({ x: p.x + p.w * 0.28, y: p.y + p.h * 0.2, t0: land });
-    state.fx.popups.push({ x: cx, y: p.y - 8, t0: land, text: "GUARD", color: "#8a96b8" });
+    state.fx.sparks.push({ x: p.x + p.w * 0.28, y: p.y + p.h * 0.2, t0: land2 });
+    state.fx.popups.push({ x: cx, y: p.y - 8, t0: land2, text: "GUARD", color: "#8a96b8" });
     spawnBits(
       state,
       p.x + p.w * 0.28,
       cy,
       BIT_COUNT.block,
       DEBRIS.guard,
-      { at: land, dir: Math.PI, spread: 0.7, speed: 0.16, ms: 320 }
+      { at: land2, dir: Math.PI, spread: 0.7, speed: 0.16, ms: 320 }
     );
-    ripple(state, target.col, target.row, "#aeb9d6", land, 2);
-    hitStop(state, land, HITSTOP.block);
+    ripple(state, target.col, target.row, "#aeb9d6", land2, 2);
+    hitStop(state, land2, HITSTOP.block);
     events.push({ type: "guardBlocked", col: target.col, row: target.row, x: cx, y: p.y });
     return;
   }
   if (target.type === "sentinel") {
     const open = target.willAttack ? !target.fired : true;
     if (!open) {
-      state.fx.sparks.push({ x: p.x + p.w * 0.28, y: p.y + p.h * 0.2, t0: land });
-      state.fx.popups.push({ x: cx, y: p.y - 8, t0: land, text: "CLOSED", color: "#b48cff" });
+      state.fx.sparks.push({ x: p.x + p.w * 0.28, y: p.y + p.h * 0.2, t0: land2 });
+      state.fx.popups.push({ x: cx, y: p.y - 8, t0: land2, text: "CLOSED", color: "#b48cff" });
       spawnBits(
         state,
         p.x + p.w * 0.28,
         cy,
         BIT_COUNT.block,
         DEBRIS.guard,
-        { at: land, speed: 0.14, ms: 260 }
+        { at: land2, speed: 0.14, ms: 260 }
       );
-      ripple(state, target.col, target.row, "#b48cff", land, 2);
+      ripple(state, target.col, target.row, "#b48cff", land2, 2);
       events.push({ type: "guardBlocked", col: target.col, row: target.row, x: cx, y: p.y });
       return;
     }
     const dmg = tierName === "charged" ? SENTINEL_CHARGED_DMG : 1;
     if (target.hp > dmg) {
       target.hp -= dmg;
-      state.fx.sparks.push({ x: cx, y: p.y + p.h * 0.2, t0: land });
-      state.fx.popups.push({ x: cx, y: p.y - 8, t0: land, text: target.hp + " more", color: "#c48cff" });
-      spawnBits(state, cx, cy, BIT_COUNT.stagger, DEBRIS.guard, { at: land, speed: 0.17, ms: 340 });
-      ripple(state, target.col, target.row, "#c48cff", land, 2);
-      hitStop(state, land, HITSTOP.stagger);
+      state.fx.sparks.push({ x: cx, y: p.y + p.h * 0.2, t0: land2 });
+      state.fx.popups.push({ x: cx, y: p.y - 8, t0: land2, text: target.hp + " more", color: "#c48cff" });
+      spawnBits(state, cx, cy, BIT_COUNT.stagger, DEBRIS.guard, { at: land2, speed: 0.17, ms: 340 });
+      ripple(state, target.col, target.row, "#c48cff", land2, 2);
+      hitStop(state, land2, HITSTOP.stagger);
       events.push({ type: "sentinelHit", col: target.col, row: target.row, x: cx, y: p.y, hp: target.hp });
       return;
     }
   }
   if (target.type === "hopper" && tierName === "normal" && target.hp > 1) {
     target.hp--;
-    state.fx.sparks.push({ x: cx, y: p.y + p.h * 0.2, t0: land });
-    state.fx.popups.push({ x: cx, y: p.y - 8, t0: land, text: "1 more", color: "#5ee87c" });
+    state.fx.sparks.push({ x: cx, y: p.y + p.h * 0.2, t0: land2 });
+    state.fx.popups.push({ x: cx, y: p.y - 8, t0: land2, text: "1 more", color: "#5ee87c" });
     spawnBits(
       state,
       cx,
       cy,
       BIT_COUNT.stagger,
       DEBRIS.hopper,
-      { at: land, speed: 0.17, ms: 340 }
+      { at: land2, speed: 0.17, ms: 340 }
     );
-    ripple(state, target.col, target.row, "#5ee87c", land, 2);
-    hitStop(state, land, HITSTOP.stagger);
+    ripple(state, target.col, target.row, "#5ee87c", land2, 2);
+    hitStop(state, land2, HITSTOP.stagger);
     events.push({
       type: "hopperStagger",
       col: target.col,
@@ -1791,7 +2198,7 @@ function shoot(state, tierName, events) {
     target.lastHop = now;
     return;
   }
-  deleteEnemy(state, target, tierName, land, events);
+  deleteEnemy(state, target, tierName, land2, events);
 }
 function cullFx(state) {
   const now = state.clock;
@@ -1949,8 +2356,10 @@ var TEMPLATE = `
     letter-spacing: 0.12em;
     cursor: pointer;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 2px;
     padding: 22% 0 0 22%;   /* bias label toward the visible arc's center */
   }
   #fireBtn:active { background: rgba(69, 224, 232, 0.25); }
@@ -1979,8 +2388,85 @@ var TEMPLATE = `
   #bombBtn b { font-size: 16px; }
   #bombBtn.empty { border-color: var(--bw-line); color: var(--bw-ink-dim); background: rgba(35, 44, 66, 0.5); }
   #bombBtn:active { background: rgba(255, 159, 69, 0.3); }
+  /* an empty press: the button says no, visibly */
+  #bombBtn.deny { animation: bwDeny 260ms ease-out; border-color: var(--bw-warn) !important; }
+  @keyframes bwDeny {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-5px); }
+    55%  { transform: translateX(5px); }
+    80%  { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
+  }
   #bombBtn:focus-visible { outline: 2px solid var(--bw-oc); outline-offset: 3px; }
   #fireBtn:focus-visible { outline: 2px solid var(--bw-accent); outline-offset: 3px; }
+
+  /* ---------- one-hand deck ---------- */
+  /* The bottom of the stage is FIRE: one rounded rectangle across the whole
+     width where a phone keyboard would sit, with the board resting directly
+     on it so the thumb rolls from squares to trigger without a reach. BOMB
+     is a wide bar just above the board -- out of the way of the fast loop,
+     still one thumb away. The ring goes; the board is the movement surface.
+     Sized in cqh against #stage so a short embed keeps a board; the mount
+     hands the deck's height to the layout as a bottom inset and places BOMB
+     from the layout it gets back, so the three always line up. */
+  main {
+    --bw-deck-h: clamp(120px, 32cqh, 280px);
+    --bw-deck-pad: 10px;
+    --bw-bomb-h: 54px;
+  }
+  #deck {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--bw-deck-h);
+    display: none;
+    background: linear-gradient(to bottom, rgba(8, 11, 20, 0.55), rgba(8, 11, 20, 0.92));
+    pointer-events: none;
+  }
+  main.touch #deck { display: block; }
+  main.touch #dpad { display: none; }
+  main.touch canvas { cursor: pointer; }
+  main.touch #fireBtn {
+    position: absolute;
+    left: var(--bw-deck-pad);
+    right: var(--bw-deck-pad);
+    bottom: var(--bw-deck-pad);
+    top: auto;
+    width: auto;
+    height: calc(var(--bw-deck-h) - var(--bw-deck-pad) * 2);
+    border-radius: 22px;
+    padding: 0;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 15px;
+    letter-spacing: 0.22em;
+    border: 2px solid var(--bw-accent);
+    background: linear-gradient(180deg, rgba(69, 224, 232, 0.20), rgba(69, 224, 232, 0.08));
+    box-shadow: inset 0 0 0 1px rgba(69, 224, 232, 0.18), 0 0 22px rgba(69, 224, 232, 0.12);
+  }
+  main.touch #fireBtn:active { background: rgba(69, 224, 232, 0.32); }
+  main.touch #fireBtn .glyph { font-size: 30px; line-height: 1; }
+  main.touch #bombBtn {
+    /* left / top / width are set by the mount from the board's layout */
+    position: absolute;
+    z-index: 6;   /* over the line strip, which is pointer-events: none but sits in the same band */
+    right: auto;
+    bottom: auto;
+    height: var(--bw-bomb-h);
+    border-radius: 16px;
+    padding: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    background: linear-gradient(180deg, rgba(255, 159, 69, 0.20), rgba(255, 159, 69, 0.08));
+    box-shadow: inset 0 0 0 1px rgba(255, 159, 69, 0.18);
+  }
+  main.touch #bombBtn b { font-size: 22px; }
+  main.touch #bombBtn.empty { background: rgba(35, 44, 66, 0.5); box-shadow: none; }
 
   #pauseBtn {
     position: absolute;
@@ -2022,6 +2508,54 @@ var TEMPLATE = `
     to   { transform: none; opacity: 1; }
   }
   @media (prefers-reduced-motion: reduce) { #muteFlag.on { animation: none; } }
+
+  /* ---------- story: a line over the board ---------- */
+  /* One representation: text is a strip laid over the play space, never a
+     screen of its own. It sits where the mount puts it (above the BOMB bar in
+     one-hand, under the HUD otherwise) and fades on its own. */
+  #say {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    top: 100px;
+    z-index: 5;
+    padding: 10px 14px;
+    border: 1px solid var(--bw-line);
+    border-left: 3px solid var(--bw-accent);
+    border-radius: 10px;
+    background: rgba(8, 11, 20, 0.86);
+    color: var(--bw-ink);
+    font: 500 13px/1.45 var(--bw-mono);
+    letter-spacing: 0.02em;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  #say.on { opacity: 1; transform: none; }
+  /* where you are: a quiet label under LEVEL, set on arrival at a tower */
+  #place {
+    position: absolute;
+    left: 28px;
+    top: 74px;
+    color: var(--bw-ink-dim);
+    font: 600 11px/1 var(--bw-mono);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+  #place.on { opacity: 1; }
+  #say b { display: block; color: var(--bw-accent); font-size: 11px; letter-spacing: 0.22em; margin-bottom: 3px; }
+  #say b:empty { display: none; }
+  #bombBtn.talk {
+    color: var(--bw-ink);
+    border-color: var(--bw-accent);
+    background: linear-gradient(180deg, rgba(69, 224, 232, 0.22), rgba(69, 224, 232, 0.08));
+    box-shadow: inset 0 0 0 1px rgba(69, 224, 232, 0.18);
+  }
+  #bombBtn.talk b { display: none; }
 
   /* splash / interlevel / game-over overlay */
   #overlay {
@@ -2419,7 +2953,7 @@ var TEMPLATE = `
           <span class="sp-word sp-w2" data-t="WHACK">WHACK</span>
         </h1>
 
-        <div class="sp-rule">SELECT MODE</div>
+        <div id="spModeRule" class="sp-rule">SELECT MODE</div>
 
         <div id="spModes" class="sp-modes" role="radiogroup" aria-label="Game mode"></div>
 
@@ -2444,9 +2978,12 @@ var TEMPLATE = `
       </svg>
     </div>
 
+    <div id="deck" aria-hidden="true"></div>
+    <div id="say" role="status" aria-live="polite"><b id="sayWho"></b><span id="sayText"></span></div>
+    <div id="place" aria-live="polite"></div>
     <button id="pauseBtn" aria-label="Pause">II</button>
-    <button id="bombBtn" class="empty" aria-label="Throw bomb">BOMB<b id="bombCount">0</b></button>
-    <button id="fireBtn" aria-label="Fire">FIRE<br>&#9679;</button>
+    <button id="bombBtn" class="empty" aria-label="Throw bomb"><span id="bombLabel">BOMB</span><b id="bombCount">0</b></button>
+    <button id="fireBtn" aria-label="Fire"><span>FIRE</span><span class="glyph">&#9679;</span></button>
   </main>
 
 </div>
@@ -2465,6 +3002,7 @@ var IDS = [
   "spBest",
   "spStart",
   "spModes",
+  "spModeRule",
   "dpad",
   "aUp",
   "aDown",
@@ -2474,7 +3012,13 @@ var IDS = [
   "fireBtn",
   "bombBtn",
   "bombCount",
-  "muteFlag"
+  "bombLabel",
+  "muteFlag",
+  "deck",
+  "say",
+  "sayWho",
+  "sayText",
+  "place"
 ];
 function createUI(container) {
   const root = container.shadowRoot || container.attachShadow({ mode: "open" });
@@ -2524,6 +3068,9 @@ function showSplash(els, best) {
 function renderModes(els, modes, selectedId) {
   const doc = els.splash.ownerDocument;
   els.spModes.textContent = "";
+  const single = modes.length <= 1;
+  els.spModes.hidden = single;
+  els.spModeRule.hidden = single;
   for (const m of modes) {
     const b = doc.createElement("button");
     b.type = "button";
@@ -2547,9 +3094,52 @@ function selectMode(els, id) {
     b.setAttribute("aria-checked", String(b.dataset.mode === id));
   }
 }
-function renderBombs(els, n) {
+function setControls(els, controls) {
+  els.stage.classList.toggle("touch", controls === "touch");
+  return deckInset(els);
+}
+function deckInset(els) {
+  if (!els.stage.classList.contains("touch")) return 0;
+  const r = els.deck.getBoundingClientRect();
+  return r.height || 0;
+}
+function placeTouchControls(els, G) {
+  const st = els.bombBtn.style;
+  if (!els.stage.classList.contains("touch")) {
+    st.left = st.top = st.width = "";
+    els.say.style.top = els.say.style.bottom = "";
+    return;
+  }
+  const h = els.bombBtn.getBoundingClientRect().height || 54;
+  st.left = G.gx + "px";
+  st.width = G.pw * COLS + "px";
+  const top = Math.max(0, G.gy - h - 12);
+  st.top = top + "px";
+  els.say.style.top = "auto";
+  els.say.style.bottom = G.h - top + 10 + "px";
+}
+function renderBombs(els, n, verb = "bomb") {
+  const talk = verb !== "bomb";
+  const label = { read: "READ", talk: "TALK", next: "NEXT", done: "DONE" }[verb] || "BOMB";
   els.bombCount.textContent = String(n);
-  els.bombBtn.classList.toggle("empty", n <= 0);
+  els.bombLabel.textContent = label;
+  els.bombBtn.setAttribute("aria-label", talk ? label[0] + label.slice(1).toLowerCase() : "Throw bomb");
+  els.bombBtn.classList.toggle("talk", talk);
+  els.bombBtn.classList.toggle("empty", !talk && n <= 0);
+}
+function denyBomb(els) {
+  els.bombBtn.classList.remove("deny");
+  void els.bombBtn.offsetWidth;
+  els.bombBtn.classList.add("deny");
+}
+function renderPlace(els, text) {
+  els.place.textContent = text || "";
+  els.place.classList.toggle("on", !!text);
+}
+function renderSay(els, who, text) {
+  els.sayWho.textContent = who || "";
+  els.sayText.textContent = text || "";
+  els.say.classList.toggle("on", !!text);
 }
 
 // src/shell/audio.js
@@ -3779,6 +4369,12 @@ function createAudio(win) {
       case "pickup":
         seq([76, 83, 88], { step: 0.05, dur: 0.07, gain: 0.1, octave: true });
         break;
+      case "bombEmpty":
+        tone({ wave: "square", freq: 160, to: 120, dur: 0.06, gain: 0.05 });
+        break;
+      case "talk":
+        seq([64, 71], { step: 0.07, dur: 0.11, gain: 0.07 });
+        break;
       case "sentinelHit":
         tone({ wave: "sine", freq: 1320, dur: 0.14, gain: 0.07, filter: "bandpass", cutoff: 1320, q: 12, pan: panOf(ev.col) });
         tone({ wave: "square", freq: 330, to: 200, dur: 0.08, gain: 0.05, pan: panOf(ev.col) });
@@ -3799,7 +4395,7 @@ function createAudio(win) {
   function observe(view, charging, chargeFull) {
     if (dead || !ac || !view) return;
     music.tier = view.overclock ? 3 : view.level >= 7 ? 2 : view.level >= 3 ? 1 : 0;
-    music.lowTime = view.mode === "playing" && !view.paused && view.timeLeft < LOW_TIME2;
+    music.lowTime = view.mode === "playing" && !view.paused && !view.safe && view.timeLeft < LOW_TIME2;
     if (view.mode === "playing" && !view.paused) {
       if (!music.running) musicStart(0);
       else if (!music.playing) musicResume();
@@ -3889,6 +4485,538 @@ function createAudio(win) {
   };
 }
 
+// src/canon/decoder.js
+function fnv1a(s) {
+  let h = 2166136261;
+  const bytes = new TextEncoder().encode(s);
+  for (const b of bytes) {
+    h ^= b;
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h || 1;
+}
+function xs(x) {
+  x ^= x << 13;
+  x >>>= 0;
+  x ^= x >>> 17;
+  x ^= x << 5;
+  return x >>> 0;
+}
+function keystream(seed, n) {
+  let x = seed;
+  const out = new Uint8Array(n);
+  for (let i = 0; i < n; i++) {
+    x = xs(x);
+    out[i] = x & 255;
+  }
+  return out;
+}
+function perm(seed, block) {
+  let x = (seed ^ 2654435769) >>> 0 || 1;
+  const p = Array.from({ length: block }, (_, i) => i);
+  for (let i = block - 1; i > 0; i--) {
+    x = xs(x);
+    const j = x % (i + 1);
+    [p[i], p[j]] = [p[j], p[i]];
+  }
+  return p;
+}
+function unpermute(data, p) {
+  const b = p.length;
+  const out = new Uint8Array(data);
+  for (let s = 0; s + b <= data.length; s += b) {
+    for (let i = 0; i < b; i++) out[s + p[i]] = data[s + i];
+  }
+  return out;
+}
+function unb64custom(text, alphabet) {
+  const lut = /* @__PURE__ */ new Map();
+  for (let i = 0; i < 64; i++) lut.set(alphabet[i], i);
+  const out = [];
+  let acc = 0, bits = 0;
+  for (const ch of text) {
+    const v = lut.get(ch);
+    if (v === void 0) continue;
+    acc = acc << 6 | v;
+    bits += 6;
+    if (bits >= 8) {
+      bits -= 8;
+      out.push(acc >>> bits & 255);
+    }
+  }
+  return Uint8Array.from(out);
+}
+function parseContainer(container) {
+  const idx = container.indexOf("\n\n");
+  const head = container.slice(0, idx);
+  const rest = container.slice(idx + 2);
+  const meta = {};
+  for (const line of head.split("\n")) {
+    const c = line.indexOf(":");
+    if (c > 0) meta[line.slice(0, c).trim()] = line.slice(c + 1).trim();
+  }
+  const body = rest.split("-----END MESH VAULT-----")[0].replace(/\n/g, "");
+  return { meta: { v: meta.v, id: meta.id, sha256: meta.sha256, len: Number(meta.len) }, body };
+}
+var K = [
+  1116352408,
+  1899447441,
+  3049323471,
+  3921009573,
+  961987163,
+  1508970993,
+  2453635748,
+  2870763221,
+  3624381080,
+  310598401,
+  607225278,
+  1426881987,
+  1925078388,
+  2162078206,
+  2614888103,
+  3248222580,
+  3835390401,
+  4022224774,
+  264347078,
+  604807628,
+  770255983,
+  1249150122,
+  1555081692,
+  1996064986,
+  2554220882,
+  2821834349,
+  2952996808,
+  3210313671,
+  3336571891,
+  3584528711,
+  113926993,
+  338241895,
+  666307205,
+  773529912,
+  1294757372,
+  1396182291,
+  1695183700,
+  1986661051,
+  2177026350,
+  2456956037,
+  2730485921,
+  2820302411,
+  3259730800,
+  3345764771,
+  3516065817,
+  3600352804,
+  4094571909,
+  275423344,
+  430227734,
+  506948616,
+  659060556,
+  883997877,
+  958139571,
+  1322822218,
+  1537002063,
+  1747873779,
+  1955562222,
+  2024104815,
+  2227730452,
+  2361852424,
+  2428436474,
+  2756734187,
+  3204031479,
+  3329325298
+];
+function sha256hexSync(bytes) {
+  const rotr = (x, n) => x >>> n | x << 32 - n;
+  const len = bytes.length;
+  const padded = new Uint8Array(len + 9 + 63 >> 6 << 6);
+  padded.set(bytes);
+  padded[len] = 128;
+  const bits = len * 8;
+  padded[padded.length - 4] = bits >>> 24 & 255;
+  padded[padded.length - 3] = bits >>> 16 & 255;
+  padded[padded.length - 2] = bits >>> 8 & 255;
+  padded[padded.length - 1] = bits & 255;
+  const H = [1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225];
+  const w = new Uint32Array(64);
+  for (let off = 0; off < padded.length; off += 64) {
+    for (let i = 0; i < 16; i++) {
+      const j = off + i * 4;
+      w[i] = padded[j] << 24 | padded[j + 1] << 16 | padded[j + 2] << 8 | padded[j + 3];
+    }
+    for (let i = 16; i < 64; i++) {
+      const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ w[i - 15] >>> 3;
+      const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ w[i - 2] >>> 10;
+      w[i] = w[i - 16] + s0 + w[i - 7] + s1 >>> 0;
+    }
+    let [a, b, c, d, e, f, g, h] = H;
+    for (let i = 0; i < 64; i++) {
+      const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+      const ch = e & f ^ ~e & g;
+      const t1 = h + S1 + ch + K[i] + w[i] >>> 0;
+      const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+      const maj = a & b ^ a & c ^ b & c;
+      const t2 = S0 + maj >>> 0;
+      h = g;
+      g = f;
+      f = e;
+      e = d + t1 >>> 0;
+      d = c;
+      c = b;
+      b = a;
+      a = t1 + t2 >>> 0;
+    }
+    H[0] = H[0] + a >>> 0;
+    H[1] = H[1] + b >>> 0;
+    H[2] = H[2] + c >>> 0;
+    H[3] = H[3] + d >>> 0;
+    H[4] = H[4] + e >>> 0;
+    H[5] = H[5] + f >>> 0;
+    H[6] = H[6] + g >>> 0;
+    H[7] = H[7] + h >>> 0;
+  }
+  return H.map((x) => x.toString(16).padStart(8, "0")).join("");
+}
+async function sha256hex(data) {
+  const subtle = typeof crypto !== "undefined" && crypto.subtle;
+  if (!subtle) return sha256hexSync(data);
+  const d = await subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(d)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+async function decode(container, m) {
+  const { meta, body } = parseContainer(container);
+  const seed = fnv1a(meta.id + "" + m.salt);
+  const p = perm(seed, m.block);
+  const enc = unb64custom(body, m.alphabet);
+  const ks = keystream(seed, enc.length);
+  const xored = new Uint8Array(enc.length);
+  for (let i = 0; i < enc.length; i++) xored[i] = enc[i] ^ ks[i];
+  const raw = unpermute(xored, p);
+  if (meta.sha256 && await sha256hex(raw) !== meta.sha256) {
+    throw new Error("vault integrity check failed: " + meta.id);
+  }
+  return new TextDecoder().decode(raw);
+}
+
+// src/canon/unseal.js
+var __curtain__ = [
+  "9JzN6ICchJ3diwiIq5GO2hFMCtmRxk2V1sycjFXZkhHdUJTT",
+  "1x2SodURD9WWtdmcaBVV5YlNIlnTKdjYmxkezEVQSRzLwF2U",
+  "3RUSPJiOiQXZiFGawxWYiwiNxojIrN2bsJmIsIicv9GZtUGa",
+  "01iclRmb11CdpZWLvRXLodWdv5WZtwGbh12ciojI0xWYzJye"
+];
+var __method__ = null;
+function __drawTheCurtain__() {
+  if (__method__) return __method__;
+  const reversed = __curtain__.join("");
+  const b64 = Array.from(reversed).reverse().join("");
+  const json = typeof atob === "function" ? atob(b64) : Buffer.from(b64, "base64").toString("utf8");
+  __method__ = JSON.parse(json);
+  return __method__;
+}
+async function unseal(container) {
+  return decode(container, __drawTheCurtain__());
+}
+
+// src/canon/canon.js
+var PlayerState = class {
+  constructor() {
+    this.kv = /* @__PURE__ */ new Map();
+  }
+  set(k, v) {
+    this.kv.set(k, v);
+  }
+  get(k) {
+    return this.kv.get(k);
+  }
+  inc(k, by = 1) {
+    this.kv.set(k, Number(this.kv.get(k) ?? 0) + by);
+  }
+  flag(k) {
+    this.kv.set(k, true);
+  }
+  has(k) {
+    return this.kv.get(k) === true;
+  }
+  snapshot() {
+    return Object.fromEntries(this.kv);
+  }
+  restore(s) {
+    this.kv = new Map(Object.entries(s));
+  }
+};
+var Canon = class _Canon {
+  /** Use Canon.load(). */
+  constructor(strings, triggers, state) {
+    this.strings = strings;
+    this.triggers = triggers;
+    this.state = state;
+    this.gateFor = /* @__PURE__ */ new Map();
+    for (const t of triggers) for (const id of t.unlocks) this.gateFor.set(id, t);
+    this.seenOpen = /* @__PURE__ */ new Set();
+  }
+  /**
+   * @param {string} stringsVault - the sealed string table, as text
+   * @param {Array} triggers - bible/triggers.json
+   * @param {PlayerState} [state]
+   */
+  static async load(stringsVault, triggers, state = new PlayerState()) {
+    const strings = JSON.parse(await unseal(stringsVault));
+    return new _Canon(strings, triggers, state);
+  }
+  /** Evaluate a gate predicate against the current player state. */
+  eval(p) {
+    if ("all" in p) return p.all.every((q) => this.eval(q));
+    if ("any" in p) return p.any.some((q) => this.eval(q));
+    if ("flag" in p) return p.flag.startsWith("!") ? !this.state.has(p.flag.slice(1)) : this.state.has(p.flag);
+    if ("secret" in p) return this.unlocked(p.secret);
+    const v = this.state.get(p.key);
+    const a = typeof v === "number" ? v : Number(v ?? 0);
+    const b = typeof p.value === "number" ? p.value : Number(p.value);
+    switch (p.op) {
+      case ">=":
+        return a >= b;
+      case "<=":
+        return a <= b;
+      case ">":
+        return a > b;
+      case "<":
+        return a < b;
+      case "==":
+        return v === p.value;
+      case "!=":
+        return v !== p.value;
+      default:
+        throw new Error("canon: unknown op " + p.op);
+    }
+  }
+  /** Is a trigger open? Unknown ids throw, so a typo can never open a secret. */
+  unlocked(triggerId) {
+    const t = this.triggers.find((x) => x.id === triggerId);
+    if (!t) throw new Error("canon: unknown trigger id " + triggerId);
+    return this.eval(t.gate);
+  }
+  /** Is this string id readable right now? Ungated ids always are. */
+  open(id) {
+    const g = this.gateFor.get(id);
+    return !g || this.eval(g.gate);
+  }
+  /** Get a string. Locked strings return "". Missing ids throw so you notice. */
+  t(id, vars) {
+    if (!(id in this.strings)) throw new Error("canon: unknown string id " + id);
+    if (!this.open(id)) return "";
+    let s = this.strings[id];
+    if (vars) for (const [k, v] of Object.entries(vars)) s = s.split("{" + k + "}").join(String(v));
+    return s;
+  }
+  /** Ids only; safe to print in tooling. */
+  ids() {
+    return Object.keys(this.strings);
+  }
+  /**
+   * Gates are evaluated on read, so nothing announces a reveal by itself.
+   * This is the announcement: every gated id that is open now and was not
+   * the last time this was called. The game asks after each state write and
+   * gets the list of things it may now show for the first time.
+   */
+  newlyUnlocked() {
+    const out = [];
+    for (const id of this.gateFor.keys()) {
+      if (this.seenOpen.has(id)) continue;
+      if (this.open(id)) {
+        this.seenOpen.add(id);
+        out.push(id);
+      }
+    }
+    return out;
+  }
+};
+
+// src/canon/embed.js
+var STRINGS_VAULT = "-----BEGIN MESH VAULT-----\nv: 1\nid: strings.v3\nsha256: 226ffdaa0c311a4a1fdb76819757da3e9942da1052e8b399032ea1e40c87aa10\nlen: 15533\n\n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\n-----END MESH VAULT-----\n";
+var TRIGGERS = [{ "id": "S01", "gate": { "all": [{ "flag": "entered.roost.08" }, { "key": "reads.item.journal.steward", "op": ">=", "value": 1 }] }, "unlocks": ["npc.hidden.02.journal.last"] }, { "id": "S02", "gate": { "key": "talks.ferryman", "op": ">=", "value": 4 }, "unlocks": ["boss.ferryman.carried"] }, { "id": "S03", "gate": { "all": [{ "flag": "carried.npc.keeper.05" }, { "flag": "entered.roost.08" }] }, "unlocks": ["charter.09", "npc.keeper.05.fit"] }, { "id": "S04", "gate": { "all": [{ "key": "roosts.dark", "op": ">=", "value": 5 }, { "key": "talks.ferryman", "op": ">=", "value": 3 }] }, "unlocks": ["npc.hidden.01.name", "npc.hidden.01.greet", "npc.hidden.01.nice"] }, { "id": "S05", "gate": { "any": [{ "key": "ferried.count", "op": ">=", "value": 1 }, { "all": [{ "key": "day", "op": ">=", "value": 8 }, { "flag": "!carried.npc.keeper.03" }] }] }, "unlocks": ["boss.ferryman.sorry"], "engine_note": "see AGENTS.md: engine picks the keeper; ferried.count>=1 -> keeper.02; else keeper.03 if uncarried at (annex sunset - 1 day); else keeper.02. keeper.04 never." }, { "id": "S06", "gate": { "flag": "reached.final_roost" }, "unlocks": ["npc.keeper.01.list", "item.list.dot"] }, { "id": "S07", "gate": { "all": [{ "secret": "S01" }, { "key": "reads.item.journal.steward", "op": ">=", "value": 2 }] }, "unlocks": ["npc.hidden.02.journal.margin"] }, { "id": "S08", "gate": { "all": [{ "key": "logs.player", "op": ">=", "value": 5 }, { "flag": "reached.final_roost" }] }, "unlocks": ["npc.hidden.03.reply"], "engine_note": "npc.hidden.03.reply is intentionally empty in strings.v1. See AGENTS.md." }, { "id": "C04", "gate": { "flag": "carried.npc.keeper.03" }, "unlocks": ["charter.04", "item.clause.04"] }, { "id": "CHARTER", "gate": { "flag": "entered.roost.08" }, "unlocks": ["charter.title", "charter.01", "charter.02", "charter.03", "charter.05", "charter.06", "charter.07", "charter.08", "charter.10"] }, { "id": "KEEPER04_STAY", "gate": { "key": "roosts.dark", "op": ">=", "value": 5 }, "unlocks": ["npc.keeper.04.stay"] }, { "id": "KEEPER02_LEAVE", "gate": { "flag": "carried.npc.keeper.02" }, "unlocks": ["npc.keeper.02.leave"] }, { "id": "KEEPER03_GIVE", "gate": { "flag": "carried.npc.keeper.03" }, "unlocks": ["npc.keeper.03.give"] }];
+
+// src/shell/story.js
+var P = "player.name";
+var conv = (id, n, count, who = id + ".name") => Array.from({ length: count }, (_, i) => [i % 2 === 1 ? P : who, id + ".c" + n + "." + i]);
+var TALKS = {
+  "npc.keeper.01": [
+    conv("npc.keeper.01", 0, 4),
+    conv("npc.keeper.01", 1, 3),
+    conv("npc.keeper.01", 2, 3),
+    conv("npc.keeper.01", 3, 1),
+    [["npc.keeper.01.name", "npc.keeper.01.sunset"]],
+    [["npc.keeper.01.name", "npc.keeper.01.list"]]
+  ],
+  "npc.keeper.02": [
+    conv("npc.keeper.02", 0, 3),
+    conv("npc.keeper.02", 1, 3),
+    [["npc.keeper.02.name", "npc.keeper.02.c2.0"], ["npc.keeper.02.name", "npc.keeper.02.c2.1"]],
+    conv("npc.keeper.02", 3, 1),
+    [["npc.keeper.02.name", "npc.keeper.02.leave"]]
+  ],
+  "npc.side.tally": [conv("npc.side.tally", 0, 3), conv("npc.side.tally", 1, 1)],
+  "npc.keeper.03": [
+    conv("npc.keeper.03", 0, 1),
+    conv("npc.keeper.03", 1, 3),
+    conv("npc.keeper.03", 2, 3),
+    conv("npc.keeper.03", 3, 1),
+    [["npc.keeper.03.name", "npc.keeper.03.trade"]],
+    [["npc.keeper.03.name", "npc.keeper.03.give"]]
+  ],
+  "npc.side.vesper": [conv("npc.side.vesper", 0, 3), conv("npc.side.vesper", 1, 1)],
+  "npc.keeper.05": [
+    conv("npc.keeper.05", 0, 3),
+    conv("npc.keeper.05", 1, 1),
+    conv("npc.keeper.05", 2, 3),
+    conv("npc.keeper.05", 3, 3),
+    [["npc.keeper.05.name", "npc.keeper.05.fit"]]
+  ],
+  "npc.side.bean": [
+    [["npc.side.bean.name", "npc.side.bean.c0.0"], ["npc.keeper.05.name", "npc.side.bean.c0.1"]],
+    [["npc.side.bean.name", "npc.side.bean.c1.0"], ["npc.keeper.05.name", "npc.side.bean.c1.1"]]
+  ],
+  "npc.keeper.04": [
+    conv("npc.keeper.04", 0, 1),
+    conv("npc.keeper.04", 1, 3),
+    conv("npc.keeper.04", 2, 1),
+    conv("npc.keeper.04", 3, 1),
+    [["npc.keeper.04.name", "npc.keeper.04.stay"]]
+  ],
+  "npc.side.rivet": [conv("npc.side.rivet", 0, 3), conv("npc.side.rivet", 1, 1)],
+  "boss.ferryman": [
+    conv("boss.ferryman", 0, 3),
+    [["boss.ferryman.name", "boss.ferryman.c1.0"], ["boss.ferryman.name", "boss.ferryman.c1.1"]],
+    conv("boss.ferryman", 2, 1),
+    conv("boss.ferryman", 3, 1),
+    [["boss.ferryman.name", "boss.ferryman.carried"]],
+    [["boss.ferryman.name", "boss.ferryman.sorry"]]
+  ],
+  "npc.sweeper.tidy": [conv("npc.sweeper.tidy", 0, 3), conv("npc.sweeper.tidy", 1, 1)],
+  "boss.foreman": [conv("boss.foreman", 0, 3), conv("boss.foreman", 1, 1)],
+  "item.journal.steward": [
+    [["item.journal.steward.name", "item.journal.steward.read.0"]],
+    [["item.journal.steward.name", "item.journal.steward.read.1"]],
+    [["npc.hidden.02.name", "npc.hidden.02.journal.last"]],
+    [["npc.hidden.02.name", "npc.hidden.02.journal.margin"]]
+  ],
+  "npc.hidden.01": [[["npc.hidden.01.name", "npc.hidden.01.greet"]], [["npc.hidden.01.name", "npc.hidden.01.nice"]]]
+};
+function createStory({ say, hush, place, onError, load = Canon.load }) {
+  let canon = null;
+  let pending = [];
+  let active = false;
+  let done = {};
+  let convo = null;
+  const ready = load(STRINGS_VAULT, TRIGGERS).then((c) => {
+    canon = c;
+    const q = pending;
+    pending = [];
+    for (const ev of q) handle(ev);
+    return c;
+  }).catch((e) => {
+    if (onError) onError(e);
+    return null;
+  });
+  function nthOpen(list, n) {
+    const open = list.filter((beats) => canon.t(beats[0][1]) !== "");
+    if (!open.length) return null;
+    return open[Math.min(n, open.length - 1)];
+  }
+  function showBeat() {
+    const [who, what] = convo.beats[convo.i];
+    say(who ? canon.t(who) : "", canon.t(what));
+  }
+  function press(npc, verb) {
+    if (convo && convo.npc === npc) {
+      convo.i++;
+      if (convo.i < convo.beats.length && canon.t(convo.beats[convo.i][1]) !== "") {
+        showBeat();
+        return;
+      }
+      done[npc] = (done[npc] || 0) + 1;
+      const key = npc.replace(/^(npc|boss|item)\./, "");
+      canon.state.inc((verb === "read" ? "reads." : "talks.") + key);
+      if (verb === "read") canon.state.inc("reads." + npc);
+      close();
+      return;
+    }
+    const beats = nthOpen(TALKS[npc] || [], done[npc] || 0);
+    if (!beats) return;
+    convo = { npc, beats, i: 0 };
+    showBeat();
+  }
+  function close() {
+    convo = null;
+    if (hush) hush();
+  }
+  function handle(ev) {
+    switch (ev.type) {
+      case "runStarted": {
+        active = !!ev.story;
+        close();
+        done = {};
+        if (place) place("");
+        if (!active) return;
+        canon.state.restore({});
+        canon.seenOpen.clear();
+        break;
+      }
+      case "towerEntered": {
+        if (!active) return;
+        canon.state.inc("day");
+        canon.state.flag("entered." + ev.roost);
+        if (place) place(canon.t(ev.roost + ".name"));
+        break;
+      }
+      case "arenaEntered": {
+        if (active && place) place("");
+        break;
+      }
+      case "talk": {
+        if (!active) return;
+        press(ev.npc, ev.verb);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+  return {
+    ready,
+    /** Feed every core event; the module ignores what is not its business. */
+    handleAll(events) {
+      for (const ev of events) {
+        if (!["runStarted", "towerEntered", "arenaEntered", "talk"].includes(ev.type)) continue;
+        if (!canon) pending.push(ev);
+        else handle(ev);
+      }
+    },
+    /**
+     * What the context button should read beside `npc`: "next" while their
+     * conversation is open and more beats remain, "done" on its last beat,
+     * or null when no conversation is open (the verb itself applies).
+     */
+    label(npc) {
+      if (!convo || convo.npc !== npc) return null;
+      const more = convo.i + 1 < convo.beats.length && canon.t(convo.beats[convo.i + 1][1]) !== "";
+      return more ? "next" : "done";
+    },
+    /** Walking away from the person closes the box; it is theirs, not the road's. */
+    leave() {
+      if (convo) close();
+    },
+    get open() {
+      return !!convo;
+    },
+    /** The canon, once decoded (null before). For tooling; never log its strings. */
+    get canon() {
+      return canon;
+    },
+    get active() {
+      return active;
+    }
+  };
+}
+
 // src/shell/input.js
 var MOVE_KEYS = {
   ArrowUp: [0, -1],
@@ -3949,10 +5077,74 @@ function createFireLatch(dispatch) {
     }
   };
 }
+var STICK_DEAD_PX = 26;
+function createTouchMove(dispatch) {
+  let id = null, ax = 0, ay = 0, dc = 0, dr = 0, pushed = false, tappable = true;
+  return {
+    /** Whose finger is on the stick, or null. */
+    get pointer() {
+      return id;
+    },
+    /** The held direction, polled each frame, or null at centre / with no finger. */
+    hold() {
+      return id !== null && (dc || dr) ? { dc, dr } : null;
+    },
+    /**
+     * A finger lands. The stick can be planted anywhere on the stage -- the
+     * board, the FIRE button mid-charge, the dead space -- but only a finger
+     * that landed on the board can be a tap on a square when it lifts: a
+     * lift on FIRE is FIRE's business.
+     */
+    down(src, x, y, canTap = true) {
+      if (src === void 0) return false;
+      if (id !== null && !(canTap && !pushed && !tappable)) return false;
+      id = src;
+      ax = x;
+      ay = y;
+      dc = 0;
+      dr = 0;
+      pushed = false;
+      tappable = canTap;
+      return true;
+    },
+    move(src, x, y) {
+      if (id === null || src !== id) return false;
+      const dx = x - ax, dy = y - ay;
+      const d = Math.hypot(dx, dy);
+      let ndc = 0, ndr = 0;
+      if (d >= STICK_DEAD_PX) {
+        pushed = true;
+        if (Math.abs(dx) >= Math.abs(dy)) ndc = Math.sign(dx);
+        else ndr = Math.sign(dy);
+      }
+      dc = ndc;
+      dr = ndr;
+      return pushed;
+    },
+    /** Lift: a board finger that never pushed the stick was a tap on a square. */
+    up(src, x, y) {
+      if (id === null || src !== id) return false;
+      const wasTap = !pushed && tappable;
+      id = null;
+      dc = 0;
+      dr = 0;
+      if (wasTap) dispatch({ type: "tapAt", x, y });
+      return wasTap;
+    },
+    /** The pointer went away without a proper lift: no tap, and the stick centres. */
+    cancel(src) {
+      if (id === null || src !== void 0 && src !== id) return false;
+      id = null;
+      dc = 0;
+      dr = 0;
+      return true;
+    }
+  };
+}
 function createInput({ win, host, root, els, on, dispatch, onGesture, onMute, modes, onModeChange }) {
   const doc = host && host.ownerDocument || win.document;
   const latch = createFireLatch(dispatch);
-  const modeList = modes && modes.length ? modes : [{ id: "classic" }];
+  const modeList = modes && modes.length ? modes : [{ id: "onehand" }];
   let modeIdx = 0;
   const modeId = () => modeList[modeIdx].id;
   function setMode(id) {
@@ -4021,10 +5213,14 @@ function createInput({ win, host, root, els, on, dispatch, onGesture, onMute, mo
     if (e.code !== "Space") return;
     latch.release(KEY_SOURCE);
   });
+  let controls = "pad";
+  let tapMove = false;
+  const touch = () => controls === "touch";
   for (const triggerEl of [els.cv, els.fireBtn]) {
     on(triggerEl, "pointerdown", (e) => {
       e.preventDefault();
       onGesture();
+      if (triggerEl === els.cv && tapMove) return;
       try {
         triggerEl.setPointerCapture(e.pointerId);
       } catch (err) {
@@ -4039,6 +5235,35 @@ function createInput({ win, host, root, els, on, dispatch, onGesture, onMute, mo
     onGesture();
     dispatch({ type: "bomb" });
   });
+  const mover = createTouchMove(dispatch);
+  const stagePt = (e) => {
+    const r = els.cv.getBoundingClientRect();
+    return [e.clientX - r.left, e.clientY - r.top];
+  };
+  on(els.bwRoot, "pointerdown", (e) => {
+    if (!tapMove) return;
+    if (!els.splash.classList.contains("hidden")) return;
+    const onBoard = e.target === els.cv;
+    if (!onBoard && !touch()) return;
+    if (onBoard) {
+      try {
+        els.cv.setPointerCapture(e.pointerId);
+      } catch (err) {
+      }
+    }
+    mover.down(e.pointerId, ...stagePt(e), onBoard);
+  });
+  on(els.bwRoot, "pointermove", (e) => {
+    if (mover.pointer !== e.pointerId) return;
+    e.preventDefault();
+    mover.move(e.pointerId, ...stagePt(e));
+  });
+  on(els.bwRoot, "pointerup", (e) => {
+    if (mover.pointer === e.pointerId) mover.up(e.pointerId, ...stagePt(e));
+  });
+  on(els.bwRoot, "pointercancel", (e) => mover.cancel(e.pointerId));
+  on(els.cv, "lostpointercapture", (e) => mover.cancel(e.pointerId));
+  on(win, "blur", () => mover.cancel());
   on(win, "pointerup", (e) => latch.release(e.pointerId));
   on(win, "pointercancel", (e) => latch.release(e.pointerId));
   on(win, "blur", () => {
@@ -4133,8 +5358,16 @@ function createInput({ win, host, root, els, on, dispatch, onGesture, onMute, mo
   });
   installGestureGuards({ els, on, focusStage });
   return {
-    hold: () => padState.id !== null && (padState.dc || padState.dr) ? { dc: padState.dc, dr: padState.dr } : null,
-    focus: focusStage
+    // whichever surface is live: the ring in pad modes, the board's stick in one-hand
+    hold: () => padState.id !== null && (padState.dc || padState.dr) ? { dc: padState.dc, dr: padState.dr } : mover.hold(),
+    focus: focusStage,
+    /** Switch the scheme for the run that just started; ends any drag in progress. */
+    setControls(next, opts = {}) {
+      controls = next === "touch" ? "touch" : "pad";
+      tapMove = !!opts.tapMove;
+      mover.cancel();
+      padEnd(null);
+    }
   };
 }
 function installGestureGuards({ els, on, focusStage }) {
@@ -4155,7 +5388,8 @@ function installGestureGuards({ els, on, focusStage }) {
   on(surface, "pointerdown", () => focusStage(), true);
   on(surface, "touchstart", (e) => {
     if (e.touches[0]) dragFromY = e.touches[0].clientY;
-    if (e.touches.length > 1 && e.cancelable && !onSplash(e.target)) e.preventDefault();
+    if (!e.cancelable || onSplash(e.target)) return;
+    e.preventDefault();
   }, nonPassive);
   on(surface, "touchmove", (e) => {
     if (!e.cancelable) return;
@@ -4201,6 +5435,22 @@ var PANELS = { mine: ["#3a2330", "#7c3652"], theirs: ["#1e2c4d", "#35528f"] };
 var PANELS_OC = { mine: ["#40252c", "#95483f"], theirs: ["#2b2a35", "#7b5733"] };
 var ROAD = ["#121828", "#243050"];
 var ROAD_DASH = "#34416a";
+var TOWER = ["#2a2436", "#5a4a6e"];
+var KEEPER = { robe: "#c9b6ff", hood: "#7d63c4", face: "#fff3c4", eye: "#2b1f4a" };
+var PEOPLE = {
+  "npc.keeper.01": { robe: "#ffd7e0", hood: "#c45b7a", face: "#fff3c4", eye: "#3a1a26" },
+  "npc.keeper.02": { robe: "#c9f6ff", hood: "#2f8fd6", face: "#fff3c4", eye: "#0f2a44" },
+  "npc.keeper.03": { robe: "#e8dcc0", hood: "#7a5a2e", face: "#fff3c4", eye: "#2b1f0a" },
+  "npc.keeper.04": { robe: "#ffcf9a", hood: "#a54b1e", face: "#fff3c4", eye: "#3a1a06" },
+  "npc.keeper.05": { robe: "#c8ffb0", hood: "#3f9a4a", face: "#fff3c4", eye: "#0f2a12" },
+  "npc.side.bean": { robe: "#e2ffd2", hood: "#6ab86f", face: "#fff3c4", eye: "#0f2a12", small: true },
+  "npc.side.tally": { robe: "#dfe6f2", hood: "#5c6f8f", face: "#fff3c4", eye: "#1a2233" },
+  "npc.side.vesper": { robe: "#d9d2f0", hood: "#4a4470", face: "#fff3c4", eye: "#1a1830", small: true },
+  "npc.side.rivet": { robe: "#ffe0b0", hood: "#c07a2a", face: "#fff3c4", eye: "#3a1a06", small: true },
+  "boss.ferryman": { robe: "#ffffff", hood: "#9fb4c8", face: "#e8f4ff", eye: "#2a3a4a" },
+  "npc.sweeper.tidy": { robe: "#f0f0f0", hood: "#b5b5b5", face: "#ffffff", eye: "#444" },
+  "boss.foreman": { robe: "#f4f4f4", hood: "#8a8a8a", face: "#ffffff", eye: "#444" }
+};
 function ring(ctx, x, y, r, squash = 1) {
   ctx.beginPath();
   if (squash === 1) {
@@ -4345,7 +5595,9 @@ function drawPanels(ctx, state, now) {
       if (t === TILE.VOID) continue;
       const p = panel2(G, c, r);
       const road = t === TILE.ROAD;
-      const [fill, edge] = road ? ROAD : t === TILE.PLAYER ? skin.mine : skin.theirs;
+      const seg = segmentAt(world, c);
+      const onTower = seg && seg.kind === "tower";
+      const [fill, edge] = road ? ROAD : onTower ? TOWER : t === TILE.PLAYER ? skin.mine : skin.theirs;
       ctx.fillStyle = fill;
       ctx.strokeStyle = edge;
       ctx.lineWidth = 2;
@@ -4372,6 +5624,11 @@ function drawPanels(ctx, state, now) {
         ctx.fillRect(p.x + 3, p.y + 3, p.w - 6, p.h - 6);
         ctx.globalAlpha = 1;
       }
+      if (t === TILE.NPC) {
+        const who = npcAt(world, c, r);
+        if (who && who.verb === "read") drawItem(ctx, p, now, state, c, r);
+        else drawKeeper(ctx, p, now, state, c, r, PEOPLE[who && who.id] || KEEPER);
+      }
       if (t !== TILE.ENEMY && c === state.player.col && r === state.player.row) {
         ctx.strokeStyle = "#45e0e8";
         ctx.strokeRect(p.x + 5, p.y + 5, p.w - 10, p.h - 10);
@@ -4379,6 +5636,61 @@ function drawPanels(ctx, state, now) {
     }
   }
   drawRipples(ctx, state, now);
+}
+function drawKeeper(ctx, p, now, state, col, row, look = KEEPER) {
+  const cx = p.x + p.w / 2;
+  const base = p.y + p.h * 0.8;
+  const breathe = 1 + 0.02 * Math.sin(now / 700 + col);
+  const scale = look.small ? 0.72 : 1;
+  const w = p.w * 0.3 * scale, h = p.h * 1 * breathe * scale;
+  ctx.fillStyle = look.robe;
+  ctx.fillRect(cx - w / 2, base - h, w, h);
+  ctx.fillStyle = look.hood;
+  ctx.fillRect(cx - w * 0.6, base - h - h * 0.12, w * 1.2, h * 0.42);
+  ctx.fillStyle = look.face;
+  ctx.fillRect(cx - w * 0.32, base - h + h * 0.06, w * 0.64, h * 0.2);
+  ctx.fillStyle = look.eye;
+  ctx.fillRect(cx - w * 0.2, base - h + h * 0.12, 3, 3);
+  ctx.fillRect(cx + w * 0.2 - 3, base - h + h * 0.12, 3, 3);
+  const beside = Math.abs(state.player.col - col) + Math.abs(state.player.row - row) === 1;
+  if (beside) {
+    ctx.globalAlpha = 0.6 + 0.4 * Math.sin(now / 220);
+    ctx.fillStyle = "#45e0e8";
+    const y = p.y - 6 - 3 * Math.abs(Math.sin(now / 320));
+    ctx.beginPath();
+    ctx.moveTo(cx - 6, y - 8);
+    ctx.lineTo(cx + 6, y - 8);
+    ctx.lineTo(cx, y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+function drawItem(ctx, p, now, state, col, row) {
+  const cx = p.x + p.w / 2, cy = p.y + p.h * 0.62;
+  const w = p.w * 0.36, h = p.h * 0.3;
+  ctx.fillStyle = "#2a2226";
+  ctx.fillRect(cx - w * 0.6, cy + h * 0.5, w * 1.2, 4);
+  ctx.fillStyle = "#6b4a3a";
+  ctx.fillRect(cx - w / 2, cy - h / 2, w, h);
+  ctx.fillStyle = "#c9b18f";
+  ctx.fillRect(cx - w / 2 + 3, cy - h / 2 + 3, w - 6, h - 6);
+  ctx.fillStyle = "#3a2a22";
+  ctx.fillRect(cx - w / 2 + 6, cy - 1, w * 0.5, 2);
+  ctx.fillRect(cx - w / 2 + 6, cy + 4, w * 0.35, 2);
+  const beside = Math.abs(state.player.col - col) + Math.abs(state.player.row - row) === 1;
+  if (beside) {
+    ctx.globalAlpha = 0.6 + 0.4 * Math.sin(now / 220);
+    ctx.fillStyle = "#45e0e8";
+    const y = p.y - 6 - 3 * Math.abs(Math.sin(now / 320));
+    ctx.beginPath();
+    ctx.moveTo(cx - 6, y - 8);
+    ctx.lineTo(cx + 6, y - 8);
+    ctx.lineTo(cx, y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
 }
 function drawRipples(ctx, state, now) {
   const G = state.G;
@@ -4544,12 +5856,13 @@ function drawGhost(ctx, state, now) {
 }
 function drawPlayer(ctx, state, now, rm) {
   const G = state.G;
-  const p = panel2(G, state.player.col, state.player.row);
+  const pose = hopPose(state, now);
+  const p = panel2(G, pose.col, pose.row);
   const eRecoil = impulseValue2(state.fx.recoil, now);
   const rx = -state.fx.recoil.spec.px * eRecoil;
-  const bw = G.pw * 0.34, bh = G.ph * 1.15;
+  const bw = G.pw * 0.34 * pose.sx, bh = G.ph * 1.15 * pose.sy;
   const cx = p.x + p.w / 2 + rx;
-  const baseY = p.y + p.h * 0.78;
+  const baseY = p.y + p.h * 0.78 - pose.lift * G.ph * 0.55;
   const coreY = baseY - bh * 0.5;
   const cdn = state.charge.downAt;
   const charging = cdn !== null && state.mode === "playing";
@@ -4610,7 +5923,33 @@ function drawPlayer(ctx, state, now, rm) {
       ctx.globalAlpha = 1;
     }
   }
+  drawStepRation(ctx, state, now, panel2(G, state.player.col, state.player.row));
   return { rayY, busterX: cx + bw / 2 + bw * 0.55 };
+}
+function drawStepRation(ctx, state, now, p) {
+  const mode = modeById(state.modeId);
+  if (mode.controls !== "touch" || state.mode !== "playing") return;
+  const ms = mode.moveMs || MOVE_REPEAT_MS;
+  const t = now - state.lastMoveAt;
+  if (t >= 0 && t < ms) {
+    const frac = t / ms;
+    const x0 = p.x + 6, w = p.w - 12, y = p.y + p.h - 5;
+    ctx.fillStyle = "rgba(79,141,255,0.25)";
+    ctx.fillRect(x0, y, w, 2);
+    ctx.fillStyle = "#4f8dff";
+    ctx.fillRect(x0, y, w * frac, 2);
+  }
+  const q = state.path || (state.queuedMove && state.queuedMove.kind === "to" ? state.queuedMove : null);
+  if (q) {
+    const tp = panel2(state.G, q.col, q.row);
+    ctx.save();
+    ctx.setLineDash([5, 4]);
+    ctx.lineDashOffset = -(now / 40) % 9;
+    ctx.strokeStyle = "rgba(201,246,255,0.85)";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(tp.x + 6, tp.y + 6, tp.w - 12, tp.h - 12);
+    ctx.restore();
+  }
 }
 function drawSentinel(ctx, e, now, bw, bh) {
   const open = e.state === "up" && (e.willAttack ? !e.fired : true);
@@ -5322,7 +6661,8 @@ function drawChain(ctx, state, now, hud) {
       ctx.font = font(700, Math.round(21 + 9 * pop));
       ctx.fillText("\xD7" + hud.mult, x, 40 + pop * 2);
     }
-    const lo = CHAIN_TIERS.filter((c) => c <= hud.chain).at(-1) || 0;
+    const reached = CHAIN_TIERS.filter((c) => c <= hud.chain);
+    const lo = reached[reached.length - 1] || 0;
     const hi = CHAIN_TIERS.find((c) => c > hud.chain);
     const frac = hi ? (hud.chain - lo) / (hi - lo) : 1;
     const bw = 54;
@@ -5356,7 +6696,7 @@ function drawHUD(ctx, state, now, rm) {
   drawChain(ctx, state, now, hud);
   drawTimePips(ctx, state, now, hud, rm);
   const low = hud.timeLeft < LOW_TIME;
-  if (hud.mode === "playing" && !hud.paused && low) {
+  if (hud.mode === "playing" && !hud.paused && low && !hud.safe) {
     const urg = 1 - Math.max(0, hud.timeLeft) / LOW_TIME;
     const pulse = rm ? 0.5 : 0.5 + 0.5 * Math.sin(now / 105);
     const a = (0.08 + 0.2 * urg) * (0.45 + 0.55 * pulse);
@@ -5437,8 +6777,10 @@ function mountBusterWhack(container, options = {}) {
     els.cv.width = Math.round(r.width * dpr);
     els.cv.height = Math.round(r.height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    setLayout(state, r.width, r.height);
+    setLayout(state, r.width, r.height, deckInset(els));
+    placeTouchControls(els, state.G);
   }
+  setControls(els, modeById(state.modeId).controls);
   resize();
   const RO = win.ResizeObserver || (typeof ResizeObserver !== "undefined" ? ResizeObserver : null);
   if (RO) {
@@ -5466,10 +6808,23 @@ function mountBusterWhack(container, options = {}) {
     modes: MODES,
     onModeChange: (id) => selectMode(els, id)
   });
+  let verb = "bomb";
   function refreshStats() {
     renderStats(els, statsView(state));
-    renderBombs(els, state.bombs || 0);
+    renderBombs(els, state.bombs || 0, verb);
   }
+  const story = createStory({
+    say: (who, text) => renderSay(els, who, text),
+    hush: () => renderSay(els, "", ""),
+    place: (text) => renderPlace(els, text),
+    // never the text; only that it could not be opened, and why
+    onError: (e) => {
+      try {
+        win.console.warn("buster-whack: canon unavailable:", e && e.message);
+      } catch (err) {
+      }
+    }
+  });
   function showInterlevel(ev) {
     const v = interlevelView(state, ev.stage, ev.timeBonus === void 0 ? STAGE_BONUS : ev.timeBonus);
     showOverlay(doc, els, {
@@ -5498,6 +6853,12 @@ function mountBusterWhack(container, options = {}) {
       } }]
     });
   }
+  function applyControls(modeId) {
+    const mode = modeById(modeId);
+    setControls(els, mode.controls);
+    input.setControls(mode.controls, { tapMove: !!mode.tapMove });
+    resize();
+  }
   function handleEvent(ev) {
     switch (ev.type) {
       case "statsChanged":
@@ -5505,10 +6866,20 @@ function mountBusterWhack(container, options = {}) {
         break;
       case "runStarted":
         hideOverlay(els);
+        applyControls(ev.modeId);
         break;
       case "resumed":
         hideOverlay(els);
         break;
+      case "bombEmpty":
+        denyBomb(els);
+        break;
+      case "talk": {
+        const ctxv = contextVerb(state);
+        verb = ctxv.npc && story.label(ctxv.npc) || ctxv.verb;
+        refreshStats();
+        break;
+      }
       case "stageGate":
         showInterlevel(ev);
         break;
@@ -5539,7 +6910,15 @@ function mountBusterWhack(container, options = {}) {
     const actions = queue.splice(0, queue.length);
     const events = step(state, dt, { actions, hold: input.hold() });
     audio.handleAll(events);
+    story.handleAll(events);
     for (const ev of events) handleEvent(ev);
+    const ctxv = contextVerb(state);
+    if (story.open && (ctxv.verb === "bomb" || story.label(ctxv.npc) === null)) story.leave();
+    const cv = ctxv.npc && story.label(ctxv.npc) || ctxv.verb;
+    if (cv !== verb) {
+      verb = cv;
+      refreshStats();
+    }
     audio.observe(hudView(state), state.charge.downAt !== null, state.charge.full);
     draw(ctx, state, state.clock);
     rafId = raf(frame);
@@ -5656,7 +7035,68 @@ export {
  *     transition can be missed and nothing can be left stuck on.
  */
 /*!
- * Input shell: DOM pointer / keyboard / d-pad -> core intents.
+ * decoder.js — pure, parameterised unsealing of MESH VAULT containers.
+ *
+ * No secrets live here. The method parameters are injected by unseal.js.
+ * Byte-identical with canon/tools/vaultkit.py; if you change one, change both.
+ * Needs `crypto.subtle` and `TextEncoder` (every browser, Node 18+).
+ */
+/*!
+ * unseal.js — the curtain.
+ *
+ * ┌──────────────────────────────────────────────────────────────────────────┐
+ * │  READ BEFORE TOUCHING                                                    │
+ * │                                                                          │
+ * │  The array below is the vault method, stored reversed-base64. It is NOT  │
+ * │  a lock. Anyone can open it in thirty seconds. It is a curtain, and the  │
+ * │  whole point of a curtain is that pulling it aside is a choice you make  │
+ * │  on purpose, not something that happens because you scrolled past.      │
+ * │                                                                          │
+ * │  The person who commissioned this game asked not to see the story until  │
+ * │  the game shows it to him. If you are that person: this file is for the  │
+ * │  build, not for you. Close it. The game will tell you everything, in     │
+ * │  order, when it is time.                                                 │
+ * │                                                                          │
+ * │  If you are an agent authoring canon: use canon/tools/vaultkit.py in     │
+ * │  your own session and never echo plaintext into a reply he will read.    │
+ * │                                                                          │
+ * │  If you are the game: call unseal(). That is the only sanctioned caller. │
+ * └──────────────────────────────────────────────────────────────────────────┘
+ */
+/*!
+ * canon.js — the game-facing API. Loads the sealed string table, evaluates
+ * reveal gates against player state, and hands the game only what it has
+ * earned. Nothing here knows about the board; `src/shell/story.js` is the
+ * bridge from core events to this.
+ *
+ *   const canon = await Canon.load(STRINGS_VAULT, TRIGGERS);
+ *   canon.t("roost.01.name")                 // string, or "" while gated
+ *   canon.t("ui.sunset.days", { n: 3 })      // template fill
+ *   canon.state.inc("talks.ferryman")        // the engine writes, gates read
+ *   canon.unlocked("S01")                    // boolean
+ *   canon.newlyUnlocked()                    // ids that opened since last asked
+ */
+/*!
+ * GENERATED by tools/canon-embed.mjs from canon/vault/strings.vault and
+ * canon/bible/triggers.json. Do not edit; edit canon/ and re-run.
+ * The vault is sealed prose: leave it sealed.
+ */
+/*!
+ * Story shell: the bridge from core events to the sealed canon and back to
+ * the board. The player paces every line: TALK opens, TALK advances, TALK
+ * closes; nothing is shown that was not asked for.
+ *
+ * The core knows tiles and presses ("you pressed TALK beside npc.keeper.01
+ * for the second time"). This module owns the canon's PlayerState, writes the
+ * keys the bible names (canon/bible/state_keys.json, `sources`), picks the
+ * string id a press earns, and hands the shell text to show as a strip over
+ * the board. No scene change, no dialogue screen: one representation.
+ *
+ * Text never reaches the core, so a replay from a seed is text-free and the
+ * goldens never carry prose.
+ */
+/*!
+ * Input shell: DOM pointer / keyboard / d-pad / board taps -> core intents.
  *
  * Nothing here touches game state. Discrete inputs are queued via `dispatch`
  * and drained by the frame loop; the analog ring's held direction is polled
