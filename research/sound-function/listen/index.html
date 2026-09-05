@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listening test — sound and job</title>
+  <meta name="description" content="A short listening test for the hard techno sound-function research: compare pairs of sounds and say what job each one is for.">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="listen.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="../">Research</a> / Listening test</nav>
+
+  <header class="title">
+    <div class="kicker">Research · listening test</div>
+    <h1>Help us test sound by ear</h1>
+    <p class="meta">About 5 minutes for every 10 pairs.</p>
+  </header>
+
+  <section id="intro">
+    <p>This is a short listening test. You will hear pairs of sounds.</p>
+    <p>Each pair is the same sound with one thing changed. We ask what job each sound has. Then we ask which one fits a job better.</p>
+    <p>There are 40 pairs. Each pair takes about 30 seconds.</p>
+
+    <div class="note">
+      <p>Your answers are anonymous. We do not store your name, email, or IP address. Answers save as you go, so even a short visit still helps. You can stop at any time.</p>
+    </div>
+
+    <h2>What the jobs mean</h2>
+    <ul class="job-legend">
+      <li><b>kick</b> — the beat hit, once every count.</li>
+      <li><b>rumble</b> — a low hum that fills gaps.</li>
+      <li><b>hat</b> — a short tick sound.</li>
+      <li><b>clap</b> — a snare-like hit, on some beats.</li>
+      <li><b>hook</b> — the catchy part you remember.</li>
+      <li><b>space</b> — a pad or rise that marks change.</li>
+    </ul>
+
+    <form id="profile-form">
+      <div class="field">
+        <span class="field-label">Are you a producer? (optional)</span>
+        <div class="radio-row">
+          <label><input type="radio" name="producer" value="yes"> Yes</label>
+          <label><input type="radio" name="producer" value="no"> No</label>
+          <label><input type="radio" name="producer" value="dj"> DJ</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="years">Years making music (optional)</label>
+        <input type="number" id="years" name="years" min="0" max="80" step="1" inputmode="numeric">
+      </div>
+      <button type="submit" class="btn primary">Start the test</button>
+    </form>
+  </section>
+
+  <section id="test" hidden>
+    <div class="progress">Pair <span id="progress-num">1</span> of <span id="progress-total">40</span></div>
+
+    <div class="pair-audio">
+      <div class="player">
+        <h3>Sound A</h3>
+        <audio id="playerA" controls preload="none"></audio>
+      </div>
+      <div class="player">
+        <h3>Sound B</h3>
+        <audio id="playerB" controls preload="none"></audio>
+      </div>
+    </div>
+
+    <form id="pair-form">
+      <fieldset class="q">
+        <legend>What job is sound A for?</legend>
+        <div class="radio-row" data-job-group="jobA"></div>
+      </fieldset>
+
+      <fieldset class="q">
+        <legend>What job is sound B for?</legend>
+        <div class="radio-row" data-job-group="jobB"></div>
+      </fieldset>
+
+      <fieldset class="q">
+        <legend id="more-label">Which one is more of a kick?</legend>
+        <div class="radio-row">
+          <label><input type="radio" name="more" value="a"> A</label>
+          <label><input type="radio" name="more" value="b"> B</label>
+          <label><input type="radio" name="more" value="same"> Same</label>
+        </div>
+      </fieldset>
+
+      <p class="hint" id="hint" hidden>Please answer all three questions.</p>
+
+      <div class="actions">
+        <button type="submit" class="btn primary" id="btn-next">Next</button>
+        <button type="button" class="btn ghost" id="btn-stop">Stop</button>
+      </div>
+    </form>
+
+    <details class="job-legend-details">
+      <summary>What the jobs mean</summary>
+      <ul class="job-legend">
+        <li><b>kick</b> — the beat hit, once every count.</li>
+        <li><b>rumble</b> — a low hum that fills gaps.</li>
+        <li><b>hat</b> — a short tick sound.</li>
+        <li><b>clap</b> — a snare-like hit, on some beats.</li>
+        <li><b>hook</b> — the catchy part you remember.</li>
+        <li><b>space</b> — a pad or rise that marks change.</li>
+      </ul>
+    </details>
+  </section>
+
+  <section id="done" hidden>
+    <h2>Thanks for listening</h2>
+    <p id="done-count"></p>
+    <p><a href="../index.html#stage2">Back to the report</a></p>
+  </section>
+</div>
+<script src="listen.js"></script>
+</body>
+</html>

@@ -148,3 +148,30 @@ export class FakeR2 {
     };
   }
 }
+
+// Minimal stand-in for a Workers KV namespace binding: get/put/list only,
+// with list() supporting a prefix and a cursor so pagination logic (like
+// src/listen.js's export handler) can actually be exercised.
+export class FakeKV {
+  constructor() {
+    this.store = new Map(); // key -> string value
+  }
+
+  async get(key) {
+    return this.store.has(key) ? this.store.get(key) : null;
+  }
+
+  async put(key, value) {
+    this.store.set(key, value);
+  }
+
+  async list({ prefix = "", cursor, limit = 1000 } = {}) {
+    const allKeys = [...this.store.keys()].filter((k) => k.startsWith(prefix)).sort();
+    const start = cursor ? Number(cursor) : 0;
+    const page = allKeys.slice(start, start + limit);
+    const list_complete = start + limit >= allKeys.length;
+    const result = { keys: page.map((name) => ({ name })), list_complete };
+    if (!list_complete) result.cursor = String(start + limit);
+    return result;
+  }
+}

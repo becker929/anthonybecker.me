@@ -1,0 +1,99 @@
+/* Listening test: form and quiz bits style.css doesn't need to cover. */
+
+.field { margin: 1rem 0; }
+.field-label { display: block; font-weight: 650; margin-bottom: 0.4rem; }
+
+.radio-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+.radio-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.radio-row input { accent-color: var(--accent); }
+
+input[type="number"] {
+  font: inherit;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+  width: 6rem;
+}
+
+.btn {
+  font: 650 0.95rem/1 var(--sans);
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+.btn.primary { background: var(--accent); color: #0b0d12; border-color: var(--accent); }
+.btn.ghost { background: transparent; }
+.btn:hover { opacity: 0.9; }
+
+.actions { display: flex; gap: 0.75rem; margin-top: 1.2rem; }
+
+.job-legend { list-style: none; padding: 0; margin: 0.5rem 0 1.5rem; }
+.job-legend li {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.92rem;
+}
+
+.job-legend-details { margin-top: 1.5rem; color: var(--ink-dim); }
+.job-legend-details summary { cursor: pointer; font-size: 0.9rem; }
+.job-legend-details .job-legend { margin-top: 0.7rem; }
+
+.progress {
+  font: 600 0.8rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 1rem;
+}
+
+.pair-audio {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.player {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.9rem;
+}
+.player h3 { margin: 0 0 0.6rem; font-size: 0.85rem; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+.player audio { width: 100%; height: 34px; }
+
+fieldset.q {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.2rem;
+}
+fieldset.q legend {
+  font-weight: 650;
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+.hint { color: var(--accent-2); font-size: 0.9rem; }
+
+#done { text-align: center; padding: 2rem 0; }
+
+@media (max-width: 560px) {
+  .pair-audio { grid-template-columns: 1fr; }
+}

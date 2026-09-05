@@ -15,6 +15,7 @@ import {
   isPublishedImageHash,
 } from "./cards.js";
 import { handleAudioPage, handleAudioLatest, handleAudioLatestUpdate, handleAudioFile } from "./audio.js";
+import { handleListenSubmit, handleListenExport } from "./listen.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
@@ -397,6 +398,16 @@ export default {
     if (path === "/audio/latest" && request.method === "PUT") return handleAudioLatestUpdate(request, env);
     if (path.startsWith("/audio/") && path.length > "/audio/".length) {
       return handleAudioFile(request, env, path.slice("/audio/".length));
+    }
+
+    // Listening-test API for research/sound-function — public, unauthenticated,
+    // no relation to the gated studio below.
+    if (path === "/api/listen" && request.method === "POST") {
+      return handleListenSubmit(request, env);
+    }
+
+    if (path === "/api/listen/export" && request.method === "GET") {
+      return handleListenExport(env);
     }
 
     if (path === BASE) {
