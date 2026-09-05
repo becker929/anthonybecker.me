@@ -17,8 +17,16 @@ Files:
   two travel together. To update, install the new version and copy both
   files from `node_modules/three/build/` over these.
 
-The character is built from primitives in code, not loaded from a model
-file, so the rig (hips → torso → head / arms, hips → legs) is plain
-`THREE.Group` nesting and every pose is a handful of rotations and offsets
-in `pose()`. Timings live at the top of `main.js` beside the ones the 2D
-game uses, so the two can be compared.
+The character is built from primitives in code (capsules, spheres, boxes),
+not loaded from a model file, so the rig (hips → torso → head / arms,
+hips → legs) is plain `THREE.Group` nesting and every pose is a handful of
+rotations and offsets in `pose()`. It is modelled at human proportions and
+scaled onto the board with `CHAR_SCALE`, so a square reads as a panel you
+stand on. Timings live at the top of `main.js` beside the ones the 2D game
+uses, so the two can be compared.
+
+Nothing is loaded from disk besides Three itself. The soft discs (contact
+shadow, dust, motes, the pool of light under the arena) and the sky
+gradient are drawn with Canvas 2D at start-up, and the image-based lighting
+comes from a tiny room of glowing panels run through `PMREMGenerator`.
+`?slow=N` runs the clock at 1/N for looking at the poses.
