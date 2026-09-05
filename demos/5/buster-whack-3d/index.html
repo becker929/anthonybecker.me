@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <title>Buster Whack 3D — Anthony Becker</title>
-<meta name="description" content="A movement-and-animation prototype: the buster as a low-poly 3D humanoid, hopping square to square on the game's board.">
+<meta name="description" content="A movement, aiming and camera prototype: the buster as a low-poly 3D humanoid, hopping square to square on the game's board and firing at rotters.">
 <meta name="theme-color" content="#0d1117">
 <link rel="canonical" href="https://anthonybecker.me/demos/5/buster-whack-3d/">
 <style>
@@ -27,26 +27,77 @@
     left: 0; right: 0;
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
+    gap: 12px;
     padding: 14px 18px;
     pointer-events: none;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
-  .hud.top { top: 0; }
-  .hud.bottom { bottom: 0; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0)); opacity: 0.75; }
-  .hud .title { color: #4f8dff; }
+  .hud.top { top: 0; align-items: baseline; }
+  .hud.bottom { bottom: 0; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0)); align-items: flex-end; }
+  .hud .title { color: #4f8dff; white-space: nowrap; }
   .hud .title span { color: #5a6482; }
-  .hud .readout { font-variant-numeric: tabular-nums; color: #5a6482; }
+  .hud .readout { font-variant-numeric: tabular-nums; color: #5a6482; white-space: nowrap; }
   .hud .readout b { color: #c9f6ff; font-weight: 600; }
-  .hud .hint { font-size: 11px; }
+  .hud .readout b.on { color: #ff5470; }
+  .hud .hint { font-size: 11px; opacity: 0.75; }
   .hud .hint kbd { color: #c9f6ff; font: inherit; }
   nav.crumbs { pointer-events: auto; }
   nav.crumbs a { color: #5a6482; text-decoration: none; }
   nav.crumbs a:hover { color: #aab4ce; }
-  @media (max-width: 600px) {
-    .hud.bottom { flex-direction: column; align-items: flex-start; gap: 6px; }
-    .hud .hint { font-size: 10px; letter-spacing: 0.1em; }
+  .left { display: flex; flex-direction: column; gap: 6px; }
+
+  /* The pad: mode chips, the lock, and FIRE. It takes pointer events; the
+     rest of the HUD does not, so the board underneath still reads taps. */
+  .pad {
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .pad .col { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+  .pad .row { display: flex; gap: 8px; }
+  .pad button {
+    font: inherit;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aab4ce;
+    background: rgba(24, 33, 58, 0.7);
+    border: 1px solid rgba(79, 141, 255, 0.35);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    touch-action: none;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .pad button b { color: #c9f6ff; font-weight: 600; }
+  .pad button:hover { border-color: rgba(201, 246, 255, 0.6); }
+  .pad button:focus-visible { outline: 1px solid #c9f6ff; outline-offset: 2px; }
+  .pad button.on { border-color: #ff5470; color: #ff5470; }
+  .pad button.on b { color: #ff5470; }
+  .pad button.round {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: rgba(255, 210, 63, 0.6);
+    color: #ffd23f;
+    font-weight: 600;
+    background: rgba(44, 26, 38, 0.7);
+  }
+  .pad button.round.held { background: rgba(255, 210, 63, 0.25); }
+  .pad button.round.ready { border-color: #c9f6ff; color: #c9f6ff; background: rgba(201, 246, 255, 0.3); box-shadow: 0 0 18px rgba(201, 246, 255, 0.5); }
+  #pad-orbit[hidden] { display: none; }
+
+  @media (max-width: 640px) {
+    .hud { padding: 10px 12px; }
+    .hud .hint { display: none; }
+    .hud .title span { display: none; }
+    .pad button { padding: 8px 10px; }
   }
   noscript { display: block; padding: 24px; }
 </style>
@@ -55,11 +106,35 @@
 <div id="stage"><noscript>This prototype needs JavaScript and WebGL.</noscript></div>
 <div class="hud top">
   <div class="title">Buster Whack <span>· 3D prototype</span></div>
-  <div class="readout"><b id="hud-phase">idle</b> · <span id="hud-tile">1,1</span></div>
+  <div class="readout">
+    <b id="hud-phase">idle</b> · <span id="hud-tile">1,1</span>
+    &nbsp;·&nbsp; aim <b id="hud-aim">8-dir</b> · cam <b id="hud-cam">fixed</b> · lock <b id="hud-lock">off</b>
+    &nbsp;·&nbsp; busted <b id="hud-busted">0</b> · hit <b id="hud-hits">0</b>
+  </div>
 </div>
 <div class="hud bottom">
-  <nav class="crumbs"><a href="/demos/">← demos</a></nav>
-  <div class="hint"><kbd>WASD</kbd> / arrows hop · hold to walk · tap a square · drag as a stick</div>
+  <div class="left">
+    <nav class="crumbs"><a href="/demos/">← demos</a></nav>
+    <div class="hint">
+      <kbd>WASD</kbd> hop · <kbd>arrows</kbd> / mouse aim · <kbd>space</kbd> / right-click fire, hold to charge ·
+      <kbd>shift</kbd> hold / <kbd>L</kbd> lock · <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> aim mode · <kbd>C</kbd> camera · <kbd>Q</kbd><kbd>E</kbd> <kbd>R</kbd><kbd>F</kbd> wheel orbit ·
+      touch: tap a square, drag as a stick, second finger aims
+    </div>
+  </div>
+  <div class="pad">
+    <div class="col">
+      <div class="row" id="pad-orbit" hidden>
+        <button id="btn-orbit-l" type="button" aria-label="orbit left">◄</button>
+        <button id="btn-orbit-r" type="button" aria-label="orbit right">►</button>
+      </div>
+      <div class="row">
+        <button id="btn-aim" type="button" title="aim mode (1 / 2 / 3)">aim</button>
+        <button id="btn-cam" type="button" title="camera (C)">cam</button>
+        <button id="btn-lock" type="button" title="strafe lock (Shift / L)">lock</button>
+      </div>
+    </div>
+    <button id="btn-fire" type="button" class="round" title="fire (Space); hold to charge">fire</button>
+  </div>
 </div>
 <script type="module" src="./main.js"></script>
 </body>

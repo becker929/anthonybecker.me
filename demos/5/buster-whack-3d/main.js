@@ -1,15 +1,23 @@
 /*!
- * Buster Whack 3D — movement + animation prototype.
+ * Buster Whack 3D — movement, aiming, fire and the first enemy.
  *
  * The 2D game moves the buster one square per hop: a crouch, an arc, a
  * landing squash, then the rest of the ration as cooldown, and the square
  * you count as standing on changes at the top of the arc. This prototype
- * keeps that model exactly and asks one question: what does that hop look
- * like on a body with knees?
+ * keeps that model and asks the next questions on top of the first one
+ * (what does the hop look like on a body with knees?): how does the buster
+ * aim when the board is a floor rather than three lanes, what does a strafe
+ * look like, and which camera the fight wants.
  *
- * Nothing here is a game yet. No enemies, no fire, no clock. A board, a
- * humanoid, three ways to ask it to step, and the pose curves that sell
- * each phase of the step.
+ * So there are two sticks now, not one. The left one hops; the right one —
+ * arrow keys, the mouse, or a second thumb — points the barrel. How the
+ * barrel is allowed to point is the *aim mode*: four ways, eight ways, or
+ * anywhere. Holding the *lock* keeps the barrel where it is (on the nearest
+ * rotter when there is one) while the legs go wherever they like, which is
+ * the strafe. And the camera is a mode of its own, cycled independently.
+ *
+ * Still not a game: no clock, no score to keep, no towers. A board, a
+ * humanoid, a buster that fires, and three rotters to fire it at.
  */
 
 import * as THREE from "./three.module.min.js";
@@ -28,21 +36,71 @@ const GAP = 0.1;
 const CHAR_SCALE = 0.36;
 
 // ---------- the hop ----------
-// The 2D game runs 30 / 80 / 55 ms with a 195 ms ration. A body with limbs
-// needs a beat longer for the crouch and the landing to read, so these are
-// roughly doubled. The ration is the sum, so a held direction chains hops
-// with no dead frame between them.
-const HOP_WINDUP_MS = 60;     // the crouch before leaving the ground
-const HOP_AIR_MS = 170;       // the arc
-const HOP_SETTLE_MS = 110;    // the landing squash and recovery
+// The 2D game runs 30 / 80 / 55 ms with a 195 ms ration. The first cut of
+// this prototype roughly doubled those (60 / 170 / 110) so the limbs had
+// time to read; played against something that shoots back that felt like
+// wading, so the phases are pulled in to a 230 ms ration — a third faster,
+// still a beat slower than the 2D game — and the arc is lower to match. The
+// ration is the sum, so a held direction chains hops with no dead frame.
+const HOP_WINDUP_MS = 40;     // the crouch before leaving the ground
+const HOP_AIR_MS = 115;       // the arc
+const HOP_SETTLE_MS = 75;     // the landing squash and recovery
 const HOP_TOTAL_MS = HOP_WINDUP_MS + HOP_AIR_MS + HOP_SETTLE_MS;
 const HOP_COMMIT_MS = HOP_WINDUP_MS + HOP_AIR_MS / 2;   // the square changes here
 const MOVE_MS = HOP_TOTAL_MS; // the step ration
-const HOP_HEIGHT = 0.34;
+const HOP_HEIGHT = 0.27;
 const REFACE_MS = 420;        // after this long idle, turn back to face the enemy half
 // The rest facing: towards the enemy half, turned a little towards the
 // camera so the visor and the core light show instead of a flat profile.
+// It is cosmetic — shots still go along the aim — and drops the moment the
+// buster aims or fires.
 const REST_YAW = -0.32;
+
+// ---------- aiming ----------
+// The aim is an angle in the board plane: 0 is +x (down the lane, at the
+// enemy half), positive turns towards -z (the row above). Modes quantise
+// it; "free" does not.
+const AIM_MODES = ["4", "8", "free"];
+const AIM_HOLD_MS = 1200;     // a flick of aim input counts as "still aiming" this long
+const TURN_MS = 60;           // the body chases the aim with this time constant
+const TWIST_MAX = 0.85;       // how far the legs may face away from the barrel in a strafe
+
+// ---------- the buster ----------
+const FIRE_COOLDOWN_MS = 140;
+const CHARGE_MS = 520;        // hold FIRE this long and the release is the strong shot
+const SHOT_SPEED = 9 / 1000;  // tiles per ms
+const CHARGED_SPEED = 11 / 1000;
+const RECOIL_MS = 130;
+
+// ---------- rotters ----------
+// The first enemy. A rotter is a squat rotor that sits on a panel of the
+// enemy half and rots it — the rim goes from the half's red to a sick green
+// under it, and heals when it leaves. It hops panel to panel the way the
+// buster does, and now and then it winds up (the rotor whines, the eye
+// brightens, the panel flashes) and throws a bolt at where you are standing.
+const ROTTER_COUNT = 3;
+const ROTTER_HP = 3;          // three shots, or one charged
+const ROTTER_RADIUS = 0.34;   // hit circle, in tiles
+const ROTTER_SPAWN_MS = 420;
+const ROTTER_SIT_MS = [1100, 2600];
+const ROTTER_HOP_MS = 300;
+const ROTTER_AIM_MS = 720;    // the telegraph
+const ROTTER_DIE_MS = 380;
+const ROTTER_RESPAWN_MS = 1400;
+const ROTTER_FIRE_EVERY = [2400, 4400];
+const BOLT_SPEED = 4.2 / 1000;
+const BOLT_RADIUS = 0.3;
+const HURT_MS = 700;
+const ROT_RATE = 1 / 1400;    // a panel rots fully in 1.4 s under a rotter
+const ROT_DECAY = 1 / 3000;   // and heals in 3 s once it leaves
+
+// ---------- camera ----------
+// fixed    the framing the prototype was built with, leaning a little towards the buster
+// follow   the same angle, but the buster stays centred
+// orbit    around the board: Q/E turn, R/F tilt, the wheel zooms
+// shoulder behind the buster, looking down the barrel — the aim moves the camera
+// top      straight down, following loosely
+const CAM_MODES = ["fixed", "follow", "orbit", "shoulder", "top"];
 
 // Drag-as-stick: a finger has to leave this radius (CSS px) before the board
 // reads a direction; a lift that never left it is a tap on a square.
@@ -54,14 +112,19 @@ const PAL = {
   fog: 0x0e1420,
   tilePlayer: 0x18213a, tilePlayerRim: 0x4f8dff,
   tileEnemy: 0x2c1a26, tileEnemyRim: 0xff5470,
+  tileRot: 0x1b2a1c, tileRotRim: 0x7dff6a,
   armor: 0x4f8dff, armorDark: 0x2f5fc4, suit: 0x161c30, visor: 0xc9f6ff, barrel: 0xffd23f,
   ripple: 0x4f8dff, dust: 0x9fb0d0,
+  shot: 0xffd23f, charged: 0xc9f6ff, bolt: 0xff5470,
+  rotter: 0x5a1e2c, rotterDark: 0x2a1018, rotterBlade: 0xff5470, rotterEye: 0xffb3c0,
 };
 
 // ---------- easing ----------
 
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 const lerp = (a, b, t) => a + (b - a) * t;
+const rand = (lo, hi) => lo + Math.random() * (hi - lo);
 const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
 const easeInOutSine = (t) => 0.5 - 0.5 * Math.cos(Math.PI * t);
 /** Overshoots past 1 then returns: the landing's spring. */
@@ -74,13 +137,21 @@ const angleDelta = (a, b) => { let d = (b - a) % (Math.PI * 2); if (d > Math.PI)
 const tileX = (col) => (col - (COLS - 1) / 2) * TILE;
 const tileZ = (row) => (row - (ROWS - 1) / 2) * TILE;
 const onBoard = (col, row) => col >= 0 && col < COLS && row >= 0 && row < ROWS;
+const enemyHalf = (col, row) => onBoard(col, row) && col >= PCOLS;
+/** Past the arena's edge by more than a tile: where shots and bolts are spent, so nothing streams off into the sky. */
+const offBoard = (x, z) => Math.abs(x) > (COLS * TILE) / 2 + 1.2 || Math.abs(z) > (ROWS * TILE) / 2 + 1.2;
+/** The aim angle from (x, z) towards (tx, tz). */
+const angleTo = (x, z, tx, tz) => Math.atan2(-(tz - z), tx - x);
+/** Unit direction of an aim angle, in the board plane. */
+const aimDir = (a, out) => out.set(Math.cos(a), 0, -Math.sin(a));
 
 // ---------- clock ----------
 
 // `?slow=4` runs the clock at a quarter speed: the same hop, stretched, for
 // looking at the poses. Everything is timed off this one clock, so nothing
 // else has to know.
-const SLOW = Math.max(1, Number(new URLSearchParams(location.search).get("slow")) || 1);
+const params = new URLSearchParams(location.search);
+const SLOW = Math.max(1, Number(params.get("slow")) || 1);
 const now = () => performance.now() / SLOW;
 
 // ---------- textures drawn in code ----------
@@ -123,9 +194,11 @@ const shadowTex = softDisc([[0, "rgba(0,0,0,1)"], [0.45, "rgba(0,0,0,0.55)"], [1
 // ---------- scene ----------
 
 const container = document.getElementById("stage");
+const $ = (id) => document.getElementById(id);
 const hud = {
-  phase: document.getElementById("hud-phase"),
-  tile: document.getElementById("hud-tile"),
+  phase: $("hud-phase"), tile: $("hud-tile"), busted: $("hud-busted"), hits: $("hud-hits"),
+  aim: $("hud-aim"), cam: $("hud-cam"), lock: $("hud-lock"),
+  fire: $("btn-fire"), lockBtn: $("btn-lock"), orbit: $("pad-orbit"),
 };
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
@@ -143,8 +216,9 @@ scene.fog = new THREE.Fog(PAL.fog, 9, 22);
 const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
 const CAM_POS = new THREE.Vector3(0, 3.3, 4.9);
 const LOOK_AT = new THREE.Vector3(0, 0.05, 0.1);
+const camPos = CAM_POS.clone();
 const camTarget = LOOK_AT.clone();
-camera.position.copy(CAM_POS);
+camera.position.copy(camPos);
 camera.lookAt(camTarget);
 
 // Image-based lighting from a room built out of a few glowing panels: a big
@@ -230,7 +304,8 @@ divider.position.set((tileX(PCOLS - 1) + tileX(PCOLS)) / 2, -0.03, 0);
 scene.add(divider);
 
 // Tiles: a bevelled slab with a lit rim inset from its edge. Each remembers a
-// dip so a landing can press it down and let it spring back.
+// dip so a landing can press it down and let it spring back, and a rot so a
+// rotter can turn it green from under itself.
 const tiles = [];
 function tileSlabGeometry() {
   const s = (TILE - GAP) / 2, r = 0.07;
@@ -258,14 +333,16 @@ function tileRimGeometry() {
 }
 const slabGeo = tileSlabGeometry();
 const rimGeo = tileRimGeometry();
+const ROT_SLAB = new THREE.Color(PAL.tileRot), ROT_RIM = new THREE.Color(PAL.tileRotRim);
 for (let row = 0; row < ROWS; row++) {
   for (let col = 0; col < COLS; col++) {
     const mine = col < PCOLS;
     const g = new THREE.Group();
     g.position.set(tileX(col), 0, tileZ(row));
-    const slab = new THREE.Mesh(slabGeo, new THREE.MeshStandardMaterial({
+    const slabMat = new THREE.MeshStandardMaterial({
       color: mine ? PAL.tilePlayer : PAL.tileEnemy, roughness: 0.42, metalness: 0.35,
-    }));
+    });
+    const slab = new THREE.Mesh(slabGeo, slabMat);
     slab.receiveShadow = true;
     slab.castShadow = true;
     g.add(slab);
@@ -274,7 +351,11 @@ for (let row = 0; row < ROWS; row++) {
     rimMesh.position.y = 0.031;
     g.add(rimMesh);
     scene.add(g);
-    tiles.push({ g, rimMat, col, row, dip: 0, dipV: 0, glow: 0 });
+    tiles.push({
+      g, rimMat, slabMat, col, row, dip: 0, dipV: 0, glow: 0,
+      rot: 0, rotHeld: false, baseSlab: slabMat.color.clone(), baseRim: rimMat.color.clone(),
+      flash: 0, flashColor: new THREE.Color(PAL.bolt), dirty: false,
+    });
   }
 }
 const tileAt = (col, row) => tiles[row * COLS + col];
@@ -407,6 +488,10 @@ function buildCharacter() {
   const bore = mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.02, 12), matMuzzle, 0, -0.425, 0);
   bore.castShadow = false;
   R.fore.add(bore);
+  // an empty just past the bore: where shots leave and the flash sits
+  const muzzle = new THREE.Object3D();
+  muzzle.position.y = -0.5;
+  R.fore.add(muzzle);
   torso.add(L.g); torso.add(R.g);
 
   // legs hang DOWN from the hips: thigh, knee, shin, boot
@@ -426,7 +511,7 @@ function buildCharacter() {
   hips.add(legL.g); hips.add(legR.g);
 
   return {
-    root, squash, hips, HIP_Y, torso, head,
+    root, squash, hips, HIP_Y, torso, head, muzzle,
     armL: L.g, foreL: L.fore, armR: R.g, foreR: R.fore,
     legL: legL.g, shinL: legL.shin, legR: legR.g, shinR: legR.shin,
   };
@@ -445,6 +530,34 @@ const contact = new THREE.Mesh(
 contact.rotation.x = -Math.PI / 2;
 contact.position.y = 0.034;
 scene.add(contact);
+
+// The sight: a faint line from the barrel along the aim, so where a shot will
+// go is visible before it is fired — free aim has no lane to read it from.
+// It brightens under the lock and turns the lock's red on a target.
+const sightGeo = new THREE.BufferGeometry();
+sightGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(6), 3));
+const sightMat = new THREE.LineBasicMaterial({ color: PAL.visor, transparent: true, opacity: 0.3, depthWrite: false, blending: THREE.AdditiveBlending });
+const sight = new THREE.Line(sightGeo, sightMat);
+sight.frustumCulled = false;
+scene.add(sight);
+
+// The lock ring: sits under the rotter the barrel is held on.
+const lockRing = new THREE.Mesh(
+  new THREE.RingGeometry(0.3, 0.34, 32),
+  new THREE.MeshBasicMaterial({ color: PAL.bolt, transparent: true, opacity: 0.85, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending }),
+);
+lockRing.rotation.x = -Math.PI / 2;
+lockRing.position.y = 0.04;
+lockRing.visible = false;
+scene.add(lockRing);
+
+// Muzzle flash and the charge glow: two sprites that live on the muzzle.
+const flash = new THREE.Sprite(new THREE.SpriteMaterial({ map: discTex, color: PAL.shot, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+flash.scale.setScalar(0.001);
+scene.add(flash);
+const chargeGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: discTex, color: PAL.charged, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+chargeGlow.scale.setScalar(0.001);
+scene.add(chargeGlow);
 
 // ---------- effects ----------
 
@@ -469,18 +582,23 @@ function updateRipples(t) {
   }
 }
 
-// Dust: a few soft puffs kicked out sideways on take-off and on landing.
+// Dust: a few soft puffs kicked out sideways on take-off and on landing. The
+// same puffs, coloured and thrown harder, are sparks off a hit and the debris
+// of a deletion.
 const puffs = [];
 const puffMat = new THREE.SpriteMaterial({ map: discTex, color: PAL.dust, transparent: true, opacity: 0.5, depthWrite: false });
-function dust(x, z, count, speed) {
+function dust(x, z, count, speed, opts = {}) {
+  const { color = PAL.dust, y = 0.05, rise = 0.12, size = [0.08, 0.26], ms = [320, 480], additive = false } = opts;
   for (let i = 0; i < count; i++) {
     const s = new THREE.Sprite(puffMat.clone());
+    s.material.color.set(color);
+    if (additive) s.material.blending = THREE.AdditiveBlending;
     const a = Math.random() * Math.PI * 2;
     const v = speed * (0.5 + Math.random() * 0.5);
-    s.position.set(x, 0.05, z);
-    s.scale.setScalar(0.08);
+    s.position.set(x, y, z);
+    s.scale.setScalar(size[0]);
     scene.add(s);
-    puffs.push({ s, vx: Math.cos(a) * v, vz: Math.sin(a) * v, t0: now(), ms: 320 + Math.random() * 160 });
+    puffs.push({ s, vx: Math.cos(a) * v, vz: Math.sin(a) * v, rise, size, t0: now(), ms: rand(ms[0], ms[1]) });
   }
 }
 function updatePuffs(t) {
@@ -490,8 +608,8 @@ function updatePuffs(t) {
     const k = frameDt / 1000;
     p.s.position.x += p.vx * k * (1 - u);
     p.s.position.z += p.vz * k * (1 - u);
-    p.s.position.y += 0.12 * k;
-    p.s.scale.setScalar(lerp(0.08, 0.26, easeOutQuad(u)));
+    p.s.position.y += p.rise * k;
+    p.s.scale.setScalar(lerp(p.size[0], p.size[1], easeOutQuad(u)));
     p.s.material.opacity = 0.5 * (1 - u);
     if (u >= 1) { scene.remove(p.s); p.s.material.dispose(); puffs.splice(i, 1); }
   }
@@ -504,41 +622,85 @@ function pressTile(col, row, amount) {
   tl.dipV -= amount;
   tl.glow = 1;
 }
+/** Flash a tile's rim a colour: the rotter's telegraph. */
+function flashTile(col, row, color) {
+  const tl = tileAt(col, row);
+  if (!tl) return;
+  tl.flash = 1;
+  tl.flashColor.set(color);
+}
+const _c = new THREE.Color();
 function updateTiles() {
   const k = frameDt / 1000;
   for (const tl of tiles) {
-    if (tl.dip === 0 && tl.dipV === 0 && tl.glow === 0) continue;
+    // the rot: held at its level while a rotter sits, healing once it leaves
+    if (!tl.rotHeld && tl.rot > 0) tl.rot = Math.max(0, tl.rot - frameDt * ROT_DECAY);
+    tl.rotHeld = false;
+    if (tl.flash > 0) tl.flash = Math.max(0, tl.flash - k * 3);
+    if (tl.dip === 0 && tl.dipV === 0 && tl.glow === 0 && tl.rot === 0 && tl.flash === 0 && !tl.dirty) continue;
     // a stiff spring towards rest
     tl.dipV += (-tl.dip * 260 - tl.dipV * 18) * k;
     tl.dip += tl.dipV * k;
     if (Math.abs(tl.dip) < 0.0005 && Math.abs(tl.dipV) < 0.002) { tl.dip = 0; tl.dipV = 0; }
     tl.g.position.y = tl.dip;
     tl.glow = Math.max(0, tl.glow - k * 2.6);
-    tl.rimMat.opacity = 0.75 + 0.25 * tl.glow;
+    tl.slabMat.color.lerpColors(tl.baseSlab, ROT_SLAB, tl.rot);
+    _c.lerpColors(tl.baseRim, ROT_RIM, tl.rot);
+    tl.rimMat.color.lerpColors(_c, tl.flashColor, tl.flash);
+    tl.rimMat.opacity = 0.75 + 0.25 * Math.max(tl.glow, tl.flash);
+    // one more pass after the colours have faded, so they land exactly on base
+    tl.dirty = tl.rot > 0 || tl.flash > 0;
   }
 }
 
 // ---------- state ----------
 
+const initialAim = AIM_MODES.includes(params.get("aim")) ? params.get("aim") : "8";
+const initialCam = CAM_MODES.includes(params.get("cam")) ? params.get("cam") : "fixed";
+
 const state = {
   col: 1, row: 1,             // the square counted as stood on
+  pos: new THREE.Vector3(tileX(1), 0, tileZ(1)),   // where the body is, this frame
   hop: null,                  // { fromCol, fromRow, toCol, toRow, t0, committed, left, landed }
   lastMoveAt: -1e9,
   lastIdleAt: 0,              // when the last hop finished
   path: null,                 // { col, row } a tap to walk towards
   queued: null,               // a step asked for inside the ration
-  facing: -0.32,              // yaw, radians; 0 faces +x (REST_YAW to start)
-  facingTarget: -0.32,
+  // aiming
+  aimMode: initialAim,        // "4" | "8" | "free"
+  aim: 0,                     // the angle shots leave at
+  aimAt: -1e9,                // when the aim was last set on purpose (input, lock, fire)
+  cosmetic: true,             // at rest and unaimed: show the REST_YAW three-quarter turn
+  hoverAim: 0, hoverAt: -1e9, // the mouse's last aim, and when
+  lockHold: false, lockToggle: false,   // Shift held; L / the button toggled
+  lock: false,
+  lockTarget: null,           // the rotter the barrel is held on
+  facing: REST_YAW,           // yaw of the body, radians; 0 faces +x
+  twist: 0,                   // legs turned off the barrel, in a strafe
+  // the buster
+  charge: null,               // { t0 } while FIRE is held
+  lastFireAt: -1e9,
+  fireAt: -1e9, fireCharged: false,
+  hurtUntil: -1e9,
+  busted: 0, hits: 0,
   phase: "idle",
 };
 
+const cam = { mode: initialCam, yaw: 0.55, pitch: 0.62, dist: 6.2, shake: 0 };
+
 const moveReady = (t) => t - state.lastMoveAt >= MOVE_MS;
+
+// ---------- movement ----------
+
+/** Nothing stands there: on the board, and no rotter on it. */
+const free = (col, row) => onBoard(col, row) && !rotterAt(col, row);
 
 /**
  * Take a step by (dc, dr). One axis at a time: a hop is never diagonal. When
  * both axes are asked for, the preferred one goes first, but if it is
- * blocked by the edge the other still moves: the game's ring presses both
- * axes on a diagonal, and a wall should not cancel the half that was fine.
+ * blocked by the edge (or a rotter) the other still moves: the game's ring
+ * presses both axes on a diagonal, and a wall should not cancel the half
+ * that was fine.
  */
 function move(dc, dr, t, preferRow = false) {
   if (!(dc || dr)) return;
@@ -547,11 +709,11 @@ function move(dc, dr, t, preferRow = false) {
   if (dc && dr) {
     const first = preferRow ? [0, dr] : [dc, 0];
     const second = preferRow ? [dc, 0] : [0, dr];
-    const ok = (d) => onBoard(state.col + Math.sign(d[0]), state.row + Math.sign(d[1]));
+    const ok = (d) => free(state.col + Math.sign(d[0]), state.row + Math.sign(d[1]));
     [dc, dr] = ok(first) ? first : second;
   }
   const col = state.col + Math.sign(dc), row = state.row + Math.sign(dr);
-  if (!onBoard(col, row)) return;
+  if (!free(col, row)) return;
   go(col, row, t);
 }
 
@@ -559,21 +721,25 @@ function move(dc, dr, t, preferRow = false) {
 function moveTo(col, row, t) {
   if (!onBoard(col, row)) return;
   if (col === state.col && row === state.row) { state.path = null; return; }
+  if (rotterAt(col, row)) { ripple(tileX(col), tileZ(row), PAL.bolt, 1.1, 260); return; }
   ripple(tileX(col), tileZ(row), PAL.ripple, 1.25, 320);
   tileAt(col, row).glow = 1;
   state.path = { col, row };
   runPath(t);
 }
 
-/** The next step of the path, when the ration allows. Larger axis first. */
+/** The next step of the path, when the ration allows. Larger axis first; a blocked axis yields to the other. */
 function runPath(t) {
   const p = state.path;
   if (!p) return;
   if (p.col === state.col && p.row === state.row) { state.path = null; return; }
   if (!moveReady(t)) return;
   const dc = p.col - state.col, dr = p.row - state.row;
-  if (Math.abs(dc) >= Math.abs(dr)) go(state.col + Math.sign(dc), state.row, t);
-  else go(state.col, state.row + Math.sign(dr), t);
+  const byCol = [state.col + Math.sign(dc), state.row], byRow = [state.col, state.row + Math.sign(dr)];
+  const order = Math.abs(dc) >= Math.abs(dr) ? [byCol, byRow] : [byRow, byCol];
+  for (const [c, r] of order) {
+    if ((c !== state.col || r !== state.row) && free(c, r)) { go(c, r, t); return; }
+  }
 }
 
 /** Spend the ration on a hop to (col, row). */
@@ -584,8 +750,10 @@ function go(col, row, t) {
   if (prev && !prev.committed) { prev.committed = true; state.col = prev.toCol; state.row = prev.toRow; }
   if (col === state.col && row === state.row) { state.hop = null; return; }
   state.hop = { fromCol: state.col, fromRow: state.row, toCol: col, toRow: row, t0: t, committed: false, left: false, landed: false };
-  const dx = col - state.col, dz = row - state.row;
-  state.facingTarget = Math.atan2(-dz, dx);
+  // Unless the barrel is being held somewhere — by the lock or by live aim
+  // input — a hop turns the body to face where it is going, as the 2D buster
+  // turns. Held, the legs go and the barrel stays: the strafe.
+  if (!state.lock && !aimHeld(t)) setAim(angleTo(0, 0, col - state.col, row - state.row), t);
 }
 
 function updateHop(t) {
@@ -614,6 +782,395 @@ function flushQueued(t) {
   state.queued = null;
   if (q.kind === "to") moveTo(q.col, q.row, t);
   else move(q.dc, q.dr, t, q.preferRow);
+}
+
+// ---------- aiming ----------
+
+/** The mode's grid: four ways, eight ways, or none. */
+function quantise(a) {
+  const q = state.aimMode === "4" ? Math.PI / 2 : state.aimMode === "8" ? Math.PI / 4 : 0;
+  return q ? Math.round(a / q) * q : a;
+}
+/** Point the barrel. Quantised to the mode unless told not to (the lock aims true). */
+function setAim(a, t, exact = false) {
+  state.aim = exact ? a : quantise(a);
+  state.aimAt = t;
+  state.cosmetic = false;
+}
+/** Is anything pointing the barrel right now: an aim stick, arrow keys, or a recent mouse? */
+function aimHeld(t) {
+  return !!(aimStickVec() || heldAim() || t - state.hoverAt < AIM_HOLD_MS);
+}
+
+function setAimMode(m) {
+  if (!AIM_MODES.includes(m)) return;
+  state.aimMode = m;
+  state.aim = quantise(state.aim);
+  hud.aim.textContent = m === "free" ? "free" : m + "-dir";
+}
+function cycleAimMode() { setAimMode(AIM_MODES[(AIM_MODES.indexOf(state.aimMode) + 1) % AIM_MODES.length]); }
+
+/** The nearest live rotter, for the lock to hold on. */
+function nearestRotter() {
+  let best = null, bd = Infinity;
+  for (const r of rotters) {
+    if (r.phase === "die" || r.phase === "spawn") continue;
+    const d = Math.hypot(r.x - state.pos.x, r.z - state.pos.z);
+    if (d < bd) { bd = d; best = r; }
+  }
+  return best;
+}
+function updateLock(t) {
+  const want = state.lockHold || state.lockToggle;
+  if (want && !state.lock) { state.lock = true; state.lockTarget = nearestRotter(); state.aimAt = t; state.cosmetic = false; }
+  if (!want && state.lock) { state.lock = false; state.lockTarget = null; }
+  if (state.lock && (!state.lockTarget || state.lockTarget.phase === "die" || !rotters.includes(state.lockTarget))) state.lockTarget = nearestRotter();
+  hud.lock.textContent = state.lock ? (state.lockTarget ? "target" : "held") : "off";
+  hud.lock.classList.toggle("on", state.lock);
+  hud.lockBtn.classList.toggle("on", state.lock);
+}
+
+const _v = new THREE.Vector3(), _w = new THREE.Vector3();
+
+/**
+ * Where the barrel points this frame, by priority: the lock on its target,
+ * then live input (an aim stick, the arrow keys, a recent mouse), then — at
+ * rest, with nothing asked for a while — back to the enemy half with the
+ * cosmetic three-quarter turn.
+ */
+function updateAim(t) {
+  updateLock(t);
+  if (state.lock) {
+    const r = state.lockTarget;
+    if (r) setAim(angleTo(state.pos.x, state.pos.z, r.x, r.z), t, true);
+    return;
+  }
+  const sv = aimStickVec();
+  const kv = heldAim();
+  if (sv) setAim(angleOfScreen(sv[0], sv[1]), t);
+  else if (kv) setAim(angleOfScreen(kv[0], kv[1]), t);
+  else if (t - state.hoverAt < AIM_HOLD_MS) setAim(state.hoverAim, t);
+  else if (!state.hop && t - state.lastIdleAt > REFACE_MS && t - state.aimAt > AIM_HOLD_MS && !state.charge) {
+    state.aim = 0;
+    state.cosmetic = true;
+  }
+}
+
+// ---------- the buster ----------
+
+const muzzle = new THREE.Vector3();
+const shots = [];
+const shotGeo = new THREE.SphereGeometry(0.06, 10, 8);
+const chargedGeo = new THREE.SphereGeometry(0.15, 14, 12);
+const matShot = new THREE.MeshBasicMaterial({ color: 0xfff2b0 });
+const matCharged = new THREE.MeshBasicMaterial({ color: 0xeafcff });
+const shotGlowMat = new THREE.SpriteMaterial({ map: discTex, color: PAL.shot, transparent: true, opacity: 0.8, depthWrite: false, blending: THREE.AdditiveBlending });
+const chargedGlowMat = new THREE.SpriteMaterial({ map: discTex, color: PAL.charged, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
+
+function fire(t, charged) {
+  aimDir(state.aim, _v);
+  const m = new THREE.Mesh(charged ? chargedGeo : shotGeo, charged ? matCharged : matShot);
+  m.position.copy(muzzle);
+  const glow = new THREE.Sprite(charged ? chargedGlowMat : shotGlowMat);
+  glow.scale.setScalar(charged ? 0.7 : 0.28);
+  m.add(glow);
+  scene.add(m);
+  const speed = charged ? CHARGED_SPEED : SHOT_SPEED;
+  shots.push({ m, vx: _v.x * speed, vz: _v.z * speed, charged, dmg: charged ? ROTTER_HP : 1 });
+  state.lastFireAt = t;
+  state.fireAt = t;
+  state.fireCharged = charged;
+  state.aimAt = t;
+  state.cosmetic = false;
+  flash.material.color.set(charged ? PAL.charged : PAL.shot);
+  if (charged) {
+    cam.shake = Math.max(cam.shake, 0.05);
+    dust(muzzle.x, muzzle.z, 5, 1.4, { color: PAL.charged, y: muzzle.y, rise: 0, size: [0.06, 0.2], ms: [140, 220], additive: true });
+  }
+}
+function pressFire(t) {
+  if (state.charge) return;
+  if (t - state.lastFireAt >= FIRE_COOLDOWN_MS) fire(t, false);
+  state.charge = { t0: t };
+  hud.fire.classList.add("held");
+}
+function releaseFire(t) {
+  const c = state.charge;
+  if (!c) return;
+  state.charge = null;
+  hud.fire.classList.remove("held", "ready");
+  if (t - c.t0 >= CHARGE_MS) fire(t, true);
+}
+
+function updateShots(t) {
+  for (let i = shots.length - 1; i >= 0; i--) {
+    const s = shots[i];
+    s.m.position.x += s.vx * frameDt;
+    s.m.position.z += s.vz * frameDt;
+    let spent = offBoard(s.m.position.x, s.m.position.z);
+    if (!spent) {
+      for (const r of rotters) {
+        if (r.phase === "die") continue;
+        if (Math.hypot(r.x - s.m.position.x, r.z - s.m.position.z) <= ROTTER_RADIUS + (s.charged ? 0.15 : 0.06)) {
+          hitRotter(r, s, t);
+          spent = true;
+          break;
+        }
+      }
+    }
+    if (spent) { scene.remove(s.m); shots.splice(i, 1); }
+  }
+  // the flash and the charge glow ride the muzzle
+  const fu = clamp01((t - state.fireAt) / 70);
+  flash.position.copy(muzzle);
+  flash.scale.setScalar(fu < 1 ? lerp(state.fireCharged ? 0.9 : 0.45, 0.05, fu) : 0.001);
+  flash.material.opacity = fu < 1 ? 1 - fu : 0;
+  chargeGlow.position.copy(muzzle);
+  if (state.charge) {
+    const cu = clamp01((t - state.charge.t0) / CHARGE_MS);
+    const ready = cu >= 1;
+    const pulse = ready ? 0.85 + 0.15 * Math.sin(t / 40) : 1;
+    chargeGlow.scale.setScalar(lerp(0.05, 0.5, easeOutQuad(cu)) * pulse);
+    chargeGlow.material.opacity = 0.25 + 0.7 * cu;
+    matMuzzle.emissiveIntensity = 1.4 + 3 * cu;
+    hud.fire.classList.toggle("ready", ready);
+  } else {
+    chargeGlow.scale.setScalar(0.001);
+    chargeGlow.material.opacity = 0;
+    matMuzzle.emissiveIntensity = 1.4;
+  }
+}
+
+// ---------- rotters ----------
+
+const rotters = [];
+let nextSpawnAt = 600;
+const bolts = [];
+const boltGeo = new THREE.SphereGeometry(0.09, 10, 8);
+const matBolt = new THREE.MeshBasicMaterial({ color: 0xffc0cc });
+const boltGlowMat = new THREE.SpriteMaterial({ map: discTex, color: PAL.bolt, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
+
+/** The rotter on (col, row), counting one mid-hop as already on the square it is going to. */
+function rotterAt(col, row) {
+  for (const r of rotters) {
+    if (r.phase === "die") continue;
+    if (r.col === col && r.row === row) return r;
+    if (r.hop && r.hop.toCol === col && r.hop.toRow === row) return r;
+  }
+  return null;
+}
+/** Anything on (col, row): the buster (or where it is hopping to), or a rotter. */
+const occupied = (col, row) => (state.col === col && state.row === row) || (state.hop && state.hop.toCol === col && state.hop.toRow === row) || !!rotterAt(col, row);
+
+function buildRotter() {
+  const g = new THREE.Group();
+  const matBody = new THREE.MeshStandardMaterial({ color: PAL.rotter, roughness: 0.45, metalness: 0.55, emissive: 0x000000 });
+  const matDark = new THREE.MeshStandardMaterial({ color: PAL.rotterDark, roughness: 0.6, metalness: 0.4, emissive: 0x000000 });
+  const matBlade = new THREE.MeshStandardMaterial({ color: PAL.rotterBlade, roughness: 0.35, metalness: 0.6, emissive: PAL.rotterBlade, emissiveIntensity: 0.25 });
+  const matEye = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: PAL.rotterEye, emissiveIntensity: 1.2, roughness: 0.2 });
+  const body = new THREE.Group();
+  g.add(body);
+  body.add(mesh(new THREE.CylinderGeometry(0.3, 0.14, 0.2, 8), matBody, 0, 0.12, 0));      // the squat cup
+  body.add(mesh(new THREE.SphereGeometry(0.19, 14, 10), matDark, 0, 0.27, 0));            // the dome
+  body.add(mesh(new THREE.ConeGeometry(0.06, 0.16, 8), matBlade, 0, 0.5, 0));             // the spike
+  const eye = mesh(new THREE.SphereGeometry(0.07, 12, 10), matEye, -0.16, 0.27, 0);       // the eye looks down the lane at the player's half
+  eye.castShadow = false;
+  body.add(eye);
+  const rotor = new THREE.Group();
+  rotor.position.y = 0.34;
+  body.add(rotor);
+  for (let i = 0; i < 3; i++) {
+    const blade = box(0.62, 0.035, 0.09, matBlade, 0, 0, 0);
+    blade.rotation.y = (i * Math.PI * 2) / 3;
+    blade.rotation.x = 0.18;
+    rotor.add(blade);
+  }
+  return { g, body, rotor, matBody, matDark, matEye, matBlade };
+}
+
+function freeEnemyTile() {
+  const opts = [];
+  for (let row = 0; row < ROWS; row++) for (let col = PCOLS; col < COLS; col++) {
+    if (!occupied(col, row)) opts.push([col, row]);
+  }
+  return opts.length ? opts[Math.floor(Math.random() * opts.length)] : null;
+}
+/** A free tile of the enemy half beside (col, row), for a rotter's hop. */
+function freeNeighbour(col, row) {
+  const opts = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dc, dr]) => [col + dc, row + dr]).filter(([c, r]) => enemyHalf(c, r) && !occupied(c, r));
+  return opts.length ? opts[Math.floor(Math.random() * opts.length)] : null;
+}
+
+function spawnRotter(t) {
+  const at = freeEnemyTile();
+  if (!at) return;
+  const r = buildRotter();
+  Object.assign(r, {
+    col: at[0], row: at[1], x: tileX(at[0]), z: tileZ(at[1]),
+    hp: ROTTER_HP, phase: "spawn", t0: t, dur: ROTTER_SPAWN_MS, hop: null, knock: null,
+    spin: 0.006, flashUntil: -1e9, nextFireAt: t + rand(ROTTER_FIRE_EVERY[0], ROTTER_FIRE_EVERY[1]) + 800, seed: Math.random() * 100,
+  });
+  r.g.position.set(r.x, 0, r.z);
+  scene.add(r.g);
+  rotters.push(r);
+  ripple(r.x, r.z, PAL.bolt, 1.4, 420);
+}
+
+function hitRotter(r, shot, t) {
+  r.hp -= shot.dmg;
+  r.flashUntil = t + 90;
+  dust(shot.m.position.x, shot.m.position.z, shot.charged ? 8 : 4, shot.charged ? 2.2 : 1.4, { color: shot.charged ? PAL.charged : PAL.shot, y: shot.m.position.y, rise: 0.3, size: [0.05, 0.16], ms: [160, 260], additive: true });
+  if (r.hp <= 0) {
+    r.phase = "die"; r.t0 = t; r.dur = ROTTER_DIE_MS;
+    r.hop = null;
+    state.busted++;
+    hud.busted.textContent = String(state.busted);
+    dust(r.x, r.z, 14, 2.6, { color: PAL.bolt, y: 0.25, rise: 0.6, size: [0.08, 0.3], ms: [300, 520], additive: true });
+    ripple(r.x, r.z, PAL.bolt, 2.2, 420);
+    pressTile(r.col, r.row, 0.6);
+    cam.shake = Math.max(cam.shake, shot.charged ? 0.07 : 0.035);
+    if (state.lockTarget === r) state.lockTarget = null;
+    nextSpawnAt = Math.max(nextSpawnAt, t + ROTTER_RESPAWN_MS);
+  } else {
+    // a shove: the body lurches away from the shot and springs back
+    r.knock = { vx: Math.sign(shot.vx) * 0.09, vz: Math.sign(shot.vz) * 0.09, t0: t };
+  }
+}
+
+function fireBolt(r, t) {
+  const m = new THREE.Mesh(boltGeo, matBolt);
+  const glow = new THREE.Sprite(boltGlowMat);
+  glow.scale.setScalar(0.42);
+  m.add(glow);
+  const y = 0.3;
+  m.position.set(r.x, y, r.z);
+  scene.add(m);
+  // aimed at where the buster stands *now*: a hop begun after this dodges it
+  const dx = state.pos.x - r.x, dz = state.pos.z - r.z;
+  const len = Math.hypot(dx, dz) || 1;
+  bolts.push({ m, vx: (dx / len) * BOLT_SPEED, vz: (dz / len) * BOLT_SPEED });
+  dust(r.x, r.z, 4, 1.2, { color: PAL.bolt, y, rise: 0, size: [0.06, 0.18], ms: [120, 200], additive: true });
+}
+
+function updateBolts(t) {
+  for (let i = bolts.length - 1; i >= 0; i--) {
+    const b = bolts[i];
+    b.m.position.x += b.vx * frameDt;
+    b.m.position.z += b.vz * frameDt;
+    let spent = offBoard(b.m.position.x, b.m.position.z);
+    if (!spent && t >= state.hurtUntil && Math.hypot(b.m.position.x - state.pos.x, b.m.position.z - state.pos.z) <= BOLT_RADIUS) {
+      takeHit(t);
+      spent = true;
+    }
+    if (spent) { scene.remove(b.m); bolts.splice(i, 1); }
+  }
+}
+
+function takeHit(t) {
+  state.hurtUntil = t + HURT_MS;
+  state.hits++;
+  hud.hits.textContent = String(state.hits);
+  cam.shake = Math.max(cam.shake, 0.09);
+  dust(state.pos.x, state.pos.z, 10, 2, { color: PAL.bolt, y: 0.35, rise: 0.4, size: [0.06, 0.22], ms: [200, 380], additive: true });
+  ripple(state.pos.x, state.pos.z, PAL.bolt, 1.8, 360);
+}
+
+function updateRotters(t) {
+  if (rotters.filter((r) => r.phase !== "die").length < ROTTER_COUNT && t >= nextSpawnAt) {
+    spawnRotter(t);
+    nextSpawnAt = t + ROTTER_RESPAWN_MS * 0.6;
+  }
+  for (let i = rotters.length - 1; i >= 0; i--) {
+    const r = rotters[i];
+    const dt = t - r.t0;
+    let scale = 1, y = 0, spin = r.spin, eye = 1.2;
+    switch (r.phase) {
+      case "spawn": {
+        const u = clamp01(dt / r.dur);
+        scale = lerp(0.2, 1, easeOutBack(u));
+        y = lerp(-0.35, 0, easeOutQuad(u));
+        if (u >= 1) { r.phase = "sit"; r.t0 = t; r.dur = rand(ROTTER_SIT_MS[0], ROTTER_SIT_MS[1]); }
+        break;
+      }
+      case "sit": {
+        y = 0.02 * Math.sin(t / 260 + r.seed);
+        const tl = tileAt(r.col, r.row);
+        tl.rot = Math.min(1, tl.rot + frameDt * ROT_RATE);
+        tl.rotHeld = true;
+        if (dt >= r.dur) {
+          if (t >= r.nextFireAt) { r.phase = "aim"; r.t0 = t; r.dur = ROTTER_AIM_MS; }
+          else {
+            const to = freeNeighbour(r.col, r.row);
+            if (to) { r.phase = "hop"; r.t0 = t; r.dur = ROTTER_HOP_MS; r.hop = { fromCol: r.col, fromRow: r.row, toCol: to[0], toRow: to[1], committed: false }; }
+            else { r.t0 = t; r.dur = rand(400, 900); }
+          }
+        }
+        break;
+      }
+      case "hop": {
+        const u = clamp01(dt / r.dur);
+        const e = easeInOutSine(u);
+        const h = r.hop;
+        r.x = lerp(tileX(h.fromCol), tileX(h.toCol), e);
+        r.z = lerp(tileZ(h.fromRow), tileZ(h.toRow), e);
+        y = 0.32 * 4 * u * (1 - u);
+        if (!h.committed && u >= 0.5) { h.committed = true; r.col = h.toCol; r.row = h.toRow; }
+        if (u >= 1) {
+          r.hop = null; r.phase = "sit"; r.t0 = t; r.dur = rand(ROTTER_SIT_MS[0], ROTTER_SIT_MS[1]);
+          pressTile(r.col, r.row, 0.6);
+          dust(r.x, r.z, 4, 0.9);
+        }
+        break;
+      }
+      case "aim": {
+        // the telegraph: the rotor whines up, the eye brightens, the panel flashes
+        const u = clamp01(dt / r.dur);
+        spin = lerp(r.spin, 0.03, u);
+        eye = 1.2 + 3 * u;
+        y = 0.03 * Math.sin(t / 30) * u;
+        if (u > 0.3) flashTile(r.col, r.row, PAL.bolt);
+        if (u >= 1) {
+          fireBolt(r, t);
+          r.nextFireAt = t + rand(ROTTER_FIRE_EVERY[0], ROTTER_FIRE_EVERY[1]);
+          r.phase = "sit"; r.t0 = t; r.dur = rand(600, 1200);
+        }
+        break;
+      }
+      case "die": {
+        const u = clamp01(dt / r.dur);
+        scale = lerp(1, 0.05, easeOutQuad(u));
+        spin = 0.06;
+        y = -0.3 * u;
+        if (u >= 1) { scene.remove(r.g); rotters.splice(i, 1); continue; }
+        break;
+      }
+    }
+    // the knock from a shot that did not finish it
+    let kx = 0, kz = 0;
+    if (r.knock) {
+      const ku = clamp01((t - r.knock.t0) / 220);
+      const k = Math.sin(Math.PI * ku);
+      kx = r.knock.vx * k; kz = r.knock.vz * k;
+      if (ku >= 1) r.knock = null;
+    }
+    r.rotor.rotation.y += spin * frameDt;
+    r.g.position.set(r.x + kx, y, r.z + kz);
+    r.g.scale.setScalar(scale);
+    r.body.rotation.z = kz * 2; r.body.rotation.x = -kx * 2;
+    r.matEye.emissiveIntensity = eye;
+    const hit = t < r.flashUntil;
+    r.matBody.emissive.set(hit ? 0xffffff : 0x000000);
+    r.matDark.emissive.set(hit ? 0xffffff : 0x000000);
+    r.matBody.emissiveIntensity = r.matDark.emissiveIntensity = hit ? 0.8 : 0;
+  }
+  // the lock ring follows its rotter
+  const lt = state.lock && state.lockTarget;
+  lockRing.visible = !!lt;
+  if (lt) {
+    lockRing.position.x = lt.x; lockRing.position.z = lt.z;
+    const s = 1 + 0.08 * Math.sin(t / 120);
+    lockRing.scale.set(s, s, s);
+  }
 }
 
 // ---------- pose ----------
@@ -671,17 +1228,41 @@ function pose(t) {
     }
   }
 
+  // Aiming holds the barrel arm level whatever the legs are doing: in the air
+  // the arms would swing, but a shooter's do not. Blend the swing out while
+  // the barrel is held (lock, live aim, a charge) or has just fired.
+  const holding = state.lock || !!state.charge || t - state.aimAt < AIM_HOLD_MS;
+  const armHold = holding ? 0.85 : 0;
+  const armRSwing = lerp(armSwing, 0.05, armHold);
+  // the charge: the left hand comes across to brace the barrel
+  const chargeU = state.charge ? clamp01((t - state.charge.t0) / CHARGE_MS) : 0;
+  // the recoil: the barrel arm kicks up and the torso rocks back
+  const ru = clamp01((t - state.fireAt) / RECOIL_MS);
+  const kick = ru < 1 ? (1 - ru) * (state.fireCharged ? 0.55 : 0.28) : 0;
+  // a hit: a flinch — the whole body cringes for the first part of the hurt
+  const hu = clamp01((t - (state.hurtUntil - HURT_MS)) / HURT_MS);
+  const flinch = hu < 1 ? (1 - hu) * (1 - hu) : 0;
+
   // Signs: the torso and head point up, so a forward lean (towards +x) is a
   // negative z rotation. Limbs hang down from their pivots, so for them
   // forward is positive. A knee folds the shin back, so it is negative again.
-  r.hips.position.y = r.HIP_Y - hipDrop;
+  r.hips.position.y = r.HIP_Y - hipDrop - 0.08 * flinch;
   r.hips.position.z = sway;
   r.hips.rotation.x = sway * 1.5;
   r.squash.scale.set(sx, sy, sx);
-  r.torso.rotation.z = -lean;
+  r.torso.rotation.z = -lean + kick * 0.25 + 0.2 * flinch;
   r.torso.rotation.x = -sway * 1.5;
-  r.head.rotation.z = -headPitch * 0.6;
-  r.head.rotation.y = headYaw;
+  r.head.rotation.z = -headPitch * 0.6 + 0.25 * flinch;
+  r.head.rotation.y = holding ? headYaw * 0.2 : headYaw;
+
+  // The strafe: the legs turn towards where the hop is going, the torso turns
+  // back by the same amount so the barrel stays on the aim. At rest the
+  // legs come back under the barrel.
+  const moveYaw = h ? angleTo(0, 0, h.toCol - h.fromCol, h.toRow - h.fromRow) : null;
+  const wantTwist = moveYaw === null ? 0 : clamp(angleDelta(state.facing, moveYaw), -TWIST_MAX, TWIST_MAX);
+  state.twist += (wantTwist - state.twist) * Math.min(1, frameDt / 60);
+  r.hips.rotation.y = state.twist;
+  r.torso.rotation.y = -state.twist;
 
   // legs: thigh forward is positive; the knee folds the shin back
   r.legL.rotation.z = thigh + legSplit;
@@ -691,10 +1272,17 @@ function pose(t) {
 
   // arms: swing forward is positive; the elbow bends the forearm forward. The
   // barrel arm is carried raised so the gun points along +x, at the enemy half.
-  r.armL.rotation.z = armSwing;
-  r.armR.rotation.z = armSwing + 0.25;
-  r.foreL.rotation.z = -elbow;
-  r.foreR.rotation.z = -elbow + 1.0;
+  r.armL.rotation.z = lerp(armSwing, 0.9, chargeU * 0.8) - 0.4 * flinch;
+  r.armL.rotation.y = lerp(0, 0.7, chargeU);
+  r.armR.rotation.z = armRSwing + 0.25 + kick * 0.6;
+  r.foreL.rotation.z = -lerp(elbow, -1.1, chargeU);
+  r.foreR.rotation.z = -lerp(elbow, -0.25, armHold) + 1.0 - kick * 0.4;
+
+  // a hit lights the armour red for the flinch
+  matArmor.emissive.set(PAL.bolt);
+  matArmor.emissiveIntensity = 0.9 * flinch;
+  matArmorDark.emissive.set(PAL.bolt);
+  matArmorDark.emissiveIntensity = 0.6 * flinch;
 }
 
 // ---------- placement ----------
@@ -711,9 +1299,8 @@ function place(t) {
     y = HOP_HEIGHT * 4 * u * (1 - u);
   } else {
     x = tileX(state.col); z = tileZ(state.row);
-    // at rest for a beat, turn back to face the enemy half
-    if (t - state.lastIdleAt > REFACE_MS) state.facingTarget = REST_YAW;
   }
+  state.pos.set(x, y, z);
   // standing on a tile that is still springing back, ride it
   const dip = h ? 0 : tileAt(state.col, state.row).dip;
   rig.root.position.set(x, y + dip, z);
@@ -724,107 +1311,312 @@ function place(t) {
   contact.scale.setScalar(1 - 0.35 * hf);
   contact.material.opacity = 0.6 * (1 - 0.6 * hf);
 
-  // facing: a quick turn, but never a snap
-  const d = angleDelta(state.facing, state.facingTarget);
-  state.facing += d * Math.min(1, frameDt / 70);
+  // facing: the body chases the aim — a quick turn, but never a snap. The
+  // cosmetic three-quarter turn only at rest, unaimed.
+  const facingTarget = state.aim + (state.cosmetic ? REST_YAW : 0);
+  const d = angleDelta(state.facing, facingTarget);
+  state.facing += d * Math.min(1, frameDt / TURN_MS);
   rig.root.rotation.y = state.facing;
+}
 
-  // the camera leans a little towards where the buster is
-  camTarget.x += (x * 0.18 - camTarget.x) * Math.min(1, frameDt / 400);
-  camera.position.x = CAM_POS.x + camTarget.x * 0.6;
+/** The muzzle in world space, for shots and the sight. Read after the pose is set. */
+function updateMuzzle(t) {
+  rig.root.updateMatrixWorld(true);
+  rig.muzzle.getWorldPosition(muzzle);
+  const sp = sightGeo.attributes.position.array;
+  aimDir(state.aim, _v);
+  const reach = state.lock && state.lockTarget ? Math.hypot(state.lockTarget.x - muzzle.x, state.lockTarget.z - muzzle.z) : 3.2;
+  sp[0] = muzzle.x; sp[1] = muzzle.y; sp[2] = muzzle.z;
+  sp[3] = muzzle.x + _v.x * reach; sp[4] = muzzle.y; sp[5] = muzzle.z + _v.z * reach;
+  sightGeo.attributes.position.needsUpdate = true;
+  sightMat.color.set(state.lock ? PAL.bolt : PAL.visor);
+  sightMat.opacity = state.lock ? 0.75 : state.aimMode === "free" || t - state.aimAt < AIM_HOLD_MS ? 0.42 : 0.16;
+}
+
+// ---------- camera ----------
+
+const _want = new THREE.Vector3(), _wantT = new THREE.Vector3();
+
+function setCamMode(m) {
+  if (!CAM_MODES.includes(m)) return;
+  cam.mode = m;
+  hud.cam.textContent = m;
+  hud.orbit.hidden = m !== "orbit";
+}
+function cycleCamMode() { setCamMode(CAM_MODES[(CAM_MODES.indexOf(cam.mode) + 1) % CAM_MODES.length]); }
+
+function updateCamera() {
+  const p = state.pos;
+  let rate = 400;
+  switch (cam.mode) {
+    case "fixed": {
+      // the framing the prototype was built with; the camera leans a little towards the buster
+      const lean = p.x * 0.18;
+      _wantT.set(lean, LOOK_AT.y, LOOK_AT.z);
+      _want.set(CAM_POS.x + lean * 0.6, CAM_POS.y, CAM_POS.z);
+      break;
+    }
+    case "follow": {
+      // the same angle, closer, keeping the buster near the centre
+      _wantT.set(p.x, 0.2, p.z * 0.6);
+      _want.set(p.x, 2.9, p.z * 0.6 + 4.1);
+      rate = 260;
+      break;
+    }
+    case "orbit": {
+      _wantT.set(0, 0.1, 0);
+      const cp = Math.cos(cam.pitch);
+      _want.set(Math.sin(cam.yaw) * cp * cam.dist, Math.sin(cam.pitch) * cam.dist, Math.cos(cam.yaw) * cp * cam.dist).add(_wantT);
+      rate = 120;
+      break;
+    }
+    case "shoulder": {
+      // behind the buster, looking where the barrel looks; the aim swings it
+      aimDir(state.aim, _v);
+      _wantT.set(p.x + _v.x * 3.2, 0.15, p.z + _v.z * 3.2);
+      _want.set(p.x - _v.x * 3.0, 2.2, p.z - _v.z * 3.0);
+      rate = 260;
+      break;
+    }
+    case "top": {
+      // straight down, following loosely; the small z offset keeps the up vector honest
+      _wantT.set(p.x * 0.5, 0, p.z * 0.5);
+      _want.set(p.x * 0.5, 8.4, p.z * 0.5 + 0.9);
+      rate = 300;
+      break;
+    }
+  }
+  const k = Math.min(1, frameDt / rate);
+  camPos.lerp(_want, k);
+  camTarget.lerp(_wantT, k);
+  camera.position.copy(camPos);
+  if (cam.shake > 0.001) {
+    camera.position.x += (Math.random() - 0.5) * cam.shake;
+    camera.position.y += (Math.random() - 0.5) * cam.shake;
+    cam.shake *= Math.pow(0.001, frameDt / 320);
+  } else cam.shake = 0;
   camera.lookAt(camTarget);
+  fitFov();
+}
+
+/**
+ * Widen the view until all six columns fit: the horizontal half-angle the
+ * board needs at the camera's distance, turned into the vertical fov the
+ * aspect implies. Landscape never needs more than the 30 it was framed at.
+ * The shoulder camera is not framing the board, so it keeps a lens of its own.
+ */
+function fitFov() {
+  let fov;
+  if (cam.mode === "shoulder") fov = 52;
+  else {
+    const dist = camPos.distanceTo(camTarget);
+    const halfW = (COLS * TILE) / 2 + 0.5;
+    const vfov = 2 * Math.atan(halfW / dist / camera.aspect) * (180 / Math.PI);
+    fov = Math.max(30, Math.min(95, vfov));
+  }
+  if (Math.abs(fov - camera.fov) > 0.01) { camera.fov = fov; camera.updateProjectionMatrix(); }
+}
+
+/**
+ * Screen to board. Input is read relative to the camera: screen-up is the
+ * way the camera looks (flattened to the floor), screen-right is its right.
+ * For the fixed framing that is exactly the board's own axes; under the
+ * orbit and shoulder cameras it is what the thumb expects.
+ */
+const _fwd = new THREE.Vector3(), _right = new THREE.Vector3();
+function boardVec(sx, sy, out) {
+  _fwd.subVectors(camTarget, camPos); _fwd.y = 0;
+  if (_fwd.lengthSq() < 1e-6) _fwd.set(0, 0, -1); else _fwd.normalize();
+  _right.set(-_fwd.z, 0, _fwd.x);
+  return out.set(_right.x * sx - _fwd.x * sy, 0, _right.z * sx - _fwd.z * sy);
+}
+/** A screen vector as an aim angle. */
+function angleOfScreen(sx, sy) { boardVec(sx, sy, _w); return angleTo(0, 0, _w.x, _w.z); }
+/** A screen vector as a step: the dominant board axis, or both when both are asked for. */
+function stepOfScreen(sx, sy, both) {
+  boardVec(sx, sy, _w);
+  const ax = Math.abs(_w.x), az = Math.abs(_w.z);
+  if (both) return [ax > 0.3 ? Math.sign(_w.x) : 0, az > 0.3 ? Math.sign(_w.z) : 0];
+  return ax >= az ? [Math.sign(_w.x), 0] : [0, Math.sign(_w.z)];
 }
 
 // ---------- input ----------
 
-const MOVE_KEYS = {
-  ArrowUp: [0, -1], KeyW: [0, -1],
-  ArrowDown: [0, 1], KeyS: [0, 1],
-  ArrowLeft: [-1, 0], KeyA: [-1, 0],
-  ArrowRight: [1, 0], KeyD: [1, 0],
-};
-const held = new Set();       // codes, in press order
+const MOVE_KEYS = { KeyW: [0, -1], KeyS: [0, 1], KeyA: [-1, 0], KeyD: [1, 0] };
+const AIM_KEYS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
+const FIRE_KEYS = new Set(["Space", "KeyJ", "Enter"]);
+const held = new Set();       // move codes, in press order
+const heldAimKeys = new Set();
+
+function isTyping(e) { return e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName); }
 
 window.addEventListener("keydown", (e) => {
-  const d = MOVE_KEYS[e.code];
-  if (!d) return;
-  if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
-  e.preventDefault();
-  if (!held.has(e.code)) {
-    held.delete(e.code); held.add(e.code);
-    // a fresh press steps now (or queues inside the ration); a repeat is handled by the hold
-    move(d[0], d[1], now(), d[1] !== 0);
+  if (isTyping(e)) return;
+  const t = now();
+  if (MOVE_KEYS[e.code]) {
+    e.preventDefault();
+    if (!held.has(e.code)) {
+      held.add(e.code);
+      // a fresh press steps now (or queues inside the ration); a repeat is handled by the hold
+      const hd = heldDir();
+      if (hd) move(hd[0], hd[1], t, hd[2]);
+    }
+    return;
+  }
+  if (AIM_KEYS[e.code]) { e.preventDefault(); heldAimKeys.add(e.code); return; }
+  if (FIRE_KEYS.has(e.code)) { e.preventDefault(); if (!e.repeat) pressFire(t); return; }
+  if (e.code === "ShiftLeft" || e.code === "ShiftRight") { state.lockHold = true; return; }
+  if (e.repeat) return;
+  switch (e.code) {
+    case "KeyL": state.lockToggle = !state.lockToggle; break;
+    case "Digit1": setAimMode("4"); break;
+    case "Digit2": setAimMode("8"); break;
+    case "Digit3": setAimMode("free"); break;
+    case "Tab": e.preventDefault(); cycleAimMode(); break;
+    case "KeyC": cycleCamMode(); break;
+    case "KeyQ": orbitBy(-0.35, 0); break;
+    case "KeyE": orbitBy(0.35, 0); break;
+    case "KeyR": orbitBy(0, 0.15); break;
+    case "KeyF": orbitBy(0, -0.15); break;
   }
 });
-window.addEventListener("keyup", (e) => { held.delete(e.code); });
-window.addEventListener("blur", () => held.clear());
+window.addEventListener("keyup", (e) => {
+  held.delete(e.code);
+  heldAimKeys.delete(e.code);
+  if (FIRE_KEYS.has(e.code)) releaseFire(now());
+  if (e.code === "ShiftLeft" || e.code === "ShiftRight") state.lockHold = false;
+});
+window.addEventListener("blur", () => { held.clear(); heldAimKeys.clear(); state.lockHold = false; releaseFire(now()); });
+
+/** Turn or tilt the orbit camera; any of these switches to it. */
+function orbitBy(dyaw, dpitch) {
+  if (cam.mode !== "orbit") setCamMode("orbit");
+  cam.yaw += dyaw;
+  cam.pitch = clamp(cam.pitch + dpitch, 0.15, 1.45);
+}
 
 /**
- * Everything held on the keyboard, summed to one ask per axis, plus which
- * axis the most recent press was on so that one goes first.
+ * Everything held on the movement keys, summed on the screen and turned
+ * into one ask per board axis, plus whether the most recent press was on
+ * the screen's vertical so that axis goes first.
  */
 function heldDir() {
   if (!held.size) return null;
-  let dc = 0, dr = 0, lastRow = false;
-  for (const code of held) { const d = MOVE_KEYS[code]; dc += d[0]; dr += d[1]; lastRow = d[1] !== 0; }
-  dc = Math.sign(dc); dr = Math.sign(dr);
+  let sx = 0, sy = 0, lastRow = false;
+  for (const code of held) { const d = MOVE_KEYS[code]; sx += d[0]; sy += d[1]; lastRow = d[1] !== 0; }
+  if (!sx && !sy) return null;
+  const [dc, dr] = stepOfScreen(sx, sy, true);
   return dc || dr ? [dc, dr, lastRow] : null;
 }
+/** The arrow keys, summed, as a screen vector; null when none is held. */
+function heldAim() {
+  if (!heldAimKeys.size) return null;
+  let sx = 0, sy = 0;
+  for (const code of heldAimKeys) { const d = AIM_KEYS[code]; sx += d[0]; sy += d[1]; }
+  return sx || sy ? [sx, sy] : null;
+}
 
-// Pointer: a tap on a square is "go there"; a drag past the dead zone is a
-// stick, held in one of four directions until it comes back or lifts.
+// Pointers. The first finger on the board is the left stick: a tap on a
+// square is "go there", a drag past the dead zone is held in one of four
+// directions until it comes back or lifts. A second finger, wherever it
+// lands, is the right stick and aims. A mouse aims by hovering, and its
+// right button is FIRE. The wheel zooms the orbit.
 const ray = new THREE.Raycaster();
 const ndc = new THREE.Vector2();
 const boardPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-let stick = null;             // { id, x0, y0, dir }
+const pointers = new Map();   // id -> { role: "move" | "aim" | "fire", x0, y0, vec }
+const canvas = renderer.domElement;
 
-function squareAt(clientX, clientY) {
-  const rect = renderer.domElement.getBoundingClientRect();
+function boardPoint(clientX, clientY, out) {
+  const rect = canvas.getBoundingClientRect();
   ndc.set(((clientX - rect.left) / rect.width) * 2 - 1, -((clientY - rect.top) / rect.height) * 2 + 1);
   ray.setFromCamera(ndc, camera);
+  return ray.ray.intersectPlane(boardPlane, out);
+}
+function squareAt(clientX, clientY) {
   // intersect the board plane, then snap: taps just off a tile's edge still count
-  const hit = new THREE.Vector3();
-  if (!ray.ray.intersectPlane(boardPlane, hit)) return null;
-  const col = Math.round(hit.x / TILE + (COLS - 1) / 2);
-  const row = Math.round(hit.z / TILE + (ROWS - 1) / 2);
+  if (!boardPoint(clientX, clientY, _v)) return null;
+  const col = Math.round(_v.x / TILE + (COLS - 1) / 2);
+  const row = Math.round(_v.z / TILE + (ROWS - 1) / 2);
   return onBoard(col, row) ? { col, row } : null;
 }
+const roleHeld = (role) => { for (const p of pointers.values()) if (p.role === role) return p; return null; };
+function aimStickVec() { const p = roleHeld("aim"); return p ? p.vec : null; }
 
-const canvas = renderer.domElement;
 canvas.style.touchAction = "none";
+canvas.addEventListener("contextmenu", (e) => e.preventDefault());
 canvas.addEventListener("pointerdown", (e) => {
-  if (stick) return;
-  stick = { id: e.pointerId, x0: e.clientX, y0: e.clientY, dir: null };
+  const t = now();
+  if (e.pointerType === "mouse" && e.button === 2) {
+    pointers.set(e.pointerId, { role: "fire" });
+    pressFire(t);
+    return;
+  }
+  if (e.pointerType === "mouse" && e.button !== 0) return;
+  const role = roleHeld("move") ? (roleHeld("aim") ? null : "aim") : "move";
+  if (!role) return;
+  pointers.set(e.pointerId, { role, x0: e.clientX, y0: e.clientY, vec: null });
   canvas.setPointerCapture(e.pointerId);
 });
 canvas.addEventListener("pointermove", (e) => {
-  if (!stick || e.pointerId !== stick.id) return;
-  const dx = e.clientX - stick.x0, dy = e.clientY - stick.y0;
-  if (Math.hypot(dx, dy) < STICK_DEAD_PX) { stick.dir = null; return; }
-  // screen up is board "up" (row -1), screen right is col +1: one axis at a time
-  stick.dir = Math.abs(dx) >= Math.abs(dy) ? [Math.sign(dx), 0] : [0, Math.sign(dy)];
+  const p = pointers.get(e.pointerId);
+  if (!p) {
+    // a bare mouse aims by where it hovers over the board
+    if (e.pointerType === "mouse" && boardPoint(e.clientX, e.clientY, _v)) {
+      state.hoverAim = angleTo(state.pos.x, state.pos.z, _v.x, _v.z);
+      state.hoverAt = now();
+    }
+    return;
+  }
+  if (p.role === "fire") return;
+  const dx = e.clientX - p.x0, dy = e.clientY - p.y0;
+  p.vec = Math.hypot(dx, dy) < STICK_DEAD_PX ? null : [dx, dy];
 });
-function stickEnd(e) {
-  if (!stick || e.pointerId !== stick.id) return;
-  const wasTap = !stick.dir && Math.hypot(e.clientX - stick.x0, e.clientY - stick.y0) < STICK_DEAD_PX;
-  stick = null;
+function pointerEnd(e) {
+  const p = pointers.get(e.pointerId);
+  if (!p) return;
+  pointers.delete(e.pointerId);
+  const t = now();
+  if (p.role === "fire") { releaseFire(t); return; }
+  if (p.role !== "move") return;
+  const wasTap = !p.vec && Math.hypot(e.clientX - p.x0, e.clientY - p.y0) < STICK_DEAD_PX;
   if (wasTap && e.type === "pointerup") {
     const sq = squareAt(e.clientX, e.clientY);
     if (!sq) return;
-    if (!moveReady(now())) state.queued = { kind: "to", col: sq.col, row: sq.row };
-    else moveTo(sq.col, sq.row, now());
+    if (!moveReady(t)) state.queued = { kind: "to", col: sq.col, row: sq.row };
+    else moveTo(sq.col, sq.row, t);
   }
 }
-canvas.addEventListener("pointerup", stickEnd);
-canvas.addEventListener("pointercancel", stickEnd);
+canvas.addEventListener("pointerup", pointerEnd);
+canvas.addEventListener("pointercancel", pointerEnd);
+canvas.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  if (cam.mode !== "orbit") setCamMode("orbit");
+  cam.dist = clamp(cam.dist * Math.exp(e.deltaY * 0.0012), 3.4, 11);
+}, { passive: false });
 
-/** A held direction (keys or stick) re-asks every frame; the ration paces it. */
+/** A held direction (keys or the left stick) re-asks every frame; the ration paces it. */
 function pollHold(t) {
-  const d = (stick && stick.dir) || heldDir();
+  const mp = roleHeld("move");
+  const d = (mp && mp.vec && stepOfScreen(mp.vec[0], mp.vec[1], false)) || heldDir();
   if (!d) return;
   if (!moveReady(t)) return;
   move(d[0], d[1], t, !!d[2]);
 }
+
+// The on-screen pad: FIRE holds like the key; the rest are taps.
+const bind = (id, fn) => $(id).addEventListener("click", fn);
+bind("btn-aim", cycleAimMode);
+bind("btn-cam", cycleCamMode);
+bind("btn-lock", () => { state.lockToggle = !state.lockToggle; });
+bind("btn-orbit-l", () => orbitBy(-0.35, 0));
+bind("btn-orbit-r", () => orbitBy(0.35, 0));
+hud.fire.addEventListener("pointerdown", (e) => { e.preventDefault(); hud.fire.setPointerCapture(e.pointerId); pressFire(now()); });
+hud.fire.addEventListener("pointerup", () => releaseFire(now()));
+hud.fire.addEventListener("pointercancel", () => releaseFire(now()));
+hud.fire.addEventListener("contextmenu", (e) => e.preventDefault());
+// a focused button must not eat Space or Enter as a click — those are FIRE
+for (const el of document.querySelectorAll(".pad button")) el.addEventListener("keydown", (e) => { if (e.code === "Space" || e.code === "Enter") e.preventDefault(); });
 
 // ---------- loop ----------
 
@@ -836,16 +1628,12 @@ function resize() {
   if (!w || !h) return;
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
-  // Widen the view until all six columns fit: the horizontal half-angle the
-  // board needs at the camera's distance, turned into the vertical fov the
-  // aspect implies. Landscape never needs more than the 30 it was framed at.
-  const dist = CAM_POS.distanceTo(LOOK_AT);
-  const halfW = (COLS * TILE) / 2 + 0.5;
-  const vfov = 2 * Math.atan(halfW / dist / camera.aspect) * (180 / Math.PI);
-  camera.fov = Math.max(30, Math.min(95, vfov));
   camera.updateProjectionMatrix();
+  fitFov();
 }
 window.addEventListener("resize", resize);
+setAimMode(state.aimMode);
+setCamMode(cam.mode);
 resize();
 
 function frame() {
@@ -857,14 +1645,20 @@ function frame() {
   runPath(t);
   pollHold(t);
   updateHop(t);
+  updateRotters(t);
   updateTiles();
+  updateAim(t);
   place(t);
   pose(t);
+  updateMuzzle(t);
+  updateShots(t);
+  updateBolts(t);
   updateRipples(t);
   updatePuffs(t);
   updateMotes(t);
+  updateCamera();
 
-  hud.phase.textContent = state.phase;
+  hud.phase.textContent = t < state.hurtUntil ? "hurt" : state.charge && t - state.charge.t0 >= CHARGE_MS ? "charged" : state.phase;
   hud.tile.textContent = `${state.col},${state.row}`;
 
   renderer.render(scene, camera);
@@ -872,4 +1666,10 @@ function frame() {
 renderer.setAnimationLoop(frame);
 
 // A small hook for tests and for poking at it from the console.
-window.__bw3d = { state, move: (dc, dr) => move(dc, dr, now()), moveTo: (c, r) => moveTo(c, r, now()), rig, camera, renderer };
+window.__bw3d = {
+  state, cam, rotters, shots, bolts, rig, camera, renderer,
+  move: (dc, dr) => move(dc, dr, now()), moveTo: (c, r) => moveTo(c, r, now()),
+  fire: (charged = false) => fire(now(), charged), pressFire: () => pressFire(now()), releaseFire: () => releaseFire(now()),
+  setAim: (a) => setAim(a, now()), setAimMode, setCamMode, orbitBy,
+  lock: (on) => { state.lockToggle = on; },
+};

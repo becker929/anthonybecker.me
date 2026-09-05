@@ -31,7 +31,7 @@
     "number": 5,
     "slug": "buster-whack-3d",
     "title": "Buster Whack 3D",
-    "description": "A movement-and-animation prototype for Buster Whack: the buster rebuilt as a low-poly 3D humanoid on the same board, hopping square to square with a crouch, an arc and a landing squash. No enemies yet, just the step and how the body sells it.",
+    "description": "A movement, aiming and camera prototype for Buster Whack: the buster rebuilt as a low-poly 3D humanoid on the same board, hopping square to square, aiming in four, eight or any direction, strafing under a lock, and firing at rotters that fire back — under five cameras.",
     "path": "/demos/5/buster-whack-3d/"
   }
 ]
