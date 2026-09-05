@@ -26,5 +26,12 @@
     "title": "Buster Whack",
     "description": "A virus-busting arcade game on an unbounded road: wipe each arena's guard, take the ground, walk to the next fight. Charge shots, dodge the bolts they fire back, and bomb what stands in a 3x3.",
     "path": "/demos/4/buster-whack/"
+  },
+  {
+    "number": 5,
+    "slug": "buster-whack-3d",
+    "title": "Buster Whack 3D",
+    "description": "A movement-and-animation prototype for Buster Whack: the buster rebuilt as a low-poly 3D humanoid on the same board, hopping square to square with a crouch, an arc and a landing squash. No enemies yet, just the step and how the body sells it.",
+    "path": "/demos/5/buster-whack-3d/"
   }
 ]

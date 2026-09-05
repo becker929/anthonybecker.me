@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Buster Whack 3D — Anthony Becker</title>
+<meta name="description" content="A movement-and-animation prototype: the buster as a low-poly 3D humanoid, hopping square to square on the game's board.">
+<meta name="theme-color" content="#0d1117">
+<link rel="canonical" href="https://anthonybecker.me/demos/5/buster-whack-3d/">
+<style>
+  /* The scene is the page. It sizes itself to this box and swallows its own
+     touch gestures, so the page itself must not scroll or bounce. */
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #0d1117;
+    overflow: hidden;
+    overscroll-behavior: none;
+    font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace;
+    color: #aab4ce;
+  }
+  #stage { position: fixed; inset: 0; }
+  #stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+  .hud {
+    position: fixed;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 18px;
+    pointer-events: none;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hud.top { top: 0; }
+  .hud.bottom { bottom: 0; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0)); opacity: 0.75; }
+  .hud .title { color: #4f8dff; }
+  .hud .title span { color: #5a6482; }
+  .hud .readout { font-variant-numeric: tabular-nums; color: #5a6482; }
+  .hud .readout b { color: #c9f6ff; font-weight: 600; }
+  .hud .hint { font-size: 11px; }
+  .hud .hint kbd { color: #c9f6ff; font: inherit; }
+  nav.crumbs { pointer-events: auto; }
+  nav.crumbs a { color: #5a6482; text-decoration: none; }
+  nav.crumbs a:hover { color: #aab4ce; }
+  @media (max-width: 600px) {
+    .hud.bottom { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .hud .hint { font-size: 10px; letter-spacing: 0.1em; }
+  }
+  noscript { display: block; padding: 24px; }
+</style>
+</head>
+<body>
+<div id="stage"><noscript>This prototype needs JavaScript and WebGL.</noscript></div>
+<div class="hud top">
+  <div class="title">Buster Whack <span>· 3D prototype</span></div>
+  <div class="readout"><b id="hud-phase">idle</b> · <span id="hud-tile">1,1</span></div>
+</div>
+<div class="hud bottom">
+  <nav class="crumbs"><a href="/demos/">← demos</a></nav>
+  <div class="hint"><kbd>WASD</kbd> / arrows hop · hold to walk · tap a square · drag as a stick</div>
+</div>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

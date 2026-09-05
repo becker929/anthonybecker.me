@@ -21,3 +21,11 @@
 /demos/buster-whack/       /demos/4/buster-whack/  301
 /buster-whack              /demos/4/buster-whack/  301
 /buster-whack/             /demos/4/buster-whack/  301
+
+# Canonical demo path: /demos/5/buster-whack-3d/
+/demos/5                   /demos/5/buster-whack-3d/  301
+/demos/5/                  /demos/5/buster-whack-3d/  301
+/demos/buster-whack-3d     /demos/5/buster-whack-3d/  301
+/demos/buster-whack-3d/    /demos/5/buster-whack-3d/  301
+/buster-whack-3d           /demos/5/buster-whack-3d/  301
+/buster-whack-3d/          /demos/5/buster-whack-3d/  301
