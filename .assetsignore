@@ -7,6 +7,6 @@
 .wrangler/
 node_modules/
 wrangler.toml
-README.md
-src/
-d1/
+/README.md
+/src/
+/d1/
