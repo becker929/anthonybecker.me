@@ -56,3 +56,6 @@ Br
 vig-Hanssen
 Brøvig
 Hanssen
+scikit-learn
+schranz
+hardtechno

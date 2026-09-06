@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Role meter — sound and job</title>
+  <meta name="description" content="Drop a sound file and see which job it reads as: kick, rumble, hat, clap, hook, or space.">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .lede { color: var(--ink-dim); }
+
+    .dropzone {
+      border: 2px dashed var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      padding: 2rem 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      margin: 1.25rem 0;
+    }
+    .dropzone:hover, .dropzone:focus-visible { border-color: var(--accent); outline: none; }
+    .dropzone.drag { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--panel)); }
+    .drop-main { font-weight: 650; margin: 0 0 0.3rem; }
+    .drop-sub { margin: 0 0 0.5rem; color: var(--ink-dim); }
+    .drop-formats { margin: 0; font-size: 0.82rem; color: var(--ink-dim); }
+
+    .examples { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1.5rem; }
+    .example-btn {
+      font: 600 0.85rem/1 var(--sans);
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .example-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .example-btn:disabled { opacity: 0.5; cursor: wait; }
+
+    .status { font: 600 0.88rem/1.4 var(--mono); color: var(--ink-dim); margin: 0.5rem 0 1rem; }
+    .status-error { color: var(--kick); }
+
+    .filename { font: 600 0.82rem/1 var(--mono); color: var(--ink-dim); margin: 0 0 0.3rem; word-break: break-all; }
+    .headline { font-size: 1.3rem; font-weight: 650; margin: 0 0 1.25rem; }
+    .headline b, .headline span { text-transform: capitalize; }
+
+    .prob-bars { display: flex; flex-direction: column; gap: 0.5rem; margin: 0 0 1.75rem; }
+    .prob-row { display: grid; grid-template-columns: 5.5rem 1fr 3rem; align-items: center; gap: 0.6rem; }
+    .prob-label { font: 600 0.82rem/1 var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
+    .prob-track { height: 10px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
+    .prob-fill { height: 100%; border-radius: 999px 0 0 999px; }
+    .prob-pct { font: 600 0.85rem/1 var(--mono); text-align: right; color: var(--ink-dim); }
+
+    .why-note { color: var(--ink-dim); font-size: 0.9rem; margin: 0 0 0.9rem; }
+    .why-list { display: flex; flex-direction: column; gap: 0.75rem; margin: 0 0 1.5rem; }
+    .why-row { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 0.65rem 0.8rem; }
+    .why-top { display: flex; justify-content: space-between; gap: 0.75rem; font-size: 0.9rem; margin-bottom: 0.4rem; }
+    .why-label { font-weight: 600; }
+    .why-value { font: 500 0.85rem var(--mono); color: var(--ink-dim); white-space: nowrap; }
+    .why-track { height: 7px; border-radius: 999px; background: var(--bg); overflow: hidden; margin-bottom: 0.35rem; }
+    .why-fill { height: 100%; }
+    .why-fill.why-pos { background: var(--accent); }
+    .why-fill.why-neg { background: var(--ink-dim); }
+    .why-sub { margin: 0; font-size: 0.8rem; color: var(--ink-dim); }
+
+    canvas#waveform {
+      display: block;
+      width: 100%;
+      height: 120px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .back-link { margin-top: 2.5rem; }
+
+    @media (max-width: 560px) {
+      .prob-row { grid-template-columns: 4.4rem 1fr 2.6rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="../">Research</a> / Role meter</nav>
+
+  <header class="title">
+    <div class="kicker">Research · role meter</div>
+    <h1>What job does this sound do?</h1>
+    <p class="meta">Drop a sound. See which job it reads as.</p>
+  </header>
+
+  <p>This tool guesses a sound's job in a track.</p>
+  <p class="lede">It checks six jobs: kick, rumble, hat, clap, hook, space.</p>
+
+  <div class="note">
+    <p>This runs in your browser. Your file is never uploaded.</p>
+  </div>
+
+  <ul class="roles">
+    <li class="kick"><b>Kick</b> The beat hit, once every count.</li>
+    <li class="rumble"><b>Rumble</b> A low hum that fills gaps.</li>
+    <li class="hat"><b>Hat</b> A short tick sound.</li>
+    <li class="clap"><b>Clap</b> A snare-like hit, on some beats.</li>
+    <li class="hook"><b>Hook</b> The catchy part you remember.</li>
+    <li class="space"><b>Space</b> A pad or rise that marks change.</li>
+  </ul>
+
+  <section id="drop-area">
+    <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Drop a sound file, or press to choose one">
+      <p class="drop-main">Drop a sound file here.</p>
+      <p class="drop-sub">Or click to choose a file.</p>
+      <p class="drop-formats">Works with wav, mp3, flac, ogg, and m4a.</p>
+    </div>
+    <input type="file" id="file-input" accept="audio/*" hidden>
+
+    <h3>Or try an example</h3>
+    <div class="examples" id="examples"></div>
+
+    <p class="status" id="status" aria-live="polite" hidden></p>
+  </section>
+
+  <section id="result" hidden>
+    <h2>Result</h2>
+    <p class="filename" id="result-filename"></p>
+    <p class="headline" id="headline"></p>
+
+    <div class="prob-bars" id="prob-bars"></div>
+
+    <h3>Why it reads this way</h3>
+    <p class="why-note">Each row shows a measure and its pull.</p>
+    <div class="why-list" id="why-list"></div>
+
+    <h3>Waveform</h3>
+    <canvas id="waveform" width="640" height="120"></canvas>
+  </section>
+
+  <p class="back-link">This tool comes from <a href="../">the report</a>.</p>
+</div>
+
+<script type="module">
+import { extractFeatures, predict, waveformPeaks, requireFeatures } from "./meter.js";
+
+const ROLE_ORDER = ["kick", "rumble", "hat", "clap", "hook", "space"];
+
+const EXAMPLES = [
+  { file: "role-kick.mp3", label: "Kick" },
+  { file: "role-rumble.mp3", label: "Rumble" },
+  { file: "role-hat_closed.mp3", label: "Hat (closed)" },
+  { file: "role-hat_open.mp3", label: "Hat (open)" },
+  { file: "role-clap.mp3", label: "Clap" },
+  { file: "role-perc.mp3", label: "Perc" },
+  { file: "role-stab.mp3", label: "Stab" },
+  { file: "role-pad.mp3", label: "Pad" },
+  { file: "role-riser.mp3", label: "Riser" },
+  { file: "role-impact.mp3", label: "Impact" },
+];
+
+const dropzone = document.getElementById("dropzone");
+const fileInput = document.getElementById("file-input");
+const statusEl = document.getElementById("status");
+const resultSection = document.getElementById("result");
+const resultFilename = document.getElementById("result-filename");
+const headline = document.getElementById("headline");
+const probBars = document.getElementById("prob-bars");
+const whyList = document.getElementById("why-list");
+const canvas = document.getElementById("waveform");
+const examplesEl = document.getElementById("examples");
+
+let model = null;
+let busy = false;
+
+function setStatus(msg, isError = false) {
+  statusEl.hidden = !msg;
+  statusEl.textContent = msg || "";
+  statusEl.classList.toggle("status-error", isError);
+}
+
+function setBusy(v) {
+  busy = v;
+  for (const btn of examplesEl.querySelectorAll("button")) btn.disabled = v;
+}
+
+async function loadModel() {
+  const res = await fetch("model.json");
+  if (!res.ok) throw new Error("cannot load model.json");
+  const m = await res.json();
+  requireFeatures(m); // fail loudly if the model needs a measure this page can't compute
+  model = m;
+}
+
+function roleColor(role) {
+  return `var(--${role})`;
+}
+
+function formatValue(name, value) {
+  if (!isFinite(value)) return "n/a";
+  if (name.endsWith("_share")) return `${(value * 100).toFixed(1)}%`;
+  if (name.includes("ms")) return `${value.toFixed(1)} ms`;
+  if (name.includes("hz")) return `${Math.round(value)} Hz`;
+  return value.toFixed(2);
+}
+
+function drawWaveform(samples) {
+  const ctx2d = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.clientWidth || 640;
+  const cssH = 120;
+  canvas.width = cssW * dpr;
+  canvas.height = cssH * dpr;
+  ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx2d.clearRect(0, 0, cssW, cssH);
+
+  const buckets = Math.max(1, Math.floor(cssW));
+  const peaks = waveformPeaks(samples, buckets);
+  const mid = cssH / 2;
+  const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#45e0e8";
+  ctx2d.strokeStyle = accent;
+  ctx2d.lineWidth = 1;
+  ctx2d.beginPath();
+  for (let x = 0; x < buckets; x++) {
+    const mn = peaks[x * 2], mx = peaks[x * 2 + 1];
+    ctx2d.moveTo(x + 0.5, mid - mx * mid);
+    ctx2d.lineTo(x + 0.5, mid - mn * mid);
+  }
+  ctx2d.stroke();
+}
+
+function renderResult(name, samples, pred) {
+  resultSection.hidden = false;
+  resultFilename.textContent = name;
+
+  const pct = Math.round(pred.probs[pred.topIndex] * 100);
+  headline.innerHTML = `This reads as a <span style="color:${roleColor(pred.top)}">${pred.top}</span>. It is ${pct}% sure.`;
+
+  probBars.innerHTML = "";
+  for (const role of ROLE_ORDER) {
+    const idx = pred.classes.indexOf(role);
+    const p = idx >= 0 ? pred.probs[idx] : 0;
+    const row = document.createElement("div");
+    row.className = "prob-row";
+    row.innerHTML = `
+      <span class="prob-label" style="color:${roleColor(role)}">${role}</span>
+      <div class="prob-track"><div class="prob-fill" style="width:${(p * 100).toFixed(1)}%;background:${roleColor(role)}"></div></div>
+      <span class="prob-pct">${Math.round(p * 100)}%</span>
+    `;
+    probBars.appendChild(row);
+  }
+
+  whyList.innerHTML = "";
+  const maxAbs = Math.max(...pred.contributions.map((c) => Math.abs(c.contribution)), 1e-9);
+  for (const c of pred.contributions) {
+    const width = (Math.abs(c.contribution) / maxAbs) * 100;
+    const positive = c.contribution >= 0;
+    const row = document.createElement("div");
+    row.className = "why-row";
+    row.innerHTML = `
+      <div class="why-top">
+        <span class="why-label">${c.label}</span>
+        <span class="why-value">${formatValue(c.feature, c.value)}</span>
+      </div>
+      <div class="why-track"><div class="why-fill ${positive ? "why-pos" : "why-neg"}" style="width:${width.toFixed(1)}%"></div></div>
+      <p class="why-sub">Pulls ${positive ? "toward" : "away from"} ${pred.top}.</p>
+    `;
+    whyList.appendChild(row);
+  }
+
+  drawWaveform(samples);
+  resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function decodeToMono44100(arrayBuffer) {
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  const ctx = new Ctx();
+  let audioBuffer;
+  try {
+    audioBuffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
+  } catch (e) {
+    ctx.close();
+    throw new Error("decode-failed");
+  }
+
+  const len = audioBuffer.length;
+  const chs = audioBuffer.numberOfChannels;
+  const mono = new Float32Array(len);
+  for (let c = 0; c < chs; c++) {
+    const data = audioBuffer.getChannelData(c);
+    for (let i = 0; i < len; i++) mono[i] += data[i] / chs;
+  }
+
+  let sr = audioBuffer.sampleRate;
+  let samples = mono;
+  if (sr !== 44100 && len > 0) {
+    const targetLen = Math.max(1, Math.ceil((len / sr) * 44100));
+    const offline = new OfflineAudioContext(1, targetLen, 44100);
+    const buf = offline.createBuffer(1, len, sr);
+    buf.copyToChannel(mono, 0);
+    const src = offline.createBufferSource();
+    src.buffer = buf;
+    src.connect(offline.destination);
+    src.start();
+    const rendered = await offline.startRendering();
+    samples = rendered.getChannelData(0);
+  }
+  ctx.close();
+  return Float64Array.from(samples);
+}
+
+async function processArrayBuffer(name, arrayBuffer) {
+  if (busy) return;
+  setBusy(true);
+  resultSection.hidden = true;
+  setStatus(`Reading ${name} …`);
+  try {
+    if (!model) await loadModel();
+    const samples = await decodeToMono44100(arrayBuffer);
+    const features = extractFeatures(samples, 44100);
+    const pred = predict(model, features);
+    setStatus("");
+    renderResult(name, samples, pred);
+  } catch (err) {
+    console.error(err);
+    const msg = err && err.message ? err.message : "";
+    if (msg === "decode-failed") {
+      setStatus("This file will not play. Try a different one.", true);
+    } else if (msg === "silent audio") {
+      setStatus("This sound is silent. Try a louder one.", true);
+    } else if (msg === "no audio samples") {
+      setStatus("That file has no sound in it.", true);
+    } else if (msg.startsWith("model.json needs")) {
+      setStatus("This model needs a measure this page can't compute yet.", true);
+    } else {
+      setStatus("Something went wrong reading that file.", true);
+    }
+  } finally {
+    setBusy(false);
+  }
+}
+
+async function handleFile(file) {
+  const buf = await file.arrayBuffer();
+  await processArrayBuffer(file.name, buf);
+}
+
+dropzone.addEventListener("click", () => fileInput.click());
+dropzone.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    fileInput.click();
+  }
+});
+dropzone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropzone.classList.add("drag");
+});
+dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag"));
+dropzone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropzone.classList.remove("drag");
+  const file = e.dataTransfer.files && e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (file) handleFile(file);
+});
+
+for (const ex of EXAMPLES) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "example-btn";
+  btn.textContent = ex.label;
+  btn.addEventListener("click", async () => {
+    if (busy) return;
+    setBusy(true);
+    setStatus(`Loading ${ex.label} …`);
+    try {
+      const res = await fetch(`../audio/${ex.file}`);
+      if (!res.ok) throw new Error("fetch-failed");
+      const buf = await res.arrayBuffer();
+      setBusy(false);
+      await processArrayBuffer(ex.label, buf);
+    } catch (err) {
+      console.error(err);
+      setBusy(false);
+      setStatus("Could not load that example.", true);
+    }
+  });
+  examplesEl.appendChild(btn);
+}
+
+loadModel().catch((err) => {
+  console.error(err);
+  setStatus("Could not load the model. Try reloading the page.", true);
+});
+</script>
+</body>
+</html>

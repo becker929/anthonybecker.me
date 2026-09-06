@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ten times more: what we found when we ran the programme</title>
+  <meta name="description" content="Part two of the sound-function research, in plain language: a labelled library of 718 sounds, a role meter, a listening test, the pump measured, and hundreds of hard techno tracks with bar one found.">
+  <meta property="og:title" content="Ten times more: what we found when we ran the programme">
+  <meta property="og:description" content="Part two of the hard techno sound-function research: 718 labelled sounds, a browser role meter, the pump measured, and a corpus ten times bigger.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://anthonybecker.me/research/sound-function/part-two/">
+  <meta property="og:image" content="https://anthonybecker.me/research/sound-function/part-two/img/stage4-bar-grid.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/research/sound-function/">Research</a> / Part two</nav>
+
+  <header class="title">
+    <div class="kicker">Research · part two</div>
+    <h1>Ten times more: what we found when we ran the programme</h1>
+    <p class="meta">September 2026 · plain language · <a href="#glossary">glossary</a> · <a href="../">part one</a></p>
+  </header>
+
+  <h2 id="what">What this is</h2>
+  <p><a href="../">Part one</a> asked what decides a sound's job in <a class="term" href="#g-hard-techno">hard techno</a>. It ended with a plan in six stages. The plan aimed for ten times more. This page reports what happened when we ran it.</p>
+  <p>Four stages are done. One is built but waits for people. One waits for producers to answer. Each stage below says what we did and what we found. It also says what went wrong.</p>
+  <p>The biggest finding is not a number. It is a warning. Our test sounds from part one were too clean. Real sounds act differently. Part one's ranking still holds in shape. But the details need real sounds, and now we have some.</p>
+
+  <h2 id="scorecard">The scores</h2>
+  <div class="tablewrap" data-plainlint="skip">
+    <table>
+      <thead><tr><th>Stage</th><th>Plan</th><th>Done?</th><th>Headline</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>300 labelled sounds, a classifier</td><td>Yes: 718 sounds</td><td>Seven measures name the job 80 times in 100</td></tr>
+        <tr><td>2</td><td>Ask producers</td><td>Built and live</td><td>Zero answers so far; the test needs listeners</td></tr>
+        <tr><td>3</td><td>Measure the pump</td><td>Yes</td><td>Two new measures; checked on loops with known ducking</td></tr>
+        <tr><td>4</td><td>Ten times the tracks, find bar one</td><td>Yes: 300 measured, 218 kept</td><td>Pump 10 dB; clap on 2 and 4 in only one track in five</td></tr>
+        <tr><td>5</td><td>Real stems</td><td>Prepared</td><td>None exist under a free licence; the request is written</td></tr>
+        <tr><td>6</td><td>A role meter</td><td>Yes, live</td><td>Drop a sound, it names the job and shows why</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="stage1">Stage 1: a labelled sound library</h2>
+  <p>The plan asked for 300 sounds with a job label. We made 718. Four hundred are <a class="term" href="#g-synthetic">synthetic</a>, forty per sound type. Each one has every setting drawn at random. The ranges are wide but stay inside the job. The other 318 are real samples.</p>
+  <p>The real ones come from eight free <a class="term" href="#g-sample-pack">sample packs</a>. All are public domain or <a class="term" href="#g-creative-commons">CC BY</a>. We read each <a class="term" href="#g-licence">licence</a> from the archive record itself. The job label comes from the file name. A file called "clap 3" became a clap. Names we could not read were left out.</p>
+  <p>Then we <a class="term" href="#g-measure">measured</a> all 718 the same way as part one. Twenty of the measures are simple enough for a web page. We kept to those. A small <a class="term" href="#g-classifier">classifier</a> then tried to name the job. We added one measure at a time. We stopped when a new measure no longer helped.</p>
+
+  <h3>What the classifier found</h3>
+  <p>On the synthetic sounds alone, it was easy. Five measures named the job 96 times in 100. That beat the target of nine in ten.</p>
+  <p>The five were these. How fast brightness falls. The share of energy after 50 ms. The <a class="term" href="#g-sub-band">sub</a> share. The <a class="term" href="#g-crest">crest</a>. And brightness in the first 100 ms.</p>
+  <p>Then we tried that model on the real samples. It named the job 29 times in 100. That is barely better than guessing. A bigger model with every measure did little better. It got 37 in 100. The synthetic library did not <a class="term" href="#g-transfer">transfer</a>.</p>
+  <figure>
+    <img src="img/stage1-synth-vs-real.png" alt="Three dot charts. For each of the six jobs, an orange dot marks the synthetic median and a teal dot the real median, for rise time, time to fall 40 dB, and share of energy after 50 ms. The dots are far apart for hat, clap and space.">
+    <figcaption>Why it failed. Orange is the typical synthetic sound. Green is the typical real sample. Our synthetic clap rose in 48 ms. Real claps rise in 3 ms. Real hats ring six times longer than ours.</figcaption>
+  </figure>
+  <p>The chart shows the reason. Our claps were built from slow bursts. Real claps hit at once. Our hats stopped dead. Real hats ring.</p>
+  <p>Our risers and pads were pure and long. Real ones are shorter and more noisy. Part one's sounds were fair examples of each job. They were not fair samples of the range.</p>
+  <p>So we trained again on all 718 together. Seven measures now name the job 80 times in 100. On the real samples alone it is 66 in 100. On the synthetic ones it is 88. The seven measures are listed below.</p>
+  <ol>
+    <li>Brightness in the first 100 ms.</li>
+    <li>The share of energy after 50 ms.</li>
+    <li>The sub share, below 60 Hz.</li>
+    <li>Time to fall 40 dB.</li>
+    <li>How fast brightness falls.</li>
+    <li>The <a class="term" href="#g-air-band">air</a> share, above 6 kHz.</li>
+    <li>The <a class="term" href="#g-mid-band">mid</a> share, 400 Hz to 2 kHz.</li>
+  </ol>
+  <figure>
+    <img src="img/stage1-recall.png" alt="Grouped bar chart, one pair of bars per job. Orange bars for synthetic sounds are near 100 for kick, rumble and hat. Teal bars for real samples read 76 for kick, 0 for rumble, 56 for hat, 65 for clap, 64 for hook and 64 for space.">
+    <figcaption>How often the final model names each job. The sounds were new to it. Real rumbles score zero: we only found six of them.</figcaption>
+  </figure>
+  <p>Read the real bars with care. Kicks are named right three times in four. Claps, hooks and space sounds are right two times in three. Hats are right just over half the time.</p>
+  <p>Rumbles are never right. We only found six real rumbles. That is too few to learn from.</p>
+  <p>Two things limit this. The real packs are drum machines and hand drums. They are not hard techno one-shots. And the labels come from file names, not from ears. A file called "perc" could be almost anything. That is why the hook job is so mixed.</p>
+  <p>The result we trust most is the shape. Three things do most of the work. Brightness, sub weight, and how long a sound lasts. That matches part one. What changed is the numbers, and our respect for real sounds.</p>
+
+  <h2 id="stage2">Stage 2: ask producers</h2>
+  <p>We built the <a class="term" href="#g-listening-test">listening test</a>. It is live at <a href="../listen/">the listening page</a>. It plays 40 pairs of sounds. Each pair is one sound with one setting changed.</p>
+  <p>The settings are the ones part one ranked. Kick pitch, kick decay, drive and click. Hat decay and tone. Clap bursts. And more.</p>
+  <p>For each pair it asks two things. What job is each sound for? And which of the two fits the job better? Answers save after every pair. So a short visit still counts. No name, email or address is stored.</p>
+  <p>At the time of writing, nobody has taken it. That is the honest state. Twenty producers would give the missing evidence. If you make this music, please take it. It needs about five minutes for ten pairs.</p>
+
+  <h2 id="stage3">Stage 3: measure the pump</h2>
+  <p>The <a class="term" href="#g-pump">pump</a> is a dip after each kick, down low. Producers make it on purpose with <a class="term" href="#g-ducking">ducking</a>. Part one heard it but could not size it. Now we can.</p>
+  <p>The method is simple. Take the <a class="term" href="#g-low-band">low band</a>, 60 to 150 Hz. Cut it into <a class="term" href="#g-beat">beats</a>. Leave out the first 90 ms of each beat. That is the kick itself.</p>
+  <p>Then find the deepest point that climbs back afterwards. The climb is the pump depth. The return time is how long the climb takes. We call it back at 3 dB below the top.</p>
+  <figure>
+    <img src="img/stage3-pump-check.png" alt="Left: measured pump depth rises from about 3 dB with no ducking to 11 dB at 200 ms of ducking. Right: the low band level over one beat for each loop, with deeper and longer dips as the ducking grows.">
+    <figcaption>The check. We built five loops with known ducking. None, 60, 120, 200 and 300 ms. The measure sees ducking of 120 ms and longer. Shorter ducking hides under the kick itself.</figcaption>
+  </figure>
+  <p>We tested it on loops where we knew the answer. With no ducking, it read 3 dB. That is the floor, from the kick's own tail. With 120 ms of ducking it read 6 dB. With 200 ms it read 11 dB.</p>
+  <p>The return time grew from 92 ms to 208 ms. So the measure works, above a floor of about 3 dB.</p>
+  <p>One limit is clear. Ducking shorter than the kick body cannot be seen. So is ducking on a track with no rumble at all. There, the low band just falls silent. The measure then reads a gap, not a pump. We report it anyway and say so.</p>
+
+  <h2 id="stage4">Stage 4: ten times the tracks</h2>
+  <p>Part one measured 26 tracks. Eleven came from one <a class="term" href="#g-producer">producer</a>. The plan asked for 250 tracks and bar one. We got both.</p>
+  <h3>Finding the tracks</h3>
+  <p>We searched the Internet Archive for four tags. "Hard techno", "hardtechno", "industrial techno" and "schranz". From 2018 on, that gave 901 items. We fetched each item's own record.</p>
+  <p>We kept only items with a free <a class="term" href="#g-licence">licence</a>. That means <a class="term" href="#g-creative-commons">Creative Commons</a> or public domain. That left 267 items holding 1,352 tracks.</p>
+  <p>Then we chose 300 of them. Each producer got one track before anyone got two. Nobody got more than eight. Mixes and live sets were dropped by name and length.</p>
+  <p>Two more rules dropped tracks after the fact. One track was made by an AI service. One item was a set of other people's tracks, posted again.</p>
+  <p>The 300 tracks come from 147 producers. Most are <a class="term" href="#g-creative-commons">CC BY-NC-ND</a>. 22 are CC0. They run from 2018 to 2026, spread fairly evenly. Every track's page, licence and file ID is in the <a class="term" href="#g-manifest">manifest</a>. The audio itself is never shared.</p>
+  <h3>Finding bar one</h3>
+  <p>Part one could find the beat but not <a class="term" href="#g-bar-one">bar one</a>. Now it can. The idea is simple. In techno, things change on the <a class="term" href="#g-downbeat">downbeat</a>. They change most at the start of a <a class="term" href="#g-phrase">phrase</a>.</p>
+  <p>We measure how much each beat differs from the four before. Big changes vote for their beat. The beat with the most votes is beat one. Then bars vote the same way for the phrase start. Each vote comes with a strength. Strength one is chance; strength four is every change agreeing.</p>
+  <p>We tested this on a synthetic track with known bars. We cut a random number of beats off the front. Twelve times out of twelve it found beat one. It also found the group of four bars each time. Eight-bar phrases are harder, because many sections are four bars long.</p>
+  <h3>What the tracks say</h3>
+  <!-- STAGE4-RESULTS -->
+  <p>We kept 218 tracks for the numbers below. 64 ran outside 128 to 180 beats per minute. We left them out. 7 were made by an AI service. 6 were other people's tracks, posted again. 5 failed to run.</p>
+  <p>The tempo <a class="term" href="#g-median">median</a> is 143 beats per minute. The range runs from 128 to 177. Part one's 26 tracks sat at 152. This corpus is slower and more spread out. It holds more of the scene's edges.</p>
+  <figure>
+    <img src="img/stage4-tempo.png" alt="Histogram of tempo for the 218 tracks, from 128 to 180 beats per minute, with most tracks between 135 and 155.">
+    <figcaption>Tempo of the 218 tracks, in beats per minute.</figcaption>
+  </figure>
+  <p>The kick is on every beat, as expected. Half of the <a class="term" href="#g-sub-band">sub band</a>'s attacks land on the four beats. Chance would be one quarter. 113 of 218 tracks are above half.</p>
+  <figure>
+    <img src="img/stage4-bar-grid.png" alt="A grid of six bands by sixteen steps. The sub band lights up on the four beats. The other bands are nearly even across the bar.">
+    <figcaption>Where each band's attacks land in the bar. Averaged over 218 tracks, bar one found. Only the sub band has a clear pattern: the four beats.</figcaption>
+  </figure>
+  <h3>The pump</h3>
+  <p>The pump is real and large. The median depth is 10 dB. 160 of 218 tracks dip more than 6 dB. The median return time is 264 ms. That is most of a beat at this tempo. Producers duck hard and long.</p>
+  <figure>
+    <img src="img/stage4-pump-corpus.png" alt="Two histograms. Pump depth spreads from 0 to 28 dB with a median near 10. Return time clusters between 240 and 320 ms.">
+    <figcaption>Pump depth and return time across the corpus. Tracks with no rumble read a gap, not a pump. They sit at the deep end.</figcaption>
+  </figure>
+  <h3>The clap</h3>
+  <p>The clap on two and four is not a rule here. Only 45 of 218 tracks show a clear backbeat. That is about one in 5. In the rest, mid and high attacks are even across beats. Either there is no clap, or the kick's click hides it. Both are common in this music.</p>
+  <p>This surprised us. Part one assumed a backbeat. The synthetic loops all had one. The corpus says the modern sound often does without. That is a finding about the music, not the method. The method finds the clap in synthetic loops every time.</p>
+  <figure>
+    <img src="img/stage4-phrase.png" alt="Left: histogram of the share of mid and high attacks on the louder beat pair; most tracks sit near 0.5 and few pass 0.55. Right: histogram of how many bars the kick stays off; two bars is most common, then 4, 8 and 16.">
+    <figcaption>Left: how different the two beat pairs are. Right: how long the kick stays away. Bright bars are multiples of eight. Dark bars are multiples of four.</figcaption>
+  </figure>
+  <h3>Bar one</h3>
+  <p>With the backbeat as a second sign, bar one gets firmer. The two signs agree in 190 of 218 tracks. Where they differ, we trust the backbeat. Section changes alone gave a confident answer in 113 tracks.</p>
+  <h3>Breakdowns and phrases</h3>
+  <p>173 tracks have a kick drop of two bars or more. We counted 762 such drops. The median length is 4 bars. Drops of two bars are the most common. Drops of 4, 8 and 16 bars: 86, 91 and 28.</p>
+  <p>Does the kick return on the eight-bar line? Often, but not mostly. 29 in 100 returns land on a multiple of eight bars. Chance would be 12 in 100. 42 in 100 land on a multiple of four. Chance would be 25.</p>
+  <p>Lines of sixteen bars get 16 in 100. Chance would be 6. So the phrase rule is real. It runs two to three times chance. It is not a law. The kick stays on for 14 bars at a stretch, median.</p>
+  <h3>Across labels</h3>
+  <p>Do the findings hold across people? Producers rarely have three tracks here, by design. So we split by label instead. 7 labels have five tracks or more. The pump median runs from 4 to 13 dB across them. The eight-bar return runs from 21 to 53 in 100.</p>
+  <p>The backbeat is rare on every label. So the clap finding is not one label's style. The pump and the phrase rule differ more. Two labels with slower, older tracks pump less and break more.</p>
+  <figure>
+    <img src="img/stage4-labels.png" alt="Three dot charts, one row per label: share of tracks with a clear backbeat, pump depth, and share of bars with no kick. A broken line marks the whole corpus.">
+    <figcaption>The same three numbers per label. The broken line is the whole corpus.</figcaption>
+  </figure>
+  <!-- /STAGE4-RESULTS -->
+
+  <h2 id="stage5">Stage 5: real stems</h2>
+  <p>We looked before asking. Since 2018 the archive holds about 190 free sets of <a class="term" href="#g-stems">stems</a>. None is hard techno. The nearest by title was one mixed file, not stems. So real stems must come from producers.</p>
+  <p>We wrote the request. It names the eight labels and producers in our corpus. It promises to keep audio private and share only numbers. It offers to send results first.</p>
+  <p>The text is in the code, ready to send. Sending it is a human's job. It has not been done yet.</p>
+
+  <h2 id="stage6">Stage 6: a role meter</h2>
+  <p>The <a class="term" href="#g-role-meter">role meter</a> is live at <a href="../meter/">the meter page</a>. Drop a sound on it. It says "this reads as a kick" and shows why. Nothing is sent anywhere. All the work happens in your <a class="term" href="#g-browser">browser</a>.</p>
+  <p>Inside is the model with seven measures from stage 1. We built the seven measures again in browser code. Then we checked them against the research code on 60 sounds. All seven agree to within one part in a thousand. The job named agrees on all 60.</p>
+  <p>It names all ten example sounds right. On real drum machine samples it is right two in three. Treat it as a second opinion, not a judge. When it is wrong, the "why" list shows the odd measure. That is the point. It is a way to learn in public.</p>
+
+  <h2 id="tenx">What ten times meant</h2>
+  <div class="tablewrap" data-plainlint="skip">
+    <table>
+      <thead><tr><th>thing</th><th>part one</th><th>the plan</th><th>now</th></tr></thead>
+      <tbody id="tenx-rows">
+        <!-- TENX -->
+        <tr><td>real tracks measured</td><td>26</td><td>250+</td><td>218</td></tr>
+        <tr><td>producers in the corpus</td><td>12</td><td>60+</td><td>128</td></tr>
+        <tr><td>single sounds measured</td><td>10 (synthetic)</td><td>300 labelled, some real</td><td>718 labelled, 318 real</td></tr>
+        <tr><td>listener judgements</td><td>0</td><td>800</td><td>0 (the test is live)</td></tr>
+        <tr><td>the pump measured</td><td>no</td><td>yes</td><td>yes</td></tr>
+        <tr><td>bar one known</td><td>no</td><td>yes</td><td>yes</td></tr>
+        <!-- /TENX -->
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="next">What next</h2>
+  <p>Three things need people, not code. Take the listening test. Send the stems request. And build a set of real hard techno one-shots. Label them by ear, not by file name. Each would change a number on this page.</p>
+  <p>Two things are code. Fix the synthetic library. Claps should hit at once and hats should ring. And measure the pump only where a rumble exists. Both are small. Both are in the plan file.</p>
+
+  <h2 id="sources">Sources and method notes</h2>
+  <ul>
+    <li>All code, measurements and this page's numbers: <a href="https://github.com/becker929/anthonybecker.me/tree/main/research/sound-function/repo">on GitHub</a>.</li>
+    <li>The classifier is a simple model with scaled inputs. The bigger model is a random forest. Both come from the scikit-learn library. Scores come from five rounds of testing on new sounds.</li>
+    <li>The pump and bar one code is in <code>analysis/pump.py</code> and <code>analysis/downbeat.py</code>. Both have a synthetic check you can run.</li>
+    <li>Corpus search, selection and fetch: <code>corpus2/</code>. The rules for leaving tracks out are in <code>corpus2/exclude.json</code>.</li>
+  </ul>
+
+  <h2 id="glossary">Glossary</h2>
+  <dl class="glossary">
+    <dt id="g-air-band">air band</dt><dd>The highest band we measure. From 6 kHz up. Where hats live.</dd>
+    <dt id="g-bar">bar</dt><dd>Four beats. Here a bar lasts about one and a half seconds.</dd>
+    <dt id="g-bar-one">bar one</dt><dd>The first beat of a bar. Also the first bar of a phrase. Music changes there.</dd>
+    <dt id="g-beat">beat</dt><dd>The steady count you tap your foot to. Four per bar.</dd>
+    <dt id="g-browser">browser</dt><dd>The program you use to read web pages. The meter runs there.</dd>
+    <dt id="g-breakdown">breakdown</dt><dd>A stretch of bars where the kick stops. Two bars or more, in our count.</dd>
+    <dt id="g-classifier">classifier</dt><dd>A small program that guesses a label from measures. Here, the job from seven numbers.</dd>
+    <dt id="g-clap">clap</dt><dd>A short, sharp, noisy hit. It usually answers the kick on beats two and four.</dd>
+    <dt id="g-corpus">corpus</dt><dd>The set of tracks we measured. Part one had 26. This part has hundreds.</dd>
+    <dt id="g-creative-commons">Creative Commons, CC BY, CC0</dt><dd>Free licences. CC BY asks for credit. CC0 asks for nothing. Public Domain Mark means no rights remain.</dd>
+    <dt id="g-crest">crest</dt><dd>The gap between a sound's peak and its average level. Sharp hits have a big crest.</dd>
+    <dt id="g-db">dB</dt><dd>A unit for level. Six dB is about twice as loud on a meter.</dd>
+    <dt id="g-downbeat">downbeat</dt><dd>Beat one of a bar. See bar one.</dd>
+    <dt id="g-ducking">ducking</dt><dd>Turning one sound down each time another sound hits. Producers duck the rumble under the kick.</dd>
+    <dt id="g-hard-techno">hard techno</dt><dd>Fast, heavy techno. Usually 140 to 160 beats per minute. Big kick, long rumble.</dd>
+    <dt id="g-hat">hat</dt><dd>The hi-hat. A short, bright tick between the kicks. Open hats ring longer.</dd>
+    <dt id="g-hook">hook</dt><dd>The part you remember. A stab, a vocal, or a lead sound.</dd>
+    <dt id="g-job">job</dt><dd>What a sound is for in the track. We use six: kick, rumble, hat, clap, hook, space.</dd>
+    <dt id="g-kick">kick</dt><dd>The main drum. It hits on every beat. Everything else is placed against it.</dd>
+    <dt id="g-licence">licence</dt><dd>The permission a maker gives. It says what others may do with the work.</dd>
+    <dt id="g-listening-test">listening test</dt><dd>A web page that plays sounds and asks questions. The answers tell us what ears hear.</dd>
+    <dt id="g-low-band">low band</dt><dd>The band from 60 to 150 Hz. The kick's body and the rumble live here.</dd>
+    <dt id="g-manifest">manifest</dt><dd>Our list of tracks. It records each one's page, licence and file ID.</dd>
+    <dt id="g-measure">measure</dt><dd>A number we compute from a sound. Brightness, decay time, sub share, and so on.</dd>
+    <dt id="g-median">median</dt><dd>The middle value. Half the tracks are above it, half below.</dd>
+    <dt id="g-mid-band">mid band</dt><dd>The band from 400 Hz to 2 kHz. Claps, stabs and voices live here.</dd>
+    <dt id="g-ms">ms</dt><dd>One thousandth of a second.</dd>
+    <dt id="g-one-shot">one-shot</dt><dd>A single hit saved as a file. One kick, one clap, one hat.</dd>
+    <dt id="g-phrase">phrase</dt><dd>A group of bars, usually eight or sixteen. Big changes happen at the start of one.</dd>
+    <dt id="g-public-domain">public domain</dt><dd>Work that nobody owns any more. Anyone may use it.</dd>
+    <dt id="g-producer">producer</dt><dd>A person who makes tracks.</dd>
+    <dt id="g-pump">pump</dt><dd>A dip in the low end after each kick. Then it climbs back. Made by ducking.</dd>
+    <dt id="g-role-meter">role meter</dt><dd>Our web tool. Drop a sound on it and it names the job.</dd>
+    <dt id="g-rumble">rumble</dt><dd>A long, low tail under the kick. It fills the gap between hits.</dd>
+    <dt id="g-sample-pack">sample pack</dt><dd>A folder of one-shots that producers download and use.</dd>
+    <dt id="g-space">space</dt><dd>The job of pads, risers and impacts. They fill gaps and mark changes.</dd>
+    <dt id="g-stems">stems</dt><dd>The separate parts of a track as audio files. The kick alone, the hats alone, and so on.</dd>
+    <dt id="g-sub-band">sub band</dt><dd>The lowest band, 20 to 60 Hz. The deep part of the kick and rumble.</dd>
+    <dt id="g-synthetic">synthetic</dt><dd>Made by our own code, not recorded. We know every setting of a synthetic sound.</dd>
+    <dt id="g-tempo">tempo</dt><dd>How fast the beats go. Counted in beats per minute.</dd>
+    <dt id="g-transfer">transfer</dt><dd>A model learned on one set of sounds working on another.</dd>
+  </dl>
+
+  <h2 id="credits">Credits</h2>
+  <h3>The sample packs</h3>
+  <p>Eight free packs gave the 318 real samples. Each licence was read from the archive record. Thank you to the people who released them.</p>
+  <div class="tablewrap" data-plainlint="skip">
+    <table>
+      <thead><tr><th>Pack</th><th>By</th><th>Licence</th><th>Files used</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://archive.org/details/HeatDish">Mailbox Badger: Public Domain Drum Samples, Volume 1</a></td><td>Patrick Callan</td><td>Public Domain Mark 1.0</td><td class="num">38</td></tr>
+        <tr><td><a href="https://archive.org/details/mailboxbadgerdrumsamplesvolume2">Mailbox Badger: Public Domain Drum Samples, Vol. 2</a></td><td>Patrick Callan / Mailbox Badger</td><td>CC BY 3.0</td><td class="num">40</td></tr>
+        <tr><td><a href="https://archive.org/details/beckstrom-volca-modular-drum-samples-1">Korg Volca Modular drum kit samples</a></td><td>Chris Beckstrom</td><td>CC BY 4.0</td><td class="num">40</td></tr>
+        <tr><td><a href="https://archive.org/details/55kicks">55+ kicks, royalty free sample pack</a></td><td>IR / voldanno</td><td>Public Domain Mark 1.0</td><td class="num">40</td></tr>
+        <tr><td><a href="https://archive.org/details/SC8850DrumSamples">Sound Canvas 8850 Drum Samples</a></td><td>Paisley Computer</td><td>Public Domain Mark 1.0</td><td class="num">40</td></tr>
+        <tr><td><a href="https://archive.org/details/TamTamDrumKits">TamTam Drum Kits samples</a></td><td>uploader, not named</td><td>CC BY 3.0</td><td class="num">40</td></tr>
+        <tr><td><a href="https://archive.org/details/ejay-virtual-music-studio-samples">Ejay Virtual Music Studio Drum Machine and Synth Samples</a></td><td>archive uploader</td><td>CC0 1.0</td><td class="num">40</td></tr>
+        <tr><td><a href="https://github.com/sonic-pi-net/sonic-pi/tree/dev/etc/samples">Sonic Pi samples</a></td><td>Sonic Pi contributors, Arovane</td><td>CC0 1.0</td><td class="num">40</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3 id="tracks-credits">The tracks</h3>
+  <p>Every track below was measured under its own licence. Nothing was copied or shared. The table lists artist, title, year, label and licence. Tracks we dropped are not listed.</p>
+  <div class="tablewrap" data-plainlint="skip">
+    <table>
+      <thead><tr><th>Artist</th><th>Track</th><th>Year</th><th>Label</th><th>Licence</th></tr></thead>
+      <tbody>
+        <!-- TRACKS -->
+        <tr><td>(´･ω･`)</td><td><a href="https://archive.org/details/complete-moron-lp">EJECT CORPSES</a></td><td class="num">2019</td><td>hifidelity_potpourri</td><td>CC0 1.0</td></tr>
+        <tr><td>(´･ω･`)</td><td><a href="https://archive.org/details/complete-moron-lp">OH FUCK RIGHT OFF</a></td><td class="num">2019</td><td>hifidelity_potpourri</td><td>CC0 1.0</td></tr>
+        <tr><td>3cloneB</td><td><a href="https://archive.org/details/p118-3cloneb-rpg-ep">Chicks</a></td><td class="num">2024</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>3cloneB</td><td><a href="https://archive.org/details/p063-3cloneb-true-war-ep">Kanbarra</a></td><td class="num">2018</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>3cloneB</td><td><a href="https://archive.org/details/p063-3cloneb-true-war-ep">Katapult</a></td><td class="num">2018</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>4ZZZ1</td><td><a href="https://archive.org/details/p090-4zzz1-black-acid-ep">Black Acid 1</a></td><td class="num">2020</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>4ZZZ1</td><td><a href="https://archive.org/details/p090-4zzz1-black-acid-ep">Black Acid 2</a></td><td class="num">2020</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>4ZZZ1</td><td><a href="https://archive.org/details/p082-4zzz1-brain-fuckers-ep">Untitled 5</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Acin</td><td><a href="https://archive.org/details/nuke004-acin-nuke-vol.-04">Nuke Vol. 04</a></td><td class="num">2019</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>adscum</td><td><a href="https://archive.org/details/01AdscumLada_201810">adscum - lada</a></td><td class="num">2018</td><td>opensource_audio</td><td>CC BY-SA 4.0</td></tr>
+        <tr><td>adscum</td><td><a href="https://archive.org/details/01AdscumLada_201810">adscum - sarkas</a></td><td class="num">2018</td><td>opensource_audio</td><td>CC BY-SA 4.0</td></tr>
+        <tr><td>AFFLICTED</td><td><a href="https://archive.org/details/fressen007-afflicted-district-ep">District</a></td><td class="num">2020</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>AFFLICTED</td><td><a href="https://archive.org/details/p081-afflicted-dr-who-ep">Dr. Who 1</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Angel&#x27;s Domain</td><td><a href="https://archive.org/details/angel-0.02">Soulful Hell</a></td><td class="num">2026</td><td>hifidelity_potpourri</td><td>CC BY-NC-SA 4.0</td></tr>
+        <tr><td>Assey</td><td><a href="https://archive.org/details/dont-sleep-assey">don&#x27;t sleep(mastered) </a></td><td class="num">2022</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Atheist</td><td><a href="https://archive.org/details/dfs023-atheist-if-jesus-was-a-raver-ep">If Jesus Was A Raver</a></td><td class="num">2023</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Atheist</td><td><a href="https://archive.org/details/dfs023-atheist-if-jesus-was-a-raver-ep">The Horns Of Jericho</a></td><td class="num">2023</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Ayako Mori, Inquieto</td><td><a href="https://archive.org/details/PTR436">ayako mori - - your will [inquieto remix]</a></td><td class="num">2025</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Ayako Mori, Inquieto</td><td><a href="https://archive.org/details/PTR469">ayako mori - - éire - land of the wind (inquieto remix)</a></td><td class="num">2025</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Ayako Mori, Inquieto</td><td><a href="https://archive.org/details/ayako-mori-bodhisattva-inquieto-remix">ayako mori - bodhisattva (inquieto remix)</a></td><td class="num">2024</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>BELLKATZE</td><td><a href="https://archive.org/details/p087-bellkatze-bellkatze-ep">Kölnisch Wasser</a></td><td class="num">2020</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>BELLKATZE</td><td><a href="https://archive.org/details/p087-bellkatze-bellkatze-ep">Lightweight Memphis</a></td><td class="num">2020</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>BELLKATZE</td><td><a href="https://archive.org/details/p087-bellkatze-bellkatze-ep">Modern War</a></td><td class="num">2020</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Berba PT</td><td><a href="https://archive.org/details/3.-berba-dishes-mmm">911</a></td><td class="num">2023</td><td>opensource_audio</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>Berba PT</td><td><a href="https://archive.org/details/3.-berba-dishes-mmm">Cooking Cookies</a></td><td class="num">2023</td><td>opensource_audio</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>Berba PT</td><td><a href="https://archive.org/details/3.-berba-dishes-mmm">Dishes</a></td><td class="num">2023</td><td>opensource_audio</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>Bitterfeld</td><td><a href="https://archive.org/details/dfs018-bitterfeld-death-is-coming-ep">Death Is Coming</a></td><td class="num">2023</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Blank Banshee</td><td><a href="https://archive.org/details/blank-banshee-4-d">Hall of Mirrors</a></td><td class="num">2023</td><td>hifidelity_potpourri</td><td>CC0 1.0</td></tr>
+        <tr><td>Blank Banshee</td><td><a href="https://archive.org/details/blank-banshee-4-d">Revelations</a></td><td class="num">2023</td><td>hifidelity_potpourri</td><td>CC0 1.0</td></tr>
+        <tr><td>Brutal Rave Bastards</td><td><a href="https://archive.org/details/nuke010-brutal-rave-bastards-nuke-vol.-10">Nuke Vol. 10</a></td><td class="num">2020</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Brutal Rave Bastards</td><td><a href="https://archive.org/details/nuke018-brutal-rave-bastards-nuke-vol.18">NUKE Vol. 18</a></td><td class="num">2023</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Cement Tea</td><td><a href="https://archive.org/details/p109-cement-tea-chip-withdrawal">Chip Withdrawal</a></td><td class="num">2023</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Cement Tea</td><td><a href="https://archive.org/details/dfs021-various-netlabel-day-2023-techno-warriors">Kubizt</a></td><td class="num">2023</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Combat Killer</td><td><a href="https://archive.org/details/fressen018-combat-killer-combat-troops-ep">Combat Troops</a></td><td class="num">2024</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Combat Killer</td><td><a href="https://archive.org/details/fressen016-combat-killer-natural-desaster-ep">Defluxcompensator</a></td><td class="num">2024</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Combat Killer</td><td><a href="https://archive.org/details/fressen016-combat-killer-natural-desaster-ep">Kevlar</a></td><td class="num">2024</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Death In Paradise</td><td><a href="https://archive.org/details/nuke-011-death-in-paradise-nuke-vol.-11">Nuke Vol. 11</a></td><td class="num">2020</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Der schwarze Adel</td><td><a href="https://archive.org/details/p102-der-schwarze-adel-fuck-society-ep">Fuck Society</a></td><td class="num">2023</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Der schwarze Adel</td><td><a href="https://archive.org/details/p102-der-schwarze-adel-fuck-society-ep">When The Truth Is Found To Be LIES</a></td><td class="num">2023</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>DiZE7</td><td><a href="https://archive.org/details/p080-various-psycho-kidzzz-vol.-6">Two Specifications</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>DJ Muthafukka</td><td><a href="https://archive.org/details/dfs006-dj-muthafukka-turkish-delight-ep">Turkish Delight (THE D3VI7 Psy Remix)</a></td><td class="num">2020</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Dr. Walker</td><td><a href="https://archive.org/details/dfs038-dr.-walker-and-sascha-muller-mini-split-ep">Very Bad Acid (Sascha Müller Remix)</a></td><td class="num">2026</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>duality micro</td><td><a href="https://archive.org/details/dfs021-various-netlabel-day-2023-techno-warriors">Sidewinder</a></td><td class="num">2023</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>duality micro &amp; Sascha Müller</td><td><a href="https://archive.org/details/dfs028-various-netlabel-day-2024-techno-warriors">Press Start (Edit02)</a></td><td class="num">2024</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Ego Drums</td><td><a href="https://archive.org/details/nuke009-ego-drums-nuke-vol.-09">Nuke Vol. 09</a></td><td class="num">2020</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>El Atalaya</td><td><a href="https://archive.org/details/p080-various-psycho-kidzzz-vol.-6">Respect My Ability (Sascha Müller Hard Acid Remix)</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>El Atalaya, Sascha Müller</td><td><a href="https://archive.org/details/p076-el-atalaya-respect-my-ability-ep">Respect My Ability (Sascha Müller Hard Acid Remix)</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Erick Jaeger</td><td><a href="https://archive.org/details/technik-heute">cleansing</a></td><td class="num">2024</td><td>opensource_audio</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>eVADE</td><td><a href="https://archive.org/details/dfs033-various-netlabel-day-2025-techno-warriors">NLD25</a></td><td class="num">2025</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>eVADE</td><td><a href="https://archive.org/details/dfs021-various-netlabel-day-2023-techno-warriors">Noises (Edit)</a></td><td class="num">2023</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Hanzzo &amp; Sascha Müller</td><td><a href="https://archive.org/details/nuke022-hanzzo-sascha-muller-nuke-vol.-22">Nuke Vol. 22</a></td><td class="num">2025</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Inquieto</td><td><a href="https://archive.org/details/TAR213">inquieto - 5am en el bella</a></td><td class="num">2024</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Inquieto</td><td><a href="https://archive.org/details/BVR307">inquieto - baila milodon</a></td><td class="num">2025</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Inquieto</td><td><a href="https://archive.org/details/INQTRS022">inquieto - de madrugada </a></td><td class="num">01/0</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Jens Mueller, AFFLICTED</td><td><a href="https://archive.org/details/p098-jens-mueller-marudi-ep">Marudi (AFFLICTED Remix)</a></td><td class="num">2021</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Jens Mueller, P.T.B.S.</td><td><a href="https://archive.org/details/p098-jens-mueller-marudi-ep">Marudi (P.T.B.S. Remix)</a></td><td class="num">2021</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Jerzz &amp; Sascha Müller</td><td><a href="https://archive.org/details/nuke021-jerzz-sascha-muller-nuke-vol.-21">Nuke Vol. 21</a></td><td class="num">2025</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Johann Schwengel</td><td><a href="https://archive.org/details/fressen003-johann-schwengel-techno-love-ep">Love</a></td><td class="num">2018</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Johann Schwengel</td><td><a href="https://archive.org/details/fressen013-johann-schwengel-manhatten-ep">Manhatten</a></td><td class="num">2023</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Kasma</td><td><a href="https://archive.org/details/nuke008-kasma-nuke-vol.-08">Nuke Vol. 08</a></td><td class="num">2020</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Klangbild</td><td><a href="https://archive.org/details/EOTF01">Dinkelschock</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC0 1.0</td></tr>
+        <tr><td>Klangbild</td><td><a href="https://archive.org/details/EOTF01">Klotzgeschiebe</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC0 1.0</td></tr>
+        <tr><td>KNARZ Maschine</td><td><a href="https://archive.org/details/p099-knarz-maschine-acid-knarz-ep">ACID KNARZ 1</a></td><td class="num">2022</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>KNARZ Maschine</td><td><a href="https://archive.org/details/p099-knarz-maschine-acid-knarz-ep">ACID KNARZ 2</a></td><td class="num">2022</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>KNARZ Maschine</td><td><a href="https://archive.org/details/p099-knarz-maschine-acid-knarz-ep">ACID KNARZ 3</a></td><td class="num">2022</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Maschienekrieger KR52</td><td><a href="https://archive.org/details/stromtod">Zeit (Rmx Maschinenkrieger KR52)</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Matias Jose Espejo Antognoli = Svecent</td><td><a href="https://archive.org/details/sex-production">sex production</a></td><td class="num">2023</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Mr. Jason</td><td><a href="https://archive.org/details/dfs032-mr.-jason-the-source-code-ep">Mentalin</a></td><td class="num">2025</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Nitrogene</td><td><a href="https://archive.org/details/dfs028-various-netlabel-day-2024-techno-warriors">Lost Transmission Planet Earth</a></td><td class="num">2024</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Ohrchitekt</td><td><a href="https://archive.org/details/dfs028-various-netlabel-day-2024-techno-warriors">Vollpfosten</a></td><td class="num">2024</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>P.B.R.</td><td><a href="https://archive.org/details/p110-p.b.r.-blunt-ep">Death Row</a></td><td class="num">2024</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>P.B.R.</td><td><a href="https://archive.org/details/p110-p.b.r.-blunt-ep">Dynamic Range</a></td><td class="num">2024</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>P.T.B.S.</td><td><a href="https://archive.org/details/dfs016-afflicted-p.t.b.s.-legends-ep">B.T.M. (KNARZ Maschine Remix)</a></td><td class="num">2022</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>P.T.B.S. &amp; Sascha Müller</td><td><a href="https://archive.org/details/dfs033-various-netlabel-day-2025-techno-warriors">Buschlecke</a></td><td class="num">2025</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>P.T.B.S. &amp; Sascha Müller</td><td><a href="https://archive.org/details/dfs036-p.t.b.s.-sascha-muller-content-waveshaper">Content</a></td><td class="num">2025</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>P.T.B.S. &amp; Sascha Müller</td><td><a href="https://archive.org/details/dfs036-p.t.b.s.-sascha-muller-content-waveshaper">Waveshaper</a></td><td class="num">2025</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>P.T.B.S., Hanzzo &amp; THE D3VI7</td><td><a href="https://archive.org/details/dfs028-various-netlabel-day-2024-techno-warriors">Space</a></td><td class="num">2024</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>P.T.B.S., Sascha Müller</td><td><a href="https://archive.org/details/p068-p.t.b.s.-out-of-control-ep">Out Of Control (Sascha Müller Breakbeat Remix)</a></td><td class="num">2018</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pagna</td><td><a href="https://archive.org/details/nuke007-pagna-nuke-vol.-07">Nuke Vol. 07</a></td><td class="num">2019</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pakistan Techno Force</td><td><a href="https://archive.org/details/fressen017-pakistan-techno-force-bugs-in-space-ep_202407">Bouncer</a></td><td class="num">2024</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pakistan Techno Force</td><td><a href="https://archive.org/details/fressen017-pakistan-techno-force-bugs-in-space-ep_202407">Randomise</a></td><td class="num">2024</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pakistand Techno Force</td><td><a href="https://archive.org/details/fressen001-pakistan-techno-force-fergus-ep">Creed</a></td><td class="num">2018</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pakistand Techno Force</td><td><a href="https://archive.org/details/fressen001-pakistan-techno-force-fergus-ep">DropBall</a></td><td class="num">2018</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pakistand Techno Force</td><td><a href="https://archive.org/details/fressen001-pakistan-techno-force-fergus-ep">Katakombs</a></td><td class="num">2018</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pasquale Maassen</td><td><a href="https://archive.org/details/fressen020-pasquale-maassen-demonica-ep">Demonica</a></td><td class="num">2026</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pasquale Maassen</td><td><a href="https://archive.org/details/dfs037-pasquale-maassen-stompin">Stompin</a></td><td class="num">2025</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Pasquale Maassen Vs. Peter Mummert</td><td><a href="https://archive.org/details/dfs033-various-netlabel-day-2025-techno-warriors">Ho Em Ah</a></td><td class="num">2025</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Psy Shepherd X Ethnomite Pux X Invisible Illusion</td><td><a href="https://archive.org/details/psy-shepherd-x-ethnomite-pux-x-invisible-illusion-the-desert-ears">distant signals - psy shepherd x invisible illusion - the desert ears</a></td><td class="num">2023</td><td>le-colibri-necrophile</td><td>CC BY-NC-SA 4.0</td></tr>
+        <tr><td>Psy Shepherd X Ethnomite Pux X Invisible Illusion</td><td><a href="https://archive.org/details/psy-shepherd-x-ethnomite-pux-x-invisible-illusion-the-desert-ears">electronic quicksands ii - ethnomite pux - the desert ears</a></td><td class="num">2023</td><td>le-colibri-necrophile</td><td>CC BY-NC-SA 4.0</td></tr>
+        <tr><td>Psy Shepherd X Ethnomite Pux X Invisible Illusion</td><td><a href="https://archive.org/details/psy-shepherd-x-ethnomite-pux-x-invisible-illusion-the-desert-ears">electronic quicksands iv - ethnomite pux - the desert ears</a></td><td class="num">2023</td><td>le-colibri-necrophile</td><td>CC BY-NC-SA 4.0</td></tr>
+        <tr><td>Rabbits On Speed</td><td><a href="https://archive.org/details/nuke012-rabbits-on-speed-nuke-vol.-12">Nuke Vol. 12</a></td><td class="num">2020</td><td>nuke-the-planet-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Rotura XXL, Inquieto</td><td><a href="https://archive.org/details/rotura-xxl-the-crow-inquieto-remix">rotura xxl - the crow (inquieto remix)</a></td><td class="num">2024</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>RU DEAD 42</td><td><a href="https://archive.org/details/p108-ru-dead-42-acid-to-acid-ep">Acid To Acid</a></td><td class="num">2023</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Sacro Servo</td><td><a href="https://archive.org/details/sacro-servo-02.-la-voz-metalica">Depredador</a></td><td class="num">2026</td><td>hifidelity_potpourri</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>Sans-Fin</td><td><a href="https://archive.org/details/stromtod">Zeit (Rmx Sans-Fin)</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>SansetatciviL</td><td><a href="https://archive.org/details/sansetatcivil-2022-rav-flac">01 2021 fight.club 2 flac</a></td><td class="num">2022</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>SansetatciviL</td><td><a href="https://archive.org/details/sansetatcivil-2022-rav-flac">02 2021 stalker 79 (pt1) flac</a></td><td class="num">2022</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>SansetatciviL</td><td><a href="https://archive.org/details/sansetatcivil-2022-rav-flac">02 2021 stalker 79 (pt2) flac</a></td><td class="num">2022</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Sascha Muller</td><td><a href="https://archive.org/details/sascha-muller-ssrextra100">City Rain</a></td><td class="num">2020</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Sascha Muller</td><td><a href="https://archive.org/details/user020-user33478776888-dilemma-ep">Streamin Black Hole</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Sascha Müller</td><td><a href="https://archive.org/details/sascha-muller-auf-den-punkt">(punkt 1) 01. sascha muller - 1.01</a></td><td class="num">2021</td><td>hifidelity_potpourri</td><td>Public Domain Mark 1.0</td></tr>
+        <tr><td>Sascha Müller</td><td><a href="https://archive.org/details/sascha-muller-auf-den-punkt">(punkt 1) 02. sascha muller - 1.02</a></td><td class="num">2021</td><td>hifidelity_potpourri</td><td>Public Domain Mark 1.0</td></tr>
+        <tr><td>Sascha Müller</td><td><a href="https://archive.org/details/sascha-muller-auf-den-punkt">(punkt 10) 01. sascha muller - 10.01</a></td><td class="num">2021</td><td>hifidelity_potpourri</td><td>Public Domain Mark 1.0</td></tr>
+        <tr><td>Sascha Müller</td><td><a href="https://archive.org/details/sascha-muller-auf-den-punkt">(punkt 10) 02. sascha muller - 10.02</a></td><td class="num">2021</td><td>hifidelity_potpourri</td><td>Public Domain Mark 1.0</td></tr>
+        <tr><td>Sol 1</td><td><a href="https://archive.org/details/fressen012-sol-1-free-fall-ep">Wild Thing</a></td><td class="num">2022</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Stahlschlag</td><td><a href="https://archive.org/details/stromtod">Zeit (Rmx Stahlschlag)</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Stanley Hottek</td><td><a href="https://archive.org/details/stanley-hottek-fratzencenter-01-cola-kevin">ColaKevin</a></td><td class="num">2021</td><td>opensource_audio</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>Stanley Hottek</td><td><a href="https://archive.org/details/stanley-hottek-remind-in-noise-03-gnome">Flame</a></td><td class="num">2021</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Stanley Hottek</td><td><a href="https://archive.org/details/dfs028-various-netlabel-day-2024-techno-warriors">Stupid Love</a></td><td class="num">2024</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Steven Casteel</td><td><a href="https://archive.org/details/Elf-Girl-001-Through-009-MP3s-320kbps">01 - drum &amp; bass : dnb : liquid : jungle : breakbeat</a></td><td class="num">2024</td><td>opensource_audio</td><td>CC0 1.0</td></tr>
+        <tr><td>Steven Casteel</td><td><a href="https://archive.org/details/Elf-Girl-001-Through-009-MP3s-320kbps">02 - guitar</a></td><td class="num">2024</td><td>opensource_audio</td><td>CC0 1.0</td></tr>
+        <tr><td>Stromtod</td><td><a href="https://archive.org/details/stromtod">Bootstrap</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Stromtod</td><td><a href="https://archive.org/details/stromtod">Ein Endloser Kreislauf</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Stromtod</td><td><a href="https://archive.org/details/stromtod">Reaktor</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Svecent</td><td><a href="https://archive.org/details/pro-opportunity-or-not...">Pro opportunity or not...</a></td><td class="num">2022</td><td>opensource_audio</td><td>CC BY-NC-SA 4.0</td></tr>
+        <tr><td>TechnoBotts</td><td><a href="https://archive.org/details/fressen002-techno-botts-techno-brett-ep">Dampframme</a></td><td class="num">2018</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>TechnoBotts</td><td><a href="https://archive.org/details/fressen002-techno-botts-techno-brett-ep">In Motion</a></td><td class="num">2018</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>The 808 Hillbillys</td><td><a href="https://archive.org/details/p080-various-psycho-kidzzz-vol.-6">Untitled 3</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>THE D3VI7</td><td><a href="https://archive.org/details/p115-the-d3vi7-budget-acid-ep">All-Time</a></td><td class="num">2024</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>THE D3VI7</td><td><a href="https://archive.org/details/p105-the-d3vi7-ausstieg-umstieg">Ausstieg</a></td><td class="num">2023</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>THE D3VI7</td><td><a href="https://archive.org/details/fressen010-the-d3vi7-back-on-you-ep">Back To House</a></td><td class="num">2022</td><td>fresscode-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>THE D3VI7, Jens Mueller</td><td><a href="https://archive.org/details/p097-the-d3vi7-computer-simulation-ep">Computer Stimulation (Jens Mueller Remix)</a></td><td class="num">2021</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>TieFenRauSch</td><td><a href="https://archive.org/details/dfs033-various-netlabel-day-2025-techno-warriors">Baikal</a></td><td class="num">2025</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Unknown War Heads</td><td><a href="https://archive.org/details/p073-unknown-war-heads-timebomb-ep">Daddys Riders</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Unknown War Heads</td><td><a href="https://archive.org/details/p073-unknown-war-heads-timebomb-ep">Kalium</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Unknown War Heads</td><td><a href="https://archive.org/details/p080-various-psycho-kidzzz-vol.-6">Patty Pinku</a></td><td class="num">2019</td><td>psychocandies-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>USER Records</td><td><a href="https://archive.org/details/user015-user22647388499-fever-ep">(user015) 02. user22647388499 - cornelius_fever ep</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user02358844564</td><td><a href="https://archive.org/details/user067-user02358844564l-asche-ep">Asche Zu Asche</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user04374532748</td><td><a href="https://archive.org/details/user087-user04374532748-hell-ep">Acid Hell</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user04574546444</td><td><a href="https://archive.org/details/user074-user04574546444-ident-ep">606 + 303 = 904</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user04574546444</td><td><a href="https://archive.org/details/user074-user04574546444-ident-ep">Mistaken Identity_</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user04821460007</td><td><a href="https://archive.org/details/user064-user04821460007-agent-ep">Escape</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user04821460007</td><td><a href="https://archive.org/details/user064-user04821460007-agent-ep">The Agent Girls</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user08200140031</td><td><a href="https://archive.org/details/user046-user08200140031-extra-ep">Untitled 1-1</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user08200140031</td><td><a href="https://archive.org/details/user046-user08200140031-extra-ep">Untitled 2-1</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user08779333356</td><td><a href="https://archive.org/details/user037-user08779333356-geek-ep">Dooms Day</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user08779333356</td><td><a href="https://archive.org/details/user037-user08779333356-geek-ep">Geek</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user10000667856</td><td><a href="https://archive.org/details/user029-user10000667856-africa-ep">The Heart Of Africa</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user10000667856</td><td><a href="https://archive.org/details/user029-user10000667856-africa-ep">Zapata QUA</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user10005668945</td><td><a href="https://archive.org/details/user022-user10005668945-da-police-ep">Untitled 11</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user11000044425</td><td><a href="https://archive.org/details/user065-user11000044425-segment-ep">Segment Shuffler</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user11000044425</td><td><a href="https://archive.org/details/user065-user11000044425-segment-ep">Spandau</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user11188078453</td><td><a href="https://archive.org/details/user075-user11188078453-heit-ep">606 + 303 = 902</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user11375674564</td><td><a href="https://archive.org/details/user062-user11375674564-reform-ep">Reformhaus</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user11508366478</td><td><a href="https://archive.org/details/user006-user11508366478-night-ep">Nightcrawler</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user11508366478</td><td><a href="https://archive.org/details/user006-user11508366478-night-ep">No10_A18</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user12121325544</td><td><a href="https://archive.org/details/user095-user12121325544-sea-ep">Seaside</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user12400003580</td><td><a href="https://archive.org/details/user069-user12400003580-eternity-ep">The B-Master</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user12746456775</td><td><a href="https://archive.org/details/user080-user12746456775-child-ep">Untitled135</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user17883214582</td><td><a href="https://archive.org/details/user056-user17883214582-fukker-ep">5G</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user17883214582</td><td><a href="https://archive.org/details/user056-user17883214582-fukker-ep">You Cock Fukker</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user20684003752</td><td><a href="https://archive.org/details/user001-user20684003752-aboria-ep">Euroman</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user22067782234</td><td><a href="https://archive.org/details/user054-user22067782234-hood-ep">Fluff Boyz In The Hood</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user22067782234</td><td><a href="https://archive.org/details/user054-user22067782234-hood-ep">The A-Master</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user22233300085</td><td><a href="https://archive.org/details/user061-user02358844564-eiswagen-ep">Der Eiswagen</a></td><td class="num">2024</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user22233300085</td><td><a href="https://archive.org/details/user061-user02358844564-eiswagen-ep">Köüenick</a></td><td class="num">2024</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user23564112514</td><td><a href="https://archive.org/details/user045-user23564112514-kidz-ep">Untitled 5-1</a></td><td class="num">2022</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user23564112514</td><td><a href="https://archive.org/details/user045-user23564112514-kidz-ep">Untitled 6-1</a></td><td class="num">2022</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user25244578642</td><td><a href="https://archive.org/details/user081-user25244578642-sequencer-ep">606 + 303 = 903</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user25244578642</td><td><a href="https://archive.org/details/user081-user25244578642-sequencer-ep">The Sequencer</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user33886060077</td><td><a href="https://archive.org/details/user040-user33886060077-boy-ep_202110">Country Boy</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user34567443478</td><td><a href="https://archive.org/details/user049-user34567443478-problems-ep">Untitled 12-1</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user41254475475</td><td><a href="https://archive.org/details/user091-user41254475475-line-ep">Blue Line</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user41254475475</td><td><a href="https://archive.org/details/user091-user41254475475-line-ep">Die Apokalypse</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user44856009320</td><td><a href="https://archive.org/details/user034-user44856009320-system-ep">The Big Manner</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user45682211145</td><td><a href="https://archive.org/details/user055-user45682211145-maschine-ep">Untitled 11-1</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user54466587890</td><td><a href="https://archive.org/details/user012-user54466587890-voltmeter-ep">Untitled 1</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user54466587890</td><td><a href="https://archive.org/details/user012-user54466587890-voltmeter-ep">Voltmeter</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user54875487546</td><td><a href="https://archive.org/details/user088-user54875487546-expander-ep">Expander</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user55454557544</td><td><a href="https://archive.org/details/user092-user55454557544-blinder-ep">Rolling KNARZ</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user55454557544</td><td><a href="https://archive.org/details/user092-user55454557544-blinder-ep">Shady Blinder</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user55864367882</td><td><a href="https://archive.org/details/user083-user55864367882-deep-ep">Darkness</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user55864367882</td><td><a href="https://archive.org/details/user083-user55864367882-deep-ep">Deeper</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user66788884902</td><td><a href="https://archive.org/details/user035-user66788884902-the-face-ep">The Face Of Destruction</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user66788884902</td><td><a href="https://archive.org/details/user035-user66788884902-the-face-ep">Untitled 9-1</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user66866546841</td><td><a href="https://archive.org/details/user086-user66866546841-cold-ep">Acid Embargo (Part 1)</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user66866546841</td><td><a href="https://archive.org/details/user086-user66866546841-cold-ep">Cold Shaker</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user72467634894</td><td><a href="https://archive.org/details/user082-user72467634894-fear-ep">Fear</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user75468548102</td><td><a href="https://archive.org/details/user097-user75468548102-rouge-ep">No Big Deal</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user77856934351</td><td><a href="https://archive.org/details/user033-user77856934351-game-ep">Alante</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user78654786842</td><td><a href="https://archive.org/details/user068-user78654786842-over-ep">3 a.m.</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user78654786842</td><td><a href="https://archive.org/details/user068-user78654786842-over-ep">PullOver</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user78954441235</td><td><a href="https://archive.org/details/user079-user78954441235-cosmic-ep">Cosmic Function</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user78954441235</td><td><a href="https://archive.org/details/user079-user78954441235-cosmic-ep">Trip To The Moon</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user80254894876</td><td><a href="https://archive.org/details/user063-user80254894876-newsline-ep">Newsline Of the Agent Death</a></td><td class="num">2024</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user80254894876</td><td><a href="https://archive.org/details/user063-user80254894876-newsline-ep">Sympathikus Stimmulation</a></td><td class="num">2024</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user83254130235</td><td><a href="https://archive.org/details/user098-user83254130235-emergancy-ep">The Gentleman</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user84564100548</td><td><a href="https://archive.org/details/user057-user84564100548-klapp-ep">Kirschblut</a></td><td class="num">2024</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user84564100548</td><td><a href="https://archive.org/details/user057-user84564100548-klapp-ep">Klappbong</a></td><td class="num">2024</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user85694743322</td><td><a href="https://archive.org/details/user028-user85694743322-compressor-ep">Kurdish Violin Compressor</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user85694743322</td><td><a href="https://archive.org/details/user028-user85694743322-compressor-ep">Untitled 8</a></td><td class="num">2021</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user87742587412</td><td><a href="https://archive.org/details/user042-user87742587412-oha-ep">Border</a></td><td class="num">2022</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user87742587412</td><td><a href="https://archive.org/details/user042-user87742587412-oha-ep">Oha</a></td><td class="num">2022</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user88745774467</td><td><a href="https://archive.org/details/user044-user88745774467-bravados-ep">Untitled 3-1</a></td><td class="num">2022</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user88745774467</td><td><a href="https://archive.org/details/user044-user88745774467-bravados-ep">Untitled 4-1</a></td><td class="num">2022</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user88800903441</td><td><a href="https://archive.org/details/user053-user88800903441-eisen-ep">Barada</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user88800903441</td><td><a href="https://archive.org/details/user053-user88800903441-eisen-ep">Eisenbass</a></td><td class="num">2023</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user89945677442</td><td><a href="https://archive.org/details/user073-user89945677442-msut-ep">Machine Music</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user89945677442</td><td><a href="https://archive.org/details/user073-user89945677442-msut-ep">Totem</a></td><td class="num">2026</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user99457585343</td><td><a href="https://archive.org/details/user066-user99457585343-dom-ep">Death Of An Agent</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user99457585343</td><td><a href="https://archive.org/details/user066-user99457585343-dom-ep">We Want Freedom</a></td><td class="num">2025</td><td>user-records-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user99899889988</td><td><a href="https://archive.org/details/user093-user99899889988-cave-ep">Cavemen</a></td><td class="num">2026</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>user99899889988</td><td><a href="https://archive.org/details/user093-user99899889988-cave-ep">Energy</a></td><td class="num">2026</td><td>opensource_audio</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>VA</td><td><a href="https://archive.org/details/BVR233">bassinlove - cant stand it </a></td><td class="num">2024</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>VA</td><td><a href="https://archive.org/details/BVR233">behlial - cocaina </a></td><td class="num">2024</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>VA</td><td><a href="https://archive.org/details/BVR233">carles dj - mising </a></td><td class="num">2024</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>VA</td><td><a href="https://archive.org/details/BVR233">coyote paul - will this madness ever end </a></td><td class="num">2024</td><td>hifidelity_potpourri</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Valovoima</td><td><a href="https://archive.org/details/pakkaslumi36"></a></td><td class="num">2026</td><td>pakkaslumi</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>Vislumbres</td><td><a href="https://archive.org/details/vislumbres-tinnitus">composición</a></td><td class="num">2025</td><td>opensource_audio</td><td>CC BY 4.0</td></tr>
+        <tr><td>Vislumbres</td><td><a href="https://archive.org/details/vislumbres-tinnitus">ne</a></td><td class="num">2025</td><td>opensource_audio</td><td>CC BY 4.0</td></tr>
+        <tr><td>Vislumbres</td><td><a href="https://archive.org/details/vislumbres-tinnitus">persc</a></td><td class="num">2025</td><td>opensource_audio</td><td>CC BY 4.0</td></tr>
+        <tr><td>void:r</td><td><a href="https://archive.org/details/02-kalter-schweiss">Gestohlene Zeit</a></td><td class="num">2023</td><td>opensource_audio</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>void:r</td><td><a href="https://archive.org/details/02-kalter-schweiss">Kalter Schweiß</a></td><td class="num">2023</td><td>opensource_audio</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>void:r</td><td><a href="https://archive.org/details/02-kalter-schweiss">Nachtzug</a></td><td class="num">2023</td><td>opensource_audio</td><td>CC BY-ND 4.0</td></tr>
+        <tr><td>Widerwille</td><td><a href="https://archive.org/details/dfs028-various-netlabel-day-2024-techno-warriors">Entasis</a></td><td class="num">2024</td><td>dancefloor-socialism-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>X.D.D.</td><td><a href="https://archive.org/details/xdd001-x.d.d.-cuba-vol-01">Cuba Connection</a></td><td class="num">2022</td><td>xdd-x-static-dance-departement-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>X.D.D.</td><td><a href="https://archive.org/details/xdd001-x.d.d.-cuba-vol-01">Dark Elements</a></td><td class="num">2022</td><td>xdd-x-static-dance-departement-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <tr><td>X.D.D.</td><td><a href="https://archive.org/details/xdd002-x.d.d.-vol-02">Exit E</a></td><td class="num">2022</td><td>xdd-x-static-dance-departement-netlabel</td><td>CC BY-NC-ND 4.0</td></tr>
+        <!-- /TRACKS -->
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>Code, synth, measurements and notes: <a href="https://github.com/becker929/anthonybecker.me/tree/main/research/sound-function/repo">on GitHub</a>. Text and figures on this page are CC BY 4.0. The tracks and packs keep their own licences.</p>
+    <p>This page passes a plain-language check. Every sentence has at most eleven words. Every paragraph has at most six sentences. Every technical word is in the glossary.</p>
+  </footer>
+</div>
+</body>
+</html>

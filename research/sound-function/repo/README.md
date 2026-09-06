@@ -9,12 +9,43 @@ everything behind it so the numbers can be re-run.
 
 ```
 research/literature.md   the literature sweep: 25 sources, 14 candidate parameters, the gaps
+research/stems-request.md  stage 5: what we searched, who to ask, the request text
 synth/                   a numpy synthesiser for hard-techno test sounds and parameter sweeps
-analysis/                feature extraction: signal features of a hit, context features of a track
-corpus/                  how the Creative Commons corpus was found, resolved and fetched
-tools/plainlint.py       the plain-language linter the page must pass
-out/                     rendered sweeps, loops, measurements and plots
+synth/library.py         stage 1: 400 synthetic hits with randomised settings, 40 per role
+library/real/            stage 1: manifest and credits for 318 real CC0 / CC BY samples
+analysis/                feature extraction, classifier, pump, downbeat finder, figures
+corpus/                  the 26-track pilot corpus (part one)
+corpus2/                 stage 4: discovery, selection, fetch, pipeline and summary for the big corpus
+listen/                  stage 2: the pair builder for the listening test
+meter/                   stage 6: verification of the browser role meter against the Python features
+tools/plainlint.py       the plain-language linter both pages must pass
+out/                     measurements, models and plots
 ```
+
+## Part two: running the programme
+
+The write-up is at <https://anthonybecker.me/research/sound-function/part-two/>.
+
+```
+python3 -m synth.library                                  # library/synth/wav, 400 hits
+python3 -m analysis.run hits library/synth/wav -o out/library_synth.csv && python3 analysis/hits_extra.py out/library_synth.csv
+python3 -m analysis.run hits library/real/wav  -o out/library_real.csv  && python3 analysis/hits_extra.py out/library_real.csv
+python3 analysis/classify.py out/library_all.csv --portable --max-k 7 -o out/classifier_union.json   # the meter's model
+python3 -m analysis.pump --synth                          # pump measure on loops with known ducking
+python3 -m analysis.downbeat --synth                      # bar-one finder on an arrangement with known bars
+python3 corpus2/discover.py scratch/ia_candidates.json > corpus2/tracks.csv
+python3 corpus2/select_fetch.py corpus2/tracks.csv 300    # corpus2/wav (not committed), corpus2/manifest.json
+python3 corpus2/analyse_all.py --follow                   # grid + pump + downbeat per track, four at a time
+python3 corpus2/summarise.py                              # corpus2/summary.json: the phrase questions answered
+python3 analysis/figures_programme.py                     # out/plots/stage*-*.png
+```
+
+The real sample library's audio is not committed (19 MB, and each pack keeps
+its own licence); `library/real/manifest.csv` names every file's source and
+licence and `library/real/sources.md` gives the credit lines. The big corpus is
+handled like the pilot: manifest with page URL, licence and SHA-256, audio
+never redistributed. `corpus2/exclude.json` lists the tracks dropped before
+any statistic was computed and why.
 
 ## Reproduce
 

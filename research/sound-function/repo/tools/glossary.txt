@@ -103,3 +103,24 @@ tempo
 tempo lock
 test
 time
+synthetic
+one-shot
+one-shots
+ducking
+sample pack
+sample packs
+transfer
+median
+browser
+job
+bar one
+breakdowns
+producer
+producers
+random forest
+public domain
+CC0
+CC BY
+Public Domain Mark
+domain
+manifest

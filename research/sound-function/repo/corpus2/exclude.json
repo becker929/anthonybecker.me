@@ -1,0 +1,9 @@
+{
+  "why": "Rows dropped before any statistic is computed. Each rule is a substring test on the field named.",
+  "rules": [
+    {"field": "artist", "contains": "Udio", "reason": "AI-generated (Udio) track, not a producer's work"},
+    {"field": "artist", "contains": "Suno", "reason": "AI-generated (Suno) track"},
+    {"field": "item", "contains": "20260613_20260613_0543", "reason": "third-party re-uploads of other artists' tracks (klickaud rips); the CC licence on the item is not the rights holder's"},
+    {"field": "title", "contains": "klickaud", "reason": "SoundCloud rip, not a licensed release"}
+  ]
+}

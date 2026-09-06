@@ -1,5 +1,13 @@
-corpus/audio/
-corpus/wav/
-__pycache__/
 *.pyc
 .pytest_cache/
+__pycache__/
+corpus/audio/
+corpus/wav/
+corpus2/_raw/
+corpus2/results/
+corpus2/wav/
+library/real/_raw/
+library/real/wav/
+library/synth/wav/
+out/clapcheck/
+scratch/

@@ -33,12 +33,15 @@ def envelopes(y):
     ripple. Attacks are rises of the log envelope steeper than 2 dB per frame.
     """
     from scipy.signal import hilbert
+    from scipy.fft import next_fast_len
     n = len(y) // FRAME
     env = np.zeros((6, n)); atk = np.zeros((6, n))
+    N = next_fast_len(len(y))   # hilbert is an FFT; an awkward length made some tracks take minutes
     for i, (_, lo, hi) in enumerate(BANDS):
         sos = butter(4, [lo, min(hi, SR / 2 - 1)], "bandpass", fs=SR, output="sos")
         b = sosfiltfilt(sos, y)
-        e = np.abs(hilbert(b))
+        e = np.abs(hilbert(b, N=N)[: len(b)])
+        del b
         # smooth: ~one cycle of the band's low edge, never below 4 ms nor above 25 ms
         cut = float(np.clip(lo, 40, 250))
         e = sosfiltfilt(butter(2, cut, "low", fs=SR, output="sos"), e)
@@ -86,9 +89,11 @@ def lock(sig, bpm0):
     return best
 
 
-def analyse(path):
-    y, _ = librosa.load(path, sr=SR, mono=True)
-    env, atk = envelopes(y)
+def analyse(path, y=None, env=None, atk=None):
+    if y is None:
+        y, _ = librosa.load(path, sr=SR, mono=True)
+    if env is None:
+        env, atk = envelopes(y)
     lowatk = atk[0]   # the sub band: where the kick body sits and nothing else rises sharply
     bpm0 = coarse_tempo(y)
     score, bpm, ph = lock(lowatk, bpm0)
@@ -119,7 +124,7 @@ def analyse(path):
         return float(c.max() / len(returns))
     bar_matrix = np.stack([np.bincount(bar_of, weights=env[b][ok], minlength=nb) / cnt for b in range(6)])
     return {
-        "file": path, "tempo_coarse": round(bpm0, 2), "tempo": round(float(bpm), 3), "lock": round(float(score), 3),
+        "file": path, "tempo_coarse": round(bpm0, 2), "tempo": round(float(bpm), 3), "phase": round(float(ph), 3), "lock": round(float(score), 3),
         "n_bars": int(nb), "profile_energy": prof_e, "profile_attack": prof_a,
         "bar_low": bar_low.tolist(), "kick_on": kick_on.tolist(), "kick_off_runs": offruns,
         "longest_off_bars": max([e - s for s, e in offruns], default=0), "kick_off_share": round(float((~kick_on).sum() / nb), 3),
