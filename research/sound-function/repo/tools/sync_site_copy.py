@@ -5,7 +5,7 @@ import shutil, os
 from pathlib import Path
 SRC = Path(__file__).resolve().parent.parent
 DST = Path("/home/user/anthonybecker.me/research/sound-function/repo")
-SKIP_DIRS = {"__pycache__", ".git", "scratch", "_raw", "wav", "audio", "results", "pump_synth", "sweeps", "loops", "roles", "node_modules"}
+SKIP_DIRS = {"__pycache__", ".git", "scratch", "_raw", "wav", "audio", "results", "stems_results", "stems", "_sep", "pump_synth", "sweeps", "loops", "roles", "node_modules"}
 SKIP_EXT = {".wav", ".mp3", ".flac", ".npy", ".pyc"}
 if DST.exists(): shutil.rmtree(DST)
 n = 0
@@ -15,6 +15,12 @@ for root, dirs, files in os.walk(SRC):
         p = Path(root) / f
         if p.suffix in SKIP_EXT or f.startswith("."): continue
         rel = p.relative_to(SRC); (DST / rel).parent.mkdir(parents=True, exist_ok=True)
+        if rel.as_posix() == "corpus2/stems_results.json":
+            # the per-hit feature lists are in out/library_corpus.csv; keep the copy under Cloudflare's 25 MiB per-file limit
+            import json
+            rows = json.load(open(p))
+            for r in rows: r.pop("hits", None)
+            json.dump(rows, open(DST / rel, "w")); n += 1; continue
         shutil.copy2(p, DST / rel); n += 1
 # keep the ignore file so the copy documents what is left out
 shutil.copy2(SRC / ".gitignore", DST / ".gitignore")
