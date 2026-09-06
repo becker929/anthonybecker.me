@@ -84,3 +84,23 @@ checks all three and the page is not published unless it passes.
 
 Code: MIT. The literature sweep and write-up: CC BY 4.0. The corpus tracks
 keep their own licences, credited in the manifest and on the page.
+
+## The lab runner
+
+`lab/runner.py` serves the private lab on the site: it lists pending uploads,
+downloads them, separates stems with Demucs (`pip install demucs`; CPU is fine,
+about 2.5x real time here), measures them with the same code as the corpus, and
+posts a report the lab page renders.
+
+```
+export LAB_TOKEN=...                                   # the same secret the Worker has
+python3 lab/runner.py --base https://anthonybecker.me --once     # one pass
+python3 lab/runner.py --base https://anthonybecker.me            # poll every 2 minutes
+```
+
+Kinds: `track` and `reference` get the grid, the pump on the mix and on the bass
+stem, hits from the drum stem named by the role model, and the kick's landing
+pitch; `sample` gets the full feature set and the role; `multitrack` gets each
+stem measured and the true sidechain from the kick-like stem into the bass-like
+one. Tracks are compared to the corpus medians and, once you have uploaded some,
+to the medians of your own `reference` items.

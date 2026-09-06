@@ -13,7 +13,7 @@ not_found_handling = "404-page"
 # one part of this system meant to be reachable with no password), so they
 # need their own entry or every card-battler demo silently falls back to
 # its fixed placeholder deck with no error anywhere.
-run_worker_first = ["/studio-c33f3ea406426b41*", "/private/c33f3ea406426b41/*", "/api/battler-cards*", "/audio*", "/api/listen*"]
+run_worker_first = ["/studio-c33f3ea406426b41*", "/private/c33f3ea406426b41/*", "/api/battler-cards*", "/audio*", "/api/listen*", "/lab*", "/private/lab/*"]
 
 # Trading-card design system storage (see private/c33f3ea406426b41/cards/).
 [[d1_databases]]

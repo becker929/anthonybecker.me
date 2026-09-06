@@ -129,7 +129,11 @@ export class FakeR2 {
   }
 
   async put(key, bytes, opts) {
-    const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+    let arr;
+    if (typeof bytes === "string") arr = new TextEncoder().encode(bytes);
+    else if (bytes instanceof Uint8Array) arr = bytes;
+    else if (bytes && typeof bytes.getReader === "function") arr = new Uint8Array(await new Response(bytes).arrayBuffer());
+    else arr = new Uint8Array(bytes);
     this.store.set(key, { bytes: arr, httpMetadata: opts?.httpMetadata });
   }
 
@@ -147,6 +151,14 @@ export class FakeR2 {
       },
     };
   }
+
+  async delete(key) {
+    this.store.delete(key);
+  }
+
+  async list({ prefix = "" } = {}) {
+    return { objects: [...this.store.keys()].filter((k) => k.startsWith(prefix)).map((key) => ({ key })), truncated: false };
+  }
 }
 
 // Minimal stand-in for a Workers KV namespace binding: get/put/list only,
@@ -159,6 +171,10 @@ export class FakeKV {
 
   async get(key) {
     return this.store.has(key) ? this.store.get(key) : null;
+  }
+
+  async delete(key) {
+    this.store.delete(key);
   }
 
   async put(key, value) {

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>The lab</title>
+  <link rel="stylesheet" href="/research/sound-function/style.css">
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div class="wrap lab">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / The lab</nav>
+  <header class="title">
+    <div class="kicker">Private · analysis</div>
+    <h1>The lab</h1>
+    <p class="meta">Upload a track, a sample, or the stems of a project. The runner measures it and posts a report here. Nothing on this page is public.</p>
+  </header>
+
+  <section id="upload" class="panel">
+    <h2>Upload</h2>
+    <form id="upload-form">
+      <div class="row">
+        <label>Kind
+          <select name="kind">
+            <option value="track">track or demo (one mixed file)</option>
+            <option value="sample">sample (one short hit)</option>
+            <option value="multitrack">multitrack (several stems of one project)</option>
+            <option value="reference">reference (someone else's track you love)</option>
+          </select>
+        </label>
+        <label>Title <input name="title" maxlength="120" placeholder="e.g. demo 03, kick v2"></label>
+      </div>
+      <label>Notes <input name="notes" maxlength="2000" placeholder="what changed, what you want checked"></label>
+      <label class="files">Files <input name="files" type="file" multiple accept="audio/*,.wav,.aif,.aiff,.flac,.mp3,.ogg,.m4a"></label>
+      <div class="actions"><button type="submit" id="go">Upload</button><span id="upload-status" class="status"></span></div>
+      <ul id="progress" class="progress"></ul>
+    </form>
+  </section>
+
+  <section id="items" class="panel">
+    <h2>Items <button id="refresh" class="ghost" type="button">refresh</button></h2>
+    <p class="hint">Status goes uploading → pending → running → done. The runner picks up pending items when it runs.</p>
+    <ul id="item-list" class="items"><li class="empty">Loading…</li></ul>
+  </section>
+
+  <section id="detail" class="panel" hidden>
+    <h2 id="detail-title"></h2>
+    <p id="detail-meta" class="hint"></p>
+    <div id="detail-files"></div>
+    <div id="detail-report"></div>
+    <div class="actions">
+      <button id="requeue" class="ghost" type="button">run again</button>
+      <button id="delete" class="danger" type="button">delete item</button>
+      <button id="close" class="ghost" type="button">close</button>
+    </div>
+  </section>
+</div>
+<script type="module" src="lab.js"></script>
+</body>
+</html>

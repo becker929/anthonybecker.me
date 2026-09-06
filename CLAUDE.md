@@ -95,3 +95,25 @@ go there — only the 404 rule keeps it back, and it is matched by prefix.
   prompts, editing a skill changes every reference to it immediately —
   `resolveSkills` expands `/name` fresh at generation time, never at save
   time, and never caches the resolved text anywhere.
+
+## The lab (src/lab.js, private/lab/)
+
+`/lab/` is the owner's private upload-and-analysis area. The browser signs in
+with `DEMO_PASSWORD` (a lab-scoped cookie, separate from the studio's); the
+analysis runner authenticates with `Authorization: Bearer $LAB_TOKEN`. Files go
+to R2 (`AUDIO_BUCKET`, `lab/uploads/<item>/<name>`), item metadata to KV
+(`AUDIO_KV`, `lab:item:<id>`), reports to `lab/results/<item>.json`. The UI is
+served from `private/lab/` only through the Worker after auth; the directory is
+blocked directly and listed in `run_worker_first`.
+
+Secrets the lab needs on Cloudflare: `DEMO_PASSWORD` (already set for the
+studio) and `LAB_TOKEN` (new: `wrangler secret put LAB_TOKEN`). The runner lives
+in the research project (`research/sound-function/repo/lab/runner.py`) and needs
+the same token in its environment.
+
+## End-to-end tests (e2e/)
+
+`npm run e2e:server` starts the real Worker `fetch()` on :8790 with in-memory
+KV/R2 fakes and static files from the repo root; `npm run e2e` drives it with
+Playwright (install per the section above): the listening test, the role meter
+and the lab, in a real browser. `e2e/` is in `.assetsignore` so it never deploys.

@@ -23,6 +23,7 @@ import { handleListGems, handleCreateGem, handleUpdateGemMask, handleApproveGem 
 import { listCurrentPrompts, listPromptVersions, createPromptVersion, GENERATORS } from "./prompts.js";
 import { resolveSkills, listSkills, createSkill, updateSkill, deleteSkill } from "./skills.js";
 import { noindex, jsonError, jsonOk } from "./http.js";
+import { handleLab } from "./lab.js";
 
 const BASE = "/studio-c33f3ea406426b41";
 const PRIVATE_DIR = "/private/c33f3ea406426b41";
@@ -391,6 +392,10 @@ export default {
     if (path.startsWith("/api/battler-cards/image/") && request.method === "GET") {
       return handleBattlerCardImage(env, path.slice("/api/battler-cards/image/".length));
     }
+
+    // The lab: the owner's private upload-and-analysis area (src/lab.js).
+    const lab = await handleLab(request, env);
+    if (lab) return lab;
 
     // Audio player routes.
     if (path === "/audio" || path === "/audio/") return handleAudioPage();
