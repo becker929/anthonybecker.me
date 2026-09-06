@@ -82,25 +82,38 @@ def report_track(paths, item, refs, work):
     from analysis import stems
     mix = paths[0]
     g = stems.grid_of(mix)
-    parts = stems.separate(mix, work / "sep")
+    parts = stems.separate(mix)   # cached by content under lab/cache
     bp = stems.bass_pump(parts["bass"], g)
     hits = stems.harvest_hits(parts["drums"])
     roles = stems.role_summary(hits, g["duration_s"])
-    kp = stems.kick_pitch(parts["drums"], hits)
+    kicks = stems.kicks_by_position(parts["drums"], g, bass_path=parts["bass"])
+    kp = kicks.get("landing_pitch_hz") or stems.kick_pitch(parts["drums"], hits)
     levels = stems.stem_levels(parts)
     sc = stems.sidechain_between(parts["drums"], parts["bass"]); sc.pop("curve_db", None)
     db = g["downbeat"]
     ref = lambda k: (refs or {}).get(k)
+    bass_ok = levels.get("bass", -99) > -15
+    bass_note = "" if bass_ok else f"NOT USABLE: the separator left the bass stem {abs(levels.get('bass', 0)):.0f} dB under the drums, so this reads a gap, not a pump"
     rows = [
         row("tempo", g["tempo"], "bpm", ref("tempo") or CORPUS["tempo_median"], "corpus median in the reference column when you have no references yet"),
         row("grid lock", g["lock"], "", None, "above 0.3 the beat grid is trustworthy"),
         row("bar one found with strength", db["beat_one_strength"], "", None, "1 = chance, 4 = every section change agrees"),
         row("pump on the mix", g["pump_mix"]["pump_depth_db"], "dB", ref("pump_depth_db") or CORPUS["pump_depth_median"]),
-        row("pump on the bass stem", bp["pump_depth_db"], "dB", ref("bass_pump_depth_db"), "the rumble alone, folded on the beat; depends on how the separator split the low end, so read the sidechain row with it"),
-        row("pump return time", bp["pump_return_ms"], "ms", ref("pump_return_ms") or CORPUS["pump_return_median"]),
-        row("true sidechain, drums to bass", sc.get("pump_depth_db"), "dB", None, f"bass low band folded on {sc.get('n_kicks', 0)} kick onsets from the drum stem"),
-        row("bass energy below 60 Hz", bp.get("bass_sub_share"), "share", ref("bass_sub_share")),
-        row("kick lands on", kp, "Hz", ref("kick_pitch_hz"), "pitch at about 100 ms into the loudest kicks"),
+        row("pump on the bass stem", bp["pump_depth_db"], "dB", ref("bass_pump_depth_db"), bass_note or "the rumble alone, folded on the beat"),
+        row("pump return time", bp["pump_return_ms"] if bass_ok else g["pump_mix"]["pump_return_ms"], "ms", ref("pump_return_ms") or CORPUS["pump_return_median"], "" if bass_ok else "from the mix, since the bass stem is not usable"),
+        row("true sidechain, drums to bass", sc.get("pump_depth_db"), "dB", None, bass_note or f"bass low band folded on {sc.get('n_kicks', 0)} kick onsets from the drum stem"),
+        row("bass energy below 60 Hz", bp.get("bass_sub_share"), "share", ref("bass_sub_share"), bass_note and "not usable"),
+        row("kicks found by position", kicks.get("n"), "", None, f"{kicks.get('per_minute', 0)} per minute at {kicks.get('tempo', g['tempo']):.0f} bpm; beats where the drum stem has a strong onset"),
+        row("kick lands on", kp, "Hz", ref("kick_pitch_hz"), f"pitch at about 100 ms; readable on {int(100 * kicks.get('pitch_readable_share', 0))}% of the loudest kicks"),
+        row("kick: time to fall 20 dB", kicks.get("decay20_ms"), "ms", None, "median over the kicks found by position, measured over the whole beat"),
+        row("kick: time to fall 40 dB", kicks.get("decay40_ms"), "ms", None, f"{int(100 * (kicks.get('decay40_hits_window') or 0))}% of kicks never fall 40 dB before the next beat ({kicks.get('beat_ms', 0):.0f} ms)"),
+        row("kick: level at the next beat", kicks.get("level_at_next_beat_db"), "dB", None, "how much of the kick is still there when the next one lands; 0 = as loud as its peak"),
+        row("kick: share below 60 Hz", kicks.get("band_sub_share"), "share", None, "after separation; the corpus kicks read 0.47"),
+        row("kick: brightness", kicks.get("spectral_centroid_hz"), "Hz", None, "the corpus kicks read about 2100 Hz"),
+        row("kick body: share below 60 Hz", (kicks.get("body") or {}).get("band_sub_share"), "share", None, "first 250 ms of drums and bass together: the kick as a one-shot would have it"),
+        row("kick body: brightness", (kicks.get("body") or {}).get("spectral_centroid_hz"), "Hz", None, "same window"),
+        row("kick body: falls 20 dB in", (kicks.get("body") or {}).get("decay20_ms"), "ms", None, "same window; 250 means it had not fallen 20 dB yet"),
+        row("what the role model calls these kicks", ", ".join(f"{k} {v}" for k, v in (kicks.get("model_calls_them") or {}).items()) or None, "", None, "if it does not say kick, the model has not met this kind of kick"),
         row("bars with no kick", g["kick_off_share"], "share", ref("kick_off_share") or CORPUS["kick_off_share_median"]),
         row("longest kick run", longest_run(g["kick_on"]), "bars", None),
     ]
@@ -113,10 +126,11 @@ def report_track(paths, item, refs, work):
     sec_struct = dict(title="Structure", rows=[
         row("bars measured", g["n_bars"], "bars"), row("breakdowns (kick off 2+ bars)", len(offs), ""),
         row("longest breakdown", g.get("longest_off_bars", 0), "bars"), row("corpus: share of returns on the 8-bar line", CORPUS["return_on_8_line"], "share")])
-    headline = f"{g['tempo']:.0f} bpm, pump {bp['pump_depth_db'] if bp['pump_depth_db'] is not None else '?'} dB on the bass, kick lands near {kp or '?'} Hz"
+    pump_word = f"pump {bp['pump_depth_db']:.0f} dB on the bass" if bass_ok and bp['pump_depth_db'] is not None else f"pump {g['pump_mix']['pump_depth_db']:.0f} dB on the mix"
+    headline = f"{g['tempo']:.0f} bpm, {pump_word}, kick lands near {kp or '?'} Hz"
     report = dict(headline=headline, rows=rows, sections=[sec_roles, sec_grid, sec_stems, sec_struct],
-                  raw=dict(tempo=g["tempo"], pump_depth_db=g["pump_mix"]["pump_depth_db"], bass_pump_depth_db=bp["pump_depth_db"], pump_return_ms=bp["pump_return_ms"],
-                           bass_sub_share=bp.get("bass_sub_share"), kick_pitch_hz=kp, kick_off_share=g["kick_off_share"], roles=roles, levels=levels, sidechain=sc))
+                  raw=dict(tempo=g["tempo"], pump_depth_db=g["pump_mix"]["pump_depth_db"], bass_pump_depth_db=bp["pump_depth_db"] if bass_ok else None, pump_return_ms=bp["pump_return_ms"] if bass_ok else g["pump_mix"]["pump_return_ms"],
+                           bass_sub_share=bp.get("bass_sub_share") if bass_ok else None, kick_pitch_hz=kp, kick_off_share=g["kick_off_share"], roles=roles, levels=levels, sidechain=sc, kicks=kicks, bass_ok=bass_ok))
     return report
 
 
@@ -234,8 +248,17 @@ def run_local(src, out):
             items.append(dict(kind="track", title=d.stem, files=[d]))
     # references first so tracks can be compared against them
     items.sort(key=lambda i: {"reference": 0, "sample": 1, "multitrack": 2, "track": 3}[i["kind"]])
-    refs = {}; done = []
+    ref_lists, refs, done = {}, {}, []
+    def note_ref(rep):
+        for k in ("tempo", "pump_depth_db", "bass_pump_depth_db", "pump_return_ms", "bass_sub_share", "kick_pitch_hz", "kick_off_share"):
+            if (rep.get("raw") or {}).get(k) is not None: ref_lists.setdefault(k, []).append(rep["raw"][k])
+        refs.clear(); refs.update({k: float(np.median(v)) for k, v in ref_lists.items()})
     for it in items:
+        slug = "".join(c if c.isalnum() or c in "-_" else "-" for c in f"{it['kind']}-{it['title']}")[:80]
+        if (out / f"{slug}.json").exists():   # resume: keep what an earlier run finished
+            rep = json.load(open(out / f"{slug}.json")); done.append(rep)
+            if it["kind"] == "reference": note_ref(rep)
+            print(f"have {it['kind']}: {it['title']}", file=sys.stderr, flush=True); continue
         print(f"running {it['kind']}: {it['title']} ({len(it['files'])} files)", file=sys.stderr, flush=True)
         with tempfile.TemporaryDirectory() as td:
             work = Path(td); (work / "wav").mkdir(); paths = []
@@ -249,14 +272,9 @@ def run_local(src, out):
                 traceback.print_exc(); rep = dict(headline=f"failed: {type(e).__name__}: {e}", rows=[], sections=[], raw={})
             rep["runner"] = dict(seconds=round(time.time() - t0, 1), when=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
             rep["item"] = dict(kind=it["kind"], title=it["title"], files=[f.name for f in it["files"]])
-            slug = "".join(c if c.isalnum() or c in "-_" else "-" for c in f"{it['kind']}-{it['title']}")[:80]
             json.dump(rep, open(out / f"{slug}.json", "w"), indent=1); done.append(rep)
             print(f"  {rep['headline']}  ({rep['runner']['seconds']} s)", file=sys.stderr, flush=True)
-        if it["kind"] == "reference" and rep.get("raw"):
-            for k in ("tempo", "pump_depth_db", "bass_pump_depth_db", "pump_return_ms", "bass_sub_share", "kick_pitch_hz", "kick_off_share"):
-                if rep["raw"].get(k) is not None: refs.setdefault(k, []).append(rep["raw"][k])
-            refs_med = {k: float(np.median(v)) for k, v in refs.items() if isinstance(v, list)}
-            refs.update(refs_med)
+        if it["kind"] == "reference": note_ref(rep)
     json.dump(done, open(out / "all.json", "w"), indent=1)
     print(f"{len(done)} reports in {out}", file=sys.stderr)
 

@@ -11,3 +11,7 @@ library/real/wav/
 library/synth/wav/
 out/clapcheck/
 scratch/
+lab/drive/files/
+lab/drive/reports/
+lab/cache/
+lab/drive/reports_v*/
