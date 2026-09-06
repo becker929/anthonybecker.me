@@ -27,6 +27,19 @@
  * with `owner: "enemy"` and free-respawning rotters — so it keeps behaving
  * exactly as it always has and stays none the wiser that advance mode
  * exists.
+ *
+ * Three later passes on top of that first cut. The GUI: every mode/aim/cam
+ * chip is now its own two-line control-and-readout, pinged and badged with
+ * *how* it changed, because a phone has no room for a HUD row that just
+ * describes buttons sitting six inches away. Aiming: a fourth mode, "lane"
+ * (the default) — the barrel never leaves the lane, so every hop is a pure
+ * strafe and the second stick does nothing, closer to the 2D game's own
+ * three-lane aim than 4-dir/8-dir/free ever were. And juice, chasing the 2D
+ * original's feel on top of the numbers it already reproduces: hit-stop
+ * (frozen by holding `now()` itself rather than a flag, so every timer in
+ * the game honours it for free), popups, chain flourishes, a damage punch,
+ * deletion debris, a start card and a pause, and the arena-taken and wave
+ * announcements. See the ---------- juice ---------- section.
  */
 
 import * as THREE from "./three.module.min.js";
@@ -68,8 +81,10 @@ const REST_YAW = -0.32;
 // ---------- aiming ----------
 // The aim is an angle in the board plane: 0 is +x (down the lane, at the
 // enemy half), positive turns towards -z (the row above). Modes quantise
-// it; "free" does not.
-const AIM_MODES = ["4", "8", "free"];
+// it; "free" does not. "lane" doesn't even let it move — the barrel sits at
+// 0 always, so every hop is a pure strafe, closer to the 2D original's own
+// three-lane aim than the others; it's the default.
+const AIM_MODES = ["lane", "4", "8", "free"];
 const AIM_HOLD_MS = 1200;     // a flick of aim input counts as "still aiming" this long
 const TURN_MS = 60;           // the body chases the aim with this time constant
 const TWIST_MAX = 0.85;       // how far the legs may face away from the barrel in a strafe
@@ -90,11 +105,11 @@ const RECOIL_MS = 130;
 const ROTTER_COUNT = 3;
 const ROTTER_HP = 3;          // three shots, or one charged
 const ROTTER_RADIUS = 0.34;   // hit circle, in tiles
-const ROTTER_SPAWN_MS = 420;
+const ROTTER_SPAWN_MS = 220;  // the 2D original's rise (was 420 in the first cut)
 const ROTTER_SIT_MS = [1100, 2600];
 const ROTTER_HOP_MS = 300;
 const ROTTER_AIM_MS = 720;    // the telegraph
-const ROTTER_DIE_MS = 380;
+const ROTTER_DIE_MS = 180;    // the 2D original's sink (was 380 in the first cut)
 const ROTTER_RESPAWN_MS = 1400;
 const ROTTER_FIRE_EVERY = [2400, 4400];
 const BOLT_SPEED = 4.2 / 1000;
@@ -137,6 +152,31 @@ const CAM_MODES = ["fixed", "follow", "orbit", "shoulder", "top"];
 // reads a direction; a lift that never left it is a tap on a square.
 const STICK_DEAD_PX = 26;
 
+// ---------- juice ----------
+// Chasing the 2D original's feel (see its src/core/fx.js and combat.js) on
+// top of the numbers this prototype already reproduces. All of it is gated
+// on `REDUCED_MOTION`, below.
+const HITSTOP_MS = 70;          // a normal deletion
+const HITSTOP_CHARGED_MS = 110; // a charged kill
+const HITSTOP_CLEAR_MS = 140;   // a deletion that also clears the arena — wins over the others
+const POPUP_MS = 700;
+const POPUP_RISE = 0.5;
+const CHAIN_STEPS = [5, 10, 20];
+const PUNCH_MS = 250;
+const PUNCH_DIST = 0.12;
+const VIGNETTE_MS = 300;
+const DEBRIS_MS = 600;
+const DEBRIS_GRAVITY = 4.2;     // tiles / s^2
+const TRACER_MS = 200;
+const ARENA_STAGGER_MS = 60;    // between one column's retint/ripple and the next, on a clear
+const ARENA_BANNER_MS = 1200;
+const WAVE_CAPTION_MS = 1200;
+
+/** `matchMedia("(prefers-reduced-motion: reduce)")` — no hit-stop, shake, punch or vignette when it's set. */
+const reducedMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
+let REDUCED_MOTION = reducedMotionQuery.matches;
+reducedMotionQuery.addEventListener?.("change", (e) => { REDUCED_MOTION = e.matches; });
+
 // ---------- palette (the game's) ----------
 
 const PAL = {
@@ -155,6 +195,8 @@ const PAL = {
 
 // ---------- easing ----------
 
+/** Bump the camera shake envelope; a no-op under reduced motion. */
+function shakeCam(amount) { if (!REDUCED_MOTION) cam.shake = Math.max(cam.shake, amount); }
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -186,7 +228,46 @@ const aimDir = (a, out) => out.set(Math.cos(a), 0, -Math.sin(a));
 // else has to know.
 const params = new URLSearchParams(location.search);
 const SLOW = Math.max(1, Number(params.get("slow")) || 1);
-const now = () => performance.now() / SLOW;
+const rawNow = () => performance.now() / SLOW;
+
+// `now()` is `rawNow()` minus an offset that grows every time the sim is
+// held still — a hit-stop, or a pause. Holding still is just "the offset
+// grows to match the real time that passed"; every timer in the game reads
+// `now()` and none of them has to know the sim ever stopped, which is the
+// whole point of putting it here instead of threading a "frozen" flag
+// through every phase's `t - t0`. The render loop is untouched either way —
+// a frozen frame is rendered over and over, which for hit-stop is the
+// effect, and for pause is enforced instead by `frame()` skipping every
+// update call outright (see the ---------- loop ---------- section).
+let hitstopOffset = 0;        // ms folded out of rawNow() so far
+let hitstopEndsAtRaw = -Infinity;  // rawNow() at which the current freeze lets go
+let hitstopHoldSim = 0;       // the sim time held during that freeze
+let hitstopResolved = true;   // false while `hitstopOffset` still needs recomputing after a freeze ends
+let paused = false;
+let pausedSimTime = 0;        // the sim time held for as long as `paused`
+
+function now() {
+  if (paused) return pausedSimTime;
+  const raw = rawNow();
+  if (raw < hitstopEndsAtRaw) { hitstopResolved = false; return hitstopHoldSim; }
+  if (!hitstopResolved) { hitstopOffset = hitstopEndsAtRaw - hitstopHoldSim; hitstopResolved = true; }
+  return raw - hitstopOffset;
+}
+/** Freeze the sim clock for `ms` (stacking onto a freeze already running); a no-op under reduced motion. */
+function triggerHitStop(ms) {
+  if (REDUCED_MOTION) return;
+  const raw = rawNow();
+  if (raw < hitstopEndsAtRaw) { hitstopEndsAtRaw += ms; return; }
+  hitstopHoldSim = now();
+  hitstopEndsAtRaw = raw + ms;
+  hitstopResolved = false;
+}
+/** Pause holds the sim clock exactly where it was; resuming folds the real time spent paused back out, so nothing downstream sees a gap. */
+function setPaused(p) {
+  if (p === paused) return;
+  if (p) { pausedSimTime = now(); paused = true; }
+  else { paused = false; hitstopEndsAtRaw = -Infinity; hitstopOffset = rawNow() - pausedSimTime; hitstopResolved = true; }
+}
 
 // ---------- textures drawn in code ----------
 // No image files: a soft disc for glows, shadows and dust, and a gradient
@@ -231,14 +312,44 @@ const container = document.getElementById("stage");
 const $ = (id) => document.getElementById(id);
 const hud = {
   phase: $("hud-phase"), tile: $("hud-tile"), busted: $("hud-busted"), hits: $("hud-hits"),
-  aim: $("hud-aim"), cam: $("hud-cam"), lock: $("hud-lock"), mode: $("hud-mode"),
-  fire: $("btn-fire"), lockBtn: $("btn-lock"), orbit: $("pad-orbit"),
+  fire: $("btn-fire"), orbit: $("pad-orbit"),
   // advance / story mode
-  advanceRow: $("hud-advance-row"), level: $("hud-level"), pips: $("hud-pips"), chain: $("hud-chain"),
+  level: $("hud-level"), pips: $("hud-pips"), chain: $("hud-chain"),
   talkHint: $("hud-talk-hint"), taskLine: $("hud-task-line"), talkBtn: $("btn-talk"),
   caption: $("hud-caption"), card: $("card"),
-  advanceOnly: [$("hud-advance-row")], sandboxOnly: [$("hud-sandbox-stats")],
+  advanceOnly: [$("hud-advance-stats")], sandboxOnly: [$("hud-sandbox-stats")],
+  vignette: $("vignette"), arenaBanner: $("arena-banner"), arenaBannerText: $("arena-banner-text"),
 };
+
+// ---------- chips ----------
+// The pad's MODE / AIM / CAM / LOCK buttons are two-line chips: a dim label
+// and the live value, both readout and control at once. `announce()` is the
+// one door every setter below walks through — a ~450ms scale/border ping so
+// the eye finds the chip that changed, plus a `.via` badge (`key C`, `tap`,
+// `shift`, `wheel`, `url`...) naming *how*, shown for ~900ms. It always
+// pings; the badge only shows when a `via` is given.
+const chips = {
+  mode: { btn: $("btn-mode"), value: $("chip-mode"), via: $("via-mode") },
+  aim: { btn: $("btn-aim"), value: $("chip-aim"), via: $("via-aim") },
+  cam: { btn: $("btn-cam"), value: $("chip-cam"), via: $("via-cam") },
+  lock: { btn: $("btn-lock"), value: $("chip-lock"), via: $("via-lock") },
+};
+function announce(id, value, via) {
+  const c = chips[id];
+  if (!c) return;
+  c.value.textContent = value;
+  if (via) {
+    c.via.textContent = via;
+    c.via.hidden = false;
+    clearTimeout(c.viaTimer);
+    c.viaTimer = setTimeout(() => { c.via.hidden = true; }, 900);
+  }
+  c.btn.classList.remove("ping");
+  void c.btn.offsetWidth;   // restart the animation even on back-to-back changes
+  c.btn.classList.add("ping");
+  clearTimeout(c.pingTimer);
+  c.pingTimer = setTimeout(() => c.btn.classList.remove("ping"), 460);
+}
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -568,7 +679,8 @@ function buildAdvanceWorld() {
 
 function freshRun() {
   return {
-    over: false, timeLeft: CLOCK_START,
+    over: false, started: false,   // `started`: advance mode's sim (clock, waves, rotters) waits for the start card's FIRE
+    timeLeft: CLOCK_START,
     score: 0, deletions: 0, chain: 0, bestChain: 0, shotsFired: 0, shotsHit: 0,
     hitThisArena: false, task: null, givenTask: false, talk: null,
   };
@@ -594,23 +706,30 @@ const aliveInArena = () => rotters.filter((r) => r.phase !== "die").length;
 /** Deal the next wave: as many as waveSize allows, capped by what's left in the pool and by MAX_ALIVE. */
 function dealWave(a, t) {
   const n = Math.min(a.waveSize, a.pool - a.dealt, MAX_ALIVE);
+  const waveNum = Math.floor(a.dealt / a.waveSize) + 1;
+  const totalWaves = Math.ceil(a.pool / a.waveSize);
   for (let i = 0; i < n; i++) spawnRotter(t);
   a.dealt += n;
   a.waveAlive = n;
+  showCaption(`WAVE ${waveNum} / ${totalWaves}`, WAVE_CAPTION_MS);
 }
 
 /** The pool is spent and the board is clear: flip the ground, pay the clock, and build onward. */
 function clearArena(a, t) {
   a.owner = "player";
-  for (let row = 0; row < ROWS; row++) {
-    for (let col = a.x0 + PCOLS; col < a.x0 + COLS; col++) {
-      retintTile(tileAt(col, row), "player");
-      ripple(tileX(col), tileZ(row), PAL.tilePlayerRim, 1.6, 420);
-    }
+  // The retint and its ripple stagger column by column rather than firing at
+  // once — the 2D original's own arena-taken pulse. Real-time `setTimeout`,
+  // not the sim clock: it's a one-off flourish tied to columns already fixed
+  // in world space, not a timer anything else reads.
+  for (let col = a.x0 + PCOLS, i = 0; col < a.x0 + COLS; col++, i++) {
+    const c = col;
+    const doColumn = () => { for (let row = 0; row < ROWS; row++) { retintTile(tileAt(c, row), "player"); ripple(tileX(c), tileZ(row), PAL.tilePlayerRim, 1.6, 420); } };
+    if (i === 0) doColumn(); else setTimeout(doColumn, i * ARENA_STAGGER_MS);
   }
   dropDivider(a);
-  cam.shake = Math.max(cam.shake, 0.05);
+  shakeCam(0.05);
   addTime(1.2);
+  announceArenaTaken(a.idx, 1.2);
   if (run.task && !run.task.done) {
     if (run.task.id === "noHit" && !run.hitThisArena) completeTask();
     if (run.task.id === "chargedClear" && state.charge && t - state.charge.t0 >= CHARGE_MS) completeTask();
@@ -665,18 +784,52 @@ function gameOver() {
   $("card-deletions").textContent = String(run.deletions);
   $("card-chain").textContent = String(run.bestChain);
   $("card-acc").textContent = `${acc}%`;
-  hud.card.hidden = false;
+  showCard("over");
 }
-/** RETRY: rebuild the world from scratch, exactly the fresh-run layout. */
+/** RETRY: rebuild the world from scratch, exactly the fresh-run layout, and wait on the start card again. */
 function retry() {
   if (mode !== "advance") return;
-  hud.card.hidden = true;
   run = freshRun();
   buildAdvanceWorld();
   state.col = 1; state.row = 1; state.hop = null; state.path = null; state.queued = null;
   state.pos.set(tileX(1), 0, tileZ(1));
   camAnchorX = state.pos.x; camLookX = state.pos.x;
   hideCaption();
+  showCard("start");
+}
+
+// ---------- cards ----------
+// One overlay element, three bodies (`#card-over` / `#card-start` /
+// `#card-pause`), only one shown at a time — `cardKind` says which, or
+// `null` for none. Every card but "over" is dismissed by FIRE; "pause" also
+// by P or Escape. Input handlers gate on `cardKind` (see ---------- input
+// ---------- ) so nothing behind the card reacts while it's up.
+let cardKind = null;
+function showCard(kind) {
+  cardKind = kind;
+  hud.card.hidden = false;
+  $("card-over").hidden = kind !== "over";
+  $("card-start").hidden = kind !== "start";
+  $("card-pause").hidden = kind !== "pause";
+}
+function hideCardAll() {
+  cardKind = null;
+  hud.card.hidden = true;
+}
+/** FIRE on the start card: let the sim (clock, waves, rotters) begin. */
+function startRun() {
+  if (cardKind !== "start") return;
+  hideCardAll();
+  run.started = true;
+}
+function pauseGame() {
+  if (cardKind) return;   // a start/over/pause card already has the floor
+  setPaused(true);
+  showCard("pause");
+}
+function resumeGame() {
+  setPaused(false);
+  hideCardAll();
 }
 
 function completeTask() {
@@ -798,6 +951,18 @@ function hideCaption() {
   hud.caption.textContent = "";
 }
 
+/** The big centred "ARENA n TAKEN +bonus" banner a clear announces. */
+let arenaBannerTimer = null;
+function announceArenaTaken(idx, bonusSec) {
+  hud.arenaBannerText.textContent = `ARENA ${idx + 1} TAKEN  +${bonusSec.toFixed(1)}s`;
+  hud.arenaBanner.hidden = false;
+  hud.arenaBanner.classList.remove("show");
+  void hud.arenaBanner.offsetWidth;
+  hud.arenaBanner.classList.add("show");
+  clearTimeout(arenaBannerTimer);
+  arenaBannerTimer = setTimeout(() => { hud.arenaBanner.hidden = true; }, ARENA_BANNER_MS);
+}
+
 // ---------- mode ----------
 
 /** The clock's pip bar: built once per mode switch, 36 spans at the 45 s cap, `lit` toggled every frame. */
@@ -828,14 +993,14 @@ function updateAdvanceHud() {
 /** (Re)build the world for whichever mode is live, and reset the run/camera to match. */
 function applyMode() {
   hideCaption();
-  hud.card.hidden = true;
+  hideCardAll();
   for (const el of hud.advanceOnly) el.hidden = mode !== "advance";
   for (const el of hud.sandboxOnly) el.hidden = mode === "advance";
-  hud.mode.textContent = mode;
   run = freshRun();
   if (mode === "advance") {
     buildPips();
     buildAdvanceWorld();
+    showCard("start");   // the sim waits for FIRE — see startRun()
   } else {
     buildSandboxWorld();
   }
@@ -845,12 +1010,13 @@ function applyMode() {
   camTarget.copy(LOOK_AT);
   camAnchorX = state.pos.x; camLookX = state.pos.x;
 }
-function setMode(m) {
+function setMode(m, via) {
   if (!MODES.includes(m) || m === mode) return;
   mode = m;
   applyMode();
+  announce("mode", m, via);
 }
-function toggleMode() { setMode(mode === "sandbox" ? "advance" : "sandbox"); }
+function toggleMode(via) { setMode(mode === "sandbox" ? "advance" : "sandbox", via); }
 
 // Motes: a slow drift of dust in the light, so the air has depth.
 const MOTES = 220;
@@ -1145,9 +1311,136 @@ function updateTiles() {
   }
 }
 
+// ---------- popups ----------
+// Floating score/status text — a world-space sprite, not DOM, so it sits
+// exactly at the deletion and rides the camera like everything else. Each
+// unique string gets one canvas texture, cached and reused: a fight spends
+// most of its popups on the same handful of strings ("+100", "BUSTED", the
+// chain multipliers), so there is no reason to redraw a canvas per one.
+const popupTexCache = new Map();
+const POPUP_CANVAS_W = 256, POPUP_CANVAS_H = 96;
+function popupTexture(text, color) {
+  const key = text + "|" + color;
+  let tex = popupTexCache.get(key);
+  if (tex) return tex;
+  const c = document.createElement("canvas");
+  c.width = POPUP_CANVAS_W; c.height = POPUP_CANVAS_H;
+  const g = c.getContext("2d");
+  g.font = "700 42px ui-monospace, Menlo, Consolas, monospace";
+  g.textAlign = "center"; g.textBaseline = "middle";
+  g.lineWidth = 8; g.strokeStyle = "rgba(7,9,14,0.9)";
+  g.strokeText(text, c.width / 2, c.height / 2);
+  g.fillStyle = color;
+  g.fillText(text, c.width / 2, c.height / 2);
+  tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  popupTexCache.set(key, tex);
+  return tex;
+}
+const popups = [];
+const POPUP_ASPECT = POPUP_CANVAS_H / POPUP_CANVAS_W;
+/** A floating text sprite at (x, z): rises (or, `fall`, sinks) and fades over `ms`, with a punchy scale-in. */
+function popup(x, z, text, opts = {}) {
+  const { color = "#c9f6ff", y0 = 0.5, rise = POPUP_RISE, ms = POPUP_MS, fall = false } = opts;
+  const mat = new THREE.SpriteMaterial({ map: popupTexture(text, color), transparent: true, depthWrite: false, depthTest: false });
+  const s = new THREE.Sprite(mat);
+  s.position.set(x, y0, z);
+  s.scale.set(0.001, 0.001, 1);
+  scene.add(s);
+  popups.push({ s, x, z, y0, drift: fall ? -rise : rise, t0: now(), ms, targetW: 0.62 });
+}
+function updatePopups(t) {
+  for (let i = popups.length - 1; i >= 0; i--) {
+    const p = popups[i];
+    const u = clamp01((t - p.t0) / p.ms);
+    const growU = clamp01(u / 0.22);
+    const w = p.targetW * (growU < 1 ? Math.max(0, easeOutBack(growU)) : 1);
+    p.s.scale.set(w, w * POPUP_ASPECT, 1);
+    p.s.position.set(p.x, p.y0 + p.drift * easeOutQuad(u), p.z);
+    p.s.material.opacity = u < 0.65 ? 1 : 1 - (u - 0.65) / 0.35;
+    if (u >= 1) { scene.remove(p.s); p.s.material.dispose(); popups.splice(i, 1); }
+  }
+}
+
+/** A chain stepping up to ×2/×3/×4 (at 5/10/20): a ring burst around the buster and a yellow multiplier popup. */
+function chainFlourish(mult) {
+  if (!REDUCED_MOTION) ripple(state.pos.x, state.pos.z, PAL.shot, 2.4, 480);
+  popup(state.pos.x, state.pos.z, `×${mult}`, { color: "#ffd23f", y0: 0.9, rise: 0.6, ms: 750 });
+}
+/** A hit breaking a live chain: the HUD counter flashes red and the lost chain falls away instead of rising. */
+function chainLostFlourish() {
+  popup(state.pos.x, state.pos.z, "CHAIN LOST", { color: PAL.bolt, y0: 0.9, rise: 0.4, ms: 700, fall: true });
+  hud.chain.classList.remove("lost");
+  void hud.chain.offsetWidth;
+  hud.chain.classList.add("lost");
+}
+
+// ---------- debris ----------
+// A deletion's aftermath: a handful of small dark chunks in the rotter's own
+// colours, thrown up and out, bouncing once off the floor, fading over
+// DEBRIS_MS. One shared box geometry; each chunk gets its own material only
+// because each one needs its own fade and colour.
+const debrisGeo = new THREE.BoxGeometry(0.05, 0.05, 0.05);
+const debris = [];
+function spawnDebris(x, z, palette) {
+  const n = 5 + Math.floor(Math.random() * 3);   // 5-7
+  for (let i = 0; i < n; i++) {
+    const mat = new THREE.MeshBasicMaterial({ color: palette[Math.floor(Math.random() * palette.length)], transparent: true });
+    const m = new THREE.Mesh(debrisGeo, mat);
+    m.position.set(x, 0.15, z);
+    m.rotation.set(rand(0, 6.3), rand(0, 6.3), rand(0, 6.3));
+    scene.add(m);
+    const a = rand(0, Math.PI * 2);
+    const speed = rand(0.5, 1.3);
+    debris.push({
+      m, x, y: 0.15, z, vx: Math.cos(a) * speed, vz: Math.sin(a) * speed, vy: rand(1.2, 2.2),
+      spinX: rand(-8, 8), spinY: rand(-8, 8), bounced: false, t0: now(), ms: DEBRIS_MS,
+    });
+  }
+}
+function updateDebris(t) {
+  const dt = frameDt / 1000;
+  for (let i = debris.length - 1; i >= 0; i--) {
+    const d = debris[i];
+    const u = clamp01((t - d.t0) / d.ms);
+    d.vy -= DEBRIS_GRAVITY * dt;
+    d.x += d.vx * dt; d.z += d.vz * dt; d.y += d.vy * dt;
+    if (d.y <= 0.03) {
+      d.y = 0.03;
+      if (!d.bounced) { d.bounced = true; d.vy = Math.abs(d.vy) * 0.4; } else d.vy = Math.max(0, d.vy);
+    }
+    d.m.position.set(d.x, d.y, d.z);
+    d.m.rotation.x += d.spinX * dt; d.m.rotation.y += d.spinY * dt;
+    d.m.material.opacity = 1 - u;
+    if (u >= 1) { scene.remove(d.m); d.m.material.dispose(); debris.splice(i, 1); }
+  }
+}
+
+// ---------- tracers ----------
+// The charged shot's own aftermath, on top of the flight it already has: a
+// thin line along the whole path, fading fast — the ring on impact is just
+// `ripple()` with a bigger scale (see updateShots).
+const tracers = [];
+function spawnTracer(x0, z0, x1, z1) {
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array([x0, 0.28, z0, x1, 0.28, z1]), 3));
+  const mat = new THREE.LineBasicMaterial({ color: PAL.charged, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
+  const line = new THREE.Line(geo, mat);
+  scene.add(line);
+  tracers.push({ line, t0: now(), ms: TRACER_MS });
+}
+function updateTracers(t) {
+  for (let i = tracers.length - 1; i >= 0; i--) {
+    const tr = tracers[i];
+    const u = clamp01((t - tr.t0) / tr.ms);
+    tr.line.material.opacity = 0.9 * (1 - u);
+    if (u >= 1) { scene.remove(tr.line); tr.line.geometry.dispose(); tr.line.material.dispose(); tracers.splice(i, 1); }
+  }
+}
+
 // ---------- state ----------
 
-const initialAim = AIM_MODES.includes(params.get("aim")) ? params.get("aim") : "8";
+const initialAim = AIM_MODES.includes(params.get("aim")) ? params.get("aim") : "lane";
 const initialCam = CAM_MODES.includes(params.get("cam")) ? params.get("cam") : "fixed";
 /** Which ruleset is live: the free-play board, or the 2D original's endless road. `setMode()` (bottom, mode control) rebuilds the world when this changes. */
 let mode = MODES.includes(params.get("mode")) ? params.get("mode") : "sandbox";
@@ -1161,7 +1454,7 @@ const state = {
   path: null,                 // { col, row } a tap to walk towards
   queued: null,               // a step asked for inside the ration
   // aiming
-  aimMode: initialAim,        // "4" | "8" | "free"
+  aimMode: initialAim,        // "lane" | "4" | "8" | "free"
   aim: 0,                     // the angle shots leave at
   aimAt: -1e9,                // when the aim was last set on purpose (input, lock, fire)
   cosmetic: true,             // at rest and unaimed: show the REST_YAW three-quarter turn
@@ -1268,10 +1561,11 @@ function go(col, row, t) {
   if (prev && !prev.committed) { prev.committed = true; state.col = prev.toCol; state.row = prev.toRow; }
   if (col === state.col && row === state.row) { state.hop = null; return; }
   state.hop = { fromCol: state.col, fromRow: state.row, toCol: col, toRow: row, t0: t, committed: false, left: false, landed: false };
-  // Unless the barrel is being held somewhere — by the lock or by live aim
-  // input — a hop turns the body to face where it is going, as the 2D buster
-  // turns. Held, the legs go and the barrel stays: the strafe.
-  if (!state.lock && !aimHeld(t)) setAim(angleTo(0, 0, col - state.col, row - state.row), t);
+  // Unless the barrel is being held somewhere — by the lock, live aim input,
+  // or lane mode holding it down the lane on principle — a hop turns the
+  // body to face where it is going, as the 2D buster turns. Held, the legs
+  // go and the barrel stays: the strafe. Lane mode is *always* the strafe.
+  if (!state.lock && state.aimMode !== "lane" && !aimHeld(t)) setAim(angleTo(0, 0, col - state.col, row - state.row), t);
 }
 
 function updateHop(t) {
@@ -1320,13 +1614,16 @@ function aimHeld(t) {
   return !!(aimStickVec() || heldAim() || t - state.hoverAt < AIM_HOLD_MS);
 }
 
-function setAimMode(m) {
+function setAimMode(m, via) {
   if (!AIM_MODES.includes(m)) return;
   state.aimMode = m;
-  state.aim = quantise(state.aim);
-  hud.aim.textContent = m === "free" ? "free" : m + "-dir";
+  // lane snaps straight back down the lane; the others just re-quantise
+  // whatever the aim already was.
+  state.aim = m === "lane" ? 0 : quantise(state.aim);
+  const label = m === "lane" ? "lane" : m === "free" ? "free" : m + "-dir";
+  announce("aim", label, via);
 }
-function cycleAimMode() { setAimMode(AIM_MODES[(AIM_MODES.indexOf(state.aimMode) + 1) % AIM_MODES.length]); }
+function cycleAimMode(via) { setAimMode(AIM_MODES[(AIM_MODES.indexOf(state.aimMode) + 1) % AIM_MODES.length], via); }
 
 /** The nearest live rotter, for the lock to hold on. */
 function nearestRotter() {
@@ -1338,14 +1635,15 @@ function nearestRotter() {
   }
   return best;
 }
+/** Who/what asked for the last lock change, for the chip's `.via` badge — set by the input handlers, read the moment `updateLock` sees the transition. */
+let lockVia = null;
 function updateLock(t) {
   const want = state.lockHold || state.lockToggle;
-  if (want && !state.lock) { state.lock = true; state.lockTarget = nearestRotter(); state.aimAt = t; state.cosmetic = false; }
-  if (!want && state.lock) { state.lock = false; state.lockTarget = null; }
+  if (want && !state.lock) { state.lock = true; state.lockTarget = nearestRotter(); state.aimAt = t; state.cosmetic = false; announce("lock", state.lockTarget ? "target" : "held", lockVia); }
+  if (!want && state.lock) { state.lock = false; state.lockTarget = null; announce("lock", "off", lockVia); }
   if (state.lock && (!state.lockTarget || state.lockTarget.phase === "die" || !rotters.includes(state.lockTarget))) state.lockTarget = nearestRotter();
-  hud.lock.textContent = state.lock ? (state.lockTarget ? "target" : "held") : "off";
-  hud.lock.classList.toggle("on", state.lock);
-  hud.lockBtn.classList.toggle("on", state.lock);
+  chips.lock.value.textContent = state.lock ? (state.lockTarget ? "target" : "held") : "off";
+  chips.lock.btn.classList.toggle("on", state.lock);
 }
 
 const _v = new THREE.Vector3(), _w = new THREE.Vector3();
@@ -1361,6 +1659,17 @@ function updateAim(t) {
   if (state.lock) {
     const r = state.lockTarget;
     if (r) setAim(angleTo(state.pos.x, state.pos.z, r.x, r.z), t, true);
+    return;
+  }
+  if (state.aimMode === "lane") {
+    // Pure strafing: the barrel stays down the lane. Hover, the arrow keys
+    // and the aim stick are all ignored (checked below, in aimHeld/go) —
+    // the only thing that can move the aim off 0 is the lock, above. The
+    // rest-time cosmetic turn still applies — and, since nothing else ever
+    // flips `cosmetic` back off in this mode (there's no aim change to do
+    // it), a hop or a recent shot has to clear it explicitly here.
+    state.aim = 0;
+    state.cosmetic = !state.hop && t - state.lastIdleAt > REFACE_MS && t - state.aimAt > AIM_HOLD_MS && !state.charge;
     return;
   }
   const sv = aimStickVec();
@@ -1394,7 +1703,7 @@ function fire(t, charged) {
   m.add(glow);
   scene.add(m);
   const speed = charged ? CHARGED_SPEED : SHOT_SPEED;
-  shots.push({ m, vx: _v.x * speed, vz: _v.z * speed, charged, dmg: charged ? ROTTER_HP : 1 });
+  shots.push({ m, vx: _v.x * speed, vz: _v.z * speed, charged, dmg: charged ? ROTTER_HP : 1, x0: muzzle.x, z0: muzzle.z, hit: false });
   if (mode === "advance" && !run.over) run.shotsFired++;
   state.lastFireAt = t;
   state.fireAt = t;
@@ -1403,11 +1712,16 @@ function fire(t, charged) {
   state.cosmetic = false;
   flash.material.color.set(charged ? PAL.charged : PAL.shot);
   if (charged) {
-    cam.shake = Math.max(cam.shake, 0.05);
+    shakeCam(0.05);
     dust(muzzle.x, muzzle.z, 5, 1.4, { color: PAL.charged, y: muzzle.y, rise: 0, size: [0.06, 0.2], ms: [140, 220], additive: true });
   }
 }
 function pressFire(t) {
+  // FIRE is also how the start and pause cards let go — a single choke
+  // point covers the keyboard, the FIRE button and right-click/touch alike.
+  if (cardKind === "over") return;
+  if (cardKind === "start") { startRun(); return; }
+  if (cardKind === "pause") { resumeGame(); return; }
   if (state.charge) return;
   if (t - state.lastFireAt >= FIRE_COOLDOWN_MS) fire(t, false);
   state.charge = { t0: t };
@@ -1433,11 +1747,21 @@ function updateShots(t) {
         if (Math.hypot(r.x - s.m.position.x, r.z - s.m.position.z) <= ROTTER_RADIUS + (s.charged ? 0.15 : 0.06)) {
           hitRotter(r, s, t);
           spent = true;
+          s.hit = true;
           break;
         }
       }
     }
-    if (spent) { scene.remove(s.m); shots.splice(i, 1); }
+    if (spent) {
+      // The charged shot's aftermath: a tracer along the whole path, fading
+      // fast, and — only on an actual hit, not a miss run off the board — a
+      // bigger ring where it landed.
+      if (s.charged) {
+        spawnTracer(s.x0, s.z0, s.m.position.x, s.m.position.z);
+        if (s.hit) ripple(s.m.position.x, s.m.position.z, PAL.charged, 2.6, 300);
+      }
+      scene.remove(s.m); shots.splice(i, 1);
+    }
   }
   // the flash and the charge glow ride the muzzle
   const fu = clamp01((t - state.fireAt) / 70);
@@ -1551,15 +1875,24 @@ function hitRotter(r, shot, t) {
     dust(r.x, r.z, 14, 2.6, { color: PAL.bolt, y: 0.25, rise: 0.6, size: [0.08, 0.3], ms: [300, 520], additive: true });
     ripple(r.x, r.z, PAL.bolt, 2.2, 420);
     pressTile(r.col, r.row, 0.6);
-    cam.shake = Math.max(cam.shake, shot.charged ? 0.07 : 0.035);
+    shakeCam(shot.charged ? 0.07 : 0.035);
+    spawnDebris(r.x, r.z, r.steel ? [PAL.rotterSteel, PAL.rotterSteelDark, PAL.rotterBlade] : [PAL.rotter, PAL.rotterDark, PAL.rotterBlade]);
     if (state.lockTarget === r) state.lockTarget = null;
     nextSpawnAt = Math.max(nextSpawnAt, t + ROTTER_RESPAWN_MS);
+    const a = activeArena();
+    const clearing = mode === "advance" && a && a.dealt >= a.pool && aliveInArena() === 0;
+    triggerHitStop(clearing ? HITSTOP_CLEAR_MS : shot.charged ? HITSTOP_CHARGED_MS : HITSTOP_MS);
     if (mode === "advance" && !run.over) {
       run.deletions++;
       run.chain++;
       run.bestChain = Math.max(run.bestChain, run.chain);
-      run.score += 100 * chainMultiplier(run.chain);
+      const mult = chainMultiplier(run.chain);
+      run.score += 100 * mult;
+      popup(r.x, r.z, mult > 1 ? `+${100 * mult} ×${mult}` : `+${100 * mult}`, { color: "#c9f6ff" });
+      if (CHAIN_STEPS.includes(run.chain)) chainFlourish(mult);
       if (run.task && run.task.id === "chain8" && !run.task.done && run.chain >= 8) completeTask();
+    } else {
+      popup(r.x, r.z, "BUSTED", { color: "#c9f6ff" });
     }
   } else {
     // a shove: the body lurches away from the shot and springs back
@@ -1589,23 +1922,27 @@ function updateBolts(t) {
     b.m.position.z += b.vz * frameDt;
     let spent = offBoard(b.m.position.x, b.m.position.z);
     if (!spent && t >= state.hurtUntil && Math.hypot(b.m.position.x - state.pos.x, b.m.position.z - state.pos.z) <= BOLT_RADIUS) {
-      takeHit(t);
+      takeHit(t, b.vx, b.vz);
       spent = true;
     }
     if (spent) { scene.remove(b.m); bolts.splice(i, 1); }
   }
 }
 
-function takeHit(t) {
+/** `bvx`/`bvz`: the bolt's own travel direction, for the camera punch — omitted (the synthetic `debugHit()` test hook) it just punches along the lane. */
+function takeHit(t, bvx = 1, bvz = 0) {
   state.hurtUntil = t + (mode === "advance" ? ADV_HURT_MS : HURT_MS);
   state.hits++;
   hud.hits.textContent = String(state.hits);
-  cam.shake = Math.max(cam.shake, 0.09);
+  shakeCam(0.09);
+  triggerCamPunch(bvx, bvz);
+  flashVignette();
   dust(state.pos.x, state.pos.z, 10, 2, { color: PAL.bolt, y: 0.35, rise: 0.4, size: [0.06, 0.22], ms: [200, 380], additive: true });
   ripple(state.pos.x, state.pos.z, PAL.bolt, 1.8, 360);
   if (mode === "advance" && !run.over) {
     // a hit costs the clock, not health: it breaks the chain and cancels
     // whatever the player was mid-way through, same as the 2D original.
+    if (run.chain > 0) chainLostFlourish();
     run.hitThisArena = true;
     run.chain = 0;
     state.charge = null;
@@ -1879,13 +2216,31 @@ function updateMuzzle(t) {
 
 const _want = new THREE.Vector3(), _wantT = new THREE.Vector3();
 
-function setCamMode(m) {
+// The damage punch: on a hit the camera kicks away from the bolt's own
+// travel direction and eases back over PUNCH_MS. A vector plus a start
+// time, same shape as `cam.shake`, so one hit landing mid-recovery from
+// another just restarts the ease rather than fighting it.
+let camPunch = { x: 0, z: 0, t0: -1e9 };
+function triggerCamPunch(bvx, bvz) {
+  if (REDUCED_MOTION) return;
+  const len = Math.hypot(bvx, bvz) || 1;
+  camPunch = { x: -(bvx / len) * PUNCH_DIST, z: -(bvz / len) * PUNCH_DIST, t0: now() };
+}
+/** The `#vignette` overlay: a red wash that flashes in and fades over VIGNETTE_MS. */
+function flashVignette() {
+  if (REDUCED_MOTION) return;
+  hud.vignette.classList.remove("flash");
+  void hud.vignette.offsetWidth;
+  hud.vignette.classList.add("flash");
+}
+
+function setCamMode(m, via) {
   if (!CAM_MODES.includes(m)) return;
   cam.mode = m;
-  hud.cam.textContent = m;
   hud.orbit.hidden = m !== "orbit";
+  announce("cam", m, via);
 }
-function cycleCamMode() { setCamMode(CAM_MODES[(CAM_MODES.indexOf(cam.mode) + 1) % CAM_MODES.length]); }
+function cycleCamMode(via) { setCamMode(CAM_MODES[(CAM_MODES.indexOf(cam.mode) + 1) % CAM_MODES.length], via); }
 
 function updateCamera() {
   updateCamAnchor();
@@ -1945,6 +2300,12 @@ function updateCamera() {
     camera.position.y += (Math.random() - 0.5) * cam.shake;
     cam.shake *= Math.pow(0.001, frameDt / 320);
   } else cam.shake = 0;
+  const pu = clamp01((now() - camPunch.t0) / PUNCH_MS);
+  if (pu < 1) {
+    const decay = 1 - easeOutQuad(pu);
+    camera.position.x += camPunch.x * decay;
+    camera.position.z += camPunch.z * decay;
+  }
   camera.lookAt(camTarget);
   fitFov();
 }
@@ -2004,8 +2365,16 @@ window.addEventListener("keydown", (e) => {
   if (isTyping(e)) return;
   // the game-over card freezes input to just RETRY — R is the orbit tilt
   // everywhere else, but here it means what Enter means.
-  if (mode === "advance" && !hud.card.hidden) {
+  if (cardKind === "over") {
     if (e.code === "Enter" || e.code === "KeyR") { e.preventDefault(); retry(); }
+    return;
+  }
+  // the start and pause cards: FIRE lets go of either; P/Escape also
+  // resumes a pause. Everything else — movement, aim, the cameras — is
+  // inert while a card has the floor.
+  if (cardKind) {
+    if (FIRE_KEYS.has(e.code)) { e.preventDefault(); pressFire(now()); }
+    else if ((e.code === "KeyP" || e.code === "Escape") && cardKind === "pause") { e.preventDefault(); resumeGame(); }
     return;
   }
   const t = now();
@@ -2021,34 +2390,37 @@ window.addEventListener("keydown", (e) => {
   }
   if (AIM_KEYS[e.code]) { e.preventDefault(); heldAimKeys.add(e.code); return; }
   if (FIRE_KEYS.has(e.code)) { e.preventDefault(); if (!e.repeat) pressFire(t); return; }
-  if (e.code === "ShiftLeft" || e.code === "ShiftRight") { state.lockHold = true; return; }
+  if (e.code === "ShiftLeft" || e.code === "ShiftRight") { state.lockHold = true; lockVia = "shift"; return; }
   if (e.repeat) return;
   switch (e.code) {
-    case "KeyL": state.lockToggle = !state.lockToggle; break;
-    case "Digit1": setAimMode("4"); break;
-    case "Digit2": setAimMode("8"); break;
-    case "Digit3": setAimMode("free"); break;
-    case "Tab": e.preventDefault(); cycleAimMode(); break;
-    case "KeyC": cycleCamMode(); break;
-    case "KeyQ": orbitBy(-0.35, 0); break;
-    case "KeyE": orbitBy(0.35, 0); break;
-    case "KeyR": orbitBy(0, 0.15); break;
-    case "KeyF": orbitBy(0, -0.15); break;
-    case "KeyM": toggleMode(); break;
+    case "KeyL": state.lockToggle = !state.lockToggle; lockVia = "key L"; break;
+    case "Digit1": setAimMode("lane", "key 1"); break;
+    case "Digit2": setAimMode("4", "key 2"); break;
+    case "Digit3": setAimMode("8", "key 3"); break;
+    case "Digit4": setAimMode("free", "key 4"); break;
+    case "Tab": e.preventDefault(); cycleAimMode("key Tab"); break;
+    case "KeyC": cycleCamMode("key C"); break;
+    case "KeyQ": orbitBy(-0.35, 0, "key Q"); break;
+    case "KeyE": orbitBy(0.35, 0, "key E"); break;
+    case "KeyR": orbitBy(0, 0.15, "key R"); break;
+    case "KeyF": orbitBy(0, -0.15, "key F"); break;
+    case "KeyM": toggleMode("key M"); break;
     case "KeyT": pressTalk(); break;
+    case "KeyP": pauseGame(); break;
+    case "Escape": pauseGame(); break;
   }
 });
 window.addEventListener("keyup", (e) => {
   held.delete(e.code);
   heldAimKeys.delete(e.code);
   if (FIRE_KEYS.has(e.code)) releaseFire(now());
-  if (e.code === "ShiftLeft" || e.code === "ShiftRight") state.lockHold = false;
+  if (e.code === "ShiftLeft" || e.code === "ShiftRight") { state.lockHold = false; lockVia = "shift"; }
 });
 window.addEventListener("blur", () => { held.clear(); heldAimKeys.clear(); state.lockHold = false; releaseFire(now()); });
 
 /** Turn or tilt the orbit camera; any of these switches to it. */
-function orbitBy(dyaw, dpitch) {
-  if (cam.mode !== "orbit") setCamMode("orbit");
+function orbitBy(dyaw, dpitch, via) {
+  if (cam.mode !== "orbit") setCamMode("orbit", via);
   cam.yaw += dyaw;
   cam.pitch = clamp(cam.pitch + dpitch, 0.15, 1.45);
 }
@@ -2110,6 +2482,7 @@ canvas.addEventListener("pointerdown", (e) => {
     pressFire(t);
     return;
   }
+  if (cardKind) return;   // a card has the floor: no move/aim stick underneath it
   if (e.pointerType === "mouse" && e.button !== 0) return;
   const role = roleHeld("move") ? (roleHeld("aim") ? null : "aim") : "move";
   if (!role) return;
@@ -2149,7 +2522,7 @@ canvas.addEventListener("pointerup", pointerEnd);
 canvas.addEventListener("pointercancel", pointerEnd);
 canvas.addEventListener("wheel", (e) => {
   e.preventDefault();
-  if (cam.mode !== "orbit") setCamMode("orbit");
+  if (cam.mode !== "orbit") setCamMode("orbit", "wheel");
   cam.dist = clamp(cam.dist * Math.exp(e.deltaY * 0.0012), 3.4, 11);
 }, { passive: false });
 
@@ -2162,14 +2535,16 @@ function pollHold(t) {
   move(d[0], d[1], t, !!d[2]);
 }
 
-// The on-screen pad: FIRE holds like the key; the rest are taps.
-const bind = (id, fn) => $(id).addEventListener("click", fn);
-bind("btn-aim", cycleAimMode);
-bind("btn-cam", cycleCamMode);
-bind("btn-lock", () => { state.lockToggle = !state.lockToggle; });
-bind("btn-orbit-l", () => orbitBy(-0.35, 0));
-bind("btn-orbit-r", () => orbitBy(0.35, 0));
-bind("btn-mode", toggleMode);
+// The on-screen pad: FIRE holds like the key; the rest are taps. Every chip
+// (and the orbit nudges) is inert while a card is up — RETRY is the one
+// exception, since it's the only button the game-over card shows at all.
+const bind = (id, fn) => $(id).addEventListener("click", (e) => { if (cardKind && id !== "btn-retry") return; fn(e); });
+bind("btn-aim", () => cycleAimMode("tap"));
+bind("btn-cam", () => cycleCamMode("tap"));
+bind("btn-lock", () => { state.lockToggle = !state.lockToggle; lockVia = "tap"; });
+bind("btn-orbit-l", () => orbitBy(-0.35, 0, "tap"));
+bind("btn-orbit-r", () => orbitBy(0.35, 0, "tap"));
+bind("btn-mode", () => toggleMode("tap"));
 bind("btn-talk", pressTalk);
 bind("btn-retry", retry);
 hud.fire.addEventListener("pointerdown", (e) => { e.preventDefault(); hud.fire.setPointerCapture(e.pointerId); pressFire(now()); });
@@ -2193,9 +2568,10 @@ function resize() {
   fitFov();
 }
 window.addEventListener("resize", resize);
-setAimMode(state.aimMode);
-setCamMode(cam.mode);
+setAimMode(state.aimMode, params.has("aim") ? "url" : null);
+setCamMode(cam.mode, params.has("cam") ? "url" : null);
 applyMode();
+announce("mode", mode, params.has("mode") ? "url" : null);
 resize();
 
 function frame() {
@@ -2203,10 +2579,16 @@ function frame() {
   frameDt = Math.min(50, t - last);
   last = t;
 
-  // Game over freezes the sim itself — movement, rotters, shots, the arena's
-  // clock and waves — but not the effects still playing out (a tile's
-  // spring, a ripple's fade, the camera's ease and shake, the keeper's sway).
-  const frozen = mode === "advance" && run.over;
+  // Pause freezes literally everything — no update call runs, so nothing
+  // (a tile's spring, a popup's fade, the camera's shake) so much as
+  // ticks — the render loop still repaints the same frame.
+  if (paused) { renderer.render(scene, camera); return; }
+
+  // Game over, and the start card waiting on its first FIRE, freeze the sim
+  // itself — movement, rotters, shots, the arena's clock and waves — but
+  // not the effects still playing out (a tile's spring, a ripple's fade,
+  // the camera's ease and shake, the keeper's sway).
+  const frozen = mode === "advance" && (run.over || !run.started);
   if (!frozen) {
     flushQueued(t);
     runPath(t);
@@ -2229,6 +2611,9 @@ function frame() {
   updateMuzzle(t);
   updateRipples(t);
   updatePuffs(t);
+  updatePopups(t);
+  updateDebris(t);
+  updateTracers(t);
   updateMotes(t);
   if (mode === "advance") updateKeepers(t);
   updateCamera();
@@ -2254,4 +2639,8 @@ window.__bw3d = {
   setMode, retry, pressTalk,
   forceGameOver: () => { run.timeLeft = 0; gameOver(); },
   debugHit: () => takeHit(now()),   // synthetic hit, for testing the 2.5 s / chain-break path without waiting on a bolt
+  get paused() { return paused; },
+  get cardKind() { return cardKind; },
+  pauseGame, resumeGame, startRun,
+  now, reducedMotion: () => REDUCED_MOTION,
 };

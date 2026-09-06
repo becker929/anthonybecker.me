@@ -7,9 +7,13 @@
 <meta name="description" content="A movement, aiming and camera prototype: the buster as a low-poly 3D humanoid, hopping square to square on the game's board and firing at rotters.">
 <meta name="theme-color" content="#0d1117">
 <link rel="canonical" href="https://anthonybecker.me/demos/5/buster-whack-3d/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230d1117'/%3E%3Crect x='2' y='6' width='6' height='6' fill='%234f8dff'/%3E%3Crect x='8' y='6' width='6' height='6' fill='%23ff5470'/%3E%3C/svg%3E">
 <style>
   /* The scene is the page. It sizes itself to this box and swallows its own
-     touch gestures, so the page itself must not scroll or bounce. */
+     touch gestures, so the page itself must not scroll or bounce. Every HUD
+     piece below is sized so nothing overflows the viewport horizontally
+     even at a 360px phone width — the top readout wraps, the pips flex, and
+     the pad's chips wrap into two rows before FIRE runs out of room. */
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
     width: 100%;
@@ -26,19 +30,31 @@
     position: fixed;
     left: 0; right: 0;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 6px 12px;
     padding: 14px 18px;
     pointer-events: none;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
-  .hud.top { top: 0; align-items: baseline; }
-  .hud.bottom { bottom: 0; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0)); align-items: flex-end; }
+  .hud.top {
+    top: 0; align-items: baseline;
+    padding-top: calc(14px + env(safe-area-inset-top, 0));
+    padding-left: calc(18px + env(safe-area-inset-left, 0));
+    padding-right: calc(18px + env(safe-area-inset-right, 0));
+  }
+  .hud.bottom {
+    /* never wraps: the hint shrinks and wraps inside .left so the pad keeps the right edge */
+    bottom: 0; align-items: flex-end; flex-wrap: nowrap;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0));
+    padding-left: calc(18px + env(safe-area-inset-left, 0));
+    padding-right: calc(18px + env(safe-area-inset-right, 0));
+  }
   .hud .title { color: #4f8dff; white-space: nowrap; }
   .hud .title span { color: #5a6482; }
-  .hud .readout { font-variant-numeric: tabular-nums; color: #5a6482; white-space: nowrap; }
+  .hud .readout { font-variant-numeric: tabular-nums; color: #5a6482; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; justify-content: flex-end; }
   .hud .readout b { color: #c9f6ff; font-weight: 600; }
   .hud .readout b.on { color: #ff5470; }
   .hud .hint { font-size: 11px; opacity: 0.75; }
@@ -46,19 +62,47 @@
   nav.crumbs { pointer-events: auto; }
   nav.crumbs a { color: #5a6482; text-decoration: none; }
   nav.crumbs a:hover { color: #aab4ce; }
-  .left { display: flex; flex-direction: column; gap: 6px; }
+  .left { display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; min-width: 0; }
 
-  /* The advance-mode row: level, the clock's pips, the chain. Sits under the
-     main readout so both stay in the same monospace/uppercase HUD language. */
-  .hud.top2 { top: 32px; justify-content: flex-end; }
-  #hud-advance-row[hidden] { display: none; }
-  .hud.top2 .readout { display: flex; align-items: center; gap: 10px; }
-  .pips { display: inline-flex; gap: 2px; vertical-align: middle; }
-  .pips span { width: 5px; height: 11px; border-radius: 1px; background: #263054; display: inline-block; }
+  /* The phase/tile debug pair is desktop-only clutter; the run readouts
+     (busted/hit, or LEVEL + pips + chain) always show. */
+  #hud-debug { display: none; }
+  @media (min-width: 900px) { #hud-debug { display: inline; } }
+  #hud-advance-stats[hidden], #hud-sandbox-stats[hidden] { display: none; }
+  .pips { display: inline-flex; gap: 2px; vertical-align: middle; flex-shrink: 1; min-width: 0; }
+  .pips span { flex: 1 1 5px; min-width: 3px; max-width: 5px; height: 11px; border-radius: 1px; background: #263054; display: inline-block; }
   .pips span.lit { background: #4f8dff; }
   .pips span.low.lit { background: #ff5470; }
+  #hud-chain.lost { animation: chain-lost-flash 500ms ease-out; }
+  @keyframes chain-lost-flash { 0%, 100% { color: #c9f6ff; } 30% { color: #ff5470; transform: scale(1.3); display: inline-block; } }
 
-  /* The caption: TALK beats, ROOST callouts, task lines. Bottom centre, above the pad. */
+  /* hud-info: the talk hint and the task line, moved off the main readout
+     row. Desktop: just above the caption, above the pad. Narrow: right
+     under the top HUD, since the pad and caption are both busy down there. */
+  #hud-info {
+    position: fixed;
+    left: 50%; transform: translateX(-50%);
+    bottom: 168px;
+    max-width: min(84vw, 560px);
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5a6482;
+    pointer-events: none;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  #hud-info kbd { color: #c9f6ff; font: inherit; }
+  @media (max-width: 640px) {
+    #hud-info { top: 56px; bottom: auto; }
+  }
+
+  /* The caption: TALK beats, ROOST callouts, task/wave callouts. Bottom
+     centre above the pad on desktop; just under the top HUD (and hud-info)
+     on narrow screens so it never collides with the pad. */
   #hud-caption {
     position: fixed;
     left: 50%; bottom: 96px;
@@ -75,8 +119,49 @@
     pointer-events: none;
   }
   #hud-caption[hidden] { display: none; }
+  @media (max-width: 640px) {
+    #hud-caption { bottom: auto; top: 82px; }
+  }
 
-  /* The game-over card: DELETED, the run's numbers, RETRY. */
+  /* The arena-taken banner: a big centred flourish that fades on its own. */
+  #arena-banner {
+    position: fixed;
+    left: 50%; top: 38%;
+    transform: translate(-50%, -50%) scale(0.85);
+    text-align: center;
+    letter-spacing: 0.14em;
+    font-size: 22px;
+    font-weight: 700;
+    color: #c9f6ff;
+    text-shadow: 0 0 18px rgba(79, 141, 255, 0.7);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 6;
+  }
+  #arena-banner[hidden] { display: none; }
+  #arena-banner.show { animation: arena-banner-pop 1200ms ease-out; }
+  @keyframes arena-banner-pop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+    15% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    30% { transform: translate(-50%, -50%) scale(1); }
+    75% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  @media (max-width: 640px) { #arena-banner { font-size: 16px; } }
+
+  /* The damage-punch vignette: a red wash that flashes and fades. */
+  #vignette {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(255, 84, 112, 0) 55%, rgba(255, 84, 112, 0.4) 100%);
+    opacity: 0;
+    z-index: 5;
+  }
+  #vignette.flash { animation: vignette-flash 300ms ease-out; }
+  @keyframes vignette-flash { from { opacity: 1; } to { opacity: 0; } }
+
+  /* The overlay card: reused for game over, the start prompt and pause —
+     only the one matching `cardKind` is unhidden inside it. */
   #card {
     position: fixed; inset: 0;
     display: flex; align-items: center; justify-content: center;
@@ -86,6 +171,7 @@
   #card[hidden] { display: none; }
   #card .panel {
     min-width: 260px;
+    max-width: min(92vw, 420px);
     padding: 28px 32px;
     border-radius: 12px;
     background: #131b2c;
@@ -94,20 +180,28 @@
     letter-spacing: 0.1em;
   }
   #card h1 { font: 700 22px/1.4 inherit; color: #ff5470; letter-spacing: 0.16em; margin-bottom: 14px; }
+  #card-start h1, #card-pause h1 { color: #c9f6ff; font-size: 18px; }
   #card dl { display: grid; grid-template-columns: auto auto; gap: 4px 14px; margin: 0 0 18px; text-align: left; color: #5a6482; }
   #card dl dd { color: #c9f6ff; text-align: right; font-variant-numeric: tabular-nums; }
+  #card .controls-line { font-size: 11px; text-transform: none; letter-spacing: 0.05em; color: #aab4ce; margin: 10px 0 18px; line-height: 1.6; }
+  #card .controls-line kbd { color: #c9f6ff; font: inherit; }
+  #card .prompt { font-size: 13px; color: #ffd23f; letter-spacing: 0.12em; }
   #card button {
     font: inherit; letter-spacing: 0.14em; text-transform: uppercase; color: #ffd23f;
     background: rgba(44, 26, 38, 0.7); border: 2px solid rgba(255, 210, 63, 0.6);
     border-radius: 8px; padding: 10px 22px; cursor: pointer;
   }
   #card button:hover { border-color: #ffd23f; }
+  @media (max-width: 480px) { #card .panel { padding: 20px 18px; } }
 
-  /* The pad: mode chips, the lock, and FIRE. It takes pointer events; the
-     rest of the HUD does not, so the board underneath still reads taps. */
+  /* The pad: chips (each a control AND a live readout), the orbit nudges,
+     and FIRE. It takes pointer events; the rest of the HUD does not, so the
+     board underneath still reads taps. */
   .pad {
     pointer-events: auto;
     display: flex;
+    flex: 0 0 auto;
+    margin-left: auto;
     align-items: flex-end;
     gap: 8px;
     touch-action: none;
@@ -115,7 +209,7 @@
     -webkit-user-select: none;
   }
   .pad .col { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
-  .pad .row { display: flex; gap: 8px; }
+  .pad .row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; max-width: 220px; }
   .pad button {
     font: inherit;
     letter-spacing: 0.14em;
@@ -130,11 +224,42 @@
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
   }
-  .pad button b { color: #c9f6ff; font-weight: 600; }
   .pad button:hover { border-color: rgba(201, 246, 255, 0.6); }
   .pad button:focus-visible { outline: 1px solid #c9f6ff; outline-offset: 2px; }
   .pad button.on { border-color: #ff5470; color: #ff5470; }
-  .pad button.on b { color: #ff5470; }
+
+  /* Chips: a dim label over the live value — the control IS the indicator.
+     Every change pings (a scale/border bump, the value flashing white) and
+     drops a `.via` badge naming how it changed. */
+  .pad button.chip {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
+    min-width: 62px; min-height: 44px;
+    position: relative;
+  }
+  /* `display:flex` above beats the UA's bare `[hidden]` rule on specificity
+     alone — TALK needs its `hidden` attribute to actually hide it. */
+  .pad button.chip[hidden] { display: none; }
+  .pad button.chip .chip-label { font-size: 9px; opacity: 0.6; letter-spacing: 0.12em; }
+  .pad button.chip .chip-value { font-size: 13px; font-weight: 600; color: #c9f6ff; letter-spacing: 0.06em; }
+  .pad button.chip.on .chip-value { color: #ff5470; }
+  .pad button.chip .via {
+    position: absolute; top: -10px; right: -8px;
+    font-size: 8px; letter-spacing: 0.04em; text-transform: none;
+    padding: 2px 5px; border-radius: 5px;
+    background: #0d1117; border: 1px solid rgba(201, 246, 255, 0.6); color: #c9f6ff;
+    white-space: nowrap;
+  }
+  .pad button.chip .via[hidden] { display: none; }
+  .pad button.chip.ping { animation: chip-ping 450ms ease-out; }
+  .pad button.chip.ping .chip-value { animation: chip-value-flash 450ms ease-out; }
+  @keyframes chip-ping {
+    0% { transform: scale(1); border-color: rgba(79, 141, 255, 0.35); }
+    35% { transform: scale(1.14); border-color: #c9f6ff; }
+    100% { transform: scale(1); }
+  }
+  @keyframes chip-value-flash { 0%, 100% {} 35% { color: #ffffff; } }
+
   .pad button.round {
     width: 72px; height: 72px;
     border-radius: 50%;
@@ -150,40 +275,44 @@
 
   @media (max-width: 640px) {
     .hud { padding: 10px 12px; }
+    .hud.top { padding-top: calc(10px + env(safe-area-inset-top, 0)); padding-left: calc(12px + env(safe-area-inset-left, 0)); padding-right: calc(12px + env(safe-area-inset-right, 0)); }
     .hud .hint { display: none; }
     .hud .title span { display: none; }
+    .hud .readout { font-size: 11px; }
     .pad button { padding: 8px 10px; }
+    .pad button.chip { min-width: 56px; }
   }
   noscript { display: block; padding: 24px; }
 </style>
 </head>
 <body>
 <div id="stage"><noscript>This prototype needs JavaScript and WebGL.</noscript></div>
+<div id="vignette"></div>
 <div class="hud top">
   <div class="title">Buster Whack <span>· 3D prototype</span></div>
   <div class="readout">
-    <b id="hud-phase">idle</b> · <span id="hud-tile">1,1</span>
-    &nbsp;·&nbsp; mode <b id="hud-mode">sandbox</b> · aim <b id="hud-aim">8-dir</b> · cam <b id="hud-cam">fixed</b> · lock <b id="hud-lock">off</b>
-    &nbsp;·&nbsp; <span id="hud-sandbox-stats">busted <b id="hud-busted">0</b> · hit <b id="hud-hits">0</b></span>
+    <span id="hud-debug"><b id="hud-phase">idle</b> · <span id="hud-tile">1,1</span>&nbsp;·&nbsp;</span>
+    <span id="hud-sandbox-stats">busted <b id="hud-busted">0</b> · hit <b id="hud-hits">0</b></span>
+    <span id="hud-advance-stats" hidden>
+      LEVEL <b id="hud-level">1</b>
+      <span id="hud-pips" class="pips"></span>
+      chain ×<b id="hud-chain">0</b>
+    </span>
   </div>
 </div>
-<div class="hud top2" id="hud-advance-row" hidden>
-  <div class="readout">
-    <span id="hud-talk-hint" hidden>near a keeper · <kbd>T</kbd> talk &nbsp;·&nbsp;</span>
-    <span id="hud-task-line" hidden></span>
-    LEVEL <b id="hud-level">1</b>
-    <span id="hud-pips" class="pips"></span>
-    chain ×<b id="hud-chain">0</b>
-  </div>
+<div id="hud-info">
+  <span id="hud-talk-hint" hidden>near a keeper · <kbd>T</kbd> talk</span>
+  <span id="hud-task-line" hidden></span>
 </div>
 <div id="hud-caption" hidden></div>
+<div id="arena-banner" hidden><span id="arena-banner-text"></span></div>
 <div class="hud bottom">
   <div class="left">
     <nav class="crumbs"><a href="/demos/">← demos</a></nav>
     <div class="hint">
       <kbd>WASD</kbd> hop · <kbd>arrows</kbd> / mouse aim · <kbd>space</kbd> / right-click fire, hold to charge ·
-      <kbd>shift</kbd> hold / <kbd>L</kbd> lock · <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> aim mode · <kbd>C</kbd> camera · <kbd>Q</kbd><kbd>E</kbd> <kbd>R</kbd><kbd>F</kbd> wheel orbit ·
-      <kbd>M</kbd> story/sandbox mode · <kbd>T</kbd> talk to a keeper ·
+      <kbd>shift</kbd> hold / <kbd>L</kbd> lock · <kbd>1</kbd> lane <kbd>2</kbd> 4-dir <kbd>3</kbd> 8-dir <kbd>4</kbd> free (<kbd>tab</kbd> cycles) · <kbd>C</kbd> camera · <kbd>Q</kbd><kbd>E</kbd> <kbd>R</kbd><kbd>F</kbd> wheel orbit ·
+      <kbd>M</kbd> story/sandbox · <kbd>T</kbd> talk · <kbd>P</kbd> / <kbd>esc</kbd> pause ·
       touch: tap a square, drag as a stick, second finger aims
     </div>
   </div>
@@ -194,18 +323,32 @@
         <button id="btn-orbit-r" type="button" aria-label="orbit right">►</button>
       </div>
       <div class="row">
-        <button id="btn-mode" type="button" title="story / sandbox (M)">mode</button>
-        <button id="btn-aim" type="button" title="aim mode (1 / 2 / 3)">aim</button>
-        <button id="btn-cam" type="button" title="camera (C)">cam</button>
-        <button id="btn-lock" type="button" title="strafe lock (Shift / L)">lock</button>
-        <button id="btn-talk" type="button" title="talk (T)" hidden>talk</button>
+        <button id="btn-mode" class="chip" type="button" title="story / sandbox (M)">
+          <span class="chip-label">MODE</span><span class="chip-value" id="chip-mode">sandbox</span>
+          <span class="via" id="via-mode" hidden></span>
+        </button>
+        <button id="btn-aim" class="chip" type="button" title="aim mode (1 lane / 2 / 3 / 4, tab cycles)">
+          <span class="chip-label">AIM</span><span class="chip-value" id="chip-aim">lane</span>
+          <span class="via" id="via-aim" hidden></span>
+        </button>
+        <button id="btn-cam" class="chip" type="button" title="camera (C)">
+          <span class="chip-label">CAM</span><span class="chip-value" id="chip-cam">fixed</span>
+          <span class="via" id="via-cam" hidden></span>
+        </button>
+        <button id="btn-lock" class="chip" type="button" title="strafe lock (Shift / L)">
+          <span class="chip-label">LOCK</span><span class="chip-value" id="chip-lock">off</span>
+          <span class="via" id="via-lock" hidden></span>
+        </button>
+        <button id="btn-talk" class="chip" type="button" title="talk (T)" hidden>
+          <span class="chip-label">TALK</span><span class="chip-value">press</span>
+        </button>
       </div>
     </div>
     <button id="btn-fire" type="button" class="round" title="fire (Space); hold to charge">fire</button>
   </div>
 </div>
 <div id="card" hidden>
-  <div class="panel">
+  <div class="panel" id="card-over">
     <h1>DELETED</h1>
     <dl>
       <dt>arena reached</dt><dd id="card-arena">1</dd>
@@ -215,6 +358,18 @@
       <dt>accuracy</dt><dd id="card-acc">0%</dd>
     </dl>
     <button id="btn-retry" type="button" title="retry (Enter / R)">retry</button>
+  </div>
+  <div class="panel" id="card-start" hidden>
+    <h1>Buster Whack · Story</h1>
+    <p class="controls-line">
+      <kbd>WASD</kbd> hop · <kbd>arrows</kbd>/mouse aim · hold <kbd>shift</kbd> to lock ·
+      <kbd>space</kbd>/<kbd>J</kbd> fire, hold to charge · <kbd>T</kbd> talk to a keeper
+    </p>
+    <p class="prompt">press FIRE to start</p>
+  </div>
+  <div class="panel" id="card-pause" hidden>
+    <h1>Paused</h1>
+    <p class="prompt">P / esc / FIRE to resume</p>
   </div>
 </div>
 <script type="module" src="./main.js"></script>
