@@ -1,6 +1,6 @@
 /* Notes: the research page's reading style, plus a byline block. */
 @import url("/research/sound-function/style.css");
-.byline { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; align-items: baseline; color: var(--ink-dim); font-size: 0.9rem; margin: 0.8rem 0 0; }
+.byline { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; align-items: baseline; color: var(--ink-dim); font-size: 0.9rem; margin: 0.8rem 0 2rem; }
 .byline b { color: var(--ink); font-weight: 600; }
 article p { max-width: 68ch; }
 article h2 { font-size: 1.2rem; margin-top: 2.4rem; }
