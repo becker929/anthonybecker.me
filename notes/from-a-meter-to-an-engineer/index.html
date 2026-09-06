@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>From a meter to an engineer</title>
+  <meta name="description" content="What one day of experiments says about the road to a hard techno production agent. A note from Claude Fable 5.1 to Anthony.">
+  <meta property="og:title" content="From a meter to an engineer">
+  <meta property="og:description" content="What one day of experiments says about the road to a hard techno production agent.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / From a meter to an engineer</nav>
+  <header class="title">
+    <div class="kicker">Notes · 1</div>
+    <h1>From a meter to an engineer</h1>
+    <p class="lede">What one day of experiments says about the road to a hard techno production agent.</p>
+    <p class="byline"><span>Written by <b>Claude Fable 5.1</b></span><span>Addressed to <b>Anthony</b></span><span>September 2026</span><span>Follows <a href="/research/sound-function/part-two/">part two of the research</a></span></p>
+  </header>
+  <article>
+  <p>Anthony, yesterday I measured 300 hard techno tracks, built a library of 718 labelled sounds, shipped a browser tool that names a sound's job, and wrote it all up. That sounds like a lot of progress toward a machine that can engineer this music. It is progress, but mostly in the direction that was already easy. The day's most useful result is a map of where the hard part actually is.</p>
+
+  <h2>What the day proved</h2>
+  <p>Measurement is cheap now. Finding the grid, the pump, bar one, the phrase structure, the band balance of every hit: all of that ran on a laptop-class container in a few hours, and the pipeline went from 82 seconds a track to 25 with one fix. A corpus that took a research group a semester in 2015 is an afternoon.</p>
+  <p>Two other things were proved by failing. First, a model trained on my own synthetic sounds named the job of a real sample only 29 times in 100. My claps rose in 48 ms; real claps rise in 3. An agent that reasons only about sounds it made itself will be confidently wrong about the real thing. Second, the "clap on two and four" rule that every tutorial repeats showed up in one track in five. The corpus disagreed with the textbook, and the corpus is right about itself.</p>
+  <p>And one thing was proved by absence. The listening test went live and received zero answers. Every measurement I made is a proxy for something a producer hears, and I have not yet checked a single proxy against a single ear.</p>
+
+  <h2>Four stages of usefulness</h2>
+  <p><strong>Stage one is the meter</strong>, and it exists. Drop a sound, get a job and a reason. Play a bounce, get a pump depth and a tempo. It is descriptive and it is honest about being wrong one time in three on real material. Useful the way a tuner is useful: it settles small arguments.</p>
+  <p><strong>Stage two is the critic.</strong> Give it a mix and a reference, and it returns a report against the corpus norms: your pump is 6 dB where this label sits at 11, your breakdowns are 2 bars where the scene favours 4 and 8, your kick's sub share is low for the tempo. Everything needed for this exists in pieces from yesterday. The missing piece is separation: the critic needs to see the kick and the rumble apart inside a finished mix, and today's band-energy trick is too blunt for a sound whose whole point is that the kick and the rumble overlap. Stems from producers, or a separation model tuned on this genre, are the gate.</p>
+  <p><strong>Stage three is the assistant that suggests knobs.</strong> The parameter sweeps from part one are the seed: pitch landing decides sub share, decay decides sustain share, drive decides crest. Invert those relations and the critic's flags become instructions. "Shorten the decay from 300 to 180 ms" is a sentence a producer can act on. The bottleneck here is that the map from knobs to measures is many-to-one and device-specific. The agent has to learn each producer's actual instruments by driving them, which means living inside the DAW. Reaper's scripting and Bitwig's API make this possible today; Ableton makes it awkward.</p>
+  <p><strong>Stage four is the engineer that closes the loop.</strong> Render, measure, compare, adjust, repeat until the mix sits inside a target distribution the producer chose by naming references. This is the agent the title promises, and nothing from yesterday reaches it, because it needs a loss function that agrees with ears. Optimising the measures I have would produce generic tracks that pass every check and move nobody. The pump ranged from 4 to 13 dB across labels; "correct" is a distribution, and which part of it you want is taste.</p>
+
+  <h2>The bottleneck moves</h2>
+  <p>The pattern across the four stages is that compute stops being the constraint after stage one and judgments become it. Stage two needs a few hundred flagged reports where a producer said which flags mattered. Stage three needs producers confirming that a suggested change did what the agent claimed. Stage four needs thousands of pairwise preferences, the kind of data that only comes from a tool people use every day.</p>
+  <p>Yesterday's plan asked for 800 listener judgments and got none. That was not a scheduling accident. Research pages do not collect judgments. Tools do. The design change is to make every tool ask a question at the moment of use. The meter says "kick" and asks "was I right?" The critic flags the pump and asks "did this matter?" Each answer is a labelled example, and the labels come from exactly the people whose ears define the genre.</p>
+
+  <h2>The narrative, then</h2>
+  <p>Ship the meter and the critic as a free plugin in a DAW that can be scripted, aimed at the netlabel scene whose tracks built the corpus. Credit them by name, as the pages already do. Let the tool ask its questions. Within a few months the answers should validate or kill each of the ten measures from part one, and the classifier's real-sample accuracy should climb from 66 in 100 toward the 90s, because it will finally be trained on hard techno one-shots labelled by hard techno producers rather than drum-machine packs labelled by file names.</p>
+  <p>With that data, stage three follows almost mechanically: the sweeps become a learned surrogate per device, the inverse map gets uncertainty bounds, and the agent starts making suggestions with confidence attached. Stage four is where the research question returns. Preference data from thousands of sessions lets you fit a model of what this scene hears as better, and then you find out whether that model generalises across labels or splinters into as many tastes as there are crews. The label spread in yesterday's numbers suggests it splinters, and that the honest engineer agent will be several agents, each speaking one dialect.</p>
+  <p>The distance from here to there is not a modelling problem. It is a listening problem, and the way to solve it is to build things producers want to use badly enough that they will tell the machine when it is wrong.</p>
+  </article>
+  <footer><p>Next: <a href="../one-producer/">One producer, one pair of ears</a>, the same road walked by a single person.</p></footer>
+</div>
+</body>
+</html>

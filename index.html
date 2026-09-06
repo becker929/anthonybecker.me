@@ -21,6 +21,11 @@
     <ul class="demo-list" id="research-list">
       <li class="empty">Loading…</li>
     </ul>
+
+    <h2 id="notes">Notes</h2>
+    <ul class="demo-list" id="notes-list">
+      <li class="empty">Loading…</li>
+    </ul>
   </main>
 
   <script>
@@ -64,6 +69,27 @@
       })
       .catch(() => {
         document.getElementById('research-list').innerHTML = '<li class="error">Couldn\'t load research.</li>';
+      });
+
+    fetch('/notes/manifest.json')
+      .then((res) => res.json())
+      .then((items) => {
+        const list = document.getElementById('notes-list');
+        if (!items.length) {
+          list.innerHTML = '<li class="empty">Nothing yet.</li>';
+          return;
+        }
+        list.innerHTML = items
+          .map((item) => `
+            <li>
+              <a href="${item.path}">${item.title}</a>
+              ${item.description ? `<p>${item.description}</p>` : ''}
+            </li>
+          `)
+          .join('');
+      })
+      .catch(() => {
+        document.getElementById('notes-list').innerHTML = '<li class="error">Couldn\'t load notes.</li>';
       });
   </script>
 </body>
