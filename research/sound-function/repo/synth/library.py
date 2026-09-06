@@ -18,6 +18,9 @@ OUT = "library/synth"
 def _u(rng, lo, hi): return float(rng.uniform(lo, hi))
 def _lu(rng, lo, hi): return float(np.exp(rng.uniform(np.log(lo), np.log(hi))))
 
+V2 = False   # set by --v2: ranges corrected after part two's synthetic-vs-real comparison
+
+
 def make(role, rng, i):
     """Return (audio, settings) for one random example of a role."""
     if role == "kick":
@@ -30,15 +33,18 @@ def make(role, rng, i):
         p = dict(decay_ms=_lu(rng, 400, 1600), lowpass_hz=_lu(rng, 90, 260), drive=_u(rng, 0.1, 0.85), sidechain_ms=_u(rng, 60, 200))
         return E.rumble(k, **p), p
     if role == "hat_closed":
-        p = dict(closed=True, decay_ms=_lu(rng, 8, 70), highpass_hz=_lu(rng, 3500, 9500), tone=_u(rng, 0.0, 0.75), level=0.5, seed=i)
+        # v2: real closed hats ring longer than the pilot's (real hat median decay40 was 330 ms, ours 50)
+        p = dict(closed=True, decay_ms=_lu(rng, 15, 180) if V2 else _lu(rng, 8, 70), highpass_hz=_lu(rng, 3500, 9500), tone=_u(rng, 0.0, 0.75), level=0.5, seed=i)
         return E.hat(**p), p
     if role == "hat_open":
-        p = dict(closed=False, decay_ms=_lu(rng, 90, 450), highpass_hz=_lu(rng, 3000, 8500), tone=_u(rng, 0.0, 0.75), level=0.5, seed=i)
+        p = dict(closed=False, decay_ms=_lu(rng, 150, 800) if V2 else _lu(rng, 90, 450), highpass_hz=_lu(rng, 3000, 8500), tone=_u(rng, 0.0, 0.75), level=0.5, seed=i)
         return E.hat(**p), p
     if role == "clap":
         lo = _lu(rng, 450, 1500)
         p = dict(decay_ms=_lu(rng, 70, 320), bursts=int(rng.integers(1, 6)), burst_gap_ms=_u(rng, 6, 16),
                  bandpass_lo=lo, bandpass_hi=lo * _u(rng, 2.2, 5.0), tail_ms=_lu(rng, 30, 280), seed=i)
+        if V2:   # real claps hit at once: loudest burst first, tail under it, tighter flam
+            p.update(burst_gap_ms=_u(rng, 3, 10), burst_decay=_u(rng, 0.35, 0.8), tail_from_first=True, tail_ms=_lu(rng, 20, 160))
         return E.clap(**p), p
     if role == "perc":
         p = dict(pitch_hz=_lu(rng, 350, 2200), decay_ms=_lu(rng, 35, 220), noise_mix=_u(rng, 0.05, 0.95), highpass_hz=_lu(rng, 900, 4200), seed=i)
@@ -78,4 +84,9 @@ def main(out=OUT, per_role=PER_ROLE):
     print(f"wrote {len(rows)} hits to {out}")
 
 if __name__ == "__main__":
-    main()
+    import sys
+    args = sys.argv[1:]
+    if "--v2" in args:
+        V2 = True; args.remove("--v2")
+    out = args[args.index("--out") + 1] if "--out" in args else (OUT + "2" if V2 else OUT)
+    main(out=out)

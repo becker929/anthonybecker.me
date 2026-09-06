@@ -145,7 +145,47 @@ def stage4():
     save(fig, "stage4-tempo")
 
 
+def stems():
+    """Part three: the separated corpus."""
+    S = json.load(open("corpus2/stems_summary.json")); R = json.load(open("corpus2/stems_results.json"))
+    keep = {t["id"] for t in json.load(open("corpus2/summary.json"))["tracks"]}; R = [r for r in R if r["id"] in keep]
+    has_bass = lambda r: r["levels"].get("bass", -99) > -18
+    # 1 the pump three ways
+    fig, ax = plt.subplots(figsize=(8, 3.8))
+    data = [[r["pump_mix"] for r in R if r.get("pump_mix") is not None], [min(r["pump_bass"], 30) for r in R if has_bass(r) and r.get("pump_bass") is not None], [min(r["sidechain"], 30) for r in R if has_bass(r) and r.get("sidechain") is not None]]
+    parts = ax.violinplot(data, showmedians=True, widths=0.8)
+    for b in parts["bodies"]: b.set_facecolor(REAL); b.set_alpha(0.55); b.set_edgecolor(REAL)
+    for k in ("cbars", "cmins", "cmaxes", "cmedians"): parts[k].set_color(INK); parts[k].set_linewidth(1)
+    ax.set_xticks([1, 2, 3]); ax.set_xticklabels(["mix low band", "bass stem, on the beat", "bass stem, on kick onsets"])
+    ax.set_ylabel("dip, dB (values above 30 drawn at 30)"); ax.grid(True, axis="y"); ax.set_axisbelow(True)
+    ax.set_title(f"The pump three ways, {S['n_with_bass']} excerpts with an audible bass stem", loc="left", fontsize=11)
+    save(fig, "stems-pump-three-ways")
+    # 2 where real kicks land
+    fig, ax = plt.subplots(figsize=(8, 3.2))
+    kp = [r["kick_pitch_hz"] for r in R if r.get("kick_pitch_hz")]
+    ax.hist(kp, bins=np.arange(35, 100, 2.5), color=REAL, linewidth=0, zorder=3, rwidth=0.92)
+    ax.axvline(S["kick_pitch_hz"]["median"], color=INK, linewidth=1.2, linestyle="--"); ax.text(S["kick_pitch_hz"]["median"] + 0.6, ax.get_ylim()[1] * 0.9, f"median {S['kick_pitch_hz']['median']:.0f} Hz", fontsize=9)
+    ax.set_xlabel("pitch 100 ms into the kick, Hz"); ax.set_ylabel("tracks"); ax.grid(True, axis="y"); ax.set_axisbelow(True)
+    ax.set_title(f"Where the kick lands in {len(kp)} real tracks", loc="left", fontsize=11)
+    save(fig, "stems-kick-pitch")
+    # 3 corpus hits against the libraries, three measures for kick, hat, clap
+    M = S["medians"]; libs = [("corpus", REAL), ("real_packs", THIRD), ("synth_v2", SYNTH), ("synth_v1", LINE)]
+    fig, axes = plt.subplots(1, 3, figsize=(10, 3.4))
+    for ax, k, lab, log in zip(axes, ["decay40_ms", "band_sub_share", "spectral_centroid_hz"], ["time to fall 40 dB, ms", "share below 60 Hz", "brightness, Hz"], [True, False, True]):
+        jobs = ["kick", "hat", "clap"]; y = np.arange(len(jobs))
+        for j, (lib, col) in enumerate(libs):
+            xs = [M[lib][job][k] if M[lib][job][k] is not None else np.nan for job in jobs]
+            ax.scatter([max(x, 0.01) if log else x for x in xs], y + (j - 1.5) * 0.15, color=col, s=40, zorder=3, label=lib.replace("_", " ") if ax is axes[0] else None)
+        ax.set_yticks(y); ax.set_yticklabels(jobs); ax.invert_yaxis(); ax.set_xlabel(lab)
+        if log: ax.set_xscale("log")
+        ax.grid(True, axis="x"); ax.set_axisbelow(True)
+    axes[0].legend(frameon=False, fontsize=8, loc="lower right")
+    fig.suptitle("Real hits from the corpus against the three libraries", x=0.01, ha="left", fontsize=12)
+    fig.tight_layout(); save(fig, "stems-libraries")
+
+
 if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
-    for name, fn in [("stage1", stage1), ("stage3", stage3), ("stage4", stage4)]:
+    if which == "all": which = "programme"   # 'all' means the part-two set; stems is drawn on request
+    for name, fn in [("stage1", stage1), ("stage3", stage3), ("stage4", stage4), ("stems", stems)]:
         if which in (name, "all"): fn(); print("drew", name)

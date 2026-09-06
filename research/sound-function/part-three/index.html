@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What the stems say: the corpus taken apart</title>
+  <meta name="description" content="Part three of the sound-function research, in plain language: 218 hard techno tracks split into stems with a free separator; the pump measured three ways, where real kicks land, and the first real in-genre hit library.">
+  <meta property="og:title" content="What the stems say: the corpus taken apart">
+  <meta property="og:description" content="Part three: the pump measured three ways, where real kicks land, and real hard techno hits against the synthetic ones.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://anthonybecker.me/research/sound-function/part-three/img/stems-kick-pitch.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/research/sound-function/">Research</a> / Part three</nav>
+  <header class="title">
+    <div class="kicker">Research · part three</div>
+    <h1>What the stems say: the corpus taken apart</h1>
+    <p class="meta">September 2026 · plain language · <a href="#glossary">glossary</a> · <a href="../">part one</a> · <a href="../part-two/">part two</a></p>
+  </header>
+
+  <h2 id="what">What this is</h2>
+  <p>Part two asked producers for <a class="term" href="#g-stem">stems</a>. None have come yet. So we made our own, with a free <a class="term" href="#g-separator">separator</a>. It splits a track into drums, bass, voice and the rest. The split is not perfect. But it lets us look inside 215 tracks at once.</p>
+  <p>Three questions drove this. How deep is the <a class="term" href="#g-pump">pump</a>, measured on the bass alone? Where does a real hard techno <a class="term" href="#g-kick">kick</a> land? And how do real <a class="term" href="#g-hit">hits</a> compare with our <a class="term" href="#g-synthetic">synthetic</a> ones?</p>
+
+  <h2 id="how">How we did it</h2>
+  <p>We cut a 64 second <a class="term" href="#g-excerpt">excerpt</a> from each kept track. It starts one third into the track. That is almost always the main part. The separator ran on an ordinary laptop. It took about 25 seconds per excerpt.</p>
+  <p>Then we added the four stems back together. That gave the mix back. We found its beat grid as before. On the <a class="term" href="#g-bass-stem">bass stem</a> we measured the pump two ways. On the <a class="term" href="#g-drum-stem">drum stem</a> we cut every <a class="term" href="#g-onset">onset</a> into a hit. The <a class="term" href="#g-role-model">role model</a> from part two named each one.</p>
+
+  <h2 id="pump">The pump, three ways</h2>
+  <p>Part two measured the pump on the whole mix's low band. Now we can do better. The bass stem holds the <a class="term" href="#g-rumble">rumble</a> without the kick. Folding it on the beat gives the pump with less noise. Folding it on the kick's own onsets gives the <a class="term" href="#g-sidechain">sidechain</a> directly.</p>
+  <p>149 of 215 excerpts have a bass stem we can trust. On those, the mix reads a 10 dB dip. The bass on the beat reads 11 dB. The bass on the kick's onsets reads 12 dB. Half the tracks sit between 6 and 22 dB there.</p>
+  <figure>
+    <img src="img/stems-pump-three-ways.png" alt="Three violin plots of the dip in dB: the mix low band, the bass stem folded on the beat, and the bass stem folded on the kick's onsets. The bass measures read deeper than the mix and have a long upper tail.">
+    <figcaption>The same 149 excerpts, three ways. The bass alone dips deeper than the mix showed. The tail above 25 dB is mostly silent bass stems.</figcaption>
+  </figure>
+  <p>So part two's number was the least of it. The kick's own tail sits in the mix's low band. It fills part of the dip. Take the kick out and the ducking shows in full. The typical rumble ducks about 12 dB under the kick. It is back within 3 dB after 268 <a class="term" href="#g-ms">ms</a>.</p>
+  <p>Almost every track does it. 144 of 149 tracks duck more than 3 dB. 116 duck more than 6 dB. Part one called the pump a medium finding. It is a strong one.</p>
+  <p>One catch remains. In 25 tracks the bass stem falls silent between kicks. The measures then read a 25 dB gap or more. That is not a pump. It is a track with no rumble. Or the separator put the rumble in the drums.</p>
+
+  <h2 id="kick">Where the kick lands</h2>
+  <p>Part one ranked the kick's <a class="term" href="#g-landing-pitch">landing pitch</a> as a medium finding. It was measured on synthetic kicks. Now we have 175 real ones. We took the loudest kicks in each drum stem. We read their pitch at 100 ms. The <a class="term" href="#g-median">median</a> is 56 <a class="term" href="#g-hz">Hz</a>.</p>
+  <p>Half the tracks land between 51 and 64 Hz. 41 land below 50 Hz. 38 land above 65 Hz. Our synthetic kicks were drawn from 35 to 62 Hz. Real kicks spread further on both sides. One in four lands where ours never went.</p>
+  <figure>
+    <img src="img/stems-kick-pitch.png" alt="Histogram of the kick's landing pitch across the corpus, peaking in the fifties of Hertz with tails down to 35 and up to 90.">
+    <figcaption>Where the kick lands, 100 ms in, across 175 tracks. The 35 Hz bar is the lowest pitch we can read. Read it as "below 40".</figcaption>
+  </figure>
+
+  <h2 id="drums">What the drum stems hold</h2>
+  <p>The model found kicks in 207 of 215 drum stems. The median rate is 102 per minute. The median <a class="term" href="#g-tempo">tempo</a> is 143. So it names about seven kicks in ten. The other three it calls <a class="term" href="#g-hook">hook</a> or <a class="term" href="#g-space">space</a>. Those are its words for a sound it cannot place.</p>
+  <p><a class="term" href="#g-hat">Hats</a> it named in only 85 stems, a few per minute. <a class="term" href="#g-clap">Claps</a> in 85, about 2 per minute. A clap on two and four would give about 70. So most hats went to hook or space too. That matches part two's backbeat finding from the other side. It also shows the model's limit.</p>
+  <p>The model learned from clean single hits. A hit cut from a stem is not clean. It carries the tail of the sound before it. It carries the start of the sound after it. In a busy drum stem the model is lost. So we trust its <a class="term" href="#g-confidence">confident</a> kicks and little else.</p>
+
+  <h2 id="library">Real hits against our libraries</h2>
+  <p>From the drum stems we kept the confident hits. At most twelve kicks, twelve hats and eight claps per track. That is 1967 kicks, 265 hats and 169 claps. It is our first library of real hard techno hits. The labels come from the model, not from ears. Keep that in mind.</p>
+  <p>Now we can ask which library is nearest the real thing. The table compares middle values. Three measures, three jobs, four libraries.</p>
+  <div class="tablewrap" data-plainlint="skip">
+    <table>
+      <thead><tr><th>job</th><th>fall 40 dB, corpus</th><th>packs</th><th>synth v2</th><th>synth v1</th><th>sub share, corpus</th><th>packs</th><th>synth v2</th><th>brightness, corpus</th><th>packs</th><th>synth v2</th></tr></thead>
+      <tbody>
+        <tr><td>kick</td><td class="num">104</td><td class="num">186</td><td class="num">129</td><td class="num">129</td><td class="num">0.47</td><td class="num">0.34</td><td class="num">0.48</td><td class="num">2127</td><td class="num">1096</td><td class="num">1564</td></tr>
+        <tr><td>hat</td><td class="num">172</td><td class="num">330</td><td class="num">97</td><td class="num">50</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">6099</td><td class="num">8839</td><td class="num">10466</td></tr>
+        <tr><td>clap</td><td class="num">162</td><td class="num">111</td><td class="num">89</td><td class="num">84</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">0.00</td><td class="num">2434</td><td class="num">4924</td><td class="num">3239</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <img src="img/stems-libraries.png" alt="Three dot charts comparing the corpus hits, the sample packs, synth v2 and synth v1 on time to fall 40 dB, share below 60 Hz, and brightness, for kick, hat and clap.">
+    <figcaption>Green is the corpus. The legend names the other three.</figcaption>
+  </figure>
+  <p>No library wins everywhere. On <a class="term" href="#g-sub-band">sub</a> weight our synthetic kicks were right. The packs were light. On length the corrected synthetic hats sit nearer the corpus. Real claps ring longer than either library. Every library is brighter than the corpus hits.</p>
+  <p>Two warnings. Corpus kicks look short. Each cut ends at the next hat. Corpus hits look dark. The separator makes them less bright. Both are faults of the method, not facts about the music.</p>
+  <p>Sub weight and hat length are the numbers to keep.</p>
+
+
+  <h2 id="retrain">Teaching the model with real hits</h2>
+  <p>The hit library is labelled by the model itself. That is a loop. So we test on the 318 <a class="term" href="#g-sample-pack">sample pack</a> hits instead. Their labels come from file names. A model trained only on corpus hits gets 64 in 100. The model trained on packs in part two scored 66.</p>
+  <p>That is the surprise of this page. Machine cut hits from real tracks teach almost like a pack. Trained on all three sets it scores 66 on the packs. On the corpus hits it scores 100. It learned from them.</p>
+  <p>So the meter now carries the model trained on all three. It is no worse on the packs. It has seen real hard techno kicks.</p>
+
+  <h2 id="limits">What to doubt</h2>
+  <p>The separator was trained on pop and rock. It has never seen a rumble kick. It often puts the kick's tail with the drums. The rumble goes to the bass. That helps the pump measure and hurts the kick measures.</p>
+  <p>Hits cut from a stem are not clean. They carry sound from the other parts.</p>
+  <p>The hit labels are the model's own guesses. We kept only confident ones. That removes doubt, not error. And 64 seconds is one main part per track. Breakdowns and track starts are not in this set.</p>
+
+  <h2 id="next">What next</h2>
+  <p>The lab does all this to any track you send it. Your own stems will be the real test. A separator trained on techno stems would fix the biggest doubt. Ten producers' stems would be enough to start.</p>
+
+  <h2 id="sources">Sources and method notes</h2>
+  <ul>
+    <li>Separator: Demucs version 4, MIT licence, run on CPU.</li>
+    <li>Code: <code>corpus2/separate_excerpts.py</code>, <code>corpus2/stems_analysis.py</code>, <code>analysis/stems.py</code>. Summary: <code>corpus2/stems_summary.py</code>. All <a href="https://github.com/becker929/anthonybecker.me/tree/main/research/sound-function/repo">on GitHub</a>.</li>
+    <li>Hit library: <code>out/library_corpus.csv</code>, features only. No audio is shared.</li>
+  </ul>
+
+  <h2 id="glossary">Glossary</h2>
+  <dl class="glossary">
+    <dt id="g-bass-stem">bass stem</dt><dd>What a separator hands back as bass. In this music, mostly the rumble.</dd>
+    <dt id="g-beat">beat</dt><dd>The steady count you tap your foot to. Four per bar.</dd>
+    <dt id="g-brightness">brightness</dt><dd>How much of a sound sits high up. Measured as the centre of its energy, in Hz.</dd>
+    <dt id="g-clap">clap</dt><dd>A short, sharp, noisy hit. In older techno it answers the kick on two and four.</dd>
+    <dt id="g-confidence">confidence</dt><dd>How sure the role model is of its answer. From 0 to 1.</dd>
+    <dt id="g-corpus">corpus</dt><dd>The set of tracks we measured. Here, 218 hard techno tracks under free licences.</dd>
+    <dt id="g-db">dB</dt><dd>A unit for level. Six dB is about twice as loud on a meter.</dd>
+    <dt id="g-drum-stem">drum stem</dt><dd>What a separator hands back as drums. Kick, hats, claps, and often the kick's tail.</dd>
+    <dt id="g-ducking">ducking</dt><dd>Turning one sound down each time another sound hits. Producers duck the rumble under the kick.</dd>
+    <dt id="g-excerpt">excerpt</dt><dd>A short piece cut from a track. Ours are 64 seconds long. They start one third into the track.</dd>
+    <dt id="g-hat">hat</dt><dd>The hi-hat. A short, bright tick between the kicks.</dd>
+    <dt id="g-hit">hit</dt><dd>One drum sound, cut out on its own. A kick, a hat, a clap.</dd>
+    <dt id="g-hook">hook</dt><dd>The part you remember. A stab, a vocal, or a lead sound.</dd>
+    <dt id="g-hz">Hz</dt><dd>Hertz, cycles per second. A kick's body usually sits at 40 to 70 Hz.</dd>
+    <dt id="g-job">job</dt><dd>What a sound is for in the track. We use six: kick, rumble, hat, clap, hook, space.</dd>
+    <dt id="g-kick">kick</dt><dd>The main drum. It hits on every beat.</dd>
+    <dt id="g-landing-pitch">landing pitch</dt><dd>The note a kick settles on after its first few ms. Measured at 100 ms.</dd>
+    <dt id="g-median">median</dt><dd>The middle value. Half the tracks are above it, half below.</dd>
+    <dt id="g-ms">ms</dt><dd>One thousandth of a second.</dd>
+    <dt id="g-onset">onset</dt><dd>The moment a sound starts. Our hit finder looks for onsets in the drum stem.</dd>
+    <dt id="g-pump">pump</dt><dd>A dip in the low end after each kick. Then it climbs back. Made by ducking.</dd>
+    <dt id="g-role-model">role model</dt><dd>The small model from part two. It names a sound's job from seven measures.</dd>
+    <dt id="g-rumble">rumble</dt><dd>A long, low tail under the kick. It fills the gap between hits.</dd>
+    <dt id="g-sample-pack">sample pack</dt><dd>A folder of single hits that producers download and use.</dd>
+    <dt id="g-separator">separator</dt><dd>A program that splits a track into parts. Drums, bass, voice, and the rest. We used Demucs, which is free and open.</dd>
+    <dt id="g-sidechain">sidechain</dt><dd>The wire that lets the kick duck the rumble. Here, the ducking we measure on the kick's own onsets.</dd>
+    <dt id="g-space">space</dt><dd>The job of pads, risers and impacts.</dd>
+    <dt id="g-stem">stem</dt><dd>One part of a track as its own audio file.</dd>
+    <dt id="g-sub-band">sub band</dt><dd>The lowest band, 20 to 60 Hz. The deep part of the kick and rumble.</dd>
+    <dt id="g-synthetic">synthetic</dt><dd>Made by our own code, not recorded.</dd>
+    <dt id="g-tempo">tempo</dt><dd>How fast the beats go, in beats per minute.</dd>
+  </dl>
+
+  <footer>
+    <p>The 218 tracks are credited in <a href="../part-two/#tracks-credits">part two</a>. Text and figures on this page are CC BY 4.0.</p>
+    <p>This page passes the same plain language check as the others.</p>
+  </footer>
+</div>
+</body>
+</html>

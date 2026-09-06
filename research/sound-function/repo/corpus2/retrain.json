@@ -1,0 +1,37 @@
+{
+ "n_corpus": 4346,
+ "n_packs": 318,
+ "n_synth2": 400,
+ "features": [
+  "spectral_centroid_hz_100ms",
+  "sustain_share",
+  "band_sub_share",
+  "decay40_ms",
+  "centroid_slope_hz_per_ms",
+  "band_air_share",
+  "band_mid_share"
+ ],
+ "corpus_to_packs": 64,
+ "corpus_to_packs_jobs": [
+  "clap",
+  "hat",
+  "hook",
+  "kick",
+  "rumble",
+  "space"
+ ],
+ "all_on_synth2": 88,
+ "all_on_packs": 66,
+ "all_on_corpus": 100,
+ "all_on_packs_recall": {
+  "clap": 0.73,
+  "hat": 0.49,
+  "hook": 0.61,
+  "kick": 0.83,
+  "rumble": 0.0,
+  "space": 0.59
+ },
+ "previous_on_packs": 66,
+ "note": "So the meter now carries the model trained on all three. It is no worse on the packs. It has seen real hard techno kicks.",
+ "meter_updated": true
+}

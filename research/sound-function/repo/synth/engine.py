@@ -183,10 +183,15 @@ def hat(closed=True, decay_ms=None, highpass_hz=6000, tone=0.3, level=0.5,
 
 
 def clap(decay_ms=180, bursts=3, burst_gap_ms=10, bandpass_lo=900,
-         bandpass_hi=3500, tail_ms=120, sr=SR, seed=2):
+         bandpass_hi=3500, tail_ms=120, sr=SR, seed=2, burst_decay=1.0, tail_from_first=False):
     """Stacked noise bursts (the 'flam') plus a bandpassed decaying tail.
 
     Models the CLAP -- the backbeat accent.
+
+    burst_decay < 1 makes each later burst quieter than the one before, and
+    tail_from_first starts the tail under the first burst: together they put
+    the loudest moment at the very start, which is how real claps measure
+    (rise time ~3 ms, not ~50 ms). Defaults keep the part-one sound.
     """
     rng = np.random.default_rng(seed)
     burst_n = _ms(8, sr)
@@ -198,12 +203,12 @@ def clap(decay_ms=180, bursts=3, burst_gap_ms=10, bandpass_lo=900,
 
     sig_out = np.zeros(n)
     pos = 0
-    for _ in range(bursts):
-        b = rng.uniform(-1, 1, burst_n) * exp_env(burst_n, 4.0, sr)
+    for k in range(bursts):
+        b = rng.uniform(-1, 1, burst_n) * exp_env(burst_n, 4.0, sr) * (burst_decay ** k)
         sig_out[pos:pos + burst_n] += b
         pos += burst_n + gap_n
 
-    tail_start = max(pos - gap_n, 0)
+    tail_start = 0 if tail_from_first else max(pos - gap_n, 0)
     tail_noise = rng.uniform(-1, 1, n - tail_start)
     sig_out[tail_start:] += tail_noise * exp_env(len(tail_noise), decay_ms, sr)
 

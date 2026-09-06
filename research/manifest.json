@@ -10,5 +10,11 @@
     "title": "Ten times more: what we found when we ran the programme",
     "description": "Part two of the sound-function research: a labelled library of 718 sounds, a browser role meter, a listening test, the pump measured, and hundreds of hard techno tracks with bar one found.",
     "path": "/research/sound-function/part-two/"
+  },
+  {
+    "slug": "sound-function-part-three",
+    "title": "What the stems say: the corpus taken apart",
+    "description": "Part three: 218 hard techno tracks split into stems with a free separator; the pump measured three ways, where real kicks land, and real hits against the synthetic ones.",
+    "path": "/research/sound-function/part-three/"
   }
 ]
