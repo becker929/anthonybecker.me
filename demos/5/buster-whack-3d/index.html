@@ -66,8 +66,6 @@
 
   /* The phase/tile debug pair is desktop-only clutter; the run readouts
      (busted/hit, or LEVEL + pips + chain) always show. */
-  #hud-debug { display: none; }
-  @media (min-width: 900px) { #hud-debug { display: inline; } }
   #hud-advance-stats[hidden], #hud-sandbox-stats[hidden] { display: none; }
   .pips { display: inline-flex; gap: 2px; vertical-align: middle; flex-shrink: 1; min-width: 0; }
   .pips span { flex: 1 1 5px; min-width: 3px; max-width: 5px; height: 11px; border-radius: 1px; background: #263054; display: inline-block; }
@@ -289,9 +287,8 @@
 <div id="stage"><noscript>This prototype needs JavaScript and WebGL.</noscript></div>
 <div id="vignette"></div>
 <div class="hud top">
-  <div class="title">Buster Whack <span>· 3D prototype</span></div>
+  <div class="title">Buster Whack</div>
   <div class="readout">
-    <span id="hud-debug"><b id="hud-phase">idle</b> · <span id="hud-tile">1,1</span>&nbsp;·&nbsp;</span>
     <span id="hud-sandbox-stats">busted <b id="hud-busted">0</b> · hit <b id="hud-hits">0</b></span>
     <span id="hud-advance-stats" hidden>
       LEVEL <b id="hud-level">1</b>
@@ -309,12 +306,6 @@
 <div class="hud bottom">
   <div class="left">
     <nav class="crumbs"><a href="/demos/">← demos</a></nav>
-    <div class="hint">
-      <kbd>WASD</kbd> hop · <kbd>arrows</kbd> / mouse aim · <kbd>space</kbd> / right-click fire, hold to charge ·
-      <kbd>shift</kbd> hold / <kbd>L</kbd> lock · <kbd>1</kbd> lane <kbd>2</kbd> 4-dir <kbd>3</kbd> 8-dir <kbd>4</kbd> free (<kbd>tab</kbd> cycles) · <kbd>C</kbd> camera · <kbd>Q</kbd><kbd>E</kbd> <kbd>R</kbd><kbd>F</kbd> wheel orbit ·
-      <kbd>M</kbd> story/sandbox · <kbd>T</kbd> talk · <kbd>P</kbd> / <kbd>esc</kbd> pause ·
-      touch: tap a square, drag as a stick, second finger aims
-    </div>
   </div>
   <div class="pad">
     <div class="col">
@@ -365,11 +356,11 @@
       <kbd>WASD</kbd> hop · <kbd>arrows</kbd>/mouse aim · hold <kbd>shift</kbd> to lock ·
       <kbd>space</kbd>/<kbd>J</kbd> fire, hold to charge · <kbd>T</kbd> talk to a keeper
     </p>
-    <p class="prompt">press FIRE to start</p>
+    <button id="btn-start" type="button" title="start (Space / Enter)">start</button>
   </div>
   <div class="panel" id="card-pause" hidden>
     <h1>Paused</h1>
-    <p class="prompt">P / esc / FIRE to resume</p>
+    <button id="btn-resume" type="button" title="resume (P / Esc / Space)">resume</button>
   </div>
 </div>
 <script type="module" src="./main.js"></script>

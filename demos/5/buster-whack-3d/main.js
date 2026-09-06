@@ -311,7 +311,7 @@ const shadowTex = softDisc([[0, "rgba(0,0,0,1)"], [0.45, "rgba(0,0,0,0.55)"], [1
 const container = document.getElementById("stage");
 const $ = (id) => document.getElementById(id);
 const hud = {
-  phase: $("hud-phase"), tile: $("hud-tile"), busted: $("hud-busted"), hits: $("hud-hits"),
+  busted: $("hud-busted"), hits: $("hud-hits"),
   fire: $("btn-fire"), orbit: $("pad-orbit"),
   // advance / story mode
   level: $("hud-level"), pips: $("hud-pips"), chain: $("hud-chain"),
@@ -2538,7 +2538,12 @@ function pollHold(t) {
 // The on-screen pad: FIRE holds like the key; the rest are taps. Every chip
 // (and the orbit nudges) is inert while a card is up — RETRY is the one
 // exception, since it's the only button the game-over card shows at all.
-const bind = (id, fn) => $(id).addEventListener("click", (e) => { if (cardKind && id !== "btn-retry") return; fn(e); });
+const bind = (id, fn) => $(id).addEventListener("click", (e) => { if (cardKind && !CARD_BUTTONS.has(id)) return; fn(e); });
+// The cards cover the pad, so each carries its own way out: a phone has no
+// Space bar, and a card with no button on it is a run that cannot start.
+const CARD_BUTTONS = new Set(["btn-retry", "btn-start", "btn-resume"]);
+bind("btn-start", startRun);
+bind("btn-resume", resumeGame);
 bind("btn-aim", () => cycleAimMode("tap"));
 bind("btn-cam", () => cycleCamMode("tap"));
 bind("btn-lock", () => { state.lockToggle = !state.lockToggle; lockVia = "tap"; });
@@ -2618,8 +2623,6 @@ function frame() {
   if (mode === "advance") updateKeepers(t);
   updateCamera();
 
-  hud.phase.textContent = t < state.hurtUntil ? "hurt" : state.charge && t - state.charge.t0 >= CHARGE_MS ? "charged" : state.phase;
-  hud.tile.textContent = `${state.col},${state.row}`;
 
   renderer.render(scene, camera);
 }
