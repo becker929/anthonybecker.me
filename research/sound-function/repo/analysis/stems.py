@@ -30,7 +30,7 @@ def separate(path, out_dir, model="htdemucs"):
     """Run Demucs on one file; return {stem: wav path}. Skips when the stems exist."""
     out_dir = Path(out_dir); stem_dir = out_dir / model / Path(path).stem
     if not all((stem_dir / f"{s}.wav").exists() for s in STEMS):
-        subprocess.run([sys.executable, "-m", "demucs", "-n", model, "-d", "cpu", "-o", str(out_dir), str(path)], check=True,
+        subprocess.run([sys.executable, "-m", "demucs", "-n", model, "-d", "cpu", "--shifts", "0", "-o", str(out_dir), str(path)], check=True,
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return {s: str(stem_dir / f"{s}.wav") for s in STEMS}
 

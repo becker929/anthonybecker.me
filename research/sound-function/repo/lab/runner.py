@@ -96,7 +96,7 @@ def report_track(paths, item, refs, work):
         row("grid lock", g["lock"], "", None, "above 0.3 the beat grid is trustworthy"),
         row("bar one found with strength", db["beat_one_strength"], "", None, "1 = chance, 4 = every section change agrees"),
         row("pump on the mix", g["pump_mix"]["pump_depth_db"], "dB", ref("pump_depth_db") or CORPUS["pump_depth_median"]),
-        row("pump on the bass stem", bp["pump_depth_db"], "dB", ref("bass_pump_depth_db"), "the rumble alone, folded on the beat"),
+        row("pump on the bass stem", bp["pump_depth_db"], "dB", ref("bass_pump_depth_db"), "the rumble alone, folded on the beat; depends on how the separator split the low end, so read the sidechain row with it"),
         row("pump return time", bp["pump_return_ms"], "ms", ref("pump_return_ms") or CORPUS["pump_return_median"]),
         row("true sidechain, drums to bass", sc.get("pump_depth_db"), "dB", None, f"bass low band folded on {sc.get('n_kicks', 0)} kick onsets from the drum stem"),
         row("bass energy below 60 Hz", bp.get("bass_sub_share"), "share", ref("bass_sub_share")),
@@ -206,9 +206,68 @@ def run_item(base, token, item):
     return report
 
 
+AUDIO_EXT = {".wav", ".aif", ".aiff", ".flac", ".mp3", ".ogg", ".m4a", ".opus"}
+
+
+def run_local(src, out):
+    """No site involved: walk a folder and write one report per item into `out`.
+    Layout:  refs/*.ext            each file a reference track
+             tracks/*.ext          each file a track or demo
+             samples/*.ext         each file a single hit
+             stems/<name>/*.ext    each folder one multitrack item
+    Anything else at the top level is treated as a track."""
+    src, out = Path(src), Path(out); out.mkdir(parents=True, exist_ok=True)
+    items = []
+    for d in sorted(src.iterdir()):
+        if d.is_dir() and d.name.lower() in ("refs", "references", "reference"):
+            items += [dict(kind="reference", title=f.stem, files=[f]) for f in sorted(d.iterdir()) if f.suffix.lower() in AUDIO_EXT]
+        elif d.is_dir() and d.name.lower() in ("tracks", "demos", "track"):
+            items += [dict(kind="track", title=f.stem, files=[f]) for f in sorted(d.iterdir()) if f.suffix.lower() in AUDIO_EXT]
+        elif d.is_dir() and d.name.lower() in ("samples", "sample", "hits"):
+            items += [dict(kind="sample", title=f.stem, files=[f]) for f in sorted(d.iterdir()) if f.suffix.lower() in AUDIO_EXT]
+        elif d.is_dir() and d.name.lower() in ("stems", "multitrack", "multitracks"):
+            for sub in sorted(d.iterdir()):
+                if sub.is_dir():
+                    fs = [f for f in sorted(sub.iterdir()) if f.suffix.lower() in AUDIO_EXT]
+                    if fs: items.append(dict(kind="multitrack", title=sub.name, files=fs))
+        elif d.is_file() and d.suffix.lower() in AUDIO_EXT:
+            items.append(dict(kind="track", title=d.stem, files=[d]))
+    # references first so tracks can be compared against them
+    items.sort(key=lambda i: {"reference": 0, "sample": 1, "multitrack": 2, "track": 3}[i["kind"]])
+    refs = {}; done = []
+    for it in items:
+        print(f"running {it['kind']}: {it['title']} ({len(it['files'])} files)", file=sys.stderr, flush=True)
+        with tempfile.TemporaryDirectory() as td:
+            work = Path(td); (work / "wav").mkdir(); paths = []
+            for f in it["files"]:
+                wav = work / "wav" / (f.stem + ".wav"); to_wav(f, wav); paths.append(wav)
+            fn = {"track": report_track, "reference": report_track, "sample": report_sample, "multitrack": report_multitrack}[it["kind"]]
+            t0 = time.time()
+            try:
+                rep = fn(paths, it, refs if it["kind"] == "track" else {}, work)
+            except Exception as e:
+                traceback.print_exc(); rep = dict(headline=f"failed: {type(e).__name__}: {e}", rows=[], sections=[], raw={})
+            rep["runner"] = dict(seconds=round(time.time() - t0, 1), when=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
+            rep["item"] = dict(kind=it["kind"], title=it["title"], files=[f.name for f in it["files"]])
+            slug = "".join(c if c.isalnum() or c in "-_" else "-" for c in f"{it['kind']}-{it['title']}")[:80]
+            json.dump(rep, open(out / f"{slug}.json", "w"), indent=1); done.append(rep)
+            print(f"  {rep['headline']}  ({rep['runner']['seconds']} s)", file=sys.stderr, flush=True)
+        if it["kind"] == "reference" and rep.get("raw"):
+            for k in ("tempo", "pump_depth_db", "bass_pump_depth_db", "pump_return_ms", "bass_sub_share", "kick_pitch_hz", "kick_off_share"):
+                if rep["raw"].get(k) is not None: refs.setdefault(k, []).append(rep["raw"][k])
+            refs_med = {k: float(np.median(v)) for k, v in refs.items() if isinstance(v, list)}
+            refs.update(refs_med)
+    json.dump(done, open(out / "all.json", "w"), indent=1)
+    print(f"{len(done)} reports in {out}", file=sys.stderr)
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--base", default="https://anthonybecker.me"); ap.add_argument("--once", action="store_true")
-    ap.add_argument("--item"); ap.add_argument("--poll", type=int, default=120); a = ap.parse_args()
+    ap.add_argument("--item"); ap.add_argument("--poll", type=int, default=120)
+    ap.add_argument("--local", help="analyse a local folder instead of the site (see run_local)"); ap.add_argument("--out", default="lab/reports")
+    a = ap.parse_args()
+    if a.local:
+        run_local(a.local, a.out); return
     token = os.environ.get("LAB_TOKEN")
     if not token: sys.exit("LAB_TOKEN is not set")
     while True:
