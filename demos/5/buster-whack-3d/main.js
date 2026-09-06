@@ -16,8 +16,17 @@
  * rotter when there is one) while the legs go wherever they like, which is
  * the strafe. And the camera is a mode of its own, cycled independently.
  *
- * Still not a game: no clock, no score to keep, no towers. A board, a
- * humanoid, a buster that fires, and three rotters to fire it at.
+ * Still not a game in "sandbox" mode — no clock, no score, no towers, a
+ * board that just sits there being fired on forever. `?mode=advance` (or
+ * `M`, or the MODE chip) turns it into the 2D original's endless road: the
+ * fixed board becomes the *shape* of one arena rather than the whole world;
+ * a world of segments (tower, arena, road) is appended along +x as each
+ * arena is cleared; a countdown clock replaces free play; and towers
+ * between runs of arenas hold a keeper to talk to and a task to chase.
+ * Sandbox is the degenerate case of that same world — a single arena stuck
+ * with `owner: "enemy"` and free-respawning rotters — so it keeps behaving
+ * exactly as it always has and stays none the wiser that advance mode
+ * exists.
  */
 
 import * as THREE from "./three.module.min.js";
@@ -94,6 +103,28 @@ const HURT_MS = 700;
 const ROT_RATE = 1 / 1400;    // a panel rots fully in 1.4 s under a rotter
 const ROT_DECAY = 1 / 3000;   // and heals in 3 s once it leaves
 
+// ---------- advance / story mode ----------
+// The 2D original's numbers, reproduced where they carry over and adapted
+// where this prototype has only the one enemy. A world of segments replaces
+// the fixed board; sandbox is that world's degenerate case, one arena that
+// never clears (see the `mode` section, below the board helpers).
+const MODES = ["sandbox", "advance"];
+const ROAD_COLS = 3;
+const TOWER_EVERY = 10;       // a tower is inserted before every 10th arena
+const MAX_ALIVE = 6;          // rotters on the board at once, this arena's guard
+const CLOCK_START = 30;       // seconds
+const CLOCK_CAP = 45;
+const HIT_TIME_PENALTY = 2.5; // seconds lost on a hit
+const ADV_HURT_MS = 800;      // invulnerability after a hit, advance mode (sandbox keeps HURT_MS)
+const WAKE_DELAY_MS = 650;    // entering a sleeping arena to its first wave
+const WAVE_GAP_MS = 550;      // between a wave dying and the next
+const AIM_UNLOCK_ARENA = 9;   // rotters don't enter the "aim"/bolt phase before this arena
+const STEEL_FROM_ARENA = 5;   // three-shot "steel" rotters start appearing here
+const STEEL_COMMON_ARENA = 20;// and get more common here
+const STEEL_HP = 3;
+const BASIC_HP = 1;
+const PIP_SEC = 1.25;         // seconds per HUD clock pip
+
 // ---------- camera ----------
 // fixed    the framing the prototype was built with, leaning a little towards the buster
 // follow   the same angle, but the buster stays centred
@@ -112,11 +143,14 @@ const PAL = {
   fog: 0x0e1420,
   tilePlayer: 0x18213a, tilePlayerRim: 0x4f8dff,
   tileEnemy: 0x2c1a26, tileEnemyRim: 0xff5470,
+  tileRoad: 0x1c222f, tileRoadRim: 0x8a93ad,
   tileRot: 0x1b2a1c, tileRotRim: 0x7dff6a,
   armor: 0x4f8dff, armorDark: 0x2f5fc4, suit: 0x161c30, visor: 0xc9f6ff, barrel: 0xffd23f,
   ripple: 0x4f8dff, dust: 0x9fb0d0,
   shot: 0xffd23f, charged: 0xc9f6ff, bolt: 0xff5470,
   rotter: 0x5a1e2c, rotterDark: 0x2a1018, rotterBlade: 0xff5470, rotterEye: 0xffb3c0,
+  rotterSteel: 0x3a3f47, rotterSteelDark: 0x22262b,
+  keeperCloak: 0x141220, keeperVisor: 0xc9f6ff, keeperStaff: 0x3a3f4a, keeperOrb: 0xffd23f,
 };
 
 // ---------- easing ----------
@@ -136,10 +170,10 @@ const angleDelta = (a, b) => { let d = (b - a) % (Math.PI * 2); if (d > Math.PI)
 
 const tileX = (col) => (col - (COLS - 1) / 2) * TILE;
 const tileZ = (row) => (row - (ROWS - 1) / 2) * TILE;
-const onBoard = (col, row) => col >= 0 && col < COLS && row >= 0 && row < ROWS;
-const enemyHalf = (col, row) => onBoard(col, row) && col >= PCOLS;
-/** Past the arena's edge by more than a tile: where shots and bolts are spent, so nothing streams off into the sky. */
-const offBoard = (x, z) => Math.abs(x) > (COLS * TILE) / 2 + 1.2 || Math.abs(z) > (ROWS * TILE) / 2 + 1.2;
+// onBoard / enemyHalf / offBoard used to be pure functions of a fixed 6x3
+// board; advance mode needs them to answer against whatever of the world is
+// built right now, so they moved down to the ---------- world ----------
+// section, past the tile map they read.
 /** The aim angle from (x, z) towards (tx, tz). */
 const angleTo = (x, z, tx, tz) => Math.atan2(-(tz - z), tx - x);
 /** Unit direction of an aim angle, in the board plane. */
@@ -197,8 +231,13 @@ const container = document.getElementById("stage");
 const $ = (id) => document.getElementById(id);
 const hud = {
   phase: $("hud-phase"), tile: $("hud-tile"), busted: $("hud-busted"), hits: $("hud-hits"),
-  aim: $("hud-aim"), cam: $("hud-cam"), lock: $("hud-lock"),
+  aim: $("hud-aim"), cam: $("hud-cam"), lock: $("hud-lock"), mode: $("hud-mode"),
   fire: $("btn-fire"), lockBtn: $("btn-lock"), orbit: $("pad-orbit"),
+  // advance / story mode
+  advanceRow: $("hud-advance-row"), level: $("hud-level"), pips: $("hud-pips"), chain: $("hud-chain"),
+  talkHint: $("hud-talk-hint"), taskLine: $("hud-task-line"), talkBtn: $("btn-talk"),
+  caption: $("hud-caption"), card: $("card"),
+  advanceOnly: [$("hud-advance-row")], sandboxOnly: [$("hud-sandbox-stats")],
 };
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
@@ -277,36 +316,9 @@ ground.position.y = -0.2;
 ground.receiveShadow = true;
 scene.add(ground);
 
-const pool = new THREE.Mesh(
-  new THREE.PlaneGeometry(14, 9),
-  new THREE.MeshBasicMaterial({ map: discTex, color: 0x22304f, transparent: true, opacity: 0.8, depthWrite: false, blending: THREE.AdditiveBlending }),
-);
-pool.rotation.x = -Math.PI / 2;
-pool.position.y = -0.19;
-scene.add(pool);
-
-// The arena base: one slab the tiles sit in, with the divider between the
-// halves lit the way the 2D board draws it.
-const baseW = COLS * TILE + 0.3, baseD = ROWS * TILE + 0.3;
-const base = new THREE.Mesh(
-  new THREE.BoxGeometry(baseW, 0.16, baseD),
-  new THREE.MeshStandardMaterial({ color: 0x0f1320, roughness: 0.6, metalness: 0.3 }),
-);
-base.position.y = -0.12;
-base.receiveShadow = true;
-scene.add(base);
-
-const divider = new THREE.Mesh(
-  new THREE.BoxGeometry(0.04, 0.02, baseD - 0.1),
-  new THREE.MeshBasicMaterial({ color: 0xc9f6ff, transparent: true, opacity: 0.9 }),
-);
-divider.position.set((tileX(PCOLS - 1) + tileX(PCOLS)) / 2, -0.03, 0);
-scene.add(divider);
-
 // Tiles: a bevelled slab with a lit rim inset from its edge. Each remembers a
 // dip so a landing can press it down and let it spring back, and a rot so a
 // rotter can turn it green from under itself.
-const tiles = [];
 function tileSlabGeometry() {
   const s = (TILE - GAP) / 2, r = 0.07;
   const shape = new THREE.Shape();
@@ -334,31 +346,511 @@ function tileRimGeometry() {
 const slabGeo = tileSlabGeometry();
 const rimGeo = tileRimGeometry();
 const ROT_SLAB = new THREE.Color(PAL.tileRot), ROT_RIM = new THREE.Color(PAL.tileRotRim);
-for (let row = 0; row < ROWS; row++) {
-  for (let col = 0; col < COLS; col++) {
-    const mine = col < PCOLS;
-    const g = new THREE.Group();
-    g.position.set(tileX(col), 0, tileZ(row));
-    const slabMat = new THREE.MeshStandardMaterial({
-      color: mine ? PAL.tilePlayer : PAL.tileEnemy, roughness: 0.42, metalness: 0.35,
-    });
-    const slab = new THREE.Mesh(slabGeo, slabMat);
-    slab.receiveShadow = true;
-    slab.castShadow = true;
-    g.add(slab);
-    const rimMat = new THREE.MeshBasicMaterial({ color: mine ? PAL.tilePlayerRim : PAL.tileEnemyRim, transparent: true, opacity: 0.75 });
-    const rimMesh = new THREE.Mesh(rimGeo, rimMat);
-    rimMesh.position.y = 0.031;
-    g.add(rimMesh);
-    scene.add(g);
-    tiles.push({
-      g, rimMat, slabMat, col, row, dip: 0, dipV: 0, glow: 0,
-      rot: 0, rotHeld: false, baseSlab: slabMat.color.clone(), baseRim: rimMat.color.clone(),
-      flash: 0, flashColor: new THREE.Color(PAL.bolt), dirty: false,
-    });
+const TILE_COLOR = {
+  player: [PAL.tilePlayer, PAL.tilePlayerRim],
+  enemy: [PAL.tileEnemy, PAL.tileEnemyRim],
+  road: [PAL.tileRoad, PAL.tileRoadRim],
+  tower: [PAL.tilePlayer, PAL.tilePlayerRim],
+};
+
+// ---------- world ----------
+// Sandbox is a single fixed board; advance ("story") lays segments — arena,
+// road, tower — end to end along +x and only ever appends. Both live in the
+// same `tiles` map, keyed by world (col, row), so a tile lookup, a walk, a
+// shot's flight and the camera all read one source of truth regardless of
+// mode: sandbox just happens to build a world that never grows past its one
+// arena. `COLS` (6) is the width every arena and tower segment shares; a
+// road is `ROAD_COLS` (3) wide.
+const tkey = (col, row) => col + "," + row;
+const tiles = new Map();     // "col,row" -> tile record
+let tileColMin = Infinity, tileColMax = -Infinity;
+
+/** Place a tile of a given kind, or return the one already there. */
+function buildTile(col, row, kind) {
+  const k = tkey(col, row);
+  const existing = tiles.get(k);
+  if (existing) return existing;
+  const [slabColor, rimColor] = TILE_COLOR[kind];
+  const g = new THREE.Group();
+  g.position.set(tileX(col), 0, tileZ(row));
+  const slabMat = new THREE.MeshStandardMaterial({ color: slabColor, roughness: 0.42, metalness: 0.35 });
+  const slab = new THREE.Mesh(slabGeo, slabMat);
+  slab.receiveShadow = true;
+  slab.castShadow = true;
+  g.add(slab);
+  const rimMat = new THREE.MeshBasicMaterial({ color: rimColor, transparent: true, opacity: 0.75 });
+  const rimMesh = new THREE.Mesh(rimGeo, rimMat);
+  rimMesh.position.y = 0.031;
+  g.add(rimMesh);
+  scene.add(g);
+  const tl = {
+    g, rimMat, slabMat, col, row, kind, isNpc: false, dip: 0, dipV: 0, glow: 0,
+    rot: 0, rotHeld: false, baseSlab: slabMat.color.clone(), baseRim: rimMat.color.clone(),
+    flash: 0, flashColor: new THREE.Color(PAL.bolt), dirty: false,
+  };
+  tiles.set(k, tl);
+  if (col < tileColMin) tileColMin = col;
+  if (col > tileColMax) tileColMax = col;
+  return tl;
+}
+/** Recolour a tile to a new kind in place — how a cleared arena's enemy half becomes player ground. */
+function retintTile(tl, kind) {
+  tl.kind = kind;
+  const [slabColor, rimColor] = TILE_COLOR[kind];
+  tl.baseSlab.set(slabColor); tl.baseRim.set(rimColor);
+  tl.slabMat.color.set(slabColor); tl.rimMat.color.set(rimColor);
+}
+function disposeTile(col, row) {
+  const k = tkey(col, row);
+  const tl = tiles.get(k);
+  if (!tl) return;
+  scene.remove(tl.g);
+  tl.slabMat.dispose();
+  tl.rimMat.dispose();
+  tiles.delete(k);
+}
+const tileAt = (col, row) => tiles.get(tkey(col, row));
+
+/** Every segment ever built, oldest first; the world only ever grows. */
+const world = { segments: [], nextX: 0 };
+/** The arena the player is walking towards or fighting — always the newest one built. */
+function activeArena() {
+  for (let i = world.segments.length - 1; i >= 0; i--) if (world.segments[i].kind === "arena") return world.segments[i];
+  return null;
+}
+/** The world column an arena's fight starts at: 0 in sandbox (the whole board is the "arena"), the active arena's x0 in advance. */
+function arenaBaseCol() { return mode === "sandbox" ? 0 : (activeArena()?.x0 ?? 0); }
+
+function onBoard(col, row) { return tiles.has(tkey(col, row)); }
+/** The enemy half of the arena currently in play — where rotters live, hop and rot the ground. */
+function enemyHalf(col, row) { return onBoard(col, row) && col >= arenaBaseCol() + PCOLS && col < arenaBaseCol() + COLS; }
+/**
+ * A square the player may stand on. Sandbox never gates this — the 2D
+ * original's ownership rule does not apply to the free-play board, so the
+ * player has always been able to walk the whole 6x3 grid, red tiles
+ * included. Advance mode enforces it: a contested arena's enemy half is
+ * off limits, and so is the tower's NPC tile.
+ */
+function walkable(col, row) {
+  const tl = tileAt(col, row);
+  if (!tl) return false;
+  if (mode === "sandbox") return true;
+  if (tl.kind === "enemy" || tl.isNpc) return false;
+  return true;
+}
+/** Past the built world's edge by more than a tile: where shots and bolts are spent, so nothing streams off into the sky. */
+function offBoard(x, z) {
+  if (Math.abs(z) > (ROWS * TILE) / 2 + 1.2) return true;
+  if (tileColMin > tileColMax) return true;
+  return x < tileX(tileColMin) - TILE / 2 - 1.2 || x > tileX(tileColMax) + TILE / 2 + 1.2;
+}
+
+/** Build one arena: the left PCOLS columns player ground, the rest the guard's, until cleared. */
+function buildArenaSegment(x0, idx) {
+  const seg = {
+    kind: "arena", x0, cols: COLS, idx, owner: "enemy",
+    pool: Math.min(20, 4 + Math.floor(idx * 0.16)),
+    waveSize: Math.min(5, 2 + Math.floor(idx / 25)),
+    dealt: 0, entered: false, wakeAt: null, nextWaveAt: null, waveAlive: 0,
+  };
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = x0; col < x0 + PCOLS; col++) buildTile(col, row, "player");
+    for (let col = x0 + PCOLS; col < x0 + COLS; col++) buildTile(col, row, "enemy");
+  }
+  buildSegmentDecor(seg);
+  world.segments.push(seg);
+  return seg;
+}
+/** A road: always walkable, and half the time a single-lane "narrow" road (only row 1 exists, so onBoard already refuses the other rows). */
+function buildRoadSegment(x0) {
+  const narrow = Math.random() < 0.5;
+  const seg = { kind: "road", x0, cols: ROAD_COLS, narrow };
+  for (let row = 0; row < ROWS; row++) {
+    if (narrow && row !== 1) continue;
+    for (let col = x0; col < x0 + ROAD_COLS; col++) buildTile(col, row, "road");
+  }
+  buildSegmentDecor(seg);
+  world.segments.push(seg);
+  return seg;
+}
+/** A tower: the player's own ground, holding a keeper NPC on its middle tile (not standable). */
+function buildTowerSegment(x0, ordinal) {
+  const seg = { kind: "tower", x0, cols: COLS, ordinal, roostShown: ordinal === 0 };
+  for (let row = 0; row < ROWS; row++) for (let col = x0; col < x0 + COLS; col++) buildTile(col, row, "tower");
+  tileAt(x0 + PCOLS, 1).isNpc = true;
+  buildSegmentDecor(seg);
+  buildKeeper(seg);
+  world.segments.push(seg);
+  return seg;
+}
+/** The base slab and pool of light under one segment, and (arenas only) the divider between its halves. Disposed when the segment scrolls out of range. */
+function buildSegmentDecor(seg) {
+  const w = seg.cols * TILE + 0.3, d = ROWS * TILE + 0.3;
+  const cx = (tileX(seg.x0) + tileX(seg.x0 + seg.cols - 1)) / 2;
+  const base = new THREE.Mesh(new THREE.BoxGeometry(w, 0.16, d), new THREE.MeshStandardMaterial({ color: 0x0f1320, roughness: 0.6, metalness: 0.3 }));
+  base.position.set(cx, -0.12, 0);
+  base.receiveShadow = true;
+  scene.add(base);
+  const poolMesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(seg.cols * TILE + 8, ROWS * TILE + 6),
+    new THREE.MeshBasicMaterial({ map: discTex, color: 0x22304f, transparent: true, opacity: 0.8, depthWrite: false, blending: THREE.AdditiveBlending }),
+  );
+  poolMesh.rotation.x = -Math.PI / 2;
+  poolMesh.position.set(cx, -0.19, 0);
+  scene.add(poolMesh);
+  let divider = null;
+  if (seg.kind === "arena") {
+    divider = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.02, d - 0.1), new THREE.MeshBasicMaterial({ color: 0xc9f6ff, transparent: true, opacity: 0.9 }));
+    divider.position.set((tileX(seg.x0 + PCOLS - 1) + tileX(seg.x0 + PCOLS)) / 2, -0.03, 0);
+    scene.add(divider);
+  }
+  seg.decor = { base, poolMesh, divider };
+}
+function dropDivider(seg) {
+  if (!seg.decor || !seg.decor.divider) return;
+  scene.remove(seg.decor.divider);
+  seg.decor.divider.geometry.dispose();
+  seg.decor.divider.material.dispose();
+  seg.decor.divider = null;
+}
+function disposeSegment(seg) {
+  for (let row = 0; row < ROWS; row++) for (let col = seg.x0; col < seg.x0 + seg.cols; col++) disposeTile(col, row);
+  if (seg.decor) {
+    const { base, poolMesh, divider } = seg.decor;
+    scene.remove(base); base.geometry.dispose(); base.material.dispose();
+    scene.remove(poolMesh); poolMesh.geometry.dispose(); poolMesh.material.dispose();
+    if (divider) { scene.remove(divider); divider.geometry.dispose(); divider.material.dispose(); }
+  }
+  if (seg.kind === "tower") disposeKeeper(seg);
+  if (tileColMin === seg.x0 || tileColMax === seg.x0 + seg.cols - 1) {
+    tileColMin = Infinity; tileColMax = -Infinity;
+    for (const tl of tiles.values()) { if (tl.col < tileColMin) tileColMin = tl.col; if (tl.col > tileColMax) tileColMax = tl.col; }
   }
 }
-const tileAt = (col, row) => tiles[row * COLS + col];
+/** Drop segments more than ~14 columns behind the player: the scene stays bounded on an unbounded road. */
+function trimBehindPlayer() {
+  const cutoff = state.col - 14;
+  while (world.segments.length > 1 && world.segments[0].x0 + world.segments[0].cols - 1 < cutoff) {
+    disposeSegment(world.segments.shift());
+  }
+}
+
+function disposeWorld() {
+  for (const seg of [...world.segments]) disposeSegment(seg);
+  world.segments.length = 0;
+  world.nextX = 0;
+  tileColMin = Infinity; tileColMax = -Infinity;
+}
+
+/** Sandbox: the original fixed 6x3 board, `owner` stuck on "enemy" forever — no flow, no clock, just the free-respawn loop below. */
+function buildSandboxWorld() {
+  disposeWorld();
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = 0; col < PCOLS; col++) buildTile(col, row, "player");
+    for (let col = PCOLS; col < COLS; col++) buildTile(col, row, "enemy");
+  }
+}
+/** A fresh story world: `[tower(x0=0), arena(idx 0)]`, exactly the 2D original's starting layout. */
+function buildAdvanceWorld() {
+  disposeWorld();
+  const tower0 = buildTowerSegment(world.nextX, 0); world.nextX += tower0.cols;
+  buildArenaSegment(world.nextX, 0);
+  world.nextX += COLS;
+}
+
+// ---------- flow ----------
+// Advance mode's pacing, reproducing the 2D original's numbers: no player
+// health, a countdown clock that only drains while a guard is contested,
+// refunded by clearing waves and arenas, spent by a hit. Score and chain
+// ride on top of the same shots-and-rotters sandbox already has. None of
+// this runs in sandbox mode — every entry point below is `mode === "advance"`
+// gated, directly or through `run.over` / `activeArena()`.
+
+function freshRun() {
+  return {
+    over: false, timeLeft: CLOCK_START,
+    score: 0, deletions: 0, chain: 0, bestChain: 0, shotsFired: 0, shotsHit: 0,
+    hitThisArena: false, task: null, givenTask: false, talk: null,
+  };
+}
+let run = freshRun();
+
+const chainMultiplier = (chain) => (chain >= 20 ? 4 : chain >= 10 ? 3 : chain >= 5 ? 2 : 1);
+/** Clearing and wave-clearing pay the clock back; never past the cap. */
+function addTime(sec) { run.timeLeft = Math.min(CLOCK_CAP, run.timeLeft + sec); }
+
+/** A third of a wave is "steel" (3 hp, a darker tint) from arena 5, half from arena 20; everything else is a one-shot basic virus. */
+function rollRotterHp() {
+  const idx = activeArena()?.idx ?? 0;
+  const steelChance = idx >= STEEL_COMMON_ARENA ? 0.5 : idx >= STEEL_FROM_ARENA ? 1 / 3 : 0;
+  const steel = Math.random() < steelChance;
+  return { hp: steel ? STEEL_HP : BASIC_HP, steel };
+}
+/** Rotters don't enter the "aim"/bolt phase before arena 9 — sandbox's are always live. */
+function rotterCanFire() { return mode === "sandbox" || (activeArena()?.idx ?? 0) >= AIM_UNLOCK_ARENA; }
+
+const aliveInArena = () => rotters.filter((r) => r.phase !== "die").length;
+
+/** Deal the next wave: as many as waveSize allows, capped by what's left in the pool and by MAX_ALIVE. */
+function dealWave(a, t) {
+  const n = Math.min(a.waveSize, a.pool - a.dealt, MAX_ALIVE);
+  for (let i = 0; i < n; i++) spawnRotter(t);
+  a.dealt += n;
+  a.waveAlive = n;
+}
+
+/** The pool is spent and the board is clear: flip the ground, pay the clock, and build onward. */
+function clearArena(a, t) {
+  a.owner = "player";
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = a.x0 + PCOLS; col < a.x0 + COLS; col++) {
+      retintTile(tileAt(col, row), "player");
+      ripple(tileX(col), tileZ(row), PAL.tilePlayerRim, 1.6, 420);
+    }
+  }
+  dropDivider(a);
+  cam.shake = Math.max(cam.shake, 0.05);
+  addTime(1.2);
+  if (run.task && !run.task.done) {
+    if (run.task.id === "noHit" && !run.hitThisArena) completeTask();
+    if (run.task.id === "chargedClear" && state.charge && t - state.charge.t0 >= CHARGE_MS) completeTask();
+  }
+  run.hitThisArena = false;
+  const road = buildRoadSegment(world.nextX); world.nextX += road.cols;
+  const nextIdx = a.idx + 1;
+  if (nextIdx % TOWER_EVERY === 0) {
+    const tower = buildTowerSegment(world.nextX, nextIdx / TOWER_EVERY);
+    world.nextX += tower.cols;
+  }
+  const nextArena = buildArenaSegment(world.nextX, nextIdx);
+  world.nextX += nextArena.cols;
+  trimBehindPlayer();
+}
+
+/** The arena guard's state machine: sleeping → waking → wave after wave → cleared. */
+function updateArenaFlow(t) {
+  if (mode !== "advance" || run.over) return;
+  const a = activeArena();
+  if (!a || a.owner === "player") return;
+  if (!a.entered) {
+    if (state.col >= a.x0) { a.entered = true; a.wakeAt = t + WAKE_DELAY_MS; }
+    return;
+  }
+  if (a.wakeAt != null) { if (t >= a.wakeAt) { dealWave(a, t); a.wakeAt = null; } return; }
+  if (a.nextWaveAt != null) { if (t >= a.nextWaveAt) { dealWave(a, t); a.nextWaveAt = null; } return; }
+  if (aliveInArena() > 0) return;
+  if (a.dealt >= a.pool) { clearArena(a, t); return; }
+  if (a.waveAlive > 0) { addTime(0.4 * a.waveAlive); a.waveAlive = 0; }
+  a.nextWaveAt = t + WAVE_GAP_MS;
+}
+
+/** The pulse: drains only while the active arena is contested, at a rate that climbs with arena index. */
+function updateClock() {
+  if (mode !== "advance" || run.over) return;
+  const a = activeArena();
+  if (a && a.owner === "enemy" && a.entered) {
+    run.timeLeft -= Math.min(1.45, 1 + a.idx * 0.02) * (frameDt / 1000);
+    if (run.timeLeft <= 0) { run.timeLeft = 0; gameOver(); }
+  }
+}
+
+function gameOver() {
+  if (run.over) return;
+  run.over = true;
+  state.charge = null; state.path = null; state.queued = null;
+  hud.fire.classList.remove("held", "ready");
+  const acc = run.shotsFired > 0 ? Math.round((run.shotsHit / run.shotsFired) * 100) : 0;
+  $("card-arena").textContent = String((activeArena()?.idx ?? 0) + 1);
+  $("card-score").textContent = String(run.score);
+  $("card-deletions").textContent = String(run.deletions);
+  $("card-chain").textContent = String(run.bestChain);
+  $("card-acc").textContent = `${acc}%`;
+  hud.card.hidden = false;
+}
+/** RETRY: rebuild the world from scratch, exactly the fresh-run layout. */
+function retry() {
+  if (mode !== "advance") return;
+  hud.card.hidden = true;
+  run = freshRun();
+  buildAdvanceWorld();
+  state.col = 1; state.row = 1; state.hop = null; state.path = null; state.queued = null;
+  state.pos.set(tileX(1), 0, tileZ(1));
+  camAnchorX = state.pos.x; camLookX = state.pos.x;
+  hideCaption();
+}
+
+function completeTask() {
+  if (!run.task || run.task.done) return;
+  run.task.done = true;
+  run.score += 500;
+  addTime(5);
+  showCaption("TASK COMPLETE +5s +500", 2500);
+}
+
+// ---------- story ----------
+// Towers: a keeper standing on the middle tile, talked to from beside it,
+// player-paced beat by beat. The first conversation of a run hands out one
+// small bonus task and actually tracks it. The original's dialogue is not
+// reproducible (its prose lives outside this repo) so these are new lines,
+// written short and in the game's own voice.
+
+const TASKS = [
+  { id: "noHit", desc: "Take an arena without being hit." },
+  { id: "chain8", desc: "Delete eight in a row without missing." },
+  { id: "chargedClear", desc: "Clear an arena with one charged shot left in the chamber." },
+];
+const TOWER_BEATS = [
+  ["The next ground is theirs. Take it and walk on.", "Every panel you don't take rots under them a little longer.", "Go. The tower keeps."],
+  ["Another guard sleeps just past here. It wakes when you cross the line.", "Delete it clean and the ground remembers whose it is.", "Walk on."],
+  ["The pool only gets deeper from here.", "Save a charge for the ones with the darker plating.", "Go take the ground."],
+];
+
+const keepers = [];   // { g, seg, seed } — one per tower segment
+function buildKeeper(seg) {
+  const g = new THREE.Group();
+  g.position.set(tileX(seg.x0 + PCOLS), 0, tileZ(1));
+  const cloakMat = new THREE.MeshStandardMaterial({ color: PAL.keeperCloak, roughness: 0.85, metalness: 0.1 });
+  g.add(mesh(new THREE.CylinderGeometry(0.05, 0.34, 1.15, 12), cloakMat, 0, 0.58, 0));
+  g.add(mesh(new THREE.SphereGeometry(0.16, 12, 10), cloakMat, 0, 1.14, 0));   // the hood
+  const visorMat = new THREE.MeshStandardMaterial({ color: PAL.keeperVisor, emissive: PAL.keeperVisor, emissiveIntensity: 1.8, roughness: 0.2 });
+  g.add(box(0.2, 0.03, 0.02, visorMat, 0, 1.03, 0.15));
+  const staffMat = new THREE.MeshStandardMaterial({ color: PAL.keeperStaff, roughness: 0.5, metalness: 0.6 });
+  g.add(mesh(new THREE.CylinderGeometry(0.02, 0.02, 1.3, 8), staffMat, 0.3, 0.65, 0.12));
+  const orbMat = new THREE.MeshStandardMaterial({ color: PAL.keeperOrb, emissive: PAL.keeperOrb, emissiveIntensity: 1.2 });
+  g.add(ball(0.07, orbMat, 0.3, 1.32, 0.12, 10));
+  scene.add(g);
+  keepers.push({ g, seg, seed: Math.random() * 100 });
+}
+function disposeKeeper(seg) {
+  const i = keepers.findIndex((k) => k.seg === seg);
+  if (i < 0) return;
+  const k = keepers[i];
+  k.g.traverse((o) => { if (o.material) o.material.dispose(); if (o.geometry) o.geometry.dispose(); });
+  scene.remove(k.g);
+  keepers.splice(i, 1);
+}
+/** A slow idle sway — standing still, but not a statue. */
+function updateKeepers(t) {
+  for (const k of keepers) {
+    k.g.rotation.y = 0.06 * Math.sin(t / 1400 + k.seed);
+    k.g.position.y = 0.01 * Math.sin(t / 900 + k.seed);
+  }
+}
+
+/** The tower the player is standing beside (orthogonally adjacent to its keeper's tile), if any. */
+function nearbyTower() {
+  for (const seg of world.segments) {
+    if (seg.kind !== "tower") continue;
+    const ncol = seg.x0 + PCOLS, nrow = 1;
+    if ((state.col === ncol && Math.abs(state.row - nrow) === 1) || (Math.abs(state.col - ncol) === 1 && state.row === nrow)) return seg;
+  }
+  return null;
+}
+/** Stepping onto a tower for the first time: a one-shot "ROOST n" caption. */
+function checkRoost() {
+  for (const seg of world.segments) {
+    if (seg.kind === "tower" && !seg.roostShown && state.col >= seg.x0 && state.col < seg.x0 + seg.cols) {
+      seg.roostShown = true;
+      showCaption(`ROOST ${seg.ordinal + 1}`, 1500);
+    }
+  }
+}
+/** TALK: press once beside the keeper to open, once per beat to advance, and once on the last beat to close. */
+function pressTalk() {
+  if (mode !== "advance") return;
+  if (run.talk) { advanceTalk(); return; }
+  const seg = nearbyTower();
+  if (!seg) return;
+  const beats = TOWER_BEATS[seg.ordinal % TOWER_BEATS.length];
+  run.talk = { seg, beats, i: 0 };
+  showCaption(beats[0]);
+}
+function advanceTalk() {
+  const tk = run.talk;
+  tk.i++;
+  if (tk.i >= tk.beats.length) closeTalk();
+  else showCaption(tk.beats[tk.i]);
+}
+function closeTalk() {
+  run.talk = null;
+  hideCaption();
+  if (!run.givenTask) assignTask();
+}
+function assignTask() {
+  run.givenTask = true;
+  const pick = TASKS[Math.floor(Math.random() * TASKS.length)];
+  run.task = { id: pick.id, desc: pick.desc, done: false };
+  showCaption(`TASK: ${pick.desc}`, 3200);
+}
+
+/** hud.caption: a bottom-centre line, shared by TALK beats, ROOST and task callouts. `ms` auto-hides; omitted, it stays until replaced or hidden. */
+let captionTimer = null;
+function showCaption(text, ms) {
+  hud.caption.textContent = text;
+  hud.caption.hidden = false;
+  if (captionTimer) clearTimeout(captionTimer);
+  captionTimer = ms ? setTimeout(hideCaption, ms) : null;
+}
+function hideCaption() {
+  if (captionTimer) clearTimeout(captionTimer);
+  captionTimer = null;
+  hud.caption.hidden = true;
+  hud.caption.textContent = "";
+}
+
+// ---------- mode ----------
+
+/** The clock's pip bar: built once per mode switch, 36 spans at the 45 s cap, `lit` toggled every frame. */
+function buildPips() {
+  hud.pips.innerHTML = "";
+  const total = Math.round(CLOCK_CAP / PIP_SEC);
+  for (let i = 0; i < total; i++) hud.pips.appendChild(document.createElement("span"));
+}
+/** LEVEL, the pips, the chain, and the task line — the advance-only second HUD row. */
+function updateAdvanceHud() {
+  const a = activeArena();
+  hud.level.textContent = String((a?.idx ?? 0) + 1);
+  hud.chain.textContent = String(run.chain);
+  const lit = Math.max(0, Math.ceil(run.timeLeft / PIP_SEC));
+  const pips = hud.pips.children;
+  for (let i = 0; i < pips.length; i++) {
+    pips[i].classList.toggle("lit", i < lit);
+    pips[i].classList.toggle("low", i < lit && lit <= 8);
+  }
+  const showTask = run.task && !run.task.done;
+  hud.taskLine.hidden = !showTask;
+  if (showTask) hud.taskLine.textContent = `task: ${run.task.desc} \u00a0\u00b7\u00a0 `;
+  const near = !run.talk && !!nearbyTower();
+  hud.talkHint.hidden = !near;
+  hud.talkBtn.hidden = !(near || run.talk);
+}
+
+/** (Re)build the world for whichever mode is live, and reset the run/camera to match. */
+function applyMode() {
+  hideCaption();
+  hud.card.hidden = true;
+  for (const el of hud.advanceOnly) el.hidden = mode !== "advance";
+  for (const el of hud.sandboxOnly) el.hidden = mode === "advance";
+  hud.mode.textContent = mode;
+  run = freshRun();
+  if (mode === "advance") {
+    buildPips();
+    buildAdvanceWorld();
+  } else {
+    buildSandboxWorld();
+  }
+  state.col = 1; state.row = 1; state.hop = null; state.path = null; state.queued = null;
+  state.pos.set(tileX(1), 0, tileZ(1));
+  camPos.copy(CAM_POS);
+  camTarget.copy(LOOK_AT);
+  camAnchorX = state.pos.x; camLookX = state.pos.x;
+}
+function setMode(m) {
+  if (!MODES.includes(m) || m === mode) return;
+  mode = m;
+  applyMode();
+}
+function toggleMode() { setMode(mode === "sandbox" ? "advance" : "sandbox"); }
 
 // Motes: a slow drift of dust in the light, so the air has depth.
 const MOTES = 220;
@@ -632,7 +1124,7 @@ function flashTile(col, row, color) {
 const _c = new THREE.Color();
 function updateTiles() {
   const k = frameDt / 1000;
-  for (const tl of tiles) {
+  for (const tl of tiles.values()) {
     // the rot: held at its level while a rotter sits, healing once it leaves
     if (!tl.rotHeld && tl.rot > 0) tl.rot = Math.max(0, tl.rot - frameDt * ROT_DECAY);
     tl.rotHeld = false;
@@ -657,6 +1149,8 @@ function updateTiles() {
 
 const initialAim = AIM_MODES.includes(params.get("aim")) ? params.get("aim") : "8";
 const initialCam = CAM_MODES.includes(params.get("cam")) ? params.get("cam") : "fixed";
+/** Which ruleset is live: the free-play board, or the 2D original's endless road. `setMode()` (bottom, mode control) rebuilds the world when this changes. */
+let mode = MODES.includes(params.get("mode")) ? params.get("mode") : "sandbox";
 
 const state = {
   col: 1, row: 1,             // the square counted as stood on
@@ -687,13 +1181,29 @@ const state = {
 };
 
 const cam = { mode: initialCam, yaw: 0.55, pitch: 0.62, dist: 6.2, shake: 0 };
+/**
+ * Advance mode's look-at x: `camAnchorX` is a running max — the arena's
+ * centre while it's contested, else the player's x — so the camera never
+ * slides backward down the road; `camLookX` chases it with a 170 ms time
+ * constant, independent of whichever camera mode's own easing is doing the
+ * rest of the framing. Sandbox never touches either.
+ */
+let camAnchorX = 0, camLookX = 0;
+function updateCamAnchor() {
+  if (mode !== "advance") { camAnchorX = state.pos.x; camLookX = state.pos.x; return; }
+  const a = activeArena();
+  const contested = a && a.owner === "enemy" && a.entered;
+  const want = contested ? (tileX(a.x0) + tileX(a.x0 + a.cols - 1)) / 2 : state.pos.x;
+  camAnchorX = Math.max(camAnchorX, want);
+  camLookX += (camAnchorX - camLookX) * (1 - Math.exp(-frameDt / 170));
+}
 
 const moveReady = (t) => t - state.lastMoveAt >= MOVE_MS;
 
 // ---------- movement ----------
 
-/** Nothing stands there: on the board, and no rotter on it. */
-const free = (col, row) => onBoard(col, row) && !rotterAt(col, row);
+/** Nothing stands there: a square the player may stand on, and no rotter on it. */
+const free = (col, row) => walkable(col, row) && !rotterAt(col, row);
 
 /**
  * Take a step by (dc, dr). One axis at a time: a hop is never diagonal. When
@@ -728,7 +1238,14 @@ function moveTo(col, row, t) {
   runPath(t);
 }
 
-/** The next step of the path, when the ration allows. Larger axis first; a blocked axis yields to the other. */
+/**
+ * The next step of the path, when the ration allows. Larger axis first; a
+ * blocked axis yields to the other. Sandbox never needed more than that —
+ * a blocked square there is only ever a rotter, which moves on — but a
+ * tower's NPC tile is a permanent wall, so on a straight run (one axis
+ * already at the target) a blocked step also tries sidestepping a row, then
+ * a column, to walk around it rather than stalling against it forever.
+ */
 function runPath(t) {
   const p = state.path;
   if (!p) return;
@@ -737,7 +1254,8 @@ function runPath(t) {
   const dc = p.col - state.col, dr = p.row - state.row;
   const byCol = [state.col + Math.sign(dc), state.row], byRow = [state.col, state.row + Math.sign(dr)];
   const order = Math.abs(dc) >= Math.abs(dr) ? [byCol, byRow] : [byRow, byCol];
-  for (const [c, r] of order) {
+  const detour = [[state.col, state.row + 1], [state.col, state.row - 1], [state.col + 1, state.row], [state.col - 1, state.row]];
+  for (const [c, r] of [...order, ...detour]) {
     if ((c !== state.col || r !== state.row) && free(c, r)) { go(c, r, t); return; }
   }
 }
@@ -877,6 +1395,7 @@ function fire(t, charged) {
   scene.add(m);
   const speed = charged ? CHARGED_SPEED : SHOT_SPEED;
   shots.push({ m, vx: _v.x * speed, vz: _v.z * speed, charged, dmg: charged ? ROTTER_HP : 1 });
+  if (mode === "advance" && !run.over) run.shotsFired++;
   state.lastFireAt = t;
   state.fireAt = t;
   state.fireCharged = charged;
@@ -989,8 +1508,9 @@ function buildRotter() {
 }
 
 function freeEnemyTile() {
+  const x0 = arenaBaseCol();
   const opts = [];
-  for (let row = 0; row < ROWS; row++) for (let col = PCOLS; col < COLS; col++) {
+  for (let row = 0; row < ROWS; row++) for (let col = x0 + PCOLS; col < x0 + COLS; col++) {
     if (!occupied(col, row)) opts.push([col, row]);
   }
   return opts.length ? opts[Math.floor(Math.random() * opts.length)] : null;
@@ -1005,9 +1525,11 @@ function spawnRotter(t) {
   const at = freeEnemyTile();
   if (!at) return;
   const r = buildRotter();
+  const { hp, steel } = mode === "advance" ? rollRotterHp() : { hp: ROTTER_HP, steel: false };
+  if (steel) { r.matBody.color.set(PAL.rotterSteel); r.matDark.color.set(PAL.rotterSteelDark); }
   Object.assign(r, {
     col: at[0], row: at[1], x: tileX(at[0]), z: tileZ(at[1]),
-    hp: ROTTER_HP, phase: "spawn", t0: t, dur: ROTTER_SPAWN_MS, hop: null, knock: null,
+    hp, steel, phase: "spawn", t0: t, dur: ROTTER_SPAWN_MS, hop: null, knock: null,
     spin: 0.006, flashUntil: -1e9, nextFireAt: t + rand(ROTTER_FIRE_EVERY[0], ROTTER_FIRE_EVERY[1]) + 800, seed: Math.random() * 100,
   });
   r.g.position.set(r.x, 0, r.z);
@@ -1019,6 +1541,7 @@ function spawnRotter(t) {
 function hitRotter(r, shot, t) {
   r.hp -= shot.dmg;
   r.flashUntil = t + 90;
+  if (mode === "advance" && !run.over) run.shotsHit++;
   dust(shot.m.position.x, shot.m.position.z, shot.charged ? 8 : 4, shot.charged ? 2.2 : 1.4, { color: shot.charged ? PAL.charged : PAL.shot, y: shot.m.position.y, rise: 0.3, size: [0.05, 0.16], ms: [160, 260], additive: true });
   if (r.hp <= 0) {
     r.phase = "die"; r.t0 = t; r.dur = ROTTER_DIE_MS;
@@ -1031,6 +1554,13 @@ function hitRotter(r, shot, t) {
     cam.shake = Math.max(cam.shake, shot.charged ? 0.07 : 0.035);
     if (state.lockTarget === r) state.lockTarget = null;
     nextSpawnAt = Math.max(nextSpawnAt, t + ROTTER_RESPAWN_MS);
+    if (mode === "advance" && !run.over) {
+      run.deletions++;
+      run.chain++;
+      run.bestChain = Math.max(run.bestChain, run.chain);
+      run.score += 100 * chainMultiplier(run.chain);
+      if (run.task && run.task.id === "chain8" && !run.task.done && run.chain >= 8) completeTask();
+    }
   } else {
     // a shove: the body lurches away from the shot and springs back
     r.knock = { vx: Math.sign(shot.vx) * 0.09, vz: Math.sign(shot.vz) * 0.09, t0: t };
@@ -1067,16 +1597,28 @@ function updateBolts(t) {
 }
 
 function takeHit(t) {
-  state.hurtUntil = t + HURT_MS;
+  state.hurtUntil = t + (mode === "advance" ? ADV_HURT_MS : HURT_MS);
   state.hits++;
   hud.hits.textContent = String(state.hits);
   cam.shake = Math.max(cam.shake, 0.09);
   dust(state.pos.x, state.pos.z, 10, 2, { color: PAL.bolt, y: 0.35, rise: 0.4, size: [0.06, 0.22], ms: [200, 380], additive: true });
   ripple(state.pos.x, state.pos.z, PAL.bolt, 1.8, 360);
+  if (mode === "advance" && !run.over) {
+    // a hit costs the clock, not health: it breaks the chain and cancels
+    // whatever the player was mid-way through, same as the 2D original.
+    run.hitThisArena = true;
+    run.chain = 0;
+    state.charge = null;
+    hud.fire.classList.remove("held", "ready");
+    state.path = null;
+    state.queued = null;
+    run.timeLeft = Math.max(0, run.timeLeft - HIT_TIME_PENALTY);
+    if (run.timeLeft <= 0) gameOver();
+  }
 }
 
 function updateRotters(t) {
-  if (rotters.filter((r) => r.phase !== "die").length < ROTTER_COUNT && t >= nextSpawnAt) {
+  if (mode === "sandbox" && rotters.filter((r) => r.phase !== "die").length < ROTTER_COUNT && t >= nextSpawnAt) {
     spawnRotter(t);
     nextSpawnAt = t + ROTTER_RESPAWN_MS * 0.6;
   }
@@ -1098,7 +1640,7 @@ function updateRotters(t) {
         tl.rot = Math.min(1, tl.rot + frameDt * ROT_RATE);
         tl.rotHeld = true;
         if (dt >= r.dur) {
-          if (t >= r.nextFireAt) { r.phase = "aim"; r.t0 = t; r.dur = ROTTER_AIM_MS; }
+          if (t >= r.nextFireAt && rotterCanFire(r)) { r.phase = "aim"; r.t0 = t; r.dur = ROTTER_AIM_MS; }
           else {
             const to = freeNeighbour(r.col, r.row);
             if (to) { r.phase = "hop"; r.t0 = t; r.dur = ROTTER_HOP_MS; r.hop = { fromCol: r.col, fromRow: r.row, toCol: to[0], toRow: to[1], committed: false }; }
@@ -1346,25 +1888,33 @@ function setCamMode(m) {
 function cycleCamMode() { setCamMode(CAM_MODES[(CAM_MODES.indexOf(cam.mode) + 1) % CAM_MODES.length]); }
 
 function updateCamera() {
+  updateCamAnchor();
   const p = state.pos;
+  // fixed and follow track the anchor's x in advance mode (the arena's
+  // centre while it's fought over, the player's x otherwise); orbit is
+  // explicitly the player's own x, not the eased anchor.
+  const cx = mode === "advance" ? camLookX : p.x;
   let rate = 400;
   switch (cam.mode) {
     case "fixed": {
-      // the framing the prototype was built with; the camera leans a little towards the buster
-      const lean = p.x * 0.18;
-      _wantT.set(lean, LOOK_AT.y, LOOK_AT.z);
-      _want.set(CAM_POS.x + lean * 0.6, CAM_POS.y, CAM_POS.z);
+      // the framing the prototype was built with; the camera leans a little
+      // towards the buster. In advance mode the whole framing rides the
+      // anchor down the road, and the lean is the buster's offset from it.
+      const base = mode === "advance" ? cx : 0;
+      const lean = (p.x - base) * 0.18;
+      _wantT.set(base + lean, LOOK_AT.y, LOOK_AT.z);
+      _want.set(CAM_POS.x + base + lean * 0.6, CAM_POS.y, CAM_POS.z);
       break;
     }
     case "follow": {
       // the same angle, closer, keeping the buster near the centre
-      _wantT.set(p.x, 0.2, p.z * 0.6);
-      _want.set(p.x, 2.9, p.z * 0.6 + 4.1);
+      _wantT.set(cx, 0.2, p.z * 0.6);
+      _want.set(cx, 2.9, p.z * 0.6 + 4.1);
       rate = 260;
       break;
     }
     case "orbit": {
-      _wantT.set(0, 0.1, 0);
+      _wantT.set(mode === "advance" ? p.x : 0, 0.1, 0);
       const cp = Math.cos(cam.pitch);
       _want.set(Math.sin(cam.yaw) * cp * cam.dist, Math.sin(cam.pitch) * cam.dist, Math.cos(cam.yaw) * cp * cam.dist).add(_wantT);
       rate = 120;
@@ -1452,6 +2002,12 @@ function isTyping(e) { return e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.tar
 
 window.addEventListener("keydown", (e) => {
   if (isTyping(e)) return;
+  // the game-over card freezes input to just RETRY — R is the orbit tilt
+  // everywhere else, but here it means what Enter means.
+  if (mode === "advance" && !hud.card.hidden) {
+    if (e.code === "Enter" || e.code === "KeyR") { e.preventDefault(); retry(); }
+    return;
+  }
   const t = now();
   if (MOVE_KEYS[e.code]) {
     e.preventDefault();
@@ -1478,6 +2034,8 @@ window.addEventListener("keydown", (e) => {
     case "KeyE": orbitBy(0.35, 0); break;
     case "KeyR": orbitBy(0, 0.15); break;
     case "KeyF": orbitBy(0, -0.15); break;
+    case "KeyM": toggleMode(); break;
+    case "KeyT": pressTalk(); break;
   }
 });
 window.addEventListener("keyup", (e) => {
@@ -1611,6 +2169,9 @@ bind("btn-cam", cycleCamMode);
 bind("btn-lock", () => { state.lockToggle = !state.lockToggle; });
 bind("btn-orbit-l", () => orbitBy(-0.35, 0));
 bind("btn-orbit-r", () => orbitBy(0.35, 0));
+bind("btn-mode", toggleMode);
+bind("btn-talk", pressTalk);
+bind("btn-retry", retry);
 hud.fire.addEventListener("pointerdown", (e) => { e.preventDefault(); hud.fire.setPointerCapture(e.pointerId); pressFire(now()); });
 hud.fire.addEventListener("pointerup", () => releaseFire(now()));
 hud.fire.addEventListener("pointercancel", () => releaseFire(now()));
@@ -1634,6 +2195,7 @@ function resize() {
 window.addEventListener("resize", resize);
 setAimMode(state.aimMode);
 setCamMode(cam.mode);
+applyMode();
 resize();
 
 function frame() {
@@ -1641,21 +2203,34 @@ function frame() {
   frameDt = Math.min(50, t - last);
   last = t;
 
-  flushQueued(t);
-  runPath(t);
-  pollHold(t);
-  updateHop(t);
-  updateRotters(t);
+  // Game over freezes the sim itself — movement, rotters, shots, the arena's
+  // clock and waves — but not the effects still playing out (a tile's
+  // spring, a ripple's fade, the camera's ease and shake, the keeper's sway).
+  const frozen = mode === "advance" && run.over;
+  if (!frozen) {
+    flushQueued(t);
+    runPath(t);
+    pollHold(t);
+    updateHop(t);
+    updateRotters(t);
+    updateAim(t);
+    updateShots(t);
+    updateBolts(t);
+    if (mode === "advance") {
+      updateArenaFlow(t);
+      updateClock();
+      checkRoost();
+      updateAdvanceHud();
+    }
+  }
   updateTiles();
-  updateAim(t);
   place(t);
   pose(t);
   updateMuzzle(t);
-  updateShots(t);
-  updateBolts(t);
   updateRipples(t);
   updatePuffs(t);
   updateMotes(t);
+  if (mode === "advance") updateKeepers(t);
   updateCamera();
 
   hud.phase.textContent = t < state.hurtUntil ? "hurt" : state.charge && t - state.charge.t0 >= CHARGE_MS ? "charged" : state.phase;
@@ -1665,11 +2240,18 @@ function frame() {
 }
 renderer.setAnimationLoop(frame);
 
-// A small hook for tests and for poking at it from the console.
+// A small hook for tests and for poking at it from the console. `mode` and
+// `run` are getters — both are rebound (not mutated) on every mode switch
+// and RETRY, so a snapshot taken once would go stale.
 window.__bw3d = {
-  state, cam, rotters, shots, bolts, rig, camera, renderer,
+  state, cam, rotters, shots, bolts, rig, camera, renderer, world,
+  get mode() { return mode; },
+  get run() { return run; },
   move: (dc, dr) => move(dc, dr, now()), moveTo: (c, r) => moveTo(c, r, now()),
   fire: (charged = false) => fire(now(), charged), pressFire: () => pressFire(now()), releaseFire: () => releaseFire(now()),
   setAim: (a) => setAim(a, now()), setAimMode, setCamMode, orbitBy,
   lock: (on) => { state.lockToggle = on; },
+  setMode, retry, pressTalk,
+  forceGameOver: () => { run.timeLeft = 0; gameOver(); },
+  debugHit: () => takeHit(now()),   // synthetic hit, for testing the 2.5 s / chain-break path without waiting on a bolt
 };

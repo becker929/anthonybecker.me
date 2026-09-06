@@ -31,7 +31,7 @@
     "number": 5,
     "slug": "buster-whack-3d",
     "title": "Buster Whack 3D",
-    "description": "A movement, aiming and camera prototype for Buster Whack: the buster rebuilt as a low-poly 3D humanoid on the same board, hopping square to square, aiming in four, eight or any direction, strafing under a lock, and firing at rotters that fire back — under five cameras.",
+    "description": "A movement, aiming and camera prototype for Buster Whack: the buster rebuilt as a low-poly 3D humanoid on the same board, hopping square to square, aiming in four, eight or any direction, strafing under a lock, and firing at rotters that fire back — under five cameras. A story / advance mode reproduces the 2D original's endless road on top of it: a countdown clock, arenas that wake and clear onto the next, and towers with a keeper to talk to.",
     "path": "/demos/5/buster-whack-3d/"
   }
 ]

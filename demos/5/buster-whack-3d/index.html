@@ -48,6 +48,61 @@
   nav.crumbs a:hover { color: #aab4ce; }
   .left { display: flex; flex-direction: column; gap: 6px; }
 
+  /* The advance-mode row: level, the clock's pips, the chain. Sits under the
+     main readout so both stay in the same monospace/uppercase HUD language. */
+  .hud.top2 { top: 32px; justify-content: flex-end; }
+  #hud-advance-row[hidden] { display: none; }
+  .hud.top2 .readout { display: flex; align-items: center; gap: 10px; }
+  .pips { display: inline-flex; gap: 2px; vertical-align: middle; }
+  .pips span { width: 5px; height: 11px; border-radius: 1px; background: #263054; display: inline-block; }
+  .pips span.lit { background: #4f8dff; }
+  .pips span.low.lit { background: #ff5470; }
+
+  /* The caption: TALK beats, ROOST callouts, task lines. Bottom centre, above the pad. */
+  #hud-caption {
+    position: fixed;
+    left: 50%; bottom: 96px;
+    transform: translateX(-50%);
+    max-width: min(84vw, 560px);
+    text-align: center;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: rgba(13, 17, 23, 0.82);
+    border: 1px solid rgba(79, 141, 255, 0.35);
+    color: #c9f6ff;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    pointer-events: none;
+  }
+  #hud-caption[hidden] { display: none; }
+
+  /* The game-over card: DELETED, the run's numbers, RETRY. */
+  #card {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(7, 9, 14, 0.78);
+    z-index: 10;
+  }
+  #card[hidden] { display: none; }
+  #card .panel {
+    min-width: 260px;
+    padding: 28px 32px;
+    border-radius: 12px;
+    background: #131b2c;
+    border: 1px solid rgba(79, 141, 255, 0.4);
+    text-align: center;
+    letter-spacing: 0.1em;
+  }
+  #card h1 { font: 700 22px/1.4 inherit; color: #ff5470; letter-spacing: 0.16em; margin-bottom: 14px; }
+  #card dl { display: grid; grid-template-columns: auto auto; gap: 4px 14px; margin: 0 0 18px; text-align: left; color: #5a6482; }
+  #card dl dd { color: #c9f6ff; text-align: right; font-variant-numeric: tabular-nums; }
+  #card button {
+    font: inherit; letter-spacing: 0.14em; text-transform: uppercase; color: #ffd23f;
+    background: rgba(44, 26, 38, 0.7); border: 2px solid rgba(255, 210, 63, 0.6);
+    border-radius: 8px; padding: 10px 22px; cursor: pointer;
+  }
+  #card button:hover { border-color: #ffd23f; }
+
   /* The pad: mode chips, the lock, and FIRE. It takes pointer events; the
      rest of the HUD does not, so the board underneath still reads taps. */
   .pad {
@@ -108,16 +163,27 @@
   <div class="title">Buster Whack <span>· 3D prototype</span></div>
   <div class="readout">
     <b id="hud-phase">idle</b> · <span id="hud-tile">1,1</span>
-    &nbsp;·&nbsp; aim <b id="hud-aim">8-dir</b> · cam <b id="hud-cam">fixed</b> · lock <b id="hud-lock">off</b>
-    &nbsp;·&nbsp; busted <b id="hud-busted">0</b> · hit <b id="hud-hits">0</b>
+    &nbsp;·&nbsp; mode <b id="hud-mode">sandbox</b> · aim <b id="hud-aim">8-dir</b> · cam <b id="hud-cam">fixed</b> · lock <b id="hud-lock">off</b>
+    &nbsp;·&nbsp; <span id="hud-sandbox-stats">busted <b id="hud-busted">0</b> · hit <b id="hud-hits">0</b></span>
   </div>
 </div>
+<div class="hud top2" id="hud-advance-row" hidden>
+  <div class="readout">
+    <span id="hud-talk-hint" hidden>near a keeper · <kbd>T</kbd> talk &nbsp;·&nbsp;</span>
+    <span id="hud-task-line" hidden></span>
+    LEVEL <b id="hud-level">1</b>
+    <span id="hud-pips" class="pips"></span>
+    chain ×<b id="hud-chain">0</b>
+  </div>
+</div>
+<div id="hud-caption" hidden></div>
 <div class="hud bottom">
   <div class="left">
     <nav class="crumbs"><a href="/demos/">← demos</a></nav>
     <div class="hint">
       <kbd>WASD</kbd> hop · <kbd>arrows</kbd> / mouse aim · <kbd>space</kbd> / right-click fire, hold to charge ·
       <kbd>shift</kbd> hold / <kbd>L</kbd> lock · <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> aim mode · <kbd>C</kbd> camera · <kbd>Q</kbd><kbd>E</kbd> <kbd>R</kbd><kbd>F</kbd> wheel orbit ·
+      <kbd>M</kbd> story/sandbox mode · <kbd>T</kbd> talk to a keeper ·
       touch: tap a square, drag as a stick, second finger aims
     </div>
   </div>
@@ -128,12 +194,27 @@
         <button id="btn-orbit-r" type="button" aria-label="orbit right">►</button>
       </div>
       <div class="row">
+        <button id="btn-mode" type="button" title="story / sandbox (M)">mode</button>
         <button id="btn-aim" type="button" title="aim mode (1 / 2 / 3)">aim</button>
         <button id="btn-cam" type="button" title="camera (C)">cam</button>
         <button id="btn-lock" type="button" title="strafe lock (Shift / L)">lock</button>
+        <button id="btn-talk" type="button" title="talk (T)" hidden>talk</button>
       </div>
     </div>
     <button id="btn-fire" type="button" class="round" title="fire (Space); hold to charge">fire</button>
+  </div>
+</div>
+<div id="card" hidden>
+  <div class="panel">
+    <h1>DELETED</h1>
+    <dl>
+      <dt>arena reached</dt><dd id="card-arena">1</dd>
+      <dt>score</dt><dd id="card-score">0</dd>
+      <dt>deletions</dt><dd id="card-deletions">0</dd>
+      <dt>best chain</dt><dd id="card-chain">0</dd>
+      <dt>accuracy</dt><dd id="card-acc">0%</dd>
+    </dl>
+    <button id="btn-retry" type="button" title="retry (Enter / R)">retry</button>
   </div>
 </div>
 <script type="module" src="./main.js"></script>
