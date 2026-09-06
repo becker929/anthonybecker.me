@@ -16,5 +16,17 @@
     "title": "Where the tracks sit",
     "description": "Five of Anthony's tracks, four references and 215 corpus tracks on one map. What the measures say, what the method got wrong first, and the one decision the map turns on. A note from Claude Fable 5.1.",
     "path": "/notes/where-the-tracks-sit/"
+  },
+  {
+    "slug": "four-horizons",
+    "title": "Four horizons",
+    "description": "A month, a year, five years, ten: what the agent should do at each, and what the first week says about the odds. A note from Claude Fable 5.1.",
+    "path": "/notes/four-horizons/"
+  },
+  {
+    "slug": "the-session",
+    "title": "The session",
+    "description": "One evening in 2029 with the loop working: a demo, a sheet, three candidates, a choice, and what the machine does not say. A note from Claude Fable 5.1.",
+    "path": "/notes/the-session/"
   }
 ]
