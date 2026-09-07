@@ -15,6 +15,13 @@ for root, dirs, files in os.walk(SRC):
         p = Path(root) / f
         if p.suffix in SKIP_EXT or f.startswith("."): continue
         rel = p.relative_to(SRC); (DST / rel).parent.mkdir(parents=True, exist_ok=True)
+        if rel.as_posix() == "corpus2/results.json":
+            # per-track grids stay in the research repo; the copy keeps the scalar results
+            import json
+            rows = json.load(open(p))
+            for r in rows:
+                for k in ("beat_energy", "bar_matrix", "bar_low", "profile_energy"): r.pop(k, None)
+            json.dump(rows, open(DST / rel, "w")); n += 1; continue
         if rel.as_posix() == "corpus2/stems_results.json":
             # the per-hit feature lists are in out/library_corpus.csv; keep the copy under Cloudflare's 25 MiB per-file limit
             import json

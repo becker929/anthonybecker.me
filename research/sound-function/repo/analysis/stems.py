@@ -249,7 +249,7 @@ def kicks_by_position(drum_path, g=None, n_pitch=16, rel=0.25, bass_path=None):
             f = fast_features(seg / (np.abs(seg).max() + 1e-9))
             if f: bf.append(f)
         if bf:
-            body = {k: round(float(np.median([f[k] for f in bf])), 3) for k in ("decay20_ms", "band_sub_share", "band_low_share", "band_mid_share", "band_air_share", "spectral_centroid_hz", "crest_factor_db")}
+            body = {k: round(float(np.median([f[k] for f in bf])), 3) for k in ("decay20_ms", "band_sub_share", "band_low_share", "band_lowmid_share", "band_mid_share", "band_high_share", "band_air_share", "spectral_centroid_hz", "centroid_slope_hz_per_ms", "crest_factor_db")}
     out = dict(n=int(len(on_beat)), per_minute=round(60 * len(on_beat) / dur, 1), tempo=round(float(bpm), 2), beat_ms=round(beat * 1000, 1), body=body,
                decay20_ms=med("decay20_ms"), decay40_ms=med("decay40_ms"), decay40_hits_window=round(float(np.mean([f["decay40_ms"] >= win / SR * 1000 - 3 for f in feats])), 2),
                level_at_next_beat_db=round(float(np.median(ringing)), 1),

@@ -92,11 +92,16 @@ def report_track(paths, item, refs, work):
     sc = stems.sidechain_between(parts["drums"], parts["bass"]); sc.pop("curve_db", None)
     db = g["downbeat"]
     ref = lambda k: (refs or {}).get(k)
+    from analysis.loudness import measure as loud
+    import soundfile as sf
+    ym, srm = sf.read(str(mix)); L = loud(ym, srm)
     bass_ok = levels.get("bass", -99) > -15
     bass_note = "" if bass_ok else f"NOT USABLE: the separator left the bass stem {abs(levels.get('bass', 0)):.0f} dB under the drums, so this reads a gap, not a pump"
     rows = [
         row("tempo", g["tempo"], "bpm", ref("tempo") or CORPUS["tempo_median"], "corpus median in the reference column when you have no references yet"),
         row("grid lock", g["lock"], "", None, "above 0.3 the beat grid is trustworthy"),
+        row("integrated loudness", L["lufs"], "LUFS", ref("lufs"), "whole file, BS.1770; the corpus excerpts' median is in part four"),
+        row("crest of the mix", L["crest_db"], "dB", ref("crest_db"), "peak over RMS of the whole file; lower means harder limiting"),
         row("bar one found with strength", db["beat_one_strength"], "", None, "1 = chance, 4 = every section change agrees"),
         row("pump on the mix", g["pump_mix"]["pump_depth_db"], "dB", ref("pump_depth_db") or CORPUS["pump_depth_median"]),
         row("pump on the bass stem", bp["pump_depth_db"], "dB", ref("bass_pump_depth_db"), bass_note or "the rumble alone, folded on the beat"),
@@ -130,7 +135,7 @@ def report_track(paths, item, refs, work):
     headline = f"{g['tempo']:.0f} bpm, {pump_word}, kick lands near {kp or '?'} Hz"
     report = dict(headline=headline, rows=rows, sections=[sec_roles, sec_grid, sec_stems, sec_struct],
                   raw=dict(tempo=g["tempo"], pump_depth_db=g["pump_mix"]["pump_depth_db"], bass_pump_depth_db=bp["pump_depth_db"] if bass_ok else None, pump_return_ms=bp["pump_return_ms"] if bass_ok else g["pump_mix"]["pump_return_ms"],
-                           bass_sub_share=bp.get("bass_sub_share") if bass_ok else None, kick_pitch_hz=kp, kick_off_share=g["kick_off_share"], roles=roles, levels=levels, sidechain=sc, kicks=kicks, bass_ok=bass_ok))
+                           bass_sub_share=bp.get("bass_sub_share") if bass_ok else None, kick_pitch_hz=kp, lufs=L["lufs"], crest_db=L["crest_db"], kick_off_share=g["kick_off_share"], roles=roles, levels=levels, sidechain=sc, kicks=kicks, bass_ok=bass_ok))
     return report
 
 
@@ -250,7 +255,7 @@ def run_local(src, out):
     items.sort(key=lambda i: {"reference": 0, "sample": 1, "multitrack": 2, "track": 3}[i["kind"]])
     ref_lists, refs, done = {}, {}, []
     def note_ref(rep):
-        for k in ("tempo", "pump_depth_db", "bass_pump_depth_db", "pump_return_ms", "bass_sub_share", "kick_pitch_hz", "kick_off_share"):
+        for k in ("tempo", "pump_depth_db", "bass_pump_depth_db", "pump_return_ms", "bass_sub_share", "kick_pitch_hz", "kick_off_share", "lufs", "crest_db"):
             if (rep.get("raw") or {}).get(k) is not None: ref_lists.setdefault(k, []).append(rep["raw"][k])
         refs.clear(); refs.update({k: float(np.median(v)) for k, v in ref_lists.items()})
     for it in items:

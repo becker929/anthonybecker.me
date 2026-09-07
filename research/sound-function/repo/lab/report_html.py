@@ -6,6 +6,7 @@ pages; condensed industrial display face, Plex body, Plex Mono for data; every
 measure drawn on a small scale against the corpus median so the eye reads
 "where am I" before the number."""
 import json, html, sys, math
+from pathlib import Path
 from datetime import datetime, timezone
 
 CORPUS = json.load(open("corpus2/summary.json"))["all"]
@@ -97,6 +98,24 @@ def compare_table(reports):
     return f'<h3>Side by side</h3><p class="lede">Your tracks, your references and the corpus on the same eight numbers. Kick numbers come from the kicks found by position in the separated drums; corpus kick numbers from part three.</p><div class="tw"><table class="m cmp"><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>'
 
 
+def embedding_section():
+    """The embedding figure inline (data URI) plus each owner item's nearest corpus neighbours and z-scores."""
+    import base64, os
+    ej = Path("lab/drive/reports/embedding.json"); png = Path("out/plots/embedding.png")
+    if not ej.exists() or not png.exists(): return ""
+    E = json.load(open(ej)); names = E["names"]
+    b64 = base64.b64encode(png.read_bytes()).decode()
+    parts = [f'<h3>Where your tracks sit</h3><p class="lede">Every corpus excerpt and every item here as one point: {len(E["features"])} measures per track, standardised on the corpus, reduced to two axes ({E["explained"][0]:.0%} and {E["explained"][1]:.0%} of the spread). Distances below are in the full 14-measure space, in corpus standard deviations.</p>',
+             f'<img class="embed" src="data:image/png;base64,{b64}" alt="Scatter of 215 corpus tracks in grey with the references in orange and the owner\'s tracks in teal, on two axes built from fourteen per-track measures.">']
+    rows = []
+    for it in E["items"]:
+        if it["kind"] == "corpus": continue
+        z = it.get("z", {}); far = sorted(z.items(), key=lambda kv: -abs(kv[1]))[:3]
+        rows.append([f'{it["kind"]}: {it["label"]}', ", ".join(f'{n["label"]} ({n["distance"]})' for n in it.get("nearest", [])), ", ".join(f'{names[f]} {v:+.1f}' for f, v in far)])
+    parts.append(generic_table(dict(columns=["item", "nearest corpus tracks (distance)", "what sets it apart (z-scores)"], rows=rows)))
+    return "".join(parts)
+
+
 def page(reports, title):
     when = datetime.now(timezone.utc).strftime("%d %b %Y, %H:%M UTC")
     body = "".join(render_report(r) for r in reports)
@@ -124,6 +143,7 @@ table.m td{{padding:.42rem .5rem;border-bottom:1px solid var(--line);vertical-al
 .u{{color:var(--dim);margin-left:.25em;font-size:.8em}} td.note{{color:var(--dim);font-size:.8rem;max-width:34ch}}
 tr.void td{{color:var(--dim)}} tr.void td.note{{color:var(--void)}} tr.void .n{{text-decoration:line-through;text-decoration-color:var(--void)}}
 .sc{{position:relative;display:inline-block;width:110px;height:14px;vertical-align:middle}} .sc i{{position:absolute;left:0;right:0;top:6px;height:2px;background:var(--line)}} .sc i::after{{content:"";position:absolute;left:50%;top:-4px;width:1px;height:10px;background:var(--dim)}} .sc b{{position:absolute;top:2px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}}
+img.embed{{width:100%;height:auto;display:block;border-radius:4px;border:1px solid var(--line);margin:.4rem 0 1rem}}
 svg.grid{{width:100%;height:auto;display:block;background:var(--panel);border:1px solid var(--line);border-radius:4px;margin:.4rem 0}} .gl{{font:11px var(--mono);fill:var(--dim)}}
 .foot{{font:.72rem var(--mono);color:var(--dim);margin-top:1.2rem}}
 .tw{{overflow-x:auto}} .tag{{font:500 .62rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-right:.3rem}} table.cmp tr.reference td:first-child .tag{{color:var(--warm)}} table.cmp tr.track td:first-child .tag{{color:var(--accent)}} table.cmp tr.corpus td{{border-top:2px solid var(--line);color:var(--dim)}} table.cmp a{{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--dim)}}
@@ -133,6 +153,7 @@ svg.grid{{width:100%;height:auto;display:block;background:var(--panel);border:1p
 <header><div class="kicker">The lab · bench sheet</div><h1>{E(title)}</h1><p>{len(reports)} item{"s" if len(reports) != 1 else ""} measured against the 218-track corpus. Reference column: your own references once you upload some, the corpus median until then. A scale shows where you sit; the tick is the reference.</p>
 <ul class="toc">{toc}</ul></header>
 {compare_table(reports)}
+{embedding_section()}
 {body}
 <p class="foot">Made {when}. Numbers that the method cannot support for this file are struck through and say why.</p>
 </div>'''
