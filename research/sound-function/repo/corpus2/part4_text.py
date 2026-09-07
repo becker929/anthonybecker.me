@@ -24,6 +24,8 @@ def nums(h):
     return re.findall(r"(-?\d+(?:\.\d+)?)", ev(h))
 _h9 = nums("H9"); H9a, H9b = (_h9[0], _h9[2]) if len(_h9) >= 3 else ("?", "?")
 _h16 = nums("H16"); H16a, H16b = (_h16[1], _h16[3]) if len(_h16) >= 4 else ("?", "?")
+import re as _re
+_m39 = _re.search(r"median (\d+) ms", verdicts.get("H39", ("", ""))[1]); H39 = _m39.group(1) if _m39 else "70"
 gloss = [
 ("backbeat", "backbeat", "A clap or snare on beats two and four."),
 ("bar", "bar", "Four beats. About one and a half seconds here."),
@@ -110,6 +112,8 @@ page = f'''<!doctype html>
   <p>The full table is in the register. It is built again from the data whenever the corpus grows. So are the results. A claim that fails at twice the tracks would say so.</p>
   <p>A last sweep went after published advice. Producers, mastering engineers, the people who make the tools. It came back with six signal chains, stage by stage. Each stage names the measure it should move. It also brought {len(ADV)} more claims.</p>
   <p>We tested those the data allow. They are in the register too, from H33 on.</p>
+  <p>One result stands out. The tools promise a split duck. The sub dips deep and the low band stays. We looked for that split on the bass stem. It is not there. The sub and the low band dip by the same amount.</p>
+  <p>Whatever the tools do, the tracks do not show it. The climb back after the dip is slow, though. It takes about {H39} ms to rise. The people who make the tools say they come back softly. This fits.</p>
   <p>Some of that advice is <a class="term" href="#g-folklore">folklore</a>. It is repeated everywhere and measured nowhere. The register is where it meets the corpus.</p>
 
   <h2 id="vision">The vision, doubled</h2>

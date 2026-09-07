@@ -124,11 +124,11 @@ if bp.exists():
     d = np.array([r["sub_pump"] - r["low_pump"] for r in ok if r.get("sub_pump") is not None and r.get("low_pump") is not None])
     rec("H34", "supported" if np.median(d) >= 3 else "not supported", f"sub-band minus low-band pump on the bass stem: median {np.median(d):+.1f} dB (n={len(d)})")
     rr = np.array([r["recovery_rise_ms"] for r in ok if r.get("recovery_rise_ms") is not None]); rec("H39", "supported" if np.median(rr) > 30 else "not supported", f"recovery rise time (10-90% of the climb back) median {np.median(rr):.0f} ms (n={len(rr)})")
-    hp = np.array([r["high_pump"] for r in B.values() if "error" not in r and r.get("high_pump") is not None]); rec("H42", "supported" if np.median(hp) >= 1 else "not supported", f"high-band (6 kHz+) pump on the drum stem at the beat: median {np.median(hp):.1f} dB (n={len(hp)})")
+    hp = np.array([r["high_pump"] for r in B.values() if "error" not in r and r.get("high_pump") is not None]); rec("H42", "supported" if np.median(hp) >= 1 else "not supported", f"high-band (6 kHz+) dip on the drum stem at the beat: median {np.median(hp):.1f} dB (n={len(hp)}; a dip this deep is the hat pattern itself, off-beat hats against an on-beat kick, so this measure cannot tell a duck from the rhythm and the verdict is weak)")
     lj = ROOT / "corpus2" / "loudness.json"
     if lj.exists():
         Lf = json.load(open(lj)); pairs = [(Lf[t]["lufs"], r["low_pump"]) for t, r in B.items() if t in Lf and Lf[t]["lufs"] is not None and "error" not in r and r.get("low_pump") is not None and r.get("bass_rel_db", -99) > -18]
-        x, y = np.array([a for a, _ in pairs]), np.array([b for _, b in pairs]); r_, p = spear(x, y); rec("H38", "supported" if r_ <= -0.2 and p < 0.05 else "not supported", fmt_r(r_, p, len(x)) + " (integrated loudness vs bass-stem pump)")
+        x, y = np.array([a for a, _ in pairs]), np.array([b for _, b in pairs]); r_, p = spear(x, y); rec("H38", "supported" if r_ <= -0.2 and p < 0.05 else "not supported", fmt_r(r_, p, len(x)) + " (integrated loudness vs bass-stem pump; the sign is the other way, louder masters pump slightly more)")
 # H43 clap/snare attacks off the beat: mid+high attack share on off-eighth/sixteenth steps, downbeat-aligned profiles
 offs = []
 for t in T:

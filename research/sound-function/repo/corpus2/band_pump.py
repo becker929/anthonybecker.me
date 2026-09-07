@@ -32,8 +32,13 @@ def recovery_rise_ms(c):
     return round(float((t90 - t10) * 1000 / grid.FR), 1)
 
 
-def one(tid):
+class _Timeout(Exception): pass
+def _alarm(*_): raise _Timeout("per-file timeout")
+
+def one(tid, limit=180):
+    import signal
     d = ROOT / "stems" / tid
+    signal.signal(signal.SIGALRM, _alarm); signal.alarm(limit)
     try:
         yd, _ = librosa.load(d / "drums.wav", sr=grid.SR, mono=True); yb, _ = librosa.load(d / "bass.wav", sr=grid.SR, mono=True)
         envd, atkd = grid.envelopes(yd); _, bpm, ph = grid.lock(atkd[0], grid.coarse_tempo(yd))
@@ -43,18 +48,23 @@ def one(tid):
         lvl_b = float(20 * np.log10(np.sqrt(np.mean(yb ** 2)) + 1e-12)) - float(20 * np.log10(np.sqrt(np.mean(yd ** 2)) + 1e-12))
         return tid, dict(tempo=round(float(bpm), 2), bass_rel_db=round(lvl_b, 1), sub_pump=ms.get("pump_depth_db"), low_pump=ml.get("pump_depth_db"), low_return=ml.get("pump_return_ms"),
                          high_pump=mh.get("pump_depth_db"), recovery_rise_ms=recovery_rise_ms(cl))
-    except Exception as e:
+    except BaseException as e:
         return tid, dict(error=f"{type(e).__name__}: {e}")
+    finally:
+        signal.alarm(0)
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--workers", type=int, default=4); a = ap.parse_args()
     ids = sorted(p.name for p in (ROOT / "stems").iterdir() if (p / "bass.wav").exists())
-    out = {}
+    outp = ROOT / "band_pump.json"; out = json.load(open(outp)) if outp.exists() else {}
+    todo = [t for t in ids if t not in out]
+    print(f"{len(out)} done already, {len(todo)} to go", file=sys.stderr, flush=True)
     with Pool(a.workers, maxtasksperchild=8) as pool:
-        for i, (tid, r) in enumerate(pool.imap_unordered(one, ids, chunksize=4), 1):
+        for i, (tid, r) in enumerate(pool.imap_unordered(one, todo, chunksize=1), 1):
             out[tid] = r
-            if i % 50 == 0: print(f"  {i}/{len(ids)}", file=sys.stderr, flush=True)
-    json.dump(out, open(ROOT / "band_pump.json", "w"), indent=1)
+            if "error" in r: print(f"  {tid}: {r['error']}", file=sys.stderr, flush=True)
+            if i % 25 == 0: json.dump(out, open(outp, "w"), indent=1); print(f"  {i}/{len(todo)}", file=sys.stderr, flush=True)
+    json.dump(out, open(outp, "w"), indent=1)
     ok = [r for r in out.values() if "error" not in r and r.get("bass_rel_db", -99) > -18 and r.get("sub_pump") is not None and r.get("low_pump") is not None]
     print(f"{len(out)} excerpts, {len(ok)} with a bass stem: sub pump median {np.median([r['sub_pump'] for r in ok]):.1f} dB, low pump median {np.median([r['low_pump'] for r in ok]):.1f} dB, high-band pump median {np.median([r['high_pump'] for r in ok if r.get('high_pump') is not None]):.1f} dB", file=sys.stderr)

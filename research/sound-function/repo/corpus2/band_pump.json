@@ -1,0 +1,5828 @@
+{
+ "006-sansetatcivil-01-2021-fight-club-2-flac": {
+  "tempo": 176.06,
+  "bass_rel_db": -3.4,
+  "sub_pump": 2.81,
+  "low_pump": 4.55,
+  "low_return": 120.0,
+  "high_pump": 5.66,
+  "recovery_rise_ms": 36.0
+ },
+ "005-va-bassinlove-cant-stand-it": {
+  "tempo": 160.12,
+  "bass_rel_db": 0.9,
+  "sub_pump": 11.05,
+  "low_pump": 10.35,
+  "low_return": 164.0,
+  "high_pump": 8.48,
+  "recovery_rise_ms": 80.0
+ },
+ "001-sascha-m-ller-punkt-1-01-sascha-muller-1-01": {
+  "tempo": 139.68,
+  "bass_rel_db": -7.5,
+  "sub_pump": 5.68,
+  "low_pump": 5.72,
+  "low_return": 120.0,
+  "high_pump": 7.89,
+  "recovery_rise_ms": 64.0
+ },
+ "002-inquieto-inquieto-5am-en-el-bella": {
+  "tempo": 143.0,
+  "bass_rel_db": -10.5,
+  "sub_pump": 6.33,
+  "low_pump": 5.74,
+  "low_return": 120.0,
+  "high_pump": 4.04,
+  "recovery_rise_ms": 92.0
+ },
+ "007-psy-shepherd-x-ethnomite-pux-x-invisible-distant-signals-psy-shepherd-x-invisible": {
+  "tempo": 155.64,
+  "bass_rel_db": -6.5,
+  "sub_pump": 9.7,
+  "low_pump": 11.1,
+  "low_return": 304.0,
+  "high_pump": 15.21,
+  "recovery_rise_ms": 84.0
+ },
+ "011-klangbild-dinkelschock": {
+  "tempo": 160.25,
+  "bass_rel_db": -7.9,
+  "sub_pump": 6.18,
+  "low_pump": 4.58,
+  "low_return": 204.0,
+  "high_pump": 33.43,
+  "recovery_rise_ms": 48.0
+ },
+ "008-x-d-d-cuba-connection": {
+  "tempo": 134.99,
+  "bass_rel_db": -14.6,
+  "sub_pump": 11.69,
+  "low_pump": 10.75,
+  "low_return": 160.0,
+  "high_pump": 12.33,
+  "recovery_rise_ms": 60.0
+ },
+ "009-stanley-hottek-stupid-love": {
+  "tempo": 132.72,
+  "bass_rel_db": 2.3,
+  "sub_pump": 16.28,
+  "low_pump": 15.34,
+  "low_return": 296.0,
+  "high_pump": 20.46,
+  "recovery_rise_ms": 96.0
+ },
+ "013-technobotts-dampframme": {
+  "tempo": 137.73,
+  "bass_rel_db": 3.6,
+  "sub_pump": 20.54,
+  "low_pump": 8.52,
+  "low_return": 148.0,
+  "high_pump": 35.02,
+  "recovery_rise_ms": 20.0
+ },
+ "015-combat-killer-combat-troops": {
+  "tempo": 134.52,
+  "bass_rel_db": -6.4,
+  "sub_pump": 32.85,
+  "low_pump": 37.6,
+  "low_return": 296.0,
+  "high_pump": 21.38,
+  "recovery_rise_ms": 196.0
+ },
+ "018-x-eject-corpses": {
+  "tempo": 149.14,
+  "bass_rel_db": -6.0,
+  "sub_pump": 9.93,
+  "low_pump": 4.42,
+  "low_return": 324.0,
+  "high_pump": 3.17,
+  "recovery_rise_ms": 80.0
+ },
+ "016-afflicted-district": {
+  "tempo": 139.7,
+  "bass_rel_db": -8.1,
+  "sub_pump": 9.16,
+  "low_pump": 11.29,
+  "low_return": 184.0,
+  "high_pump": 26.12,
+  "recovery_rise_ms": 88.0
+ },
+ "024-4zzz1-black-acid-1": {
+  "tempo": 134.56,
+  "bass_rel_db": -8.3,
+  "sub_pump": 3.97,
+  "low_pump": 3.38,
+  "low_return": 300.0,
+  "high_pump": 35.41,
+  "recovery_rise_ms": 44.0
+ },
+ "020-3cloneb-chicks": {
+  "tempo": 134.68,
+  "bass_rel_db": -22.6,
+  "sub_pump": 10.42,
+  "low_pump": 12.08,
+  "low_return": 256.0,
+  "high_pump": 16.68,
+  "recovery_rise_ms": 40.0
+ },
+ "023-blank-banshee-hall-of-mirrors": {
+  "tempo": 159.62,
+  "bass_rel_db": -9.0,
+  "sub_pump": 4.0,
+  "low_pump": 6.86,
+  "low_return": 232.0,
+  "high_pump": 2.05,
+  "recovery_rise_ms": 68.0
+ },
+ "022-steven-casteel-01-drum-bass-dnb-liquid-jungle-breakbeat": {
+  "tempo": 171.68,
+  "bass_rel_db": 5.1,
+  "sub_pump": 4.88,
+  "low_pump": 3.26,
+  "low_return": 244.0,
+  "high_pump": 9.68,
+  "recovery_rise_ms": 80.0
+ },
+ "026-knarz-maschine-acid-knarz-1": {
+  "tempo": 149.59,
+  "bass_rel_db": -15.7,
+  "sub_pump": 18.8,
+  "low_pump": 20.8,
+  "low_return": 292.0,
+  "high_pump": 13.85,
+  "recovery_rise_ms": 100.0
+ },
+ "029-pasquale-maassen-demonica": {
+  "tempo": 170.29,
+  "bass_rel_db": -34.4,
+  "sub_pump": 3.84,
+  "low_pump": 5.14,
+  "low_return": 116.0,
+  "high_pump": 14.89,
+  "recovery_rise_ms": 24.0
+ },
+ "028-unknown-war-heads-daddys-riders": {
+  "tempo": 129.71,
+  "bass_rel_db": -25.1,
+  "sub_pump": 6.46,
+  "low_pump": 8.15,
+  "low_return": 100.0,
+  "high_pump": 19.87,
+  "recovery_rise_ms": 16.0
+ },
+ "027-bellkatze-k-lnisch-wasser": {
+  "tempo": 170.37,
+  "bass_rel_db": -3.2,
+  "sub_pump": 3.67,
+  "low_pump": 5.02,
+  "low_return": 208.0,
+  "high_pump": 21.34,
+  "recovery_rise_ms": 20.0
+ },
+ "030-berba-pt-911": {
+  "tempo": 150.8,
+  "bass_rel_db": -14.3,
+  "sub_pump": 8.89,
+  "low_pump": 6.66,
+  "low_return": 160.0,
+  "high_pump": 11.29,
+  "recovery_rise_ms": 64.0
+ },
+ "033-vislumbres-composici-n": {
+  "tempo": 145.86,
+  "bass_rel_db": -0.8,
+  "sub_pump": 3.49,
+  "low_pump": 1.21,
+  "low_return": 316.0,
+  "high_pump": 9.21,
+  "recovery_rise_ms": null
+ },
+ "032-ayako-mori-inquieto-ayako-mori-your-will-inquieto-remix": {
+  "tempo": 151.31,
+  "bass_rel_db": -25.4,
+  "sub_pump": 2.76,
+  "low_pump": 7.31,
+  "low_return": 188.0,
+  "high_pump": 17.26,
+  "recovery_rise_ms": 24.0
+ },
+ "031-stromtod-bootstrap": {
+  "tempo": 106.94,
+  "bass_rel_db": -1.8,
+  "sub_pump": 4.04,
+  "low_pump": 3.48,
+  "low_return": 256.0,
+  "high_pump": 22.13,
+  "recovery_rise_ms": 8.0
+ },
+ "035-p-t-b-s-sascha-m-ller-buschlecke": {
+  "tempo": 150.41,
+  "bass_rel_db": -6.1,
+  "sub_pump": 4.32,
+  "low_pump": 7.15,
+  "low_return": 284.0,
+  "high_pump": 7.95,
+  "recovery_rise_ms": 200.0
+ },
+ "036-pakistand-techno-force-creed": {
+  "tempo": 139.69,
+  "bass_rel_db": -42.3,
+  "sub_pump": 7.84,
+  "low_pump": 8.0,
+  "low_return": 168.0,
+  "high_pump": 19.5,
+  "recovery_rise_ms": 16.0
+ },
+ "037-brutal-rave-bastards-nuke-vol-18": {
+  "tempo": 149.62,
+  "bass_rel_db": -26.6,
+  "sub_pump": 13.28,
+  "low_pump": 17.1,
+  "low_return": 120.0,
+  "high_pump": 24.78,
+  "recovery_rise_ms": 24.0
+ },
+ "038-void-r-gestohlene-zeit": {
+  "tempo": 129.7,
+  "bass_rel_db": -3.4,
+  "sub_pump": 6.7,
+  "low_pump": 4.78,
+  "low_return": 328.0,
+  "high_pump": 16.06,
+  "recovery_rise_ms": 40.0
+ },
+ "042-user78954441235-cosmic-function": {
+  "tempo": 129.7,
+  "bass_rel_db": -54.2,
+  "sub_pump": 13.58,
+  "low_pump": 11.84,
+  "low_return": 404.0,
+  "high_pump": 52.32,
+  "recovery_rise_ms": 20.0
+ },
+ "043-cement-tea-chip-withdrawal": {
+  "tempo": 139.9,
+  "bass_rel_db": 5.0,
+  "sub_pump": 3.64,
+  "low_pump": 6.31,
+  "low_return": 140.0,
+  "high_pump": 24.2,
+  "recovery_rise_ms": 152.0
+ },
+ "044-user41254475475-blue-line": {
+  "tempo": 134.65,
+  "bass_rel_db": -19.4,
+  "sub_pump": 49.77,
+  "low_pump": 57.64,
+  "low_return": 368.0,
+  "high_pump": 13.78,
+  "recovery_rise_ms": 208.0
+ },
+ "045-user08779333356-dooms-day": {
+  "tempo": 137.67,
+  "bass_rel_db": -23.3,
+  "sub_pump": 21.46,
+  "low_pump": 40.57,
+  "low_return": 156.0,
+  "high_pump": 31.3,
+  "recovery_rise_ms": 60.0
+ },
+ "046-user04821460007-escape": {
+  "tempo": 133.67,
+  "bass_rel_db": -7.2,
+  "sub_pump": 69.22,
+  "low_pump": 65.29,
+  "low_return": 308.0,
+  "high_pump": 21.56,
+  "recovery_rise_ms": 112.0
+ },
+ "047-user02358844564-asche-zu-asche": {
+  "tempo": 150.65,
+  "bass_rel_db": -1.5,
+  "sub_pump": 20.16,
+  "low_pump": 23.19,
+  "low_return": 348.0,
+  "high_pump": 23.04,
+  "recovery_rise_ms": 24.0
+ },
+ "048-user33886060077-country-boy": {
+  "tempo": 164.77,
+  "bass_rel_db": -23.2,
+  "sub_pump": 2.74,
+  "low_pump": 9.45,
+  "low_return": 296.0,
+  "high_pump": 4.99,
+  "recovery_rise_ms": 28.0
+ },
+ "049-user80254894876-newsline-of-the-agent-death": {
+  "tempo": 156.89,
+  "bass_rel_db": -40.3,
+  "sub_pump": 1.33,
+  "low_pump": 1.68,
+  "low_return": 220.0,
+  "high_pump": 4.38,
+  "recovery_rise_ms": null
+ },
+ "052-user84564100548-kirschblut": {
+  "tempo": 133.69,
+  "bass_rel_db": -0.5,
+  "sub_pump": 14.14,
+  "low_pump": 20.16,
+  "low_return": 320.0,
+  "high_pump": 59.9,
+  "recovery_rise_ms": 16.0
+ },
+ "053-user54466587890-untitled-1": {
+  "tempo": 129.53,
+  "bass_rel_db": 14.2,
+  "sub_pump": 2.42,
+  "low_pump": 4.02,
+  "low_return": 392.0,
+  "high_pump": 11.35,
+  "recovery_rise_ms": 12.0
+ },
+ "054-user85694743322-kurdish-violin-compressor": {
+  "tempo": 134.96,
+  "bass_rel_db": -0.0,
+  "sub_pump": 34.25,
+  "low_pump": 34.3,
+  "low_return": 324.0,
+  "high_pump": 4.11,
+  "recovery_rise_ms": 168.0
+ },
+ "055-user23564112514-untitled-5-1": {
+  "tempo": 149.7,
+  "bass_rel_db": -41.6,
+  "sub_pump": 10.68,
+  "low_pump": 11.64,
+  "low_return": 332.0,
+  "high_pump": 40.99,
+  "recovery_rise_ms": 20.0
+ },
+ "056-user08200140031-untitled-1-1": {
+  "tempo": 149.71,
+  "bass_rel_db": -31.7,
+  "sub_pump": 9.53,
+  "low_pump": 15.58,
+  "low_return": 352.0,
+  "high_pump": 39.25,
+  "recovery_rise_ms": 112.0
+ },
+ "057-user34567443478-untitled-12-1": {
+  "tempo": 149.75,
+  "bass_rel_db": -42.7,
+  "sub_pump": 8.67,
+  "low_pump": 4.17,
+  "low_return": 184.0,
+  "high_pump": 31.94,
+  "recovery_rise_ms": 28.0
+ },
+ "060-user55864367882-darkness": {
+  "tempo": 134.76,
+  "bass_rel_db": -21.5,
+  "sub_pump": 12.15,
+  "low_pump": 7.94,
+  "low_return": 208.0,
+  "high_pump": 47.25,
+  "recovery_rise_ms": 96.0
+ },
+ "058-user11000044425-segment-shuffler": {
+  "tempo": 136.7,
+  "bass_rel_db": -5.7,
+  "sub_pump": 11.8,
+  "low_pump": 13.85,
+  "low_return": 396.0,
+  "high_pump": 40.76,
+  "recovery_rise_ms": 56.0
+ },
+ "061-user54875487546-expander": {
+  "tempo": 132.71,
+  "bass_rel_db": -2.3,
+  "sub_pump": 30.39,
+  "low_pump": 60.74,
+  "low_return": 296.0,
+  "high_pump": 25.93,
+  "recovery_rise_ms": 76.0
+ },
+ "063-der-schwarze-adel-fuck-society": {
+  "tempo": 144.67,
+  "bass_rel_db": -3.1,
+  "sub_pump": 13.23,
+  "low_pump": 21.26,
+  "low_return": 264.0,
+  "high_pump": 5.89,
+  "recovery_rise_ms": 216.0
+ },
+ "064-evade-nld25": {
+  "tempo": 100.45,
+  "bass_rel_db": -10.3,
+  "sub_pump": 12.38,
+  "low_pump": 3.56,
+  "low_return": 440.0,
+  "high_pump": 15.51,
+  "recovery_rise_ms": 24.0
+ },
+ "062-user88800903441-barada": {
+  "tempo": 136.67,
+  "bass_rel_db": -20.2,
+  "sub_pump": 22.55,
+  "low_pump": 31.41,
+  "low_return": 340.0,
+  "high_pump": 47.05,
+  "recovery_rise_ms": 152.0
+ },
+ "067-user10000667856-the-heart-of-africa": {
+  "tempo": 136.72,
+  "bass_rel_db": -59.5,
+  "sub_pump": 8.0,
+  "low_pump": 8.99,
+  "low_return": 292.0,
+  "high_pump": 12.0,
+  "recovery_rise_ms": 60.0
+ },
+ "068-user04374532748-acid-hell": {
+  "tempo": 133.62,
+  "bass_rel_db": -14.8,
+  "sub_pump": 26.13,
+  "low_pump": 38.12,
+  "low_return": 360.0,
+  "high_pump": 30.5,
+  "recovery_rise_ms": 68.0
+ },
+ "069-user77856934351-alante": {
+  "tempo": 133.68,
+  "bass_rel_db": -61.2,
+  "sub_pump": 7.4,
+  "low_pump": 7.21,
+  "low_return": 352.0,
+  "high_pump": 22.01,
+  "recovery_rise_ms": 68.0
+ },
+ "072-user55454557544-rolling-knarz": {
+  "tempo": 135.69,
+  "bass_rel_db": -35.3,
+  "sub_pump": 10.58,
+  "low_pump": 9.25,
+  "low_return": 176.0,
+  "high_pump": 22.65,
+  "recovery_rise_ms": 52.0
+ },
+ "073-p-b-r-death-row": {
+  "tempo": 145.66,
+  "bass_rel_db": -30.4,
+  "sub_pump": 10.75,
+  "low_pump": 12.45,
+  "low_return": 196.0,
+  "high_pump": 23.41,
+  "recovery_rise_ms": 116.0
+ },
+ "074-mr-jason-mentalin": {
+  "tempo": 144.79,
+  "bass_rel_db": -14.4,
+  "sub_pump": 11.33,
+  "low_pump": 18.88,
+  "low_return": 136.0,
+  "high_pump": 31.95,
+  "recovery_rise_ms": 48.0
+ },
+ "077-user22233300085-der-eiswagen": {
+  "tempo": 152.66,
+  "bass_rel_db": 6.9,
+  "sub_pump": 21.15,
+  "low_pump": 19.83,
+  "low_return": 132.0,
+  "high_pump": 14.18,
+  "recovery_rise_ms": 36.0
+ },
+ "078-user11508366478-nightcrawler": {
+  "tempo": 139.67,
+  "bass_rel_db": -11.8,
+  "sub_pump": 15.79,
+  "low_pump": 5.91,
+  "low_return": 96.0,
+  "high_pump": 35.35,
+  "recovery_rise_ms": 32.0
+ },
+ "079-user22067782234-fluff-boyz-in-the-hood": {
+  "tempo": 129.87,
+  "bass_rel_db": 7.1,
+  "sub_pump": 16.05,
+  "low_pump": 12.52,
+  "low_return": 348.0,
+  "high_pump": 24.56,
+  "recovery_rise_ms": 56.0
+ },
+ "080-user17883214582-5g": {
+  "tempo": 163.78,
+  "bass_rel_db": -19.4,
+  "sub_pump": 3.3,
+  "low_pump": 6.62,
+  "low_return": 184.0,
+  "high_pump": 10.25,
+  "recovery_rise_ms": 52.0
+ },
+ "081-user89945677442-machine-music": {
+  "tempo": 129.71,
+  "bass_rel_db": -17.0,
+  "sub_pump": 10.34,
+  "low_pump": 8.22,
+  "low_return": 316.0,
+  "high_pump": 22.68,
+  "recovery_rise_ms": 28.0
+ },
+ "084-sascha-muller-city-rain": {
+  "tempo": 149.02,
+  "bass_rel_db": -1.4,
+  "sub_pump": 3.4,
+  "low_pump": 2.77,
+  "low_return": 272.0,
+  "high_pump": 0.94,
+  "recovery_rise_ms": null
+ },
+ "085-user78654786842-3-a-m": {
+  "tempo": 153.55,
+  "bass_rel_db": -9.3,
+  "sub_pump": 9.72,
+  "low_pump": 7.75,
+  "low_return": 280.0,
+  "high_pump": 26.12,
+  "recovery_rise_ms": 48.0
+ },
+ "088-user66788884902-the-face-of-destruction": {
+  "tempo": 119.74,
+  "bass_rel_db": -3.1,
+  "sub_pump": 8.48,
+  "low_pump": 5.78,
+  "low_return": 132.0,
+  "high_pump": 31.62,
+  "recovery_rise_ms": 368.0
+ },
+ "087-user66866546841-acid-embargo-part-1": {
+  "tempo": 150.4,
+  "bass_rel_db": 0.4,
+  "sub_pump": 27.95,
+  "low_pump": 14.33,
+  "low_return": 132.0,
+  "high_pump": 7.94,
+  "recovery_rise_ms": 44.0
+ },
+ "089-user87742587412-border": {
+  "tempo": 139.69,
+  "bass_rel_db": -9.4,
+  "sub_pump": 14.74,
+  "low_pump": 14.61,
+  "low_return": 304.0,
+  "high_pump": 41.58,
+  "recovery_rise_ms": 44.0
+ },
+ "090-user04574546444-606-303-904": {
+  "tempo": 149.72,
+  "bass_rel_db": -15.3,
+  "sub_pump": 10.69,
+  "low_pump": 15.22,
+  "low_return": 292.0,
+  "high_pump": 25.73,
+  "recovery_rise_ms": 16.0
+ },
+ "092-user99899889988-cavemen": {
+  "tempo": 132.71,
+  "bass_rel_db": -13.3,
+  "sub_pump": 15.66,
+  "low_pump": 24.43,
+  "low_return": 236.0,
+  "high_pump": 28.88,
+  "recovery_rise_ms": 88.0
+ },
+ "093-atheist-if-jesus-was-a-raver": {
+  "tempo": 155.89,
+  "bass_rel_db": -20.5,
+  "sub_pump": 2.74,
+  "low_pump": 4.06,
+  "low_return": 176.0,
+  "high_pump": 4.77,
+  "recovery_rise_ms": 44.0
+ },
+ "094-pakistan-techno-force-bouncer": {
+  "tempo": 134.04,
+  "bass_rel_db": -10.8,
+  "sub_pump": 9.67,
+  "low_pump": 12.1,
+  "low_return": 364.0,
+  "high_pump": 27.7,
+  "recovery_rise_ms": 52.0
+ },
+ "096-bitterfeld-death-is-coming": {
+  "tempo": 135.74,
+  "bass_rel_db": -14.3,
+  "sub_pump": 40.71,
+  "low_pump": 39.49,
+  "low_return": 244.0,
+  "high_pump": 12.09,
+  "recovery_rise_ms": 84.0
+ },
+ "095-user12121325544-seaside": {
+  "tempo": 134.7,
+  "bass_rel_db": -7.1,
+  "sub_pump": 39.07,
+  "low_pump": 41.44,
+  "low_return": 272.0,
+  "high_pump": 19.74,
+  "recovery_rise_ms": 140.0
+ },
+ "097-user99457585343-death-of-an-agent": {
+  "tempo": 162.85,
+  "bass_rel_db": -12.6,
+  "sub_pump": 3.33,
+  "low_pump": 3.25,
+  "low_return": 304.0,
+  "high_pump": 1.53,
+  "recovery_rise_ms": 40.0
+ },
+ "098-user25244578642-606-303-903": {
+  "tempo": 149.74,
+  "bass_rel_db": -48.4,
+  "sub_pump": 10.26,
+  "low_pump": 15.6,
+  "low_return": 288.0,
+  "high_pump": 37.31,
+  "recovery_rise_ms": 84.0
+ },
+ "099-user75468548102-no-big-deal": {
+  "tempo": 136.56,
+  "bass_rel_db": -41.1,
+  "sub_pump": 1.7,
+  "low_pump": 2.07,
+  "low_return": 220.0,
+  "high_pump": 24.95,
+  "recovery_rise_ms": null
+ },
+ "100-user11188078453-606-303-902": {
+  "tempo": 99.81,
+  "bass_rel_db": -10.5,
+  "sub_pump": 25.77,
+  "low_pump": 25.25,
+  "low_return": 360.0,
+  "high_pump": 26.65,
+  "recovery_rise_ms": 52.0
+ },
+ "102-user88745774467-untitled-3-1": {
+  "tempo": 149.71,
+  "bass_rel_db": -4.8,
+  "sub_pump": 10.07,
+  "low_pump": 16.87,
+  "low_return": 148.0,
+  "high_pump": 23.1,
+  "recovery_rise_ms": 32.0
+ },
+ "105-hanzzo-sascha-m-ller-nuke-vol-22": {
+  "tempo": 145.96,
+  "bass_rel_db": 6.3,
+  "sub_pump": 5.41,
+  "low_pump": 4.02,
+  "low_return": 364.0,
+  "high_pump": 25.74,
+  "recovery_rise_ms": 32.0
+ },
+ "108-duality-micro-sidewinder": {
+  "tempo": 128.72,
+  "bass_rel_db": -1.9,
+  "sub_pump": 7.27,
+  "low_pump": 11.06,
+  "low_return": 232.0,
+  "high_pump": 38.03,
+  "recovery_rise_ms": 284.0
+ },
+ "111-el-atalaya-respect-my-ability-sascha-m-ller-hard-ac": {
+  "tempo": 149.64,
+  "bass_rel_db": -9.4,
+  "sub_pump": 30.26,
+  "low_pump": 45.22,
+  "low_return": 244.0,
+  "high_pump": 19.48,
+  "recovery_rise_ms": 96.0
+ },
+ "109-el-atalaya-sascha-m-ller-respect-my-ability-sascha-m-ller-hard-ac": {
+  "tempo": 149.65,
+  "bass_rel_db": -9.2,
+  "sub_pump": 27.8,
+  "low_pump": 46.8,
+  "low_return": 244.0,
+  "high_pump": 21.74,
+  "recovery_rise_ms": 120.0
+ },
+ "112-the-808-hillbillys-untitled-3": {
+  "tempo": 142.41,
+  "bass_rel_db": -15.9,
+  "sub_pump": 27.47,
+  "low_pump": 27.86,
+  "low_return": 360.0,
+  "high_pump": 16.82,
+  "recovery_rise_ms": 60.0
+ },
+ "113-dize7-two-specifications": {
+  "tempo": 151.65,
+  "bass_rel_db": -5.9,
+  "sub_pump": 27.78,
+  "low_pump": 20.57,
+  "low_return": 188.0,
+  "high_pump": 33.63,
+  "recovery_rise_ms": 96.0
+ },
+ "114-the-d3vi7-jens-mueller-computer-stimulation-jens-mueller-remix": {
+  "tempo": 131.73,
+  "bass_rel_db": -24.1,
+  "sub_pump": 9.63,
+  "low_pump": 11.53,
+  "low_return": 112.0,
+  "high_pump": 24.7,
+  "recovery_rise_ms": 16.0
+ },
+ "117-svecent-pro-opportunity-or-not": {
+  "tempo": 132.08,
+  "bass_rel_db": -1.7,
+  "sub_pump": 22.78,
+  "low_pump": 18.06,
+  "low_return": 284.0,
+  "high_pump": 31.47,
+  "recovery_rise_ms": 148.0
+ },
+ "115-user20684003752-euroman": {
+  "tempo": 135.2,
+  "bass_rel_db": -31.0,
+  "sub_pump": 14.83,
+  "low_pump": 11.94,
+  "low_return": 256.0,
+  "high_pump": 49.03,
+  "recovery_rise_ms": 144.0
+ },
+ "119-pasquale-maassen-vs-peter-mummert-ho-em-ah": {
+  "tempo": 141.03,
+  "bass_rel_db": -42.7,
+  "sub_pump": 5.55,
+  "low_pump": 6.2,
+  "low_return": 292.0,
+  "high_pump": 34.38,
+  "recovery_rise_ms": 20.0
+ },
+ "120-dj-muthafukka-turkish-delight-the-d3vi7-psy-remix": {
+  "tempo": 137.61,
+  "bass_rel_db": -2.7,
+  "sub_pump": 49.13,
+  "low_pump": 67.23,
+  "low_return": 292.0,
+  "high_pump": 21.86,
+  "recovery_rise_ms": 72.0
+ },
+ "123-rotura-xxl-inquieto-rotura-xxl-the-crow-inquieto-remix": {
+  "tempo": 144.6,
+  "bass_rel_db": -7.3,
+  "sub_pump": 8.06,
+  "low_pump": 6.13,
+  "low_return": 300.0,
+  "high_pump": 31.75,
+  "recovery_rise_ms": 36.0
+ },
+ "125-matias-jose-espejo-antognoli-svecent-sex-production": {
+  "tempo": 134.47,
+  "bass_rel_db": -8.6,
+  "sub_pump": 2.98,
+  "low_pump": 8.03,
+  "low_return": 184.0,
+  "high_pump": 24.77,
+  "recovery_rise_ms": 164.0
+ },
+ "126-p-t-b-s-b-t-m-knarz-maschine-remix": {
+  "tempo": 131.88,
+  "bass_rel_db": -1.7,
+  "sub_pump": 11.03,
+  "low_pump": 2.92,
+  "low_return": 128.0,
+  "high_pump": 21.7,
+  "recovery_rise_ms": null
+ },
+ "127-ohrchitekt-vollpfosten": {
+  "tempo": 143.3,
+  "bass_rel_db": -8.1,
+  "sub_pump": 19.91,
+  "low_pump": 18.38,
+  "low_return": 184.0,
+  "high_pump": 25.87,
+  "recovery_rise_ms": 72.0
+ },
+ "128-widerwille-entasis": {
+  "tempo": 136.67,
+  "bass_rel_db": -28.0,
+  "sub_pump": 31.85,
+  "low_pump": 33.45,
+  "low_return": 260.0,
+  "high_pump": 9.39,
+  "recovery_rise_ms": 104.0
+ },
+ "130-p-t-b-s-hanzzo-the-d3vi7-space": {
+  "tempo": 93.73,
+  "bass_rel_db": -17.2,
+  "sub_pump": 6.07,
+  "low_pump": 14.98,
+  "low_return": 220.0,
+  "high_pump": 27.79,
+  "recovery_rise_ms": 52.0
+ },
+ "131-nitrogene-lost-transmission-planet-earth": {
+  "tempo": 133.69,
+  "bass_rel_db": -22.3,
+  "sub_pump": 7.56,
+  "low_pump": 5.16,
+  "low_return": 212.0,
+  "high_pump": 29.32,
+  "recovery_rise_ms": 68.0
+ },
+ "132-duality-micro-sascha-m-ller-press-start-edit02": {
+  "tempo": 149.64,
+  "bass_rel_db": -4.3,
+  "sub_pump": 7.34,
+  "low_pump": 8.17,
+  "low_return": 176.0,
+  "high_pump": 34.92,
+  "recovery_rise_ms": 116.0
+ },
+ "133-p-t-b-s-sascha-m-ller-out-of-control-sascha-m-ller-breakbeat-r": {
+  "tempo": 144.68,
+  "bass_rel_db": 2.4,
+  "sub_pump": 7.76,
+  "low_pump": 16.53,
+  "low_return": 300.0,
+  "high_pump": 22.1,
+  "recovery_rise_ms": 12.0
+ },
+ "134-jerzz-sascha-m-ller-nuke-vol-21": {
+  "tempo": 169.81,
+  "bass_rel_db": 1.6,
+  "sub_pump": 44.32,
+  "low_pump": 30.06,
+  "low_return": 152.0,
+  "high_pump": 5.02,
+  "recovery_rise_ms": 44.0
+ },
+ "135-jens-mueller-p-t-b-s-marudi-p-t-b-s-remix": {
+  "tempo": 135.98,
+  "bass_rel_db": -2.7,
+  "sub_pump": 3.26,
+  "low_pump": 2.07,
+  "low_return": 324.0,
+  "high_pump": 11.76,
+  "recovery_rise_ms": null
+ },
+ "136-jens-mueller-afflicted-marudi-afflicted-remix": {
+  "tempo": 130.67,
+  "bass_rel_db": -8.5,
+  "sub_pump": 59.97,
+  "low_pump": 54.59,
+  "low_return": 312.0,
+  "high_pump": 33.18,
+  "recovery_rise_ms": 56.0
+ },
+ "137-sans-fin-zeit-rmx-sans-fin": {
+  "tempo": 139.69,
+  "bass_rel_db": 1.6,
+  "sub_pump": 25.78,
+  "low_pump": 33.74,
+  "low_return": 384.0,
+  "high_pump": 46.39,
+  "recovery_rise_ms": 284.0
+ },
+ "138-stahlschlag-zeit-rmx-stahlschlag": {
+  "tempo": 139.68,
+  "bass_rel_db": -2.8,
+  "sub_pump": 44.17,
+  "low_pump": 55.49,
+  "low_return": 256.0,
+  "high_pump": 16.51,
+  "recovery_rise_ms": 72.0
+ },
+ "141-assey-don-t-sleep-mastered": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "142-valovoima-x": {
+  "tempo": 154.64,
+  "bass_rel_db": -8.5,
+  "sub_pump": 9.36,
+  "low_pump": 7.01,
+  "low_return": 240.0,
+  "high_pump": 17.01,
+  "recovery_rise_ms": 40.0
+ },
+ "139-maschienekrieger-kr52-zeit-rmx-maschinenkrieger-kr52": {
+  "tempo": 159.98,
+  "bass_rel_db": -18.7,
+  "sub_pump": 3.66,
+  "low_pump": 5.33,
+  "low_return": 148.0,
+  "high_pump": 1.55,
+  "recovery_rise_ms": 60.0
+ },
+ "143-pagna-nuke-vol-07": {
+  "tempo": 146.61,
+  "bass_rel_db": -7.2,
+  "sub_pump": 2.95,
+  "low_pump": 2.84,
+  "low_return": 212.0,
+  "high_pump": 9.6,
+  "recovery_rise_ms": null
+ },
+ "145-acin-nuke-vol-04": {
+  "tempo": 137.07,
+  "bass_rel_db": -0.0,
+  "sub_pump": 1.16,
+  "low_pump": 1.62,
+  "low_return": 244.0,
+  "high_pump": 2.6,
+  "recovery_rise_ms": null
+ },
+ "146-rabbits-on-speed-nuke-vol-12": {
+  "tempo": 161.55,
+  "bass_rel_db": -2.5,
+  "sub_pump": 2.1,
+  "low_pump": 1.95,
+  "low_return": 108.0,
+  "high_pump": 0.75,
+  "recovery_rise_ms": null
+ },
+ "147-ego-drums-nuke-vol-09": {
+  "tempo": 166.39,
+  "bass_rel_db": -23.0,
+  "sub_pump": 2.89,
+  "low_pump": 2.3,
+  "low_return": 144.0,
+  "high_pump": 3.02,
+  "recovery_rise_ms": null
+ },
+ "148-sascha-m-ller-punkt-1-02-sascha-muller-1-02": {
+  "tempo": 139.69,
+  "bass_rel_db": -53.8,
+  "sub_pump": 6.16,
+  "low_pump": 4.91,
+  "low_return": 348.0,
+  "high_pump": 45.4,
+  "recovery_rise_ms": 32.0
+ },
+ "149-inquieto-inquieto-baila-milodon": {
+  "tempo": 160.35,
+  "bass_rel_db": 5.7,
+  "sub_pump": 2.64,
+  "low_pump": 3.22,
+  "low_return": 272.0,
+  "high_pump": 2.85,
+  "recovery_rise_ms": 16.0
+ },
+ "151-the-d3vi7-all-time": {
+  "tempo": 131.69,
+  "bass_rel_db": -8.3,
+  "sub_pump": 13.74,
+  "low_pump": 12.44,
+  "low_return": 308.0,
+  "high_pump": 37.5,
+  "recovery_rise_ms": 276.0
+ },
+ "153-sansetatcivil-02-2021-stalker-79-pt1-flac": {
+  "tempo": 117.31,
+  "bass_rel_db": -6.6,
+  "sub_pump": 2.52,
+  "low_pump": 3.3,
+  "low_return": 232.0,
+  "high_pump": 6.31,
+  "recovery_rise_ms": 192.0
+ },
+ "152-va-behlial-cocaina": {
+  "tempo": 159.45,
+  "bass_rel_db": -5.4,
+  "sub_pump": 40.24,
+  "low_pump": 28.93,
+  "low_return": 260.0,
+  "high_pump": 16.81,
+  "recovery_rise_ms": 64.0
+ },
+ "154-psy-shepherd-x-ethnomite-pux-x-invisible-electronic-quicksands-ii-ethnomite-pux-t": {
+  "tempo": 110.24,
+  "bass_rel_db": 3.2,
+  "sub_pump": 7.32,
+  "low_pump": 4.21,
+  "low_return": 360.0,
+  "high_pump": 18.35,
+  "recovery_rise_ms": 76.0
+ },
+ "155-x-d-d-dark-elements": {
+  "tempo": 135.9,
+  "bass_rel_db": -11.2,
+  "sub_pump": 8.92,
+  "low_pump": 18.14,
+  "low_return": 360.0,
+  "high_pump": 35.01,
+  "recovery_rise_ms": 88.0
+ },
+ "156-stanley-hottek-colakevin": {
+  "tempo": 141.5,
+  "bass_rel_db": -19.2,
+  "sub_pump": 5.96,
+  "low_pump": 7.84,
+  "low_return": 260.0,
+  "high_pump": 34.17,
+  "recovery_rise_ms": 48.0
+ },
+ "157-johann-schwengel-love": {
+  "tempo": 137.67,
+  "bass_rel_db": 2.2,
+  "sub_pump": 2.96,
+  "low_pump": 2.25,
+  "low_return": 124.0,
+  "high_pump": 49.99,
+  "recovery_rise_ms": null
+ },
+ "162-combat-killer-defluxcompensator": {
+  "tempo": 136.69,
+  "bass_rel_db": -47.4,
+  "sub_pump": 13.38,
+  "low_pump": 8.86,
+  "low_return": 280.0,
+  "high_pump": 29.35,
+  "recovery_rise_ms": 136.0
+ },
+ "163-afflicted-dr-who-1": {
+  "tempo": 144.65,
+  "bass_rel_db": -21.4,
+  "sub_pump": 7.38,
+  "low_pump": 5.19,
+  "low_return": 172.0,
+  "high_pump": 27.12,
+  "recovery_rise_ms": 48.0
+ },
+ "166-ru-dead-42-acid-to-acid": {
+  "tempo": 130.69,
+  "bass_rel_db": -11.2,
+  "sub_pump": 21.71,
+  "low_pump": 23.07,
+  "low_return": 428.0,
+  "high_pump": 33.12,
+  "recovery_rise_ms": 108.0
+ },
+ "167-3cloneb-kanbarra": {
+  "tempo": 133.57,
+  "bass_rel_db": -26.2,
+  "sub_pump": 8.56,
+  "low_pump": 7.05,
+  "low_return": 420.0,
+  "high_pump": 41.35,
+  "recovery_rise_ms": 40.0
+ },
+ "169-steven-casteel-02-guitar": {
+  "tempo": 134.06,
+  "bass_rel_db": 49.0,
+  "sub_pump": 6.51,
+  "low_pump": 7.24,
+  "low_return": 344.0,
+  "high_pump": 1.12,
+  "recovery_rise_ms": 28.0
+ },
+ "171-4zzz1-black-acid-2": {
+  "tempo": 134.53,
+  "bass_rel_db": -40.7,
+  "sub_pump": 3.49,
+  "low_pump": 8.63,
+  "low_return": 272.0,
+  "high_pump": 13.09,
+  "recovery_rise_ms": 128.0
+ },
+ "172-erick-jaeger-cleansing": {
+  "tempo": 152.26,
+  "bass_rel_db": 3.3,
+  "sub_pump": 5.07,
+  "low_pump": 3.92,
+  "low_return": 200.0,
+  "high_pump": 2.6,
+  "recovery_rise_ms": 64.0
+ },
+ "173-knarz-maschine-acid-knarz-2": {
+  "tempo": 134.68,
+  "bass_rel_db": -2.8,
+  "sub_pump": 10.26,
+  "low_pump": 6.1,
+  "low_return": 128.0,
+  "high_pump": 36.19,
+  "recovery_rise_ms": 128.0
+ },
+ "174-bellkatze-lightweight-memphis": {
+  "tempo": 132.69,
+  "bass_rel_db": -15.5,
+  "sub_pump": 12.53,
+  "low_pump": 8.95,
+  "low_return": 328.0,
+  "high_pump": 28.12,
+  "recovery_rise_ms": 136.0
+ },
+ "175-unknown-war-heads-kalium": {
+  "tempo": 128.71,
+  "bass_rel_db": 1.8,
+  "sub_pump": 6.69,
+  "low_pump": 7.58,
+  "low_return": 252.0,
+  "high_pump": 48.44,
+  "recovery_rise_ms": 144.0
+ },
+ "176-pasquale-maassen-stompin": {
+  "tempo": 142.68,
+  "bass_rel_db": -42.5,
+  "sub_pump": 6.83,
+  "low_pump": 7.08,
+  "low_return": 108.0,
+  "high_pump": 39.59,
+  "recovery_rise_ms": 20.0
+ },
+ "177-berba-pt-cooking-cookies": {
+  "tempo": 152.65,
+  "bass_rel_db": -35.2,
+  "sub_pump": 7.21,
+  "low_pump": 11.61,
+  "low_return": 124.0,
+  "high_pump": 13.12,
+  "recovery_rise_ms": 36.0
+ },
+ "179-ayako-mori-inquieto-ayako-mori-ire-land-of-the-wind-inquieto": {
+  "tempo": 159.57,
+  "bass_rel_db": -3.3,
+  "sub_pump": 6.42,
+  "low_pump": 7.37,
+  "low_return": 140.0,
+  "high_pump": 31.02,
+  "recovery_rise_ms": 80.0
+ },
+ "178-stromtod-ein-endloser-kreislauf": {
+  "tempo": 134.74,
+  "bass_rel_db": -4.4,
+  "sub_pump": 43.41,
+  "low_pump": 52.45,
+  "low_return": 404.0,
+  "high_pump": 38.01,
+  "recovery_rise_ms": 164.0
+ },
+ "180-vislumbres-ne": {
+  "tempo": 158.67,
+  "bass_rel_db": 1.4,
+  "sub_pump": 0.67,
+  "low_pump": 2.18,
+  "low_return": 184.0,
+  "high_pump": 12.55,
+  "recovery_rise_ms": null
+ },
+ "182-p-t-b-s-sascha-m-ller-content": {
+  "tempo": 133.33,
+  "bass_rel_db": -18.5,
+  "sub_pump": 7.93,
+  "low_pump": 11.72,
+  "low_return": 144.0,
+  "high_pump": 19.91,
+  "recovery_rise_ms": 84.0
+ },
+ "183-pakistand-techno-force-dropball": {
+  "tempo": 154.64,
+  "bass_rel_db": -19.0,
+  "sub_pump": 13.98,
+  "low_pump": 20.98,
+  "low_return": 300.0,
+  "high_pump": 24.33,
+  "recovery_rise_ms": 152.0
+ },
+ "185-void-r-kalter-schwei": {
+  "tempo": 131.69,
+  "bass_rel_db": -9.4,
+  "sub_pump": 8.9,
+  "low_pump": 8.48,
+  "low_return": 412.0,
+  "high_pump": 20.52,
+  "recovery_rise_ms": 64.0
+ },
+ "186-angel-s-domain-soulful-hell": {
+  "tempo": 154.1,
+  "bass_rel_db": -9.7,
+  "sub_pump": 1.65,
+  "low_pump": 1.61,
+  "low_return": 92.0,
+  "high_pump": 0.87,
+  "recovery_rise_ms": null
+ },
+ "187-adscum-adscum-lada": {
+  "tempo": 175.46,
+  "bass_rel_db": 10.1,
+  "sub_pump": 3.89,
+  "low_pump": 4.13,
+  "low_return": 112.0,
+  "high_pump": 8.19,
+  "recovery_rise_ms": 48.0
+ },
+ "188-user12746456775-untitled135": {
+  "tempo": 134.68,
+  "bass_rel_db": -15.8,
+  "sub_pump": 6.79,
+  "low_pump": 4.38,
+  "low_return": 344.0,
+  "high_pump": 21.39,
+  "recovery_rise_ms": 60.0
+ },
+ "189-user78954441235-trip-to-the-moon": {
+  "tempo": 131.71,
+  "bass_rel_db": -1.6,
+  "sub_pump": 17.42,
+  "low_pump": 16.35,
+  "low_return": 376.0,
+  "high_pump": 14.7,
+  "recovery_rise_ms": 160.0
+ },
+ "190-cement-tea-kubizt": {
+  "tempo": 141.65,
+  "bass_rel_db": 5.9,
+  "sub_pump": 3.97,
+  "low_pump": 7.32,
+  "low_return": 192.0,
+  "high_pump": 14.42,
+  "recovery_rise_ms": 188.0
+ },
+ "191-user41254475475-die-apokalypse": {
+  "tempo": 144.53,
+  "bass_rel_db": -33.4,
+  "sub_pump": 9.3,
+  "low_pump": 9.77,
+  "low_return": 196.0,
+  "high_pump": 12.84,
+  "recovery_rise_ms": 136.0
+ },
+ "193-user04821460007-the-agent-girls": {
+  "tempo": 167.64,
+  "bass_rel_db": -0.9,
+  "sub_pump": 5.84,
+  "low_pump": 9.94,
+  "low_return": 232.0,
+  "high_pump": 2.99,
+  "recovery_rise_ms": 164.0
+ },
+ "192-user08779333356-geek": {
+  "tempo": 144.67,
+  "bass_rel_db": -23.3,
+  "sub_pump": 10.38,
+  "low_pump": 8.7,
+  "low_return": 352.0,
+  "high_pump": 18.99,
+  "recovery_rise_ms": 84.0
+ },
+ "196-user80254894876-sympathikus-stimmulation": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "198-user10005668945-untitled-11": {
+  "tempo": 149.71,
+  "bass_rel_db": -22.9,
+  "sub_pump": 5.46,
+  "low_pump": 6.19,
+  "low_return": 276.0,
+  "high_pump": 26.14,
+  "recovery_rise_ms": 24.0
+ },
+ "199-user84564100548-klappbong": {
+  "tempo": 136.69,
+  "bass_rel_db": -5.4,
+  "sub_pump": 17.21,
+  "low_pump": 16.68,
+  "low_return": 260.0,
+  "high_pump": 38.64,
+  "recovery_rise_ms": 236.0
+ },
+ "201-user85694743322-untitled-8": {
+  "tempo": 149.68,
+  "bass_rel_db": -17.5,
+  "sub_pump": 7.61,
+  "low_pump": 14.03,
+  "low_return": 252.0,
+  "high_pump": 37.77,
+  "recovery_rise_ms": 116.0
+ },
+ "200-user54466587890-voltmeter": {
+  "tempo": 128.11,
+  "bass_rel_db": -62.6,
+  "sub_pump": 9.72,
+  "low_pump": 4.17,
+  "low_return": 248.0,
+  "high_pump": 27.32,
+  "recovery_rise_ms": 68.0
+ },
+ "202-user23564112514-untitled-6-1": {
+  "tempo": 149.71,
+  "bass_rel_db": -45.6,
+  "sub_pump": 7.01,
+  "low_pump": 9.69,
+  "low_return": 272.0,
+  "high_pump": 38.92,
+  "recovery_rise_ms": 40.0
+ },
+ "203-user08200140031-untitled-2-1": {
+  "tempo": 149.71,
+  "bass_rel_db": -8.7,
+  "sub_pump": 5.5,
+  "low_pump": 4.89,
+  "low_return": 212.0,
+  "high_pump": 24.62,
+  "recovery_rise_ms": 80.0
+ },
+ "205-user11000044425-spandau": {
+  "tempo": 137.69,
+  "bass_rel_db": -12.1,
+  "sub_pump": 54.21,
+  "low_pump": 64.56,
+  "low_return": 380.0,
+  "high_pump": 23.03,
+  "recovery_rise_ms": 148.0
+ },
+ "206-user72467634894-fear": {
+  "tempo": 137.67,
+  "bass_rel_db": -16.6,
+  "sub_pump": 20.74,
+  "low_pump": 14.55,
+  "low_return": 152.0,
+  "high_pump": 15.46,
+  "recovery_rise_ms": 44.0
+ },
+ "207-user55864367882-deeper": {
+  "tempo": 137.71,
+  "bass_rel_db": -22.1,
+  "sub_pump": 10.84,
+  "low_pump": 21.79,
+  "low_return": 392.0,
+  "high_pump": 13.08,
+  "recovery_rise_ms": 28.0
+ },
+ "209-user88800903441-eisenbass": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "210-der-schwarze-adel-when-the-truth-is-found-to-be-lies": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "211-evade-noises-edit": {
+  "tempo": 147.64,
+  "bass_rel_db": 0.1,
+  "sub_pump": 5.18,
+  "low_pump": 10.62,
+  "low_return": 296.0,
+  "high_pump": 25.17,
+  "recovery_rise_ms": 28.0
+ },
+ "212-sol-1-wild-thing": {
+  "tempo": 145.68,
+  "bass_rel_db": -25.3,
+  "sub_pump": 5.31,
+  "low_pump": 5.14,
+  "low_return": 324.0,
+  "high_pump": 28.01,
+  "recovery_rise_ms": 56.0
+ },
+ "213-user-records-user015-02-user22647388499-cornelius-fev": {
+  "tempo": 149.61,
+  "bass_rel_db": -16.1,
+  "sub_pump": 5.61,
+  "low_pump": 8.51,
+  "low_return": 312.0,
+  "high_pump": 24.72,
+  "recovery_rise_ms": 48.0
+ },
+ "217-user11375674564-reformhaus": {
+  "tempo": 139.64,
+  "bass_rel_db": -15.5,
+  "sub_pump": 17.61,
+  "low_pump": 11.37,
+  "low_return": 144.0,
+  "high_pump": 8.55,
+  "recovery_rise_ms": 52.0
+ },
+ "214-user10000667856-zapata-qua": {
+  "tempo": 140.82,
+  "bass_rel_db": -16.5,
+  "sub_pump": 8.91,
+  "low_pump": 8.48,
+  "low_return": 212.0,
+  "high_pump": 20.97,
+  "recovery_rise_ms": 36.0
+ },
+ "218-user45682211145-untitled-11-1": {
+  "tempo": 149.72,
+  "bass_rel_db": -44.0,
+  "sub_pump": 7.64,
+  "low_pump": 16.55,
+  "low_return": 260.0,
+  "high_pump": 22.35,
+  "recovery_rise_ms": 24.0
+ },
+ "220-p-b-r-dynamic-range": {
+  "tempo": 144.68,
+  "bass_rel_db": -5.2,
+  "sub_pump": 32.02,
+  "low_pump": 29.09,
+  "low_return": 256.0,
+  "high_pump": 35.91,
+  "recovery_rise_ms": 116.0
+ },
+ "219-user55454557544-shady-blinder": {
+  "tempo": 139.68,
+  "bass_rel_db": -8.4,
+  "sub_pump": 6.8,
+  "low_pump": 10.23,
+  "low_return": 140.0,
+  "high_pump": 19.04,
+  "recovery_rise_ms": 60.0
+ },
+ "223-user44856009320-the-big-manner": {
+  "tempo": 137.71,
+  "bass_rel_db": -11.6,
+  "sub_pump": 1.77,
+  "low_pump": 4.74,
+  "low_return": 372.0,
+  "high_pump": 21.35,
+  "recovery_rise_ms": 36.0
+ },
+ "224-user22233300085-k-enick": {
+  "tempo": 137.66,
+  "bass_rel_db": -7.4,
+  "sub_pump": 52.17,
+  "low_pump": 59.6,
+  "low_return": 372.0,
+  "high_pump": 28.77,
+  "recovery_rise_ms": 144.0
+ },
+ "225-user11508366478-no10-a18": {
+  "tempo": 139.7,
+  "bass_rel_db": 7.0,
+  "sub_pump": 11.3,
+  "low_pump": 12.76,
+  "low_return": 200.0,
+  "high_pump": 48.03,
+  "recovery_rise_ms": 68.0
+ },
+ "226-user22067782234-the-a-master": {
+  "tempo": 128.69,
+  "bass_rel_db": -3.7,
+  "sub_pump": 12.91,
+  "low_pump": 20.66,
+  "low_return": 228.0,
+  "high_pump": 8.42,
+  "recovery_rise_ms": 120.0
+ },
+ "227-user17883214582-you-cock-fukker": {
+  "tempo": 165.63,
+  "bass_rel_db": -11.0,
+  "sub_pump": 37.78,
+  "low_pump": 46.24,
+  "low_return": 312.0,
+  "high_pump": 5.27,
+  "recovery_rise_ms": 168.0
+ },
+ "228-user89945677442-totem": {
+  "tempo": 129.7,
+  "bass_rel_db": -5.8,
+  "sub_pump": 40.63,
+  "low_pump": 53.33,
+  "low_return": 320.0,
+  "high_pump": 49.24,
+  "recovery_rise_ms": 64.0
+ },
+ "230-dr-walker-very-bad-acid-sascha-m-ller-remix": {
+  "tempo": 159.97,
+  "bass_rel_db": -15.7,
+  "sub_pump": 4.04,
+  "low_pump": 10.23,
+  "low_return": 336.0,
+  "high_pump": 8.81,
+  "recovery_rise_ms": 72.0
+ },
+ "231-sascha-muller-streamin-black-hole": {
+  "tempo": 91.95,
+  "bass_rel_db": 4.1,
+  "sub_pump": 5.35,
+  "low_pump": 4.59,
+  "low_return": 124.0,
+  "high_pump": 3.6,
+  "recovery_rise_ms": 152.0
+ },
+ "232-user78654786842-pullover": {
+  "tempo": 153.65,
+  "bass_rel_db": 0.3,
+  "sub_pump": 17.31,
+  "low_pump": 10.89,
+  "low_return": 276.0,
+  "high_pump": 18.11,
+  "recovery_rise_ms": 84.0
+ },
+ "233-user12400003580-the-b-master": {
+  "tempo": 171.58,
+  "bass_rel_db": -9.6,
+  "sub_pump": 4.37,
+  "low_pump": 6.59,
+  "low_return": 184.0,
+  "high_pump": 24.13,
+  "recovery_rise_ms": 40.0
+ },
+ "234-user66866546841-cold-shaker": {
+  "tempo": 144.6,
+  "bass_rel_db": -23.3,
+  "sub_pump": 2.97,
+  "low_pump": 6.08,
+  "low_return": 208.0,
+  "high_pump": 15.65,
+  "recovery_rise_ms": 48.0
+ },
+ "236-user87742587412-oha": {
+  "tempo": 140.65,
+  "bass_rel_db": -28.2,
+  "sub_pump": 4.88,
+  "low_pump": 5.48,
+  "low_return": 276.0,
+  "high_pump": 24.12,
+  "recovery_rise_ms": 8.0
+ },
+ "235-user66788884902-untitled-9-1": {
+  "tempo": 149.71,
+  "bass_rel_db": -45.4,
+  "sub_pump": 8.7,
+  "low_pump": 12.69,
+  "low_return": 372.0,
+  "high_pump": 37.04,
+  "recovery_rise_ms": 28.0
+ },
+ "237-user04574546444-mistaken-identity": {
+  "tempo": 172.92,
+  "bass_rel_db": -11.5,
+  "sub_pump": 14.39,
+  "low_pump": 21.88,
+  "low_return": 264.0,
+  "high_pump": 12.99,
+  "recovery_rise_ms": 64.0
+ },
+ "238-tiefenrausch-baikal": {
+  "tempo": 149.66,
+  "bass_rel_db": -51.2,
+  "sub_pump": 7.96,
+  "low_pump": 5.5,
+  "low_return": 232.0,
+  "high_pump": 24.05,
+  "recovery_rise_ms": 80.0
+ },
+ "239-user99899889988-energy": {
+  "tempo": 133.48,
+  "bass_rel_db": -15.3,
+  "sub_pump": 11.74,
+  "low_pump": 6.34,
+  "low_return": 424.0,
+  "high_pump": 39.26,
+  "recovery_rise_ms": 24.0
+ },
+ "240-atheist-the-horns-of-jericho": {
+  "tempo": 148.85,
+  "bass_rel_db": 1.6,
+  "sub_pump": 1.88,
+  "low_pump": 4.47,
+  "low_return": 228.0,
+  "high_pump": 1.06,
+  "recovery_rise_ms": 96.0
+ },
+ "241-pakistan-techno-force-randomise": {
+  "tempo": 130.65,
+  "bass_rel_db": -7.2,
+  "sub_pump": 5.74,
+  "low_pump": 4.65,
+  "low_return": 152.0,
+  "high_pump": 34.21,
+  "recovery_rise_ms": 140.0
+ },
+ "244-user99457585343-we-want-freedom": {
+  "tempo": 149.86,
+  "bass_rel_db": -0.4,
+  "sub_pump": 5.57,
+  "low_pump": 5.63,
+  "low_return": 332.0,
+  "high_pump": 1.31,
+  "recovery_rise_ms": 44.0
+ },
+ "248-user83254130235-the-gentleman": {
+  "tempo": 143.66,
+  "bass_rel_db": -27.4,
+  "sub_pump": 5.04,
+  "low_pump": 7.72,
+  "low_return": 328.0,
+  "high_pump": 38.8,
+  "recovery_rise_ms": 200.0
+ },
+ "245-user25244578642-the-sequencer": {
+  "tempo": 136.69,
+  "bass_rel_db": 1.1,
+  "sub_pump": 24.15,
+  "low_pump": 18.44,
+  "low_return": 284.0,
+  "high_pump": 10.77,
+  "recovery_rise_ms": 128.0
+ },
+ "249-user88745774467-untitled-4-1": {
+  "tempo": 149.89,
+  "bass_rel_db": -44.2,
+  "sub_pump": 7.99,
+  "low_pump": 8.39,
+  "low_return": 280.0,
+  "high_pump": 12.21,
+  "recovery_rise_ms": 52.0
+ },
+ "250-death-in-paradise-nuke-vol-11": {
+  "tempo": 154.48,
+  "bass_rel_db": -34.8,
+  "sub_pump": 3.56,
+  "low_pump": 3.57,
+  "low_return": 152.0,
+  "high_pump": 5.27,
+  "recovery_rise_ms": 64.0
+ },
+ "251-kasma-nuke-vol-08": {
+  "tempo": 160.97,
+  "bass_rel_db": -23.3,
+  "sub_pump": 2.06,
+  "low_pump": 2.37,
+  "low_return": 92.0,
+  "high_pump": 0.77,
+  "recovery_rise_ms": null
+ },
+ "252-sascha-m-ller-punkt-10-01-sascha-muller-10-01": {
+  "tempo": 139.69,
+  "bass_rel_db": -8.6,
+  "sub_pump": 21.72,
+  "low_pump": 21.59,
+  "low_return": 272.0,
+  "high_pump": 53.52,
+  "recovery_rise_ms": 124.0
+ },
+ "253-inquieto-inquieto-de-madrugada": {
+  "tempo": 154.64,
+  "bass_rel_db": -2.2,
+  "sub_pump": 29.45,
+  "low_pump": 35.45,
+  "low_return": 288.0,
+  "high_pump": 26.46,
+  "recovery_rise_ms": 168.0
+ },
+ "255-the-d3vi7-ausstieg": {
+  "tempo": 144.66,
+  "bass_rel_db": -36.1,
+  "sub_pump": 7.71,
+  "low_pump": 4.82,
+  "low_return": 168.0,
+  "high_pump": 13.47,
+  "recovery_rise_ms": 24.0
+ },
+ "256-va-carles-dj-mising": {
+  "tempo": 149.66,
+  "bass_rel_db": -18.4,
+  "sub_pump": 19.71,
+  "low_pump": 44.66,
+  "low_return": 364.0,
+  "high_pump": 24.93,
+  "recovery_rise_ms": 168.0
+ },
+ "257-sansetatcivil-02-2021-stalker-79-pt2-flac": {
+  "tempo": 163.33,
+  "bass_rel_db": -6.8,
+  "sub_pump": 2.71,
+  "low_pump": 2.09,
+  "low_return": 324.0,
+  "high_pump": 4.27,
+  "recovery_rise_ms": null
+ },
+ "259-x-d-d-exit-e": {
+  "tempo": 138.63,
+  "bass_rel_db": -11.3,
+  "sub_pump": 39.9,
+  "low_pump": 58.37,
+  "low_return": 368.0,
+  "high_pump": 25.63,
+  "recovery_rise_ms": 72.0
+ },
+ "261-johann-schwengel-manhatten": {
+  "tempo": 132.7,
+  "bass_rel_db": -12.6,
+  "sub_pump": 19.34,
+  "low_pump": 23.88,
+  "low_return": 372.0,
+  "high_pump": 33.84,
+  "recovery_rise_ms": 252.0
+ },
+ "262-klangbild-klotzgeschiebe": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "264-technobotts-in-motion": {
+  "tempo": 137.3,
+  "bass_rel_db": 4.5,
+  "sub_pump": 5.51,
+  "low_pump": 4.69,
+  "low_return": 264.0,
+  "high_pump": 27.02,
+  "recovery_rise_ms": 40.0
+ },
+ "265-sacro-servo-depredador": {
+  "tempo": 131.7,
+  "bass_rel_db": -2.3,
+  "sub_pump": 26.96,
+  "low_pump": 21.67,
+  "low_return": 296.0,
+  "high_pump": 25.19,
+  "recovery_rise_ms": 164.0
+ },
+ "266-combat-killer-kevlar": {
+  "tempo": 145.64,
+  "bass_rel_db": -11.5,
+  "sub_pump": 40.86,
+  "low_pump": 54.4,
+  "low_return": 276.0,
+  "high_pump": 34.67,
+  "recovery_rise_ms": 84.0
+ },
+ "269-x-oh-fuck-right-off": {
+  "tempo": 169.61,
+  "bass_rel_db": -0.5,
+  "sub_pump": 4.68,
+  "low_pump": 3.94,
+  "low_return": 220.0,
+  "high_pump": 7.79,
+  "recovery_rise_ms": 68.0
+ },
+ "271-3cloneb-katapult": {
+  "tempo": 133.69,
+  "bass_rel_db": -14.9,
+  "sub_pump": 12.82,
+  "low_pump": 14.44,
+  "low_return": 388.0,
+  "high_pump": 19.54,
+  "recovery_rise_ms": 256.0
+ },
+ "274-blank-banshee-revelations": {
+  "tempo": 113.45,
+  "bass_rel_db": 4.7,
+  "sub_pump": 5.11,
+  "low_pump": 5.94,
+  "low_return": 128.0,
+  "high_pump": 1.96,
+  "recovery_rise_ms": 92.0
+ },
+ "277-knarz-maschine-acid-knarz-3": {
+  "tempo": 140.71,
+  "bass_rel_db": -7.7,
+  "sub_pump": 21.18,
+  "low_pump": 16.29,
+  "low_return": 132.0,
+  "high_pump": 21.33,
+  "recovery_rise_ms": 24.0
+ },
+ "275-4zzz1-untitled-5": {
+  "tempo": 149.73,
+  "bass_rel_db": -9.6,
+  "sub_pump": 20.39,
+  "low_pump": 45.11,
+  "low_return": 200.0,
+  "high_pump": 35.86,
+  "recovery_rise_ms": 72.0
+ },
+ "278-bellkatze-modern-war": {
+  "tempo": 132.75,
+  "bass_rel_db": -14.9,
+  "sub_pump": 12.01,
+  "low_pump": 13.47,
+  "low_return": 332.0,
+  "high_pump": 44.38,
+  "recovery_rise_ms": 44.0
+ },
+ "279-unknown-war-heads-patty-pinku": {
+  "tempo": 129.71,
+  "bass_rel_db": -19.8,
+  "sub_pump": 11.03,
+  "low_pump": 15.03,
+  "low_return": 124.0,
+  "high_pump": 20.22,
+  "recovery_rise_ms": 48.0
+ },
+ "281-berba-pt-dishes": {
+  "tempo": 152.65,
+  "bass_rel_db": 1.6,
+  "sub_pump": 42.44,
+  "low_pump": 41.46,
+  "low_return": 208.0,
+  "high_pump": 24.49,
+  "recovery_rise_ms": 48.0
+ },
+ "282-stromtod-reaktor": {
+  "tempo": 150.1,
+  "bass_rel_db": 31.4,
+  "sub_pump": 0.97,
+  "low_pump": 1.09,
+  "low_return": 228.0,
+  "high_pump": 1.97,
+  "recovery_rise_ms": null
+ },
+ "283-ayako-mori-inquieto-ayako-mori-bodhisattva-inquieto-remix": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "284-vislumbres-persc": {
+  "tempo": 128.7,
+  "bass_rel_db": -9.9,
+  "sub_pump": 6.15,
+  "low_pump": 7.06,
+  "low_return": 252.0,
+  "high_pump": 37.76,
+  "recovery_rise_ms": 104.0
+ },
+ "286-p-t-b-s-sascha-m-ller-waveshaper": {
+  "tempo": 134.7,
+  "bass_rel_db": -8.6,
+  "sub_pump": 4.86,
+  "low_pump": 4.85,
+  "low_return": 112.0,
+  "high_pump": 28.81,
+  "recovery_rise_ms": 124.0
+ },
+ "287-pakistand-techno-force-katakombs": {
+  "tempo": 139.68,
+  "bass_rel_db": -29.8,
+  "sub_pump": 14.36,
+  "low_pump": 15.86,
+  "low_return": 188.0,
+  "high_pump": 28.57,
+  "recovery_rise_ms": 28.0
+ },
+ "288-brutal-rave-bastards-nuke-vol-10": {
+  "tempo": 155.43,
+  "bass_rel_db": 0.1,
+  "sub_pump": 1.47,
+  "low_pump": 2.1,
+  "low_return": 96.0,
+  "high_pump": 0.75,
+  "recovery_rise_ms": null
+ },
+ "289-void-r-nachtzug": {
+  "tempo": 135.65,
+  "bass_rel_db": -3.4,
+  "sub_pump": 22.26,
+  "low_pump": 5.77,
+  "low_return": 152.0,
+  "high_pump": 30.64,
+  "recovery_rise_ms": 68.0
+ },
+ "291-adscum-adscum-sarkas": {
+  "tempo": 129.73,
+  "bass_rel_db": -8.7,
+  "sub_pump": 7.35,
+  "low_pump": 8.01,
+  "low_return": 184.0,
+  "high_pump": 22.77,
+  "recovery_rise_ms": 124.0
+ },
+ "292-sascha-m-ller-punkt-10-02-sascha-muller-10-02": {
+  "tempo": 139.63,
+  "bass_rel_db": -9.1,
+  "sub_pump": 11.56,
+  "low_pump": 8.08,
+  "low_return": 356.0,
+  "high_pump": 48.31,
+  "recovery_rise_ms": 144.0
+ },
+ "295-the-d3vi7-back-to-house": {
+  "tempo": 128.7,
+  "bass_rel_db": -3.6,
+  "sub_pump": 22.63,
+  "low_pump": 22.7,
+  "low_return": 284.0,
+  "high_pump": 28.24,
+  "recovery_rise_ms": 64.0
+ },
+ "296-va-coyote-paul-will-this-madness-ever-end": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "298-psy-shepherd-x-ethnomite-pux-x-invisible-electronic-quicksands-iv-ethnomite-pux-t": {
+  "tempo": 145.95,
+  "bass_rel_db": -1.5,
+  "sub_pump": 7.2,
+  "low_pump": 5.21,
+  "low_return": 224.0,
+  "high_pump": 4.08,
+  "recovery_rise_ms": 104.0
+ },
+ "300-stanley-hottek-flame": {
+  "tempo": 171.46,
+  "bass_rel_db": -9.8,
+  "sub_pump": 6.34,
+  "low_pump": 4.0,
+  "low_return": 164.0,
+  "high_pump": 6.12,
+  "recovery_rise_ms": 36.0
+ },
+ "301-sascha-m-ller-punkt-11-01-sascha-muller-11-01": {
+  "tempo": 139.57,
+  "bass_rel_db": -8.5,
+  "sub_pump": 9.13,
+  "low_pump": 5.06,
+  "low_return": 156.0,
+  "high_pump": 18.16,
+  "recovery_rise_ms": 64.0
+ },
+ "302-inquieto-inquieto-el-extraviado": {
+  "tempo": 154.5,
+  "bass_rel_db": -9.7,
+  "sub_pump": 7.46,
+  "low_pump": 6.25,
+  "low_return": 288.0,
+  "high_pump": 3.36,
+  "recovery_rise_ms": 64.0
+ },
+ "303-steven-casteel-udio-v1-5-avgarth": {
+  "tempo": 124.12,
+  "bass_rel_db": 2.9,
+  "sub_pump": 9.76,
+  "low_pump": 2.25,
+  "low_return": 88.0,
+  "high_pump": 10.36,
+  "recovery_rise_ms": null
+ },
+ "304-the-d3vi7-budget-acid": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "305-va-cyraxx-feel-my-bass": {
+  "tempo": 154.63,
+  "bass_rel_db": -42.1,
+  "sub_pump": 6.07,
+  "low_pump": 3.78,
+  "low_return": 112.0,
+  "high_pump": 20.73,
+  "recovery_rise_ms": 88.0
+ },
+ "306-sansetatcivil-03-2021-rave-melancolia-2-pt2-flac": {
+  "tempo": 98.58,
+  "bass_rel_db": -28.1,
+  "sub_pump": 4.67,
+  "low_pump": 3.79,
+  "low_return": 476.0,
+  "high_pump": 14.76,
+  "recovery_rise_ms": 40.0
+ },
+ "307-psy-shepherd-x-ethnomite-pux-x-invisible-electronic-quicksands-vi-ethnomite-pux-t": {
+  "tempo": 167.6,
+  "bass_rel_db": 3.9,
+  "sub_pump": 3.16,
+  "low_pump": 2.8,
+  "low_return": 248.0,
+  "high_pump": 2.97,
+  "recovery_rise_ms": null
+ },
+ "308-x-d-d-geek": {
+  "tempo": 144.72,
+  "bass_rel_db": -23.0,
+  "sub_pump": 8.48,
+  "low_pump": 7.59,
+  "low_return": 364.0,
+  "high_pump": 17.65,
+  "recovery_rise_ms": 132.0
+ },
+ "309-stanley-hottek-gnome": {
+  "tempo": 124.71,
+  "bass_rel_db": 1.9,
+  "sub_pump": 6.47,
+  "low_pump": 9.68,
+  "low_return": 228.0,
+  "high_pump": 26.03,
+  "recovery_rise_ms": 196.0
+ },
+ "310-johann-schwengel-marathon-man": {
+  "tempo": 131.71,
+  "bass_rel_db": -8.1,
+  "sub_pump": 31.47,
+  "low_pump": 38.13,
+  "low_return": 176.0,
+  "high_pump": 25.6,
+  "recovery_rise_ms": 44.0
+ },
+ "311-klangbild-kompetenzgerangel": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "312-2fel-kahan-mrook-markwon-mennaceannihila-mentally-ill-klickaud": {
+  "tempo": 174.35,
+  "bass_rel_db": 8.5,
+  "sub_pump": 5.38,
+  "low_pump": 4.48,
+  "low_return": 308.0,
+  "high_pump": 4.97,
+  "recovery_rise_ms": 8.0
+ },
+ "313-technobotts-old-money": {
+  "tempo": 139.7,
+  "bass_rel_db": -55.0,
+  "sub_pump": 8.25,
+  "low_pump": 10.09,
+  "low_return": 172.0,
+  "high_pump": 34.59,
+  "recovery_rise_ms": 16.0
+ },
+ "314-sacro-servo-el-sistema": {
+  "tempo": 121.98,
+  "bass_rel_db": -0.0,
+  "sub_pump": 33.37,
+  "low_pump": 32.28,
+  "low_return": 336.0,
+  "high_pump": 56.75,
+  "recovery_rise_ms": 160.0
+ },
+ "315-combat-killer-lautlose-invasion": {
+  "tempo": 137.68,
+  "bass_rel_db": -9.6,
+  "sub_pump": 47.41,
+  "low_pump": 46.09,
+  "low_return": 400.0,
+  "high_pump": 24.33,
+  "recovery_rise_ms": 76.0
+ },
+ "316-afflicted-dr-who-3": {
+  "tempo": 144.59,
+  "bass_rel_db": -9.8,
+  "sub_pump": 32.29,
+  "low_pump": 36.96,
+  "low_return": 168.0,
+  "high_pump": 17.57,
+  "recovery_rise_ms": 48.0
+ },
+ "317-ru-dead-42-acid-jackson": {
+  "tempo": 123.75,
+  "bass_rel_db": -16.8,
+  "sub_pump": 9.07,
+  "low_pump": 8.91,
+  "low_return": 456.0,
+  "high_pump": 23.37,
+  "recovery_rise_ms": 20.0
+ },
+ "318-fraction-studio-a4-ruthless-girl": {
+  "tempo": 125.6,
+  "bass_rel_db": 9.8,
+  "sub_pump": 7.35,
+  "low_pump": 8.24,
+  "low_return": 176.0,
+  "high_pump": 0.94,
+  "recovery_rise_ms": 216.0
+ },
+ "319-x-piss-on-the-pope": {
+  "tempo": 99.88,
+  "bass_rel_db": -5.9,
+  "sub_pump": 17.07,
+  "low_pump": 21.8,
+  "low_return": 248.0,
+  "high_pump": 10.0,
+  "recovery_rise_ms": 36.0
+ },
+ "320-3cloneb-on-range": {
+  "tempo": 138.41,
+  "bass_rel_db": -6.3,
+  "sub_pump": 15.12,
+  "low_pump": 13.07,
+  "low_return": 364.0,
+  "high_pump": 7.21,
+  "recovery_rise_ms": 172.0
+ },
+ "321-quote-the-joker-the-demon": {
+  "tempo": 89.89,
+  "bass_rel_db": 3.6,
+  "sub_pump": 1.93,
+  "low_pump": 4.32,
+  "low_return": 104.0,
+  "high_pump": 7.48,
+  "recovery_rise_ms": 172.0
+ },
+ "322-steven-casteel-04-jazz-big-band-bossa-nova": {
+  "tempo": 130.43,
+  "bass_rel_db": 0.2,
+  "sub_pump": 7.11,
+  "low_pump": 3.83,
+  "low_return": 108.0,
+  "high_pump": 10.59,
+  "recovery_rise_ms": 24.0
+ },
+ "323-blank-banshee-time-thief": {
+  "tempo": 138.63,
+  "bass_rel_db": -3.9,
+  "sub_pump": 27.72,
+  "low_pump": 9.59,
+  "low_return": 176.0,
+  "high_pump": 4.17,
+  "recovery_rise_ms": 120.0
+ },
+ "324-erick-jaeger-cleansing": {
+  "tempo": 161.29,
+  "bass_rel_db": 17.1,
+  "sub_pump": 2.84,
+  "low_pump": 2.56,
+  "low_return": 100.0,
+  "high_pump": 1.3,
+  "recovery_rise_ms": null
+ },
+ "325-pasquale-maassen-stompin-2": {
+  "tempo": 120.73,
+  "bass_rel_db": -38.4,
+  "sub_pump": 6.45,
+  "low_pump": 5.74,
+  "low_return": 224.0,
+  "high_pump": 18.33,
+  "recovery_rise_ms": 132.0
+ },
+ "326-4zzz1-untitled-6": {
+  "tempo": 149.62,
+  "bass_rel_db": -4.5,
+  "sub_pump": 14.73,
+  "low_pump": 16.41,
+  "low_return": 284.0,
+  "high_pump": 11.17,
+  "recovery_rise_ms": 40.0
+ },
+ "327-user78654786842-3-a-m": {
+  "tempo": 153.54,
+  "bass_rel_db": -7.5,
+  "sub_pump": 8.51,
+  "low_pump": 7.43,
+  "low_return": 280.0,
+  "high_pump": 24.54,
+  "recovery_rise_ms": 60.0
+ },
+ "328-bellkatze-sky-high": {
+  "tempo": 127.7,
+  "bass_rel_db": -8.9,
+  "sub_pump": 21.0,
+  "low_pump": 14.8,
+  "low_return": 348.0,
+  "high_pump": 45.0,
+  "recovery_rise_ms": 16.0
+ },
+ "329-unknown-war-heads-pretty-pinku": {
+  "tempo": 129.72,
+  "bass_rel_db": -19.7,
+  "sub_pump": 10.64,
+  "low_pump": 15.26,
+  "low_return": 124.0,
+  "high_pump": 19.85,
+  "recovery_rise_ms": 52.0
+ },
+ "330-berba-pt-mechanical-body": {
+  "tempo": 152.59,
+  "bass_rel_db": -46.8,
+  "sub_pump": 3.83,
+  "low_pump": 4.17,
+  "low_return": 108.0,
+  "high_pump": 20.27,
+  "recovery_rise_ms": 48.0
+ },
+ "331-knarz-maschine-ost-deutschland-cement-tea-remix": {
+  "tempo": 174.41,
+  "bass_rel_db": -1.7,
+  "sub_pump": 31.51,
+  "low_pump": 20.59,
+  "low_return": 120.0,
+  "high_pump": 7.71,
+  "recovery_rise_ms": 32.0
+ },
+ "332-stromtod-zeit": {
+  "tempo": 139.7,
+  "bass_rel_db": -0.8,
+  "sub_pump": 37.92,
+  "low_pump": 49.4,
+  "low_return": 260.0,
+  "high_pump": 31.05,
+  "recovery_rise_ms": 72.0
+ },
+ "333-valovoima-x": {
+  "tempo": 157.65,
+  "bass_rel_db": -7.2,
+  "sub_pump": 5.67,
+  "low_pump": 8.1,
+  "low_return": 308.0,
+  "high_pump": 34.67,
+  "recovery_rise_ms": 184.0
+ },
+ "334-sascha-m-ller-punkt-11-02-sascha-muller-11-02": {
+  "tempo": 139.68,
+  "bass_rel_db": -17.4,
+  "sub_pump": 14.26,
+  "low_pump": 15.6,
+  "low_return": 332.0,
+  "high_pump": 27.23,
+  "recovery_rise_ms": 104.0
+ },
+ "335-inquieto-inquieto-el-pavo-de-navidad-bonus-cd-tra": {
+  "tempo": 169.71,
+  "bass_rel_db": -7.5,
+  "sub_pump": 11.94,
+  "low_pump": 11.43,
+  "low_return": 248.0,
+  "high_pump": 24.47,
+  "recovery_rise_ms": 20.0
+ },
+ "336-steven-casteel-udio-v1-5-breged-r": {
+  "tempo": 148.76,
+  "bass_rel_db": -2.0,
+  "sub_pump": 4.22,
+  "low_pump": 6.41,
+  "low_return": 296.0,
+  "high_pump": 8.83,
+  "recovery_rise_ms": 44.0
+ },
+ "337-the-d3vi7-bum-bum-bum": {
+  "tempo": 134.69,
+  "bass_rel_db": -26.0,
+  "sub_pump": 41.99,
+  "low_pump": 43.91,
+  "low_return": 320.0,
+  "high_pump": 17.61,
+  "recovery_rise_ms": 220.0
+ },
+ "338-va-dabsss-alarm": {
+  "tempo": 156.64,
+  "bass_rel_db": -4.7,
+  "sub_pump": 23.67,
+  "low_pump": 32.92,
+  "low_return": 276.0,
+  "high_pump": 37.83,
+  "recovery_rise_ms": 144.0
+ },
+ "339-sansetatcivil-04-2021-no-cov19-84-flac": {
+  "tempo": 103.16,
+  "bass_rel_db": -2.5,
+  "sub_pump": 7.12,
+  "low_pump": 3.66,
+  "low_return": 92.0,
+  "high_pump": 8.91,
+  "recovery_rise_ms": 92.0
+ },
+ "340-psy-shepherd-x-ethnomite-pux-x-invisible-in-memory-of-sahel-psy-shepherd-x-invisi": {
+  "tempo": 137.83,
+  "bass_rel_db": 48.4,
+  "sub_pump": 3.55,
+  "low_pump": 0.51,
+  "low_return": 280.0,
+  "high_pump": 0.78,
+  "recovery_rise_ms": null
+ },
+ "341-x-d-d-hard-hit": {
+  "tempo": 119.73,
+  "bass_rel_db": -17.3,
+  "sub_pump": 7.96,
+  "low_pump": 12.81,
+  "low_return": 356.0,
+  "high_pump": 25.48,
+  "recovery_rise_ms": 192.0
+ },
+ "342-stanley-hottek-interference": {
+  "tempo": 132.74,
+  "bass_rel_db": -12.0,
+  "sub_pump": 7.42,
+  "low_pump": 6.91,
+  "low_return": 256.0,
+  "high_pump": 6.13,
+  "recovery_rise_ms": 164.0
+ },
+ "343-johann-schwengel-mindscape": {
+  "tempo": 133.67,
+  "bass_rel_db": -14.3,
+  "sub_pump": 9.51,
+  "low_pump": 8.56,
+  "low_return": 276.0,
+  "high_pump": 39.87,
+  "recovery_rise_ms": 68.0
+ },
+ "344-klangbild-optimist": {
+  "tempo": 124.68,
+  "bass_rel_db": -10.1,
+  "sub_pump": 19.04,
+  "low_pump": 23.31,
+  "low_return": 156.0,
+  "high_pump": 50.31,
+  "recovery_rise_ms": 40.0
+ },
+ "345-2fel-kahan-mrook-markwon-mennaceannihila-mmcccxcix-x-negative-saqar-klickaud": {
+  "tempo": 171.91,
+  "bass_rel_db": 5.6,
+  "sub_pump": 8.83,
+  "low_pump": 1.89,
+  "low_return": 88.0,
+  "high_pump": 10.47,
+  "recovery_rise_ms": null
+ },
+ "346-technobotts-reaction": {
+  "tempo": 139.68,
+  "bass_rel_db": -53.4,
+  "sub_pump": 11.09,
+  "low_pump": 11.42,
+  "low_return": 344.0,
+  "high_pump": 45.89,
+  "recovery_rise_ms": 52.0
+ },
+ "347-sacro-servo-juguete-roto": {
+  "tempo": 119.72,
+  "bass_rel_db": 0.5,
+  "sub_pump": 20.59,
+  "low_pump": 18.69,
+  "low_return": 324.0,
+  "high_pump": 5.96,
+  "recovery_rise_ms": 20.0
+ },
+ "348-combat-killer-natural-desaster": {
+  "tempo": 139.68,
+  "bass_rel_db": -16.1,
+  "sub_pump": 26.04,
+  "low_pump": 34.7,
+  "low_return": 356.0,
+  "high_pump": 30.22,
+  "recovery_rise_ms": 148.0
+ },
+ "349-afflicted-e-w-t-b-s": {
+  "tempo": 139.66,
+  "bass_rel_db": -12.7,
+  "sub_pump": 6.43,
+  "low_pump": 19.04,
+  "low_return": 352.0,
+  "high_pump": 50.3,
+  "recovery_rise_ms": 124.0
+ },
+ "350-ru-dead-42-untitled-1-1": {
+  "tempo": 149.71,
+  "bass_rel_db": -38.6,
+  "sub_pump": 9.69,
+  "low_pump": 15.43,
+  "low_return": 352.0,
+  "high_pump": 39.34,
+  "recovery_rise_ms": 112.0
+ },
+ "351-fraction-studio-b1-orphan": {
+  "tempo": 143.51,
+  "bass_rel_db": 2.0,
+  "sub_pump": 3.63,
+  "low_pump": 3.51,
+  "low_return": 364.0,
+  "high_pump": 0.9,
+  "recovery_rise_ms": 24.0
+ },
+ "352-x-run-away": {
+  "tempo": 119.74,
+  "bass_rel_db": -0.6,
+  "sub_pump": 10.57,
+  "low_pump": 8.7,
+  "low_return": 208.0,
+  "high_pump": 16.09,
+  "recovery_rise_ms": 72.0
+ },
+ "353-3cloneb-p-ppy-love": {
+  "tempo": 149.64,
+  "bass_rel_db": -11.4,
+  "sub_pump": 25.21,
+  "low_pump": 23.75,
+  "low_return": 292.0,
+  "high_pump": 41.42,
+  "recovery_rise_ms": 88.0
+ },
+ "354-quote-the-joker-the-gateway": {
+  "tempo": 90.73,
+  "bass_rel_db": 0.2,
+  "sub_pump": 14.75,
+  "low_pump": 4.43,
+  "low_return": 308.0,
+  "high_pump": 11.81,
+  "recovery_rise_ms": 236.0
+ },
+ "355-steven-casteel-06-celtic-folk-medieval-electronica-folk": {
+  "tempo": 147.93,
+  "bass_rel_db": 5.1,
+  "sub_pump": 3.88,
+  "low_pump": 11.17,
+  "low_return": 280.0,
+  "high_pump": 1.03,
+  "recovery_rise_ms": 36.0
+ },
+ "356-blank-banshee-tracer": {
+  "tempo": 125.82,
+  "bass_rel_db": 2.1,
+  "sub_pump": 3.39,
+  "low_pump": 2.94,
+  "low_return": 384.0,
+  "high_pump": 5.58,
+  "recovery_rise_ms": null
+ },
+ "357-erick-jaeger-minimini": {
+  "tempo": 119.76,
+  "bass_rel_db": -3.5,
+  "sub_pump": 11.89,
+  "low_pump": 14.18,
+  "low_return": 396.0,
+  "high_pump": 26.3,
+  "recovery_rise_ms": 156.0
+ },
+ "358-pasquale-maassen-vandal-hearts": {
+  "tempo": 127.77,
+  "bass_rel_db": -7.1,
+  "sub_pump": 31.83,
+  "low_pump": 42.99,
+  "low_return": 356.0,
+  "high_pump": 10.27,
+  "recovery_rise_ms": 72.0
+ },
+ "359-4zzz1-untitled-7": {
+  "tempo": 149.7,
+  "bass_rel_db": -25.4,
+  "sub_pump": 8.61,
+  "low_pump": 12.57,
+  "low_return": 180.0,
+  "high_pump": 24.89,
+  "recovery_rise_ms": 24.0
+ },
+ "360-user78654786842-pullover": {
+  "tempo": 153.65,
+  "bass_rel_db": 0.3,
+  "sub_pump": 23.99,
+  "low_pump": 18.45,
+  "low_return": 112.0,
+  "high_pump": 18.2,
+  "recovery_rise_ms": 20.0
+ },
+ "361-sascha-m-ller-punkt-12-01-sascha-muller-12-01": {
+  "tempo": 139.68,
+  "bass_rel_db": -13.3,
+  "sub_pump": 11.37,
+  "low_pump": 13.2,
+  "low_return": 112.0,
+  "high_pump": 47.86,
+  "recovery_rise_ms": 16.0
+ },
+ "362-inquieto-inquieto-el-preso": {
+  "tempo": 134.67,
+  "bass_rel_db": -24.5,
+  "sub_pump": 17.05,
+  "low_pump": 12.09,
+  "low_return": 284.0,
+  "high_pump": 30.68,
+  "recovery_rise_ms": 188.0
+ },
+ "363-steven-casteel-udio-v1-5-calu-am-calu": {
+  "tempo": 159.38,
+  "bass_rel_db": 5.8,
+  "sub_pump": 2.09,
+  "low_pump": 1.05,
+  "low_return": 144.0,
+  "high_pump": 7.6,
+  "recovery_rise_ms": null
+ },
+ "364-the-d3vi7-der-b-sewicht": {
+  "tempo": 131.72,
+  "bass_rel_db": -11.6,
+  "sub_pump": 53.41,
+  "low_pump": 60.21,
+  "low_return": 360.0,
+  "high_pump": 40.43,
+  "recovery_rise_ms": 144.0
+ },
+ "365-va-industeak-hit-the-floor": {
+  "tempo": 154.65,
+  "bass_rel_db": -13.4,
+  "sub_pump": 26.81,
+  "low_pump": 26.87,
+  "low_return": 256.0,
+  "high_pump": 10.22,
+  "recovery_rise_ms": 84.0
+ },
+ "366-sansetatcivil-05-2021-brut-basic-pt-1-demo-flac": {
+  "tempo": 133.45,
+  "bass_rel_db": 4.1,
+  "sub_pump": 65.2,
+  "low_pump": 75.31,
+  "low_return": 348.0,
+  "high_pump": 33.09,
+  "recovery_rise_ms": 100.0
+ },
+ "368-x-d-d-momentaufnahme": {
+  "tempo": 139.67,
+  "bass_rel_db": -61.8,
+  "sub_pump": 9.71,
+  "low_pump": 5.67,
+  "low_return": 268.0,
+  "high_pump": 39.94,
+  "recovery_rise_ms": 36.0
+ },
+ "367-psy-shepherd-x-ethnomite-pux-x-invisible-low-throat-noise-emission-invisible-illu": {
+  "tempo": 105.33,
+  "bass_rel_db": -0.7,
+  "sub_pump": 2.91,
+  "low_pump": 2.77,
+  "low_return": 96.0,
+  "high_pump": 2.13,
+  "recovery_rise_ms": null
+ },
+ "369-stanley-hottek-klatschsabine": {
+  "tempo": 141.79,
+  "bass_rel_db": -23.3,
+  "sub_pump": 4.03,
+  "low_pump": 5.67,
+  "low_return": 236.0,
+  "high_pump": 3.81,
+  "recovery_rise_ms": 128.0
+ },
+ "370-johann-schwengel-solo-talent": {
+  "tempo": 137.7,
+  "bass_rel_db": 3.1,
+  "sub_pump": 1.97,
+  "low_pump": 3.25,
+  "low_return": 140.0,
+  "high_pump": 32.47,
+  "recovery_rise_ms": 24.0
+ },
+ "371-klangbild-pausenbrot": {
+  "tempo": 119.73,
+  "bass_rel_db": -11.4,
+  "sub_pump": 16.71,
+  "low_pump": 16.8,
+  "low_return": 304.0,
+  "high_pump": 37.67,
+  "recovery_rise_ms": 212.0
+ },
+ "372-2fel-kahan-mrook-markwon-mennaceannihila-premiere-parapher-x-negative-yelatif-sun": {
+  "tempo": 167.69,
+  "bass_rel_db": 11.8,
+  "sub_pump": 13.42,
+  "low_pump": 8.86,
+  "low_return": 200.0,
+  "high_pump": 23.39,
+  "recovery_rise_ms": 12.0
+ },
+ "373-technobotts-self-propellered-gun": {
+  "tempo": 131.73,
+  "bass_rel_db": -33.0,
+  "sub_pump": 8.83,
+  "low_pump": 7.31,
+  "low_return": 248.0,
+  "high_pump": 26.16,
+  "recovery_rise_ms": 36.0
+ },
+ "374-sacro-servo-la-llegada": {
+  "tempo": 129.69,
+  "bass_rel_db": 0.4,
+  "sub_pump": 42.06,
+  "low_pump": 46.49,
+  "low_return": 312.0,
+  "high_pump": 20.7,
+  "recovery_rise_ms": 144.0
+ },
+ "375-combat-killer-no-chance-for-peace": {
+  "tempo": 151.64,
+  "bass_rel_db": -14.0,
+  "sub_pump": 6.61,
+  "low_pump": 7.62,
+  "low_return": 220.0,
+  "high_pump": 15.2,
+  "recovery_rise_ms": 16.0
+ },
+ "376-afflicted-kill-somebody-the-d3vi7-kill-em-all-remi": {
+  "tempo": 154.8,
+  "bass_rel_db": -0.5,
+  "sub_pump": 21.71,
+  "low_pump": 31.72,
+  "low_return": 244.0,
+  "high_pump": 4.34,
+  "recovery_rise_ms": 120.0
+ },
+ "377-ru-dead-42-untitled-2-1": {
+  "tempo": 149.71,
+  "bass_rel_db": -5.6,
+  "sub_pump": 6.23,
+  "low_pump": 11.37,
+  "low_return": 228.0,
+  "high_pump": 24.65,
+  "recovery_rise_ms": 32.0
+ },
+ "378-fraction-studio-b2-pragmatic-movement": {
+  "tempo": 148.89,
+  "bass_rel_db": -18.1,
+  "sub_pump": 2.98,
+  "low_pump": 3.03,
+  "low_return": 120.0,
+  "high_pump": 2.32,
+  "recovery_rise_ms": 24.0
+ },
+ "380-3cloneb-rpg": {
+  "tempo": 139.66,
+  "bass_rel_db": -4.3,
+  "sub_pump": 27.34,
+  "low_pump": 20.41,
+  "low_return": 188.0,
+  "high_pump": 24.85,
+  "recovery_rise_ms": 56.0
+ },
+ "381-quote-the-joker-true-evil": {
+  "tempo": 89.88,
+  "bass_rel_db": -2.3,
+  "sub_pump": 16.66,
+  "low_pump": 10.46,
+  "low_return": 192.0,
+  "high_pump": 8.41,
+  "recovery_rise_ms": 184.0
+ },
+ "379-x-stop-it-please-for-the-love-of-god": {
+  "tempo": 173.59,
+  "bass_rel_db": -1.0,
+  "sub_pump": 13.17,
+  "low_pump": 15.0,
+  "low_return": 252.0,
+  "high_pump": 4.79,
+  "recovery_rise_ms": 168.0
+ },
+ "382-steven-casteel-08-orchestral": {
+  "tempo": 163.11,
+  "bass_rel_db": 41.4,
+  "sub_pump": 1.69,
+  "low_pump": 2.02,
+  "low_return": 320.0,
+  "high_pump": 1.84,
+  "recovery_rise_ms": null
+ },
+ "385-sascha-m-ller-punkt-12-02-sascha-muller-12-02": {
+  "tempo": 139.67,
+  "bass_rel_db": -8.3,
+  "sub_pump": 7.4,
+  "low_pump": 12.12,
+  "low_return": 348.0,
+  "high_pump": 23.47,
+  "recovery_rise_ms": 16.0
+ },
+ "383-blank-banshee-trojan-horse": {
+  "tempo": 144.51,
+  "bass_rel_db": 10.8,
+  "sub_pump": 1.03,
+  "low_pump": 6.9,
+  "low_return": 152.0,
+  "high_pump": 5.95,
+  "recovery_rise_ms": 112.0
+ },
+ "384-erick-jaeger-nightlife": {
+  "tempo": 112.57,
+  "bass_rel_db": -8.6,
+  "sub_pump": 10.47,
+  "low_pump": 5.25,
+  "low_return": 216.0,
+  "high_pump": 27.15,
+  "recovery_rise_ms": 380.0
+ },
+ "386-inquieto-inquieto-el-reclamo": {
+  "tempo": 124.1,
+  "bass_rel_db": -56.1,
+  "sub_pump": 4.8,
+  "low_pump": 5.07,
+  "low_return": 308.0,
+  "high_pump": 13.17,
+  "recovery_rise_ms": 76.0
+ },
+ "388-the-d3vi7-der-mantel-der-nacht": {
+  "tempo": 154.64,
+  "bass_rel_db": -13.1,
+  "sub_pump": 33.96,
+  "low_pump": 43.07,
+  "low_return": 252.0,
+  "high_pump": 35.35,
+  "recovery_rise_ms": 104.0
+ },
+ "387-steven-casteel-udio-v1-5-celu-meluina": {
+  "tempo": 172.93,
+  "bass_rel_db": -13.3,
+  "sub_pump": 1.44,
+  "low_pump": 7.72,
+  "low_return": 128.0,
+  "high_pump": 22.23,
+  "recovery_rise_ms": 40.0
+ },
+ "389-va-inquieto-es-un-hermoso-dia": {
+  "tempo": 149.7,
+  "bass_rel_db": 15.2,
+  "sub_pump": 2.91,
+  "low_pump": 2.16,
+  "low_return": 204.0,
+  "high_pump": 1.32,
+  "recovery_rise_ms": null
+ },
+ "390-sansetatcivil-05-2021-brut-basic-pt-2-demo-flac": {
+  "tempo": 133.44,
+  "bass_rel_db": 5.0,
+  "sub_pump": 63.95,
+  "low_pump": 67.08,
+  "low_return": 356.0,
+  "high_pump": 37.18,
+  "recovery_rise_ms": 104.0
+ },
+ "391-psy-shepherd-x-ethnomite-pux-x-invisible-malikat-alwuhush-psy-shepherd-x-invisibl": {
+  "tempo": 111.63,
+  "bass_rel_db": 2.6,
+  "sub_pump": 2.93,
+  "low_pump": 2.66,
+  "low_return": 492.0,
+  "high_pump": 25.29,
+  "recovery_rise_ms": null
+ },
+ "393-stanley-hottek-raverudi": {
+  "tempo": 142.07,
+  "bass_rel_db": -21.6,
+  "sub_pump": 10.19,
+  "low_pump": 13.67,
+  "low_return": 132.0,
+  "high_pump": 7.83,
+  "recovery_rise_ms": 52.0
+ },
+ "392-x-d-d-random-pulses": {
+  "tempo": 127.7,
+  "bass_rel_db": -25.1,
+  "sub_pump": 17.18,
+  "low_pump": 21.34,
+  "low_return": 324.0,
+  "high_pump": 26.72,
+  "recovery_rise_ms": 200.0
+ },
+ "394-johann-schwengel-springbreak": {
+  "tempo": 125.75,
+  "bass_rel_db": -34.6,
+  "sub_pump": 7.84,
+  "low_pump": 13.31,
+  "low_return": 448.0,
+  "high_pump": 43.5,
+  "recovery_rise_ms": 280.0
+ },
+ "395-klangbild-randnotiz": {
+  "tempo": 119.73,
+  "bass_rel_db": -8.6,
+  "sub_pump": 21.49,
+  "low_pump": 34.53,
+  "low_return": 472.0,
+  "high_pump": 56.03,
+  "recovery_rise_ms": 48.0
+ },
+ "398-sacro-servo-sangre-en-la-boca": {
+  "tempo": 129.71,
+  "bass_rel_db": -0.9,
+  "sub_pump": 17.81,
+  "low_pump": 19.19,
+  "low_return": 204.0,
+  "high_pump": 23.66,
+  "recovery_rise_ms": 164.0
+ },
+ "396-2fel-kahan-mrook-markwon-mennaceannihila-klickaud": {
+  "tempo": 170.58,
+  "bass_rel_db": -39.4,
+  "sub_pump": 12.0,
+  "low_pump": 8.05,
+  "low_return": 236.0,
+  "high_pump": 7.94,
+  "recovery_rise_ms": 80.0
+ },
+ "399-combat-killer-untitled": {
+  "tempo": 129.72,
+  "bass_rel_db": -14.8,
+  "sub_pump": 5.01,
+  "low_pump": 3.83,
+  "low_return": 104.0,
+  "high_pump": 24.8,
+  "recovery_rise_ms": 104.0
+ },
+ "400-afflicted-psychodoc": {
+  "tempo": 135.69,
+  "bass_rel_db": -8.2,
+  "sub_pump": 22.7,
+  "low_pump": 11.61,
+  "low_return": 284.0,
+  "high_pump": 34.76,
+  "recovery_rise_ms": 172.0
+ },
+ "402-fraction-studio-b3-horror-mess": {
+  "tempo": 90.62,
+  "bass_rel_db": -5.2,
+  "sub_pump": 6.84,
+  "low_pump": 9.8,
+  "low_return": 260.0,
+  "high_pump": 15.22,
+  "recovery_rise_ms": 236.0
+ },
+ "401-ru-dead-42-untitled-3-1": {
+  "tempo": 149.71,
+  "bass_rel_db": -4.7,
+  "sub_pump": 11.23,
+  "low_pump": 17.74,
+  "low_return": 248.0,
+  "high_pump": 23.22,
+  "recovery_rise_ms": 28.0
+ },
+ "403-x-ur-fucking-stupid-lol-album-edit": {
+  "tempo": 116.31,
+  "bass_rel_db": 14.5,
+  "sub_pump": 0.95,
+  "low_pump": 2.06,
+  "low_return": 432.0,
+  "high_pump": 6.7,
+  "recovery_rise_ms": null
+ },
+ "405-inquieto-inquieto-elisa-de-fiesta": {
+  "tempo": 145.62,
+  "bass_rel_db": -10.0,
+  "sub_pump": 4.88,
+  "low_pump": 8.0,
+  "low_return": 220.0,
+  "high_pump": 3.42,
+  "recovery_rise_ms": 228.0
+ },
+ "406-steven-casteel-udio-v1-5-cor-amarth": {
+  "tempo": 164.5,
+  "bass_rel_db": -0.9,
+  "sub_pump": 2.95,
+  "low_pump": 6.59,
+  "low_return": 264.0,
+  "high_pump": 3.72,
+  "recovery_rise_ms": 60.0
+ },
+ "404-sascha-m-ller-punkt-13-01-sascha-muller-13-01": {
+  "tempo": 139.67,
+  "bass_rel_db": -23.6,
+  "sub_pump": 8.34,
+  "low_pump": 6.17,
+  "low_return": 336.0,
+  "high_pump": 53.48,
+  "recovery_rise_ms": 56.0
+ },
+ "407-the-d3vi7-dimension": {
+  "tempo": 139.68,
+  "bass_rel_db": -3.1,
+  "sub_pump": 4.03,
+  "low_pump": 5.93,
+  "low_return": 264.0,
+  "high_pump": 25.3,
+  "recovery_rise_ms": 44.0
+ },
+ "409-sansetatcivil-07-2022-melancolia-acid-pt-1-flac": {
+  "tempo": 149.44,
+  "bass_rel_db": -13.1,
+  "sub_pump": 2.09,
+  "low_pump": 3.44,
+  "low_return": 260.0,
+  "high_pump": 5.27,
+  "recovery_rise_ms": 16.0
+ },
+ "408-va-juds-cloudy-nun": {
+  "tempo": 155.14,
+  "bass_rel_db": -8.1,
+  "sub_pump": 5.93,
+  "low_pump": 10.12,
+  "low_return": 204.0,
+  "high_pump": 1.93,
+  "recovery_rise_ms": 52.0
+ },
+ "410-psy-shepherd-x-ethnomite-pux-x-invisible-nomad-robot-blues-ethnomite-pux-x-invisi": {
+  "tempo": 153.58,
+  "bass_rel_db": 14.7,
+  "sub_pump": 3.55,
+  "low_pump": 2.21,
+  "low_return": 192.0,
+  "high_pump": 1.37,
+  "recovery_rise_ms": null
+ },
+ "411-x-d-d-savage": {
+  "tempo": 141.69,
+  "bass_rel_db": -15.4,
+  "sub_pump": 23.96,
+  "low_pump": 30.3,
+  "low_return": 276.0,
+  "high_pump": 5.97,
+  "recovery_rise_ms": 132.0
+ },
+ "412-stanley-hottek-relevant-emphasis": {
+  "tempo": 132.63,
+  "bass_rel_db": -8.6,
+  "sub_pump": 18.13,
+  "low_pump": 15.97,
+  "low_return": 184.0,
+  "high_pump": 25.33,
+  "recovery_rise_ms": 136.0
+ },
+ "413-johann-schwengel-steppin-out": {
+  "tempo": 137.67,
+  "bass_rel_db": 3.3,
+  "sub_pump": 25.03,
+  "low_pump": 15.9,
+  "low_return": 128.0,
+  "high_pump": 47.15,
+  "recovery_rise_ms": 36.0
+ },
+ "415-2fel-kahan-mrook-markwon-mennaceannihila-klickaud": {
+  "tempo": 117.75,
+  "bass_rel_db": -11.5,
+  "sub_pump": 13.57,
+  "low_pump": 11.84,
+  "low_return": 292.0,
+  "high_pump": 13.88,
+  "recovery_rise_ms": 116.0
+ },
+ "414-klangbild-stolperstein": {
+  "tempo": 120.26,
+  "bass_rel_db": -11.2,
+  "sub_pump": 41.74,
+  "low_pump": 58.19,
+  "low_return": 332.0,
+  "high_pump": 20.36,
+  "recovery_rise_ms": 88.0
+ },
+ "416-technobotts-the-boy-from-ipanema": {
+  "tempo": 134.63,
+  "bass_rel_db": -4.7,
+  "sub_pump": 37.7,
+  "low_pump": 42.18,
+  "low_return": 312.0,
+  "high_pump": 22.24,
+  "recovery_rise_ms": 152.0
+ },
+ "417-sacro-servo-voz-metalica": {
+  "tempo": 162.66,
+  "bass_rel_db": -2.1,
+  "sub_pump": 18.45,
+  "low_pump": 22.15,
+  "low_return": 256.0,
+  "high_pump": 29.2,
+  "recovery_rise_ms": 52.0
+ },
+ "418-sascha-m-ller-punkt-13-02-sascha-muller-13-02": {
+  "tempo": 139.61,
+  "bass_rel_db": -30.0,
+  "sub_pump": 4.59,
+  "low_pump": 5.1,
+  "low_return": 172.0,
+  "high_pump": 0.28,
+  "recovery_rise_ms": 156.0
+ },
+ "419-inquieto-inquieto-extorsion": {
+  "tempo": 124.74,
+  "bass_rel_db": -10.5,
+  "sub_pump": 11.8,
+  "low_pump": 10.19,
+  "low_return": 124.0,
+  "high_pump": 28.51,
+  "recovery_rise_ms": 20.0
+ },
+ "420-steven-casteel-udio-v1-5-d-ath-maethor": {
+  "tempo": 104.84,
+  "bass_rel_db": -0.4,
+  "sub_pump": 12.61,
+  "low_pump": 28.91,
+  "low_return": 212.0,
+  "high_pump": 25.79,
+  "recovery_rise_ms": 120.0
+ },
+ "422-va-k-rm-time": {
+  "tempo": 146.79,
+  "bass_rel_db": 2.3,
+  "sub_pump": 22.47,
+  "low_pump": 36.51,
+  "low_return": 220.0,
+  "high_pump": 6.07,
+  "recovery_rise_ms": 68.0
+ },
+ "421-the-d3vi7-glue-bond": {
+  "tempo": 133.7,
+  "bass_rel_db": -35.0,
+  "sub_pump": 13.25,
+  "low_pump": 5.88,
+  "low_return": 384.0,
+  "high_pump": 17.85,
+  "recovery_rise_ms": 48.0
+ },
+ "423-sansetatcivil-07-2022-melancolia-acid-pt-2-flac": {
+  "tempo": 104.79,
+  "bass_rel_db": -8.8,
+  "sub_pump": 3.74,
+  "low_pump": 4.02,
+  "low_return": 536.0,
+  "high_pump": 6.44,
+  "recovery_rise_ms": 20.0
+ },
+ "424-psy-shepherd-x-ethnomite-pux-x-invisible-slow-burner-invisible-illusion-the-deser": {
+  "tempo": 149.69,
+  "bass_rel_db": 6.3,
+  "sub_pump": 0.75,
+  "low_pump": 0.34,
+  "low_return": 132.0,
+  "high_pump": 1.26,
+  "recovery_rise_ms": null
+ },
+ "425-x-d-d-secret-drop": {
+  "tempo": 125.74,
+  "bass_rel_db": -4.1,
+  "sub_pump": 29.12,
+  "low_pump": 22.02,
+  "low_return": 276.0,
+  "high_pump": 29.22,
+  "recovery_rise_ms": 60.0
+ },
+ "426-stanley-hottek-satellite": {
+  "tempo": 137.53,
+  "bass_rel_db": -5.5,
+  "sub_pump": 20.23,
+  "low_pump": 18.85,
+  "low_return": 256.0,
+  "high_pump": 30.69,
+  "recovery_rise_ms": 176.0
+ },
+ "427-johann-schwengel-strange-things": {
+  "tempo": 119.73,
+  "bass_rel_db": -3.2,
+  "sub_pump": 12.1,
+  "low_pump": 4.91,
+  "low_return": 308.0,
+  "high_pump": 33.97,
+  "recovery_rise_ms": 104.0
+ },
+ "428-klangbild-teppichklopfer": {
+  "tempo": 119.74,
+  "bass_rel_db": -0.5,
+  "sub_pump": 18.8,
+  "low_pump": 12.65,
+  "low_return": 340.0,
+  "high_pump": 47.92,
+  "recovery_rise_ms": 224.0
+ },
+ "429-sascha-m-ller-punkt-14-01-sascha-muller-14-01": {
+  "tempo": 139.69,
+  "bass_rel_db": -53.6,
+  "sub_pump": 9.3,
+  "low_pump": 12.66,
+  "low_return": 288.0,
+  "high_pump": 23.72,
+  "recovery_rise_ms": 180.0
+ },
+ "430-inquieto-inquieto-extracto-digestivo": {
+  "tempo": 132.67,
+  "bass_rel_db": -12.4,
+  "sub_pump": 25.52,
+  "low_pump": 20.44,
+  "low_return": 416.0,
+  "high_pump": 29.46,
+  "recovery_rise_ms": 36.0
+ },
+ "431-steven-casteel-udio-v1-5-edraith-o-rhach": {
+  "tempo": 127.58,
+  "bass_rel_db": 3.4,
+  "sub_pump": 1.49,
+  "low_pump": 1.9,
+  "low_return": 96.0,
+  "high_pump": 6.63,
+  "recovery_rise_ms": null
+ },
+ "432-the-d3vi7-mantra": {
+  "tempo": 143.66,
+  "bass_rel_db": -1.2,
+  "sub_pump": 33.74,
+  "low_pump": 31.28,
+  "low_return": 352.0,
+  "high_pump": 26.39,
+  "recovery_rise_ms": 224.0
+ },
+ "433-va-lively-racket-control": {
+  "tempo": 154.72,
+  "bass_rel_db": -3.9,
+  "sub_pump": 3.29,
+  "low_pump": 4.04,
+  "low_return": 232.0,
+  "high_pump": 5.48,
+  "recovery_rise_ms": 20.0
+ },
+ "434-sansetatcivil-08-2022-f-k-the-great-reset-flac": {
+  "tempo": 172.22,
+  "bass_rel_db": -9.6,
+  "sub_pump": 4.47,
+  "low_pump": 2.94,
+  "low_return": 180.0,
+  "high_pump": 3.01,
+  "recovery_rise_ms": null
+ },
+ "435-psy-shepherd-x-ethnomite-pux-x-invisible-slow-burner-blues-invisible-illusion-the": {
+  "tempo": 133.17,
+  "bass_rel_db": 17.2,
+  "sub_pump": 0.91,
+  "low_pump": 1.01,
+  "low_return": 280.0,
+  "high_pump": 5.21,
+  "recovery_rise_ms": null
+ },
+ "436-x-d-d-self-propellered-gun": {
+  "tempo": 131.7,
+  "bass_rel_db": -43.9,
+  "sub_pump": 5.22,
+  "low_pump": 8.9,
+  "low_return": 244.0,
+  "high_pump": 6.18,
+  "recovery_rise_ms": 52.0
+ },
+ "437-stanley-hottek-seltersiggy": {
+  "tempo": 140.21,
+  "bass_rel_db": -14.4,
+  "sub_pump": 28.92,
+  "low_pump": 35.64,
+  "low_return": 392.0,
+  "high_pump": 30.46,
+  "recovery_rise_ms": 216.0
+ },
+ "438-johann-schwengel-vitalpower": {
+  "tempo": 133.69,
+  "bass_rel_db": -15.0,
+  "sub_pump": 21.87,
+  "low_pump": 33.9,
+  "low_return": 160.0,
+  "high_pump": 39.69,
+  "recovery_rise_ms": 56.0
+ },
+ "439-klangbild-wellenbad": {
+  "tempo": 126.76,
+  "bass_rel_db": -27.5,
+  "sub_pump": 4.78,
+  "low_pump": 6.95,
+  "low_return": 192.0,
+  "high_pump": 27.12,
+  "recovery_rise_ms": 156.0
+ },
+ "440-sascha-m-ller-punkt-14-02-sascha-muller-14-02": {
+  "tempo": 139.75,
+  "bass_rel_db": -12.0,
+  "sub_pump": 11.41,
+  "low_pump": 14.08,
+  "low_return": 196.0,
+  "high_pump": 30.7,
+  "recovery_rise_ms": 140.0
+ },
+ "441-inquieto-inquieto-friends-time": {
+  "tempo": 159.64,
+  "bass_rel_db": 2.0,
+  "sub_pump": 17.59,
+  "low_pump": 22.74,
+  "low_return": 240.0,
+  "high_pump": 34.11,
+  "recovery_rise_ms": 44.0
+ },
+ "442-steven-casteel-udio-v1-5-elen-s-la": {
+  "tempo": 99.68,
+  "bass_rel_db": -2.1,
+  "sub_pump": 31.87,
+  "low_pump": 33.92,
+  "low_return": 380.0,
+  "high_pump": 38.36,
+  "recovery_rise_ms": 160.0
+ },
+ "443-the-d3vi7-marauder": {
+  "tempo": 119.74,
+  "bass_rel_db": -12.8,
+  "sub_pump": 12.29,
+  "low_pump": 17.65,
+  "low_return": 368.0,
+  "high_pump": 36.79,
+  "recovery_rise_ms": 60.0
+ },
+ "444-va-marcel-ruew-mental-breakdown": {
+  "tempo": 155.67,
+  "bass_rel_db": -1.8,
+  "sub_pump": 3.32,
+  "low_pump": 4.89,
+  "low_return": 232.0,
+  "high_pump": 12.3,
+  "recovery_rise_ms": 44.0
+ },
+ "445-sansetatcivil-10-2022-duckduckgo-flac": {
+  "tempo": 164.69,
+  "bass_rel_db": 13.6,
+  "sub_pump": 7.72,
+  "low_pump": 7.6,
+  "low_return": 216.0,
+  "high_pump": 37.19,
+  "recovery_rise_ms": 56.0
+ },
+ "447-x-d-d-snaak-snaak": {
+  "tempo": 136.43,
+  "bass_rel_db": -2.2,
+  "sub_pump": 4.94,
+  "low_pump": 20.8,
+  "low_return": 400.0,
+  "high_pump": 25.21,
+  "recovery_rise_ms": 48.0
+ },
+ "446-psy-shepherd-x-ethnomite-pux-x-invisible-this-is-living-in-burning-man-invisible-": {
+  "tempo": 102.31,
+  "bass_rel_db": 2.6,
+  "sub_pump": 1.76,
+  "low_pump": 2.67,
+  "low_return": 384.0,
+  "high_pump": 3.89,
+  "recovery_rise_ms": null
+ },
+ "448-1ka-120spaces-smart-phone": {
+  "tempo": 119.75,
+  "bass_rel_db": -4.6,
+  "sub_pump": 24.75,
+  "low_pump": 20.29,
+  "low_return": 176.0,
+  "high_pump": 37.56,
+  "recovery_rise_ms": 32.0
+ },
+ "448-stanley-hottek-unkown-origin": {
+  "tempo": 132.71,
+  "bass_rel_db": 5.8,
+  "sub_pump": 16.75,
+  "low_pump": 10.43,
+  "low_return": 424.0,
+  "high_pump": 55.75,
+  "recovery_rise_ms": 12.0
+ },
+ "449-thomas-park-and-various-artists-all-over-thomas-park-remix-with-rowboat-": {
+  "tempo": 164.62,
+  "bass_rel_db": -5.8,
+  "sub_pump": 2.51,
+  "low_pump": 2.75,
+  "low_return": 256.0,
+  "high_pump": 7.78,
+  "recovery_rise_ms": null
+ },
+ "450-gothic-spectra-borderline": {
+  "tempo": 119.74,
+  "bass_rel_db": -7.1,
+  "sub_pump": 9.4,
+  "low_pump": 15.14,
+  "low_return": 196.0,
+  "high_pump": 14.41,
+  "recovery_rise_ms": 24.0
+ },
+ "451-areal-kollen-13": {
+  "tempo": 139.69,
+  "bass_rel_db": -8.6,
+  "sub_pump": 5.04,
+  "low_pump": 7.42,
+  "low_return": 276.0,
+  "high_pump": 27.48,
+  "recovery_rise_ms": 28.0
+ },
+ "452-shabnak-anomaly": {
+  "tempo": 99.63,
+  "bass_rel_db": 3.3,
+  "sub_pump": 3.55,
+  "low_pump": 7.85,
+  "low_return": 196.0,
+  "high_pump": 4.23,
+  "recovery_rise_ms": 204.0
+ },
+ "453-invisible-illusion-is-wordless": {
+  "tempo": 149.91,
+  "bass_rel_db": 20.5,
+  "sub_pump": 0.49,
+  "low_pump": 0.39,
+  "low_return": 252.0,
+  "high_pump": 1.51,
+  "recovery_rise_ms": null
+ },
+ "454-nikolay-chesnokov-arabskaja-opasnost": {
+  "tempo": 139.51,
+  "bass_rel_db": 20.4,
+  "sub_pump": 1.73,
+  "low_pump": 2.56,
+  "low_return": 312.0,
+  "high_pump": 1.23,
+  "recovery_rise_ms": null
+ },
+ "455-radio-end-9-conditions-conclusion": {
+  "tempo": 164.9,
+  "bass_rel_db": 6.0,
+  "sub_pump": 0.9,
+  "low_pump": 1.92,
+  "low_return": 160.0,
+  "high_pump": 1.07,
+  "recovery_rise_ms": null
+ },
+ "456-fredius-darde-achupa-la-uva": {
+  "tempo": 127.7,
+  "bass_rel_db": 0.9,
+  "sub_pump": 48.01,
+  "low_pump": 42.07,
+  "low_return": 276.0,
+  "high_pump": 15.61,
+  "recovery_rise_ms": 60.0
+ },
+ "457-kamil-muzyk-howarang-van-k-blair-witch": {
+  "tempo": 150.06,
+  "bass_rel_db": -11.5,
+  "sub_pump": 6.31,
+  "low_pump": 6.53,
+  "low_return": 196.0,
+  "high_pump": 3.79,
+  "recovery_rise_ms": 56.0
+ },
+ "458-phons-140": {
+  "tempo": 139.68,
+  "bass_rel_db": -9.3,
+  "sub_pump": 6.34,
+  "low_pump": 11.45,
+  "low_return": 132.0,
+  "high_pump": 25.46,
+  "recovery_rise_ms": 60.0
+ },
+ "459-lupusmechanicus-amoral-scrutiny": {
+  "tempo": 89.61,
+  "bass_rel_db": -2.6,
+  "sub_pump": 4.39,
+  "low_pump": 4.98,
+  "low_return": 240.0,
+  "high_pump": 17.08,
+  "recovery_rise_ms": 104.0
+ },
+ "460-ncpsd-ashes-one": {
+  "tempo": 89.55,
+  "bass_rel_db": -12.0,
+  "sub_pump": 5.12,
+  "low_pump": 4.38,
+  "low_return": 368.0,
+  "high_pump": 11.43,
+  "recovery_rise_ms": 84.0
+ },
+ "461-humanfobia-sadako-never-dies": {
+  "tempo": 164.83,
+  "bass_rel_db": 0.0,
+  "sub_pump": 2.83,
+  "low_pump": 3.05,
+  "low_return": 96.0,
+  "high_pump": 4.03,
+  "recovery_rise_ms": 156.0
+ },
+ "462-sciurid-a-dwindling-luxury": {
+  "tempo": 99.87,
+  "bass_rel_db": 0.2,
+  "sub_pump": 8.34,
+  "low_pump": 4.22,
+  "low_return": 408.0,
+  "high_pump": 13.07,
+  "recovery_rise_ms": 88.0
+ },
+ "464-cortex-31-backdoor-beats": {
+  "tempo": 92.78,
+  "bass_rel_db": 6.2,
+  "sub_pump": 7.66,
+  "low_pump": 5.24,
+  "low_return": 204.0,
+  "high_pump": 51.97,
+  "recovery_rise_ms": 260.0
+ },
+ "465-confield-feat-nurs-110000": {
+  "tempo": 123.21,
+  "bass_rel_db": -9.5,
+  "sub_pump": 6.9,
+  "low_pump": 8.87,
+  "low_return": 320.0,
+  "high_pump": 6.18,
+  "recovery_rise_ms": 72.0
+ },
+ "466-ix-acht-life-is-made-of-traps-ep-version": {
+  "tempo": 104.7,
+  "bass_rel_db": -17.8,
+  "sub_pump": 15.3,
+  "low_pump": 17.07,
+  "low_return": 344.0,
+  "high_pump": 8.87,
+  "recovery_rise_ms": 124.0
+ },
+ "467-wall-noise-action-attendance-of-this": {
+  "tempo": 153.52,
+  "bass_rel_db": 12.9,
+  "sub_pump": 2.39,
+  "low_pump": 1.82,
+  "low_return": 260.0,
+  "high_pump": 0.97,
+  "recovery_rise_ms": null
+ },
+ "468-x-post-mortem-iris-potockaya-nielepanda": {
+  "tempo": 119.77,
+  "bass_rel_db": -25.6,
+  "sub_pump": 6.37,
+  "low_pump": 6.38,
+  "low_return": 104.0,
+  "high_pump": 23.21,
+  "recovery_rise_ms": 24.0
+ },
+ "469-fraction-studio-a1-bloody-girl": {
+  "tempo": 91.16,
+  "bass_rel_db": -0.0,
+  "sub_pump": 11.35,
+  "low_pump": 18.09,
+  "low_return": 384.0,
+  "high_pump": 2.46,
+  "recovery_rise_ms": 164.0
+ },
+ "471-alexey-frolov-01-graphity": {
+  "tempo": 127.7,
+  "bass_rel_db": -0.8,
+  "sub_pump": 11.88,
+  "low_pump": 4.52,
+  "low_return": 296.0,
+  "high_pump": 28.55,
+  "recovery_rise_ms": 4.0
+ },
+ "470-2025-selected-soundworks-vol-1-01-1999-parler-manga-original-edit": {
+  "tempo": 145.93,
+  "bass_rel_db": 43.1,
+  "sub_pump": 3.78,
+  "low_pump": 3.26,
+  "low_return": 268.0,
+  "high_pump": 1.09,
+  "recovery_rise_ms": 48.0
+ },
+ "473-solo-mati-a-deux": {
+  "tempo": 177.04,
+  "bass_rel_db": 0.6,
+  "sub_pump": 1.75,
+  "low_pump": 1.33,
+  "low_return": 88.0,
+  "high_pump": 2.73,
+  "recovery_rise_ms": null
+ },
+ "472-sour-candy-augment": {
+  "tempo": 138.69,
+  "bass_rel_db": 1.8,
+  "sub_pump": 12.54,
+  "low_pump": 9.89,
+  "low_return": 148.0,
+  "high_pump": 14.87,
+  "recovery_rise_ms": 60.0
+ },
+ "474-sven-phalanx-klangtherapie-anja-kreysing-remix": {
+  "tempo": 160.3,
+  "bass_rel_db": -1.9,
+  "sub_pump": 4.89,
+  "low_pump": 2.2,
+  "low_return": 284.0,
+  "high_pump": 3.23,
+  "recovery_rise_ms": null
+ },
+ "475-noxpox-2cb-line": {
+  "tempo": 139.66,
+  "bass_rel_db": 2.6,
+  "sub_pump": 2.1,
+  "low_pump": 4.17,
+  "low_return": 228.0,
+  "high_pump": 39.73,
+  "recovery_rise_ms": 160.0
+ },
+ "476-second-brunch-a-confession": {
+  "tempo": 114.7,
+  "bass_rel_db": -0.3,
+  "sub_pump": 18.8,
+  "low_pump": 18.77,
+  "low_return": 388.0,
+  "high_pump": 11.74,
+  "recovery_rise_ms": 48.0
+ },
+ "477-skrol-aegis": {
+  "tempo": 139.93,
+  "bass_rel_db": 2.1,
+  "sub_pump": 1.68,
+  "low_pump": 1.66,
+  "low_return": 176.0,
+  "high_pump": 2.44,
+  "recovery_rise_ms": null
+ },
+ "478-simonzer0-jackal-knife": {
+  "tempo": 139.54,
+  "bass_rel_db": -2.0,
+  "sub_pump": 13.74,
+  "low_pump": 6.81,
+  "low_return": 252.0,
+  "high_pump": 25.22,
+  "recovery_rise_ms": 68.0
+ },
+ "479-dirty-tapes-master-1-ce-n-est-pas-encore-mon-tour-su": {
+  "tempo": 149.32,
+  "bass_rel_db": 8.5,
+  "sub_pump": 0.96,
+  "low_pump": 1.09,
+  "low_return": 332.0,
+  "high_pump": 1.38,
+  "recovery_rise_ms": null
+ },
+ "480-dj-r3v3r3nd-murd3r-the-final-judgement-feat-deszumidifikato": {
+  "tempo": 159.82,
+  "bass_rel_db": 1.0,
+  "sub_pump": 2.06,
+  "low_pump": 2.0,
+  "low_return": 96.0,
+  "high_pump": 2.44,
+  "recovery_rise_ms": null
+ },
+ "481-miss-kitty-sven-phalanx-dein-herz-meine-gier-tribute-to-suicide-": {
+  "tempo": 139.67,
+  "bass_rel_db": -12.2,
+  "sub_pump": 13.09,
+  "low_pump": 17.83,
+  "low_return": 336.0,
+  "high_pump": 30.58,
+  "recovery_rise_ms": 108.0
+ },
+ "483-eternal-sunset-606-dreams-part-2": {
+  "tempo": 112.55,
+  "bass_rel_db": -1.2,
+  "sub_pump": 5.45,
+  "low_pump": 8.65,
+  "low_return": 376.0,
+  "high_pump": 23.18,
+  "recovery_rise_ms": 40.0
+ },
+ "484-d-d-beverte-breaking-out": {
+  "tempo": 154.8,
+  "bass_rel_db": -15.3,
+  "sub_pump": 2.91,
+  "low_pump": 1.63,
+  "low_return": 96.0,
+  "high_pump": 3.89,
+  "recovery_rise_ms": null
+ },
+ "485-maksimov-sergey-broken-silense": {
+  "tempo": 101.71,
+  "bass_rel_db": -4.7,
+  "sub_pump": 2.49,
+  "low_pump": 4.77,
+  "low_return": 492.0,
+  "high_pump": 4.62,
+  "recovery_rise_ms": 4.0
+ },
+ "487-j-neuros-j-neuros-1-plus-1-equals-3-equation-infi": {
+  "tempo": 164.36,
+  "bass_rel_db": 10.5,
+  "sub_pump": 5.84,
+  "low_pump": 1.13,
+  "low_return": 120.0,
+  "high_pump": 1.87,
+  "recovery_rise_ms": null
+ },
+ "486-rose-sobchak-anal-excites": {
+  "tempo": 149.47,
+  "bass_rel_db": -4.5,
+  "sub_pump": 2.77,
+  "low_pump": 2.02,
+  "low_return": 276.0,
+  "high_pump": 0.77,
+  "recovery_rise_ms": null
+ },
+ "488-dethcentrik-columbine-justice-spree-aquilaeon-remix": {
+  "tempo": 98.16,
+  "bass_rel_db": 4.7,
+  "sub_pump": 3.61,
+  "low_pump": 5.55,
+  "low_return": 420.0,
+  "high_pump": 2.28,
+  "recovery_rise_ms": 52.0
+ },
+ "489-x-01-payback-time-intro": {
+  "tempo": 129.7,
+  "bass_rel_db": -12.4,
+  "sub_pump": 9.16,
+  "low_pump": 20.19,
+  "low_return": 316.0,
+  "high_pump": 48.54,
+  "recovery_rise_ms": 216.0
+ },
+ "490-internet-daemon-gothic-spectra-chris-skordylis-featuring-theofil-tsiola": {
+  "tempo": 119.73,
+  "bass_rel_db": -3.9,
+  "sub_pump": 15.19,
+  "low_pump": 8.76,
+  "low_return": 384.0,
+  "high_pump": 30.57,
+  "recovery_rise_ms": 80.0
+ },
+ "493-alxthenomad-1-outside-the-matrix-god-version-one": {
+  "tempo": 135.89,
+  "bass_rel_db": -4.5,
+  "sub_pump": 43.84,
+  "low_pump": 43.89,
+  "low_return": 280.0,
+  "high_pump": 19.61,
+  "recovery_rise_ms": 164.0
+ },
+ "492-various-artists-7-bandits-ghost-cells": {
+  "tempo": 164.16,
+  "bass_rel_db": 8.8,
+  "sub_pump": 1.95,
+  "low_pump": 2.32,
+  "low_return": 248.0,
+  "high_pump": 2.25,
+  "recovery_rise_ms": null
+ },
+ "491-institor-10-the-hangman": {
+  "tempo": 119.89,
+  "bass_rel_db": 0.8,
+  "sub_pump": 0.86,
+  "low_pump": 1.47,
+  "low_return": 116.0,
+  "high_pump": 1.41,
+  "recovery_rise_ms": null
+ },
+ "494-underglass-a-first-step": {
+  "tempo": 156.0,
+  "bass_rel_db": -0.7,
+  "sub_pump": 1.6,
+  "low_pump": 4.26,
+  "low_return": 268.0,
+  "high_pump": 1.12,
+  "recovery_rise_ms": 24.0
+ },
+ "496-a-j-kaufmann-be-right-back": {
+  "tempo": 119.76,
+  "bass_rel_db": -1.2,
+  "sub_pump": 6.3,
+  "low_pump": 4.8,
+  "low_return": 308.0,
+  "high_pump": 7.53,
+  "recovery_rise_ms": 152.0
+ },
+ "495-cian-orbe-netlabel-brain-influenza-leichenfund": {
+  "tempo": 179.57,
+  "bass_rel_db": -6.4,
+  "sub_pump": 4.25,
+  "low_pump": 4.7,
+  "low_return": 236.0,
+  "high_pump": 6.42,
+  "recovery_rise_ms": 24.0
+ },
+ "497-85-amnesia-psycho-1-v1-feat-broken-tape-rec": {
+  "tempo": 158.43,
+  "bass_rel_db": -2.6,
+  "sub_pump": 1.47,
+  "low_pump": 1.42,
+  "low_return": 200.0,
+  "high_pump": 0.64,
+  "recovery_rise_ms": null
+ },
+ "498-escaped-trees-approach-to-the-snow-queen-part-iii": {
+  "tempo": 129.69,
+  "bass_rel_db": -9.5,
+  "sub_pump": 4.87,
+  "low_pump": 10.28,
+  "low_return": 252.0,
+  "high_pump": 12.17,
+  "recovery_rise_ms": 72.0
+ },
+ "499-mr-devo-mr-devo-vs-dreun-klootzak-zonder-ballen": {
+  "tempo": 135.59,
+  "bass_rel_db": 3.5,
+  "sub_pump": 3.46,
+  "low_pump": 4.93,
+  "low_return": 120.0,
+  "high_pump": 32.48,
+  "recovery_rise_ms": 44.0
+ },
+ "500-simonzer0-bmbaal3pxobirironmix": {
+  "tempo": 123.71,
+  "bass_rel_db": -24.4,
+  "sub_pump": 3.69,
+  "low_pump": 6.28,
+  "low_return": 380.0,
+  "high_pump": 5.24,
+  "recovery_rise_ms": 104.0
+ },
+ "501-sevyn-16-bit-emulator-mode-7": {
+  "tempo": 159.67,
+  "bass_rel_db": -13.9,
+  "sub_pump": 6.54,
+  "low_pump": 9.83,
+  "low_return": 260.0,
+  "high_pump": 41.22,
+  "recovery_rise_ms": 80.0
+ },
+ "502-pulse-burst-in-the-midst-of-black-seas-of-infinity": {
+  "tempo": 129.11,
+  "bass_rel_db": -10.9,
+  "sub_pump": 2.7,
+  "low_pump": 4.12,
+  "low_return": 192.0,
+  "high_pump": 11.41,
+  "recovery_rise_ms": 44.0
+ },
+ "503-sedative-01-rm-2k24": {
+  "tempo": 114.72,
+  "bass_rel_db": 20.8,
+  "sub_pump": 4.77,
+  "low_pump": 4.25,
+  "low_return": 208.0,
+  "high_pump": 8.98,
+  "recovery_rise_ms": 156.0
+ },
+ "504-dystopia-industrial-en-la-granja-maskabr-adi-s-amigo-fiel": {
+  "tempo": 174.6,
+  "bass_rel_db": 0.8,
+  "sub_pump": 3.63,
+  "low_pump": 2.82,
+  "low_return": 104.0,
+  "high_pump": 5.49,
+  "recovery_rise_ms": null
+ },
+ "505-deficit-electric-spring": {
+  "tempo": 165.05,
+  "bass_rel_db": -5.1,
+  "sub_pump": 1.99,
+  "low_pump": 2.62,
+  "low_return": 124.0,
+  "high_pump": 1.12,
+  "recovery_rise_ms": null
+ },
+ "506-gothic-spectra-compilations-audiobake-x-humanfobia-special-darkness": {
+  "tempo": 99.85,
+  "bass_rel_db": -2.4,
+  "sub_pump": 5.6,
+  "low_pump": 3.67,
+  "low_return": 188.0,
+  "high_pump": 20.51,
+  "recovery_rise_ms": 288.0
+ },
+ "508-the-silence-bureau-bxrw-jqdi-rjhwp": {
+  "tempo": 142.11,
+  "bass_rel_db": 15.7,
+  "sub_pump": 2.84,
+  "low_pump": 8.33,
+  "low_return": 336.0,
+  "high_pump": 2.04,
+  "recovery_rise_ms": 108.0
+ },
+ "507-petter-baiestorf-u-04-cubo-de-yutu": {
+  "tempo": 151.83,
+  "bass_rel_db": -42.9,
+  "sub_pump": 4.99,
+  "low_pump": 5.16,
+  "low_return": 324.0,
+  "high_pump": 14.66,
+  "recovery_rise_ms": 36.0
+ },
+ "509-jura-acid-man": {
+  "tempo": 131.65,
+  "bass_rel_db": -3.9,
+  "sub_pump": 10.38,
+  "low_pump": 9.32,
+  "low_return": 280.0,
+  "high_pump": 15.04,
+  "recovery_rise_ms": 184.0
+ },
+ "510-the-dada-tribe-aktionreaktion": {
+  "tempo": 145.69,
+  "bass_rel_db": -9.5,
+  "sub_pump": 6.09,
+  "low_pump": 8.88,
+  "low_return": 340.0,
+  "high_pump": 21.35,
+  "recovery_rise_ms": 84.0
+ },
+ "511-roberto-massoni-autorojo": {
+  "tempo": 161.69,
+  "bass_rel_db": 33.6,
+  "sub_pump": 3.63,
+  "low_pump": 3.36,
+  "low_return": 100.0,
+  "high_pump": 1.46,
+  "recovery_rise_ms": 120.0
+ },
+ "512-jazyus-edsegame-cj": {
+  "tempo": 129.71,
+  "bass_rel_db": -4.9,
+  "sub_pump": 9.55,
+  "low_pump": 17.65,
+  "low_return": 152.0,
+  "high_pump": 21.24,
+  "recovery_rise_ms": 24.0
+ },
+ "513-tkno-beurk-a-freeze-listening": {
+  "tempo": 108.35,
+  "bass_rel_db": 11.4,
+  "sub_pump": 7.32,
+  "low_pump": 8.08,
+  "low_return": 336.0,
+  "high_pump": 14.0,
+  "recovery_rise_ms": 220.0
+ },
+ "514-4zzz1-armadillo": {
+  "tempo": 130.71,
+  "bass_rel_db": -14.8,
+  "sub_pump": 29.42,
+  "low_pump": 53.63,
+  "low_return": 332.0,
+  "high_pump": 47.06,
+  "recovery_rise_ms": 136.0
+ },
+ "515-entropija-aerobika": {
+  "tempo": 98.37,
+  "bass_rel_db": -9.2,
+  "sub_pump": 16.53,
+  "low_pump": 18.94,
+  "low_return": 180.0,
+  "high_pump": 36.53,
+  "recovery_rise_ms": 84.0
+ },
+ "516-s-h-a-p-e-r-douzirec-s-h-a-p-e-r-2021-aerial-douzirec-remix-f": {
+  "tempo": 111.88,
+  "bass_rel_db": -28.8,
+  "sub_pump": 8.66,
+  "low_pump": 9.42,
+  "low_return": 292.0,
+  "high_pump": 30.49,
+  "recovery_rise_ms": 76.0
+ },
+ "517-flame-of-life-auma": {
+  "tempo": 160.42,
+  "bass_rel_db": -1.2,
+  "sub_pump": 3.12,
+  "low_pump": 5.81,
+  "low_return": 208.0,
+  "high_pump": 2.05,
+  "recovery_rise_ms": 12.0
+ },
+ "518-soul-heater-humanfobia-aura-obscura-la-morte-dell-anima": {
+  "tempo": 104.76,
+  "bass_rel_db": -0.3,
+  "sub_pump": 8.04,
+  "low_pump": 5.65,
+  "low_return": 112.0,
+  "high_pump": 28.89,
+  "recovery_rise_ms": 308.0
+ },
+ "519-somnoroase-p-s-rele-auto-10": {
+  "tempo": 161.15,
+  "bass_rel_db": 3.2,
+  "sub_pump": 2.43,
+  "low_pump": 1.67,
+  "low_return": 148.0,
+  "high_pump": 2.42,
+  "recovery_rise_ms": null
+ },
+ "520-mark-meino-ec98jp": {
+  "tempo": 175.6,
+  "bass_rel_db": -30.5,
+  "sub_pump": 2.98,
+  "low_pump": 3.38,
+  "low_return": 96.0,
+  "high_pump": 11.72,
+  "recovery_rise_ms": 52.0
+ },
+ "521-alframusic-allied-forces": {
+  "tempo": 159.66,
+  "bass_rel_db": -33.4,
+  "sub_pump": 4.49,
+  "low_pump": 4.13,
+  "low_return": 232.0,
+  "high_pump": 3.93,
+  "recovery_rise_ms": 16.0
+ },
+ "523-kombopatras-all-swift": {
+  "tempo": 155.76,
+  "bass_rel_db": 31.8,
+  "sub_pump": 3.68,
+  "low_pump": 2.28,
+  "low_return": 292.0,
+  "high_pump": 0.83,
+  "recovery_rise_ms": null
+ },
+ "522-death-tape-super-bass-death-tape-super-bass-1-manic": {
+  "tempo": 123.96,
+  "bass_rel_db": 7.2,
+  "sub_pump": 2.69,
+  "low_pump": 7.15,
+  "low_return": 324.0,
+  "high_pump": 5.91,
+  "recovery_rise_ms": 144.0
+ },
+ "524-stefan-gomolka-34-wrangle": {
+  "tempo": 169.61,
+  "bass_rel_db": -1.3,
+  "sub_pump": 2.62,
+  "low_pump": 2.89,
+  "low_return": 196.0,
+  "high_pump": 26.15,
+  "recovery_rise_ms": null
+ },
+ "525-bad-erna-bad-erna-caminho-torto": {
+  "tempo": 117.18,
+  "bass_rel_db": -16.0,
+  "sub_pump": 4.99,
+  "low_pump": 5.5,
+  "low_return": 192.0,
+  "high_pump": 7.77,
+  "recovery_rise_ms": 196.0
+ },
+ "526-029-busted": {
+  "tempo": 124.81,
+  "bass_rel_db": 2.9,
+  "sub_pump": 4.45,
+  "low_pump": 12.64,
+  "low_return": 424.0,
+  "high_pump": 24.99,
+  "recovery_rise_ms": 172.0
+ },
+ "527-must-wave-9-330-2": {
+  "tempo": 174.3,
+  "bass_rel_db": 20.3,
+  "sub_pump": 1.67,
+  "low_pump": 2.21,
+  "low_return": 88.0,
+  "high_pump": 7.44,
+  "recovery_rise_ms": null
+ },
+ "528-6xamax9-1ka-caldeira11": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "529-rooberto-massoni-el-pasado-en-pasado": {
+  "tempo": 145.86,
+  "bass_rel_db": 22.7,
+  "sub_pump": 0.49,
+  "low_pump": 3.3,
+  "low_return": 152.0,
+  "high_pump": 2.16,
+  "recovery_rise_ms": 112.0
+ },
+ "530-xotla-declan-clark-catalysis-22edo": {
+  "tempo": 104.72,
+  "bass_rel_db": 11.7,
+  "sub_pump": 5.37,
+  "low_pump": 6.51,
+  "low_return": 264.0,
+  "high_pump": 7.06,
+  "recovery_rise_ms": 68.0
+ },
+ "531-simplefixty-abyss": {
+  "tempo": 139.84,
+  "bass_rel_db": -0.8,
+  "sub_pump": 5.26,
+  "low_pump": 3.96,
+  "low_return": 96.0,
+  "high_pump": 5.95,
+  "recovery_rise_ms": 208.0
+ },
+ "532-mysie-connector": {
+  "tempo": 119.76,
+  "bass_rel_db": -6.1,
+  "sub_pump": 5.19,
+  "low_pump": 8.34,
+  "low_return": 184.0,
+  "high_pump": 4.52,
+  "recovery_rise_ms": 300.0
+ },
+ "533-suicidas-en-el-bosque-negro-algunosdiassonigualesaotrosdiasquesongua": {
+  "tempo": 126.73,
+  "bass_rel_db": -0.4,
+  "sub_pump": 17.63,
+  "low_pump": 9.9,
+  "low_return": 160.0,
+  "high_pump": 27.22,
+  "recovery_rise_ms": 100.0
+ },
+ "534-spoiled-egg-is-she-a-cat": {
+  "tempo": 125.72,
+  "bass_rel_db": 2.3,
+  "sub_pump": 52.93,
+  "low_pump": 35.97,
+  "low_return": 304.0,
+  "high_pump": 19.21,
+  "recovery_rise_ms": 136.0
+ },
+ "536-aleksei-nisiforov-anabiosis": {
+  "tempo": 148.45,
+  "bass_rel_db": -0.4,
+  "sub_pump": 2.48,
+  "low_pump": 2.22,
+  "low_return": 88.0,
+  "high_pump": 4.32,
+  "recovery_rise_ms": null
+ },
+ "535-electric-shock-can-kill-dead-walk-v2-0": {
+  "tempo": 139.68,
+  "bass_rel_db": -2.5,
+  "sub_pump": 3.36,
+  "low_pump": 3.76,
+  "low_return": 364.0,
+  "high_pump": 23.85,
+  "recovery_rise_ms": 20.0
+ },
+ "537-extreme-kindness-0x416d796764616c61204f766572726964650a": {
+  "tempo": 156.83,
+  "bass_rel_db": -0.0,
+  "sub_pump": 2.88,
+  "low_pump": 3.78,
+  "low_return": 260.0,
+  "high_pump": 0.69,
+  "recovery_rise_ms": 16.0
+ },
+ "538-skoddie-bauble-pops": {
+  "tempo": 136.49,
+  "bass_rel_db": -9.4,
+  "sub_pump": 4.29,
+  "low_pump": 7.68,
+  "low_return": 352.0,
+  "high_pump": 8.97,
+  "recovery_rise_ms": 76.0
+ },
+ "539-catalyst-x-humanfobia-06-abandoned-ghostly-ruins": {
+  "tempo": 140.49,
+  "bass_rel_db": 6.9,
+  "sub_pump": 3.28,
+  "low_pump": 3.5,
+  "low_return": 128.0,
+  "high_pump": 3.71,
+  "recovery_rise_ms": 40.0
+ },
+ "463-ant-nio-bizarro-a-lonely-place": {
+  "error": "_Timeout: per-file timeout"
+ },
+ "540-s-a-lzk-g-p-ns-ausstieg-aus-der-realit-t": {
+  "tempo": 119.73,
+  "bass_rel_db": 37.7,
+  "sub_pump": 4.46,
+  "low_pump": 3.06,
+  "low_return": 104.0,
+  "high_pump": 4.94,
+  "recovery_rise_ms": 336.0
+ },
+ "541-refugees-from-beyond-devil-s-tritone-trick": {
+  "tempo": 124.65,
+  "bass_rel_db": 10.8,
+  "sub_pump": 2.84,
+  "low_pump": 3.45,
+  "low_return": 156.0,
+  "high_pump": 11.07,
+  "recovery_rise_ms": 208.0
+ },
+ "542-jaime-mun-rriz-and-thomas-park-china-listed-times": {
+  "tempo": 124.75,
+  "bass_rel_db": 7.3,
+  "sub_pump": 8.36,
+  "low_pump": 12.17,
+  "low_return": 452.0,
+  "high_pump": 43.2,
+  "recovery_rise_ms": 20.0
+ },
+ "544-cristian-agrillo-cristian-agrillo-8": {
+  "tempo": 124.72,
+  "bass_rel_db": 0.4,
+  "sub_pump": 22.15,
+  "low_pump": 12.86,
+  "low_return": 364.0,
+  "high_pump": 48.37,
+  "recovery_rise_ms": 156.0
+ },
+ "543-dave-mono-aircon": {
+  "tempo": 125.7,
+  "bass_rel_db": -5.5,
+  "sub_pump": 6.92,
+  "low_pump": 8.11,
+  "low_return": 156.0,
+  "high_pump": 23.67,
+  "recovery_rise_ms": 132.0
+ },
+ "545-nenormalizm-recs-afinde": {
+  "tempo": 141.25,
+  "bass_rel_db": 4.4,
+  "sub_pump": 1.42,
+  "low_pump": 3.46,
+  "low_return": 204.0,
+  "high_pump": 4.0,
+  "recovery_rise_ms": 64.0
+ },
+ "546-uman-aka-u-23-convolution": {
+  "tempo": 154.64,
+  "bass_rel_db": 2.8,
+  "sub_pump": 3.28,
+  "low_pump": 1.83,
+  "low_return": 140.0,
+  "high_pump": 5.05,
+  "recovery_rise_ms": null
+ },
+ "547-sh-sh-zombie-mamba-x-filmy-ghost-bsod": {
+  "tempo": 113.97,
+  "bass_rel_db": -1.5,
+  "sub_pump": 4.64,
+  "low_pump": 4.79,
+  "low_return": 296.0,
+  "high_pump": 2.22,
+  "recovery_rise_ms": 172.0
+ },
+ "548-cortex-dieu-est-machine": {
+  "tempo": 162.49,
+  "bass_rel_db": 14.7,
+  "sub_pump": 3.14,
+  "low_pump": 1.82,
+  "low_return": 88.0,
+  "high_pump": 3.69,
+  "recovery_rise_ms": null
+ },
+ "549-yaka-anima-yaka-anima-dariusz-jackowski-the-auditor": {
+  "tempo": 153.58,
+  "bass_rel_db": 12.6,
+  "sub_pump": 2.46,
+  "low_pump": 3.48,
+  "low_return": 264.0,
+  "high_pump": 1.3,
+  "recovery_rise_ms": 36.0
+ },
+ "550-humanfobia-catalyst-a-i-g-d": {
+  "tempo": 118.94,
+  "bass_rel_db": -0.8,
+  "sub_pump": 3.08,
+  "low_pump": 4.29,
+  "low_return": 392.0,
+  "high_pump": 23.87,
+  "recovery_rise_ms": 28.0
+ },
+ "551-a-symbiotic-experience-anima-specimeno-a-symbiotic-experience-r": {
+  "tempo": 144.66,
+  "bass_rel_db": 36.6,
+  "sub_pump": 1.94,
+  "low_pump": 3.66,
+  "low_return": 152.0,
+  "high_pump": 1.05,
+  "recovery_rise_ms": 32.0
+ },
+ "552-audiorcist-allt-ger-vika": {
+  "tempo": 147.89,
+  "bass_rel_db": 6.7,
+  "sub_pump": 3.21,
+  "low_pump": 4.28,
+  "low_return": 152.0,
+  "high_pump": 1.93,
+  "recovery_rise_ms": 56.0
+ },
+ "553-autharktos-atrktiline-thuzzumulgu-autharktos-ollaol": {
+  "tempo": 148.86,
+  "bass_rel_db": 12.9,
+  "sub_pump": 2.04,
+  "low_pump": 3.0,
+  "low_return": 240.0,
+  "high_pump": 0.76,
+  "recovery_rise_ms": 76.0
+ },
+ "554-obscure-heaven-equilibrium": {
+  "tempo": 162.51,
+  "bass_rel_db": 34.7,
+  "sub_pump": 1.61,
+  "low_pump": 0.69,
+  "low_return": 132.0,
+  "high_pump": 0.85,
+  "recovery_rise_ms": null
+ },
+ "555-internet-daemon-netlabel-the-catabomb-videogame-abyss-armageddon-": {
+  "tempo": 131.13,
+  "bass_rel_db": 13.8,
+  "sub_pump": 1.54,
+  "low_pump": 2.56,
+  "low_return": 100.0,
+  "high_pump": 3.22,
+  "recovery_rise_ms": null
+ },
+ "556-m-m-02-r-p-siegfried-siegreic-er": {
+  "tempo": 172.78,
+  "bass_rel_db": 7.8,
+  "sub_pump": 2.9,
+  "low_pump": 2.01,
+  "low_return": 164.0,
+  "high_pump": 6.45,
+  "recovery_rise_ms": null
+ },
+ "557-eee-ville-betting-on-a-pale-horse": {
+  "tempo": 165.64,
+  "bass_rel_db": -3.3,
+  "sub_pump": 10.22,
+  "low_pump": 3.05,
+  "low_return": 252.0,
+  "high_pump": 8.44,
+  "recovery_rise_ms": 12.0
+ },
+ "558-3cloneb-admira": {
+  "tempo": 119.61,
+  "bass_rel_db": 0.6,
+  "sub_pump": 45.14,
+  "low_pump": 56.79,
+  "low_return": 416.0,
+  "high_pump": 58.17,
+  "recovery_rise_ms": 92.0
+ },
+ "559-a-r-n-1ka-eclipsis": {
+  "tempo": 176.4,
+  "bass_rel_db": 0.5,
+  "sub_pump": 1.69,
+  "low_pump": 1.32,
+  "low_return": 100.0,
+  "high_pump": 2.04,
+  "recovery_rise_ms": null
+ },
+ "560-julien-vouilloux-modular-r120-piriforme-1": {
+  "tempo": 134.64,
+  "bass_rel_db": -37.7,
+  "sub_pump": 6.2,
+  "low_pump": 5.73,
+  "low_return": 252.0,
+  "high_pump": 10.91,
+  "recovery_rise_ms": 68.0
+ },
+ "561-xidentbeatz-assault": {
+  "tempo": 111.74,
+  "bass_rel_db": 1.6,
+  "sub_pump": 6.67,
+  "low_pump": 3.52,
+  "low_return": 192.0,
+  "high_pump": 54.11,
+  "recovery_rise_ms": 48.0
+ },
+ "562-lost-in-transmission-desperate": {
+  "tempo": 119.74,
+  "bass_rel_db": -9.8,
+  "sub_pump": 16.07,
+  "low_pump": 3.66,
+  "low_return": 232.0,
+  "high_pump": 11.74,
+  "recovery_rise_ms": 220.0
+ },
+ "563-mmsneonchan-830": {
+  "tempo": 156.37,
+  "bass_rel_db": -1.5,
+  "sub_pump": 2.65,
+  "low_pump": 2.33,
+  "low_return": 296.0,
+  "high_pump": 0.72,
+  "recovery_rise_ms": null
+ },
+ "564-muza-production-escape": {
+  "tempo": 167.69,
+  "bass_rel_db": -3.2,
+  "sub_pump": 32.75,
+  "low_pump": 32.76,
+  "low_return": 132.0,
+  "high_pump": 41.75,
+  "recovery_rise_ms": 36.0
+ },
+ "565-starlust-amit-adok": {
+  "tempo": 175.64,
+  "bass_rel_db": -3.5,
+  "sub_pump": 1.78,
+  "low_pump": 2.03,
+  "low_return": 284.0,
+  "high_pump": 22.73,
+  "recovery_rise_ms": null
+ },
+ "566-kastropodux-apollo-crash": {
+  "tempo": 129.74,
+  "bass_rel_db": -7.2,
+  "sub_pump": 4.89,
+  "low_pump": 1.85,
+  "low_return": 352.0,
+  "high_pump": 22.39,
+  "recovery_rise_ms": null
+ },
+ "568-no-nitz-kyrie-eleison": {
+  "tempo": 120.33,
+  "bass_rel_db": 22.1,
+  "sub_pump": 2.68,
+  "low_pump": 2.61,
+  "low_return": 176.0,
+  "high_pump": 2.22,
+  "recovery_rise_ms": null
+ },
+ "567-douzirec-2022-tatenokai-remix-pt-1-flac": {
+  "tempo": 94.42,
+  "bass_rel_db": -6.5,
+  "sub_pump": 7.01,
+  "low_pump": 8.08,
+  "low_return": 184.0,
+  "high_pump": 3.4,
+  "recovery_rise_ms": 20.0
+ },
+ "569-fierce-deity-amp-abuse": {
+  "tempo": 150.93,
+  "bass_rel_db": 13.4,
+  "sub_pump": 1.76,
+  "low_pump": 2.37,
+  "low_return": 244.0,
+  "high_pump": 0.83,
+  "recovery_rise_ms": null
+ },
+ "570-thomas-park-01-storm-1": {
+  "tempo": 94.93,
+  "bass_rel_db": -13.5,
+  "sub_pump": 14.76,
+  "low_pump": 8.84,
+  "low_return": 332.0,
+  "high_pump": 5.1,
+  "recovery_rise_ms": 304.0
+ },
+ "571-x-njbhd4nybuu": {
+  "tempo": 172.81,
+  "bass_rel_db": -3.8,
+  "sub_pump": 9.94,
+  "low_pump": 16.92,
+  "low_return": 248.0,
+  "high_pump": 3.59,
+  "recovery_rise_ms": 48.0
+ },
+ "573-vakkhanaliya-dermatomycosis-in-my-consciousness": {
+  "tempo": 141.33,
+  "bass_rel_db": 1.9,
+  "sub_pump": 1.97,
+  "low_pump": 3.28,
+  "low_return": 260.0,
+  "high_pump": 2.58,
+  "recovery_rise_ms": 140.0
+ },
+ "572-autodestruction-failing-light": {
+  "tempo": 156.33,
+  "bass_rel_db": 34.1,
+  "sub_pump": 0.99,
+  "low_pump": 1.75,
+  "low_return": 268.0,
+  "high_pump": 0.7,
+  "recovery_rise_ms": null
+ },
+ "574-codeo96-code096-bigs": {
+  "tempo": 134.68,
+  "bass_rel_db": -4.2,
+  "sub_pump": 21.47,
+  "low_pump": 23.8,
+  "low_return": 176.0,
+  "high_pump": 23.68,
+  "recovery_rise_ms": 16.0
+ },
+ "575-randomvolt-der-innere-geist": {
+  "tempo": 123.71,
+  "bass_rel_db": -5.4,
+  "sub_pump": 3.83,
+  "low_pump": 3.31,
+  "low_return": 156.0,
+  "high_pump": 43.91,
+  "recovery_rise_ms": 228.0
+ },
+ "576-atef-ben-othman-akigahora": {
+  "tempo": 149.92,
+  "bass_rel_db": 8.8,
+  "sub_pump": 1.14,
+  "low_pump": 0.81,
+  "low_return": 256.0,
+  "high_pump": 4.73,
+  "recovery_rise_ms": null
+ },
+ "577-eroguro-yaka-anima-eroguro-mirai-wa-joseirash": {
+  "tempo": 157.54,
+  "bass_rel_db": 18.3,
+  "sub_pump": 2.53,
+  "low_pump": 0.91,
+  "low_return": 224.0,
+  "high_pump": 1.11,
+  "recovery_rise_ms": null
+ },
+ "578-altpod-all-night": {
+  "tempo": 102.8,
+  "bass_rel_db": 0.6,
+  "sub_pump": 15.09,
+  "low_pump": 15.76,
+  "low_return": 432.0,
+  "high_pump": 25.96,
+  "recovery_rise_ms": 32.0
+ },
+ "579-jon-gillespie-da-vinci": {
+  "tempo": 96.78,
+  "bass_rel_db": 4.8,
+  "sub_pump": 8.63,
+  "low_pump": 4.74,
+  "low_return": 140.0,
+  "high_pump": 30.5,
+  "recovery_rise_ms": 80.0
+ },
+ "580-x-x": {
+  "tempo": 141.88,
+  "bass_rel_db": -1.3,
+  "sub_pump": 2.07,
+  "low_pump": 1.28,
+  "low_return": 284.0,
+  "high_pump": 2.45,
+  "recovery_rise_ms": null
+ },
+ "581-svechanost-abandoned": {
+  "tempo": 149.66,
+  "bass_rel_db": -0.1,
+  "sub_pump": 1.95,
+  "low_pump": 2.8,
+  "low_return": 184.0,
+  "high_pump": 2.19,
+  "recovery_rise_ms": null
+ },
+ "582-alma-sebosa-d-o-m-alma-sebosa-cotidiano-amargo-e-cole-es-d": {
+  "tempo": 126.87,
+  "bass_rel_db": -8.1,
+  "sub_pump": 4.23,
+  "low_pump": 4.26,
+  "low_return": 284.0,
+  "high_pump": 3.18,
+  "recovery_rise_ms": 16.0
+ },
+ "583-asomatic-cosmic-glitch-for-a-newborn-baby": {
+  "tempo": 93.79,
+  "bass_rel_db": -7.4,
+  "sub_pump": 5.82,
+  "low_pump": 3.09,
+  "low_return": 116.0,
+  "high_pump": 17.46,
+  "recovery_rise_ms": 44.0
+ },
+ "584-fange-d-un-d-sarroi-l-autre": {
+  "tempo": 109.67,
+  "bass_rel_db": 4.7,
+  "sub_pump": 8.15,
+  "low_pump": 1.65,
+  "low_return": 188.0,
+  "high_pump": 3.99,
+  "recovery_rise_ms": null
+ },
+ "585-g-r-o-s-s-digital-white": {
+  "tempo": 110.17,
+  "bass_rel_db": -7.7,
+  "sub_pump": 2.77,
+  "low_pump": 4.39,
+  "low_return": 152.0,
+  "high_pump": 5.32,
+  "recovery_rise_ms": 152.0
+ },
+ "586-incentive-brainfog": {
+  "tempo": 104.79,
+  "bass_rel_db": 9.5,
+  "sub_pump": 8.38,
+  "low_pump": 3.62,
+  "low_return": 272.0,
+  "high_pump": 36.63,
+  "recovery_rise_ms": 44.0
+ },
+ "587-industrial-sound-machine-black-dog": {
+  "tempo": 100.83,
+  "bass_rel_db": 2.6,
+  "sub_pump": 15.06,
+  "low_pump": 15.65,
+  "low_return": 400.0,
+  "high_pump": 7.31,
+  "recovery_rise_ms": 260.0
+ },
+ "588-black-purification-necro-aesthetics-pt-1": {
+  "tempo": 136.92,
+  "bass_rel_db": 0.0,
+  "sub_pump": 2.15,
+  "low_pump": 2.31,
+  "low_return": 236.0,
+  "high_pump": 1.18,
+  "recovery_rise_ms": null
+ },
+ "589-daniel-giano-giano-be-quiet": {
+  "tempo": 139.41,
+  "bass_rel_db": 5.7,
+  "sub_pump": 22.27,
+  "low_pump": 9.21,
+  "low_return": 180.0,
+  "high_pump": 3.36,
+  "recovery_rise_ms": 44.0
+ },
+ "590-r-di-v-ln-erase": {
+  "tempo": 119.76,
+  "bass_rel_db": -9.9,
+  "sub_pump": 5.57,
+  "low_pump": 6.12,
+  "low_return": 220.0,
+  "high_pump": 7.05,
+  "recovery_rise_ms": 36.0
+ },
+ "591-the-red-wave-act-1": {
+  "tempo": 176.77,
+  "bass_rel_db": 1.5,
+  "sub_pump": 2.68,
+  "low_pump": 3.09,
+  "low_return": 148.0,
+  "high_pump": 1.45,
+  "recovery_rise_ms": 140.0
+ },
+ "592-frog-bitch-last-wave": {
+  "tempo": 149.72,
+  "bass_rel_db": -42.8,
+  "sub_pump": 19.82,
+  "low_pump": 27.53,
+  "low_return": 244.0,
+  "high_pump": 40.5,
+  "recovery_rise_ms": 36.0
+ },
+ "593-papaverhof-don-t-stop": {
+  "tempo": 121.59,
+  "bass_rel_db": -6.8,
+  "sub_pump": 19.2,
+  "low_pump": 14.25,
+  "low_return": 312.0,
+  "high_pump": 46.74,
+  "recovery_rise_ms": 136.0
+ },
+ "595-insatiable-void-guardians-of-the-outer-core": {
+  "tempo": 109.76,
+  "bass_rel_db": 0.4,
+  "sub_pump": 16.32,
+  "low_pump": 21.9,
+  "low_return": 280.0,
+  "high_pump": 12.75,
+  "recovery_rise_ms": 280.0
+ },
+ "594-nikproteus-deconstructed-body": {
+  "tempo": 119.73,
+  "bass_rel_db": -15.4,
+  "sub_pump": 5.21,
+  "low_pump": 6.98,
+  "low_return": 472.0,
+  "high_pump": 7.44,
+  "recovery_rise_ms": 16.0
+ },
+ "596-doppelganger-baba-yaga": {
+  "tempo": 149.63,
+  "bass_rel_db": 1.9,
+  "sub_pump": 0.79,
+  "low_pump": 1.69,
+  "low_return": 220.0,
+  "high_pump": 33.4,
+  "recovery_rise_ms": null
+ },
+ "597-subtopialimburg-08-12-2018-b": {
+  "tempo": 115.33,
+  "bass_rel_db": 0.7,
+  "sub_pump": 4.57,
+  "low_pump": 6.25,
+  "low_return": 204.0,
+  "high_pump": 8.97,
+  "recovery_rise_ms": 136.0
+ },
+ "598-dekonstruktor-eating-the-universe": {
+  "tempo": 155.37,
+  "bass_rel_db": 16.7,
+  "sub_pump": 1.05,
+  "low_pump": 1.67,
+  "low_return": 92.0,
+  "high_pump": 1.77,
+  "recovery_rise_ms": null
+ },
+ "599-coven-midnight": {
+  "tempo": 99.7,
+  "bass_rel_db": 6.7,
+  "sub_pump": 3.06,
+  "low_pump": 9.31,
+  "low_return": 548.0,
+  "high_pump": 11.02,
+  "recovery_rise_ms": 48.0
+ },
+ "600-spore-designers-bloodstream-of-jericho": {
+  "tempo": 136.51,
+  "bass_rel_db": 0.4,
+  "sub_pump": 2.18,
+  "low_pump": 2.11,
+  "low_return": 268.0,
+  "high_pump": 2.09,
+  "recovery_rise_ms": null
+ },
+ "601-yavor-parvanov-endless-circuit": {
+  "tempo": 129.73,
+  "bass_rel_db": -7.7,
+  "sub_pump": 9.17,
+  "low_pump": 9.62,
+  "low_return": 392.0,
+  "high_pump": 25.51,
+  "recovery_rise_ms": 248.0
+ },
+ "602-refugees-from-beyond-english-cream-around-the-floating-island": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "603-ravcan-psychogenic-pain-all-streams": {
+  "tempo": 153.61,
+  "bass_rel_db": 21.8,
+  "sub_pump": 4.1,
+  "low_pump": 5.0,
+  "low_return": 272.0,
+  "high_pump": 1.04,
+  "recovery_rise_ms": 32.0
+ },
+ "604-pharmacopia-phinnished": {
+  "tempo": 146.57,
+  "bass_rel_db": 17.9,
+  "sub_pump": 4.61,
+  "low_pump": 5.53,
+  "low_return": 312.0,
+  "high_pump": 0.57,
+  "recovery_rise_ms": 68.0
+ },
+ "605-mokkamusic-cyberpunk-dubstep": {
+  "tempo": 109.76,
+  "bass_rel_db": 0.3,
+  "sub_pump": 10.56,
+  "low_pump": 14.9,
+  "low_return": 276.0,
+  "high_pump": 7.17,
+  "recovery_rise_ms": 156.0
+ },
+ "606-aryan-golem-x": {
+  "tempo": 119.69,
+  "bass_rel_db": -3.1,
+  "sub_pump": 8.49,
+  "low_pump": 4.03,
+  "low_return": 440.0,
+  "high_pump": 25.69,
+  "recovery_rise_ms": 40.0
+ },
+ "607-ss-cosmic-church-of-the-god": {
+  "tempo": 146.52,
+  "bass_rel_db": 13.1,
+  "sub_pump": 3.66,
+  "low_pump": 2.7,
+  "low_return": 120.0,
+  "high_pump": 1.91,
+  "recovery_rise_ms": null
+ },
+ "609-rauppwar-insanity-is-relative-remix": {
+  "tempo": 139.74,
+  "bass_rel_db": -3.6,
+  "sub_pump": 7.05,
+  "low_pump": 5.46,
+  "low_return": 264.0,
+  "high_pump": 2.16,
+  "recovery_rise_ms": 140.0
+ },
+ "610-imperial-needles-fins-and-wings": {
+  "tempo": 114.22,
+  "bass_rel_db": 14.7,
+  "sub_pump": 3.3,
+  "low_pump": 2.48,
+  "low_return": 180.0,
+  "high_pump": 5.03,
+  "recovery_rise_ms": null
+ },
+ "611-white-rabbit-project-apocalyptic-clash": {
+  "tempo": 92.07,
+  "bass_rel_db": -1.5,
+  "sub_pump": 4.69,
+  "low_pump": 4.01,
+  "low_return": 172.0,
+  "high_pump": 6.24,
+  "recovery_rise_ms": 184.0
+ },
+ "612-s-raphit-s-s-raph-ta-enh-part-i": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "613-thirst-for-consumption-x": {
+  "tempo": 150.52,
+  "bass_rel_db": 25.2,
+  "sub_pump": 3.49,
+  "low_pump": 4.1,
+  "low_return": 124.0,
+  "high_pump": 1.68,
+  "recovery_rise_ms": 124.0
+ },
+ "614-tugosral-sandakov-tugodakov-1": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "615-cb2ooo-all-blackx": {
+  "tempo": 159.64,
+  "bass_rel_db": -5.7,
+  "sub_pump": 7.74,
+  "low_pump": 19.97,
+  "low_return": 176.0,
+  "high_pump": 20.31,
+  "recovery_rise_ms": 72.0
+ },
+ "616-yoshiwaku-chasing-a-rainbow-part-1": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "618-dreaming-in-spanda-agony-of-angels": {
+  "tempo": 119.7,
+  "bass_rel_db": -17.9,
+  "sub_pump": 11.56,
+  "low_pump": 9.9,
+  "low_return": 404.0,
+  "high_pump": 10.22,
+  "recovery_rise_ms": 164.0
+ },
+ "619-filmy-ghost-sticky-monsters": {
+  "tempo": 128.01,
+  "bass_rel_db": 12.3,
+  "sub_pump": 2.29,
+  "low_pump": 2.7,
+  "low_return": 136.0,
+  "high_pump": 19.24,
+  "recovery_rise_ms": null
+ },
+ "620-suzana-s-bauten-suzana-s-bauten-a-supernova": {
+  "tempo": 141.58,
+  "bass_rel_db": -4.3,
+  "sub_pump": 2.6,
+  "low_pump": 2.45,
+  "low_return": 232.0,
+  "high_pump": 1.83,
+  "recovery_rise_ms": null
+ },
+ "622-section-27-halibut-of-my-dream-part-i": {
+  "tempo": 174.24,
+  "bass_rel_db": -1.9,
+  "sub_pump": 4.51,
+  "low_pump": 4.75,
+  "low_return": 184.0,
+  "high_pump": 5.57,
+  "recovery_rise_ms": 24.0
+ },
+ "621-daniel-james-mcbride-interuption-done": {
+  "tempo": 149.65,
+  "bass_rel_db": -4.2,
+  "sub_pump": 1.64,
+  "low_pump": 1.95,
+  "low_return": 228.0,
+  "high_pump": 17.86,
+  "recovery_rise_ms": null
+ },
+ "623-unit-moebius-bombe-mit-bombe": {
+  "tempo": 147.46,
+  "bass_rel_db": -0.3,
+  "sub_pump": 2.2,
+  "low_pump": 2.73,
+  "low_return": 228.0,
+  "high_pump": 4.12,
+  "recovery_rise_ms": null
+ },
+ "624-e-g-dodo-tape-1": {
+  "tempo": 139.7,
+  "bass_rel_db": 3.2,
+  "sub_pump": 6.82,
+  "low_pump": 5.33,
+  "low_return": 220.0,
+  "high_pump": 2.99,
+  "recovery_rise_ms": 52.0
+ },
+ "625-user12132546540-grand-hotel": {
+  "tempo": 149.72,
+  "bass_rel_db": -45.7,
+  "sub_pump": 7.24,
+  "low_pump": 11.28,
+  "low_return": 272.0,
+  "high_pump": 29.73,
+  "recovery_rise_ms": 44.0
+ },
+ "626-alien-wars-alien-wars": {
+  "tempo": 116.77,
+  "bass_rel_db": -16.8,
+  "sub_pump": 5.87,
+  "low_pump": 9.43,
+  "low_return": 208.0,
+  "high_pump": 25.69,
+  "recovery_rise_ms": 68.0
+ },
+ "627-user78863085453-hnw": {
+  "tempo": 147.38,
+  "bass_rel_db": -2.5,
+  "sub_pump": 8.33,
+  "low_pump": 4.07,
+  "low_return": 344.0,
+  "high_pump": 4.62,
+  "recovery_rise_ms": 12.0
+ },
+ "628-zark-18-1": {
+  "tempo": 142.46,
+  "bass_rel_db": -9.4,
+  "sub_pump": 13.23,
+  "low_pump": 7.05,
+  "low_return": 224.0,
+  "high_pump": 45.89,
+  "recovery_rise_ms": 84.0
+ },
+ "629-user95003500040-untitled-8-1": {
+  "tempo": 149.7,
+  "bass_rel_db": -12.1,
+  "sub_pump": 21.06,
+  "low_pump": 16.74,
+  "low_return": 360.0,
+  "high_pump": 42.55,
+  "recovery_rise_ms": 40.0
+ },
+ "630-user29834755543-desert-force": {
+  "tempo": 129.84,
+  "bass_rel_db": -12.9,
+  "sub_pump": 16.29,
+  "low_pump": 15.87,
+  "low_return": 328.0,
+  "high_pump": 18.13,
+  "recovery_rise_ms": 128.0
+ },
+ "631-user-records-user026-01-user33885745203-untitled-8-1-": {
+  "tempo": 149.7,
+  "bass_rel_db": -12.1,
+  "sub_pump": 21.06,
+  "low_pump": 16.75,
+  "low_return": 360.0,
+  "high_pump": 42.53,
+  "recovery_rise_ms": 40.0
+ },
+ "632-p-b-r-acid-data": {
+  "tempo": 149.66,
+  "bass_rel_db": -45.9,
+  "sub_pump": 6.7,
+  "low_pump": 7.36,
+  "low_return": 332.0,
+  "high_pump": 33.95,
+  "recovery_rise_ms": 24.0
+ },
+ "633-ru-dead-42-acid-zweifel": {
+  "tempo": 119.7,
+  "bass_rel_db": -10.3,
+  "sub_pump": 34.48,
+  "low_pump": 41.6,
+  "low_return": 468.0,
+  "high_pump": 56.73,
+  "recovery_rise_ms": 116.0
+ },
+ "634-hexagon-industries-die-matrix": {
+  "tempo": 159.57,
+  "bass_rel_db": -19.4,
+  "sub_pump": 4.02,
+  "low_pump": 3.72,
+  "low_return": 296.0,
+  "high_pump": 20.49,
+  "recovery_rise_ms": 60.0
+ },
+ "635-dan-mind-klirrfaktor": {
+  "tempo": 142.8,
+  "bass_rel_db": 3.0,
+  "sub_pump": 43.56,
+  "low_pump": 36.44,
+  "low_return": 176.0,
+  "high_pump": 10.99,
+  "recovery_rise_ms": 60.0
+ },
+ "636-radio-parasite-clockworks-146-ready2": {
+  "tempo": 145.63,
+  "bass_rel_db": -5.8,
+  "sub_pump": 14.48,
+  "low_pump": 10.96,
+  "low_return": 244.0,
+  "high_pump": 4.66,
+  "recovery_rise_ms": 128.0
+ },
+ "638-project-form-x": {
+  "tempo": 151.99,
+  "bass_rel_db": -5.7,
+  "sub_pump": 2.63,
+  "low_pump": 1.55,
+  "low_return": 208.0,
+  "high_pump": 1.56,
+  "recovery_rise_ms": null
+ },
+ "637-x-x": {
+  "tempo": 154.67,
+  "bass_rel_db": 0.3,
+  "sub_pump": 2.57,
+  "low_pump": 1.28,
+  "low_return": 120.0,
+  "high_pump": 0.73,
+  "recovery_rise_ms": null
+ },
+ "639-sea-of-poppies-untitled": {
+  "tempo": 165.79,
+  "bass_rel_db": -6.3,
+  "sub_pump": 1.96,
+  "low_pump": 1.86,
+  "low_return": 164.0,
+  "high_pump": 0.67,
+  "recovery_rise_ms": null
+ },
+ "640-hippie-karmas-devastating-sounds": {
+  "tempo": 159.64,
+  "bass_rel_db": -5.0,
+  "sub_pump": 5.38,
+  "low_pump": 5.19,
+  "low_return": 188.0,
+  "high_pump": 11.26,
+  "recovery_rise_ms": 40.0
+ },
+ "642-niels-moleveld-skeve-nelis-kk-dronken-ouwe": {
+  "tempo": 97.26,
+  "bass_rel_db": -2.1,
+  "sub_pump": 42.6,
+  "low_pump": 41.73,
+  "low_return": 248.0,
+  "high_pump": 27.61,
+  "recovery_rise_ms": 80.0
+ },
+ "641-desolated-obsession-structure-apart": {
+  "tempo": 153.27,
+  "bass_rel_db": -3.3,
+  "sub_pump": 1.2,
+  "low_pump": 2.23,
+  "low_return": 204.0,
+  "high_pump": 0.88,
+  "recovery_rise_ms": null
+ },
+ "643-dominatrexxx-mental-fracktal": {
+  "tempo": 89.94,
+  "bass_rel_db": -14.3,
+  "sub_pump": 14.24,
+  "low_pump": 32.72,
+  "low_return": 584.0,
+  "high_pump": 18.06,
+  "recovery_rise_ms": 372.0
+ },
+ "644-celotrox-and-der-d-nk-r-celotrox-vampirf-rst": {
+  "tempo": 99.74,
+  "bass_rel_db": -2.9,
+  "sub_pump": 2.77,
+  "low_pump": 2.68,
+  "low_return": 180.0,
+  "high_pump": 14.21,
+  "recovery_rise_ms": null
+ },
+ "645-aura-en-el-espejo-aura-en-el-espejo-evelyn-bersa-n-campos-": {
+  "tempo": 161.52,
+  "bass_rel_db": -4.3,
+  "sub_pump": 8.41,
+  "low_pump": 4.66,
+  "low_return": 228.0,
+  "high_pump": 5.73,
+  "recovery_rise_ms": 80.0
+ },
+ "646-anastasia-vronski-incantation": {
+  "tempo": 150.18,
+  "bass_rel_db": -12.8,
+  "sub_pump": 3.73,
+  "low_pump": 3.23,
+  "low_return": 152.0,
+  "high_pump": 1.42,
+  "recovery_rise_ms": 20.0
+ },
+ "647-general-harm-general-harm-horseamp1": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "649-venus-vulture-insanity-is-relative-asylum-remix": {
+  "tempo": 145.25,
+  "bass_rel_db": 37.6,
+  "sub_pump": 2.02,
+  "low_pump": 1.31,
+  "low_return": 112.0,
+  "high_pump": 0.98,
+  "recovery_rise_ms": null
+ },
+ "648-wilfried-hanrath-deep-into-the-northwest-forest-rework": {
+  "tempo": 164.02,
+  "bass_rel_db": -0.8,
+  "sub_pump": 2.56,
+  "low_pump": 1.86,
+  "low_return": 116.0,
+  "high_pump": 1.03,
+  "recovery_rise_ms": null
+ },
+ "650-brokenchelust-e-q-1": {
+  "tempo": 155.0,
+  "bass_rel_db": -25.8,
+  "sub_pump": 2.61,
+  "low_pump": 2.88,
+  "low_return": 152.0,
+  "high_pump": 2.06,
+  "recovery_rise_ms": null
+ },
+ "651-spurr-interzona-gabriel-pereira-spurr-animeles-solares-1": {
+  "tempo": 148.41,
+  "bass_rel_db": 43.4,
+  "sub_pump": 1.65,
+  "low_pump": 1.39,
+  "low_return": 128.0,
+  "high_pump": 0.95,
+  "recovery_rise_ms": null
+ },
+ "654-isabel-nogueira-medula-beauty-doesn-t-solve-anybody-s-problems": {
+  "tempo": 165.22,
+  "bass_rel_db": 4.5,
+  "sub_pump": 2.22,
+  "low_pump": 1.55,
+  "low_return": 248.0,
+  "high_pump": 1.22,
+  "recovery_rise_ms": null
+ },
+ "652-grust-x": {
+  "tempo": 169.17,
+  "bass_rel_db": -9.6,
+  "sub_pump": 3.38,
+  "low_pump": 5.07,
+  "low_return": 112.0,
+  "high_pump": 1.95,
+  "recovery_rise_ms": 104.0
+ },
+ "653-tomorrow-sounds-i-know-everything": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "655-dj-frankenstone-track20201226095447807182-22": {
+  "tempo": 149.74,
+  "bass_rel_db": 28.9,
+  "sub_pump": 2.85,
+  "low_pump": 2.28,
+  "low_return": 96.0,
+  "high_pump": 2.05,
+  "recovery_rise_ms": null
+ },
+ "656-hvirfilvindur-bones-on-the-grass": {
+  "tempo": 151.18,
+  "bass_rel_db": -3.6,
+  "sub_pump": 2.72,
+  "low_pump": 1.94,
+  "low_return": 284.0,
+  "high_pump": 0.68,
+  "recovery_rise_ms": null
+ },
+ "657-x-017": {
+  "tempo": 139.67,
+  "bass_rel_db": 34.7,
+  "sub_pump": 4.33,
+  "low_pump": 1.8,
+  "low_return": 180.0,
+  "high_pump": 1.27,
+  "recovery_rise_ms": null
+ },
+ "658-x-x": {
+  "tempo": 160.67,
+  "bass_rel_db": -0.1,
+  "sub_pump": 2.48,
+  "low_pump": 2.39,
+  "low_return": 116.0,
+  "high_pump": 0.6,
+  "recovery_rise_ms": null
+ },
+ "659-hr0n3-hex-on": {
+  "tempo": 147.81,
+  "bass_rel_db": -1.9,
+  "sub_pump": 2.38,
+  "low_pump": 0.86,
+  "low_return": 152.0,
+  "high_pump": 2.56,
+  "recovery_rise_ms": null
+ },
+ "660-jan-van-wissen-toiletpot": {
+  "tempo": 126.59,
+  "bass_rel_db": -20.9,
+  "sub_pump": 4.8,
+  "low_pump": 4.68,
+  "low_return": 228.0,
+  "high_pump": 2.25,
+  "recovery_rise_ms": 48.0
+ },
+ "661-smedley-butler-04-chapter-4-how-to-smash-this-racket": {
+  "tempo": 135.04,
+  "bass_rel_db": -0.0,
+  "sub_pump": 2.59,
+  "low_pump": 4.01,
+  "low_return": 168.0,
+  "high_pump": 1.06,
+  "recovery_rise_ms": 132.0
+ },
+ "662-nihil-gun-d-o-m-orgulho-seboso-aberra-o-barulho-na-cidade-esquecida-iii": {
+  "tempo": 163.89,
+  "bass_rel_db": -11.2,
+  "sub_pump": 1.93,
+  "low_pump": 2.23,
+  "low_return": 104.0,
+  "high_pump": 1.19,
+  "recovery_rise_ms": null
+ },
+ "663-house-squatt-let-me-be-your-dog-indsutrialfunktechno": {
+  "tempo": 129.32,
+  "bass_rel_db": -32.3,
+  "sub_pump": 5.26,
+  "low_pump": 5.17,
+  "low_return": 292.0,
+  "high_pump": 7.54,
+  "recovery_rise_ms": 164.0
+ },
+ "664-hueco-negro-comeciervos": {
+  "tempo": 149.2,
+  "bass_rel_db": 43.0,
+  "sub_pump": 0.49,
+  "low_pump": 1.63,
+  "low_return": 160.0,
+  "high_pump": 1.53,
+  "recovery_rise_ms": null
+ },
+ "665-ixzo-eft-013-track08-m": {
+  "tempo": 119.73,
+  "bass_rel_db": -17.7,
+  "sub_pump": 8.05,
+  "low_pump": 12.8,
+  "low_return": 344.0,
+  "high_pump": 19.44,
+  "recovery_rise_ms": 124.0
+ },
+ "667-user08945538961-active": {
+  "tempo": 120.7,
+  "bass_rel_db": -10.3,
+  "sub_pump": 7.26,
+  "low_pump": 8.63,
+  "low_return": 324.0,
+  "high_pump": 54.04,
+  "recovery_rise_ms": 88.0
+ },
+ "666-ausgang-v-newport": {
+  "tempo": 121.73,
+  "bass_rel_db": -5.8,
+  "sub_pump": 41.63,
+  "low_pump": 43.33,
+  "low_return": 356.0,
+  "high_pump": 51.02,
+  "recovery_rise_ms": 44.0
+ },
+ "668-zetterstroem-biophilia-zetterstroem-remix": {
+  "tempo": 100.59,
+  "bass_rel_db": 0.9,
+  "sub_pump": 5.66,
+  "low_pump": 2.94,
+  "low_return": 152.0,
+  "high_pump": 32.63,
+  "recovery_rise_ms": null
+ },
+ "671-sal-mentale-we-bring-the-world-new-order": {
+  "tempo": 93.05,
+  "bass_rel_db": -6.7,
+  "sub_pump": 4.13,
+  "low_pump": 4.68,
+  "low_return": 516.0,
+  "high_pump": 31.89,
+  "recovery_rise_ms": 44.0
+ },
+ "669-user14533637474-earth-view": {
+  "tempo": 137.72,
+  "bass_rel_db": 3.4,
+  "sub_pump": 8.57,
+  "low_pump": 6.73,
+  "low_return": 304.0,
+  "high_pump": 18.53,
+  "recovery_rise_ms": 120.0
+ },
+ "670-shitcluster-b2-untitled": {
+  "tempo": 125.59,
+  "bass_rel_db": 0.1,
+  "sub_pump": 11.55,
+  "low_pump": 22.38,
+  "low_return": 148.0,
+  "high_pump": 28.22,
+  "recovery_rise_ms": 312.0
+ },
+ "672-technobotts-solism": {
+  "tempo": 139.68,
+  "bass_rel_db": -5.1,
+  "sub_pump": 16.14,
+  "low_pump": 3.43,
+  "low_return": 108.0,
+  "high_pump": 33.6,
+  "recovery_rise_ms": 176.0
+ },
+ "674-p-t-b-s-sascha-m-ller-mentally-glitch": {
+  "tempo": 139.59,
+  "bass_rel_db": -27.3,
+  "sub_pump": 9.28,
+  "low_pump": 15.95,
+  "low_return": 360.0,
+  "high_pump": 45.63,
+  "recovery_rise_ms": 92.0
+ },
+ "673-valovoima-x": {
+  "tempo": 89.81,
+  "bass_rel_db": -3.3,
+  "sub_pump": 10.56,
+  "low_pump": 4.56,
+  "low_return": 328.0,
+  "high_pump": 22.41,
+  "recovery_rise_ms": 68.0
+ },
+ "675-periodo-particular-periodo-particular-soiuncerdo": {
+  "tempo": 123.73,
+  "bass_rel_db": -10.5,
+  "sub_pump": 7.38,
+  "low_pump": 4.53,
+  "low_return": 208.0,
+  "high_pump": 59.82,
+  "recovery_rise_ms": 52.0
+ },
+ "676-halted-instant-halted-instant-soiuncerdo": {
+  "tempo": 129.73,
+  "bass_rel_db": 0.7,
+  "sub_pump": 1.56,
+  "low_pump": 2.42,
+  "low_return": 96.0,
+  "high_pump": 60.45,
+  "recovery_rise_ms": null
+ },
+ "677-user75487548548-schnittmenge": {
+  "tempo": 129.68,
+  "bass_rel_db": -17.4,
+  "sub_pump": 11.56,
+  "low_pump": 24.26,
+  "low_return": 392.0,
+  "high_pump": 52.88,
+  "recovery_rise_ms": 152.0
+ },
+ "678-p-t-b-s-and-hammed-maliq-sascha-m-ller-borrooo-sascha-m-ller-acid-bro-remix": {
+  "tempo": 123.79,
+  "bass_rel_db": 7.5,
+  "sub_pump": 24.0,
+  "low_pump": 17.21,
+  "low_return": 112.0,
+  "high_pump": 29.92,
+  "recovery_rise_ms": 24.0
+ },
+ "679-datacore-productionz-meets-the-808-hillb-sickening-pleasure": {
+  "tempo": 163.11,
+  "bass_rel_db": -24.3,
+  "sub_pump": 2.05,
+  "low_pump": 4.18,
+  "low_return": 132.0,
+  "high_pump": 3.37,
+  "recovery_rise_ms": 16.0
+ },
+ "680-nada-1ka-krashausbass": {
+  "tempo": 99.61,
+  "bass_rel_db": -0.5,
+  "sub_pump": 0.89,
+  "low_pump": 1.12,
+  "low_return": 284.0,
+  "high_pump": 12.09,
+  "recovery_rise_ms": null
+ },
+ "681-6xamax9-1ka-planitia10": {
+  "tempo": 111.0,
+  "bass_rel_db": 10.6,
+  "sub_pump": 1.81,
+  "low_pump": 2.46,
+  "low_return": 160.0,
+  "high_pump": 2.71,
+  "recovery_rise_ms": null
+ },
+ "682-6xamax9-1ka-planitia9": {
+  "tempo": 139.65,
+  "bass_rel_db": 6.6,
+  "sub_pump": 9.36,
+  "low_pump": 4.95,
+  "low_return": 252.0,
+  "high_pump": 2.52,
+  "recovery_rise_ms": 32.0
+ },
+ "683-mika-l-parantho-n-m-tal-jeu-de-sport-pour-console": {
+  "tempo": 155.62,
+  "bass_rel_db": -8.4,
+  "sub_pump": 4.4,
+  "low_pump": 4.04,
+  "low_return": 140.0,
+  "high_pump": 7.74,
+  "recovery_rise_ms": 28.0
+ },
+ "684-rabbit-one-sunday-morning": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "685-guillermo-flores-electric-desert": {
+  "tempo": 123.67,
+  "bass_rel_db": -3.1,
+  "sub_pump": 3.77,
+  "low_pump": 4.54,
+  "low_return": 284.0,
+  "high_pump": 0.9,
+  "recovery_rise_ms": 52.0
+ },
+ "686-electro-dries-luigi-took-the-cocktails-from-the-counte": {
+  "tempo": 119.68,
+  "bass_rel_db": 6.4,
+  "sub_pump": 18.84,
+  "low_pump": 17.27,
+  "low_return": 172.0,
+  "high_pump": 14.32,
+  "recovery_rise_ms": 72.0
+ },
+ "687-zetez-happy-day": {
+  "tempo": 99.69,
+  "bass_rel_db": 8.9,
+  "sub_pump": 8.76,
+  "low_pump": 5.89,
+  "low_return": 276.0,
+  "high_pump": 7.43,
+  "recovery_rise_ms": 288.0
+ },
+ "688-broken-tape-orchestra-4-2-loop-remix": {
+  "tempo": 157.89,
+  "bass_rel_db": 0.2,
+  "sub_pump": 2.13,
+  "low_pump": 2.32,
+  "low_return": 148.0,
+  "high_pump": 1.48,
+  "recovery_rise_ms": null
+ },
+ "689-xen-hatlock-a-trip-down-the-dark-void": {
+  "tempo": 101.05,
+  "bass_rel_db": -3.3,
+  "sub_pump": 9.68,
+  "low_pump": 9.34,
+  "low_return": 296.0,
+  "high_pump": 11.1,
+  "recovery_rise_ms": 360.0
+ },
+ "690-yukinaomi404-toxic-alarm": {
+  "tempo": 109.6,
+  "bass_rel_db": 11.3,
+  "sub_pump": 6.81,
+  "low_pump": 5.39,
+  "low_return": 272.0,
+  "high_pump": 9.45,
+  "recovery_rise_ms": 124.0
+ },
+ "691-semmath-in-space-a-mothership-lies-wounded": {
+  "tempo": 134.03,
+  "bass_rel_db": 5.4,
+  "sub_pump": 3.23,
+  "low_pump": 2.42,
+  "low_return": 128.0,
+  "high_pump": 1.94,
+  "recovery_rise_ms": null
+ },
+ "692-diaspora-psichica-hysteresis-human-mind": {
+  "tempo": 158.7,
+  "bass_rel_db": 18.0,
+  "sub_pump": 3.82,
+  "low_pump": 1.87,
+  "low_return": 128.0,
+  "high_pump": 0.97,
+  "recovery_rise_ms": null
+ },
+ "693-confield-vex-l": {
+  "tempo": 100.13,
+  "bass_rel_db": 6.4,
+  "sub_pump": 2.02,
+  "low_pump": 5.09,
+  "low_return": 120.0,
+  "high_pump": 10.84,
+  "recovery_rise_ms": 40.0
+ },
+ "694-tuonela-your-credit-and-inclusions-will-expire": {
+  "tempo": 168.54,
+  "bass_rel_db": -4.4,
+  "sub_pump": 3.31,
+  "low_pump": 4.18,
+  "low_return": 312.0,
+  "high_pump": 2.34,
+  "recovery_rise_ms": 16.0
+ },
+ "695-the-billows-burn-bright-gradiency": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "696-insufficient-technology-cleaning-the-kitchen-tiles": {
+  "tempo": 119.72,
+  "bass_rel_db": -3.1,
+  "sub_pump": 4.43,
+  "low_pump": 2.51,
+  "low_return": 308.0,
+  "high_pump": 17.77,
+  "recovery_rise_ms": null
+ },
+ "697-i-nexus-jerusalem-1-0": {
+  "tempo": 134.68,
+  "bass_rel_db": -3.7,
+  "sub_pump": 10.71,
+  "low_pump": 10.48,
+  "low_return": 248.0,
+  "high_pump": 27.63,
+  "recovery_rise_ms": 40.0
+ },
+ "699-caffeine-mit-cocaine-blasphemy": {
+  "tempo": 105.77,
+  "bass_rel_db": -2.6,
+  "sub_pump": 14.87,
+  "low_pump": 25.58,
+  "low_return": 252.0,
+  "high_pump": 17.71,
+  "recovery_rise_ms": 16.0
+ },
+ "698-jenny-jumble-i-hate-to-sleep": {
+  "tempo": 119.73,
+  "bass_rel_db": -2.5,
+  "sub_pump": 8.34,
+  "low_pump": 12.33,
+  "low_return": 144.0,
+  "high_pump": 36.86,
+  "recovery_rise_ms": 148.0
+ },
+ "700-cb64-momentum": {
+  "tempo": 129.73,
+  "bass_rel_db": -5.5,
+  "sub_pump": 21.37,
+  "low_pump": 21.35,
+  "low_return": 344.0,
+  "high_pump": 51.67,
+  "recovery_rise_ms": 100.0
+ },
+ "702-charles-dickens-01-lo-necesario": {
+  "tempo": 153.34,
+  "bass_rel_db": -10.0,
+  "sub_pump": 1.76,
+  "low_pump": 2.85,
+  "low_return": 216.0,
+  "high_pump": 1.16,
+  "recovery_rise_ms": null
+ },
+ "701-black-sheep-dark-electro-13-shadows": {
+  "tempo": 119.67,
+  "bass_rel_db": -1.6,
+  "sub_pump": 9.03,
+  "low_pump": 11.23,
+  "low_return": 360.0,
+  "high_pump": 40.16,
+  "recovery_rise_ms": 144.0
+ },
+ "703-g4v0-jalog-in-bit": {
+  "tempo": 116.42,
+  "bass_rel_db": 5.7,
+  "sub_pump": 4.43,
+  "low_pump": 3.86,
+  "low_return": 212.0,
+  "high_pump": 4.56,
+  "recovery_rise_ms": 224.0
+ },
+ "704-prius-prius": {
+  "tempo": 139.65,
+  "bass_rel_db": -3.6,
+  "sub_pump": 17.02,
+  "low_pump": 6.78,
+  "low_return": 308.0,
+  "high_pump": 30.3,
+  "recovery_rise_ms": 24.0
+ },
+ "706-mo2-la-t-te-dans-le-caisson-basse-by-mo2": {
+  "tempo": 159.65,
+  "bass_rel_db": -4.0,
+  "sub_pump": 5.56,
+  "low_pump": 3.81,
+  "low_return": 200.0,
+  "high_pump": 35.2,
+  "recovery_rise_ms": 24.0
+ },
+ "707-unios-bgm": {
+  "tempo": 129.82,
+  "bass_rel_db": -35.8,
+  "sub_pump": 5.46,
+  "low_pump": 7.57,
+  "low_return": 308.0,
+  "high_pump": 7.62,
+  "recovery_rise_ms": 56.0
+ },
+ "705-la-escotilla-escjuantxo": {
+  "tempo": 175.2,
+  "bass_rel_db": -20.9,
+  "sub_pump": 2.63,
+  "low_pump": 2.05,
+  "low_return": 260.0,
+  "high_pump": 1.28,
+  "recovery_rise_ms": null
+ },
+ "708-dom-sith-crushing-constricting": {
+  "tempo": 159.66,
+  "bass_rel_db": 4.0,
+  "sub_pump": 0.21,
+  "low_pump": 7.11,
+  "low_return": 292.0,
+  "high_pump": 1.55,
+  "recovery_rise_ms": 132.0
+ },
+ "709-x-2018-03-09-wellbeing": {
+  "tempo": 179.56,
+  "bass_rel_db": 23.6,
+  "sub_pump": 2.23,
+  "low_pump": 2.36,
+  "low_return": 160.0,
+  "high_pump": 4.54,
+  "recovery_rise_ms": null
+ },
+ "710-dimitris-sidiropoulos-dimsidi-the-parting-song": {
+  "tempo": 99.78,
+  "bass_rel_db": -24.5,
+  "sub_pump": 5.43,
+  "low_pump": 4.74,
+  "low_return": 428.0,
+  "high_pump": 39.87,
+  "recovery_rise_ms": 24.0
+ },
+ "711-sam-leopard-welcome-on-earth-hard-to-be-born-in-the-": {
+  "tempo": 119.72,
+  "bass_rel_db": -4.7,
+  "sub_pump": 28.43,
+  "low_pump": 33.69,
+  "low_return": 384.0,
+  "high_pump": 30.26,
+  "recovery_rise_ms": 56.0
+ },
+ "712-mer10-op-10-nr-2-acid-blob-2": {
+  "tempo": 139.68,
+  "bass_rel_db": -57.5,
+  "sub_pump": 3.91,
+  "low_pump": 4.16,
+  "low_return": 240.0,
+  "high_pump": 5.81,
+  "recovery_rise_ms": 20.0
+ },
+ "713-lord-daelith-reworked": {
+  "tempo": 129.83,
+  "bass_rel_db": -5.2,
+  "sub_pump": 5.12,
+  "low_pump": 2.1,
+  "low_return": 300.0,
+  "high_pump": 16.59,
+  "recovery_rise_ms": null
+ },
+ "714-x-x": {
+  "tempo": 150.39,
+  "bass_rel_db": -4.8,
+  "sub_pump": 2.39,
+  "low_pump": 2.43,
+  "low_return": 128.0,
+  "high_pump": 0.5,
+  "recovery_rise_ms": null
+ },
+ "715-radio-end-introspection-prologue-aka-do-you-feel-t": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "716-defcronyke-realiti": {
+  "tempo": 114.67,
+  "bass_rel_db": 5.8,
+  "sub_pump": 4.03,
+  "low_pump": 5.74,
+  "low_return": 196.0,
+  "high_pump": 2.77,
+  "recovery_rise_ms": 68.0
+ },
+ "717-skeve-nelis-pattypattypatty": {
+  "tempo": 100.12,
+  "bass_rel_db": -2.5,
+  "sub_pump": 12.48,
+  "low_pump": 4.13,
+  "low_return": 420.0,
+  "high_pump": 11.28,
+  "recovery_rise_ms": 112.0
+ },
+ "718-reinier-zonneveld-pet-van-ket-skeve-nelis-remix": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "719-art-imitati-n-superheavy": {
+  "tempo": 159.62,
+  "bass_rel_db": -0.5,
+  "sub_pump": 2.41,
+  "low_pump": 3.35,
+  "low_return": 92.0,
+  "high_pump": 2.97,
+  "recovery_rise_ms": 56.0
+ },
+ "720-badrich-steyr-pflager-katsumata": {
+  "tempo": 157.34,
+  "bass_rel_db": 4.7,
+  "sub_pump": 4.83,
+  "low_pump": 1.44,
+  "low_return": 92.0,
+  "high_pump": 4.54,
+  "recovery_rise_ms": null
+ },
+ "721-bandhu-moon-rocks": {
+  "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+ },
+ "722-evis-may-alive-for-now": {
+  "tempo": 174.39,
+  "bass_rel_db": -6.1,
+  "sub_pump": 7.53,
+  "low_pump": 9.26,
+  "low_return": 152.0,
+  "high_pump": 11.58,
+  "recovery_rise_ms": 64.0
+ },
+ "723-jaise-a-i-returns-empty-handed": {
+  "tempo": 173.96,
+  "bass_rel_db": 9.3,
+  "sub_pump": 0.6,
+  "low_pump": 3.18,
+  "low_return": 92.0,
+  "high_pump": 2.34,
+  "recovery_rise_ms": 76.0
+ },
+ "724-lightning-tree-the-sword-that-waits": {
+  "tempo": 106.9,
+  "bass_rel_db": 10.6,
+  "sub_pump": 2.27,
+  "low_pump": 3.21,
+  "low_return": 172.0,
+  "high_pump": 8.32,
+  "recovery_rise_ms": 196.0
+ },
+ "725-o-c-o-s-i-161": {
+  "tempo": 164.58,
+  "bass_rel_db": 5.9,
+  "sub_pump": 1.57,
+  "low_pump": 1.56,
+  "low_return": 256.0,
+  "high_pump": 1.46,
+  "recovery_rise_ms": null
+ },
+ "726-prtcl-xenon-neukoelln-taxi": {
+  "tempo": 173.6,
+  "bass_rel_db": -7.2,
+  "sub_pump": 16.17,
+  "low_pump": 11.17,
+  "low_return": 168.0,
+  "high_pump": 15.02,
+  "recovery_rise_ms": 36.0
+ },
+ "727-quoit-the-crinkler": {
+  "tempo": 175.6,
+  "bass_rel_db": 4.6,
+  "sub_pump": 2.27,
+  "low_pump": 3.86,
+  "low_return": 104.0,
+  "high_pump": 7.54,
+  "recovery_rise_ms": 140.0
+ },
+ "728-red-hand-emptiness": {
+  "tempo": 170.84,
+  "bass_rel_db": -8.9,
+  "sub_pump": 3.13,
+  "low_pump": 5.68,
+  "low_return": 148.0,
+  "high_pump": 1.68,
+  "recovery_rise_ms": 160.0
+ },
+ "729-simm-splinter": {
+  "tempo": 159.49,
+  "bass_rel_db": 4.2,
+  "sub_pump": 3.22,
+  "low_pump": 1.32,
+  "low_return": 160.0,
+  "high_pump": 9.35,
+  "recovery_rise_ms": null
+ },
+ "730-skd-smforma-dzil-a-k-par-skan-u": {
+  "tempo": 160.55,
+  "bass_rel_db": -8.9,
+  "sub_pump": 5.24,
+  "low_pump": 19.89,
+  "low_return": 208.0,
+  "high_pump": 6.03,
+  "recovery_rise_ms": 44.0
+ },
+ "731-skintape-convulsion": {
+  "tempo": 145.69,
+  "bass_rel_db": 5.3,
+  "sub_pump": 10.01,
+  "low_pump": 7.1,
+  "low_return": 136.0,
+  "high_pump": 5.68,
+  "recovery_rise_ms": 96.0
+ },
+ "732-snowbeasts-missing": {
+  "tempo": 167.7,
+  "bass_rel_db": -6.9,
+  "sub_pump": 11.27,
+  "low_pump": 13.49,
+  "low_return": 232.0,
+  "high_pump": 13.97,
+  "recovery_rise_ms": 188.0
+ },
+ "735-the-masamune-a-new-twilight-zone": {
+  "tempo": 174.55,
+  "bass_rel_db": -2.6,
+  "sub_pump": 13.96,
+  "low_pump": 13.86,
+  "low_return": 144.0,
+  "high_pump": 20.68,
+  "recovery_rise_ms": 16.0
+ },
+ "733-submerged-vs-undrig-controlled-release": {
+  "tempo": 153.07,
+  "bass_rel_db": 9.4,
+  "sub_pump": 3.71,
+  "low_pump": 8.93,
+  "low_return": 212.0,
+  "high_pump": 28.34,
+  "recovery_rise_ms": 36.0
+ },
+ "734-tech-level-2-blackboard": {
+  "tempo": 110.71,
+  "bass_rel_db": 2.6,
+  "sub_pump": 1.52,
+  "low_pump": 3.1,
+  "low_return": 376.0,
+  "high_pump": 3.17,
+  "recovery_rise_ms": 100.0
+ },
+ "736-uewpeap-concept": {
+  "tempo": 171.56,
+  "bass_rel_db": 10.0,
+  "sub_pump": 8.78,
+  "low_pump": 5.86,
+  "low_return": 264.0,
+  "high_pump": 46.26,
+  "recovery_rise_ms": 20.0
+ },
+ "738-vilify-reaching-ra": {
+  "tempo": 129.75,
+  "bass_rel_db": 5.6,
+  "sub_pump": 0.44,
+  "low_pump": 3.02,
+  "low_return": 228.0,
+  "high_pump": 12.28,
+  "recovery_rise_ms": 8.0
+ },
+ "739-katarzyna-bieniaszewska-krawczyk-shy-all-rise": {
+  "tempo": 95.79,
+  "bass_rel_db": -0.8,
+  "sub_pump": 38.76,
+  "low_pump": 30.94,
+  "low_return": 460.0,
+  "high_pump": 33.2,
+  "recovery_rise_ms": 196.0
+ },
+ "737-uewpeap-x-frajeeli-the-deep": {
+  "tempo": 171.61,
+  "bass_rel_db": 4.9,
+  "sub_pump": 7.27,
+  "low_pump": 13.17,
+  "low_return": 284.0,
+  "high_pump": 28.9,
+  "recovery_rise_ms": 40.0
+ },
+ "740-tommaso-patrick-perilli-latenza-emotiva": {
+  "tempo": 119.73,
+  "bass_rel_db": -8.6,
+  "sub_pump": 32.13,
+  "low_pump": 2.83,
+  "low_return": 340.0,
+  "high_pump": 38.35,
+  "recovery_rise_ms": null
+ },
+ "741-unleashing-vengeance-governmental-hypocrisy-remix": {
+  "tempo": 156.76,
+  "bass_rel_db": -0.3,
+  "sub_pump": 1.75,
+  "low_pump": 1.81,
+  "low_return": 116.0,
+  "high_pump": 0.91,
+  "recovery_rise_ms": null
+ },
+ "742-dark-vibration-here-comes-the-dusk": {
+  "tempo": 131.69,
+  "bass_rel_db": -5.2,
+  "sub_pump": 4.99,
+  "low_pump": 5.23,
+  "low_return": 264.0,
+  "high_pump": 17.99,
+  "recovery_rise_ms": 84.0
+ },
+ "743-roark-techno-industrial-technologies": {
+  "tempo": 146.93,
+  "bass_rel_db": 16.4,
+  "sub_pump": 3.74,
+  "low_pump": 4.43,
+  "low_return": 256.0,
+  "high_pump": 0.99,
+  "recovery_rise_ms": 24.0
+ },
+ "744-ramon-vidal-banos-au-dela-des-e-toiles": {
+  "tempo": 109.73,
+  "bass_rel_db": 6.4,
+  "sub_pump": 7.27,
+  "low_pump": 8.32,
+  "low_return": 136.0,
+  "high_pump": 18.97,
+  "recovery_rise_ms": 8.0
+ },
+ "745-atow-atow-hare-krishna-single-edit": {
+  "tempo": 159.64,
+  "bass_rel_db": 1.2,
+  "sub_pump": 4.35,
+  "low_pump": 11.39,
+  "low_return": 144.0,
+  "high_pump": 21.42,
+  "recovery_rise_ms": 40.0
+ },
+ "746-gregory-sevezen-mc-muggso-22prod-detente-22prod": {
+  "tempo": 99.9,
+  "bass_rel_db": 18.7,
+  "sub_pump": 0.97,
+  "low_pump": 1.62,
+  "low_return": 88.0,
+  "high_pump": 13.39,
+  "recovery_rise_ms": null
+ },
+ "747-m-lys-the-stranger": {
+  "tempo": 119.89,
+  "bass_rel_db": 2.4,
+  "sub_pump": 6.81,
+  "low_pump": 8.99,
+  "low_return": 176.0,
+  "high_pump": 14.98,
+  "recovery_rise_ms": 100.0
+ }
+}

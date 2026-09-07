@@ -172,12 +172,16 @@ Measure: pump depth in the 16 bars preceding a labelled breakdown, on the owner'
 | H31 | not supported | Spearman r = +0.07, p = 0.102, n = 506 (year vs integrated loudness) |
 | H32 | not supported | Spearman r = -0.03, p = 0.509, n = 506 (year vs crest); crest median 11.2 dB |
 | H33 | not supported | kick body low-mid share median 0.075 (n=500) |
+| H34 | not supported | sub-band minus low-band pump on the bass stem: median -0.2 dB (n=532) |
 | H35 | not supported | Spearman r = +0.03, p = 0.435, n = 500 (kick body mid share vs brightness slope) |
 | H36 | not supported | kick body sub share median 0.253, quartiles 0.11 / 0.40 (n=500) |
+| H38 | not supported | Spearman r = +0.14, p = 0.00106, n = 532 (integrated loudness vs bass-stem pump; the sign is the other way, louder masters pump slightly more) |
+| H39 | supported | recovery rise time (10-90% of the climb back) median 72 ms (n=417) |
 | H40 | supported | kick body fall-to-20 dB inter-quartile range 184 ms (quartiles 66 / 250; the window caps at 250) |
 | H41 | not supported | Spearman r = +0.06, p = 0.209, n = 499 (year vs kick-body band entropy) |
+| H42 | supported | high-band (6 kHz+) dip on the drum stem at the beat: median 15.6 dB (n=640; a dip this deep is the hat pattern itself, off-beat hats against an on-beat kick, so this measure cannot tell a duck from the rhythm and the verdict is weak) |
 | H43 | supported | share of mid+high attacks off the four beats: median 0.75 (chance for 12 of 16 steps is 0.75; the claim was about claps, and this measure cannot separate claps from hats) |
 | H44 | not supported | landing-pitch SD: top sub-share tertile 38.0 Hz vs bottom 46.1 Hz (n=416) |
 
-*508 tracks in the corpus statistics; 650 separated excerpts; tested 2026-09-07 08:11 UTC.*
+*508 tracks in the corpus statistics; 650 separated excerpts; tested 2026-09-07 19:32 UTC.*
 <!-- /RESULTS -->
