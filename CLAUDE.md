@@ -50,7 +50,18 @@ when browsers live outside the default location.
 - `private/c33f3ea406426b41/cards/` — Card Studio's browser code and
   assets. See the README there before touching the renderer or template.
 - `demos/` — static demos at `/demos/<n>/<slug>/`, listed from
-  `demos/manifest.json`.
+  `demos/manifest.json`. Each demo directory is self-contained on
+  purpose, down to its own copy of shared-looking code and assets:
+  `demos/3/cards` is a fork of `demos/2/card-battler`'s engine, and the
+  duplicated `sounds/` are duplicated deliberately. A demo, once
+  published, is frozen work — decoupling them by directory is what keeps
+  a later one free to diverge without breaking an earlier one. So never
+  retrofit a shared module onto a published demo, and never deduplicate
+  one against another. The one shared thing, `demos/engine/`, is the
+  exception that keeps the rule: it was cut out of demo 5 *while* demo 6
+  was being built on it, by two demos written together, and demo 5's
+  behaviour was pinned against its pre-refactor self to prove nothing
+  moved. Anything else stays forked.
 - `d1/migrations/` — D1 schema.
 
 ## Card Studio routing (non-obvious)
