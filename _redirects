@@ -29,3 +29,11 @@
 /demos/buster-whack-3d/    /demos/5/buster-whack-3d/  301
 /buster-whack-3d           /demos/5/buster-whack-3d/  301
 /buster-whack-3d/          /demos/5/buster-whack-3d/  301
+
+# Canonical demo path: /demos/6/moon-rangers/
+/demos/6                   /demos/6/moon-rangers/  301
+/demos/6/                  /demos/6/moon-rangers/  301
+/demos/moon-rangers        /demos/6/moon-rangers/  301
+/demos/moon-rangers/       /demos/6/moon-rangers/  301
+/moon-rangers              /demos/6/moon-rangers/  301
+/moon-rangers/             /demos/6/moon-rangers/  301
