@@ -58,6 +58,23 @@ test("createPromptVersion rejects empty text", async () => {
   await assert.rejects(() => createPromptVersion(db, "flavor", "   "), /required/);
 });
 
+test("createPromptVersion rejects a gem prompt that dropped {{key_color}}", async () => {
+  const db = new FakeD1();
+  await getCurrentPrompt(db, "gem"); // seeds v1
+  await assert.rejects(
+    () => createPromptVersion(db, "gem", "A nice gem, no placeholder anywhere."),
+    /key_color/,
+  );
+  // The rejected save must not have appended a version.
+  assert.equal((await getCurrentPrompt(db, "gem")).version, 1);
+});
+
+test("the {{key_color}} guard applies only to the gem generator", async () => {
+  const db = new FakeD1();
+  const created = await createPromptVersion(db, "flavor", "No placeholder needed here.");
+  assert.equal(created.version, 2);
+});
+
 test("createPromptVersion and getPromptVersion reject an unknown generator", async () => {
   const db = new FakeD1();
   await assert.rejects(() => createPromptVersion(db, "nope", "x"), /Unknown generator/);
@@ -70,10 +87,10 @@ test("getPromptVersion rejects an unknown version number for a known generator",
 
 test("listPromptVersions returns newest first", async () => {
   const db = new FakeD1();
-  await getCurrentPrompt(db, "gem"); // seeds v1
-  await createPromptVersion(db, "gem", "v2 text");
-  await createPromptVersion(db, "gem", "v3 text");
-  const versions = await listPromptVersions(db, "gem");
+  await getCurrentPrompt(db, "flavor"); // seeds v1
+  await createPromptVersion(db, "flavor", "v2 text");
+  await createPromptVersion(db, "flavor", "v3 text");
+  const versions = await listPromptVersions(db, "flavor");
   assert.deepEqual(versions.map((v) => v.version), [3, 2, 1]);
 });
 

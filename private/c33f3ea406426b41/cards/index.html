@@ -180,12 +180,34 @@
     margin: 0;
     font-family: ui-monospace, monospace;
   }
-  .prompt-history-row { padding: .35rem .5rem; border-radius: 6px; cursor: pointer; font-size: .78rem; color: #999; }
+  .prompt-history-row {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .35rem .5rem;
+    border-radius: 6px;
+    font-size: .78rem;
+    color: #999;
+  }
   .prompt-history-row:hover { background: #1c1c1c; }
   .prompt-history-row.current { color: #7cf5a0; }
-  .skill-row { padding: .35rem .5rem; border-radius: 6px; cursor: pointer; font-size: .82rem; font-family: ui-monospace, monospace; }
+  .prompt-history-row .label { flex: 1; cursor: pointer; }
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .35rem .5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: .82rem;
+    font-family: ui-monospace, monospace;
+  }
   .skill-row:hover { background: #1c1c1c; }
   .skill-row.selected { background: #24314f; }
+  .skill-row.archived .name { color: #777; text-decoration: line-through; }
+  .skill-row .name { flex: 1; }
+  .status.warn { color: #f5d98e; }
+  .provenance { font-size: .75rem; color: #777; }
 
   /* Attached by attachSlashAutocomplete() in app.js — the textarea is moved
      into this wrapper at runtime so the dropdown can anchor right below it
@@ -268,6 +290,7 @@
           <button id="generate-portrait-btn">Generate</button>
         </div>
         <div class="status" id="portrait-status"></div>
+        <div class="provenance" id="portrait-provenance"></div>
       </div>
 
       <div class="panel">
@@ -279,6 +302,7 @@
         </div>
         <textarea id="flavor-text" placeholder="Flavor text (editable by hand)..."></textarea>
         <div class="status" id="flavor-status"></div>
+        <div class="provenance" id="flavor-provenance"></div>
       </div>
 
       <div class="panel">
@@ -393,6 +417,7 @@
         class="prompt-textarea"
         placeholder="System prompt text. Type /name to include a skill — it resolves fresh every time this generator runs."
       ></textarea>
+      <div class="status" id="archived-ref-warning"></div>
       <div class="row">
         <button class="secondary" id="preview-prompt-btn">Preview Resolved</button>
         <button id="save-prompt-btn" disabled>Save New Version</button>
@@ -417,13 +442,13 @@
       <button class="secondary small" id="new-skill-btn">+ New Skill</button>
     </div>
     <div class="panel">
-      <h2>Edit skill</h2>
-      <label>Name (used as /name)</label>
+      <h2>Edit skill <span class="badge" id="skill-archived-badge" style="display:none">archived</span></h2>
+      <label id="skill-name-label">Name (used as /name)</label>
       <input type="text" id="skill-name-input" placeholder="e.g. no-text">
       <label>Text</label>
       <textarea id="skill-text-input" placeholder="Text inserted wherever /name is used..."></textarea>
       <div class="row">
-        <button class="secondary" id="delete-skill-btn" style="display:none">Delete</button>
+        <button class="secondary" id="archive-skill-btn" style="display:none">Archive</button>
         <button id="save-skill-btn">Save Skill</button>
       </div>
       <div class="status" id="skill-status"></div>

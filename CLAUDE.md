@@ -94,7 +94,19 @@ go there — only the 404 rule keeps it back, and it is matched by prefix.
   `/name` from any prompt or per-card instruction/guidance text. Unlike
   prompts, editing a skill changes every reference to it immediately —
   `resolveSkills` expands `/name` fresh at generation time, never at save
-  time, and never caches the resolved text anywhere.
+  time, and never caches the resolved text anywhere. Nothing tracks who
+  references a skill, so two rules stop that from becoming silent
+  breakage: a skill is **never deleted, only archived** (an archived skill
+  still resolves everywhere it is already used, it just stops being
+  offered for new text and is flagged in the prompt editors), and a
+  **name is immutable once created** — renaming would orphan existing
+  references exactly the way deleting would. Replace a skill by making a
+  new one under a new name; retired names stay taken.
+- The gem system prompt must contain `{{key_color}}`, enforced when saving
+  it. `gemSystemPrompt` substitutes the per-generation key color there,
+  and chroma-key removal depends on the model having been told that exact
+  flat background — drop the placeholder and generation still "succeeds",
+  it just returns art nothing can key out, with no error anywhere.
 
 ## The lab (src/lab.js, private/lab/)
 
