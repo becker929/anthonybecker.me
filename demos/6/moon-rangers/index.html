@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Moon Rangers — Anthony Becker</title>
+<meta name="description" content="A hoverbike prototype: ride the lunar surface at speed, steer across the track, and break the boulders in the way with a buster.">
+<meta name="theme-color" content="#05060a">
+<link rel="canonical" href="https://anthonybecker.me/demos/6/moon-rangers/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2305060a'/%3E%3Ccircle cx='6' cy='9' r='4' fill='%23b9b5ac'/%3E%3Ccircle cx='12' cy='4' r='2' fill='%235aa2ff'/%3E%3C/svg%3E">
+<style>
+  /* The scene is the page. It sizes itself to this box and swallows its own
+     touch gestures, so the page itself must not scroll or bounce. Every HUD
+     piece is sized so nothing overflows horizontally even at 360px: the top
+     readout wraps, and the pad's chips wrap before FIRE runs out of room. */
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #05060a;
+    overflow: hidden;
+    overscroll-behavior: none;
+    font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace;
+    color: #9aa3b2;
+  }
+  #stage { position: fixed; inset: 0; }
+  #stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+  .hud {
+    position: fixed;
+    left: 0; right: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px 12px;
+    padding: 14px 18px;
+    pointer-events: none;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hud.top {
+    top: 0; align-items: baseline;
+    padding-top: calc(14px + env(safe-area-inset-top, 0));
+    padding-left: calc(18px + env(safe-area-inset-left, 0));
+    padding-right: calc(18px + env(safe-area-inset-right, 0));
+  }
+  .hud.bottom {
+    /* never wraps: the hint shrinks and wraps inside .left so the pad keeps the right edge */
+    bottom: 0; align-items: flex-end; flex-wrap: nowrap;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0));
+    padding-left: calc(18px + env(safe-area-inset-left, 0));
+    padding-right: calc(18px + env(safe-area-inset-right, 0));
+  }
+  .hud .title { color: #ff8a3d; white-space: nowrap; }
+  .hud .title span { color: #5d6577; }
+  .hud .readout { font-variant-numeric: tabular-nums; color: #5d6577; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; justify-content: flex-end; }
+  .hud .readout b { color: #e8ecf2; font-weight: 600; }
+  .hud .hint { font-size: 11px; opacity: 0.75; }
+  .hud .hint kbd { color: #e8ecf2; font: inherit; }
+  nav.crumbs { pointer-events: auto; }
+  nav.crumbs a { color: #5d6577; text-decoration: none; }
+  nav.crumbs a:hover { color: #9aa3b2; }
+  .left { display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; min-width: 0; }
+
+  /* The throttle bar: the one readout that is a shape rather than a number,
+     because speed is the thing you feel and a digit does not sell it. */
+  #hud-speed-bar {
+    display: inline-block; vertical-align: middle;
+    width: 74px; height: 6px; border-radius: 3px;
+    background: #1b2130; overflow: hidden; flex-shrink: 0;
+  }
+  #hud-speed-fill { display: block; height: 100%; width: 0%; background: #ff8a3d; transition: width 90ms linear; }
+  #hud-dist.tick { animation: dist-tick 300ms ease-out; }
+  @keyframes dist-tick { 0% { color: #ffd08a; } 100% { color: #e8ecf2; } }
+
+  /* The caption: the opening hint, and the callouts a crash or a milestone
+     throws. Bottom centre above the pad on desktop; just under the top HUD
+     on narrow screens so it never collides with the pad. */
+  #hud-caption {
+    position: fixed;
+    left: 50%; bottom: 96px;
+    transform: translateX(-50%);
+    max-width: min(84vw, 560px);
+    text-align: center;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: rgba(5, 6, 10, 0.82);
+    border: 1px solid rgba(255, 138, 61, 0.35);
+    color: #e8ecf2;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    pointer-events: none;
+  }
+  #hud-caption[hidden] { display: none; }
+  @media (max-width: 640px) {
+    #hud-caption { bottom: auto; top: 78px; }
+  }
+
+  /* The crash punch: a red wash that flashes and fades. */
+  #vignette {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(255, 90, 70, 0) 55%, rgba(255, 90, 70, 0.42) 100%);
+    opacity: 0;
+    z-index: 5;
+  }
+  #vignette.flash { animation: vignette-flash 320ms ease-out; }
+  @keyframes vignette-flash { from { opacity: 1; } to { opacity: 0; } }
+
+  /* The pad: chips (each a control AND a live readout) and FIRE. It takes
+     pointer events; the rest of the HUD does not, so the ground underneath
+     still reads drags and taps. */
+  .pad {
+    pointer-events: auto;
+    display: flex;
+    flex: 0 0 auto;
+    margin-left: auto;
+    align-items: flex-end;
+    gap: 8px;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .pad .col { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+  .pad .row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; max-width: 220px; }
+  .pad button {
+    font: inherit;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9aa3b2;
+    background: rgba(18, 23, 34, 0.72);
+    border: 1px solid rgba(255, 138, 61, 0.32);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    touch-action: none;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .pad button:hover { border-color: rgba(232, 236, 242, 0.6); }
+  .pad button:focus-visible { outline: 1px solid #e8ecf2; outline-offset: 2px; }
+  .pad button.on { border-color: #ffd08a; color: #ffd08a; }
+
+  /* Chips: a dim label over the live value — the control IS the indicator.
+     Every change pings and drops a `.via` badge naming how it changed. */
+  .pad button.chip {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
+    min-width: 62px; min-height: 44px;
+    position: relative;
+  }
+  .pad button.chip[hidden] { display: none; }
+  .pad button.chip .chip-label { font-size: 9px; opacity: 0.6; letter-spacing: 0.12em; }
+  .pad button.chip .chip-value { font-size: 13px; font-weight: 600; color: #e8ecf2; letter-spacing: 0.06em; }
+  .pad button.chip.on .chip-value { color: #ffd08a; }
+  .pad button.chip .via {
+    position: absolute; top: -10px; right: -8px;
+    font-size: 8px; letter-spacing: 0.04em; text-transform: none;
+    padding: 2px 5px; border-radius: 5px;
+    background: #05060a; border: 1px solid rgba(232, 236, 242, 0.6); color: #e8ecf2;
+    white-space: nowrap;
+  }
+  .pad button.chip .via[hidden] { display: none; }
+  .pad button.chip.ping { animation: chip-ping 450ms ease-out; }
+  .pad button.chip.ping .chip-value { animation: chip-value-flash 450ms ease-out; }
+  @keyframes chip-ping {
+    0% { transform: scale(1); border-color: rgba(255, 138, 61, 0.32); }
+    35% { transform: scale(1.14); border-color: #e8ecf2; }
+    100% { transform: scale(1); }
+  }
+  @keyframes chip-value-flash { 0%, 100% {} 35% { color: #ffffff; } }
+
+  .pad button.round {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: rgba(255, 138, 61, 0.6);
+    color: #ff8a3d;
+    font-weight: 600;
+    background: rgba(38, 24, 16, 0.7);
+  }
+  .pad button.round.held { background: rgba(255, 138, 61, 0.25); }
+  .pad button.round.ready { border-color: #bfe9ff; color: #bfe9ff; background: rgba(191, 233, 255, 0.28); box-shadow: 0 0 18px rgba(191, 233, 255, 0.5); }
+  #pad-orbit[hidden] { display: none; }
+
+  @media (max-width: 640px) {
+    .hud { padding: 10px 12px; }
+    .hud.top { padding-top: calc(10px + env(safe-area-inset-top, 0)); padding-left: calc(12px + env(safe-area-inset-left, 0)); padding-right: calc(12px + env(safe-area-inset-right, 0)); }
+    .hud .hint { display: none; }
+    .hud .title span { display: none; }
+    .hud .readout { font-size: 11px; }
+    #hud-speed-bar { width: 52px; }
+    .pad button { padding: 8px 10px; }
+    .pad button.chip { min-width: 56px; }
+  }
+  noscript { display: block; padding: 24px; }
+</style>
+</head>
+<body>
+<div id="stage"><noscript>This prototype needs JavaScript and WebGL.</noscript></div>
+<div id="vignette"></div>
+<div class="hud top">
+  <div class="title">Moon Rangers</div>
+  <div class="readout">
+    <span id="hud-speed-bar"><i id="hud-speed-fill"></i></span>
+    <span><b id="hud-dist">0</b>m</span>
+    <span>rocks <b id="hud-rocks">0</b></span>
+    <span>crashes <b id="hud-crashes">0</b></span>
+  </div>
+</div>
+<div id="hud-caption" hidden></div>
+<div class="hud bottom">
+  <div class="left">
+    <nav class="crumbs"><a href="/demos/">← demos</a></nav>
+    <div class="hint"><kbd>A</kbd>/<kbd>D</kbd> steer across · <kbd>space</kbd> fire, hold to charge · <kbd>shift</kbd> lock · <kbd>C</kbd> camera · <kbd>Tab</kbd> aim</div>
+  </div>
+  <div class="pad">
+    <div class="col">
+      <div class="row" id="pad-orbit" hidden>
+        <button id="btn-orbit-l" type="button" aria-label="orbit left">◄</button>
+        <button id="btn-orbit-r" type="button" aria-label="orbit right">►</button>
+      </div>
+      <div class="row">
+        <button id="btn-aim" class="chip" type="button" title="aim mode (1 ahead / 2 free, tab cycles)">
+          <span class="chip-label">AIM</span><span class="chip-value" id="chip-aim">ahead</span>
+          <span class="via" id="via-aim" hidden></span>
+        </button>
+        <button id="btn-cam" class="chip" type="button" title="camera (C)">
+          <span class="chip-label">CAM</span><span class="chip-value" id="chip-cam">chase</span>
+          <span class="via" id="via-cam" hidden></span>
+        </button>
+        <button id="btn-lock" class="chip" type="button" title="rock lock (Shift / L)">
+          <span class="chip-label">LOCK</span><span class="chip-value" id="chip-lock">off</span>
+          <span class="via" id="via-lock" hidden></span>
+        </button>
+      </div>
+    </div>
+    <button id="btn-fire" type="button" class="round" title="fire (Space); hold to charge">fire</button>
+  </div>
+</div>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

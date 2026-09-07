@@ -23,17 +23,25 @@ Files:
 
 - `index.html` — the page; mounts `main.js` into a full-window canvas and
   carries the HUD readouts and the on-screen pad (mode chips, LOCK, FIRE).
-- `main.js` — the whole prototype: board, rigged character, pose curves,
-  aiming and the lock, the buster and its shots, the rotters and their
-  bolts, the cameras, input (keys, mouse, tap-to-move, two sticks), the
-  chips' announce/ping wiring, advance mode's cards (start/pause/game
-  over), the juice (hit-stop, popups, debris, tracers...), render loop.
-- `three.module.min.js` + `three.core.min.js` — Three.js r185
-  (`three@0.185.1`, MIT), copied from the npm build unchanged so the demo
-  ships with no runtime CDN, the way this site's demos do. Since r170 the
-  module build is a thin wrapper that imports `./three.core.min.js`, so the
-  two travel together. To update, install the new version and copy both
-  files from `node_modules/three/build/` over these.
+- `main.js` — the *game*: the board's shape and ownership rules, the
+  rotters and their bolts, the arena/road/tower world, the keepers and
+  their tasks, bombs, the scoring and clock economy, the aim modes and the
+  lock, the cards, and the HUD copy.
+
+Everything that is not specifically Buster Whack lives in
+[`../../engine/`](../../engine/) and is shared with demo 6: the sim clock
+and its hit-stop, the stage, the tile grid, the rigged humanoid and its
+pose curves, the effects, the camera rig, two-stick input, the chips, the
+hop model, and the loop with its `simulate()`. Three.js is vendored once
+there too, at `../../engine/vendor/`. That split is why this file is about
+half the size it was; the engine's own README says where the seam falls and
+why.
+
+The refactor was checked by driving the same scripted run — sandbox play, a
+charged shot, a hit, the cameras, then a full story run of ten arenas —
+through both the old single-file version and this one on a seeded
+`Math.random` and a virtual clock, and requiring every checkpoint (square,
+score, chain, clock, the built segments) to match to the digit. It does.
 
 ## Controls
 

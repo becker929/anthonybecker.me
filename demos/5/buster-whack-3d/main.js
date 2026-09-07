@@ -1,5 +1,5 @@
 /*!
- * Buster Whack 3D — movement, aiming, fire and the first enemy.
+ * Buster Whack 3D — the game, on the engine in ../../engine/.
  *
  * The 2D game moves the buster one square per hop: a crouch, an arc, a
  * landing squash, then the rest of the ration as cooldown, and the square
@@ -28,23 +28,26 @@
  * exactly as it always has and stays none the wiser that advance mode
  * exists.
  *
- * Three later passes on top of that first cut. The GUI: every mode/aim/cam
- * chip is now its own two-line control-and-readout, pinged and badged with
- * *how* it changed, because a phone has no room for a HUD row that just
- * describes buttons sitting six inches away. Aiming: a fourth mode, "lane"
- * (the default) — the barrel never leaves the lane, so every hop is a pure
- * strafe and the second stick does nothing, closer to the 2D game's own
- * three-lane aim than 4-dir/8-dir/free ever were. And juice, chasing the 2D
- * original's feel on top of the numbers it already reproduces: hit-stop
- * (frozen by holding `now()` itself rather than a flag, so every timer in
- * the game honours it for free), popups, chain flourishes, a damage punch,
- * deletion debris, a start card and a pause, and the arena-taken and wave
- * announcements. See the ---------- juice ---------- section.
+ * WHAT IS IN THIS FILE, AND WHAT IS NOT. Everything here is Buster Whack:
+ * the board's shape and ownership rules, rotters and their bolts, the
+ * arena/road/tower world, the keepers and their tasks, bombs, the scoring
+ * and clock economy, the aim modes and the lock, the cards and the HUD copy.
+ * Everything that would be just as true of a different game — the sim clock
+ * and its hit-stop, the stage, the tile grid, the rigged humanoid and its
+ * pose curves, the effects, the camera rig, two-stick input, the chips, the
+ * hop model, the loop and its `simulate()` — was lifted out into
+ * `../../engine/` and is shared with demo 6. That split is the whole reason
+ * this file is half the size it was; the engine's own README says where the
+ * seam is and why it fell there.
  */
 
-import * as THREE from "./three.module.min.js";
-
-// ---------- board ----------
+import * as THREE from "../../engine/three.js";
+import {
+  Clock, watchReducedMotion, Stage, TileGrid, Effects, CameraRig, Input, Chips, Hopper, Loop,
+  buildCharacter, characterMaterials, applyPose, idlePose, hopPose, hopHeightAt, hopEaseAt, easeTwist,
+  mesh, box, ball, releasePadKeys,
+  clamp01, lerp, rand, easeOutQuad, easeInOutSine, easeOutBack, angleDelta, angleTo, aimDir,
+} from "../../engine/index.js";
 
 const COLS = 6;
 const ROWS = 3;
@@ -259,12 +262,6 @@ const ADV_TRACER_MS = 130;      // the hitscan ray's tracer fade
 const ADV_IMPACT_MS = 140;      // the spark exactly where the ray lands
 const ARENA_STAGGER_MS = 60;    // between one column's retint/ripple and the next, on a clear
 const LEVEL_POP_MS = 680;       // the HUD level number's pop, stepping into a new arena
-
-/** `matchMedia("(prefers-reduced-motion: reduce)")` — no hit-stop, shake, punch or vignette when it's set. */
-const reducedMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
-let REDUCED_MOTION = reducedMotionQuery.matches;
-reducedMotionQuery.addEventListener?.("change", (e) => { REDUCED_MOTION = e.matches; });
-
 // ---------- palette (the game's) ----------
 
 const PAL = {
@@ -284,137 +281,67 @@ const PAL = {
   bombBody: 0x11141c, bombFuse: 0x5a4630, bombSpark: 0xffb84a,
 };
 
-// ---------- easing ----------
+// ---------- the engine, wired for this game ----------
+// Everything below this line is Buster Whack's own; everything above the
+// import is the engine's. The adapters here exist so the game's own code
+// reads the way it always did — `now()`, `ripple()`, `tileX()` — while the
+// implementation of each lives one directory up and is shared with demo 6.
 
-/** Bump the camera shake envelope; a no-op under reduced motion. */
-function shakeCam(amount) { if (!REDUCED_MOTION) cam.shake = Math.max(cam.shake, amount); }
-const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
-const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
-const lerp = (a, b, t) => a + (b - a) * t;
-const rand = (lo, hi) => lo + Math.random() * (hi - lo);
-const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
-const easeInOutSine = (t) => 0.5 - 0.5 * Math.cos(Math.PI * t);
-/** Overshoots past 1 then returns: the landing's spring. */
-const easeOutBack = (t) => { const c = 1.7; const u = t - 1; return 1 + (c + 1) * u * u * u + c * u * u; };
-/** Shortest signed angle from a to b. */
-const angleDelta = (a, b) => { let d = (b - a) % (Math.PI * 2); if (d > Math.PI) d -= Math.PI * 2; if (d < -Math.PI) d += Math.PI * 2; return d; };
-
-// ---------- world <-> tile ----------
-
-const tileX = (col) => (col - (COLS - 1) / 2) * TILE;
-const tileZ = (row) => (row - (ROWS - 1) / 2) * TILE;
-// onBoard / enemyHalf / offBoard used to be pure functions of a fixed 6x3
-// board; advance mode needs them to answer against whatever of the world is
-// built right now, so they moved down to the ---------- world ----------
-// section, past the tile map they read.
-/** The aim angle from (x, z) towards (tx, tz). */
-const angleTo = (x, z, tx, tz) => Math.atan2(-(tz - z), tx - x);
-/** Unit direction of an aim angle, in the board plane. */
-const aimDir = (a, out) => out.set(Math.cos(a), 0, -Math.sin(a));
-
-// ---------- clock ----------
-
-// `?slow=4` runs the clock at a quarter speed: the same hop, stretched, for
-// looking at the poses. Everything is timed off this one clock, so nothing
-// else has to know.
+/** `?slow=4` runs the clock at a quarter speed: the same hop, stretched, for looking at the poses. */
 const params = new URLSearchParams(location.search);
 const SLOW = Math.max(1, Number(params.get("slow")) || 1);
-// Once a test hands the sim over to `simulate()` (see `simDriven`, below,
-// by the render loop), `rawNow()` reads the virtual clock it drives instead
-// of the wall clock, for good — not just while a `simulate()` call is on
-// the stack. A raw hook call between two `simulate()` calls (`moveTo()`,
-// `fire()`, ...) still timestamps itself off `now()`, and every timestamp
-// already sitting in game state (a hop's `t0`, `state.lastMoveAt`, a
-// rotter's `nextHopAt`, ...) was stamped off the same clock — so this one
-// flag has to gate both, or the two domains disagree the moment a bare hook
-// call falls between two `simulate()` calls, and everything timed off a
-// `t - t0` (movement's own ration among them) reads a nonsense delta.
-// Everything downstream (hit-stop, pause) reads only `now()`, built on
-// this, so none of it has to know the difference either.
-let simDriven = false;
-let simVirtualRaw = 0;
-const rawNow = () => (simDriven ? simVirtualRaw : performance.now() / SLOW);
 
-// `now()` is `rawNow()` minus an offset that grows every time the sim is
-// held still — a hit-stop, or a pause. Holding still is just "the offset
-// grows to match the real time that passed"; every timer in the game reads
-// `now()` and none of them has to know the sim ever stopped, which is the
-// whole point of putting it here instead of threading a "frozen" flag
-// through every phase's `t - t0`. The render loop is untouched either way —
-// a frozen frame is rendered over and over, which for hit-stop is the
-// effect, and for pause is enforced instead by `frame()` skipping every
-// update call outright (see the ---------- loop ---------- section).
-let hitstopOffset = 0;        // ms folded out of rawNow() so far
-let hitstopEndsAtRaw = -Infinity;  // rawNow() at which the current freeze lets go
-let hitstopHoldSim = 0;       // the sim time held during that freeze
-let hitstopResolved = true;   // false while `hitstopOffset` still needs recomputing after a freeze ends
-let paused = false;
-let pausedSimTime = 0;        // the sim time held for as long as `paused`
-
-function now() {
-  if (paused) return pausedSimTime;
-  const raw = rawNow();
-  if (raw < hitstopEndsAtRaw) { hitstopResolved = false; return hitstopHoldSim; }
-  if (!hitstopResolved) { hitstopOffset = hitstopEndsAtRaw - hitstopHoldSim; hitstopResolved = true; }
-  return raw - hitstopOffset;
-}
-/** Freeze the sim clock for `ms` (stacking onto a freeze already running, capped at MAX_HITSTOP); a no-op under reduced motion. */
-function triggerHitStop(ms) {
-  if (REDUCED_MOTION) return;
-  const raw = rawNow();
-  if (raw < hitstopEndsAtRaw) { hitstopEndsAtRaw = Math.min(hitstopEndsAtRaw + ms, raw + MAX_HITSTOP); return; }
-  hitstopHoldSim = now();
-  hitstopEndsAtRaw = raw + Math.min(ms, MAX_HITSTOP);
-  hitstopResolved = false;
-}
-/** Pause holds the sim clock exactly where it was; resuming folds the real time spent paused back out, so nothing downstream sees a gap. */
-function setPaused(p) {
-  if (p === paused) return;
-  if (p) { pausedSimTime = now(); paused = true; }
-  else { paused = false; hitstopEndsAtRaw = -Infinity; hitstopOffset = rawNow() - pausedSimTime; hitstopResolved = true; }
-}
-
-// ---------- textures drawn in code ----------
-// No image files: a soft disc for glows, shadows and dust, and a gradient
-// for the sky. Both are a few lines of Canvas 2D.
-
-function softDisc(stops) {
-  const size = 128;
-  const c = document.createElement("canvas");
-  c.width = c.height = size;
-  const g = c.getContext("2d");
-  const grad = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-  for (const [o, col] of stops) grad.addColorStop(o, col);
-  g.fillStyle = grad;
-  g.fillRect(0, 0, size, size);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
-
-function skyTexture() {
-  const c = document.createElement("canvas");
-  c.width = 4; c.height = 256;
-  const g = c.getContext("2d");
-  const grad = g.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0, "#090c13");
-  grad.addColorStop(0.55, "#131b2c");
-  grad.addColorStop(0.7, "#0f1522");
-  grad.addColorStop(1, "#07090e");
-  g.fillStyle = grad;
-  g.fillRect(0, 0, 4, 256);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
-
-const discTex = softDisc([[0, "rgba(255,255,255,1)"], [0.5, "rgba(255,255,255,0.35)"], [1, "rgba(255,255,255,0)"]]);
-const shadowTex = softDisc([[0, "rgba(0,0,0,1)"], [0.45, "rgba(0,0,0,0.55)"], [1, "rgba(0,0,0,0)"]]);
-
-// ---------- scene ----------
+let REDUCED_MOTION = watchReducedMotion((on) => { REDUCED_MOTION = on; clock.reducedMotion = on; });
+const clock = new Clock({ slow: SLOW, maxHitStop: MAX_HITSTOP, reducedMotion: REDUCED_MOTION });
+const now = () => clock.now();
+const triggerHitStop = (ms) => clock.hitStop(ms);
+const setPaused = (p) => clock.setPaused(p);
 
 const container = document.getElementById("stage");
 const $ = (id) => document.getElementById(id);
+
+const stage = new Stage(container, {
+  fog: { color: PAL.fog, near: 9, far: 22 },
+  ground: { color: 0x0a0d14, size: 80, y: -0.2 },
+  motes: { count: 220, color: 0x8fb0ff },
+});
+const { scene, renderer, camera } = stage;
+const discTex = stage.discTex, shadowTex = stage.shadowTex;
+/** This frame's length in ms, as every phase, spring and drift in the game reads it. Written once per frame by `updateFrame`. */
+let frameDt = 16;
+
+const fx = new Effects(scene, clock, discTex);
+const ripple = (x, z, color, scaleTo, ms) => fx.ripple(x, z, color, scaleTo, ms);
+const dust = (x, z, count, speed, opts) => fx.dust(x, z, count, speed, opts);
+const popup = (x, z, text, opts) => fx.popup(x, z, text, { ms: POPUP_MS, rise: POPUP_RISE, ...opts });
+const spawnDebris = (x, z, palette) => fx.debrisBurst(x, z, palette, { ms: DEBRIS_MS, gravity: DEBRIS_GRAVITY });
+const spawnTracer = (x0, z0, x1, z1, color = PAL.charged, ms = TRACER_MS) => fx.tracer(x0, z0, x1, z1, color, ms);
+
+// The board. `stain` is the rot: a rotter sitting on a panel turns its rim
+// from the enemy half's red to a sick green, held while it sits and healing
+// once it leaves — the engine runs the channel, the game says what holds it.
+const grid = new TileGrid(scene, {
+  cols: COLS, rows: ROWS, tile: TILE, gap: GAP,
+  kinds: {
+    player: [PAL.tilePlayer, PAL.tilePlayerRim],
+    enemy: [PAL.tileEnemy, PAL.tileEnemyRim],
+    road: [PAL.tileRoad, PAL.tileRoadRim],
+    tower: [PAL.tilePlayer, PAL.tilePlayerRim],
+  },
+  stain: { slab: PAL.tileRot, rim: PAL.tileRotRim, rate: ROT_RATE, decay: ROT_DECAY },
+});
+const tileX = (col) => grid.x(col);
+const tileZ = (row) => grid.z(row);
+const tileAt = (col, row) => grid.at(col, row);
+const buildTile = (col, row, kind) => grid.build(col, row, kind);
+const retintTile = (tl, kind) => grid.retint(tl, kind);
+const disposeTile = (col, row) => grid.dispose(col, row);
+const pressTile = (col, row, amount) => grid.press(col, row, amount);
+const flashTile = (col, row, color) => grid.flash(col, row, color);
+
+const chips = new Chips(["mode", "aim", "cam", "lock"], $);
+const announce = (id, value, via) => chips.announce(id, value, via);
+
 const hud = {
   busted: $("hud-busted"), hits: $("hud-hits"),
   fire: $("btn-fire"), orbit: $("pad-orbit"),
@@ -427,149 +354,38 @@ const hud = {
   vignette: $("vignette"),
 };
 
-// ---------- chips ----------
-// The pad's MODE / AIM / CAM / LOCK buttons are two-line chips: a dim label
-// and the live value, both readout and control at once. `announce()` is the
-// one door every setter below walks through — a ~450ms scale/border ping so
-// the eye finds the chip that changed, plus a `.via` badge (`key C`, `tap`,
-// `shift`, `wheel`, `url`...) naming *how*, shown for ~900ms. It always
-// pings; the badge only shows when a `via` is given.
-const chips = {
-  mode: { btn: $("btn-mode"), value: $("chip-mode"), via: $("via-mode") },
-  aim: { btn: $("btn-aim"), value: $("chip-aim"), via: $("via-aim") },
-  cam: { btn: $("btn-cam"), value: $("chip-cam"), via: $("via-cam") },
-  lock: { btn: $("btn-lock"), value: $("chip-lock"), via: $("via-lock") },
-};
-function announce(id, value, via) {
-  const c = chips[id];
-  if (!c) return;
-  c.value.textContent = value;
-  if (via) {
-    c.via.textContent = via;
-    c.via.hidden = false;
-    clearTimeout(c.viaTimer);
-    c.viaTimer = setTimeout(() => { c.via.hidden = true; }, 900);
-  }
-  c.btn.classList.remove("ping");
-  void c.btn.offsetWidth;   // restart the animation even on back-to-back changes
-  c.btn.classList.add("ping");
-  clearTimeout(c.pingTimer);
-  c.pingTimer = setTimeout(() => c.btn.classList.remove("ping"), 460);
-}
-
-const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFShadowMap;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.05;
-container.appendChild(renderer.domElement);
-
-const scene = new THREE.Scene();
-scene.background = skyTexture();
-scene.fog = new THREE.Fog(PAL.fog, 9, 22);
-
-const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
 const CAM_POS = new THREE.Vector3(0, 3.3, 4.9);
 const LOOK_AT = new THREE.Vector3(0, 0.05, 0.1);
-const camPos = CAM_POS.clone();
-const camTarget = LOOK_AT.clone();
-camera.position.copy(camPos);
-camera.lookAt(camTarget);
-
-// Image-based lighting from a room built out of a few glowing panels: a big
-// cool light overhead, the game's red off one side, its blue off the other.
-// It is what makes the armour read as a surface instead of flat paint.
-function makeEnvironment() {
-  const room = new THREE.Scene();
-  const geo = new THREE.BoxGeometry(1, 1, 1);
-  const walls = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0x0c1018, side: THREE.BackSide }));
-  walls.scale.setScalar(30);
-  room.add(walls);
-  const panel = (hex, intensity, pos, size) => {
-    const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: new THREE.Color(hex).multiplyScalar(intensity) }));
-    m.position.set(...pos); m.scale.set(...size);
-    room.add(m);
-  };
-  panel(0xdfe9ff, 9, [-3, 9, 5], [6, 0.2, 6]);      // key: a wide soft light above and behind the camera
-  panel(0xff5470, 4, [10, 3, -6], [0.2, 4, 6]);     // rim: the enemy half's red
-  panel(0x4f8dff, 3, [-10, 2, -4], [0.2, 4, 6]);    // fill: the player's blue
-  panel(0x3a4a7a, 1.5, [0, -6, 0], [14, 0.2, 14]);  // a faint bounce from the floor
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  const tex = pmrem.fromScene(room, 0.04).texture;
-  pmrem.dispose();
-  return tex;
+const rig3 = new CameraRig(camera, {
+  modes: CAM_MODES,
+  mode: CAM_MODES.includes(params.get("cam")) ? params.get("cam") : "fixed",
+  home: CAM_POS, lookAt: LOOK_AT,
+  fitWidth: COLS * TILE,
+  punchMs: PUNCH_MS, punchDist: PUNCH_DIST,
+  onModeChange: (m, via) => { hud.orbit.hidden = m !== "orbit"; announce("cam", m, via); },
+});
+stage.onResize = () => rig3.fitFov();
+/** The rig, under the name the game has always called it. `cam.mode`, `cam.yaw`, `cam.shake` all still read. */
+const cam = rig3;
+const setCamMode = (m, via) => rig3.setMode(m, via);
+const cycleCamMode = (via) => rig3.cycle(via);
+const orbitBy = (dyaw, dpitch, via) => rig3.orbitBy(dyaw, dpitch, via);
+/** Bump the camera shake envelope; a no-op under reduced motion. */
+function shakeCam(amount) { if (!REDUCED_MOTION) rig3.bump(amount); }
+function triggerCamPunch(bvx, bvz) { if (!REDUCED_MOTION) rig3.punch(bvx, bvz, now()); }
+/** The `#vignette` overlay: a red wash that flashes in and fades over VIGNETTE_MS. */
+function flashVignette() {
+  if (REDUCED_MOTION) return;
+  hud.vignette.classList.remove("flash");
+  void hud.vignette.offsetWidth;
+  hud.vignette.classList.add("flash");
 }
-scene.environment = makeEnvironment();
-scene.environmentIntensity = 0.7;
 
-scene.add(new THREE.HemisphereLight(0x9fbfff, 0x1a1420, 0.35));
-const key = new THREE.DirectionalLight(0xfff4e6, 2.2);
-key.position.set(-3, 7, 4.5);
-key.castShadow = true;
-key.shadow.mapSize.set(2048, 2048);
-key.shadow.camera.near = 2; key.shadow.camera.far = 18;
-key.shadow.camera.left = -4.5; key.shadow.camera.right = 4.5;
-key.shadow.camera.top = 3.5; key.shadow.camera.bottom = -3;
-key.shadow.bias = -0.0008;
-key.shadow.normalBias = 0.02;
-key.shadow.radius = 3;
-scene.add(key);
-const rim = new THREE.DirectionalLight(0xff5470, 0.8);
-rim.position.set(6, 2.5, -4);
-scene.add(rim);
-const fill = new THREE.DirectionalLight(0x4f8dff, 0.5);
-fill.position.set(-6, 1.5, -3);
-scene.add(fill);
-
-// Ground: a dark plane that takes the shadow and fades into the fog, with a
-// pool of light under the arena so it does not float in the void.
-const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(80, 80),
-  new THREE.MeshStandardMaterial({ color: 0x0a0d14, roughness: 0.95, metalness: 0 }),
-);
-ground.rotation.x = -Math.PI / 2;
-ground.position.y = -0.2;
-ground.receiveShadow = true;
-scene.add(ground);
-
-// Tiles: a bevelled slab with a lit rim inset from its edge. Each remembers a
-// dip so a landing can press it down and let it spring back, and a rot so a
-// rotter can turn it green from under itself.
-function tileSlabGeometry() {
-  const s = (TILE - GAP) / 2, r = 0.07;
-  const shape = new THREE.Shape();
-  shape.moveTo(-s + r, -s);
-  shape.lineTo(s - r, -s); shape.quadraticCurveTo(s, -s, s, -s + r);
-  shape.lineTo(s, s - r); shape.quadraticCurveTo(s, s, s - r, s);
-  shape.lineTo(-s + r, s); shape.quadraticCurveTo(-s, s, -s, s - r);
-  shape.lineTo(-s, -s + r); shape.quadraticCurveTo(-s, -s, -s + r, -s);
-  const g = new THREE.ExtrudeGeometry(shape, { depth: 0.08, bevelEnabled: true, bevelThickness: 0.025, bevelSize: 0.025, bevelSegments: 2, curveSegments: 4 });
-  g.rotateX(-Math.PI / 2);      // extrude along +y
-  g.translate(0, -0.08, 0);     // top face at y = 0.025 (the bevel)
-  return g;
-}
-function tileRimGeometry() {
-  const s = (TILE - GAP) / 2 - 0.09, w = 0.022;
-  const outer = new THREE.Shape();
-  outer.moveTo(-s, -s); outer.lineTo(s, -s); outer.lineTo(s, s); outer.lineTo(-s, s); outer.closePath();
-  const hole = new THREE.Path();
-  hole.moveTo(-s + w, -s + w); hole.lineTo(s - w, -s + w); hole.lineTo(s - w, s - w); hole.lineTo(-s + w, s - w); hole.closePath();
-  outer.holes.push(hole);
-  const g = new THREE.ShapeGeometry(outer);
-  g.rotateX(-Math.PI / 2);
-  return g;
-}
-const slabGeo = tileSlabGeometry();
-const rimGeo = tileRimGeometry();
-const ROT_SLAB = new THREE.Color(PAL.tileRot), ROT_RIM = new THREE.Color(PAL.tileRotRim);
-const TILE_COLOR = {
-  player: [PAL.tilePlayer, PAL.tilePlayerRim],
-  enemy: [PAL.tileEnemy, PAL.tileEnemyRim],
-  road: [PAL.tileRoad, PAL.tileRoadRim],
-  tower: [PAL.tilePlayer, PAL.tilePlayerRim],
-};
-
+// The buster's own body, from the engine's rig, in the game's colours.
+const charMats = characterMaterials(PAL);
+const { armor: matArmor, armorDark: matArmorDark, muzzle: matMuzzle } = charMats;
+const rig = buildCharacter(charMats, { scale: CHAR_SCALE });
+scene.add(rig.root);
 // ---------- world ----------
 // Sandbox is a single fixed board; advance ("story") lays segments — arena,
 // road, tower — end to end along +x and only ever appends. Both live in the
@@ -578,56 +394,6 @@ const TILE_COLOR = {
 // mode: sandbox just happens to build a world that never grows past its one
 // arena. `COLS` (6) is the width every arena and tower segment shares; a
 // road is `ROAD_COLS` (3) wide.
-const tkey = (col, row) => col + "," + row;
-const tiles = new Map();     // "col,row" -> tile record
-let tileColMin = Infinity, tileColMax = -Infinity;
-
-/** Place a tile of a given kind, or return the one already there. */
-function buildTile(col, row, kind) {
-  const k = tkey(col, row);
-  const existing = tiles.get(k);
-  if (existing) return existing;
-  const [slabColor, rimColor] = TILE_COLOR[kind];
-  const g = new THREE.Group();
-  g.position.set(tileX(col), 0, tileZ(row));
-  const slabMat = new THREE.MeshStandardMaterial({ color: slabColor, roughness: 0.42, metalness: 0.35 });
-  const slab = new THREE.Mesh(slabGeo, slabMat);
-  slab.receiveShadow = true;
-  slab.castShadow = true;
-  g.add(slab);
-  const rimMat = new THREE.MeshBasicMaterial({ color: rimColor, transparent: true, opacity: 0.75 });
-  const rimMesh = new THREE.Mesh(rimGeo, rimMat);
-  rimMesh.position.y = 0.031;
-  g.add(rimMesh);
-  scene.add(g);
-  const tl = {
-    g, rimMat, slabMat, col, row, kind, isNpc: false, dip: 0, dipV: 0, glow: 0,
-    rot: 0, rotHeld: false, baseSlab: slabMat.color.clone(), baseRim: rimMat.color.clone(),
-    flash: 0, flashColor: new THREE.Color(PAL.bolt), dirty: false,
-  };
-  tiles.set(k, tl);
-  if (col < tileColMin) tileColMin = col;
-  if (col > tileColMax) tileColMax = col;
-  return tl;
-}
-/** Recolour a tile to a new kind in place — how a cleared arena's enemy half becomes player ground. */
-function retintTile(tl, kind) {
-  tl.kind = kind;
-  const [slabColor, rimColor] = TILE_COLOR[kind];
-  tl.baseSlab.set(slabColor); tl.baseRim.set(rimColor);
-  tl.slabMat.color.set(slabColor); tl.rimMat.color.set(rimColor);
-}
-function disposeTile(col, row) {
-  const k = tkey(col, row);
-  const tl = tiles.get(k);
-  if (!tl) return;
-  scene.remove(tl.g);
-  tl.slabMat.dispose();
-  tl.rimMat.dispose();
-  tiles.delete(k);
-}
-const tileAt = (col, row) => tiles.get(tkey(col, row));
-
 /** Every segment ever built, oldest first; the world only ever grows. */
 const world = { segments: [], nextX: 0 };
 let roadCount = 0;   // the very first road ever built always carries a bomb; after that, 1 in 3
@@ -639,7 +405,7 @@ function activeArena() {
 /** The world column an arena's fight starts at: 0 in sandbox (the whole board is the "arena"), the active arena's x0 in advance. */
 function arenaBaseCol() { return mode === "sandbox" ? 0 : (activeArena()?.x0 ?? 0); }
 
-function onBoard(col, row) { return tiles.has(tkey(col, row)); }
+function onBoard(col, row) { return grid.has(col, row); }
 /** The enemy half of the arena currently in play — where rotters live, hop and rot the ground. */
 function enemyHalf(col, row) { return onBoard(col, row) && col >= arenaBaseCol() + PCOLS && col < arenaBaseCol() + COLS; }
 /**
@@ -662,11 +428,7 @@ function walkable(col, row) {
   return true;
 }
 /** Past the built world's edge by more than a tile: where shots and bolts are spent, so nothing streams off into the sky. */
-function offBoard(x, z) {
-  if (Math.abs(z) > (ROWS * TILE) / 2 + 1.2) return true;
-  if (tileColMin > tileColMax) return true;
-  return x < tileX(tileColMin) - TILE / 2 - 1.2 || x > tileX(tileColMax) + TILE / 2 + 1.2;
-}
+const offBoard = (x, z) => grid.offBoard(x, z);
 
 /** Build one arena: the left PCOLS columns player ground, the rest the guard's, until cleared. */
 function buildArenaSegment(x0, idx) {
@@ -754,10 +516,7 @@ function disposeSegment(seg) {
   }
   if (seg.kind === "tower") { disposeKeeper(seg); disposeTally(seg); }
   if (seg.kind === "road") disposeBombsOn(seg);
-  if (tileColMin === seg.x0 || tileColMax === seg.x0 + seg.cols - 1) {
-    tileColMin = Infinity; tileColMax = -Infinity;
-    for (const tl of tiles.values()) { if (tl.col < tileColMin) tileColMin = tl.col; if (tl.col > tileColMax) tileColMax = tl.col; }
-  }
+  if (grid.colMin === seg.x0 || grid.colMax === seg.x0 + seg.cols - 1) grid.recomputeBounds();
 }
 /** Drop segments more than ~14 columns behind the player: the scene stays bounded on an unbounded road. */
 function trimBehindPlayer() {
@@ -771,7 +530,7 @@ function disposeWorld() {
   for (const seg of [...world.segments]) disposeSegment(seg);
   world.segments.length = 0;
   world.nextX = 0;
-  tileColMin = Infinity; tileColMax = -Infinity;
+  grid.recomputeBounds();
   roadCount = 0;
   bombPickups.length = 0;   // their meshes already went with disposeSegment(road)
 }
@@ -1315,8 +1074,8 @@ function applyMode() {
   }
   state.col = 1; state.row = 1; state.hop = null; state.path = null; state.queued = null;
   state.pos.set(tileX(1), 0, tileZ(1));
-  camPos.copy(CAM_POS);
-  camTarget.copy(LOOK_AT);
+  rig3.pos.copy(CAM_POS);
+  rig3.target.copy(LOOK_AT);
   camAnchorX = state.pos.x; camLookX = state.pos.x;
 }
 function setMode(m, via) {
@@ -1326,166 +1085,6 @@ function setMode(m, via) {
   announce("mode", m, via);
 }
 function toggleMode(via) { setMode(mode === "sandbox" ? "advance" : "sandbox", via); }
-
-// Motes: a slow drift of dust in the light, so the air has depth.
-const MOTES = 220;
-const motePos = new Float32Array(MOTES * 3);
-const moteSeed = new Float32Array(MOTES);
-for (let i = 0; i < MOTES; i++) {
-  motePos[i * 3] = (Math.random() - 0.5) * 12;
-  motePos[i * 3 + 1] = Math.random() * 3.2 - 0.1;
-  motePos[i * 3 + 2] = (Math.random() - 0.5) * 8;
-  moteSeed[i] = Math.random() * 1000;
-}
-const moteGeo = new THREE.BufferGeometry();
-moteGeo.setAttribute("position", new THREE.BufferAttribute(motePos, 3));
-const motes = new THREE.Points(moteGeo, new THREE.PointsMaterial({
-  map: discTex, color: 0x8fb0ff, size: 0.06, sizeAttenuation: true, transparent: true, opacity: 0.45, depthWrite: false, blending: THREE.AdditiveBlending,
-}));
-scene.add(motes);
-function updateMotes(t) {
-  const a = moteGeo.attributes.position.array;
-  for (let i = 0; i < MOTES; i++) {
-    const s = moteSeed[i];
-    a[i * 3 + 1] += 0.00008 * frameDt * (0.6 + Math.sin(s) * 0.4);
-    a[i * 3] += Math.sin(t / 2600 + s) * 0.0002 * frameDt;
-    if (a[i * 3 + 1] > 3.2) a[i * 3 + 1] = -0.1;
-  }
-  moteGeo.attributes.position.needsUpdate = true;
-}
-
-// ---------- the character ----------
-// Built from capsules, spheres and boxes, rigged as nested groups so a pose
-// is a set of rotations. The model faces +x at rest: the barrel out to the
-// right, towards the enemy half, the way the 2D buster stands.
-
-const matArmor = new THREE.MeshStandardMaterial({ color: PAL.armor, roughness: 0.32, metalness: 0.45 });
-const matArmorDark = new THREE.MeshStandardMaterial({ color: PAL.armorDark, roughness: 0.4, metalness: 0.5 });
-const matSuit = new THREE.MeshStandardMaterial({ color: PAL.suit, roughness: 0.85, metalness: 0.1 });
-const matVisor = new THREE.MeshStandardMaterial({ color: PAL.visor, emissive: PAL.visor, emissiveIntensity: 1.6, roughness: 0.15, metalness: 0.2, side: THREE.DoubleSide });
-const matCore = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: PAL.visor, emissiveIntensity: 2.2, roughness: 0.2 });
-const matBarrel = new THREE.MeshStandardMaterial({ color: PAL.barrel, roughness: 0.3, metalness: 0.7 });
-const matMuzzle = new THREE.MeshStandardMaterial({ color: 0xffe9a0, emissive: 0xffb84a, emissiveIntensity: 1.4, roughness: 0.3 });
-
-function mesh(geo, mat, x = 0, y = 0, z = 0) {
-  const m = new THREE.Mesh(geo, mat);
-  m.position.set(x, y, z);
-  m.castShadow = true;
-  m.receiveShadow = true;
-  return m;
-}
-const box = (w, h, d, mat, x, y, z) => mesh(new THREE.BoxGeometry(w, h, d), mat, x, y, z);
-const ball = (r, mat, x, y, z, seg = 14) => mesh(new THREE.SphereGeometry(r, seg, seg), mat, x, y, z);
-
-/** A limb segment hangs from its pivot: a capsule whose top sits at the joint. */
-function segment(r, len, mat) {
-  const g = new THREE.Group();
-  g.add(mesh(new THREE.CapsuleGeometry(r, len - 2 * r, 4, 12), mat, 0, -len / 2, 0));
-  return g;
-}
-
-function buildCharacter() {
-  const root = new THREE.Group();          // at the tile centre, y = ground
-  root.scale.setScalar(CHAR_SCALE);
-  const squash = new THREE.Group();        // non-uniform scale for the landing
-  root.add(squash);
-
-  const HIP_Y = 0.9;
-  const hips = new THREE.Group();
-  hips.position.y = HIP_Y;
-  squash.add(hips);
-  hips.add(box(0.36, 0.2, 0.3, matSuit, 0, -0.02, 0));                 // pelvis
-  hips.add(box(0.4, 0.07, 0.34, matArmorDark, 0, 0.06, 0));             // belt
-  const buckle = mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.03, 6), matCore, 0.19, 0.06, 0);
-  buckle.rotation.z = Math.PI / 2;
-  hips.add(buckle);
-
-  // torso hangs UP from the hips (pivot at the waist so a lean bends there)
-  const torso = new THREE.Group();
-  torso.position.y = 0.1;
-  hips.add(torso);
-  torso.add(box(0.34, 0.18, 0.26, matSuit, 0, 0.1, 0));                 // abdomen
-  torso.add(box(0.46, 0.42, 0.36, matArmor, 0, 0.4, 0));               // chest plate
-  torso.add(box(0.5, 0.1, 0.4, matArmorDark, 0, 0.58, 0));             // collar
-  const core = mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.03, 6), matCore, 0.235, 0.44, 0);  // the core light, on the +x face
-  core.rotation.z = Math.PI / 2;
-  core.castShadow = false;
-  torso.add(core);
-  torso.add(box(0.14, 0.3, 0.3, matArmorDark, -0.26, 0.38, 0));        // backpack
-  torso.add(box(0.06, 0.2, 0.08, matSuit, -0.34, 0.4, -0.1));          // vents
-  torso.add(box(0.06, 0.2, 0.08, matSuit, -0.34, 0.4, 0.1));
-
-  // neck and helmet: a dome, a wraparound visor over the front, a crest
-  torso.add(mesh(new THREE.CylinderGeometry(0.07, 0.08, 0.1, 10), matSuit, 0, 0.66, 0));
-  const head = new THREE.Group();
-  head.position.y = 0.7;
-  torso.add(head);
-  head.add(ball(0.22, matArmor, 0, 0.2, 0, 18));
-  head.add(mesh(new THREE.CylinderGeometry(0.225, 0.225, 0.16, 20, 1, true), matArmorDark, 0, 0.17, 0)); // helmet band
-  // the visor: an open strip of a cylinder. Three's cylinder starts its
-  // sweep at +z, so a strip centred on +x is rotated a quarter turn.
-  const visor = mesh(new THREE.CylinderGeometry(0.234, 0.234, 0.085, 20, 1, true, -1.15, 2.3), matVisor, 0, 0.19, 0);
-  visor.rotation.y = Math.PI / 2;
-  visor.castShadow = false;
-  head.add(visor);
-  head.add(box(0.26, 0.06, 0.05, matArmorDark, -0.02, 0.41, 0));       // crest
-  const podL = mesh(new THREE.CylinderGeometry(0.05, 0.06, 0.05, 10), matArmorDark, 0, 0.19, -0.23);
-  podL.rotation.x = Math.PI / 2;
-  const podR = mesh(new THREE.CylinderGeometry(0.05, 0.06, 0.05, 10), matArmorDark, 0, 0.19, 0.23);
-  podR.rotation.x = Math.PI / 2;
-  head.add(podL); head.add(podR);
-
-  // arms: pauldron, upper arm, elbow, forearm; the right forearm is the buster
-  const shoulderY = 0.6;
-  function arm(side) {              // side: -1 (left, -z) or +1 (right, +z)
-    const g = segment(0.075, 0.32, matArmor);
-    g.position.set(0, shoulderY, side * 0.31);
-    g.add(mesh(new THREE.SphereGeometry(0.13, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2), matArmorDark, 0, 0.02, side * 0.02)); // pauldron
-    g.add(ball(0.07, matSuit, 0, -0.32, 0));                             // elbow
-    const fore = segment(0.065, 0.3, matSuit);
-    fore.position.y = -0.32;
-    g.add(fore);
-    return { g, fore };
-  }
-  const L = arm(-1), R = arm(1);
-  L.fore.add(box(0.12, 0.12, 0.13, matArmorDark, 0.01, -0.3, 0));       // left glove
-  // the buster: a barrel over the right forearm, a dark muzzle ring and a lit bore
-  R.fore.add(mesh(new THREE.CylinderGeometry(0.1, 0.115, 0.4, 14), matBarrel, 0, -0.22, 0));
-  R.fore.add(mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.05, 14), matArmorDark, 0, -0.4, 0));
-  const bore = mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.02, 12), matMuzzle, 0, -0.425, 0);
-  bore.castShadow = false;
-  R.fore.add(bore);
-  // an empty just past the bore: where shots leave and the flash sits
-  const muzzle = new THREE.Object3D();
-  muzzle.position.y = -0.5;
-  R.fore.add(muzzle);
-  torso.add(L.g); torso.add(R.g);
-
-  // legs hang DOWN from the hips: thigh, knee, shin, boot
-  function leg(side) {
-    const g = segment(0.085, 0.42, matArmor);
-    g.position.set(0, -0.06, side * 0.13);
-    g.add(ball(0.08, matSuit, 0, -0.42, 0));                             // knee
-    const shin = segment(0.07, 0.4, matSuit);
-    shin.position.y = -0.42;
-    shin.add(box(0.16, 0.18, 0.15, matArmorDark, 0.01, -0.3, 0));        // greave
-    shin.add(box(0.28, 0.09, 0.16, matArmorDark, 0.06, -0.41, 0));       // boot, toes towards +x
-    shin.add(box(0.3, 0.03, 0.17, matSuit, 0.06, -0.465, 0));            // sole
-    g.add(shin);
-    return { g, shin };
-  }
-  const legL = leg(-1), legR = leg(1);
-  hips.add(legL.g); hips.add(legR.g);
-
-  return {
-    root, squash, hips, HIP_Y, torso, head, muzzle,
-    armL: L.g, foreL: L.fore, armR: R.g, foreR: R.fore,
-    legL: legL.g, shinL: legL.shin, legR: legR.g, shinR: legR.shin,
-  };
-}
-
-const rig = buildCharacter();
-scene.add(rig.root);
 
 // A contact shadow under the buster: a soft blob that shrinks and fades as
 // the hop gains height, so the arc reads even where the key light's shadow
@@ -1525,152 +1124,6 @@ scene.add(flash);
 const chargeGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: discTex, color: PAL.charged, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
 chargeGlow.scale.setScalar(0.001);
 scene.add(chargeGlow);
-
-// ---------- effects ----------
-
-// Landing rings: a flat ring that grows and fades where the feet come down.
-const ripples = [];
-const rippleGeo = new THREE.RingGeometry(0.2, 0.25, 32);
-function ripple(x, z, color, scaleTo = 1.6, ms = 380) {
-  const m = new THREE.Mesh(rippleGeo, new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending }));
-  m.rotation.x = -Math.PI / 2;
-  m.position.set(x, 0.036, z);
-  scene.add(m);
-  ripples.push({ m, t0: now(), ms, scaleTo });
-}
-function updateRipples(t) {
-  for (let i = ripples.length - 1; i >= 0; i--) {
-    const r = ripples[i];
-    const u = clamp01((t - r.t0) / r.ms);
-    const s = lerp(0.6, r.scaleTo, easeOutQuad(u));
-    r.m.scale.set(s, s, s);
-    r.m.material.opacity = 0.9 * (1 - u);
-    if (u >= 1) { scene.remove(r.m); r.m.material.dispose(); ripples.splice(i, 1); }
-  }
-}
-
-// Dust: a few soft puffs kicked out sideways on take-off and on landing. The
-// same puffs, coloured and thrown harder, are sparks off a hit and the debris
-// of a deletion.
-const puffs = [];
-const puffMat = new THREE.SpriteMaterial({ map: discTex, color: PAL.dust, transparent: true, opacity: 0.5, depthWrite: false });
-function dust(x, z, count, speed, opts = {}) {
-  const { color = PAL.dust, y = 0.05, rise = 0.12, size = [0.08, 0.26], ms = [320, 480], additive = false } = opts;
-  for (let i = 0; i < count; i++) {
-    const s = new THREE.Sprite(puffMat.clone());
-    s.material.color.set(color);
-    if (additive) s.material.blending = THREE.AdditiveBlending;
-    const a = Math.random() * Math.PI * 2;
-    const v = speed * (0.5 + Math.random() * 0.5);
-    s.position.set(x, y, z);
-    s.scale.setScalar(size[0]);
-    scene.add(s);
-    puffs.push({ s, vx: Math.cos(a) * v, vz: Math.sin(a) * v, rise, size, t0: now(), ms: rand(ms[0], ms[1]) });
-  }
-}
-function updatePuffs(t) {
-  for (let i = puffs.length - 1; i >= 0; i--) {
-    const p = puffs[i];
-    const u = clamp01((t - p.t0) / p.ms);
-    const k = frameDt / 1000;
-    p.s.position.x += p.vx * k * (1 - u);
-    p.s.position.z += p.vz * k * (1 - u);
-    p.s.position.y += p.rise * k;
-    p.s.scale.setScalar(lerp(p.size[0], p.size[1], easeOutQuad(u)));
-    p.s.material.opacity = 0.5 * (1 - u);
-    if (u >= 1) { scene.remove(p.s); p.s.material.dispose(); puffs.splice(i, 1); }
-  }
-}
-
-/** Press a tile down and light its rim; it springs back on its own. */
-function pressTile(col, row, amount) {
-  const tl = tileAt(col, row);
-  if (!tl) return;
-  tl.dipV -= amount;
-  tl.glow = 1;
-}
-/** Flash a tile's rim a colour: the rotter's telegraph. */
-function flashTile(col, row, color) {
-  const tl = tileAt(col, row);
-  if (!tl) return;
-  tl.flash = 1;
-  tl.flashColor.set(color);
-}
-const _c = new THREE.Color();
-function updateTiles() {
-  const k = frameDt / 1000;
-  for (const tl of tiles.values()) {
-    // the rot: held at its level while a rotter sits, healing once it leaves
-    if (!tl.rotHeld && tl.rot > 0) tl.rot = Math.max(0, tl.rot - frameDt * ROT_DECAY);
-    tl.rotHeld = false;
-    if (tl.flash > 0) tl.flash = Math.max(0, tl.flash - k * 3);
-    if (tl.dip === 0 && tl.dipV === 0 && tl.glow === 0 && tl.rot === 0 && tl.flash === 0 && !tl.dirty) continue;
-    // a stiff spring towards rest
-    tl.dipV += (-tl.dip * 260 - tl.dipV * 18) * k;
-    tl.dip += tl.dipV * k;
-    if (Math.abs(tl.dip) < 0.0005 && Math.abs(tl.dipV) < 0.002) { tl.dip = 0; tl.dipV = 0; }
-    tl.g.position.y = tl.dip;
-    tl.glow = Math.max(0, tl.glow - k * 2.6);
-    tl.slabMat.color.lerpColors(tl.baseSlab, ROT_SLAB, tl.rot);
-    _c.lerpColors(tl.baseRim, ROT_RIM, tl.rot);
-    tl.rimMat.color.lerpColors(_c, tl.flashColor, tl.flash);
-    tl.rimMat.opacity = 0.75 + 0.25 * Math.max(tl.glow, tl.flash);
-    // one more pass after the colours have faded, so they land exactly on base
-    tl.dirty = tl.rot > 0 || tl.flash > 0;
-  }
-}
-
-// ---------- popups ----------
-// Floating score/status text — a world-space sprite, not DOM, so it sits
-// exactly at the deletion and rides the camera like everything else. Each
-// unique string gets one canvas texture, cached and reused: a fight spends
-// most of its popups on the same handful of strings ("+100", "BUSTED", the
-// chain multipliers), so there is no reason to redraw a canvas per one.
-const popupTexCache = new Map();
-const POPUP_CANVAS_W = 256, POPUP_CANVAS_H = 96;
-function popupTexture(text, color) {
-  const key = text + "|" + color;
-  let tex = popupTexCache.get(key);
-  if (tex) return tex;
-  const c = document.createElement("canvas");
-  c.width = POPUP_CANVAS_W; c.height = POPUP_CANVAS_H;
-  const g = c.getContext("2d");
-  g.font = "700 42px ui-monospace, Menlo, Consolas, monospace";
-  g.textAlign = "center"; g.textBaseline = "middle";
-  g.lineWidth = 8; g.strokeStyle = "rgba(7,9,14,0.9)";
-  g.strokeText(text, c.width / 2, c.height / 2);
-  g.fillStyle = color;
-  g.fillText(text, c.width / 2, c.height / 2);
-  tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  popupTexCache.set(key, tex);
-  return tex;
-}
-const popups = [];
-const POPUP_ASPECT = POPUP_CANVAS_H / POPUP_CANVAS_W;
-/** A floating text sprite at (x, z): rises (or, `fall`, sinks) and fades over `ms`, with a punchy scale-in. */
-function popup(x, z, text, opts = {}) {
-  const { color = "#c9f6ff", y0 = 0.5, rise = POPUP_RISE, ms = POPUP_MS, fall = false } = opts;
-  const mat = new THREE.SpriteMaterial({ map: popupTexture(text, color), transparent: true, depthWrite: false, depthTest: false });
-  const s = new THREE.Sprite(mat);
-  s.position.set(x, y0, z);
-  s.scale.set(0.001, 0.001, 1);
-  scene.add(s);
-  popups.push({ s, x, z, y0, drift: fall ? -rise : rise, t0: now(), ms, targetW: 0.62 });
-}
-function updatePopups(t) {
-  for (let i = popups.length - 1; i >= 0; i--) {
-    const p = popups[i];
-    const u = clamp01((t - p.t0) / p.ms);
-    const growU = clamp01(u / 0.22);
-    const w = p.targetW * (growU < 1 ? Math.max(0, easeOutBack(growU)) : 1);
-    p.s.scale.set(w, w * POPUP_ASPECT, 1);
-    p.s.position.set(p.x, p.y0 + p.drift * easeOutQuad(u), p.z);
-    p.s.material.opacity = u < 0.65 ? 1 : 1 - (u - 0.65) / 0.35;
-    if (u >= 1) { scene.remove(p.s); p.s.material.dispose(); popups.splice(i, 1); }
-  }
-}
-
 /** A chain stepping up to ×2/×3/×4 (at 5/10/20): a ring burst around the buster and a yellow multiplier popup. */
 function chainFlourish(mult) {
   if (!REDUCED_MOTION) ripple(state.pos.x, state.pos.z, PAL.shot, 2.4, 480);
@@ -1684,85 +1137,61 @@ function chainLostFlourish() {
   hud.chain.classList.add("lost");
 }
 
-// ---------- debris ----------
-// A deletion's aftermath: a handful of small dark chunks in the rotter's own
-// colours, thrown up and out, bouncing once off the floor, fading over
-// DEBRIS_MS. One shared box geometry; each chunk gets its own material only
-// because each one needs its own fade and colour.
-const debrisGeo = new THREE.BoxGeometry(0.05, 0.05, 0.05);
-const debris = [];
-function spawnDebris(x, z, palette) {
-  const n = 5 + Math.floor(Math.random() * 3);   // 5-7
-  for (let i = 0; i < n; i++) {
-    const mat = new THREE.MeshBasicMaterial({ color: palette[Math.floor(Math.random() * palette.length)], transparent: true });
-    const m = new THREE.Mesh(debrisGeo, mat);
-    m.position.set(x, 0.15, z);
-    m.rotation.set(rand(0, 6.3), rand(0, 6.3), rand(0, 6.3));
-    scene.add(m);
-    const a = rand(0, Math.PI * 2);
-    const speed = rand(0.5, 1.3);
-    debris.push({
-      m, x, y: 0.15, z, vx: Math.cos(a) * speed, vz: Math.sin(a) * speed, vy: rand(1.2, 2.2),
-      spinX: rand(-8, 8), spinY: rand(-8, 8), bounced: false, t0: now(), ms: DEBRIS_MS,
-    });
-  }
-}
-function updateDebris(t) {
-  const dt = frameDt / 1000;
-  for (let i = debris.length - 1; i >= 0; i--) {
-    const d = debris[i];
-    const u = clamp01((t - d.t0) / d.ms);
-    d.vy -= DEBRIS_GRAVITY * dt;
-    d.x += d.vx * dt; d.z += d.vz * dt; d.y += d.vy * dt;
-    if (d.y <= 0.03) {
-      d.y = 0.03;
-      if (!d.bounced) { d.bounced = true; d.vy = Math.abs(d.vy) * 0.4; } else d.vy = Math.max(0, d.vy);
-    }
-    d.m.position.set(d.x, d.y, d.z);
-    d.m.rotation.x += d.spinX * dt; d.m.rotation.y += d.spinY * dt;
-    d.m.material.opacity = 1 - u;
-    if (u >= 1) { scene.remove(d.m); d.m.material.dispose(); debris.splice(i, 1); }
-  }
-}
-
-// ---------- tracers ----------
-// The charged shot's own aftermath, on top of the flight it already has: a
-// thin line along the whole path, fading fast — the ring on impact is just
-// `ripple()` with a bigger scale (see updateShots).
-const tracers = [];
-function spawnTracer(x0, z0, x1, z1, color = PAL.charged, ms = TRACER_MS) {
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array([x0, 0.28, z0, x1, 0.28, z1]), 3));
-  const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
-  const line = new THREE.Line(geo, mat);
-  scene.add(line);
-  tracers.push({ line, t0: now(), ms });
-}
-function updateTracers(t) {
-  for (let i = tracers.length - 1; i >= 0; i--) {
-    const tr = tracers[i];
-    const u = clamp01((t - tr.t0) / tr.ms);
-    tr.line.material.opacity = 0.9 * (1 - u);
-    if (u >= 1) { scene.remove(tr.line); tr.line.geometry.dispose(); tr.line.material.dispose(); tracers.splice(i, 1); }
-  }
-}
-
 // ---------- state ----------
 
 const initialAim = AIM_MODES.includes(params.get("aim")) ? params.get("aim") : "lane";
-const initialCam = CAM_MODES.includes(params.get("cam")) ? params.get("cam") : "fixed";
 /** Which ruleset is live: the free-play board, or the 2D original's endless road. `setMode()` (bottom, mode control) rebuilds the world when this changes. */
 let mode = MODES.includes(params.get("mode")) ? params.get("mode") : "sandbox";
 
+/**
+ * The hop itself is the engine's model — one square per ration, the square
+ * changing at the top of the arc. What may be stood on, what a landing
+ * kicks up, and whether a hop turns the body are this game's answers, and
+ * they go in as callbacks.
+ */
+const hopper = new Hopper({
+  col: 1, row: 1,
+  timing: { windup: HOP_WINDUP_MS, air: HOP_AIR_MS, settle: HOP_SETTLE_MS },
+  free: (col, row) => walkable(col, row) && !rotterAt(col, row),
+  canTarget: (col, row) => onBoard(col, row) && !rotterAt(col, row),
+  onTarget: (col, row, ok) => {
+    // a tap on a rotter's square still answers, in the rotter's own colour
+    if (!ok) { if (onBoard(col, row)) ripple(tileX(col), tileZ(row), PAL.bolt, 1.1, 260); return; }
+    ripple(tileX(col), tileZ(row), PAL.ripple, 1.25, 320);
+    tileAt(col, row).glow = 1;
+  },
+  onBegin: (col, row, fromCol, fromRow, t) => {
+    // Unless the barrel is being held somewhere — by the lock, live aim
+    // input, or lane mode holding it down the lane on principle — a hop
+    // turns the body to face where it is going, as the 2D buster turns.
+    // Held, the legs go and the barrel stays: the strafe. Lane mode is
+    // *always* the strafe.
+    if (!state.lock && state.aimMode !== "lane" && !aimHeld(t)) setAim(angleTo(0, 0, col - fromCol, row - fromRow), t);
+  },
+  onLeave: (col, row) => { pressTile(col, row, 0.5); dust(tileX(col), tileZ(row), 3, 0.7); },
+  onLand: (col, row) => {
+    ripple(tileX(col), tileZ(row), 0xffffff, 1.5, 300);
+    pressTile(col, row, 0.9);
+    dust(tileX(col), tileZ(row), 6, 1.1);
+  },
+});
+
+/**
+ * The buster's own state. The square, the hop and the path live on the
+ * hopper — the accessors below are views onto it, so everything in this
+ * file still reads `state.col` the way it always did, and the two never
+ * drift apart the way a mirrored copy would.
+ */
 const state = {
-  col: 1, row: 1,             // the square counted as stood on
+  get col() { return hopper.col; }, set col(v) { hopper.col = v; },
+  get row() { return hopper.row; }, set row(v) { hopper.row = v; },
+  get hop() { return hopper.hop; }, set hop(v) { hopper.hop = v; },
+  get path() { return hopper.path; }, set path(v) { hopper.path = v; },
+  get queued() { return hopper.queued; }, set queued(v) { hopper.queued = v; },
+  get phase() { return hopper.phase; },
+  get lastMoveAt() { return hopper.lastMoveAt; },
+  get lastIdleAt() { return hopper.lastIdleAt; },
   pos: new THREE.Vector3(tileX(1), 0, tileZ(1)),   // where the body is, this frame
-  hop: null,                  // { fromCol, fromRow, toCol, toRow, t0, committed, left, landed }
-  lastFrom: null,              // [col, row] hopped from most recently — runPath()'s anti-backtrack pass
-  lastMoveAt: -1e9,
-  lastIdleAt: 0,              // when the last hop finished
-  path: null,                 // { col, row } a tap to walk towards
-  queued: null,               // a step asked for inside the ration
   // aiming
   aimMode: initialAim,        // "lane" | "4" | "8" | "free"
   aim: 0,                     // the angle shots leave at
@@ -1775,15 +1204,13 @@ const state = {
   facing: REST_YAW,           // yaw of the body, radians; 0 faces +x
   twist: 0,                   // legs turned off the barrel, in a strafe
   // the buster
-  charge: null,               // { t0 } while FIRE is held
+  charge: null,               // { t0, hold } while FIRE is held
   lastFireAt: -1e9,
   fireAt: -1e9, fireCharged: false, fireFlashMs: 70,
   hurtUntil: -1e9,
   busted: 0, hits: 0,
-  phase: "idle",
 };
 
-const cam = { mode: initialCam, yaw: 0.55, pitch: 0.62, dist: 6.2, shake: 0 };
 /**
  * Advance mode's look-at x: `camAnchorX` is a running max — the arena's
  * centre while it's contested, else the player's x — so the camera never
@@ -1801,133 +1228,18 @@ function updateCamAnchor() {
   camLookX += (camAnchorX - camLookX) * (1 - Math.exp(-frameDt / 170));
 }
 
-const moveReady = (t) => t - state.lastMoveAt >= MOVE_MS;
-
 // ---------- movement ----------
+// The rules are all above, on the hopper; these are the names the rest of
+// the game calls them by.
 
+const moveReady = (t) => hopper.ready(t);
 /** Nothing stands there: a square the player may stand on, and no rotter on it. */
 const free = (col, row) => walkable(col, row) && !rotterAt(col, row);
-
-/**
- * Take a step by (dc, dr). One axis at a time: a hop is never diagonal. When
- * both axes are asked for, the preferred one goes first, but if it is
- * blocked by the edge (or a rotter) the other still moves: the game's ring
- * presses both axes on a diagonal, and a wall should not cancel the half
- * that was fine.
- */
-function move(dc, dr, t, preferRow = false) {
-  if (!(dc || dr)) return;
-  state.path = null;
-  if (!moveReady(t)) { state.queued = { kind: "by", dc, dr, preferRow }; return; }
-  if (dc && dr) {
-    const first = preferRow ? [0, dr] : [dc, 0];
-    const second = preferRow ? [dc, 0] : [0, dr];
-    const ok = (d) => free(state.col + Math.sign(d[0]), state.row + Math.sign(d[1]));
-    [dc, dr] = ok(first) ? first : second;
-  }
-  const col = state.col + Math.sign(dc), row = state.row + Math.sign(dr);
-  if (!free(col, row)) return;
-  go(col, row, t);
-}
-
-/** Walk to a square: beside you it is one hop; further away, a path. */
-function moveTo(col, row, t) {
-  if (!onBoard(col, row)) return;
-  if (col === state.col && row === state.row) { state.path = null; return; }
-  if (rotterAt(col, row)) { ripple(tileX(col), tileZ(row), PAL.bolt, 1.1, 260); return; }
-  ripple(tileX(col), tileZ(row), PAL.ripple, 1.25, 320);
-  tileAt(col, row).glow = 1;
-  state.path = { col, row };
-  // A fresh destination starts its own run of steps: the anti-backtrack
-  // pass in runPath() must only refuse the tile *this walk* just left, not
-  // whatever an earlier, unrelated walk happened to leave standing there —
-  // otherwise the very first step of a walk that legitimately doubles back
-  // through where the player is already standing next to (an NPC tile's
-  // far side, say) reads as a backtrack and the router picks the wrong way.
-  state.lastFrom = null;
-  runPath(t);
-}
-
-/**
- * The next step of the path, when the ration allows. Larger axis first; a
- * blocked axis yields to the other. Sandbox never needed more than that —
- * a blocked square there is only ever a rotter, which moves on — but a
- * tower's NPC tile is a permanent wall, so on a straight run (one axis
- * already at the target) a blocked step also tries sidestepping a row, then
- * a column, to walk around it rather than stalling against it forever.
- */
-function runPath(t) {
-  const p = state.path;
-  if (!p) return;
-  if (p.col === state.col && p.row === state.row) { state.path = null; return; }
-  if (!moveReady(t)) return;
-  const dc = p.col - state.col, dr = p.row - state.row;
-  const byCol = [state.col + Math.sign(dc), state.row], byRow = [state.col, state.row + Math.sign(dr)];
-  const order = Math.abs(dc) >= Math.abs(dr) ? [byCol, byRow] : [byRow, byCol];
-  const detour = [[state.col, state.row + 1], [state.col, state.row - 1], [state.col + 1, state.row], [state.col - 1, state.row]];
-  const candidates = [...order, ...detour];
-  // A single obstacle (a lone rotter, one NPC tile) never needs more than
-  // the detour above. Two obstacles positioned to pinch a straight line
-  // from both the diagonal sides (the two-NPC towers) can trap this greedy
-  // router in a two-tile ping-pong: it steps back, then the very next call
-  // steps right back to the square it just left. So the immediately-prior
-  // tile is skipped on a first pass — anywhere else free routes around the
-  // pinch — and only allowed on a second pass if truly nothing else is free.
-  const back = state.lastFrom;
-  const isBack = (c, r) => back && c === back[0] && r === back[1];
-  for (const [c, r] of candidates) {
-    if ((c !== state.col || r !== state.row) && !isBack(c, r) && free(c, r)) { go(c, r, t); return; }
-  }
-  for (const [c, r] of candidates) {
-    if ((c !== state.col || r !== state.row) && free(c, r)) { go(c, r, t); return; }
-  }
-}
-
-/** Spend the ration on a hop to (col, row). */
-function go(col, row, t) {
-  state.lastMoveAt = t;
-  // a hop still in the air when the next begins lands first: no square is skipped
-  const prev = state.hop;
-  if (prev && !prev.committed) { prev.committed = true; state.col = prev.toCol; state.row = prev.toRow; }
-  if (col === state.col && row === state.row) { state.hop = null; return; }
-  state.lastFrom = [state.col, state.row];   // for runPath()'s anti-backtrack pass, above
-  state.hop = { fromCol: state.col, fromRow: state.row, toCol: col, toRow: row, t0: t, committed: false, left: false, landed: false };
-  // Unless the barrel is being held somewhere — by the lock, live aim input,
-  // or lane mode holding it down the lane on principle — a hop turns the
-  // body to face where it is going, as the 2D buster turns. Held, the legs
-  // go and the barrel stays: the strafe. Lane mode is *always* the strafe.
-  if (!state.lock && state.aimMode !== "lane" && !aimHeld(t)) setAim(angleTo(0, 0, col - state.col, row - state.row), t);
-}
-
-function updateHop(t) {
-  const h = state.hop;
-  if (!h) { state.phase = "idle"; return; }
-  const dt = t - h.t0;
-  if (!h.left && dt >= HOP_WINDUP_MS) {
-    h.left = true;
-    pressTile(h.fromCol, h.fromRow, 0.5);
-    dust(tileX(h.fromCol), tileZ(h.fromRow), 3, 0.7);
-  }
-  if (!h.committed && dt >= HOP_COMMIT_MS) { h.committed = true; state.col = h.toCol; state.row = h.toRow; }
-  if (!h.landed && dt >= HOP_WINDUP_MS + HOP_AIR_MS) {
-    h.landed = true;
-    ripple(tileX(h.toCol), tileZ(h.toRow), 0xffffff, 1.5, 300);
-    pressTile(h.toCol, h.toRow, 0.9);
-    dust(tileX(h.toCol), tileZ(h.toRow), 6, 1.1);
-  }
-  if (dt >= HOP_TOTAL_MS) { state.hop = null; state.phase = "idle"; state.lastIdleAt = t; return; }
-  state.phase = dt < HOP_WINDUP_MS ? "windup" : dt < HOP_WINDUP_MS + HOP_AIR_MS ? "air" : "settle";
-}
-
-function flushQueued(t) {
-  const q = state.queued;
-  if (!q || !moveReady(t)) return;
-  state.queued = null;
-  if (q.kind === "to") moveTo(q.col, q.row, t);
-  else move(q.dc, q.dr, t, q.preferRow);
-}
-
-// ---------- aiming ----------
+const move = (dc, dr, t, preferRow = false) => hopper.move(dc, dr, t, preferRow);
+const moveTo = (col, row, t) => hopper.moveTo(col, row, t);
+const runPath = (t) => hopper.runPath(t);
+const updateHop = (t) => hopper.update(t);
+const flushQueued = (t) => hopper.flushQueued(t);
 
 /** The mode's grid: four ways, eight ways, or none. */
 function quantise(a) {
@@ -1973,11 +1285,13 @@ function updateLock(t) {
   if (want && !state.lock) { state.lock = true; state.lockTarget = nearestRotter(); state.aimAt = t; state.cosmetic = false; announce("lock", state.lockTarget ? "target" : "held", lockVia); }
   if (!want && state.lock) { state.lock = false; state.lockTarget = null; announce("lock", "off", lockVia); }
   if (state.lock && (!state.lockTarget || state.lockTarget.phase === "die" || !rotters.includes(state.lockTarget))) state.lockTarget = nearestRotter();
-  chips.lock.value.textContent = state.lock ? (state.lockTarget ? "target" : "held") : "off";
-  chips.lock.btn.classList.toggle("on", state.lock);
+  // the chip re-reads every frame, not just on the transition: the lock's
+  // value flips from "held" to "target" the moment a rotter comes into range
+  chips.set("lock", state.lock ? (state.lockTarget ? "target" : "held") : "off");
+  chips.toggle("lock", state.lock);
 }
 
-const _v = new THREE.Vector3(), _w = new THREE.Vector3();
+const _v = new THREE.Vector3();
 
 /**
  * Where the barrel points this frame, by priority: the lock on its target,
@@ -2005,8 +1319,8 @@ function updateAim(t) {
   }
   const sv = aimStickVec();
   const kv = heldAim();
-  if (sv) setAim(angleOfScreen(sv[0], sv[1]), t);
-  else if (kv) setAim(angleOfScreen(kv[0], kv[1]), t);
+  if (sv) setAim(rig3.angleOfScreen(sv[0], sv[1]), t);
+  else if (kv) setAim(rig3.angleOfScreen(kv[0], kv[1]), t);
   else if (t - state.hoverAt < AIM_HOLD_MS) setAim(state.hoverAim, t);
   else if (!state.hop && t - state.lastIdleAt > REFACE_MS && t - state.aimAt > AIM_HOLD_MS && !state.charge) {
     state.aim = 0;
@@ -2055,8 +1369,8 @@ function fire(t, charged) {
 /** The board's edge along a ray from (mx,mz) in direction (dx,dz): where a miss's tracer ends and it counts as a whiff. */
 function rayBoardEdge(mx, mz, dx, dz) {
   let best = 8;
-  if (dx > 1e-6) best = Math.min(best, (tileX(tileColMax) + TILE / 2 + 1 - mx) / dx);
-  else if (dx < -1e-6) best = Math.min(best, (tileX(tileColMin) - TILE / 2 - 1 - mx) / dx);
+  if (dx > 1e-6) best = Math.min(best, (tileX(grid.colMax) + TILE / 2 + 1 - mx) / dx);
+  else if (dx < -1e-6) best = Math.min(best, (tileX(grid.colMin) - TILE / 2 - 1 - mx) / dx);
   if (dz > 1e-6) best = Math.min(best, (tileZ(ROWS - 1) + TILE / 2 + 1 - mz) / dz);
   else if (dz < -1e-6) best = Math.min(best, (tileZ(0) - TILE / 2 - 1 - mz) / dz);
   return Math.max(0.3, best);
@@ -2153,19 +1467,10 @@ function advanceDeleteEnemy(r, charged, t) {
  * good and every later press would return early: the weapon dead for the
  * rest of the run.
  */
-const fireHolds = new Set();
-// Nothing is gained by holding past the charge, so a hold this long is taken
-// as a release that never arrived: the shot goes off and the buster is free
-// again. Without the cap one swallowed pointerup is a dead weapon for good.
-const MAX_FIRE_HOLD_MS = 3000;
-function dropFireHold(hold, t = now()) {
-  if (!fireHolds.delete(hold)) return;
-  releaseFire(t, hold);
-}
 function pressFire(t, hold = null) {
   // FIRE is also how the start and pause cards let go — a single choke
   // point covers the keyboard, the FIRE button and right-click/touch alike.
-  if (hold) fireHolds.add(hold);
+  // (The hold itself was already added to the engine's set before this ran.)
   if (cardKind === "over") return;
   if (cardKind === "start") { startRun(); return; }
   if (cardKind === "pause") { resumeGame(); return; }
@@ -2175,8 +1480,8 @@ function pressFire(t, hold = null) {
   hud.fire.classList.add("held");
 }
 function releaseFire(t, hold = null) {
-  if (hold) fireHolds.delete(hold);
-  if (fireHolds.size) return;      // another input is still holding FIRE down
+  if (hold) input.fireHolds.delete(hold);
+  if (input.firing) return;        // another input is still holding FIRE down
   const c = state.charge;
   if (!c) return;
   state.charge = null;
@@ -2443,8 +1748,8 @@ function updateRotters(t) {
       case "sit": {
         y = 0.02 * Math.sin(t / 260 + r.seed);
         const tl = tileAt(r.col, r.row);
-        tl.rot = Math.min(1, tl.rot + frameDt * ROT_RATE);
-        tl.rotHeld = true;
+        tl.stain = Math.min(1, tl.stain + frameDt * ROT_RATE);
+        tl.stainHeld = true;
         if (r.kind === "guard") break;   // never moves, never attacks — the formation's anchor
         if (r.kind === "mett") {
           // never the random classic sit/hop/aim state machine: a fixed
@@ -2535,66 +1840,19 @@ function updateRotters(t) {
 }
 
 // ---------- pose ----------
-// Every phase is a set of joint angles and offsets; between phases the
-// pose is continuous because each phase's curve starts where the last ended.
+// The curves are the engine's — an idle, and a hop's crouch/arc/land, each
+// phase starting where the last ended so the pose is continuous. What this
+// game adds on top is the shooting: the barrel arm held level whatever the
+// legs do, the left hand bracing a charge, the recoil kick, the flinch of a
+// hit, and the strafe twist.
 
 function pose(t) {
-  const r = rig;
   const h = state.hop;
+  const base = h ? hopPose(t - h.t0, hopper.timing) : idlePose(t);
 
-  // defaults: standing
-  let hipDrop = 0, lean = 0, knee = 0.08, thigh = 0, armSwing = 0, elbow = -0.25, headPitch = 0, headYaw = 0;
-  let sx = 1, sy = 1;
-  let legSplit = 0;   // opposite thigh angles in the air, for a running shape
-  let sway = 0;       // hips shifting side to side at rest
-
-  const breath = Math.sin(t / 380);   // ~2.4 s cycle
-
-  if (!h) {
-    // idle: breath, a slow look around, weight shifting foot to foot
-    hipDrop = 0.012 * (1 - breath) * 0.5;
-    lean = 0.03 + 0.02 * breath;
-    armSwing = 0.05 * Math.sin(t / 620);
-    elbow = -0.35 + 0.05 * breath;
-    headYaw = 0.25 * Math.sin(t / 1400);
-    headPitch = 0.05 * Math.sin(t / 900);
-    knee = 0.1 + 0.02 * breath;
-    sway = 0.03 * Math.sin(t / 1900);
-  } else {
-    const dt = t - h.t0;
-    if (dt < HOP_WINDUP_MS) {
-      // crouch: hips sink, knees fold, torso leans in, arms pull back
-      const u = easeOutQuad(clamp01(dt / HOP_WINDUP_MS));
-      hipDrop = 0.22 * u; knee = 0.08 + 1.1 * u; thigh = 0.5 * u;
-      lean = 0.3 * u; armSwing = -0.7 * u; elbow = -0.3 - 0.5 * u; headPitch = 0.2 * u;
-      sy = 1 - 0.04 * u; sx = 1 + 0.03 * u;
-    } else if (dt < HOP_WINDUP_MS + HOP_AIR_MS) {
-      // the arc: legs tuck then reach, arms come up and forward
-      const u = clamp01((dt - HOP_WINDUP_MS) / HOP_AIR_MS);
-      const up = Math.sin(Math.PI * u);           // 0 → 1 → 0
-      hipDrop = -0.02 * up;
-      knee = 1.2 * up + 0.2 * (1 - u); thigh = lerp(0.5, -0.35, u) + 0.4 * up;
-      legSplit = 0.55 * up;
-      lean = lerp(0.3, -0.05, u); armSwing = lerp(-0.7, 0.9, easeOutQuad(u)); elbow = -0.9 + 0.3 * u;
-      headPitch = lerp(0.2, -0.15, u);
-      sy = 1 + 0.06 * up; sx = 1 - 0.04 * up;    // a stretch at the top
-    } else {
-      // landing: a squash that springs back, knees absorb then straighten, arms fall
-      const u = clamp01((dt - HOP_WINDUP_MS - HOP_AIR_MS) / HOP_SETTLE_MS);
-      const spring = 1 - easeOutBack(u);          // 1 → 0 with a small dip past 0
-      hipDrop = 0.18 * spring; knee = 0.08 + 1.0 * spring; thigh = 0.45 * spring;
-      lean = 0.22 * spring; armSwing = lerp(0.9, 0, easeOutQuad(u)) - 0.3 * spring; elbow = -0.25 - 0.4 * spring;
-      headPitch = 0.15 * spring;
-      sy = 1 - 0.12 * spring; sx = 1 + 0.08 * spring;
-    }
-  }
-
-  // Aiming holds the barrel arm level whatever the legs are doing: in the air
-  // the arms would swing, but a shooter's do not. Blend the swing out while
-  // the barrel is held (lock, live aim, a charge) or has just fired.
+  // Aiming holds the barrel arm level whatever the legs are doing: in the
+  // air the arms would swing, but a shooter's do not.
   const holding = state.lock || !!state.charge || t - state.aimAt < AIM_HOLD_MS;
-  const armHold = holding ? 0.85 : 0;
-  const armRSwing = lerp(armSwing, 0.05, armHold);
   // the charge: the left hand comes across to brace the barrel
   const chargeU = state.charge ? clamp01((t - state.charge.t0) / currentChargeMs()) : 0;
   // the recoil: the barrel arm kicks up and the torso rocks back
@@ -2604,46 +1862,13 @@ function pose(t) {
   const hu = clamp01((t - (state.hurtUntil - HURT_MS)) / HURT_MS);
   const flinch = hu < 1 ? (1 - hu) * (1 - hu) : 0;
 
-  // Signs: the torso and head point up, so a forward lean (towards +x) is a
-  // negative z rotation. Limbs hang down from their pivots, so for them
-  // forward is positive. A knee folds the shin back, so it is negative again.
-  r.hips.position.y = r.HIP_Y - hipDrop - 0.08 * flinch;
-  r.hips.position.z = sway;
-  r.hips.rotation.x = sway * 1.5;
-  r.squash.scale.set(sx, sy, sx);
-  r.torso.rotation.z = -lean + kick * 0.25 + 0.2 * flinch;
-  r.torso.rotation.x = -sway * 1.5;
-  r.head.rotation.z = -headPitch * 0.6 + 0.25 * flinch;
-  r.head.rotation.y = holding ? headYaw * 0.2 : headYaw;
-
-  // The strafe: the legs turn towards where the hop is going, the torso turns
-  // back by the same amount so the barrel stays on the aim. At rest the
-  // legs come back under the barrel.
+  // The strafe: the legs turn towards where the hop is going, the torso
+  // turns back by the same amount so the barrel stays on the aim. At rest
+  // the legs come back under the barrel.
   const moveYaw = h ? angleTo(0, 0, h.toCol - h.fromCol, h.toRow - h.fromRow) : null;
-  const wantTwist = moveYaw === null ? 0 : clamp(angleDelta(state.facing, moveYaw), -TWIST_MAX, TWIST_MAX);
-  state.twist += (wantTwist - state.twist) * Math.min(1, frameDt / 60);
-  r.hips.rotation.y = state.twist;
-  r.torso.rotation.y = -state.twist;
+  state.twist = easeTwist(state.twist, state.facing, moveYaw, frameDt, { max: TWIST_MAX, tau: 60 });
 
-  // legs: thigh forward is positive; the knee folds the shin back
-  r.legL.rotation.z = thigh + legSplit;
-  r.legR.rotation.z = thigh - legSplit;
-  r.shinL.rotation.z = -knee;
-  r.shinR.rotation.z = -knee;
-
-  // arms: swing forward is positive; the elbow bends the forearm forward. The
-  // barrel arm is carried raised so the gun points along +x, at the enemy half.
-  r.armL.rotation.z = lerp(armSwing, 0.9, chargeU * 0.8) - 0.4 * flinch;
-  r.armL.rotation.y = lerp(0, 0.7, chargeU);
-  r.armR.rotation.z = armRSwing + 0.25 + kick * 0.6;
-  r.foreL.rotation.z = -lerp(elbow, -1.1, chargeU);
-  r.foreR.rotation.z = -lerp(elbow, -0.25, armHold) + 1.0 - kick * 0.4;
-
-  // a hit lights the armour red for the flinch
-  matArmor.emissive.set(PAL.bolt);
-  matArmor.emissiveIntensity = 0.9 * flinch;
-  matArmorDark.emissive.set(PAL.bolt);
-  matArmorDark.emissiveIntensity = 0.6 * flinch;
+  applyPose(rig, base, { holding: holding ? 0.85 : 0, chargeU, kick, flinch, twist: state.twist, hurtColor: PAL.bolt });
 }
 
 // ---------- placement ----------
@@ -2653,11 +1878,10 @@ function place(t) {
   let x, z, y = 0;
   if (h) {
     const dt = t - h.t0;
-    const u = clamp01((dt - HOP_WINDUP_MS) / HOP_AIR_MS);
-    const e = easeInOutSine(u);
+    const e = hopEaseAt(dt, hopper.timing);
     x = lerp(tileX(h.fromCol), tileX(h.toCol), e);
     z = lerp(tileZ(h.fromRow), tileZ(h.toRow), e);
-    y = HOP_HEIGHT * 4 * u * (1 - u);
+    y = HOP_HEIGHT * hopHeightAt(dt, hopper.timing);
   } else {
     x = tileX(state.col); z = tileZ(state.row);
   }
@@ -2694,331 +1918,96 @@ function updateMuzzle(t) {
   sightMat.opacity = state.lock ? 0.75 : state.aimMode === "free" || t - state.aimAt < AIM_HOLD_MS ? 0.42 : 0.16;
 }
 
-// ---------- camera ----------
-
-const _want = new THREE.Vector3(), _wantT = new THREE.Vector3();
-
-// The damage punch: on a hit the camera kicks away from the bolt's own
-// travel direction and eases back over PUNCH_MS. A vector plus a start
-// time, same shape as `cam.shake`, so one hit landing mid-recovery from
-// another just restarts the ease rather than fighting it.
-let camPunch = { x: 0, z: 0, t0: -1e9 };
-function triggerCamPunch(bvx, bvz) {
-  if (REDUCED_MOTION) return;
-  const len = Math.hypot(bvx, bvz) || 1;
-  camPunch = { x: -(bvx / len) * PUNCH_DIST, z: -(bvz / len) * PUNCH_DIST, t0: now() };
-}
-/** The `#vignette` overlay: a red wash that flashes in and fades over VIGNETTE_MS. */
-function flashVignette() {
-  if (REDUCED_MOTION) return;
-  hud.vignette.classList.remove("flash");
-  void hud.vignette.offsetWidth;
-  hud.vignette.classList.add("flash");
-}
-
-function setCamMode(m, via) {
-  if (!CAM_MODES.includes(m)) return;
-  cam.mode = m;
-  hud.orbit.hidden = m !== "orbit";
-  announce("cam", m, via);
-}
-function cycleCamMode(via) { setCamMode(CAM_MODES[(CAM_MODES.indexOf(cam.mode) + 1) % CAM_MODES.length], via); }
-
-function updateCamera() {
-  updateCamAnchor();
-  const p = state.pos;
-  // fixed and follow track the anchor's x in advance mode (the arena's
-  // centre while it's fought over, the player's x otherwise); orbit is
-  // explicitly the player's own x, not the eased anchor.
-  const cx = mode === "advance" ? camLookX : p.x;
-  let rate = 400;
-  switch (cam.mode) {
-    case "fixed": {
-      // the framing the prototype was built with; the camera leans a little
-      // towards the buster. In advance mode the whole framing rides the
-      // anchor down the road, and the lean is the buster's offset from it.
-      const base = mode === "advance" ? cx : 0;
-      const lean = (p.x - base) * 0.18;
-      _wantT.set(base + lean, LOOK_AT.y, LOOK_AT.z);
-      _want.set(CAM_POS.x + base + lean * 0.6, CAM_POS.y, CAM_POS.z);
-      break;
-    }
-    case "follow": {
-      // the same angle, closer, keeping the buster near the centre
-      _wantT.set(cx, 0.2, p.z * 0.6);
-      _want.set(cx, 2.9, p.z * 0.6 + 4.1);
-      rate = 260;
-      break;
-    }
-    case "orbit": {
-      _wantT.set(mode === "advance" ? p.x : 0, 0.1, 0);
-      const cp = Math.cos(cam.pitch);
-      _want.set(Math.sin(cam.yaw) * cp * cam.dist, Math.sin(cam.pitch) * cam.dist, Math.cos(cam.yaw) * cp * cam.dist).add(_wantT);
-      rate = 120;
-      break;
-    }
-    case "shoulder": {
-      // behind the buster, looking where the barrel looks; the aim swings it
-      aimDir(state.aim, _v);
-      _wantT.set(p.x + _v.x * 3.2, 0.15, p.z + _v.z * 3.2);
-      _want.set(p.x - _v.x * 3.0, 2.2, p.z - _v.z * 3.0);
-      rate = 260;
-      break;
-    }
-    case "top": {
-      // straight down, following loosely; the small z offset keeps the up vector honest
-      _wantT.set(p.x * 0.5, 0, p.z * 0.5);
-      _want.set(p.x * 0.5, 8.4, p.z * 0.5 + 0.9);
-      rate = 300;
-      break;
-    }
-  }
-  const k = Math.min(1, frameDt / rate);
-  camPos.lerp(_want, k);
-  camTarget.lerp(_wantT, k);
-  camera.position.copy(camPos);
-  if (cam.shake > 0.001) {
-    camera.position.x += (Math.random() - 0.5) * cam.shake;
-    camera.position.y += (Math.random() - 0.5) * cam.shake;
-    cam.shake *= Math.pow(0.001, frameDt / 320);
-  } else cam.shake = 0;
-  const pu = clamp01((now() - camPunch.t0) / PUNCH_MS);
-  if (pu < 1) {
-    const decay = 1 - easeOutQuad(pu);
-    camera.position.x += camPunch.x * decay;
-    camera.position.z += camPunch.z * decay;
-  }
-  camera.lookAt(camTarget);
-  fitFov();
-}
-
-/**
- * Widen the view until all six columns fit: the horizontal half-angle the
- * board needs at the camera's distance, turned into the vertical fov the
- * aspect implies. Landscape never needs more than the 30 it was framed at.
- * The shoulder camera is not framing the board, so it keeps a lens of its own.
- */
-function fitFov() {
-  let fov;
-  if (cam.mode === "shoulder") fov = 52;
-  else {
-    const dist = camPos.distanceTo(camTarget);
-    const halfW = (COLS * TILE) / 2 + 0.5;
-    const vfov = 2 * Math.atan(halfW / dist / camera.aspect) * (180 / Math.PI);
-    fov = Math.max(30, Math.min(95, vfov));
-  }
-  if (Math.abs(fov - camera.fov) > 0.01) { camera.fov = fov; camera.updateProjectionMatrix(); }
-}
-
-/**
- * Screen to board. Input is read relative to the camera: screen-up is the
- * way the camera looks (flattened to the floor), screen-right is its right.
- * For the fixed framing that is exactly the board's own axes; under the
- * orbit and shoulder cameras it is what the thumb expects.
- */
-const _fwd = new THREE.Vector3(), _right = new THREE.Vector3();
-function boardVec(sx, sy, out) {
-  _fwd.subVectors(camTarget, camPos); _fwd.y = 0;
-  if (_fwd.lengthSq() < 1e-6) _fwd.set(0, 0, -1); else _fwd.normalize();
-  _right.set(-_fwd.z, 0, _fwd.x);
-  return out.set(_right.x * sx - _fwd.x * sy, 0, _right.z * sx - _fwd.z * sy);
-}
-/** A screen vector as an aim angle. */
-function angleOfScreen(sx, sy) { boardVec(sx, sy, _w); return angleTo(0, 0, _w.x, _w.z); }
-/** A screen vector as a step: the dominant board axis, or both when both are asked for. */
-function stepOfScreen(sx, sy, both) {
-  boardVec(sx, sy, _w);
-  const ax = Math.abs(_w.x), az = Math.abs(_w.z);
-  if (both) return [ax > 0.3 ? Math.sign(_w.x) : 0, az > 0.3 ? Math.sign(_w.z) : 0];
-  return ax >= az ? [Math.sign(_w.x), 0] : [0, Math.sign(_w.z)];
-}
-
 // ---------- input ----------
+// The engine owns the two sticks and the FIRE hold-set; what a key *means*
+// is here. Anything this game wants to intercept before the engine's own
+// bookkeeping — a card over the board swallowing every key but FIRE — it
+// does by returning true from `onKeyDown` / `onPointerDown`.
 
-const MOVE_KEYS = { KeyW: [0, -1], KeyS: [0, 1], KeyA: [-1, 0], KeyD: [1, 0] };
-const AIM_KEYS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
-const FIRE_KEYS = new Set(["Space", "KeyJ", "Enter"]);
-const held = new Set();       // move codes, in press order
-const heldAimKeys = new Set();
+const input = new Input({
+  canvas: renderer.domElement,
+  rig: rig3,
+  now,
+  deadPx: STICK_DEAD_PX,
 
-function isTyping(e) { return e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName); }
-
-window.addEventListener("keydown", (e) => {
-  if (isTyping(e)) return;
-  // the game-over card freezes input to just RETRY — R is the orbit tilt
-  // everywhere else, but here it means what Enter means.
-  if (cardKind === "over") {
-    if (e.code === "Enter" || e.code === "KeyR") { e.preventDefault(); retry(); }
-    return;
-  }
-  // the start and pause cards: FIRE lets go of either; P/Escape also
-  // resumes a pause. Everything else — movement, aim, the cameras — is
-  // inert while a card has the floor.
-  if (cardKind) {
-    if (FIRE_KEYS.has(e.code)) { e.preventDefault(); pressFire(now(), "key"); }
-    else if ((e.code === "KeyP" || e.code === "Escape") && cardKind === "pause") { e.preventDefault(); resumeGame(); }
-    return;
-  }
-  const t = now();
-  if (MOVE_KEYS[e.code]) {
-    e.preventDefault();
-    if (!held.has(e.code)) {
-      held.add(e.code);
-      // a fresh press steps now (or queues inside the ration); a repeat is handled by the hold
-      const hd = heldDir();
-      if (hd) move(hd[0], hd[1], t, hd[2]);
+  onKeyDown(e) {
+    // the game-over card freezes input to just RETRY — R is the orbit tilt
+    // everywhere else, but here it means what Enter means.
+    if (cardKind === "over") {
+      if (e.code === "Enter" || e.code === "KeyR") { e.preventDefault(); retry(); }
+      return true;
     }
-    return;
-  }
-  if (AIM_KEYS[e.code]) { e.preventDefault(); heldAimKeys.add(e.code); return; }
-  if (FIRE_KEYS.has(e.code)) { e.preventDefault(); if (!e.repeat) pressFire(t, "key"); return; }
-  if (e.code === "ShiftLeft" || e.code === "ShiftRight") { state.lockHold = true; lockVia = "shift"; return; }
-  if (e.repeat) return;
-  switch (e.code) {
-    case "KeyL": state.lockToggle = !state.lockToggle; lockVia = "key L"; break;
-    case "Digit1": setAimMode("lane", "key 1"); break;
-    case "Digit2": setAimMode("4", "key 2"); break;
-    case "Digit3": setAimMode("8", "key 3"); break;
-    case "Digit4": setAimMode("free", "key 4"); break;
-    case "Tab": e.preventDefault(); cycleAimMode("key Tab"); break;
-    case "KeyC": cycleCamMode("key C"); break;
-    case "KeyQ": orbitBy(-0.35, 0, "key Q"); break;
-    case "KeyE": orbitBy(0.35, 0, "key E"); break;
-    case "KeyR": orbitBy(0, 0.15, "key R"); break;
-    case "KeyF": orbitBy(0, -0.15, "key F"); break;
-    case "KeyM": toggleMode("key M"); break;
-    case "KeyT": pressTalk(); break;
-    case "KeyB": pressBomb(); break;
-    case "KeyP": pauseGame(); break;
-    case "Escape": pauseGame(); break;
-  }
-});
-window.addEventListener("keyup", (e) => {
-  held.delete(e.code);
-  heldAimKeys.delete(e.code);
-  if (FIRE_KEYS.has(e.code)) dropFireHold("key");
-  if (e.code === "ShiftLeft" || e.code === "ShiftRight") { state.lockHold = false; lockVia = "shift"; }
-});
-window.addEventListener("blur", () => { held.clear(); heldAimKeys.clear(); state.lockHold = false; fireHolds.clear(); releaseFire(now()); });
-// A tab hidden mid-hold never delivers the pointerup or keyup; let go of FIRE.
-document.addEventListener("visibilitychange", () => { if (document.hidden) { fireHolds.clear(); releaseFire(now()); } });
-// A release anywhere frees the on-screen button and the right mouse button —
-// the element's own pointerup never arrives when capture did not take.
-window.addEventListener("pointerup", () => { dropFireHold("btn"); dropFireHold("rmb"); });
-window.addEventListener("pointercancel", () => { dropFireHold("btn"); dropFireHold("rmb"); });
-
-/** Turn or tilt the orbit camera; any of these switches to it. */
-function orbitBy(dyaw, dpitch, via) {
-  if (cam.mode !== "orbit") setCamMode("orbit", via);
-  cam.yaw += dyaw;
-  cam.pitch = clamp(cam.pitch + dpitch, 0.15, 1.45);
-}
-
-/**
- * Everything held on the movement keys, summed on the screen and turned
- * into one ask per board axis, plus whether the most recent press was on
- * the screen's vertical so that axis goes first.
- */
-function heldDir() {
-  if (!held.size) return null;
-  let sx = 0, sy = 0, lastRow = false;
-  for (const code of held) { const d = MOVE_KEYS[code]; sx += d[0]; sy += d[1]; lastRow = d[1] !== 0; }
-  if (!sx && !sy) return null;
-  const [dc, dr] = stepOfScreen(sx, sy, true);
-  return dc || dr ? [dc, dr, lastRow] : null;
-}
-/** The arrow keys, summed, as a screen vector; null when none is held. */
-function heldAim() {
-  if (!heldAimKeys.size) return null;
-  let sx = 0, sy = 0;
-  for (const code of heldAimKeys) { const d = AIM_KEYS[code]; sx += d[0]; sy += d[1]; }
-  return sx || sy ? [sx, sy] : null;
-}
-
-// Pointers. The first finger on the board is the left stick: a tap on a
-// square is "go there", a drag past the dead zone is held in one of four
-// directions until it comes back or lifts. A second finger, wherever it
-// lands, is the right stick and aims. A mouse aims by hovering, and its
-// right button is FIRE. The wheel zooms the orbit.
-const ray = new THREE.Raycaster();
-const ndc = new THREE.Vector2();
-const boardPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-const pointers = new Map();   // id -> { role: "move" | "aim" | "fire", x0, y0, vec }
-const canvas = renderer.domElement;
-
-function boardPoint(clientX, clientY, out) {
-  const rect = canvas.getBoundingClientRect();
-  ndc.set(((clientX - rect.left) / rect.width) * 2 - 1, -((clientY - rect.top) / rect.height) * 2 + 1);
-  ray.setFromCamera(ndc, camera);
-  return ray.ray.intersectPlane(boardPlane, out);
-}
-function squareAt(clientX, clientY) {
-  // intersect the board plane, then snap: taps just off a tile's edge still count
-  if (!boardPoint(clientX, clientY, _v)) return null;
-  const col = Math.round(_v.x / TILE + (COLS - 1) / 2);
-  const row = Math.round(_v.z / TILE + (ROWS - 1) / 2);
-  return onBoard(col, row) ? { col, row } : null;
-}
-const roleHeld = (role) => { for (const p of pointers.values()) if (p.role === role) return p; return null; };
-function aimStickVec() { const p = roleHeld("aim"); return p ? p.vec : null; }
-
-canvas.style.touchAction = "none";
-canvas.addEventListener("contextmenu", (e) => e.preventDefault());
-canvas.addEventListener("pointerdown", (e) => {
-  const t = now();
-  if (e.pointerType === "mouse" && e.button === 2) {
-    pointers.set(e.pointerId, { role: "fire" });
-    pressFire(t, "rmb");
-    return;
-  }
-  if (cardKind) return;   // a card has the floor: no move/aim stick underneath it
-  if (e.pointerType === "mouse" && e.button !== 0) return;
-  const role = roleHeld("move") ? (roleHeld("aim") ? null : "aim") : "move";
-  if (!role) return;
-  pointers.set(e.pointerId, { role, x0: e.clientX, y0: e.clientY, vec: null });
-  canvas.setPointerCapture(e.pointerId);
-});
-canvas.addEventListener("pointermove", (e) => {
-  const p = pointers.get(e.pointerId);
-  if (!p) {
-    // a bare mouse aims by where it hovers over the board
-    if (e.pointerType === "mouse" && boardPoint(e.clientX, e.clientY, _v)) {
-      state.hoverAim = angleTo(state.pos.x, state.pos.z, _v.x, _v.z);
-      state.hoverAt = now();
+    // the start and pause cards: FIRE lets go of either; P/Escape also
+    // resumes a pause. Everything else — movement, aim, the cameras — is
+    // inert while a card has the floor.
+    if (cardKind) {
+      if (input.fireKeys.has(e.code)) { e.preventDefault(); input.pressFire("key"); }
+      else if ((e.code === "KeyP" || e.code === "Escape") && cardKind === "pause") { e.preventDefault(); resumeGame(); }
+      return true;
     }
-    return;
-  }
-  if (p.role === "fire") return;
-  const dx = e.clientX - p.x0, dy = e.clientY - p.y0;
-  p.vec = Math.hypot(dx, dy) < STICK_DEAD_PX ? null : [dx, dy];
+    return false;
+  },
+
+  onKey(code, e) {
+    if (code === "ShiftLeft" || code === "ShiftRight") { state.lockHold = true; lockVia = "shift"; return; }
+    if (e.repeat) return;
+    switch (code) {
+      case "KeyL": state.lockToggle = !state.lockToggle; lockVia = "key L"; break;
+      case "Digit1": setAimMode("lane", "key 1"); break;
+      case "Digit2": setAimMode("4", "key 2"); break;
+      case "Digit3": setAimMode("8", "key 3"); break;
+      case "Digit4": setAimMode("free", "key 4"); break;
+      case "Tab": e.preventDefault(); cycleAimMode("key Tab"); break;
+      case "KeyC": cycleCamMode("key C"); break;
+      case "KeyQ": orbitBy(-0.35, 0, "key Q"); break;
+      case "KeyE": orbitBy(0.35, 0, "key E"); break;
+      case "KeyR": orbitBy(0, 0.15, "key R"); break;
+      case "KeyF": orbitBy(0, -0.15, "key F"); break;
+      case "KeyM": toggleMode("key M"); break;
+      case "KeyT": pressTalk(); break;
+      case "KeyB": pressBomb(); break;
+      case "KeyP": pauseGame(); break;
+      case "Escape": pauseGame(); break;
+    }
+  },
+
+  // `code` is null on a window blur: everything held is let go at once.
+  onKeyUp(code) {
+    if (code === null || code === "ShiftLeft" || code === "ShiftRight") { state.lockHold = false; lockVia = "shift"; }
+  },
+
+  onMove(dc, dr, preferRow) { move(dc, dr, now(), preferRow); },
+
+  onTap(clientX, clientY, ground) {
+    // intersect the board plane, then snap: taps just off a tile's edge still count
+    if (!ground) return;
+    const col = grid.colAt(ground.x), row = grid.rowAt(ground.z);
+    if (!onBoard(col, row)) return;
+    const t = now();
+    if (!moveReady(t)) state.queued = { kind: "to", col, row };
+    else moveTo(col, row, t);
+  },
+
+  onFireDown(hold) { pressFire(now(), hold); },
+  onFireUp(hold) { releaseFire(now(), hold); },
+
+  onHover(point) {
+    state.hoverAim = angleTo(state.pos.x, state.pos.z, point.x, point.z);
+    state.hoverAt = now();
+  },
+
+  // a card has the floor: no move/aim stick underneath it
+  onPointerDown() { return !!cardKind; },
+  onWheel(deltaY) { rig3.zoom(deltaY, "wheel"); },
 });
-function pointerEnd(e) {
-  const p = pointers.get(e.pointerId);
-  if (!p) return;
-  pointers.delete(e.pointerId);
-  const t = now();
-  if (p.role === "fire") { dropFireHold("rmb", t); return; }
-  if (p.role !== "move") return;
-  const wasTap = !p.vec && Math.hypot(e.clientX - p.x0, e.clientY - p.y0) < STICK_DEAD_PX;
-  if (wasTap && e.type === "pointerup") {
-    const sq = squareAt(e.clientX, e.clientY);
-    if (!sq) return;
-    if (!moveReady(t)) state.queued = { kind: "to", col: sq.col, row: sq.row };
-    else moveTo(sq.col, sq.row, t);
-  }
-}
-canvas.addEventListener("pointerup", pointerEnd);
-canvas.addEventListener("pointercancel", pointerEnd);
-canvas.addEventListener("wheel", (e) => {
-  e.preventDefault();
-  if (cam.mode !== "orbit") setCamMode("orbit", "wheel");
-  cam.dist = clamp(cam.dist * Math.exp(e.deltaY * 0.0012), 3.4, 11);
-}, { passive: false });
+
+const aimStickVec = () => input.aimStickVec();
+const heldAim = () => input.heldAim();
 
 /** A held direction (keys or the left stick) re-asks every frame; the ration paces it. */
 function pollHold(t) {
-  const mp = roleHeld("move");
-  const d = (mp && mp.vec && stepOfScreen(mp.vec[0], mp.vec[1], false)) || heldDir();
+  const mv = input.moveStickVec();
+  const d = (mv && rig3.stepOfScreen(mv[0], mv[1], false)) || input.heldDir();
   if (!d) return;
   if (!moveReady(t)) return;
   move(d[0], d[1], t, !!d[2]);
@@ -3027,10 +2016,10 @@ function pollHold(t) {
 // The on-screen pad: FIRE holds like the key; the rest are taps. Every chip
 // (and the orbit nudges) is inert while a card is up — RETRY is the one
 // exception, since it's the only button the game-over card shows at all.
-const bind = (id, fn) => $(id).addEventListener("click", (e) => { if (cardKind && !CARD_BUTTONS.has(id)) return; fn(e); });
 // The cards cover the pad, so each carries its own way out: a phone has no
 // Space bar, and a card with no button on it is a run that cannot start.
 const CARD_BUTTONS = new Set(["btn-retry", "btn-start", "btn-resume"]);
+const bind = (id, fn) => $(id).addEventListener("click", (e) => { if (cardKind && !CARD_BUTTONS.has(id)) return; fn(e); });
 bind("btn-start", startRun);
 bind("btn-resume", resumeGame);
 bind("btn-aim", () => cycleAimMode("tap"));
@@ -3042,57 +2031,46 @@ bind("btn-mode", () => toggleMode("tap"));
 bind("btn-talk", pressTalk);
 bind("btn-bomb", pressBomb);
 bind("btn-retry", retry);
-// The shot goes first and the capture second, inside a try: on some browsers
-// setPointerCapture throws for a touch pointer, and taking the shot after it
-// meant the button never fired there at all.
-hud.fire.addEventListener("pointerdown", (e) => {
-  e.preventDefault();
-  pressFire(now(), "btn");
-  try { hud.fire.setPointerCapture(e.pointerId); } catch { /* capture is a nicety; the window-level release below covers us */ }
-});
-hud.fire.addEventListener("pointerup", () => dropFireHold("btn"));
-hud.fire.addEventListener("pointercancel", () => dropFireHold("btn"));
-hud.fire.addEventListener("lostpointercapture", () => dropFireHold("btn"));
-hud.fire.addEventListener("contextmenu", (e) => e.preventDefault());
-// a focused button must not eat Space or Enter as a click — those are FIRE
-for (const el of document.querySelectorAll(".pad button")) el.addEventListener("keydown", (e) => { if (e.code === "Space" || e.code === "Enter") e.preventDefault(); });
+input.bindFireButton(hud.fire);
+releasePadKeys();
 
 // ---------- loop ----------
 
-let last = now();
-let frameDt = 16;
-
-function resize() {
-  const w = container.clientWidth, h = container.clientHeight;
-  if (!w || !h) return;
-  renderer.setSize(w, h, false);
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-  fitFov();
+function updateCamera() {
+  updateCamAnchor();
+  // fixed and follow track the anchor's x in advance mode (the arena's
+  // centre while it's fought over, the player's x otherwise); orbit is
+  // explicitly the player's own x, not the eased anchor. Sandbox frames the
+  // one fixed board, so both pin to the origin.
+  const advance = mode === "advance";
+  rig3.update({
+    focus: state.pos,
+    aim: state.aim,
+    frameDt,
+    now: now(),
+    anchorX: advance ? camLookX : 0,
+    followX: advance ? camLookX : state.pos.x,
+    orbitX: advance ? state.pos.x : 0,
+  });
 }
-window.addEventListener("resize", resize);
-setAimMode(state.aimMode, params.has("aim") ? "url" : null);
-setCamMode(cam.mode, params.has("cam") ? "url" : null);
-applyMode();
-announce("mode", mode, params.has("mode") ? "url" : null);
-resize();
 
 /**
- * Every update call frame() makes, minus the frame-level bookkeeping
- * (frameDt/last) and the render — split out so `simulate()` below can drive
- * it in fixed virtual steps with no rendering at all, for a test to run a
- * whole story arc in milliseconds of wall time instead of minutes.
+ * Every update call a frame makes, minus the render — the engine's loop
+ * calls this, and `simulate()` calls the same thing in fixed virtual steps
+ * with no rendering at all, for a test to run a whole story arc in
+ * milliseconds of wall time instead of minutes.
  */
-function updateFrame(t) {
+function updateFrame(t, dt) {
+  frameDt = dt;
+  // a charge whose hold vanished (a lost pointerup, a swallowed keyup) is
+  // released here rather than jamming the buster for the rest of the run
+  if (state.charge && state.charge.hold && input.staleHold(state.charge.hold, state.charge.t0, t)) {
+    releaseFire(t, state.charge.hold);
+  }
   // Game over, and the start card waiting on its first FIRE, freeze the sim
   // itself — movement, rotters, shots, the arena's clock and waves — but
   // not the effects still playing out (a tile's spring, a ripple's fade,
   // the camera's ease and shake, the keeper's sway).
-  // a charge whose hold vanished (a lost pointerup, a swallowed keyup) is
-  // released here rather than jamming the buster for the rest of the run
-  if (state.charge && state.charge.hold && (!fireHolds.has(state.charge.hold) || t - state.charge.t0 > MAX_FIRE_HOLD_MS)) {
-    releaseFire(t, state.charge.hold);
-  }
   const frozen = mode === "advance" && (run.over || !run.started);
   if (!frozen) {
     flushQueued(t);
@@ -3112,85 +2090,30 @@ function updateFrame(t) {
       updateAdvanceHud();
     }
   }
-  updateTiles();
+  grid.update(frameDt);
   place(t);
   pose(t);
   updateMuzzle(t);
-  updateRipples(t);
-  updatePuffs(t);
-  updatePopups(t);
-  updateDebris(t);
-  updateTracers(t);
-  updateMotes(t);
+  fx.update(t, frameDt);
+  stage.motes.update(t, frameDt);
   if (mode === "advance") { updateKeepers(t); updateTallies(t); }
   updateCamera();
 }
 
-// Three's own `requestAnimationFrame` loop runs continuously regardless of
-// `simulate()` — a headless page keeps ticking real frames between one
-// `evaluate()` call and the next, so without this the sim would advance
-// twice: once for real (waves dealt, the clock drained) and again through
-// whatever `simulate()` asks for. The first `simulate()` call hands the sim
-// over to it for good — real frames still render (so the page stays live to
-// look at) but stop calling `updateFrame()`, exactly the exclusivity a test
-// driving the whole run through `simulate()` needs. (`simDriven` itself is
-// declared up with `rawNow()`, above — both need it before this point.)
+const loop = new Loop({ clock, stage, update: updateFrame });
 
-function frame() {
-  // Once a test has taken the sim over via `simulate()`, the real-time rAF
-  // loop stops doing anything at all — no update, no render. Continuing to
-  // render every real frame at 60fps under a headless software rasterizer
-  // while a test also hammers `simulate()`/`evaluate()` thousands of times
-  // is exactly the kind of background load that eventually starves or
-  // stalls the CDP pipe; `simulate()` renders once per call instead (via
-  // `renderOnce()`, which a screenshot can also call directly).
-  if (simDriven) return;
-
-  const t = now();
-  frameDt = Math.min(50, t - last);
-  last = t;
-
-  // Pause freezes literally everything — no update call runs, so nothing
-  // (a tile's spring, a popup's fade, the camera's shake) so much as
-  // ticks — the render loop still repaints the same frame.
-  if (paused) { renderer.render(scene, camera); return; }
-
-  updateFrame(t);
-  renderer.render(scene, camera);
-}
-renderer.setAnimationLoop(frame);
-function renderOnce() { renderer.render(scene, camera); }
-
-/**
- * Fast-forward the sim `ms` of virtual time in fixed `step`-ms increments,
- * calling `updateFrame()` for each with no rendering at all — for tests to
- * drive a whole run faster than real time. `now()` (and everything built on
- * it: hit-stop, pause) reads the virtual clock from the first call on —
- * see `simDriven`, by `rawNow()` — so a bare hook call between two
- * `simulate()` calls (`moveTo()`, `fire()`, `talk()`, ...) still timestamps
- * itself on the same timeline every value already in game state was
- * stamped on, rather than jumping to the wall clock and back.
- */
-function simulate(ms, step = 16, render = true) {
-  if (!simDriven) { simDriven = true; simVirtualRaw = performance.now() / SLOW; }   // seed once; every later call just keeps advancing it
-  const steps = Math.max(1, Math.round(ms / step));
-  for (let i = 0; i < steps; i++) {
-    simVirtualRaw += step;
-    const t = now();
-    frameDt = step;
-    if (!paused) updateFrame(t);
-    last = t;
-  }
-  // a software-rendered frame costs far more than the whole step; a bot
-  // playing a long run passes false and asks for a frame when it wants one
-  if (render) renderOnce();
-}
+setAimMode(state.aimMode, params.has("aim") ? "url" : null);
+setCamMode(cam.mode, params.has("cam") ? "url" : null);
+applyMode();
+announce("mode", mode, params.has("mode") ? "url" : null);
+stage.resize();
+loop.start();
 
 // A small hook for tests and for poking at it from the console. `mode` and
 // `run` are getters — both are rebound (not mutated) on every mode switch
 // and RETRY, so a snapshot taken once would go stale.
 window.__bw3d = {
-  state, cam, rotters, shots, bolts, rig, camera, renderer, world,
+  state, cam, rotters, shots, bolts, rig, camera, renderer, world, grid, hopper,
   get mode() { return mode; },
   get run() { return run; },
   activeArena, walkable,
@@ -3201,9 +2124,10 @@ window.__bw3d = {
   setMode, retry, pressTalk, talk: pressTalk, bomb: pressBomb,
   forceGameOver: () => { run.timeLeft = 0; gameOver(); },
   debugHit: () => takeHit(now()),   // synthetic hit, for testing the 2.5 s / chain-break path without waiting on a bolt
-  get paused() { return paused; },
+  get paused() { return clock.paused; },
   get cardKind() { return cardKind; },
   pauseGame, resumeGame, startRun,
-  simulate, renderOnce,
+  simulate: (ms, step = 16, render = true) => loop.simulate(ms, step, render),
+  renderOnce: () => loop.renderOnce(),
   now, reducedMotion: () => REDUCED_MOTION,
 };
