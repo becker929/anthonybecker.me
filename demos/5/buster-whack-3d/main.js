@@ -2144,18 +2144,39 @@ function advanceDeleteEnemy(r, charged, t) {
   if (isGuard) run.guardKillCount++;
 }
 
-function pressFire(t) {
+/**
+ * What is holding FIRE down right now: "key", "btn" (the on-screen button),
+ * "rmb". A charge belongs to the hold that started it, and a charge whose
+ * hold is gone is released by the watchdog in `updateFrame` — without that,
+ * one lost pointerup (a finger sliding off the button, a browser swallowing
+ * the release, a capture that never took) would leave `state.charge` set for
+ * good and every later press would return early: the weapon dead for the
+ * rest of the run.
+ */
+const fireHolds = new Set();
+// Nothing is gained by holding past the charge, so a hold this long is taken
+// as a release that never arrived: the shot goes off and the buster is free
+// again. Without the cap one swallowed pointerup is a dead weapon for good.
+const MAX_FIRE_HOLD_MS = 3000;
+function dropFireHold(hold, t = now()) {
+  if (!fireHolds.delete(hold)) return;
+  releaseFire(t, hold);
+}
+function pressFire(t, hold = null) {
   // FIRE is also how the start and pause cards let go — a single choke
   // point covers the keyboard, the FIRE button and right-click/touch alike.
+  if (hold) fireHolds.add(hold);
   if (cardKind === "over") return;
   if (cardKind === "start") { startRun(); return; }
   if (cardKind === "pause") { resumeGame(); return; }
   if (state.charge) return;
   if (t - state.lastFireAt >= FIRE_COOLDOWN_MS) fire(t, false);
-  state.charge = { t0: t };
+  state.charge = { t0: t, hold };
   hud.fire.classList.add("held");
 }
-function releaseFire(t) {
+function releaseFire(t, hold = null) {
+  if (hold) fireHolds.delete(hold);
+  if (fireHolds.size) return;      // another input is still holding FIRE down
   const c = state.charge;
   if (!c) return;
   state.charge = null;
@@ -2834,7 +2855,7 @@ window.addEventListener("keydown", (e) => {
   // resumes a pause. Everything else — movement, aim, the cameras — is
   // inert while a card has the floor.
   if (cardKind) {
-    if (FIRE_KEYS.has(e.code)) { e.preventDefault(); pressFire(now()); }
+    if (FIRE_KEYS.has(e.code)) { e.preventDefault(); pressFire(now(), "key"); }
     else if ((e.code === "KeyP" || e.code === "Escape") && cardKind === "pause") { e.preventDefault(); resumeGame(); }
     return;
   }
@@ -2850,7 +2871,7 @@ window.addEventListener("keydown", (e) => {
     return;
   }
   if (AIM_KEYS[e.code]) { e.preventDefault(); heldAimKeys.add(e.code); return; }
-  if (FIRE_KEYS.has(e.code)) { e.preventDefault(); if (!e.repeat) pressFire(t); return; }
+  if (FIRE_KEYS.has(e.code)) { e.preventDefault(); if (!e.repeat) pressFire(t, "key"); return; }
   if (e.code === "ShiftLeft" || e.code === "ShiftRight") { state.lockHold = true; lockVia = "shift"; return; }
   if (e.repeat) return;
   switch (e.code) {
@@ -2875,10 +2896,16 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   held.delete(e.code);
   heldAimKeys.delete(e.code);
-  if (FIRE_KEYS.has(e.code)) releaseFire(now());
+  if (FIRE_KEYS.has(e.code)) dropFireHold("key");
   if (e.code === "ShiftLeft" || e.code === "ShiftRight") { state.lockHold = false; lockVia = "shift"; }
 });
-window.addEventListener("blur", () => { held.clear(); heldAimKeys.clear(); state.lockHold = false; releaseFire(now()); });
+window.addEventListener("blur", () => { held.clear(); heldAimKeys.clear(); state.lockHold = false; fireHolds.clear(); releaseFire(now()); });
+// A tab hidden mid-hold never delivers the pointerup or keyup; let go of FIRE.
+document.addEventListener("visibilitychange", () => { if (document.hidden) { fireHolds.clear(); releaseFire(now()); } });
+// A release anywhere frees the on-screen button and the right mouse button —
+// the element's own pointerup never arrives when capture did not take.
+window.addEventListener("pointerup", () => { dropFireHold("btn"); dropFireHold("rmb"); });
+window.addEventListener("pointercancel", () => { dropFireHold("btn"); dropFireHold("rmb"); });
 
 /** Turn or tilt the orbit camera; any of these switches to it. */
 function orbitBy(dyaw, dpitch, via) {
@@ -2941,7 +2968,7 @@ canvas.addEventListener("pointerdown", (e) => {
   const t = now();
   if (e.pointerType === "mouse" && e.button === 2) {
     pointers.set(e.pointerId, { role: "fire" });
-    pressFire(t);
+    pressFire(t, "rmb");
     return;
   }
   if (cardKind) return;   // a card has the floor: no move/aim stick underneath it
@@ -2970,7 +2997,7 @@ function pointerEnd(e) {
   if (!p) return;
   pointers.delete(e.pointerId);
   const t = now();
-  if (p.role === "fire") { releaseFire(t); return; }
+  if (p.role === "fire") { dropFireHold("rmb", t); return; }
   if (p.role !== "move") return;
   const wasTap = !p.vec && Math.hypot(e.clientX - p.x0, e.clientY - p.y0) < STICK_DEAD_PX;
   if (wasTap && e.type === "pointerup") {
@@ -3015,9 +3042,17 @@ bind("btn-mode", () => toggleMode("tap"));
 bind("btn-talk", pressTalk);
 bind("btn-bomb", pressBomb);
 bind("btn-retry", retry);
-hud.fire.addEventListener("pointerdown", (e) => { e.preventDefault(); hud.fire.setPointerCapture(e.pointerId); pressFire(now()); });
-hud.fire.addEventListener("pointerup", () => releaseFire(now()));
-hud.fire.addEventListener("pointercancel", () => releaseFire(now()));
+// The shot goes first and the capture second, inside a try: on some browsers
+// setPointerCapture throws for a touch pointer, and taking the shot after it
+// meant the button never fired there at all.
+hud.fire.addEventListener("pointerdown", (e) => {
+  e.preventDefault();
+  pressFire(now(), "btn");
+  try { hud.fire.setPointerCapture(e.pointerId); } catch { /* capture is a nicety; the window-level release below covers us */ }
+});
+hud.fire.addEventListener("pointerup", () => dropFireHold("btn"));
+hud.fire.addEventListener("pointercancel", () => dropFireHold("btn"));
+hud.fire.addEventListener("lostpointercapture", () => dropFireHold("btn"));
 hud.fire.addEventListener("contextmenu", (e) => e.preventDefault());
 // a focused button must not eat Space or Enter as a click — those are FIRE
 for (const el of document.querySelectorAll(".pad button")) el.addEventListener("keydown", (e) => { if (e.code === "Space" || e.code === "Enter") e.preventDefault(); });
@@ -3053,6 +3088,11 @@ function updateFrame(t) {
   // itself — movement, rotters, shots, the arena's clock and waves — but
   // not the effects still playing out (a tile's spring, a ripple's fade,
   // the camera's ease and shake, the keeper's sway).
+  // a charge whose hold vanished (a lost pointerup, a swallowed keyup) is
+  // released here rather than jamming the buster for the rest of the run
+  if (state.charge && state.charge.hold && (!fireHolds.has(state.charge.hold) || t - state.charge.t0 > MAX_FIRE_HOLD_MS)) {
+    releaseFire(t, state.charge.hold);
+  }
   const frozen = mode === "advance" && (run.over || !run.started);
   if (!frozen) {
     flushQueued(t);
