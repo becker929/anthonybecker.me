@@ -8,8 +8,10 @@ fire back. That's **sandbox**, the default — free play, no clock, no score,
 no towers, the step, the strafe, the shot and the camera, and how the body
 sells each. `?mode=advance` (or `M`, or the MODE chip) switches to
 **story / advance mode**, the 2D original's endless-road ruleset built on
-the same rig, with its own start card, hit-stop and score popups, chain
-flourishes, and an arena-taken announcement: see below.
+the same rig — reproducing arenas 0-19 to the number: the mett/guard
+roster, the six wave formations, hitscan shots and whiffs, the scoring and
+clock economy, bombs, and a second tower with its own NPC and tasks. See
+below.
 
 The pad's MODE / AIM / CAM / LOCK chips are the control *and* the readout —
 each is a two-line button, a dim label over the live value, that pings and
@@ -48,7 +50,8 @@ stays down the lane and every hop is a pure strafe.
 | aim mode | `1` lane, `2` four ways, `3` eight ways, `4` free; `Tab` cycles | the AIM chip |
 | camera | `C` cycles; `Q`/`E` turn, `R`/`F` tilt and the wheel zooms the orbit | the CAM chip; ◄ ► in orbit |
 | mode | `M` toggles sandbox / story | the MODE chip |
-| talk | `T`, beside a tower's keeper | the TALK chip (appears when near one) |
+| talk | `T`, beside a tower's keeper or tally | the TALK chip (appears when near one) |
+| bomb | `B` | the BOMB chip (appears once one is stowed) |
 | pause | `P` or `Escape`; resume the same way, or with FIRE | — |
 | start / resume (cards) | `Space` / `J` / `Enter` | the FIRE button |
 | retry (game over) | `Enter` or `R` | the RETRY button on the card |
@@ -136,9 +139,13 @@ framing the board).
 
 ## Story / advance mode
 
-`?mode=advance`, `M`, or the MODE chip. Reproduces the 2D original's
-endless-road ruleset on top of the same rig, board shape and rotter —
-adapted where the prototype has only that one enemy.
+`?mode=advance`, `M`, or the MODE chip. Reproduces the 2D original's story
+mode for **arenas 0-19** to the number — the roster, the wave formations,
+hitscan shots, scoring and the clock economy, bombs, and the tower before
+arena 10 with its tasks — on top of the same rig and board shape. Arena 20
+onward is where the 2D original introduces mechanics this prototype hasn't
+built (runners, sentinels, retaliation), so the gates for those are wired
+but never open in this span; the numbers below are what's actually live.
 
 **The world.** The fixed 3x6 board becomes the *shape* of one arena rather
 than the whole world. A run starts `[tower(6 cols), arena idx 0]` and only
@@ -147,17 +154,88 @@ ever appends, laid along +x: clearing an arena appends a **road** (3 cols,
 index is a multiple of 10 — a **tower**, then the next arena. Segments more
 than ~14 columns behind the player are dropped to keep the scene bounded.
 
-**Arenas.** An arena's left half is always player ground; its right half is
-the guard's — red, unwalkable — until cleared. `pool = min(20, 4 +
-idx*0.16)` viruses, dealt in waves of `min(5, 2 + idx/25)`, at most 6 alive
-together; a small "WAVE k / n" caption announces each one dealt. Walking
-into an arena wakes it (first wave 650 ms later; each next wave 550 ms
-after the last one dies); clearing the pool flips the ground blue column by
-column (60 ms apart, not all at once), pays the clock, and puts up a large
-"ARENA n TAKEN +1.2s" banner for a beat. The basic virus is a one-shot
-kill; from arena 5 on, roughly a third of a wave (half, from arena 20) is a
-darker "steel" rotter at 3 hp, or one charged shot. Rotters only start
-firing bolts back from arena 9.
+**The roster.** Two enemy types cover 0-19, exactly the 2D original's own
+unlock table for this span:
+- **mett** — the rotter body, one hit, persistent. Rises in 220ms, sinks in
+  180ms, and shuffles to a free tile of its own arena's guard-half every
+  1.5s; it never enters the player's half and, before arena 30, never
+  attacks.
+- **guard** — a distinct steel look (a grey-blue tint, a heavier cup, no
+  rotor blades — it never spins up, never winds anything). Only the
+  formation's anchor slot may become one, from arena 10, at a 0.40 chance
+  (0.48 from arena 16). It never moves and never attacks. A normal shot
+  **plinks** it — sparks bounce back, a "GUARD" popup, a wobble, not a
+  whiff, the chain untouched — only a charged shot deletes it, for 400
+  points.
+
+**Waves.** Each arena's `pool = min(20, 4 + idx*0.16)` viruses are dealt in
+waves of `min(5, 2 + idx/25)`, at most 6 alive together. A wave is one of
+six formations (spine, rank, stagger, pincer, wall, wedge), picked at
+random and rotated 0-2 rows so the same shape reads differently each time;
+its slots arrive staggered (420ms at the run's first wave, tightening to a
+170ms floor), and a slot whose tile is taken — or the board full — simply
+waits another 90ms rather than skipping the turn. One wave is live at a
+time; the next comes 550ms after the last of the previous dies, until the
+pool is spent and the arena's ground flips to the player's, column by
+column (60ms apart).
+
+**Shots are hitscan.** Firing casts a ray from the muzzle along the aim (in
+**lane**, the default, that's always straight down the player's row) and
+the first live enemy the ray crosses, strictly ahead, takes the hit
+instantly — a bright tracer runs to the impact (or the board's edge) and
+fades in 130ms, with its own muzzle flash (95ms normal, 140ms charged) and
+impact spark (140ms). There's no pierce and no projectile mesh. A shot that
+crosses nothing is a **whiff**: it breaks the chain (past 2, with the
+falling "CHAIN LOST" popup) — a guard's plink is neither a whiff nor a
+deletion. The charge hold is 700ms in advance mode (sandbox keeps 520ms).
+
+**Scoring & the clock.** No player health — the resource is a countdown,
+`timeLeft`, starting at 30s and capped at 45s, draining only while the
+active arena is contested at `min(1.45, 1 + idx*0.02)` per second. A
+deletion pays 100 (normal) / 300 (charged) / 400 (guard) points times a
+chain multiplier (×2/×3/×4 at chain 5/10/20) plus time — 0.48s / 1.0s /
+1.2s respectively, the 2D original's own per-kill pulse at this mode's 0.4
+scale. A **perfect wave** (no whiff, no hit, the whole wave through) pops
+its own "WAVE CLEAR" — 60 points per virus (times the chain multiplier) and
+0.4 × (0.55s + 0.3s per virus). Clearing an arena pays a flat 1.2s. A hit
+costs 2.5s and 800ms of invulnerability, breaking the chain and cancelling
+a charge or an in-progress walk. The clock hitting zero freezes the sim and
+puts up a card — a rank (S/A/B/C/D, from accuracy and best chain), arena
+reached, score, deletions, best chain, accuracy — with RETRY rebuilding the
+world from scratch.
+
+**Boundaries, not banners.** Nothing announces an arena or a wave over the
+board: the HUD's own level number pops (scale 1.3→1, 680ms) the instant the
+player steps into the new arena — its value having already moved on the
+moment the last one cleared. While an arena is contested the player is
+boxed into its own three columns (no stepping back into ground already
+behind); once cleared, the whole arena opens up.
+
+**Bombs.** A small dark sphere with a lit fuse sits on a road tile —
+guaranteed on the very first one, then roughly one road in three. Walking
+onto it stows it (the HUD's BOMB chip, or key `B`, once one is held); using
+it blasts the active arena's guard-half in a 3x3 centred on its middle,
+deleting everything there — guards included — at normal-kill scoring
+outside the shot economy (no chain change, no effect on accuracy).
+
+**The tower before arena 10.** Every tenth arena is preceded by a tower.
+The first one holds just its **keeper** — a cloaked figure on a staff,
+standing still with a slow sway. From the second tower on, a second and
+smaller NPC, **tally**, stands a tile over and just counts the run (it can
+quote arenas taken, deletions, best chain). Standing beside either shows a
+TALK prompt; each press (`T`, or the TALK button) opens that NPC's next
+unfinished topic or advances it one beat, closing on the last one. Every
+TALK also runs the **task exchange**, once per distinct NPC visited in a
+row: it pays the active task if its target is met, hands the next undone
+one if there isn't an active task, or does nothing. The tasks (in the order
+they're handed out) are: take an arena clean (+3s), let three runners pass
+(+4s — runners don't exist yet, so this one waits), break four guards
+(+2000 pts), delete eight in a row without missing (+4s), clear three
+perfect waves (+1 bomb), take six with a charge (+5s), break two open
+sentinels (needs arena 50, also waits), and take five arenas (+6s) — task
+rewards are paid in full, not scaled by the road's 0.4. (The 2D original's
+own dialogue lives outside this repo and isn't reproduced — these lines are
+new, written short, in the same terse voice.)
 
 **Starting, and pausing.** Entering advance mode (the URL, `M`, or the MODE
 chip) puts up a start card — the controls, and "press FIRE to start" — and
@@ -167,35 +245,27 @@ pauses either mode at any time, freezing literally everything (the sim
 clock itself stops, so no effect keeps playing underneath); FIRE, `P` or
 `Escape` resume it.
 
-**The clock.** No player health — the resource is a countdown, `timeLeft`,
-starting at 30 s and capped at 45 s. It only drains while the active arena
-is contested (entered, still the guard's) at `min(1.45, 1 + idx*0.02)` per
-second. Clearing a wave pays back 0.4 s per virus in it; clearing an arena
-pays 1.2 s. A hit costs 2.5 s and 800 ms of invulnerability, breaks the
-chain (a falling "CHAIN LOST" popup and a red flash on the HUD counter),
-and cancels a charge or an in-progress walk. Score is +100 per deletion
-times a chain multiplier (×2/×3/×4 at chain 5/10/20, each step marked with
-a ring burst and a yellow popup) — every deletion pops its own score (or
-the multiplied total) up from where it died; the clock hitting zero freezes
-the sim and puts up a card — arena reached, score, deletions, best chain,
-accuracy — with RETRY (`Enter`/`R`, or the button) rebuilding the world
-from scratch and putting the start card back up.
-
-**Towers.** Every tenth arena is preceded by one, holding a **keeper** — a
-cloaked figure on a staff, standing still with a slow sway — on its middle
-tile. Standing beside it shows a TALK prompt; each press (`T`, or the TALK
-button) advances one beat of a short, player-paced conversation, closing on
-the last one. The first conversation of a run also hands out a small bonus
-task (e.g. "take an arena without being hit"), tracked for real: completing
-it pays +5 s and 500 points. Stepping onto a tower's ground for the first
-time shows a one-shot "ROOST n" caption. (The 2D original's own dialogue
-lives outside this repo and isn't reproduced — these lines are new, written
-short, in the same terse voice.)
-
 Camera, aim and the buster all work exactly as in sandbox; `fixed` and
 `follow` additionally ease their look-at towards the active arena's centre
 while it's fought over (never sliding back down the road), and `orbit`
 circles the player instead of a fixed point.
+
+**Sandbox is untouched.** Its rotters keep their own 3-hp state machine
+(random sit/hop, the aim/bolt telegraph once it unlocks), its shots stay
+real projectiles, and its counters (busted/hit) are exactly as before —
+none of the above runs there.
+
+### Driving it faster than real time
+
+`window.__bw3d.simulate(ms, step = 16)` advances the sim in fixed virtual
+steps with no rendering — `now()` (and everything built on it: hit-stop,
+pause) reads that virtual clock for as long as it runs, so a script can
+play through twenty arenas in milliseconds of wall time instead of minutes.
+The rest of the console hook (`activeArena()`, `walkable()`, `world`,
+`run`, `rotters`, `pressFire`/`releaseFire`/`moveTo`/`move`/`fire`,
+`talk()`, `bomb()`) is enough to drive a whole run from outside; see
+`story-playthrough.mjs` in this demo's test harness for a full arena
+0-through-19 bot built on it.
 
 ## How it is built
 

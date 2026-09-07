@@ -133,12 +133,93 @@ const HIT_TIME_PENALTY = 2.5; // seconds lost on a hit
 const ADV_HURT_MS = 800;      // invulnerability after a hit, advance mode (sandbox keeps HURT_MS)
 const WAKE_DELAY_MS = 650;    // entering a sleeping arena to its first wave
 const WAVE_GAP_MS = 550;      // between a wave dying and the next
-const AIM_UNLOCK_ARENA = 9;   // rotters don't enter the "aim"/bolt phase before this arena
-const STEEL_FROM_ARENA = 5;   // three-shot "steel" rotters start appearing here
-const STEEL_COMMON_ARENA = 20;// and get more common here
-const STEEL_HP = 3;
-const BASIC_HP = 1;
+const RETALIATE_ARENA = 30;   // no enemy fires a bolt anywhere before this arena
+const ADV_CHARGE_MS = 700;    // advance mode's charge hold (sandbox keeps CHARGE_MS, 520)
 const PIP_SEC = 1.25;         // seconds per HUD clock pip
+
+// ---------- the roster (arenas 0-19: mett and, from arena 10, guard) ----------
+// Two enemy types cover the whole 0-19 span of the 2D original's story
+// unlock table: the persistent one-hit "mett" that shuffles its own arena's
+// ground, and the immovable "guard" that anchors a formation from arena 10.
+// Retaliation (anything firing back) is a real, later unlock — the gate
+// below is arena 30, so the code path exists without ever firing here.
+const MET_HOP_MS = 1500;        // a mett shuffles to a free tile of its arena this often
+const GUARD_FROM_ARENA = 10;    // the formation's anchor slot may become a guard from here
+const GUARD_CHANCE_BASE = 0.40;
+const GUARD_CHANCE_PER = 0.08;  // per unlock "stage" (8 arenas) past the first
+const GUARD_CHANCE_MAX = 0.80;
+/** The anchor's chance of being a guard once unlocked: 0.40 at idx 10-15, 0.48 at 16-19, ... */
+function guardChance(idx) {
+  const stage = Math.min(8, Math.floor(idx / 8));
+  return Math.min(GUARD_CHANCE_MAX, GUARD_CHANCE_BASE + Math.max(0, stage - 1) * GUARD_CHANCE_PER);
+}
+/** Rotters don't enter the "aim"/bolt phase before arena 30 — sandbox's are always live. */
+function rotterCanFire() { return mode === "sandbox" || (activeArena()?.idx ?? 0) >= RETALIATE_ARENA; }
+
+// The six formations a wave is drawn from, authored against one arena's own
+// columns (3-5, its enemy half) and rotated 0-2 rows at spawn so the same
+// shape reads differently each time. `anchor` is the slot that may become a
+// guard once GUARD_FROM_ARENA is reached.
+const FORMATIONS = [
+  { name: "spine",   anchor: 0, slots: [[4, 1], [4, 0], [4, 2], [3, 1], [5, 1]] },
+  { name: "rank",    anchor: 2, slots: [[5, 1], [4, 1], [3, 1], [5, 0], [5, 2]] },
+  { name: "stagger", anchor: 4, slots: [[3, 0], [4, 1], [5, 2], [5, 0], [3, 2]] },
+  { name: "pincer",  anchor: 2, slots: [[3, 0], [3, 2], [4, 1], [5, 0], [5, 2]] },
+  { name: "wall",    anchor: 1, slots: [[5, 0], [5, 1], [5, 2], [4, 0], [4, 2]] },
+  { name: "wedge",   anchor: 0, slots: [[5, 1], [4, 0], [4, 2], [3, 1], [3, 0]] },
+];
+
+// ---------- scoring & the clock economy ----------
+// Points are never scaled; every time reward that comes from combat is —
+// story is "advancing", so the road pays out at ROAD_PULSE of what a static
+// fight would. Task rewards are the one exception (see TASKS_LIST, below).
+const PTS_NORMAL = 100, PTS_CHARGED = 300, PTS_GUARD = 400;
+const BONUS_NORMAL_S = 1.2, BONUS_CHARGED_S = 2.5, BONUS_GUARD_S = 3.0;
+const ROAD_PULSE = 0.4;
+const ARENA_CLEAR_BONUS_S = 3.0;
+const WAVE_CLEAR_PTS_PER = 60;
+const WAVE_CLEAR_BONUS_BASE_S = 0.55, WAVE_CLEAR_BONUS_PER_S = 0.3;
+/** Gap between one wave's arrivals and the next's, in ms; `waveIdx` is a whole-run counter. */
+const waveStaggerMs = (waveIdx) => Math.max(170, 420 - 4 * waveIdx);
+/** Game-over rank from accuracy (deletions / shots fired) and the run's best chain. */
+function rankLetter(acc, bestChain) {
+  if (acc >= 0.75 && bestChain >= 20) return "S";
+  if (acc >= 0.6 && bestChain >= 10) return "A";
+  if (acc >= 0.45) return "B";
+  if (acc >= 0.3) return "C";
+  return "D";
+}
+
+// ---------- bombs ----------
+const BOMB_ROAD_CHANCE = 1 / 3;   // every road after the first (which is guaranteed)
+const BOMB_HITSTOP_MS = 46;
+
+// ---------- tasks ----------
+// Handed out one at a time, in this order, on the task exchange (see
+// `taskExchange()`); `spare` and `shutter` stay on the list but need
+// mechanics (runners, sentinels) this prototype's arenas 0-19 never reach,
+// so they are honestly untakeable here — not a bug, the 2D original's own
+// unlock table puts them at arena 40 and 50.
+const TASKS_LIST = [
+  { id: "sweep",   desc: "Take an arena without being hit.", target: 1, reward: { time: 3 } },
+  { id: "spare",   desc: "Let three runners past.", target: 3, reward: { time: 4 } },
+  { id: "steel",   desc: "Break four steel guards.", target: 4, reward: { pts: 2000 } },
+  { id: "chain",   desc: "Delete eight in a row without missing.", target: 1, reward: { time: 4 } },
+  { id: "clean",   desc: "Clear three waves with nothing left standing.", target: 3, reward: { bomb: 1 } },
+  { id: "charge",  desc: "Take six with a charged shot.", target: 6, reward: { time: 5 } },
+  { id: "shutter", desc: "Break two sentinels while they are open.", target: 2, reward: { time: 0 } },
+  { id: "far",     desc: "Take five arenas.", target: 5, reward: { time: 6 } },
+];
+const TASK_PROGRESS = {
+  sweep: (r) => r.cleanArenaCount,
+  spare: (r) => r.runnersPassed,
+  steel: (r) => r.guardKillCount,
+  chain: (r) => (r.bestChain >= 8 ? 1 : 0),
+  clean: (r) => r.perfectWaveCount,
+  charge: (r) => r.chargedKillCount,
+  shutter: () => 0,
+  far: (r) => r.arenasClearedCount,
+};
 
 // ---------- camera ----------
 // fixed    the framing the prototype was built with, leaning a little towards the buster
@@ -156,10 +237,15 @@ const STICK_DEAD_PX = 26;
 // Chasing the 2D original's feel (see its src/core/fx.js and combat.js) on
 // top of the numbers this prototype already reproduces. All of it is gated
 // on `REDUCED_MOTION`, below.
-const HITSTOP_MS = 70;          // a normal deletion
-const HITSTOP_CHARGED_MS = 110; // a charged kill
-const HITSTOP_CLEAR_MS = 140;   // a deletion that also clears the arena — wins over the others
-const POPUP_MS = 700;
+const HITSTOP_MS = 70;          // sandbox: a normal deletion
+const HITSTOP_CHARGED_MS = 110; // sandbox: a charged kill
+const MAX_HITSTOP = 150;        // never freeze longer than this at once, either mode
+// Advance mode's own hit-stop table (the 2D original's numbers): a guard
+// answers the same whether it's plinked or finally deleted, since a charged
+// delete's "guard" scoring key outranks its own "charged" tier there too.
+const HITSTOP_ADV = { normal: 26, charged: 52, guard: 46, hurt: 70, chain: 26 };
+const killHitstopMs = (kind, charged) => (kind === "guard" ? HITSTOP_ADV.guard : charged ? HITSTOP_ADV.charged : HITSTOP_ADV.normal);
+const POPUP_MS = 650;
 const POPUP_RISE = 0.5;
 const CHAIN_STEPS = [5, 10, 20];
 const PUNCH_MS = 250;
@@ -167,10 +253,12 @@ const PUNCH_DIST = 0.12;
 const VIGNETTE_MS = 300;
 const DEBRIS_MS = 600;
 const DEBRIS_GRAVITY = 4.2;     // tiles / s^2
-const TRACER_MS = 200;
+const TRACER_MS = 200;          // sandbox's charged-shot tracer
+const ADV_FLASH_MS = { normal: 95, charged: 140 };  // advance's own muzzle-flash fade
+const ADV_TRACER_MS = 130;      // the hitscan ray's tracer fade
+const ADV_IMPACT_MS = 140;      // the spark exactly where the ray lands
 const ARENA_STAGGER_MS = 60;    // between one column's retint/ripple and the next, on a clear
-const ARENA_BANNER_MS = 1200;
-const WAVE_CAPTION_MS = 1200;
+const LEVEL_POP_MS = 680;       // the HUD level number's pop, stepping into a new arena
 
 /** `matchMedia("(prefers-reduced-motion: reduce)")` — no hit-stop, shake, punch or vignette when it's set. */
 const reducedMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
@@ -190,7 +278,10 @@ const PAL = {
   shot: 0xffd23f, charged: 0xc9f6ff, bolt: 0xff5470,
   rotter: 0x5a1e2c, rotterDark: 0x2a1018, rotterBlade: 0xff5470, rotterEye: 0xffb3c0,
   rotterSteel: 0x3a3f47, rotterSteelDark: 0x22262b,
+  guardBody: 0x4a5a78, guardDark: 0x28324a, guardEye: 0x9fd8ff,
   keeperCloak: 0x141220, keeperVisor: 0xc9f6ff, keeperStaff: 0x3a3f4a, keeperOrb: 0xffd23f,
+  tallyCloak: 0x1a2436, tallyVisor: 0xffd23f,
+  bombBody: 0x11141c, bombFuse: 0x5a4630, bombSpark: 0xffb84a,
 };
 
 // ---------- easing ----------
@@ -228,7 +319,21 @@ const aimDir = (a, out) => out.set(Math.cos(a), 0, -Math.sin(a));
 // else has to know.
 const params = new URLSearchParams(location.search);
 const SLOW = Math.max(1, Number(params.get("slow")) || 1);
-const rawNow = () => performance.now() / SLOW;
+// Once a test hands the sim over to `simulate()` (see `simDriven`, below,
+// by the render loop), `rawNow()` reads the virtual clock it drives instead
+// of the wall clock, for good — not just while a `simulate()` call is on
+// the stack. A raw hook call between two `simulate()` calls (`moveTo()`,
+// `fire()`, ...) still timestamps itself off `now()`, and every timestamp
+// already sitting in game state (a hop's `t0`, `state.lastMoveAt`, a
+// rotter's `nextHopAt`, ...) was stamped off the same clock — so this one
+// flag has to gate both, or the two domains disagree the moment a bare hook
+// call falls between two `simulate()` calls, and everything timed off a
+// `t - t0` (movement's own ration among them) reads a nonsense delta.
+// Everything downstream (hit-stop, pause) reads only `now()`, built on
+// this, so none of it has to know the difference either.
+let simDriven = false;
+let simVirtualRaw = 0;
+const rawNow = () => (simDriven ? simVirtualRaw : performance.now() / SLOW);
 
 // `now()` is `rawNow()` minus an offset that grows every time the sim is
 // held still — a hit-stop, or a pause. Holding still is just "the offset
@@ -253,13 +358,13 @@ function now() {
   if (!hitstopResolved) { hitstopOffset = hitstopEndsAtRaw - hitstopHoldSim; hitstopResolved = true; }
   return raw - hitstopOffset;
 }
-/** Freeze the sim clock for `ms` (stacking onto a freeze already running); a no-op under reduced motion. */
+/** Freeze the sim clock for `ms` (stacking onto a freeze already running, capped at MAX_HITSTOP); a no-op under reduced motion. */
 function triggerHitStop(ms) {
   if (REDUCED_MOTION) return;
   const raw = rawNow();
-  if (raw < hitstopEndsAtRaw) { hitstopEndsAtRaw += ms; return; }
+  if (raw < hitstopEndsAtRaw) { hitstopEndsAtRaw = Math.min(hitstopEndsAtRaw + ms, raw + MAX_HITSTOP); return; }
   hitstopHoldSim = now();
-  hitstopEndsAtRaw = raw + ms;
+  hitstopEndsAtRaw = raw + Math.min(ms, MAX_HITSTOP);
   hitstopResolved = false;
 }
 /** Pause holds the sim clock exactly where it was; resuming folds the real time spent paused back out, so nothing downstream sees a gap. */
@@ -316,9 +421,10 @@ const hud = {
   // advance / story mode
   level: $("hud-level"), pips: $("hud-pips"), chain: $("hud-chain"),
   talkHint: $("hud-talk-hint"), taskLine: $("hud-task-line"), talkBtn: $("btn-talk"),
+  bombBtn: $("btn-bomb"), bombValue: $("chip-bomb"),
   caption: $("hud-caption"), card: $("card"),
   advanceOnly: [$("hud-advance-stats")], sandboxOnly: [$("hud-sandbox-stats")],
-  vignette: $("vignette"), arenaBanner: $("arena-banner"), arenaBannerText: $("arena-banner-text"),
+  vignette: $("vignette"),
 };
 
 // ---------- chips ----------
@@ -524,6 +630,7 @@ const tileAt = (col, row) => tiles.get(tkey(col, row));
 
 /** Every segment ever built, oldest first; the world only ever grows. */
 const world = { segments: [], nextX: 0 };
+let roadCount = 0;   // the very first road ever built always carries a bomb; after that, 1 in 3
 /** The arena the player is walking towards or fighting — always the newest one built. */
 function activeArena() {
   for (let i = world.segments.length - 1; i >= 0; i--) if (world.segments[i].kind === "arena") return world.segments[i];
@@ -547,6 +654,11 @@ function walkable(col, row) {
   if (!tl) return false;
   if (mode === "sandbox") return true;
   if (tl.kind === "enemy" || tl.isNpc) return false;
+  // Boxed in: while the newest arena is still contested, the ground behind
+  // its own x0 (every earlier segment) is off limits too — no retreating
+  // once the fight is joined. Cleared, the whole world behind is open again.
+  const a = activeArena();
+  if (a && a.owner === "enemy" && a.entered && col < a.x0) return false;
   return true;
 }
 /** Past the built world's edge by more than a tile: where shots and bolts are spent, so nothing streams off into the sky. */
@@ -562,7 +674,7 @@ function buildArenaSegment(x0, idx) {
     kind: "arena", x0, cols: COLS, idx, owner: "enemy",
     pool: Math.min(20, 4 + Math.floor(idx * 0.16)),
     waveSize: Math.min(5, 2 + Math.floor(idx / 25)),
-    dealt: 0, entered: false, wakeAt: null, nextWaveAt: null, waveAlive: 0,
+    dealt: 0, entered: false, wakeAt: null, nextWaveAt: null, wave: null, waveN: 0,
   };
   for (let row = 0; row < ROWS; row++) {
     for (let col = x0; col < x0 + PCOLS; col++) buildTile(col, row, "player");
@@ -582,15 +694,23 @@ function buildRoadSegment(x0) {
   }
   buildSegmentDecor(seg);
   world.segments.push(seg);
+  const guaranteed = roadCount === 0;
+  roadCount++;
+  if (guaranteed || Math.random() < BOMB_ROAD_CHANCE) spawnBombPickup(seg);
   return seg;
 }
-/** A tower: the player's own ground, holding a keeper NPC on its middle tile (not standable). */
+/** A tower: the player's own ground, holding a keeper NPC on its middle tile (not standable); every tower but the first also carries "tally", a second, smaller NPC that counts the run. */
 function buildTowerSegment(x0, ordinal) {
-  const seg = { kind: "tower", x0, cols: COLS, ordinal, roostShown: ordinal === 0 };
+  const seg = {
+    kind: "tower", x0, cols: COLS, ordinal, roostShown: ordinal === 0,
+    keeperTopics: ordinal === 0 ? KEEPER_START_TOPICS : KEEPER_ROOST2_TOPICS, keeperTopicIdx: 0,
+    tallyTopics: ordinal >= 1 ? TALLY_TOPICS : null, tallyTopicIdx: 0,
+  };
   for (let row = 0; row < ROWS; row++) for (let col = x0; col < x0 + COLS; col++) buildTile(col, row, "tower");
   tileAt(x0 + PCOLS, 1).isNpc = true;
   buildSegmentDecor(seg);
   buildKeeper(seg);
+  if (seg.tallyTopics) { tileAt(x0 + 4, 2).isNpc = true; buildTally(seg); }
   world.segments.push(seg);
   return seg;
 }
@@ -632,7 +752,8 @@ function disposeSegment(seg) {
     scene.remove(poolMesh); poolMesh.geometry.dispose(); poolMesh.material.dispose();
     if (divider) { scene.remove(divider); divider.geometry.dispose(); divider.material.dispose(); }
   }
-  if (seg.kind === "tower") disposeKeeper(seg);
+  if (seg.kind === "tower") { disposeKeeper(seg); disposeTally(seg); }
+  if (seg.kind === "road") disposeBombsOn(seg);
   if (tileColMin === seg.x0 || tileColMax === seg.x0 + seg.cols - 1) {
     tileColMin = Infinity; tileColMax = -Infinity;
     for (const tl of tiles.values()) { if (tl.col < tileColMin) tileColMin = tl.col; if (tl.col > tileColMax) tileColMax = tl.col; }
@@ -651,6 +772,8 @@ function disposeWorld() {
   world.segments.length = 0;
   world.nextX = 0;
   tileColMin = Infinity; tileColMax = -Infinity;
+  roadCount = 0;
+  bombPickups.length = 0;   // their meshes already went with disposeSegment(road)
 }
 
 /** Sandbox: the original fixed 6x3 board, `owner` stuck on "enemy" forever — no flow, no clock, just the free-respawn loop below. */
@@ -681,59 +804,97 @@ function freshRun() {
   return {
     over: false, started: false,   // `started`: advance mode's sim (clock, waves, rotters) waits for the start card's FIRE
     timeLeft: CLOCK_START,
-    score: 0, deletions: 0, chain: 0, bestChain: 0, shotsFired: 0, shotsHit: 0,
-    hitThisArena: false, task: null, givenTask: false, talk: null,
+    score: 0, deletions: 0, chain: 0, bestChain: 0, shotsFired: 0, whiffs: 0,
+    waveIdx: 0, waveWhiffed: false, waveHit: false,
+    hitThisArena: false, cleanArenaCount: 0, arenasClearedCount: 0, guardKillCount: 0,
+    chargedKillCount: 0, perfectWaveCount: 0, runnersPassed: 0, bombs: 0,
+    task: null, tasksGiven: [], taskExchNpc: null, talk: null,
   };
 }
 let run = freshRun();
 
 const chainMultiplier = (chain) => (chain >= 20 ? 4 : chain >= 10 ? 3 : chain >= 5 ? 2 : 1);
-/** Clearing and wave-clearing pay the clock back; never past the cap. */
+/** Clearing, wave-clearing and tasks pay the clock back; never past the cap. */
 function addTime(sec) { run.timeLeft = Math.min(CLOCK_CAP, run.timeLeft + sec); }
-
-/** A third of a wave is "steel" (3 hp, a darker tint) from arena 5, half from arena 20; everything else is a one-shot basic virus. */
-function rollRotterHp() {
-  const idx = activeArena()?.idx ?? 0;
-  const steelChance = idx >= STEEL_COMMON_ARENA ? 0.5 : idx >= STEEL_FROM_ARENA ? 1 / 3 : 0;
-  const steel = Math.random() < steelChance;
-  return { hp: steel ? STEEL_HP : BASIC_HP, steel };
-}
-/** Rotters don't enter the "aim"/bolt phase before arena 9 — sandbox's are always live. */
-function rotterCanFire() { return mode === "sandbox" || (activeArena()?.idx ?? 0) >= AIM_UNLOCK_ARENA; }
 
 const aliveInArena = () => rotters.filter((r) => r.phase !== "die").length;
 
-/** Deal the next wave: as many as waveSize allows, capped by what's left in the pool and by MAX_ALIVE. */
+/**
+ * Deal the next wave: pick a formation at random, rotate it 0-2 rows, and
+ * schedule its slots (the arena's own x0 baked in) to arrive staggered by
+ * `waveStaggerMs(waveIdx)` — `waveIdx` is a whole-run counter, never reset
+ * per arena. From GUARD_FROM_ARENA, the formation's anchor slot may become a
+ * guard. Spawning itself happens in `processWave()`, frame by frame, so a
+ * slot whose tile is taken or the board full can simply wait.
+ */
 function dealWave(a, t) {
   const n = Math.min(a.waveSize, a.pool - a.dealt, MAX_ALIVE);
-  const waveNum = Math.floor(a.dealt / a.waveSize) + 1;
-  const totalWaves = Math.ceil(a.pool / a.waveSize);
-  for (let i = 0; i < n; i++) spawnRotter(t);
   a.dealt += n;
-  a.waveAlive = n;
-  showCaption(`WAVE ${waveNum} / ${totalWaves}`, WAVE_CAPTION_MS);
+  const stagger = waveStaggerMs(run.waveIdx);
+  run.waveIdx++;
+  const form = FORMATIONS[Math.floor(Math.random() * FORMATIONS.length)];
+  const rot = Math.floor(Math.random() * ROWS);
+  let guardSlot = -1;
+  if (a.idx >= GUARD_FROM_ARENA && form.anchor < n && Math.random() < guardChance(a.idx)) guardSlot = form.anchor;
+  const pending = [];
+  for (let i = 0; i < n; i++) {
+    const [col0, row0] = form.slots[i];
+    pending.push({ col: a.x0 + col0, row: (row0 + rot) % ROWS, kind: i === guardSlot ? "guard" : "mett", arriveAt: t + i * stagger, spawned: false });
+  }
+  a.wave = { pending };
+  a.waveN = n;
+  run.waveWhiffed = false;
+  run.waveHit = false;
+}
+/** Spawn every pending slot whose arrival has come and whose tile is free; a blocked one just waits another 90ms. */
+function processWave(a, t) {
+  const w = a.wave;
+  if (!w) return;
+  for (const slot of w.pending) {
+    if (slot.spawned || t < slot.arriveAt) continue;
+    if (aliveInArena() >= MAX_ALIVE || occupied(slot.col, slot.row)) { slot.arriveAt = t + 90; continue; }
+    spawnAdvanceRotter(slot.col, slot.row, slot.kind, t);
+    slot.spawned = true;
+  }
+}
+/** A wave's last enemy is gone: pay a perfect clear (no whiff, no hit, the whole wave through), then move on. */
+function finishWave(a, t) {
+  if (!run.waveWhiffed && !run.waveHit) {
+    const n = a.waveN;
+    const mult = chainMultiplier(run.chain);
+    const pts = WAVE_CLEAR_PTS_PER * n * mult;
+    const sec = (WAVE_CLEAR_BONUS_BASE_S + WAVE_CLEAR_BONUS_PER_S * n) * ROAD_PULSE;
+    run.score += pts;
+    addTime(sec);
+    run.perfectWaveCount++;
+    popup(state.pos.x, state.pos.z, `WAVE CLEAR +${pts}`, { color: "#ffd23f", y0: 1.05, ms: 900 });
+    popup(state.pos.x, state.pos.z, `+${sec.toFixed(2)}s`, { color: "#ffd23f", y0: 0.68, ms: 900 });
+  }
+  a.wave = null;
+  if (a.dealt >= a.pool) { clearArena(a, t); return; }
+  a.nextWaveAt = t + WAVE_GAP_MS;
 }
 
 /** The pool is spent and the board is clear: flip the ground, pay the clock, and build onward. */
 function clearArena(a, t) {
   a.owner = "player";
-  // The retint and its ripple stagger column by column rather than firing at
-  // once — the 2D original's own arena-taken pulse. Real-time `setTimeout`,
-  // not the sim clock: it's a one-off flourish tied to columns already fixed
-  // in world space, not a timer anything else reads.
+  // The ground is the buster's the instant the pool is spent: every tile of
+  // the enemy half becomes walkable now, so a step asked for in the same
+  // frame is honoured. Only the *look* staggers column by column — the 2D
+  // original's own arena-taken pulse — on real-time `setTimeout`, not the
+  // sim clock: a one-off flourish nothing else reads.
   for (let col = a.x0 + PCOLS, i = 0; col < a.x0 + COLS; col++, i++) {
     const c = col;
-    const doColumn = () => { for (let row = 0; row < ROWS; row++) { retintTile(tileAt(c, row), "player"); ripple(tileX(c), tileZ(row), PAL.tilePlayerRim, 1.6, 420); } };
+    for (let row = 0; row < ROWS; row++) tileAt(c, row).kind = "player";
+    // by the time a late column fires the arena may already have been trimmed behind the buster
+    const doColumn = () => { for (let row = 0; row < ROWS; row++) { const tl = tileAt(c, row); if (!tl) continue; retintTile(tl, "player"); ripple(tileX(c), tileZ(row), PAL.tilePlayerRim, 1.6, 420); } };
     if (i === 0) doColumn(); else setTimeout(doColumn, i * ARENA_STAGGER_MS);
   }
   dropDivider(a);
   shakeCam(0.05);
-  addTime(1.2);
-  announceArenaTaken(a.idx, 1.2);
-  if (run.task && !run.task.done) {
-    if (run.task.id === "noHit" && !run.hitThisArena) completeTask();
-    if (run.task.id === "chargedClear" && state.charge && t - state.charge.t0 >= CHARGE_MS) completeTask();
-  }
+  addTime(ARENA_CLEAR_BONUS_S * ROAD_PULSE);
+  run.arenasClearedCount++;
+  if (!run.hitThisArena) run.cleanArenaCount++;
   run.hitThisArena = false;
   const road = buildRoadSegment(world.nextX); world.nextX += road.cols;
   const nextIdx = a.idx + 1;
@@ -752,15 +913,16 @@ function updateArenaFlow(t) {
   const a = activeArena();
   if (!a || a.owner === "player") return;
   if (!a.entered) {
-    if (state.col >= a.x0) { a.entered = true; a.wakeAt = t + WAKE_DELAY_MS; }
+    if (state.col >= a.x0) { a.entered = true; a.wakeAt = t + WAKE_DELAY_MS; popLevelHud(); }
     return;
   }
   if (a.wakeAt != null) { if (t >= a.wakeAt) { dealWave(a, t); a.wakeAt = null; } return; }
+  if (a.wave) {
+    processWave(a, t);
+    if (a.wave.pending.every((s) => s.spawned) && aliveInArena() === 0) finishWave(a, t);
+    return;
+  }
   if (a.nextWaveAt != null) { if (t >= a.nextWaveAt) { dealWave(a, t); a.nextWaveAt = null; } return; }
-  if (aliveInArena() > 0) return;
-  if (a.dealt >= a.pool) { clearArena(a, t); return; }
-  if (a.waveAlive > 0) { addTime(0.4 * a.waveAlive); a.waveAlive = 0; }
-  a.nextWaveAt = t + WAVE_GAP_MS;
 }
 
 /** The pulse: drains only while the active arena is contested, at a rate that climbs with arena index. */
@@ -778,12 +940,13 @@ function gameOver() {
   run.over = true;
   state.charge = null; state.path = null; state.queued = null;
   hud.fire.classList.remove("held", "ready");
-  const acc = run.shotsFired > 0 ? Math.round((run.shotsHit / run.shotsFired) * 100) : 0;
+  const acc = run.shotsFired > 0 ? run.deletions / run.shotsFired : 0;
   $("card-arena").textContent = String((activeArena()?.idx ?? 0) + 1);
   $("card-score").textContent = String(run.score);
   $("card-deletions").textContent = String(run.deletions);
   $("card-chain").textContent = String(run.bestChain);
-  $("card-acc").textContent = `${acc}%`;
+  $("card-acc").textContent = `${Math.round(acc * 100)}%`;
+  $("card-rank").textContent = rankLetter(acc, run.bestChain);
   showCard("over");
 }
 /** RETRY: rebuild the world from scratch, exactly the fresh-run layout, and wait on the start card again. */
@@ -832,31 +995,33 @@ function resumeGame() {
   hideCardAll();
 }
 
-function completeTask() {
-  if (!run.task || run.task.done) return;
-  run.task.done = true;
-  run.score += 500;
-  addTime(5);
-  showCaption("TASK COMPLETE +5s +500", 2500);
-}
-
 // ---------- story ----------
-// Towers: a keeper standing on the middle tile, talked to from beside it,
-// player-paced beat by beat. The first conversation of a run hands out one
-// small bonus task and actually tracks it. The original's dialogue is not
-// reproducible (its prose lives outside this repo) so these are new lines,
-// written short and in the game's own voice.
+// Towers: a keeper on the middle tile and, from the tower before arena 10
+// on, a second and smaller NPC, "tally", who just counts the run. Both are
+// talked to from beside them, player-paced beat by beat, in topics —
+// pressing TALK opens whichever topic that NPC hasn't finished yet, each
+// further press is one beat, and the last beat closes it and moves that
+// NPC's pointer on to the next topic for next time. The original's own
+// dialogue is not reproducible (its prose lives outside this repo) so these
+// are new lines, written short, in the game's own voice.
 
-const TASKS = [
-  { id: "noHit", desc: "Take an arena without being hit." },
-  { id: "chain8", desc: "Delete eight in a row without missing." },
-  { id: "chargedClear", desc: "Clear an arena with one charged shot left in the chamber." },
+const KEEPER_START_TOPICS = [
+  ["The ground ahead is theirs. Take it and keep walking.", "Every panel you don't take rots a little longer under them.", "Go. The tower keeps."],
+  ["Delete clean and the ground remembers whose it is.", "A charge is worth saving for the ones that don't flinch.", "Walk on."],
 ];
-const TOWER_BEATS = [
-  ["The next ground is theirs. Take it and walk on.", "Every panel you don't take rots under them a little longer.", "Go. The tower keeps."],
-  ["Another guard sleeps just past here. It wakes when you cross the line.", "Delete it clean and the ground remembers whose it is.", "Walk on."],
-  ["The pool only gets deeper from here.", "Save a charge for the ones with the darker plating.", "Go take the ground."],
+const KEEPER_ROOST2_TOPICS = [
+  ["Ten arenas back there. You've a feel for the shape of it now.", "What's ahead wears plate. It won't hop, won't flinch, won't die easy.", "One good charge puts it down. Anything less just rings it."],
+  ["They call it a guard because that's the job, not the temperament.", "It doesn't even aim at you. It just refuses to leave.", "Refuse back."],
+  ["The pool only gets deeper past here.", "Save your charge for the ones that stand their ground."],
+  ["Tally keeps the count, if you want it."],
+  ["Go take the ground."],
 ];
+/** Tally's second beat quotes the run's own numbers — a function, not a string; `beatText()` calls it at open-time. */
+const TALLY_TOPICS = [
+  ["Counting for you, since someone should.", (r) => `arenas taken ${r.arenasClearedCount} · deletions ${r.deletions} · best chain ${r.bestChain}`, "Ask and I'll read it back."],
+  ["Go on. They're not getting any less armoured."],
+];
+const beatText = (b) => (typeof b === "function" ? b(run) : b);
 
 const keepers = [];   // { g, seg, seed } — one per tower segment
 function buildKeeper(seg) {
@@ -890,12 +1055,46 @@ function updateKeepers(t) {
   }
 }
 
-/** The tower the player is standing beside (orthogonally adjacent to its keeper's tile), if any. */
-function nearbyTower() {
+// Tally: a smaller cloaked figure with no staff, a warm visor instead of the
+// keeper's cool one, standing on its own tile a row over.
+const tallies = [];   // { g, seg, seed }
+function buildTally(seg) {
+  const g = new THREE.Group();
+  g.scale.setScalar(0.72);
+  g.position.set(tileX(seg.x0 + 4), 0, tileZ(2));
+  const cloakMat = new THREE.MeshStandardMaterial({ color: PAL.tallyCloak, roughness: 0.85, metalness: 0.1 });
+  g.add(mesh(new THREE.CylinderGeometry(0.045, 0.3, 1.05, 12), cloakMat, 0, 0.53, 0));
+  g.add(mesh(new THREE.SphereGeometry(0.14, 12, 10), cloakMat, 0, 1.05, 0));
+  const visorMat = new THREE.MeshStandardMaterial({ color: PAL.tallyVisor, emissive: PAL.tallyVisor, emissiveIntensity: 1.6, roughness: 0.2 });
+  g.add(box(0.16, 0.025, 0.02, visorMat, 0, 0.96, 0.13));
+  scene.add(g);
+  tallies.push({ g, seg, seed: Math.random() * 100 });
+}
+function disposeTally(seg) {
+  const i = tallies.findIndex((k) => k.seg === seg);
+  if (i < 0) return;
+  const k = tallies[i];
+  k.g.traverse((o) => { if (o.material) o.material.dispose(); if (o.geometry) o.geometry.dispose(); });
+  scene.remove(k.g);
+  tallies.splice(i, 1);
+}
+function updateTallies(t) {
+  for (const k of tallies) {
+    k.g.rotation.y = -0.08 * Math.sin(t / 1100 + k.seed);
+    k.g.position.y = 0.008 * Math.sin(t / 700 + k.seed);
+  }
+}
+
+/** The NPC the player is standing beside (orthogonally adjacent to its tile), if any: `{ seg, role }`. */
+function nearbyNpc() {
   for (const seg of world.segments) {
     if (seg.kind !== "tower") continue;
-    const ncol = seg.x0 + PCOLS, nrow = 1;
-    if ((state.col === ncol && Math.abs(state.row - nrow) === 1) || (Math.abs(state.col - ncol) === 1 && state.row === nrow)) return seg;
+    const kcol = seg.x0 + PCOLS, krow = 1;
+    if ((state.col === kcol && Math.abs(state.row - krow) === 1) || (Math.abs(state.col - kcol) === 1 && state.row === krow)) return { seg, role: "keeper" };
+    if (seg.tallyTopics) {
+      const tcol = seg.x0 + 4, trow = 2;
+      if ((state.col === tcol && Math.abs(state.row - trow) === 1) || (Math.abs(state.col - tcol) === 1 && state.row === trow)) return { seg, role: "tally" };
+    }
   }
   return null;
 }
@@ -908,32 +1107,67 @@ function checkRoost() {
     }
   }
 }
-/** TALK: press once beside the keeper to open, once per beat to advance, and once on the last beat to close. */
+/** Leaving every NPC's proximity ends the "row" the task exchange counts by. */
+function updateTalkProximity() { if (!run.talk && !nearbyNpc()) run.taskExchNpc = null; }
+
+const topicsFor = (seg, role) => (role === "keeper" ? seg.keeperTopics : seg.tallyTopics);
+const topicIdxFor = (seg, role) => (role === "keeper" ? seg.keeperTopicIdx : seg.tallyTopicIdx);
+function bumpTopicIdx(seg, role) { if (role === "keeper") seg.keeperTopicIdx++; else seg.tallyTopicIdx++; }
+
+/** TALK: press once beside an NPC to open its next topic, once per beat to advance, and once on the last beat to close. */
 function pressTalk() {
   if (mode !== "advance") return;
   if (run.talk) { advanceTalk(); return; }
-  const seg = nearbyTower();
-  if (!seg) return;
-  const beats = TOWER_BEATS[seg.ordinal % TOWER_BEATS.length];
-  run.talk = { seg, beats, i: 0 };
-  showCaption(beats[0]);
+  const near = nearbyNpc();
+  if (!near) return;
+  const { seg, role } = near;
+  const npcId = seg.x0 + ":" + role;
+  // The task exchange and the topic's own first beat share one caption line
+  // — a hand/pay message on the very press that also opens a conversation
+  // would otherwise be overwritten before it's ever read.
+  let taskMsg = null;
+  if (run.taskExchNpc !== npcId) { run.taskExchNpc = npcId; taskMsg = taskExchange(); }
+  const topics = topicsFor(seg, role);
+  const idx = topicIdxFor(seg, role);
+  const fresh = idx < topics.length;
+  const beats = fresh ? topics[idx] : topics[topics.length - 1];
+  run.talk = { seg, role, beats, i: 0, fresh };
+  showCaption(taskMsg ? `${taskMsg}  ·  ${beatText(beats[0])}` : beatText(beats[0]));
 }
 function advanceTalk() {
   const tk = run.talk;
   tk.i++;
-  if (tk.i >= tk.beats.length) closeTalk();
-  else showCaption(tk.beats[tk.i]);
+  if (tk.i >= tk.beats.length) {
+    if (tk.fresh) bumpTopicIdx(tk.seg, tk.role);
+    closeTalk();
+  } else showCaption(beatText(tk.beats[tk.i]));
 }
 function closeTalk() {
   run.talk = null;
   hideCaption();
-  if (!run.givenTask) assignTask();
 }
-function assignTask() {
-  run.givenTask = true;
-  const pick = TASKS[Math.floor(Math.random() * TASKS.length)];
-  run.task = { id: pick.id, desc: pick.desc, done: false };
-  showCaption(`TASK: ${pick.desc}`, 3200);
+
+/** Every TALK, once per distinct NPC in a row: pay the active task if its target is met, else hand the next undone one, else nothing. Returns the caption text, or null. */
+function taskExchange() {
+  if (run.task) {
+    const def = TASKS_LIST.find((d) => d.id === run.task.id);
+    const met = TASK_PROGRESS[def.id](run) >= def.target;
+    return met ? payTask(def.id) : null;
+  }
+  const next = TASKS_LIST.find((d) => !run.tasksGiven.includes(d.id));
+  if (!next) return null;
+  run.tasksGiven.push(next.id);
+  run.task = { id: next.id, desc: next.desc };
+  return `TASK: ${next.desc}`;
+}
+function payTask(id) {
+  const def = TASKS_LIST.find((d) => d.id === id);
+  run.task = null;
+  let caption = "TASK COMPLETE";
+  if (def.reward.time) { addTime(def.reward.time); caption += ` +${def.reward.time}s`; }   // task rewards are not scaled by ROAD_PULSE
+  if (def.reward.pts) { run.score += def.reward.pts; caption += ` +${def.reward.pts}pts`; }
+  if (def.reward.bomb) { run.bombs += def.reward.bomb; caption += ` +${def.reward.bomb} bomb`; }
+  return caption;
 }
 
 /** hud.caption: a bottom-centre line, shared by TALK beats, ROOST and task callouts. `ms` auto-hides; omitted, it stays until replaced or hidden. */
@@ -951,16 +1185,89 @@ function hideCaption() {
   hud.caption.textContent = "";
 }
 
-/** The big centred "ARENA n TAKEN +bonus" banner a clear announces. */
-let arenaBannerTimer = null;
-function announceArenaTaken(idx, bonusSec) {
-  hud.arenaBannerText.textContent = `ARENA ${idx + 1} TAKEN  +${bonusSec.toFixed(1)}s`;
-  hud.arenaBanner.hidden = false;
-  hud.arenaBanner.classList.remove("show");
-  void hud.arenaBanner.offsetWidth;
-  hud.arenaBanner.classList.add("show");
-  clearTimeout(arenaBannerTimer);
-  arenaBannerTimer = setTimeout(() => { hud.arenaBanner.hidden = true; }, ARENA_BANNER_MS);
+/** The HUD's level number pops (scale 1.3 → 1) the instant the player steps into a new arena — a boundary, not a banner. */
+function popLevelHud() {
+  hud.level.classList.remove("pop");
+  void hud.level.offsetWidth;
+  hud.level.classList.add("pop");
+}
+
+// ---------- bombs ----------
+// A pickup on a road tile: walk onto it to stow it. BOMB (the chip, or `B`)
+// blasts the active arena's enemy half in a 3x3 centred on (x0+4, row 1),
+// deleting everything in it — guards included — at normal-kill scoring, no
+// chain change, only while that arena is still contested.
+
+const bombPickups = [];   // { g, spark, col, row, seg, taken, seed }
+function buildBombMesh() {
+  const g = new THREE.Group();
+  const bodyMat = new THREE.MeshStandardMaterial({ color: PAL.bombBody, roughness: 0.5, metalness: 0.4 });
+  g.add(ball(0.15, bodyMat, 0, 0.15, 0, 12));
+  const fuseMat = new THREE.MeshStandardMaterial({ color: PAL.bombFuse, roughness: 0.8 });
+  const fuse = mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.13, 6), fuseMat, 0.03, 0.29, 0);
+  fuse.rotation.z = 0.35;
+  g.add(fuse);
+  const sparkMat = new THREE.SpriteMaterial({ map: discTex, color: PAL.bombSpark, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
+  const spark = new THREE.Sprite(sparkMat);
+  spark.scale.setScalar(0.09);
+  spark.position.set(0.065, 0.35, 0);
+  g.add(spark);
+  return { g, spark };
+}
+function spawnBombPickup(seg) {
+  const col = seg.x0 + 1, row = 1;
+  if (!onBoard(col, row)) return;
+  const { g, spark } = buildBombMesh();
+  g.position.set(tileX(col), 0, tileZ(row));
+  scene.add(g);
+  bombPickups.push({ g, spark, col, row, seg, taken: false, seed: Math.random() * 100 });
+}
+function disposeBombPickup(b) { scene.remove(b.g); b.g.traverse((o) => { if (o.material) o.material.dispose(); if (o.geometry) o.geometry.dispose(); }); }
+function disposeBombsOn(seg) {
+  for (let i = bombPickups.length - 1; i >= 0; i--) if (bombPickups[i].seg === seg) { disposeBombPickup(bombPickups[i]); bombPickups.splice(i, 1); }
+}
+function updateBombPickups(t) {
+  for (let i = bombPickups.length - 1; i >= 0; i--) {
+    const b = bombPickups[i];
+    b.g.position.y = 0.01 * Math.sin(t / 140 + b.seed);
+    b.spark.material.opacity = 0.6 + 0.4 * Math.sin(t / 90 + b.seed);
+    if (!b.taken && state.col === b.col && state.row === b.row) {
+      b.taken = true;
+      run.bombs++;
+      popup(b.g.position.x, b.g.position.z, "BOMB +1", { color: "#ffd23f" });
+      disposeBombPickup(b);
+      bombPickups.splice(i, 1);
+    }
+  }
+}
+/** A bomb kill pays like a normal-kill deletion (scoring + time) but sits outside the shot economy entirely: no chain, no shotsFired, no accuracy effect. */
+function advanceBombKill(r, t) {
+  const isGuard = r.kind === "guard";
+  r.phase = "die"; r.t0 = t; r.dur = ROTTER_DIE_MS; r.hop = null;
+  dust(r.x, r.z, 10, 2.2, { color: PAL.bolt, y: 0.25, rise: 0.5, size: [0.07, 0.26], ms: [260, 420], additive: true });
+  spawnDebris(r.x, r.z, isGuard ? [PAL.guardBody, PAL.guardDark] : [PAL.rotter, PAL.rotterDark, PAL.rotterBlade]);
+  const mult = chainMultiplier(run.chain);
+  const pts = isGuard ? PTS_GUARD : PTS_NORMAL;
+  run.score += pts * mult;
+  addTime((isGuard ? BONUS_GUARD_S : BONUS_NORMAL_S) * ROAD_PULSE);
+  popup(r.x, r.z, `+${pts * mult}`, { color: "#c9f6ff" });
+  if (isGuard) run.guardKillCount++;
+}
+function pressBomb() {
+  if (mode !== "advance" || run.over || !run.started || cardKind) return;
+  if (run.bombs <= 0) return;
+  const a = activeArena();
+  if (!a || a.owner !== "enemy" || !a.entered) return;
+  const t = now();
+  run.bombs--;
+  const cx = a.x0 + 4, cz = 1;
+  const hits = rotters.filter((r) => (r.kind === "mett" || r.kind === "guard") && r.phase !== "die" && Math.abs(r.col - cx) <= 1 && Math.abs(r.row - cz) <= 1);
+  for (const r of hits) advanceBombKill(r, t);
+  triggerHitStop(BOMB_HITSTOP_MS);
+  shakeCam(0.08);
+  for (let dc = -1; dc <= 1; dc++) for (let dr = -1; dr <= 1; dr++) flashTile(cx + dc, cz + dr, PAL.bolt);
+  ripple(tileX(cx), tileZ(cz), PAL.bolt, 3.4, 420);
+  dust(tileX(cx), tileZ(cz), 16, 2.8, { color: PAL.bolt, y: 0.3, rise: 0.6, size: [0.1, 0.32], ms: [320, 540], additive: true });
 }
 
 // ---------- mode ----------
@@ -982,12 +1289,14 @@ function updateAdvanceHud() {
     pips[i].classList.toggle("lit", i < lit);
     pips[i].classList.toggle("low", i < lit && lit <= 8);
   }
-  const showTask = run.task && !run.task.done;
+  const showTask = !!run.task;
   hud.taskLine.hidden = !showTask;
-  if (showTask) hud.taskLine.textContent = `task: ${run.task.desc} \u00a0\u00b7\u00a0 `;
-  const near = !run.talk && !!nearbyTower();
+  if (showTask) hud.taskLine.textContent = `task: ${run.task.desc}`;
+  const near = !run.talk && !!nearbyNpc();
   hud.talkHint.hidden = !near;
   hud.talkBtn.hidden = !(near || run.talk);
+  hud.bombBtn.hidden = run.bombs <= 0;
+  if (run.bombs > 0) hud.bombValue.textContent = String(run.bombs);
 }
 
 /** (Re)build the world for whichever mode is live, and reset the run/camera to match. */
@@ -1421,13 +1730,13 @@ function updateDebris(t) {
 // thin line along the whole path, fading fast — the ring on impact is just
 // `ripple()` with a bigger scale (see updateShots).
 const tracers = [];
-function spawnTracer(x0, z0, x1, z1) {
+function spawnTracer(x0, z0, x1, z1, color = PAL.charged, ms = TRACER_MS) {
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array([x0, 0.28, z0, x1, 0.28, z1]), 3));
-  const mat = new THREE.LineBasicMaterial({ color: PAL.charged, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
+  const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
   const line = new THREE.Line(geo, mat);
   scene.add(line);
-  tracers.push({ line, t0: now(), ms: TRACER_MS });
+  tracers.push({ line, t0: now(), ms });
 }
 function updateTracers(t) {
   for (let i = tracers.length - 1; i >= 0; i--) {
@@ -1449,6 +1758,7 @@ const state = {
   col: 1, row: 1,             // the square counted as stood on
   pos: new THREE.Vector3(tileX(1), 0, tileZ(1)),   // where the body is, this frame
   hop: null,                  // { fromCol, fromRow, toCol, toRow, t0, committed, left, landed }
+  lastFrom: null,              // [col, row] hopped from most recently — runPath()'s anti-backtrack pass
   lastMoveAt: -1e9,
   lastIdleAt: 0,              // when the last hop finished
   path: null,                 // { col, row } a tap to walk towards
@@ -1467,7 +1777,7 @@ const state = {
   // the buster
   charge: null,               // { t0 } while FIRE is held
   lastFireAt: -1e9,
-  fireAt: -1e9, fireCharged: false,
+  fireAt: -1e9, fireCharged: false, fireFlashMs: 70,
   hurtUntil: -1e9,
   busted: 0, hits: 0,
   phase: "idle",
@@ -1528,6 +1838,13 @@ function moveTo(col, row, t) {
   ripple(tileX(col), tileZ(row), PAL.ripple, 1.25, 320);
   tileAt(col, row).glow = 1;
   state.path = { col, row };
+  // A fresh destination starts its own run of steps: the anti-backtrack
+  // pass in runPath() must only refuse the tile *this walk* just left, not
+  // whatever an earlier, unrelated walk happened to leave standing there —
+  // otherwise the very first step of a walk that legitimately doubles back
+  // through where the player is already standing next to (an NPC tile's
+  // far side, say) reads as a backtrack and the router picks the wrong way.
+  state.lastFrom = null;
   runPath(t);
 }
 
@@ -1548,7 +1865,20 @@ function runPath(t) {
   const byCol = [state.col + Math.sign(dc), state.row], byRow = [state.col, state.row + Math.sign(dr)];
   const order = Math.abs(dc) >= Math.abs(dr) ? [byCol, byRow] : [byRow, byCol];
   const detour = [[state.col, state.row + 1], [state.col, state.row - 1], [state.col + 1, state.row], [state.col - 1, state.row]];
-  for (const [c, r] of [...order, ...detour]) {
+  const candidates = [...order, ...detour];
+  // A single obstacle (a lone rotter, one NPC tile) never needs more than
+  // the detour above. Two obstacles positioned to pinch a straight line
+  // from both the diagonal sides (the two-NPC towers) can trap this greedy
+  // router in a two-tile ping-pong: it steps back, then the very next call
+  // steps right back to the square it just left. So the immediately-prior
+  // tile is skipped on a first pass — anywhere else free routes around the
+  // pinch — and only allowed on a second pass if truly nothing else is free.
+  const back = state.lastFrom;
+  const isBack = (c, r) => back && c === back[0] && r === back[1];
+  for (const [c, r] of candidates) {
+    if ((c !== state.col || r !== state.row) && !isBack(c, r) && free(c, r)) { go(c, r, t); return; }
+  }
+  for (const [c, r] of candidates) {
     if ((c !== state.col || r !== state.row) && free(c, r)) { go(c, r, t); return; }
   }
 }
@@ -1560,6 +1890,7 @@ function go(col, row, t) {
   const prev = state.hop;
   if (prev && !prev.committed) { prev.committed = true; state.col = prev.toCol; state.row = prev.toRow; }
   if (col === state.col && row === state.row) { state.hop = null; return; }
+  state.lastFrom = [state.col, state.row];   // for runPath()'s anti-backtrack pass, above
   state.hop = { fromCol: state.col, fromRow: state.row, toCol: col, toRow: row, t0: t, committed: false, left: false, landed: false };
   // Unless the barrel is being held somewhere — by the lock, live aim input,
   // or lane mode holding it down the lane on principle — a hop turns the
@@ -1694,7 +2025,11 @@ const matCharged = new THREE.MeshBasicMaterial({ color: 0xeafcff });
 const shotGlowMat = new THREE.SpriteMaterial({ map: discTex, color: PAL.shot, transparent: true, opacity: 0.8, depthWrite: false, blending: THREE.AdditiveBlending });
 const chargedGlowMat = new THREE.SpriteMaterial({ map: discTex, color: PAL.charged, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending });
 
+/** How long a hold must last for the release to fire the strong shot: 700ms in advance, 520ms in sandbox. */
+function currentChargeMs() { return mode === "advance" ? ADV_CHARGE_MS : CHARGE_MS; }
+
 function fire(t, charged) {
+  if (mode === "advance") { fireHitscan(t, charged); return; }
   aimDir(state.aim, _v);
   const m = new THREE.Mesh(charged ? chargedGeo : shotGeo, charged ? matCharged : matShot);
   m.position.copy(muzzle);
@@ -1704,10 +2039,10 @@ function fire(t, charged) {
   scene.add(m);
   const speed = charged ? CHARGED_SPEED : SHOT_SPEED;
   shots.push({ m, vx: _v.x * speed, vz: _v.z * speed, charged, dmg: charged ? ROTTER_HP : 1, x0: muzzle.x, z0: muzzle.z, hit: false });
-  if (mode === "advance" && !run.over) run.shotsFired++;
   state.lastFireAt = t;
   state.fireAt = t;
   state.fireCharged = charged;
+  state.fireFlashMs = 70;
   state.aimAt = t;
   state.cosmetic = false;
   flash.material.color.set(charged ? PAL.charged : PAL.shot);
@@ -1716,6 +2051,99 @@ function fire(t, charged) {
     dust(muzzle.x, muzzle.z, 5, 1.4, { color: PAL.charged, y: muzzle.y, rise: 0, size: [0.06, 0.2], ms: [140, 220], additive: true });
   }
 }
+
+/** The board's edge along a ray from (mx,mz) in direction (dx,dz): where a miss's tracer ends and it counts as a whiff. */
+function rayBoardEdge(mx, mz, dx, dz) {
+  let best = 8;
+  if (dx > 1e-6) best = Math.min(best, (tileX(tileColMax) + TILE / 2 + 1 - mx) / dx);
+  else if (dx < -1e-6) best = Math.min(best, (tileX(tileColMin) - TILE / 2 - 1 - mx) / dx);
+  if (dz > 1e-6) best = Math.min(best, (tileZ(ROWS - 1) + TILE / 2 + 1 - mz) / dz);
+  else if (dz < -1e-6) best = Math.min(best, (tileZ(0) - TILE / 2 - 1 - mz) / dz);
+  return Math.max(0.3, best);
+}
+/**
+ * Advance mode's shot: instant hitscan along the aim ray, no projectile mesh.
+ * The nearest live enemy whose hit circle the ray crosses, strictly ahead,
+ * takes the hit; nothing in the way is a whiff. A bright tracer runs to the
+ * impact (or the board edge) and fades in ADV_TRACER_MS.
+ */
+function fireHitscan(t, charged) {
+  if (run.over) return;
+  aimDir(state.aim, _v);
+  const dirX = _v.x, dirZ = _v.z;
+  const mx = muzzle.x, my = muzzle.y, mz = muzzle.z;
+  let best = null, bestT = Infinity;
+  for (const r of rotters) {
+    if (r.phase === "die" || (r.kind !== "mett" && r.kind !== "guard")) continue;
+    const wx = r.x - mx, wz = r.z - mz;
+    const proj = wx * dirX + wz * dirZ;
+    if (proj <= 0.05) continue;   // strictly ahead
+    const perp2 = wx * wx + wz * wz - proj * proj;
+    const rad = ROTTER_RADIUS + (charged ? 0.15 : 0.06);
+    if (perp2 <= rad * rad && proj < bestT) { bestT = proj; best = r; }
+  }
+  const endT = best ? bestT : rayBoardEdge(mx, mz, dirX, dirZ);
+  const ex = mx + dirX * endT, ez = mz + dirZ * endT;
+
+  run.shotsFired++;
+  state.lastFireAt = t;
+  state.fireAt = t;
+  state.fireCharged = charged;
+  state.fireFlashMs = charged ? ADV_FLASH_MS.charged : ADV_FLASH_MS.normal;
+  state.aimAt = t;
+  state.cosmetic = false;
+  flash.material.color.set(charged ? PAL.charged : PAL.shot);
+  spawnTracer(mx, mz, ex, ez, charged ? PAL.charged : PAL.shot, ADV_TRACER_MS);
+  ripple(ex, ez, charged ? PAL.charged : PAL.shot, 1.0, ADV_IMPACT_MS);
+  if (charged) {
+    shakeCam(0.05);
+    dust(mx, mz, 5, 1.4, { color: PAL.charged, y: my, rise: 0, size: [0.06, 0.2], ms: [140, 220], additive: true });
+  }
+  if (!best) { whiff(t); return; }
+  if (best.kind === "guard" && !charged) { advanceGuardPlink(best, t); return; }
+  advanceDeleteEnemy(best, charged, t);
+}
+/** A shot with nothing ahead of it: breaks the chain (shown only once there was one worth losing) — not a deletion, not a guard plink. */
+function whiff(t) {
+  run.whiffs++;
+  run.waveWhiffed = true;
+  if (run.chain >= 2) chainLostFlourish();
+  run.chain = 0;
+}
+/** A normal shot off a guard: sparks bounce back, a "GUARD" popup, a wobble — no damage, no chain change, not a whiff. */
+function advanceGuardPlink(r, t) {
+  r.flashUntil = t + 90;
+  r.knock = { vx: 0.07, vz: 0, t0: t };
+  triggerHitStop(killHitstopMs("guard", false));
+  dust(r.x, r.z, 6, 1.6, { color: PAL.guardEye, y: 0.28, rise: 0.25, size: [0.05, 0.16], ms: [140, 220], additive: true });
+  popup(r.x, r.z, "GUARD", { color: "#8fd0ff" });
+  shakeCam(0.02);
+}
+/** A mett (any shot) or a guard (charged only) actually deleted: score, time, chain, hit-stop, task progress. */
+function advanceDeleteEnemy(r, charged, t) {
+  const isGuard = r.kind === "guard";
+  r.phase = "die"; r.t0 = t; r.dur = ROTTER_DIE_MS; r.hop = null;
+  dust(r.x, r.z, 14, 2.6, { color: isGuard ? PAL.guardEye : PAL.bolt, y: 0.25, rise: 0.6, size: [0.08, 0.3], ms: [300, 520], additive: true });
+  ripple(r.x, r.z, isGuard ? PAL.guardEye : PAL.bolt, 2.2, 420);
+  pressTile(r.col, r.row, 0.6);
+  shakeCam(charged ? 0.07 : 0.035);
+  spawnDebris(r.x, r.z, isGuard ? [PAL.guardBody, PAL.guardDark] : [PAL.rotter, PAL.rotterDark, PAL.rotterBlade]);
+  if (state.lockTarget === r) state.lockTarget = null;
+
+  run.deletions++;
+  run.chain++;
+  run.bestChain = Math.max(run.bestChain, run.chain);
+  const mult = chainMultiplier(run.chain);
+  const pts = isGuard ? PTS_GUARD : charged ? PTS_CHARGED : PTS_NORMAL;
+  run.score += pts * mult;
+  addTime((isGuard ? BONUS_GUARD_S : charged ? BONUS_CHARGED_S : BONUS_NORMAL_S) * ROAD_PULSE);
+  popup(r.x, r.z, mult > 1 ? `+${pts * mult} ×${mult}` : `+${pts * mult}`, { color: "#c9f6ff" });
+  triggerHitStop(killHitstopMs(r.kind, charged));
+  if (CHAIN_STEPS.includes(run.chain)) { chainFlourish(mult); triggerHitStop(HITSTOP_ADV.chain); }
+  if (charged) run.chargedKillCount++;
+  if (isGuard) run.guardKillCount++;
+}
+
 function pressFire(t) {
   // FIRE is also how the start and pause cards let go — a single choke
   // point covers the keyboard, the FIRE button and right-click/touch alike.
@@ -1732,7 +2160,7 @@ function releaseFire(t) {
   if (!c) return;
   state.charge = null;
   hud.fire.classList.remove("held", "ready");
-  if (t - c.t0 >= CHARGE_MS) fire(t, true);
+  if (t - c.t0 >= currentChargeMs()) fire(t, true);
 }
 
 function updateShots(t) {
@@ -1764,13 +2192,13 @@ function updateShots(t) {
     }
   }
   // the flash and the charge glow ride the muzzle
-  const fu = clamp01((t - state.fireAt) / 70);
+  const fu = clamp01((t - state.fireAt) / state.fireFlashMs);
   flash.position.copy(muzzle);
   flash.scale.setScalar(fu < 1 ? lerp(state.fireCharged ? 0.9 : 0.45, 0.05, fu) : 0.001);
   flash.material.opacity = fu < 1 ? 1 - fu : 0;
   chargeGlow.position.copy(muzzle);
   if (state.charge) {
-    const cu = clamp01((t - state.charge.t0) / CHARGE_MS);
+    const cu = clamp01((t - state.charge.t0) / currentChargeMs());
     const ready = cu >= 1;
     const pulse = ready ? 0.85 + 0.15 * Math.sin(t / 40) : 1;
     chargeGlow.scale.setScalar(lerp(0.05, 0.5, easeOutQuad(cu)) * pulse);
@@ -1805,28 +2233,42 @@ function rotterAt(col, row) {
 /** Anything on (col, row): the buster (or where it is hopping to), or a rotter. */
 const occupied = (col, row) => (state.col === col && state.row === row) || (state.hop && state.hop.toCol === col && state.hop.toRow === row) || !!rotterAt(col, row);
 
-function buildRotter() {
+/**
+ * `guard`: a distinct steel look, not just a tint — a heavier cup, no rotor
+ * blades (it never spins up, never winds anything), a colder grey-blue eye.
+ */
+function buildRotter(guard = false) {
   const g = new THREE.Group();
-  const matBody = new THREE.MeshStandardMaterial({ color: PAL.rotter, roughness: 0.45, metalness: 0.55, emissive: 0x000000 });
-  const matDark = new THREE.MeshStandardMaterial({ color: PAL.rotterDark, roughness: 0.6, metalness: 0.4, emissive: 0x000000 });
+  const bodyColor = guard ? PAL.guardBody : PAL.rotter, darkColor = guard ? PAL.guardDark : PAL.rotterDark;
+  const eyeColor = guard ? PAL.guardEye : PAL.rotterEye;
+  const matBody = new THREE.MeshStandardMaterial({ color: bodyColor, roughness: guard ? 0.35 : 0.45, metalness: guard ? 0.7 : 0.55, emissive: 0x000000 });
+  const matDark = new THREE.MeshStandardMaterial({ color: darkColor, roughness: 0.5, metalness: guard ? 0.6 : 0.4, emissive: 0x000000 });
   const matBlade = new THREE.MeshStandardMaterial({ color: PAL.rotterBlade, roughness: 0.35, metalness: 0.6, emissive: PAL.rotterBlade, emissiveIntensity: 0.25 });
-  const matEye = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: PAL.rotterEye, emissiveIntensity: 1.2, roughness: 0.2 });
+  const matEye = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: eyeColor, emissiveIntensity: 1.2, roughness: 0.2 });
   const body = new THREE.Group();
   g.add(body);
-  body.add(mesh(new THREE.CylinderGeometry(0.3, 0.14, 0.2, 8), matBody, 0, 0.12, 0));      // the squat cup
-  body.add(mesh(new THREE.SphereGeometry(0.19, 14, 10), matDark, 0, 0.27, 0));            // the dome
-  body.add(mesh(new THREE.ConeGeometry(0.06, 0.16, 8), matBlade, 0, 0.5, 0));             // the spike
-  const eye = mesh(new THREE.SphereGeometry(0.07, 12, 10), matEye, -0.16, 0.27, 0);       // the eye looks down the lane at the player's half
-  eye.castShadow = false;
-  body.add(eye);
-  const rotor = new THREE.Group();
-  rotor.position.y = 0.34;
+  body.add(mesh(new THREE.CylinderGeometry(guard ? 0.34 : 0.3, guard ? 0.2 : 0.14, guard ? 0.24 : 0.2, guard ? 10 : 8), matBody, 0, guard ? 0.14 : 0.12, 0));   // the cup — heavier on a guard
+  body.add(mesh(new THREE.SphereGeometry(guard ? 0.21 : 0.19, 14, 10), matDark, 0, guard ? 0.3 : 0.27, 0));            // the dome
+  const rotor = new THREE.Group();   // kept even on a guard so the shared per-frame code has somewhere to (not) spin
+  rotor.position.y = guard ? 0.37 : 0.34;
   body.add(rotor);
-  for (let i = 0; i < 3; i++) {
-    const blade = box(0.62, 0.035, 0.09, matBlade, 0, 0, 0);
-    blade.rotation.y = (i * Math.PI * 2) / 3;
-    blade.rotation.x = 0.18;
-    rotor.add(blade);
+  if (guard) {
+    // a plated cap in place of the spike and blades: still, armoured, done
+    body.add(mesh(new THREE.CylinderGeometry(0.16, 0.19, 0.06, 10), matDark, 0, 0.44, 0));
+    const eye = mesh(new THREE.SphereGeometry(0.08, 12, 10), matEye, -0.18, 0.3, 0);
+    eye.castShadow = false;
+    body.add(eye);
+  } else {
+    body.add(mesh(new THREE.ConeGeometry(0.06, 0.16, 8), matBlade, 0, 0.5, 0));             // the spike
+    const eye = mesh(new THREE.SphereGeometry(0.07, 12, 10), matEye, -0.16, 0.27, 0);       // the eye looks down the lane at the player's half
+    eye.castShadow = false;
+    body.add(eye);
+    for (let i = 0; i < 3; i++) {
+      const blade = box(0.62, 0.035, 0.09, matBlade, 0, 0, 0);
+      blade.rotation.y = (i * Math.PI * 2) / 3;
+      blade.rotation.x = 0.18;
+      rotor.add(blade);
+    }
   }
   return { g, body, rotor, matBody, matDark, matEye, matBlade };
 }
@@ -1845,15 +2287,14 @@ function freeNeighbour(col, row) {
   return opts.length ? opts[Math.floor(Math.random() * opts.length)] : null;
 }
 
+/** Sandbox's own free-respawn rotter: unchanged, 3 hp, the random sit/hop/aim state machine below (`r.kind` unset marks it "classic"). */
 function spawnRotter(t) {
   const at = freeEnemyTile();
   if (!at) return;
-  const r = buildRotter();
-  const { hp, steel } = mode === "advance" ? rollRotterHp() : { hp: ROTTER_HP, steel: false };
-  if (steel) { r.matBody.color.set(PAL.rotterSteel); r.matDark.color.set(PAL.rotterSteelDark); }
+  const r = buildRotter(false);
   Object.assign(r, {
     col: at[0], row: at[1], x: tileX(at[0]), z: tileZ(at[1]),
-    hp, steel, phase: "spawn", t0: t, dur: ROTTER_SPAWN_MS, hop: null, knock: null,
+    hp: ROTTER_HP, steel: false, phase: "spawn", t0: t, dur: ROTTER_SPAWN_MS, hop: null, knock: null,
     spin: 0.006, flashUntil: -1e9, nextFireAt: t + rand(ROTTER_FIRE_EVERY[0], ROTTER_FIRE_EVERY[1]) + 800, seed: Math.random() * 100,
   });
   r.g.position.set(r.x, 0, r.z);
@@ -1862,10 +2303,28 @@ function spawnRotter(t) {
   ripple(r.x, r.z, PAL.bolt, 1.4, 420);
 }
 
+/** Advance mode's own spawn, at a formation slot already picked: a mett (hops its arena every MET_HOP_MS) or a guard (never moves, never attacks). */
+function spawnAdvanceRotter(col, row, kind, t) {
+  const guard = kind === "guard";
+  const r = buildRotter(guard);
+  Object.assign(r, {
+    col, row, x: tileX(col), z: tileZ(row), kind,
+    hp: 1, steel: false, phase: "spawn", t0: t, dur: ROTTER_SPAWN_MS, hop: null, knock: null,
+    spin: guard ? 0 : 0.006, flashUntil: -1e9, seed: Math.random() * 100,
+    nextHopAt: t + ROTTER_SPAWN_MS + MET_HOP_MS,
+    nextFireAt: t + rand(ROTTER_FIRE_EVERY[0], ROTTER_FIRE_EVERY[1]) + 800,   // unreachable before RETALIATE_ARENA; kept so that gate has something to switch on
+  });
+  r.g.position.set(r.x, 0, r.z);
+  scene.add(r.g);
+  rotters.push(r);
+  ripple(r.x, r.z, guard ? PAL.guardEye : PAL.bolt, 1.4, 420);
+  return r;
+}
+
+/** Sandbox's own projectile-hit resolution — advance mode is hitscan and never spawns a `shot`, so never calls this. */
 function hitRotter(r, shot, t) {
   r.hp -= shot.dmg;
   r.flashUntil = t + 90;
-  if (mode === "advance" && !run.over) run.shotsHit++;
   dust(shot.m.position.x, shot.m.position.z, shot.charged ? 8 : 4, shot.charged ? 2.2 : 1.4, { color: shot.charged ? PAL.charged : PAL.shot, y: shot.m.position.y, rise: 0.3, size: [0.05, 0.16], ms: [160, 260], additive: true });
   if (r.hp <= 0) {
     r.phase = "die"; r.t0 = t; r.dur = ROTTER_DIE_MS;
@@ -1879,21 +2338,8 @@ function hitRotter(r, shot, t) {
     spawnDebris(r.x, r.z, r.steel ? [PAL.rotterSteel, PAL.rotterSteelDark, PAL.rotterBlade] : [PAL.rotter, PAL.rotterDark, PAL.rotterBlade]);
     if (state.lockTarget === r) state.lockTarget = null;
     nextSpawnAt = Math.max(nextSpawnAt, t + ROTTER_RESPAWN_MS);
-    const a = activeArena();
-    const clearing = mode === "advance" && a && a.dealt >= a.pool && aliveInArena() === 0;
-    triggerHitStop(clearing ? HITSTOP_CLEAR_MS : shot.charged ? HITSTOP_CHARGED_MS : HITSTOP_MS);
-    if (mode === "advance" && !run.over) {
-      run.deletions++;
-      run.chain++;
-      run.bestChain = Math.max(run.bestChain, run.chain);
-      const mult = chainMultiplier(run.chain);
-      run.score += 100 * mult;
-      popup(r.x, r.z, mult > 1 ? `+${100 * mult} ×${mult}` : `+${100 * mult}`, { color: "#c9f6ff" });
-      if (CHAIN_STEPS.includes(run.chain)) chainFlourish(mult);
-      if (run.task && run.task.id === "chain8" && !run.task.done && run.chain >= 8) completeTask();
-    } else {
-      popup(r.x, r.z, "BUSTED", { color: "#c9f6ff" });
-    }
+    triggerHitStop(shot.charged ? HITSTOP_CHARGED_MS : HITSTOP_MS);
+    popup(r.x, r.z, "BUSTED", { color: "#c9f6ff" });
   } else {
     // a shove: the body lurches away from the shot and springs back
     r.knock = { vx: Math.sign(shot.vx) * 0.09, vz: Math.sign(shot.vz) * 0.09, t0: t };
@@ -1942,8 +2388,10 @@ function takeHit(t, bvx = 1, bvz = 0) {
   if (mode === "advance" && !run.over) {
     // a hit costs the clock, not health: it breaks the chain and cancels
     // whatever the player was mid-way through, same as the 2D original.
+    triggerHitStop(HITSTOP_ADV.hurt);
     if (run.chain > 0) chainLostFlourish();
     run.hitThisArena = true;
+    run.waveHit = true;
     run.chain = 0;
     state.charge = null;
     hud.fire.classList.remove("held", "ready");
@@ -1976,8 +2424,21 @@ function updateRotters(t) {
         const tl = tileAt(r.col, r.row);
         tl.rot = Math.min(1, tl.rot + frameDt * ROT_RATE);
         tl.rotHeld = true;
+        if (r.kind === "guard") break;   // never moves, never attacks — the formation's anchor
+        if (r.kind === "mett") {
+          // never the random classic sit/hop/aim state machine: a fixed
+          // MET_HOP_MS shuffle, and the "aim"/bolt phase only from RETALIATE_ARENA
+          if (rotterCanFire() && t >= r.nextFireAt) { r.phase = "aim"; r.t0 = t; r.dur = ROTTER_AIM_MS; break; }
+          if (t >= r.nextHopAt) {
+            const to = freeEnemyTile();
+            if (to) { r.phase = "hop"; r.t0 = t; r.dur = ROTTER_HOP_MS; r.hop = { fromCol: r.col, fromRow: r.row, toCol: to[0], toRow: to[1], committed: false }; }
+            r.nextHopAt = t + MET_HOP_MS;
+          }
+          break;
+        }
+        // classic (sandbox): random sit/hop, and (once unlocked) the aim/bolt phase
         if (dt >= r.dur) {
-          if (t >= r.nextFireAt && rotterCanFire(r)) { r.phase = "aim"; r.t0 = t; r.dur = ROTTER_AIM_MS; }
+          if (t >= r.nextFireAt && rotterCanFire()) { r.phase = "aim"; r.t0 = t; r.dur = ROTTER_AIM_MS; }
           else {
             const to = freeNeighbour(r.col, r.row);
             if (to) { r.phase = "hop"; r.t0 = t; r.dur = ROTTER_HOP_MS; r.hop = { fromCol: r.col, fromRow: r.row, toCol: to[0], toRow: to[1], committed: false }; }
@@ -2114,7 +2575,7 @@ function pose(t) {
   const armHold = holding ? 0.85 : 0;
   const armRSwing = lerp(armSwing, 0.05, armHold);
   // the charge: the left hand comes across to brace the barrel
-  const chargeU = state.charge ? clamp01((t - state.charge.t0) / CHARGE_MS) : 0;
+  const chargeU = state.charge ? clamp01((t - state.charge.t0) / currentChargeMs()) : 0;
   // the recoil: the barrel arm kicks up and the torso rocks back
   const ru = clamp01((t - state.fireAt) / RECOIL_MS);
   const kick = ru < 1 ? (1 - ru) * (state.fireCharged ? 0.55 : 0.28) : 0;
@@ -2406,6 +2867,7 @@ window.addEventListener("keydown", (e) => {
     case "KeyF": orbitBy(0, -0.15, "key F"); break;
     case "KeyM": toggleMode("key M"); break;
     case "KeyT": pressTalk(); break;
+    case "KeyB": pressBomb(); break;
     case "KeyP": pauseGame(); break;
     case "Escape": pauseGame(); break;
   }
@@ -2551,6 +3013,7 @@ bind("btn-orbit-l", () => orbitBy(-0.35, 0, "tap"));
 bind("btn-orbit-r", () => orbitBy(0.35, 0, "tap"));
 bind("btn-mode", () => toggleMode("tap"));
 bind("btn-talk", pressTalk);
+bind("btn-bomb", pressBomb);
 bind("btn-retry", retry);
 hud.fire.addEventListener("pointerdown", (e) => { e.preventDefault(); hud.fire.setPointerCapture(e.pointerId); pressFire(now()); });
 hud.fire.addEventListener("pointerup", () => releaseFire(now()));
@@ -2579,16 +3042,13 @@ applyMode();
 announce("mode", mode, params.has("mode") ? "url" : null);
 resize();
 
-function frame() {
-  const t = now();
-  frameDt = Math.min(50, t - last);
-  last = t;
-
-  // Pause freezes literally everything — no update call runs, so nothing
-  // (a tile's spring, a popup's fade, the camera's shake) so much as
-  // ticks — the render loop still repaints the same frame.
-  if (paused) { renderer.render(scene, camera); return; }
-
+/**
+ * Every update call frame() makes, minus the frame-level bookkeeping
+ * (frameDt/last) and the render — split out so `simulate()` below can drive
+ * it in fixed virtual steps with no rendering at all, for a test to run a
+ * whole story arc in milliseconds of wall time instead of minutes.
+ */
+function updateFrame(t) {
   // Game over, and the start card waiting on its first FIRE, freeze the sim
   // itself — movement, rotters, shots, the arena's clock and waves — but
   // not the effects still playing out (a tile's spring, a ripple's fade,
@@ -2607,6 +3067,8 @@ function frame() {
       updateArenaFlow(t);
       updateClock();
       checkRoost();
+      updateTalkProximity();
+      updateBombPickups(t);
       updateAdvanceHud();
     }
   }
@@ -2620,13 +3082,69 @@ function frame() {
   updateDebris(t);
   updateTracers(t);
   updateMotes(t);
-  if (mode === "advance") updateKeepers(t);
+  if (mode === "advance") { updateKeepers(t); updateTallies(t); }
   updateCamera();
+}
 
+// Three's own `requestAnimationFrame` loop runs continuously regardless of
+// `simulate()` — a headless page keeps ticking real frames between one
+// `evaluate()` call and the next, so without this the sim would advance
+// twice: once for real (waves dealt, the clock drained) and again through
+// whatever `simulate()` asks for. The first `simulate()` call hands the sim
+// over to it for good — real frames still render (so the page stays live to
+// look at) but stop calling `updateFrame()`, exactly the exclusivity a test
+// driving the whole run through `simulate()` needs. (`simDriven` itself is
+// declared up with `rawNow()`, above — both need it before this point.)
 
+function frame() {
+  // Once a test has taken the sim over via `simulate()`, the real-time rAF
+  // loop stops doing anything at all — no update, no render. Continuing to
+  // render every real frame at 60fps under a headless software rasterizer
+  // while a test also hammers `simulate()`/`evaluate()` thousands of times
+  // is exactly the kind of background load that eventually starves or
+  // stalls the CDP pipe; `simulate()` renders once per call instead (via
+  // `renderOnce()`, which a screenshot can also call directly).
+  if (simDriven) return;
+
+  const t = now();
+  frameDt = Math.min(50, t - last);
+  last = t;
+
+  // Pause freezes literally everything — no update call runs, so nothing
+  // (a tile's spring, a popup's fade, the camera's shake) so much as
+  // ticks — the render loop still repaints the same frame.
+  if (paused) { renderer.render(scene, camera); return; }
+
+  updateFrame(t);
   renderer.render(scene, camera);
 }
 renderer.setAnimationLoop(frame);
+function renderOnce() { renderer.render(scene, camera); }
+
+/**
+ * Fast-forward the sim `ms` of virtual time in fixed `step`-ms increments,
+ * calling `updateFrame()` for each with no rendering at all — for tests to
+ * drive a whole run faster than real time. `now()` (and everything built on
+ * it: hit-stop, pause) reads the virtual clock from the first call on —
+ * see `simDriven`, by `rawNow()` — so a bare hook call between two
+ * `simulate()` calls (`moveTo()`, `fire()`, `talk()`, ...) still timestamps
+ * itself on the same timeline every value already in game state was
+ * stamped on, rather than jumping to the wall clock and back.
+ */
+function simulate(ms, step = 16, render = true) {
+  if (!simDriven) { simDriven = true; simVirtualRaw = performance.now() / SLOW; }   // seed once; every later call just keeps advancing it
+  const steps = Math.max(1, Math.round(ms / step));
+  for (let i = 0; i < steps; i++) {
+    simVirtualRaw += step;
+    const t = now();
+    frameDt = step;
+    if (!paused) updateFrame(t);
+    last = t;
+  }
+  // a software-rendered frame costs far more than the whole step; a bot
+  // playing a long run passes false and asks for a frame when it wants one
+  if (render) renderOnce();
+}
 
 // A small hook for tests and for poking at it from the console. `mode` and
 // `run` are getters — both are rebound (not mutated) on every mode switch
@@ -2635,15 +3153,17 @@ window.__bw3d = {
   state, cam, rotters, shots, bolts, rig, camera, renderer, world,
   get mode() { return mode; },
   get run() { return run; },
+  activeArena, walkable,
   move: (dc, dr) => move(dc, dr, now()), moveTo: (c, r) => moveTo(c, r, now()),
   fire: (charged = false) => fire(now(), charged), pressFire: () => pressFire(now()), releaseFire: () => releaseFire(now()),
   setAim: (a) => setAim(a, now()), setAimMode, setCamMode, orbitBy,
   lock: (on) => { state.lockToggle = on; },
-  setMode, retry, pressTalk,
+  setMode, retry, pressTalk, talk: pressTalk, bomb: pressBomb,
   forceGameOver: () => { run.timeLeft = 0; gameOver(); },
   debugHit: () => takeHit(now()),   // synthetic hit, for testing the 2.5 s / chain-break path without waiting on a bolt
   get paused() { return paused; },
   get cardKind() { return cardKind; },
   pauseGame, resumeGame, startRun,
+  simulate, renderOnce,
   now, reducedMotion: () => REDUCED_MOTION,
 };

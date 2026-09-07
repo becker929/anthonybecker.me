@@ -73,6 +73,11 @@
   .pips span.low.lit { background: #ff5470; }
   #hud-chain.lost { animation: chain-lost-flash 500ms ease-out; }
   @keyframes chain-lost-flash { 0%, 100% { color: #c9f6ff; } 30% { color: #ff5470; transform: scale(1.3); display: inline-block; } }
+  /* The level number pops on stepping into a new arena — a boundary marked
+     in the HUD itself, not a banner over the board. */
+  #hud-level { display: inline-block; }
+  #hud-level.pop { animation: level-pop 680ms ease-out; }
+  @keyframes level-pop { 0% { transform: scale(1.3); color: #ffd23f; } 100% { transform: scale(1); color: #c9f6ff; } }
 
   /* hud-info: the talk hint and the task line, moved off the main readout
      row. Desktop: just above the caption, above the pad. Narrow: right
@@ -120,32 +125,6 @@
   @media (max-width: 640px) {
     #hud-caption { bottom: auto; top: 82px; }
   }
-
-  /* The arena-taken banner: a big centred flourish that fades on its own. */
-  #arena-banner {
-    position: fixed;
-    left: 50%; top: 38%;
-    transform: translate(-50%, -50%) scale(0.85);
-    text-align: center;
-    letter-spacing: 0.14em;
-    font-size: 22px;
-    font-weight: 700;
-    color: #c9f6ff;
-    text-shadow: 0 0 18px rgba(79, 141, 255, 0.7);
-    pointer-events: none;
-    opacity: 0;
-    z-index: 6;
-  }
-  #arena-banner[hidden] { display: none; }
-  #arena-banner.show { animation: arena-banner-pop 1200ms ease-out; }
-  @keyframes arena-banner-pop {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
-    15% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
-    30% { transform: translate(-50%, -50%) scale(1); }
-    75% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-  @media (max-width: 640px) { #arena-banner { font-size: 16px; } }
 
   /* The damage-punch vignette: a red wash that flashes and fades. */
   #vignette {
@@ -302,7 +281,6 @@
   <span id="hud-task-line" hidden></span>
 </div>
 <div id="hud-caption" hidden></div>
-<div id="arena-banner" hidden><span id="arena-banner-text"></span></div>
 <div class="hud bottom">
   <div class="left">
     <nav class="crumbs"><a href="/demos/">← demos</a></nav>
@@ -333,6 +311,9 @@
         <button id="btn-talk" class="chip" type="button" title="talk (T)" hidden>
           <span class="chip-label">TALK</span><span class="chip-value">press</span>
         </button>
+        <button id="btn-bomb" class="chip" type="button" title="bomb (B)" hidden>
+          <span class="chip-label">BOMB</span><span class="chip-value" id="chip-bomb">0</span>
+        </button>
       </div>
     </div>
     <button id="btn-fire" type="button" class="round" title="fire (Space); hold to charge">fire</button>
@@ -342,6 +323,7 @@
   <div class="panel" id="card-over">
     <h1>DELETED</h1>
     <dl>
+      <dt>rank</dt><dd id="card-rank">D</dd>
       <dt>arena reached</dt><dd id="card-arena">1</dd>
       <dt>score</dt><dd id="card-score">0</dd>
       <dt>deletions</dt><dd id="card-deletions">0</dd>
@@ -354,7 +336,8 @@
     <h1>Buster Whack · Story</h1>
     <p class="controls-line">
       <kbd>WASD</kbd> hop · <kbd>arrows</kbd>/mouse aim · hold <kbd>shift</kbd> to lock ·
-      <kbd>space</kbd>/<kbd>J</kbd> fire, hold to charge · <kbd>T</kbd> talk to a keeper
+      <kbd>space</kbd>/<kbd>J</kbd> fire, hold to charge · <kbd>T</kbd> talk to a keeper ·
+      <kbd>B</kbd> bomb
     </p>
     <button id="btn-start" type="button" title="start (Space / Enter)">start</button>
   </div>
