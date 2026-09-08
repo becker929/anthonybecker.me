@@ -40,6 +40,11 @@ const HAND = { gap: 58, maxSpread: 0.52, fromBottom: 82, arc: 16, tilt: 9 };
 const OPPONENT_HAND = { gap: 44, maxSpread: 0.34, fromTop: 52, arc: 10, tilt: 7 };
 const FIELD = { margin: 0.16, rowGap: 78 }; // rows sit ±rowGap either side of centre
 const GRAVEYARD = { fromLeft: 58, fromEdge: 74, tilt: 2.5 };
+// The draw pile: a physical stack in the outer corner of each half — player's
+// bottom-right, opponent's top-right — that a card is pulled from every time a
+// side draws. `fromEdge` is the gap from the board's right edge to the top
+// card's outer corner; the stack leans up-and-in from there.
+const PILE = { fromEdge: 40, lean: 2.6, maxLayers: 7, tilt: 2 };
 const DROP_RADIUS = 128;
 
 const OTHER = { player: "opponent", opponent: "player" };
@@ -322,6 +327,17 @@ function graveyardTransform(index, side, board) {
   };
 }
 
+// The top card of the draw pile — where a card being drawn takes off from, and
+// where the pile is drawn. Mirrors the graveyard's vertical position on the
+// opposite edge, so discard sits left and library sits right on each half.
+function deckTransform(side, board) {
+  return {
+    x: board.width - PILE.fromEdge - CARD.width / 2,
+    y: side === "player" ? board.height - GRAVEYARD.fromEdge : GRAVEYARD.fromEdge,
+    rotation: side === "player" ? -PILE.tilt : PILE.tilt,
+  };
+}
+
 function place(scene, board) {
   const counts = { hand: scene.player.hand.length, oppHand: scene.opponent.handCount };
   const placements = new Map();
@@ -452,6 +468,9 @@ const CONTACT_AT = 0.68; // every clash script puts the blow on this instant
 const PACING = {
   // Out toward the camera, hold at the apex, set down deliberately.
   deploy: script([[0, 0.4, 0, easeOut], [0.54, 1, 1, easeInOut]]),
+  // Pulled off the pile and swept into the fan: quick lift off the stock, then
+  // a settling fall into the hand slot. Two legs through a low apex.
+  draw: script([[0, 0.5, 0, easeOut], [0.5, 1, 1, easeInOut]]),
   // Square up, hold, accelerate into the blow, follow through home.
   strike: script([[0, 0.26, 0, easeOut], [0.4, CONTACT_AT, 1, easeIn], [CONTACT_AT, 1, 2, easeOut]]),
   // The same drive, by a card that does not survive it: it stops where it hit.
@@ -532,11 +551,17 @@ const strikeBeats = (scene, side) => {
   return beats;
 };
 
-const openingBeats = () => [
-  ...Array.from({ length: OPENING_HAND }, () => beat("You draw", 200, (s) => ({ scene: draw(s, "player") }))),
-  ...Array.from({ length: OPENING_HAND }, () => beat("Opponent draws", 160, (s) => ({ scene: draw(s, "opponent") }))),
-  beat("Your turn", 260, (s) => ({ scene: beginTurn(s, "player") })),
-];
+// Dealt like a dealer would: one to you, one to them, three times over. The
+// interleave is not just for show — it spaces two draws into the *same* hand
+// far enough apart that each card's flight from the pile has landed before the
+// fan re-spreads to make room for the next, so nothing is yanked mid-air.
+const openingBeats = () =>
+  Array.from({ length: OPENING_HAND }, (_, i) => [
+    beat("You draw", i === 0 ? 340 : 300, (s) => ({ scene: draw(s, "player") })),
+    beat("Opponent draws", 260, (s) => ({ scene: draw(s, "opponent") })),
+  ])
+    .flat()
+    .concat(beat("Your turn", 320, (s) => ({ scene: beginTurn(s, "player") })));
 
 // Delays are breathing room, not load-bearing timing: the shell will not start
 // a beat while the scene is still settling, so these can be sized for rhythm
@@ -586,7 +611,7 @@ const endTurnBeats = () => [
    it re-renders one div, not the board's children.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-const ENTER_MS = 320;
+const PLANT_MS = 300; // the squash-and-settle a card runs as it meets the table
 const EXIT_MS = 300;
 const MOVE_MS = 380;
 
@@ -743,6 +768,7 @@ const SOUND_POOLS = {
 const DEFAULT_SETTINGS = {
   seatMs: 320,
   deployMs: 980,
+  drawMs: 380,
   strikeMs: 820,
   fallMs: 460,
   stageScale: 1.46,
@@ -994,9 +1020,9 @@ export default function TcgDisplayLayer() {
   const [queue, setQueue] = useState([]);
   const [beatLabel, setBeatLabel] = useState(null);
 
-  // Transient visual state: which cards are mid-entrance, mid-death, or
-  // mid-exit, and which life plate was just hit.
-  const [entering, setEntering] = useState(() => new Map()); // id → entrance name
+  // Transient visual state: which cards are mid-plant (just met the table),
+  // mid-death, or mid-exit, and which life plate was just hit.
+  const [planting, setPlanting] = useState(() => new Set());
   const [perishing, setPerishing] = useState(() => new Set());
   const [departing, setDeparting] = useState(() => new Map()); // id → frozen sprite
   const [wound, setWound] = useState(null); // { side, nonce }
@@ -1088,8 +1114,15 @@ export default function TcgDisplayLayer() {
             deploys.push([id, seatFlight(from, to, s)]);
           }
         } else if (command.kind === "enter") {
-          setEntering((ids) => withKey(ids, id, isOpponentZone(command.zone) ? "descend" : "deal"));
-          after(ENTER_MS, () => setEntering((ids) => withoutKey(ids, id)));
+          // The only non-field arrival is a draw: a card entering a hand. It is
+          // pulled off the top of that side's pile and flown into the fan,
+          // rather than fading in from nowhere. A draw does not change the
+          // scene once committed, so — unlike a deploy — it pushes no settle
+          // horizon; nothing has to wait for it to land.
+          const side = isOpponentZone(command.zone) ? "opponent" : "player";
+          const from = { ...deckTransform(side, board), scale: 1 };
+          const to = { ...landing.get(id), scale: 1 };
+          deploys.push([id, drawFlight(from, to, s)]);
         } else if (command.kind === "move" && GRAVE_ZONES.has(command.zone)) {
           setPerishing((ids) => withId(ids, id));
           after(s.strikeMs * (1 - CONTACT_AT) + s.fallMs + 80, () =>
@@ -1112,9 +1145,14 @@ export default function TcgDisplayLayer() {
           const spot = landing.get(command.id);
           const magic = isMagic(command.card);
           const arrival = isOpponentZone(command.zone) ? s.deployMs * 0.84 : s.seatMs * 0.8;
+          const landedId = command.id;
           after(arrival, () => {
             burst(magic ? "landMagic" : "land", spot.x, spot.y);
             rumble(magic ? "intense" : "subtle");
+            // The weight of the card meeting the table: a quick squash-and-
+            // settle on the face at the instant of contact, alongside the dust.
+            setPlanting((ids) => withId(ids, landedId));
+            after(PLANT_MS, () => setPlanting((ids) => withoutId(ids, landedId)));
           });
         } else if (command.kind === "move" && GRAVE_ZONES.has(command.zone)) {
           const origin = at(command.id);
@@ -1428,6 +1466,11 @@ export default function TcgDisplayLayer() {
           <LifePlate side="opponent" life={scene.opponent.life} wound={wound} />
           <LifePlate side="player" life={scene.player.life} wound={wound} />
 
+          {/* The two draw piles, one per half. Scenery, not cards: they thin as
+              their side draws and a real card flies off the top into the fan. */}
+          <DeckPile side="opponent" count={OPPONENT_DECK.length - scene.opponent.drawn} board={board} />
+          <DeckPile side="player" count={PLAYER_DECK.length - scene.player.drawn} board={board} />
+
           {/* The hand's tell: a card still owed a play, glowing under the fan
               exactly as long as one is. Gone the instant the play is made,
               same as a struck sword button. */}
@@ -1464,7 +1507,7 @@ export default function TcgDisplayLayer() {
                 }
                 held={isHeld}
                 playable={zone === "hand" && canPlay}
-                entrance={entering.get(id)}
+                planting={planting.has(id)}
                 perishing={perishing.has(id)}
                 perishMs={perishMs}
                 spent={GRAVE_ZONES.has(zone)}
@@ -1548,6 +1591,25 @@ function deployFlight(from, to, board, s) {
     poses: samplePath([from, stage, to], [s.arcBow, -s.arcBow], PACING.deploy),
     duration: s.deployMs,
     lift: 2,
+  };
+}
+
+// The draw pile → the hand. A card lifts off the top of the stock toward the
+// camera, then falls into its place in the fan. The apex is the midpoint of
+// the trip pulled up and a touch bigger, so the card reads as coming *off* the
+// pile — picked up — rather than sliding flat across the felt. Opposite bows so
+// it sweeps out and settles back rather than retracing one line.
+function drawFlight(from, to, s) {
+  const apex = {
+    x: (from.x + to.x) / 2,
+    y: (from.y + to.y) / 2 - 46,
+    rotation: (from.rotation + to.rotation) / 2,
+    scale: 1.09,
+  };
+  return {
+    poses: samplePath([{ ...from, scale: 1 }, apex, { ...to, scale: 1 }], [s.arcBow * 0.9, -s.arcBow * 0.6], PACING.draw),
+    duration: s.drawMs,
+    lift: 4, // a drawn card clears the fan it is joining
   };
 }
 
@@ -1657,7 +1719,7 @@ const Card = memo(function Card({
   depth,
   held,
   playable,
-  entrance,
+  planting,
   perishing,
   perishMs,
   spent,
@@ -1684,7 +1746,7 @@ const Card = memo(function Card({
       }
       style={S.sprite(transform, depth, held, departing, playable, flight)}
     >
-      <div style={S.face(card, mine, { perishing, perishMs, spent, entrance, held, departing })}>
+      <div style={S.face(card, mine, { perishing, perishMs, spent, planting, held, departing })}>
         {card.faceUp ? (
           <>
             <span style={S.power(mine)}>{card.power}</span>
@@ -1703,6 +1765,30 @@ const Card = memo(function Card({
 // frame; a slot only reconciles when its own highlight state flips.
 const Slot = memo(function Slot({ x, y, state }) {
   return <div style={S.slot(x, y, state)} />;
+});
+
+// The draw pile as scenery: a leaning stack of face-down stock, one layer per
+// remaining card up to a cap, in the outer corner of a half. It is not a card
+// entity — never in locate(), never in the diff — so a draw just thins it by
+// one while the real card flies off the top into the hand. Re-renders only when
+// its own count changes; the whole stack is one memoized component.
+const DeckPile = memo(function DeckPile({ side, count, board }) {
+  if (count <= 0) return null;
+  const { x, y, rotation } = deckTransform(side, board);
+  const mine = side === "player";
+  const layers = Math.min(count, PILE.maxLayers);
+  return (
+    <div style={S.deck(x, y, rotation)}>
+      {Array.from({ length: layers }, (_, i) => {
+        const fromTop = layers - 1 - i; // 0 is the top card; higher recedes into the stack
+        return (
+          <div key={i} style={S.deckCard(mine, fromTop)}>
+            {fromTop === 0 && <span style={S.backMark} />}
+          </div>
+        );
+      })}
+    </div>
+  );
 });
 
 // One sword per attacker, idling with a cute little wiggle so it reads as
@@ -1806,8 +1892,12 @@ const flightFrames = (name) =>
   `@keyframes ${name} { ${FLIGHT_STOPS.map((at, i) => `${at}% { transform: var(--w${i}); }`).join(" ")} }`;
 
 const buildKeyframes = (settings) => `
-@keyframes deal { from { opacity: 0; transform: scale(0.72) translateY(14px); } to { opacity: 1; transform: none; } }
-@keyframes descend { from { opacity: 0; transform: scale(0.9) translateY(-44px); } to { opacity: 1; transform: none; } }
+@keyframes plant {
+  0%   { transform: scale(1.05); }
+  28%  { transform: scale(.93); }
+  60%  { transform: scale(1.035); }
+  100% { transform: scale(1); }
+}
 ${flightFrames("flight-0")}
 ${flightFrames("flight-1")}
 @keyframes perish {
@@ -2020,13 +2110,17 @@ const S = {
     pointerEvents: "none",
     zIndex: 0,
   }),
+  // Moved to the inner-left of each half, above that side's discard pile: left
+  // corner holds your losses and your life, the right corner now holds your
+  // library. Raised clear of the graveyard stack so a full discard never
+  // reaches it.
   lifePlate: (side) => ({
     position: "absolute",
-    right: 18,
-    [side === "player" ? "bottom" : "top"]: 16,
+    left: 18,
+    [side === "player" ? "bottom" : "top"]: 148,
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-end",
+    alignItems: "flex-start",
     gap: 2,
     padding: "6px 10px",
     borderRadius: 5,
@@ -2055,6 +2149,32 @@ const S = {
     boxShadow: state === "target" ? `0 0 0 3px rgba(165,136,63,.14)` : "none",
     transition: "border-color 140ms ease, background 140ms ease, box-shadow 140ms ease",
     pointerEvents: "none",
+  }),
+  // The draw pile. A card-sized frame holding N leaning layers of stock; the
+  // top layer paints last (on top) and shows the back mark, the rest recede up
+  // and to the side to read as thickness.
+  deck: (x, y, rotation) => ({
+    position: "absolute",
+    left: x - CARD.width / 2,
+    top: y - CARD.height / 2,
+    width: CARD.width,
+    height: CARD.height,
+    transform: `rotate(${rotation}deg)`,
+    zIndex: 40,
+    pointerEvents: "none",
+  }),
+  deckCard: (mine, fromTop) => ({
+    position: "absolute",
+    inset: 0,
+    transform: `translate(${(fromTop * PILE.lean * 0.35).toFixed(1)}px, ${(-fromTop * PILE.lean).toFixed(1)}px)`,
+    borderRadius: 6,
+    background: `linear-gradient(158deg, ${mine ? INK.back : INK.oppBack} 0%, ${mine ? "#1b332c" : "#241a1f"} 100%)`,
+    border: `1px solid ${mine ? "#162923" : "#2a1e22"}`,
+    boxShadow: fromTop === 0 ? "0 3px 10px rgba(0,0,0,.45)" : "none",
+    filter: fromTop === 0 ? "none" : `brightness(${(1 - 0.05 * fromTop).toFixed(2)})`,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   }),
   /* ── the gate: begin, and begin again ───────────────────────────────────
      Sits on the board rather than the stage, so it is measured in screen
@@ -2125,11 +2245,11 @@ const S = {
     ...(flight ? flightStyle(flight) : null),
   }),
   // The face carries every animation that is about the card rather than its
-  // position: the entrance, the death. The wrapper owns the position, so the
+  // position: the plant, the death. The wrapper owns the position, so the
   // two never fight. A card that has been struck darkens where it stands and
   // stays darkened once it is in the graveyard — the animation's last frame
   // and the resting style agree, so nothing snaps when it ends.
-  face: (card, mine, { perishing, perishMs = 720, spent, entrance, held, departing }) => {
+  face: (card, mine, { perishing, perishMs = 720, spent, planting, held, departing }) => {
     const magic = isMagic(card);
     const stock = mine
       ? `linear-gradient(158deg, ${INK.parchment} 0%, ${INK.parchmentEdge} 100%)`
@@ -2137,7 +2257,7 @@ const S = {
     const edge = mine ? INK.brass : INK.verdigris;
     const animation =
       perishing ? `perish ${perishMs}ms cubic-bezier(.2,.7,.3,1) both`
-      : entrance ? `${entrance} ${ENTER_MS}ms cubic-bezier(.2,.8,.2,1) both`
+      : planting ? `plant ${PLANT_MS}ms cubic-bezier(.34,1.4,.5,1) both`
       : undefined;
     return {
       position: "relative",
