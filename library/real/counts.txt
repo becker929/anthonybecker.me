@@ -1,0 +1,23 @@
+Per-role counts:
+  kick: 104
+  rumble: 6
+  hat_closed: 23
+  hat_open: 16
+  clap: 26
+  perc: 69
+  stab: 18
+  pad: 9
+  riser: 7
+  impact: 40
+
+Total: 318
+
+Per-source file counts:
+  mailboxbadgerdrumsamplesvolume2: 40
+  beckstrom-volca-modular-drum-samples-1: 40
+  55kicks: 40
+  SC8850DrumSamples: 40
+  TamTamDrumKits: 40
+  ejay-virtual-music-studio-samples: 40
+  sonic-pi-samples: 40
+  HeatDish: 38

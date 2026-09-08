@@ -1,0 +1,401 @@
+file,role,settings
+wav/kick__lib__0001.wav,kick,pitch_start_hz=185.6;pitch_end_hz=51.3;pitch_decay_ms=29.32;amp_decay_ms=162.5;click_ms=3.408;click_level=0.1719;drive=0.2675;length_ms=500;seed=1
+wav/kick__lib__0002.wav,kick,pitch_start_hz=234.3;pitch_end_hz=49.9;pitch_decay_ms=61.77;amp_decay_ms=516.2;click_ms=1.866;click_level=0.1709;drive=0.9348;length_ms=500;seed=2
+wav/kick__lib__0003.wav,kick,pitch_start_hz=215.4;pitch_end_hz=42.57;pitch_decay_ms=17.67;amp_decay_ms=365.2;click_ms=4.089;click_level=0.8089;drive=0.926;length_ms=500;seed=3
+wav/kick__lib__0004.wav,kick,pitch_start_hz=128.4;pitch_end_hz=53.88;pitch_decay_ms=28.03;amp_decay_ms=113.8;click_ms=2.101;click_level=0.3431;drive=0.305;length_ms=500;seed=4
+wav/kick__lib__0005.wav,kick,pitch_start_hz=283.2;pitch_end_hz=53.97;pitch_decay_ms=15.55;amp_decay_ms=212.6;click_ms=4.966;click_level=0.1336;drive=0.05636;length_ms=500;seed=5
+wav/kick__lib__0006.wav,kick,pitch_start_hz=150.8;pitch_end_hz=46.34;pitch_decay_ms=55.58;amp_decay_ms=112;click_ms=2.997;click_level=0.5028;drive=0.002744;length_ms=500;seed=6
+wav/kick__lib__0007.wav,kick,pitch_start_hz=148.3;pitch_end_hz=36.45;pitch_decay_ms=35.23;amp_decay_ms=669.1;click_ms=4.484;click_level=0.7707;drive=0.5171;length_ms=500;seed=7
+wav/kick__lib__0008.wav,kick,pitch_start_hz=161;pitch_end_hz=51.32;pitch_decay_ms=48.35;amp_decay_ms=733.5;click_ms=5.407;click_level=0.4677;drive=0.1978;length_ms=500;seed=8
+wav/kick__lib__0009.wav,kick,pitch_start_hz=148.5;pitch_end_hz=57.56;pitch_decay_ms=17.03;amp_decay_ms=156.5;click_ms=1.793;click_level=0.5924;drive=0.4909;length_ms=500;seed=9
+wav/kick__lib__0010.wav,kick,pitch_start_hz=251.4;pitch_end_hz=40.12;pitch_decay_ms=77.09;amp_decay_ms=233.8;click_ms=2.994;click_level=0.2469;drive=0.3066;length_ms=500;seed=10
+wav/kick__lib__0011.wav,kick,pitch_start_hz=206.4;pitch_end_hz=46.65;pitch_decay_ms=13.88;amp_decay_ms=132.9;click_ms=0.8656;click_level=0.637;drive=0.8631;length_ms=500;seed=11
+wav/kick__lib__0012.wav,kick,pitch_start_hz=164.7;pitch_end_hz=48.58;pitch_decay_ms=18.99;amp_decay_ms=420.6;click_ms=5.371;click_level=0.8419;drive=0.1835;length_ms=500;seed=12
+wav/kick__lib__0013.wav,kick,pitch_start_hz=287.9;pitch_end_hz=53.22;pitch_decay_ms=48.92;amp_decay_ms=253.1;click_ms=3.91;click_level=0.4767;drive=0.6269;length_ms=500;seed=13
+wav/kick__lib__0014.wav,kick,pitch_start_hz=245;pitch_end_hz=38.57;pitch_decay_ms=62.08;amp_decay_ms=427.6;click_ms=2.412;click_level=0.3735;drive=0.2618;length_ms=500;seed=14
+wav/kick__lib__0015.wav,kick,pitch_start_hz=175.1;pitch_end_hz=46.89;pitch_decay_ms=14.73;amp_decay_ms=326.6;click_ms=1.705;click_level=0.345;drive=0.7614;length_ms=500;seed=15
+wav/kick__lib__0016.wav,kick,pitch_start_hz=273.5;pitch_end_hz=44.05;pitch_decay_ms=16.03;amp_decay_ms=388.3;click_ms=1.882;click_level=0.797;drive=0.1638;length_ms=500;seed=16
+wav/kick__lib__0017.wav,kick,pitch_start_hz=166;pitch_end_hz=47.74;pitch_decay_ms=15.5;amp_decay_ms=314.6;click_ms=1.624;click_level=0.7002;drive=0.5191;length_ms=500;seed=17
+wav/kick__lib__0018.wav,kick,pitch_start_hz=208.1;pitch_end_hz=36.87;pitch_decay_ms=73.61;amp_decay_ms=161.3;click_ms=2.059;click_level=0.3266;drive=0.4209;length_ms=500;seed=18
+wav/kick__lib__0019.wav,kick,pitch_start_hz=167.7;pitch_end_hz=36.33;pitch_decay_ms=27.48;amp_decay_ms=152.8;click_ms=2.485;click_level=0.6117;drive=0.649;length_ms=500;seed=19
+wav/kick__lib__0020.wav,kick,pitch_start_hz=119.1;pitch_end_hz=37.3;pitch_decay_ms=34.75;amp_decay_ms=139.1;click_ms=4.741;click_level=0.4528;drive=0.5605;length_ms=500;seed=20
+wav/kick__lib__0021.wav,kick,pitch_start_hz=217.4;pitch_end_hz=52.93;pitch_decay_ms=50.02;amp_decay_ms=337;click_ms=3.083;click_level=0.5598;drive=0.5577;length_ms=500;seed=21
+wav/kick__lib__0022.wav,kick,pitch_start_hz=125.1;pitch_end_hz=56.95;pitch_decay_ms=67.52;amp_decay_ms=229.5;click_ms=3.416;click_level=0.6029;drive=0.3574;length_ms=500;seed=22
+wav/kick__lib__0023.wav,kick,pitch_start_hz=159.9;pitch_end_hz=58.8;pitch_decay_ms=43.06;amp_decay_ms=146.2;click_ms=3.747;click_level=0.5034;drive=0.5299;length_ms=500;seed=23
+wav/kick__lib__0024.wav,kick,pitch_start_hz=245.9;pitch_end_hz=40.31;pitch_decay_ms=75.25;amp_decay_ms=125.6;click_ms=4.15;click_level=0.3376;drive=0.391;length_ms=500;seed=24
+wav/kick__lib__0025.wav,kick,pitch_start_hz=216.5;pitch_end_hz=58.51;pitch_decay_ms=46.24;amp_decay_ms=166.7;click_ms=1.976;click_level=0.3165;drive=0.8231;length_ms=500;seed=25
+wav/kick__lib__0026.wav,kick,pitch_start_hz=181.8;pitch_end_hz=54.11;pitch_decay_ms=21.51;amp_decay_ms=144.6;click_ms=2.094;click_level=0.1714;drive=0.8598;length_ms=500;seed=26
+wav/kick__lib__0027.wav,kick,pitch_start_hz=193.6;pitch_end_hz=51.52;pitch_decay_ms=33.69;amp_decay_ms=219.6;click_ms=5.564;click_level=0.3696;drive=0.698;length_ms=500;seed=27
+wav/kick__lib__0028.wav,kick,pitch_start_hz=216.3;pitch_end_hz=37.67;pitch_decay_ms=18;amp_decay_ms=390.8;click_ms=3.018;click_level=0.1634;drive=0.8698;length_ms=500;seed=28
+wav/kick__lib__0029.wav,kick,pitch_start_hz=128.2;pitch_end_hz=40.7;pitch_decay_ms=29.15;amp_decay_ms=449.3;click_ms=0.5562;click_level=0.2013;drive=0.2618;length_ms=500;seed=29
+wav/kick__lib__0030.wav,kick,pitch_start_hz=241;pitch_end_hz=60.45;pitch_decay_ms=57.22;amp_decay_ms=269.9;click_ms=2.016;click_level=0.2923;drive=0.59;length_ms=500;seed=30
+wav/kick__lib__0031.wav,kick,pitch_start_hz=183.5;pitch_end_hz=55.05;pitch_decay_ms=25.9;amp_decay_ms=140.6;click_ms=5.895;click_level=0.7095;drive=0.5865;length_ms=500;seed=31
+wav/kick__lib__0032.wav,kick,pitch_start_hz=217.1;pitch_end_hz=59.72;pitch_decay_ms=14.64;amp_decay_ms=119.5;click_ms=3.708;click_level=0.7141;drive=0.1488;length_ms=500;seed=32
+wav/kick__lib__0033.wav,kick,pitch_start_hz=233.9;pitch_end_hz=35.33;pitch_decay_ms=23.51;amp_decay_ms=160.9;click_ms=5.331;click_level=0.5985;drive=0.7518;length_ms=500;seed=33
+wav/kick__lib__0034.wav,kick,pitch_start_hz=219.7;pitch_end_hz=50.79;pitch_decay_ms=34.98;amp_decay_ms=297.4;click_ms=4.291;click_level=0.8679;drive=0.5235;length_ms=500;seed=34
+wav/kick__lib__0035.wav,kick,pitch_start_hz=196.8;pitch_end_hz=36.08;pitch_decay_ms=29.01;amp_decay_ms=739.4;click_ms=1.839;click_level=0.3822;drive=0.7556;length_ms=500;seed=35
+wav/kick__lib__0036.wav,kick,pitch_start_hz=115.2;pitch_end_hz=38.91;pitch_decay_ms=28.93;amp_decay_ms=118.3;click_ms=4.255;click_level=0.7805;drive=0.9347;length_ms=500;seed=36
+wav/kick__lib__0037.wav,kick,pitch_start_hz=203.9;pitch_end_hz=41.68;pitch_decay_ms=32.96;amp_decay_ms=141.4;click_ms=4.773;click_level=0.5563;drive=0.436;length_ms=500;seed=37
+wav/kick__lib__0038.wav,kick,pitch_start_hz=294.3;pitch_end_hz=39.42;pitch_decay_ms=19.44;amp_decay_ms=138.2;click_ms=4.054;click_level=0.1777;drive=0.1208;length_ms=500;seed=38
+wav/kick__lib__0039.wav,kick,pitch_start_hz=254;pitch_end_hz=35.89;pitch_decay_ms=32.8;amp_decay_ms=474.6;click_ms=4.03;click_level=0.6705;drive=0.0576;length_ms=500;seed=39
+wav/kick__lib__0040.wav,kick,pitch_start_hz=207.7;pitch_end_hz=45.05;pitch_decay_ms=14.25;amp_decay_ms=151.1;click_ms=1.988;click_level=0.3582;drive=0.1903;length_ms=500;seed=40
+wav/rumble__lib__0001.wav,rumble,decay_ms=1314;lowpass_hz=97.58;drive=0.2508;sidechain_ms=148.2
+wav/rumble__lib__0002.wav,rumble,decay_ms=480.3;lowpass_hz=255.7;drive=0.6739;sidechain_ms=95.49
+wav/rumble__lib__0003.wav,rumble,decay_ms=1418;lowpass_hz=96.2;drive=0.2509;sidechain_ms=97.25
+wav/rumble__lib__0004.wav,rumble,decay_ms=1372;lowpass_hz=134.7;drive=0.3468;sidechain_ms=69.93
+wav/rumble__lib__0005.wav,rumble,decay_ms=675.2;lowpass_hz=136;drive=0.134;sidechain_ms=110.1
+wav/rumble__lib__0006.wav,rumble,decay_ms=696.5;lowpass_hz=192.8;drive=0.2533;sidechain_ms=175.8
+wav/rumble__lib__0007.wav,rumble,decay_ms=1218;lowpass_hz=136.6;drive=0.6893;sidechain_ms=156.8
+wav/rumble__lib__0008.wav,rumble,decay_ms=730.5;lowpass_hz=100.5;drive=0.218;sidechain_ms=151.1
+wav/rumble__lib__0009.wav,rumble,decay_ms=1123;lowpass_hz=92.36;drive=0.1843;sidechain_ms=96
+wav/rumble__lib__0010.wav,rumble,decay_ms=829.5;lowpass_hz=240.2;drive=0.5943;sidechain_ms=174.7
+wav/rumble__lib__0011.wav,rumble,decay_ms=1092;lowpass_hz=110.1;drive=0.483;sidechain_ms=77.77
+wav/rumble__lib__0012.wav,rumble,decay_ms=1007;lowpass_hz=127.5;drive=0.585;sidechain_ms=126.4
+wav/rumble__lib__0013.wav,rumble,decay_ms=800.6;lowpass_hz=140.9;drive=0.7181;sidechain_ms=74.12
+wav/rumble__lib__0014.wav,rumble,decay_ms=415;lowpass_hz=119.3;drive=0.699;sidechain_ms=62.02
+wav/rumble__lib__0015.wav,rumble,decay_ms=436.5;lowpass_hz=115.5;drive=0.4192;sidechain_ms=103.4
+wav/rumble__lib__0016.wav,rumble,decay_ms=415.5;lowpass_hz=190.1;drive=0.3187;sidechain_ms=107.9
+wav/rumble__lib__0017.wav,rumble,decay_ms=680.5;lowpass_hz=148.8;drive=0.3683;sidechain_ms=75.65
+wav/rumble__lib__0018.wav,rumble,decay_ms=1098;lowpass_hz=109.4;drive=0.2795;sidechain_ms=122.7
+wav/rumble__lib__0019.wav,rumble,decay_ms=511.9;lowpass_hz=142.4;drive=0.6535;sidechain_ms=146.6
+wav/rumble__lib__0020.wav,rumble,decay_ms=684.3;lowpass_hz=254;drive=0.5929;sidechain_ms=165.5
+wav/rumble__lib__0021.wav,rumble,decay_ms=1097;lowpass_hz=146;drive=0.7336;sidechain_ms=153.3
+wav/rumble__lib__0022.wav,rumble,decay_ms=437.5;lowpass_hz=95.68;drive=0.2282;sidechain_ms=179.9
+wav/rumble__lib__0023.wav,rumble,decay_ms=1006;lowpass_hz=197.8;drive=0.7848;sidechain_ms=129.4
+wav/rumble__lib__0024.wav,rumble,decay_ms=411.9;lowpass_hz=207.3;drive=0.338;sidechain_ms=180.2
+wav/rumble__lib__0025.wav,rumble,decay_ms=1497;lowpass_hz=183.2;drive=0.1805;sidechain_ms=139.2
+wav/rumble__lib__0026.wav,rumble,decay_ms=1108;lowpass_hz=103.3;drive=0.4148;sidechain_ms=144.9
+wav/rumble__lib__0027.wav,rumble,decay_ms=507;lowpass_hz=131.7;drive=0.3571;sidechain_ms=153.4
+wav/rumble__lib__0028.wav,rumble,decay_ms=839.6;lowpass_hz=90.3;drive=0.3355;sidechain_ms=104.4
+wav/rumble__lib__0029.wav,rumble,decay_ms=965;lowpass_hz=227.1;drive=0.1002;sidechain_ms=178.6
+wav/rumble__lib__0030.wav,rumble,decay_ms=523.4;lowpass_hz=106.1;drive=0.19;sidechain_ms=105.9
+wav/rumble__lib__0031.wav,rumble,decay_ms=428.8;lowpass_hz=138.2;drive=0.5914;sidechain_ms=161.2
+wav/rumble__lib__0032.wav,rumble,decay_ms=863.8;lowpass_hz=173;drive=0.3556;sidechain_ms=125.1
+wav/rumble__lib__0033.wav,rumble,decay_ms=653.8;lowpass_hz=171.4;drive=0.7524;sidechain_ms=189.6
+wav/rumble__lib__0034.wav,rumble,decay_ms=670.5;lowpass_hz=154.5;drive=0.2585;sidechain_ms=124
+wav/rumble__lib__0035.wav,rumble,decay_ms=743.3;lowpass_hz=118;drive=0.1244;sidechain_ms=178.9
+wav/rumble__lib__0036.wav,rumble,decay_ms=858.8;lowpass_hz=243.5;drive=0.7255;sidechain_ms=194.6
+wav/rumble__lib__0037.wav,rumble,decay_ms=559.8;lowpass_hz=92.52;drive=0.2128;sidechain_ms=94.52
+wav/rumble__lib__0038.wav,rumble,decay_ms=1419;lowpass_hz=193;drive=0.4159;sidechain_ms=85.9
+wav/rumble__lib__0039.wav,rumble,decay_ms=778.5;lowpass_hz=245.4;drive=0.4062;sidechain_ms=153.3
+wav/rumble__lib__0040.wav,rumble,decay_ms=1327;lowpass_hz=165.3;drive=0.5264;sidechain_ms=163.6
+wav/hat_closed__lib__0001.wav,hat_closed,closed=True;decay_ms=18.27;highpass_hz=5000;tone=0.5607;level=0.5;seed=1
+wav/hat_closed__lib__0002.wav,hat_closed,closed=True;decay_ms=18.62;highpass_hz=4901;tone=0.4162;level=0.5;seed=2
+wav/hat_closed__lib__0003.wav,hat_closed,closed=True;decay_ms=12.01;highpass_hz=3944;tone=0.6303;level=0.5;seed=3
+wav/hat_closed__lib__0004.wav,hat_closed,closed=True;decay_ms=19.16;highpass_hz=8848;tone=0.2609;level=0.5;seed=4
+wav/hat_closed__lib__0005.wav,hat_closed,closed=True;decay_ms=17.69;highpass_hz=9403;tone=0.2123;level=0.5;seed=5
+wav/hat_closed__lib__0006.wav,hat_closed,closed=True;decay_ms=8.576;highpass_hz=3510;tone=0.6128;level=0.5;seed=6
+wav/hat_closed__lib__0007.wav,hat_closed,closed=True;decay_ms=10.94;highpass_hz=4083;tone=0.1892;level=0.5;seed=7
+wav/hat_closed__lib__0008.wav,hat_closed,closed=True;decay_ms=41.36;highpass_hz=4879;tone=0.01638;level=0.5;seed=8
+wav/hat_closed__lib__0009.wav,hat_closed,closed=True;decay_ms=9.412;highpass_hz=6337;tone=0.01782;level=0.5;seed=9
+wav/hat_closed__lib__0010.wav,hat_closed,closed=True;decay_ms=13.35;highpass_hz=4000;tone=0.1586;level=0.5;seed=10
+wav/hat_closed__lib__0011.wav,hat_closed,closed=True;decay_ms=37.78;highpass_hz=8831;tone=0.185;level=0.5;seed=11
+wav/hat_closed__lib__0012.wav,hat_closed,closed=True;decay_ms=19.25;highpass_hz=6401;tone=0.1008;level=0.5;seed=12
+wav/hat_closed__lib__0013.wav,hat_closed,closed=True;decay_ms=15.39;highpass_hz=7383;tone=0.3095;level=0.5;seed=13
+wav/hat_closed__lib__0014.wav,hat_closed,closed=True;decay_ms=16.99;highpass_hz=6144;tone=0.3505;level=0.5;seed=14
+wav/hat_closed__lib__0015.wav,hat_closed,closed=True;decay_ms=52.55;highpass_hz=6877;tone=0.3469;level=0.5;seed=15
+wav/hat_closed__lib__0016.wav,hat_closed,closed=True;decay_ms=19.52;highpass_hz=4049;tone=0.5319;level=0.5;seed=16
+wav/hat_closed__lib__0017.wav,hat_closed,closed=True;decay_ms=14.07;highpass_hz=3563;tone=0.1071;level=0.5;seed=17
+wav/hat_closed__lib__0018.wav,hat_closed,closed=True;decay_ms=31.82;highpass_hz=5372;tone=0.2633;level=0.5;seed=18
+wav/hat_closed__lib__0019.wav,hat_closed,closed=True;decay_ms=30.92;highpass_hz=3709;tone=0.1537;level=0.5;seed=19
+wav/hat_closed__lib__0020.wav,hat_closed,closed=True;decay_ms=10.76;highpass_hz=3668;tone=0.2426;level=0.5;seed=20
+wav/hat_closed__lib__0021.wav,hat_closed,closed=True;decay_ms=32.85;highpass_hz=9149;tone=0.7362;level=0.5;seed=21
+wav/hat_closed__lib__0022.wav,hat_closed,closed=True;decay_ms=8.038;highpass_hz=8088;tone=0.7162;level=0.5;seed=22
+wav/hat_closed__lib__0023.wav,hat_closed,closed=True;decay_ms=16.11;highpass_hz=7632;tone=0.3924;level=0.5;seed=23
+wav/hat_closed__lib__0024.wav,hat_closed,closed=True;decay_ms=13.96;highpass_hz=7105;tone=0.5934;level=0.5;seed=24
+wav/hat_closed__lib__0025.wav,hat_closed,closed=True;decay_ms=21.61;highpass_hz=4784;tone=0.3038;level=0.5;seed=25
+wav/hat_closed__lib__0026.wav,hat_closed,closed=True;decay_ms=49.16;highpass_hz=5651;tone=0.3339;level=0.5;seed=26
+wav/hat_closed__lib__0027.wav,hat_closed,closed=True;decay_ms=38.91;highpass_hz=6969;tone=0.7303;level=0.5;seed=27
+wav/hat_closed__lib__0028.wav,hat_closed,closed=True;decay_ms=34.05;highpass_hz=7828;tone=0.6302;level=0.5;seed=28
+wav/hat_closed__lib__0029.wav,hat_closed,closed=True;decay_ms=35.33;highpass_hz=6627;tone=0.02907;level=0.5;seed=29
+wav/hat_closed__lib__0030.wav,hat_closed,closed=True;decay_ms=16.31;highpass_hz=3666;tone=0.3197;level=0.5;seed=30
+wav/hat_closed__lib__0031.wav,hat_closed,closed=True;decay_ms=41.86;highpass_hz=5952;tone=0.4899;level=0.5;seed=31
+wav/hat_closed__lib__0032.wav,hat_closed,closed=True;decay_ms=30.78;highpass_hz=4172;tone=0.7206;level=0.5;seed=32
+wav/hat_closed__lib__0033.wav,hat_closed,closed=True;decay_ms=17.94;highpass_hz=5134;tone=0.1585;level=0.5;seed=33
+wav/hat_closed__lib__0034.wav,hat_closed,closed=True;decay_ms=9.193;highpass_hz=6020;tone=0.6397;level=0.5;seed=34
+wav/hat_closed__lib__0035.wav,hat_closed,closed=True;decay_ms=21.88;highpass_hz=3934;tone=0.6691;level=0.5;seed=35
+wav/hat_closed__lib__0036.wav,hat_closed,closed=True;decay_ms=13.46;highpass_hz=6285;tone=0.09285;level=0.5;seed=36
+wav/hat_closed__lib__0037.wav,hat_closed,closed=True;decay_ms=23.74;highpass_hz=4689;tone=0.4867;level=0.5;seed=37
+wav/hat_closed__lib__0038.wav,hat_closed,closed=True;decay_ms=8.584;highpass_hz=3733;tone=0.01002;level=0.5;seed=38
+wav/hat_closed__lib__0039.wav,hat_closed,closed=True;decay_ms=43.86;highpass_hz=3908;tone=0.7431;level=0.5;seed=39
+wav/hat_closed__lib__0040.wav,hat_closed,closed=True;decay_ms=12.25;highpass_hz=4169;tone=0.2601;level=0.5;seed=40
+wav/hat_open__lib__0001.wav,hat_open,closed=False;decay_ms=121.8;highpass_hz=3919;tone=0.371;level=0.5;seed=1
+wav/hat_open__lib__0002.wav,hat_open,closed=False;decay_ms=260.7;highpass_hz=6566;tone=0.5423;level=0.5;seed=2
+wav/hat_open__lib__0003.wav,hat_open,closed=False;decay_ms=155.7;highpass_hz=5590;tone=0.7279;level=0.5;seed=3
+wav/hat_open__lib__0004.wav,hat_open,closed=False;decay_ms=280.7;highpass_hz=3761;tone=0.1055;level=0.5;seed=4
+wav/hat_open__lib__0005.wav,hat_open,closed=False;decay_ms=280.9;highpass_hz=7369;tone=0.2921;level=0.5;seed=5
+wav/hat_open__lib__0006.wav,hat_open,closed=False;decay_ms=108.3;highpass_hz=5240;tone=0.396;level=0.5;seed=6
+wav/hat_open__lib__0007.wav,hat_open,closed=False;decay_ms=342.2;highpass_hz=3362;tone=0.7276;level=0.5;seed=7
+wav/hat_open__lib__0008.wav,hat_open,closed=False;decay_ms=282.8;highpass_hz=3278;tone=0.6281;level=0.5;seed=8
+wav/hat_open__lib__0009.wav,hat_open,closed=False;decay_ms=194.1;highpass_hz=6326;tone=0.38;level=0.5;seed=9
+wav/hat_open__lib__0010.wav,hat_open,closed=False;decay_ms=111.8;highpass_hz=7657;tone=0.1193;level=0.5;seed=10
+wav/hat_open__lib__0011.wav,hat_open,closed=False;decay_ms=159.2;highpass_hz=5150;tone=0.281;level=0.5;seed=11
+wav/hat_open__lib__0012.wav,hat_open,closed=False;decay_ms=223.7;highpass_hz=7912;tone=0.1095;level=0.5;seed=12
+wav/hat_open__lib__0013.wav,hat_open,closed=False;decay_ms=233.7;highpass_hz=3637;tone=0.5286;level=0.5;seed=13
+wav/hat_open__lib__0014.wav,hat_open,closed=False;decay_ms=251;highpass_hz=4136;tone=0.2303;level=0.5;seed=14
+wav/hat_open__lib__0015.wav,hat_open,closed=False;decay_ms=153;highpass_hz=5556;tone=0.1414;level=0.5;seed=15
+wav/hat_open__lib__0016.wav,hat_open,closed=False;decay_ms=436.3;highpass_hz=4805;tone=0.03578;level=0.5;seed=16
+wav/hat_open__lib__0017.wav,hat_open,closed=False;decay_ms=303;highpass_hz=8059;tone=0.7019;level=0.5;seed=17
+wav/hat_open__lib__0018.wav,hat_open,closed=False;decay_ms=135.8;highpass_hz=3775;tone=0.4948;level=0.5;seed=18
+wav/hat_open__lib__0019.wav,hat_open,closed=False;decay_ms=424.5;highpass_hz=3146;tone=0.7379;level=0.5;seed=19
+wav/hat_open__lib__0020.wav,hat_open,closed=False;decay_ms=94.58;highpass_hz=8259;tone=0.2623;level=0.5;seed=20
+wav/hat_open__lib__0021.wav,hat_open,closed=False;decay_ms=172.5;highpass_hz=5974;tone=0.3798;level=0.5;seed=21
+wav/hat_open__lib__0022.wav,hat_open,closed=False;decay_ms=216.2;highpass_hz=3543;tone=0.2552;level=0.5;seed=22
+wav/hat_open__lib__0023.wav,hat_open,closed=False;decay_ms=230.4;highpass_hz=7084;tone=0.1097;level=0.5;seed=23
+wav/hat_open__lib__0024.wav,hat_open,closed=False;decay_ms=170.1;highpass_hz=4226;tone=0.2568;level=0.5;seed=24
+wav/hat_open__lib__0025.wav,hat_open,closed=False;decay_ms=95.4;highpass_hz=5638;tone=0.2632;level=0.5;seed=25
+wav/hat_open__lib__0026.wav,hat_open,closed=False;decay_ms=100.5;highpass_hz=3513;tone=0.2352;level=0.5;seed=26
+wav/hat_open__lib__0027.wav,hat_open,closed=False;decay_ms=190.5;highpass_hz=6820;tone=0.5404;level=0.5;seed=27
+wav/hat_open__lib__0028.wav,hat_open,closed=False;decay_ms=97.01;highpass_hz=3001;tone=0.6686;level=0.5;seed=28
+wav/hat_open__lib__0029.wav,hat_open,closed=False;decay_ms=118.3;highpass_hz=6649;tone=0.4266;level=0.5;seed=29
+wav/hat_open__lib__0030.wav,hat_open,closed=False;decay_ms=307.3;highpass_hz=3689;tone=0.3954;level=0.5;seed=30
+wav/hat_open__lib__0031.wav,hat_open,closed=False;decay_ms=267.4;highpass_hz=6442;tone=0.6222;level=0.5;seed=31
+wav/hat_open__lib__0032.wav,hat_open,closed=False;decay_ms=374.1;highpass_hz=7901;tone=0.09774;level=0.5;seed=32
+wav/hat_open__lib__0033.wav,hat_open,closed=False;decay_ms=136.8;highpass_hz=4031;tone=0.3462;level=0.5;seed=33
+wav/hat_open__lib__0034.wav,hat_open,closed=False;decay_ms=357.3;highpass_hz=8331;tone=0.2498;level=0.5;seed=34
+wav/hat_open__lib__0035.wav,hat_open,closed=False;decay_ms=337.4;highpass_hz=7599;tone=0.3688;level=0.5;seed=35
+wav/hat_open__lib__0036.wav,hat_open,closed=False;decay_ms=102.7;highpass_hz=6015;tone=0.4444;level=0.5;seed=36
+wav/hat_open__lib__0037.wav,hat_open,closed=False;decay_ms=156.6;highpass_hz=7583;tone=0.3986;level=0.5;seed=37
+wav/hat_open__lib__0038.wav,hat_open,closed=False;decay_ms=96.43;highpass_hz=8006;tone=0.6558;level=0.5;seed=38
+wav/hat_open__lib__0039.wav,hat_open,closed=False;decay_ms=102.2;highpass_hz=4594;tone=0.1851;level=0.5;seed=39
+wav/hat_open__lib__0040.wav,hat_open,closed=False;decay_ms=151.7;highpass_hz=4502;tone=0.09817;level=0.5;seed=40
+wav/clap__lib__0001.wav,clap,decay_ms=85.31;bursts=1;burst_gap_ms=9.807;bandpass_lo=450.5;bandpass_hi=1774;tail_ms=194.6;seed=1
+wav/clap__lib__0002.wav,clap,decay_ms=164.1;bursts=1;burst_gap_ms=8.742;bandpass_lo=523.4;bandpass_hi=2360;tail_ms=125.8;seed=2
+wav/clap__lib__0003.wav,clap,decay_ms=74.44;bursts=3;burst_gap_ms=9.247;bandpass_lo=582.7;bandpass_hi=2857;tail_ms=171.1;seed=3
+wav/clap__lib__0004.wav,clap,decay_ms=318.4;bursts=3;burst_gap_ms=13.7;bandpass_lo=1119;bandpass_hi=4825;tail_ms=92.2;seed=4
+wav/clap__lib__0005.wav,clap,decay_ms=79.96;bursts=5;burst_gap_ms=13.87;bandpass_lo=719.5;bandpass_hi=2948;tail_ms=80.58;seed=5
+wav/clap__lib__0006.wav,clap,decay_ms=236.2;bursts=1;burst_gap_ms=7.446;bandpass_lo=581.8;bandpass_hi=2805;tail_ms=181.2;seed=6
+wav/clap__lib__0007.wav,clap,decay_ms=116.7;bursts=3;burst_gap_ms=6.324;bandpass_lo=939.2;bandpass_hi=4344;tail_ms=157.7;seed=7
+wav/clap__lib__0008.wav,clap,decay_ms=156.4;bursts=3;burst_gap_ms=9.31;bandpass_lo=505.9;bandpass_hi=1858;tail_ms=114.2;seed=8
+wav/clap__lib__0009.wav,clap,decay_ms=230.7;bursts=3;burst_gap_ms=11.74;bandpass_lo=798.4;bandpass_hi=3294;tail_ms=165.3;seed=9
+wav/clap__lib__0010.wav,clap,decay_ms=114.1;bursts=3;burst_gap_ms=11.92;bandpass_lo=726.3;bandpass_hi=3301;tail_ms=197.6;seed=10
+wav/clap__lib__0011.wav,clap,decay_ms=121.7;bursts=2;burst_gap_ms=11.71;bandpass_lo=1451;bandpass_hi=3220;tail_ms=57.51;seed=11
+wav/clap__lib__0012.wav,clap,decay_ms=164.8;bursts=5;burst_gap_ms=13.81;bandpass_lo=765.2;bandpass_hi=3743;tail_ms=131.2;seed=12
+wav/clap__lib__0013.wav,clap,decay_ms=144.6;bursts=2;burst_gap_ms=11.57;bandpass_lo=501.6;bandpass_hi=1858;tail_ms=64.62;seed=13
+wav/clap__lib__0014.wav,clap,decay_ms=207.6;bursts=2;burst_gap_ms=11.37;bandpass_lo=454.2;bandpass_hi=2188;tail_ms=246.6;seed=14
+wav/clap__lib__0015.wav,clap,decay_ms=105.1;bursts=2;burst_gap_ms=8.043;bandpass_lo=1257;bandpass_hi=4622;tail_ms=254.4;seed=15
+wav/clap__lib__0016.wav,clap,decay_ms=86.89;bursts=2;burst_gap_ms=11.6;bandpass_lo=784.8;bandpass_hi=2892;tail_ms=48.14;seed=16
+wav/clap__lib__0017.wav,clap,decay_ms=76.33;bursts=4;burst_gap_ms=15.62;bandpass_lo=709.9;bandpass_hi=1619;tail_ms=225.8;seed=17
+wav/clap__lib__0018.wav,clap,decay_ms=311.5;bursts=5;burst_gap_ms=10.47;bandpass_lo=526.1;bandpass_hi=2455;tail_ms=100.8;seed=18
+wav/clap__lib__0019.wav,clap,decay_ms=80.8;bursts=4;burst_gap_ms=8.772;bandpass_lo=770.8;bandpass_hi=3515;tail_ms=46.58;seed=19
+wav/clap__lib__0020.wav,clap,decay_ms=172.1;bursts=5;burst_gap_ms=7.781;bandpass_lo=498.3;bandpass_hi=1894;tail_ms=109.1;seed=20
+wav/clap__lib__0021.wav,clap,decay_ms=105.2;bursts=5;burst_gap_ms=6.806;bandpass_lo=1102;bandpass_hi=4973;tail_ms=84.63;seed=21
+wav/clap__lib__0022.wav,clap,decay_ms=313.8;bursts=4;burst_gap_ms=11.35;bandpass_lo=942.6;bandpass_hi=2852;tail_ms=79.46;seed=22
+wav/clap__lib__0023.wav,clap,decay_ms=275.7;bursts=4;burst_gap_ms=12.25;bandpass_lo=561.6;bandpass_hi=1308;tail_ms=59.9;seed=23
+wav/clap__lib__0024.wav,clap,decay_ms=113.5;bursts=3;burst_gap_ms=13.48;bandpass_lo=1391;bandpass_hi=4121;tail_ms=159.3;seed=24
+wav/clap__lib__0025.wav,clap,decay_ms=178.5;bursts=4;burst_gap_ms=11.41;bandpass_lo=687.6;bandpass_hi=2307;tail_ms=36.89;seed=25
+wav/clap__lib__0026.wav,clap,decay_ms=131.1;bursts=4;burst_gap_ms=13;bandpass_lo=1282;bandpass_hi=3865;tail_ms=88.51;seed=26
+wav/clap__lib__0027.wav,clap,decay_ms=139.2;bursts=2;burst_gap_ms=7.217;bandpass_lo=748.6;bandpass_hi=2029;tail_ms=194.4;seed=27
+wav/clap__lib__0028.wav,clap,decay_ms=83.63;bursts=1;burst_gap_ms=13.48;bandpass_lo=611;bandpass_hi=1444;tail_ms=260.1;seed=28
+wav/clap__lib__0029.wav,clap,decay_ms=246.4;bursts=2;burst_gap_ms=8.981;bandpass_lo=1045;bandpass_hi=4463;tail_ms=61.83;seed=29
+wav/clap__lib__0030.wav,clap,decay_ms=257.8;bursts=3;burst_gap_ms=10.08;bandpass_lo=667;bandpass_hi=2451;tail_ms=36.78;seed=30
+wav/clap__lib__0031.wav,clap,decay_ms=147.1;bursts=5;burst_gap_ms=11.15;bandpass_lo=1130;bandpass_hi=4059;tail_ms=194.7;seed=31
+wav/clap__lib__0032.wav,clap,decay_ms=130.7;bursts=1;burst_gap_ms=8.62;bandpass_lo=711.5;bandpass_hi=2712;tail_ms=258;seed=32
+wav/clap__lib__0033.wav,clap,decay_ms=271.2;bursts=4;burst_gap_ms=13.03;bandpass_lo=662.4;bandpass_hi=3130;tail_ms=79.08;seed=33
+wav/clap__lib__0034.wav,clap,decay_ms=93.05;bursts=5;burst_gap_ms=9.24;bandpass_lo=913.1;bandpass_hi=2754;tail_ms=97.84;seed=34
+wav/clap__lib__0035.wav,clap,decay_ms=260.4;bursts=1;burst_gap_ms=15.22;bandpass_lo=836.4;bandpass_hi=2470;tail_ms=211.9;seed=35
+wav/clap__lib__0036.wav,clap,decay_ms=131.8;bursts=4;burst_gap_ms=13.17;bandpass_lo=586.2;bandpass_hi=2231;tail_ms=46.46;seed=36
+wav/clap__lib__0037.wav,clap,decay_ms=78.79;bursts=3;burst_gap_ms=12.1;bandpass_lo=676;bandpass_hi=3333;tail_ms=245.8;seed=37
+wav/clap__lib__0038.wav,clap,decay_ms=123.5;bursts=1;burst_gap_ms=9.357;bandpass_lo=677.7;bandpass_hi=2511;tail_ms=84.88;seed=38
+wav/clap__lib__0039.wav,clap,decay_ms=87.99;bursts=3;burst_gap_ms=11.37;bandpass_lo=503.6;bandpass_hi=2202;tail_ms=35.17;seed=39
+wav/clap__lib__0040.wav,clap,decay_ms=164.2;bursts=2;burst_gap_ms=13.48;bandpass_lo=608.7;bandpass_hi=2971;tail_ms=208.7;seed=40
+wav/perc__lib__0001.wav,perc,pitch_hz=407.1;decay_ms=193.6;noise_mix=0.3086;highpass_hz=2407;seed=1
+wav/perc__lib__0002.wav,perc,pitch_hz=1624;decay_ms=210.8;noise_mix=0.196;highpass_hz=1935;seed=2
+wav/perc__lib__0003.wav,perc,pitch_hz=1307;decay_ms=65.39;noise_mix=0.9001;highpass_hz=1170;seed=3
+wav/perc__lib__0004.wav,perc,pitch_hz=1195;decay_ms=87.14;noise_mix=0.4524;highpass_hz=3912;seed=4
+wav/perc__lib__0005.wav,perc,pitch_hz=1375;decay_ms=47.55;noise_mix=0.7615;highpass_hz=3242;seed=5
+wav/perc__lib__0006.wav,perc,pitch_hz=899.1;decay_ms=36.47;noise_mix=0.8211;highpass_hz=3050;seed=6
+wav/perc__lib__0007.wav,perc,pitch_hz=387.5;decay_ms=172;noise_mix=0.5932;highpass_hz=1748;seed=7
+wav/perc__lib__0008.wav,perc,pitch_hz=1828;decay_ms=51.73;noise_mix=0.8973;highpass_hz=1881;seed=8
+wav/perc__lib__0009.wav,perc,pitch_hz=992.4;decay_ms=70.19;noise_mix=0.5167;highpass_hz=3011;seed=9
+wav/perc__lib__0010.wav,perc,pitch_hz=405.5;decay_ms=77.09;noise_mix=0.7105;highpass_hz=3198;seed=10
+wav/perc__lib__0011.wav,perc,pitch_hz=453.7;decay_ms=42.58;noise_mix=0.3997;highpass_hz=1474;seed=11
+wav/perc__lib__0012.wav,perc,pitch_hz=1625;decay_ms=70.61;noise_mix=0.3083;highpass_hz=1235;seed=12
+wav/perc__lib__0013.wav,perc,pitch_hz=501.7;decay_ms=119.6;noise_mix=0.4431;highpass_hz=1084;seed=13
+wav/perc__lib__0014.wav,perc,pitch_hz=835.6;decay_ms=40.08;noise_mix=0.0847;highpass_hz=1839;seed=14
+wav/perc__lib__0015.wav,perc,pitch_hz=773.1;decay_ms=108.3;noise_mix=0.2339;highpass_hz=3867;seed=15
+wav/perc__lib__0016.wav,perc,pitch_hz=2111;decay_ms=208.5;noise_mix=0.2998;highpass_hz=1150;seed=16
+wav/perc__lib__0017.wav,perc,pitch_hz=1017;decay_ms=92.59;noise_mix=0.8886;highpass_hz=2300;seed=17
+wav/perc__lib__0018.wav,perc,pitch_hz=574.2;decay_ms=97.76;noise_mix=0.4417;highpass_hz=2232;seed=18
+wav/perc__lib__0019.wav,perc,pitch_hz=1227;decay_ms=50.47;noise_mix=0.4043;highpass_hz=2349;seed=19
+wav/perc__lib__0020.wav,perc,pitch_hz=355.9;decay_ms=39.04;noise_mix=0.1378;highpass_hz=3652;seed=20
+wav/perc__lib__0021.wav,perc,pitch_hz=1567;decay_ms=47.66;noise_mix=0.6035;highpass_hz=1927;seed=21
+wav/perc__lib__0022.wav,perc,pitch_hz=499;decay_ms=44.39;noise_mix=0.4226;highpass_hz=3517;seed=22
+wav/perc__lib__0023.wav,perc,pitch_hz=1198;decay_ms=38.91;noise_mix=0.5256;highpass_hz=3281;seed=23
+wav/perc__lib__0024.wav,perc,pitch_hz=1280;decay_ms=82.46;noise_mix=0.2372;highpass_hz=1501;seed=24
+wav/perc__lib__0025.wav,perc,pitch_hz=470.2;decay_ms=46.29;noise_mix=0.641;highpass_hz=3532;seed=25
+wav/perc__lib__0026.wav,perc,pitch_hz=704.6;decay_ms=190.3;noise_mix=0.1008;highpass_hz=1040;seed=26
+wav/perc__lib__0027.wav,perc,pitch_hz=563.5;decay_ms=124.7;noise_mix=0.1709;highpass_hz=3760;seed=27
+wav/perc__lib__0028.wav,perc,pitch_hz=392;decay_ms=155.4;noise_mix=0.439;highpass_hz=1777;seed=28
+wav/perc__lib__0029.wav,perc,pitch_hz=468;decay_ms=66.82;noise_mix=0.6824;highpass_hz=3163;seed=29
+wav/perc__lib__0030.wav,perc,pitch_hz=398.6;decay_ms=42.41;noise_mix=0.9447;highpass_hz=2339;seed=30
+wav/perc__lib__0031.wav,perc,pitch_hz=1160;decay_ms=166.3;noise_mix=0.5706;highpass_hz=3107;seed=31
+wav/perc__lib__0032.wav,perc,pitch_hz=1283;decay_ms=132.4;noise_mix=0.189;highpass_hz=1340;seed=32
+wav/perc__lib__0033.wav,perc,pitch_hz=1242;decay_ms=77.91;noise_mix=0.2278;highpass_hz=1993;seed=33
+wav/perc__lib__0034.wav,perc,pitch_hz=1893;decay_ms=87.76;noise_mix=0.7578;highpass_hz=4127;seed=34
+wav/perc__lib__0035.wav,perc,pitch_hz=401.8;decay_ms=139;noise_mix=0.6457;highpass_hz=1654;seed=35
+wav/perc__lib__0036.wav,perc,pitch_hz=1058;decay_ms=181.6;noise_mix=0.8648;highpass_hz=1075;seed=36
+wav/perc__lib__0037.wav,perc,pitch_hz=1586;decay_ms=56.65;noise_mix=0.8817;highpass_hz=3388;seed=37
+wav/perc__lib__0038.wav,perc,pitch_hz=529.1;decay_ms=87.69;noise_mix=0.3778;highpass_hz=2258;seed=38
+wav/perc__lib__0039.wav,perc,pitch_hz=1103;decay_ms=46.89;noise_mix=0.9138;highpass_hz=2424;seed=39
+wav/perc__lib__0040.wav,perc,pitch_hz=564.3;decay_ms=71.22;noise_mix=0.5752;highpass_hz=1896;seed=40
+wav/stab__lib__0001.wav,stab,freq_hz=83.61;wave=saw;detune_cents=8.935;voices=4;attack_ms=1.903;decay_ms=366;cutoff_hz=1306;drive=0.4449
+wav/stab__lib__0002.wav,stab,freq_hz=86.14;wave=square;detune_cents=14.67;voices=4;attack_ms=10.35;decay_ms=348.5;cutoff_hz=816.9;drive=0.4953
+wav/stab__lib__0003.wav,stab,freq_hz=168.2;wave=square;detune_cents=11.97;voices=1;attack_ms=11.05;decay_ms=236.5;cutoff_hz=4264;drive=0.2191
+wav/stab__lib__0004.wav,stab,freq_hz=167;wave=saw;detune_cents=14.89;voices=5;attack_ms=3.878;decay_ms=141.5;cutoff_hz=819.3;drive=0.2456
+wav/stab__lib__0005.wav,stab,freq_hz=57.07;wave=saw;detune_cents=5.771;voices=5;attack_ms=7.585;decay_ms=278.7;cutoff_hz=1796;drive=0.2542
+wav/stab__lib__0006.wav,stab,freq_hz=103.8;wave=saw;detune_cents=7.572;voices=2;attack_ms=1.757;decay_ms=113.3;cutoff_hz=1423;drive=0.1185
+wav/stab__lib__0007.wav,stab,freq_hz=160.2;wave=saw;detune_cents=11.95;voices=3;attack_ms=2.148;decay_ms=157.2;cutoff_hz=1449;drive=0.7712
+wav/stab__lib__0008.wav,stab,freq_hz=140.5;wave=square;detune_cents=8.671;voices=4;attack_ms=4.009;decay_ms=135.1;cutoff_hz=3754;drive=0.6225
+wav/stab__lib__0009.wav,stab,freq_hz=184.2;wave=saw;detune_cents=1.352;voices=4;attack_ms=1.606;decay_ms=513.8;cutoff_hz=1317;drive=0.8792
+wav/stab__lib__0010.wav,stab,freq_hz=75.96;wave=square;detune_cents=21.31;voices=1;attack_ms=4.51;decay_ms=127;cutoff_hz=1027;drive=0.813
+wav/stab__lib__0011.wav,stab,freq_hz=63.68;wave=saw;detune_cents=5.497;voices=2;attack_ms=6.752;decay_ms=197.9;cutoff_hz=1740;drive=0.2838
+wav/stab__lib__0012.wav,stab,freq_hz=173.9;wave=saw;detune_cents=25.83;voices=1;attack_ms=9.108;decay_ms=101.2;cutoff_hz=1572;drive=0.4435
+wav/stab__lib__0013.wav,stab,freq_hz=94.69;wave=saw;detune_cents=11.04;voices=1;attack_ms=10.1;decay_ms=190.5;cutoff_hz=2520;drive=0.5905
+wav/stab__lib__0014.wav,stab,freq_hz=96.49;wave=square;detune_cents=1.74;voices=4;attack_ms=1.746;decay_ms=447.1;cutoff_hz=1631;drive=0.3212
+wav/stab__lib__0015.wav,stab,freq_hz=229.9;wave=saw;detune_cents=8.622;voices=2;attack_ms=1.64;decay_ms=158.7;cutoff_hz=2057;drive=0.2027
+wav/stab__lib__0016.wav,stab,freq_hz=157.6;wave=square;detune_cents=2.12;voices=4;attack_ms=3.607;decay_ms=109.1;cutoff_hz=3318;drive=0.3182
+wav/stab__lib__0017.wav,stab,freq_hz=217.5;wave=saw;detune_cents=11.85;voices=4;attack_ms=4.126;decay_ms=230.5;cutoff_hz=2125;drive=0.3647
+wav/stab__lib__0018.wav,stab,freq_hz=65.01;wave=saw;detune_cents=5.724;voices=5;attack_ms=3.727;decay_ms=225.8;cutoff_hz=1167;drive=0.37
+wav/stab__lib__0019.wav,stab,freq_hz=66.73;wave=saw;detune_cents=20.75;voices=4;attack_ms=3.993;decay_ms=313.9;cutoff_hz=1274;drive=0.608
+wav/stab__lib__0020.wav,stab,freq_hz=135.1;wave=saw;detune_cents=5.403;voices=5;attack_ms=12.29;decay_ms=260;cutoff_hz=1372;drive=0.9161
+wav/stab__lib__0021.wav,stab,freq_hz=108.9;wave=square;detune_cents=3.041;voices=3;attack_ms=1.072;decay_ms=108.3;cutoff_hz=1998;drive=0.7221
+wav/stab__lib__0022.wav,stab,freq_hz=65.11;wave=saw;detune_cents=1.884;voices=4;attack_ms=9.854;decay_ms=275.6;cutoff_hz=2321;drive=0.9038
+wav/stab__lib__0023.wav,stab,freq_hz=64.84;wave=square;detune_cents=15.97;voices=4;attack_ms=5.838;decay_ms=169.5;cutoff_hz=3985;drive=0.2716
+wav/stab__lib__0024.wav,stab,freq_hz=52.08;wave=square;detune_cents=23.85;voices=5;attack_ms=1.061;decay_ms=197.2;cutoff_hz=896.9;drive=0.371
+wav/stab__lib__0025.wav,stab,freq_hz=189.2;wave=square;detune_cents=3.379;voices=1;attack_ms=1.383;decay_ms=101.9;cutoff_hz=1103;drive=0.295
+wav/stab__lib__0026.wav,stab,freq_hz=58.32;wave=square;detune_cents=14.69;voices=1;attack_ms=7.193;decay_ms=346.7;cutoff_hz=1008;drive=0.5993
+wav/stab__lib__0027.wav,stab,freq_hz=61.61;wave=square;detune_cents=29.3;voices=1;attack_ms=2.637;decay_ms=420.3;cutoff_hz=4428;drive=0.9108
+wav/stab__lib__0028.wav,stab,freq_hz=89.09;wave=square;detune_cents=11.9;voices=1;attack_ms=12.9;decay_ms=90.02;cutoff_hz=1539;drive=0.7482
+wav/stab__lib__0029.wav,stab,freq_hz=100.3;wave=saw;detune_cents=5.997;voices=5;attack_ms=7.172;decay_ms=269.3;cutoff_hz=941.1;drive=0.1342
+wav/stab__lib__0030.wav,stab,freq_hz=203.2;wave=square;detune_cents=0.3357;voices=1;attack_ms=13.5;decay_ms=479.9;cutoff_hz=1409;drive=0.3021
+wav/stab__lib__0031.wav,stab,freq_hz=79.3;wave=square;detune_cents=12.42;voices=4;attack_ms=6.285;decay_ms=103.5;cutoff_hz=1859;drive=0.3469
+wav/stab__lib__0032.wav,stab,freq_hz=102.7;wave=saw;detune_cents=14.81;voices=1;attack_ms=5.972;decay_ms=100.8;cutoff_hz=1686;drive=0.4497
+wav/stab__lib__0033.wav,stab,freq_hz=88.69;wave=saw;detune_cents=13.64;voices=3;attack_ms=3.176;decay_ms=120;cutoff_hz=2842;drive=0.9066
+wav/stab__lib__0034.wav,stab,freq_hz=158;wave=saw;detune_cents=26.29;voices=4;attack_ms=1.154;decay_ms=386.1;cutoff_hz=1820;drive=0.6396
+wav/stab__lib__0035.wav,stab,freq_hz=101.8;wave=square;detune_cents=3.066;voices=4;attack_ms=2.877;decay_ms=241.1;cutoff_hz=3574;drive=0.5005
+wav/stab__lib__0036.wav,stab,freq_hz=100.7;wave=square;detune_cents=0.411;voices=2;attack_ms=12.79;decay_ms=515.9;cutoff_hz=1607;drive=0.8349
+wav/stab__lib__0037.wav,stab,freq_hz=64.81;wave=square;detune_cents=14;voices=5;attack_ms=1.203;decay_ms=102;cutoff_hz=1449;drive=0.663
+wav/stab__lib__0038.wav,stab,freq_hz=149.1;wave=saw;detune_cents=3.415;voices=3;attack_ms=3.302;decay_ms=282.3;cutoff_hz=1019;drive=0.4663
+wav/stab__lib__0039.wav,stab,freq_hz=80.21;wave=saw;detune_cents=8.565;voices=2;attack_ms=10.96;decay_ms=331.7;cutoff_hz=920.2;drive=0.2664
+wav/stab__lib__0040.wav,stab,freq_hz=107;wave=square;detune_cents=24.23;voices=3;attack_ms=2.752;decay_ms=330.3;cutoff_hz=3866;drive=0.2928
+wav/pad__lib__0001.wav,pad,"freq_hz=41.24;attack_ms=676.9;length_ms=3929;lowpass_hz=515.2;harmonics=(1, 2, 4)"
+wav/pad__lib__0002.wav,pad,"freq_hz=106.4;attack_ms=312.3;length_ms=2593;lowpass_hz=707.5;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0003.wav,pad,"freq_hz=39.92;attack_ms=677.6;length_ms=3455;lowpass_hz=1717;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0004.wav,pad,"freq_hz=116.3;attack_ms=701.3;length_ms=3817;lowpass_hz=548.5;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0005.wav,pad,"freq_hz=99.31;attack_ms=244.7;length_ms=3903;lowpass_hz=1211;harmonics=(1, 2, 4)"
+wav/pad__lib__0006.wav,pad,"freq_hz=61.18;attack_ms=588.4;length_ms=4588;lowpass_hz=1503;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0007.wav,pad,"freq_hz=44.35;attack_ms=157.7;length_ms=3336;lowpass_hz=505.1;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0008.wav,pad,"freq_hz=47.95;attack_ms=848.7;length_ms=4357;lowpass_hz=2483;harmonics=(1, 2, 4)"
+wav/pad__lib__0009.wav,pad,"freq_hz=77.83;attack_ms=858.1;length_ms=4258;lowpass_hz=1155;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0010.wav,pad,"freq_hz=42.06;attack_ms=445.1;length_ms=3264;lowpass_hz=578.6;harmonics=(1, 2, 4)"
+wav/pad__lib__0011.wav,pad,"freq_hz=109.6;attack_ms=245.9;length_ms=3226;lowpass_hz=1796;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0012.wav,pad,"freq_hz=46.37;attack_ms=453.4;length_ms=4072;lowpass_hz=540.4;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0013.wav,pad,"freq_hz=48.79;attack_ms=545.6;length_ms=3908;lowpass_hz=1789;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0014.wav,pad,"freq_hz=43.36;attack_ms=147.7;length_ms=4383;lowpass_hz=1554;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0015.wav,pad,"freq_hz=114.7;attack_ms=875.7;length_ms=4192;lowpass_hz=1082;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0016.wav,pad,"freq_hz=79.31;attack_ms=626.7;length_ms=2832;lowpass_hz=647.3;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0017.wav,pad,"freq_hz=110.8;attack_ms=708.2;length_ms=4385;lowpass_hz=1278;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0018.wav,pad,"freq_hz=60.47;attack_ms=613.9;length_ms=3487;lowpass_hz=2290;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0019.wav,pad,"freq_hz=106.8;attack_ms=731.9;length_ms=3432;lowpass_hz=459.1;harmonics=(1, 2, 4)"
+wav/pad__lib__0020.wav,pad,"freq_hz=43.44;attack_ms=665.2;length_ms=2044;lowpass_hz=1301;harmonics=(1, 2, 4)"
+wav/pad__lib__0021.wav,pad,"freq_hz=97.47;attack_ms=175.2;length_ms=2520;lowpass_hz=1776;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0022.wav,pad,"freq_hz=58.05;attack_ms=694.9;length_ms=2832;lowpass_hz=419.8;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0023.wav,pad,"freq_hz=45.98;attack_ms=655.7;length_ms=3806;lowpass_hz=968.5;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0024.wav,pad,"freq_hz=64.15;attack_ms=957.7;length_ms=2286;lowpass_hz=866.2;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0025.wav,pad,"freq_hz=73.46;attack_ms=194.6;length_ms=3059;lowpass_hz=1049;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0026.wav,pad,"freq_hz=66.7;attack_ms=206.9;length_ms=3713;lowpass_hz=455.5;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0027.wav,pad,"freq_hz=113.8;attack_ms=170.3;length_ms=2695;lowpass_hz=392.6;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0028.wav,pad,"freq_hz=97.62;attack_ms=672.6;length_ms=3092;lowpass_hz=1355;harmonics=(1, 2, 4)"
+wav/pad__lib__0029.wav,pad,"freq_hz=62.94;attack_ms=273.7;length_ms=4198;lowpass_hz=1793;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0030.wav,pad,"freq_hz=66.8;attack_ms=224;length_ms=3520;lowpass_hz=358.6;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0031.wav,pad,"freq_hz=64.87;attack_ms=221.9;length_ms=3206;lowpass_hz=731.9;harmonics=(1, 2, 3, 4, 5, 6)"
+wav/pad__lib__0032.wav,pad,"freq_hz=109.2;attack_ms=358.1;length_ms=2426;lowpass_hz=852.7;harmonics=(1, 2, 4)"
+wav/pad__lib__0033.wav,pad,"freq_hz=70.83;attack_ms=467.8;length_ms=4506;lowpass_hz=2468;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0034.wav,pad,"freq_hz=73.95;attack_ms=292.1;length_ms=3907;lowpass_hz=399.4;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0035.wav,pad,"freq_hz=74.58;attack_ms=496;length_ms=2002;lowpass_hz=565.4;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0036.wav,pad,"freq_hz=62.47;attack_ms=358.3;length_ms=3660;lowpass_hz=2057;harmonics=(1, 2, 3, 5)"
+wav/pad__lib__0037.wav,pad,"freq_hz=89.3;attack_ms=278.3;length_ms=3832;lowpass_hz=560.9;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0038.wav,pad,"freq_hz=62.2;attack_ms=274.1;length_ms=2635;lowpass_hz=1306;harmonics=(1, 3, 5, 7)"
+wav/pad__lib__0039.wav,pad,"freq_hz=47.21;attack_ms=500.9;length_ms=2523;lowpass_hz=816.2;harmonics=(1, 2, 4)"
+wav/pad__lib__0040.wav,pad,"freq_hz=78.12;attack_ms=361.2;length_ms=4981;lowpass_hz=387.6;harmonics=(1, 2, 3, 5)"
+wav/riser__lib__0001.wav,riser,length_ms=6785;start_hz=108.7;end_hz=1348;noise_mix=0.9886;seed=1
+wav/riser__lib__0002.wav,riser,length_ms=6988;start_hz=484.8;end_hz=8664;noise_mix=0.3159;seed=2
+wav/riser__lib__0003.wav,riser,length_ms=3922;start_hz=131.1;end_hz=1534;noise_mix=0.4398;seed=3
+wav/riser__lib__0004.wav,riser,length_ms=6997;start_hz=172.6;end_hz=3430;noise_mix=0.9195;seed=4
+wav/riser__lib__0005.wav,riser,length_ms=3596;start_hz=170.8;end_hz=2337;noise_mix=0.8636;seed=5
+wav/riser__lib__0006.wav,riser,length_ms=6119;start_hz=301.2;end_hz=4018;noise_mix=0.5522;seed=6
+wav/riser__lib__0007.wav,riser,length_ms=2989;start_hz=151.6;end_hz=1332;noise_mix=0.5455;seed=7
+wav/riser__lib__0008.wav,riser,length_ms=3611;start_hz=129.5;end_hz=6665;noise_mix=0.3794;seed=8
+wav/riser__lib__0009.wav,riser,length_ms=7163;start_hz=173.5;end_hz=2261;noise_mix=0.3316;seed=9
+wav/riser__lib__0010.wav,riser,length_ms=1933;start_hz=408.9;end_hz=6051;noise_mix=0.3712;seed=10
+wav/riser__lib__0011.wav,riser,length_ms=6748;start_hz=85.19;end_hz=989.3;noise_mix=0.3328;seed=11
+wav/riser__lib__0012.wav,riser,length_ms=2735;start_hz=116.8;end_hz=6565;noise_mix=0.6173;seed=12
+wav/riser__lib__0013.wav,riser,length_ms=5381;start_hz=390.5;end_hz=4549;noise_mix=0.8576;seed=13
+wav/riser__lib__0014.wav,riser,length_ms=6810;start_hz=83.3;end_hz=3755;noise_mix=0.6151;seed=14
+wav/riser__lib__0015.wav,riser,length_ms=3726;start_hz=189.2;end_hz=7965;noise_mix=0.7779;seed=15
+wav/riser__lib__0016.wav,riser,length_ms=3765;start_hz=290.7;end_hz=2337;noise_mix=0.3192;seed=16
+wav/riser__lib__0017.wav,riser,length_ms=2928;start_hz=412.3;end_hz=9885;noise_mix=0.7139;seed=17
+wav/riser__lib__0018.wav,riser,length_ms=7791;start_hz=83.06;end_hz=1319;noise_mix=0.924;seed=18
+wav/riser__lib__0019.wav,riser,length_ms=1646;start_hz=310;end_hz=5367;noise_mix=0.9716;seed=19
+wav/riser__lib__0020.wav,riser,length_ms=4221;start_hz=187.8;end_hz=7604;noise_mix=0.7998;seed=20
+wav/riser__lib__0021.wav,riser,length_ms=1900;start_hz=192.7;end_hz=7419;noise_mix=0.981;seed=21
+wav/riser__lib__0022.wav,riser,length_ms=5999;start_hz=129.9;end_hz=1817;noise_mix=0.5465;seed=22
+wav/riser__lib__0023.wav,riser,length_ms=5213;start_hz=179.2;end_hz=1508;noise_mix=0.8983;seed=23
+wav/riser__lib__0024.wav,riser,length_ms=3775;start_hz=434.8;end_hz=4665;noise_mix=0.8032;seed=24
+wav/riser__lib__0025.wav,riser,length_ms=4048;start_hz=106.1;end_hz=5270;noise_mix=0.3404;seed=25
+wav/riser__lib__0026.wav,riser,length_ms=4190;start_hz=87.9;end_hz=1272;noise_mix=0.8656;seed=26
+wav/riser__lib__0027.wav,riser,length_ms=2776;start_hz=237.1;end_hz=7199;noise_mix=0.9095;seed=27
+wav/riser__lib__0028.wav,riser,length_ms=2444;start_hz=215.8;end_hz=4130;noise_mix=0.8746;seed=28
+wav/riser__lib__0029.wav,riser,length_ms=6630;start_hz=187.1;end_hz=1770;noise_mix=0.5348;seed=29
+wav/riser__lib__0030.wav,riser,length_ms=5278;start_hz=234.4;end_hz=2585;noise_mix=0.4565;seed=30
+wav/riser__lib__0031.wav,riser,length_ms=4966;start_hz=189.4;end_hz=1537;noise_mix=0.8799;seed=31
+wav/riser__lib__0032.wav,riser,length_ms=7366;start_hz=94.86;end_hz=4293;noise_mix=0.4689;seed=32
+wav/riser__lib__0033.wav,riser,length_ms=6656;start_hz=134;end_hz=6292;noise_mix=0.7179;seed=33
+wav/riser__lib__0034.wav,riser,length_ms=3016;start_hz=284.6;end_hz=1.543e+04;noise_mix=0.5023;seed=34
+wav/riser__lib__0035.wav,riser,length_ms=2718;start_hz=444.1;end_hz=2.088e+04;noise_mix=0.4378;seed=35
+wav/riser__lib__0036.wav,riser,length_ms=3374;start_hz=169.9;end_hz=1684;noise_mix=0.4287;seed=36
+wav/riser__lib__0037.wav,riser,length_ms=4062;start_hz=138;end_hz=5700;noise_mix=0.9918;seed=37
+wav/riser__lib__0038.wav,riser,length_ms=5440;start_hz=89;end_hz=733.2;noise_mix=0.3539;seed=38
+wav/riser__lib__0039.wav,riser,length_ms=3995;start_hz=282.3;end_hz=3986;noise_mix=0.7116;seed=39
+wav/riser__lib__0040.wav,riser,length_ms=6283;start_hz=205.9;end_hz=6100;noise_mix=0.7448;seed=40
+wav/impact__lib__0001.wav,impact,length_ms=807.4;boom_hz=42.79;noise_ms=32.8;reverb_ms=758.6;seed=1
+wav/impact__lib__0002.wav,impact,length_ms=2269;boom_hz=52.1;noise_ms=82.17;reverb_ms=1046;seed=2
+wav/impact__lib__0003.wav,impact,length_ms=753.5;boom_hz=37.02;noise_ms=159.3;reverb_ms=544.1;seed=3
+wav/impact__lib__0004.wav,impact,length_ms=2136;boom_hz=40.97;noise_ms=49.39;reverb_ms=1274;seed=4
+wav/impact__lib__0005.wav,impact,length_ms=2147;boom_hz=48.12;noise_ms=48;reverb_ms=806.3;seed=5
+wav/impact__lib__0006.wav,impact,length_ms=721.7;boom_hz=45.13;noise_ms=112.3;reverb_ms=2159;seed=6
+wav/impact__lib__0007.wav,impact,length_ms=1518;boom_hz=62.94;noise_ms=51.24;reverb_ms=1216;seed=7
+wav/impact__lib__0008.wav,impact,length_ms=1690;boom_hz=34.46;noise_ms=110.8;reverb_ms=687.2;seed=8
+wav/impact__lib__0009.wav,impact,length_ms=742.2;boom_hz=42.16;noise_ms=138.1;reverb_ms=1277;seed=9
+wav/impact__lib__0010.wav,impact,length_ms=2327;boom_hz=63.28;noise_ms=79.83;reverb_ms=2105;seed=10
+wav/impact__lib__0011.wav,impact,length_ms=2084;boom_hz=52.33;noise_ms=142.9;reverb_ms=1760;seed=11
+wav/impact__lib__0012.wav,impact,length_ms=1907;boom_hz=47.22;noise_ms=159;reverb_ms=723.4;seed=12
+wav/impact__lib__0013.wav,impact,length_ms=2113;boom_hz=34.38;noise_ms=89.33;reverb_ms=893.6;seed=13
+wav/impact__lib__0014.wav,impact,length_ms=2350;boom_hz=42.37;noise_ms=76.8;reverb_ms=1055;seed=14
+wav/impact__lib__0015.wav,impact,length_ms=819.7;boom_hz=40.1;noise_ms=132.6;reverb_ms=751.3;seed=15
+wav/impact__lib__0016.wav,impact,length_ms=1511;boom_hz=44.22;noise_ms=66.51;reverb_ms=1608;seed=16
+wav/impact__lib__0017.wav,impact,length_ms=927.9;boom_hz=39.98;noise_ms=51.25;reverb_ms=1087;seed=17
+wav/impact__lib__0018.wav,impact,length_ms=910.2;boom_hz=53.03;noise_ms=36.8;reverb_ms=1835;seed=18
+wav/impact__lib__0019.wav,impact,length_ms=1888;boom_hz=45.97;noise_ms=133;reverb_ms=505.1;seed=19
+wav/impact__lib__0020.wav,impact,length_ms=1373;boom_hz=35.13;noise_ms=105.6;reverb_ms=534.9;seed=20
+wav/impact__lib__0021.wav,impact,length_ms=2574;boom_hz=39.34;noise_ms=80.73;reverb_ms=1214;seed=21
+wav/impact__lib__0022.wav,impact,length_ms=1165;boom_hz=39.25;noise_ms=179;reverb_ms=2158;seed=22
+wav/impact__lib__0023.wav,impact,length_ms=2490;boom_hz=57.13;noise_ms=147.8;reverb_ms=977.1;seed=23
+wav/impact__lib__0024.wav,impact,length_ms=1592;boom_hz=63.19;noise_ms=43.25;reverb_ms=1653;seed=24
+wav/impact__lib__0025.wav,impact,length_ms=1595;boom_hz=43.27;noise_ms=45.97;reverb_ms=1365;seed=25
+wav/impact__lib__0026.wav,impact,length_ms=1721;boom_hz=53.45;noise_ms=63.09;reverb_ms=1117;seed=26
+wav/impact__lib__0027.wav,impact,length_ms=1794;boom_hz=33.69;noise_ms=35.79;reverb_ms=580;seed=27
+wav/impact__lib__0028.wav,impact,length_ms=1962;boom_hz=51.53;noise_ms=45.65;reverb_ms=553.2;seed=28
+wav/impact__lib__0029.wav,impact,length_ms=794.8;boom_hz=49.79;noise_ms=76.89;reverb_ms=1147;seed=29
+wav/impact__lib__0030.wav,impact,length_ms=2445;boom_hz=55.55;noise_ms=43.67;reverb_ms=1595;seed=30
+wav/impact__lib__0031.wav,impact,length_ms=2377;boom_hz=63.12;noise_ms=36.05;reverb_ms=1123;seed=31
+wav/impact__lib__0032.wav,impact,length_ms=1928;boom_hz=50.62;noise_ms=91.41;reverb_ms=1200;seed=32
+wav/impact__lib__0033.wav,impact,length_ms=1397;boom_hz=38.45;noise_ms=57.22;reverb_ms=738.6;seed=33
+wav/impact__lib__0034.wav,impact,length_ms=1974;boom_hz=58.55;noise_ms=32.89;reverb_ms=525.3;seed=34
+wav/impact__lib__0035.wav,impact,length_ms=2007;boom_hz=64.55;noise_ms=63.25;reverb_ms=1566;seed=35
+wav/impact__lib__0036.wav,impact,length_ms=2215;boom_hz=56.87;noise_ms=76.04;reverb_ms=1905;seed=36
+wav/impact__lib__0037.wav,impact,length_ms=856.5;boom_hz=49.52;noise_ms=93.85;reverb_ms=2144;seed=37
+wav/impact__lib__0038.wav,impact,length_ms=1211;boom_hz=44.43;noise_ms=66.23;reverb_ms=573.1;seed=38
+wav/impact__lib__0039.wav,impact,length_ms=1718;boom_hz=44.3;noise_ms=55.4;reverb_ms=1458;seed=39
+wav/impact__lib__0040.wav,impact,length_ms=1070;boom_hz=33.03;noise_ms=66.92;reverb_ms=1616;seed=40

@@ -1,0 +1,190 @@
+{
+ "n": 500,
+ "n_with_bass": 373,
+ "pump": {
+  "mix_median": 7.01,
+  "bass_median": 7.37,
+  "sidechain_median": 7.75,
+  "sidechain_q25": 4.29,
+  "sidechain_q75": 16.99,
+  "sidechain_over_3db": 326,
+  "sidechain_over_6db": 231,
+  "sidechain_return_median": 240.0,
+  "bass_gap_tracks": 42,
+  "bass_sub_share_median": 0.517
+ },
+ "kick_pitch_hz": {
+  "n": 399,
+  "median": 55.2,
+  "q25": 47.55,
+  "q75": 65.5,
+  "under_50": 116,
+  "over_65": 103,
+  "hist": {
+   "35": 54,
+   "40": 27,
+   "45": 35,
+   "50": 79,
+   "55": 60,
+   "60": 40,
+   "65": 29,
+   "70": 19,
+   "75": 8,
+   "80": 8,
+   "85": 4,
+   "90": 2,
+   "95": 5
+  }
+ },
+ "levels_db_below_drums": {
+  "bass": -8.2,
+  "other": -8.75,
+  "vocals": -23.25
+ },
+ "drum_stem_roles": {
+  "kick": {
+   "tracks_with": 465,
+   "per_minute_median": 82.5,
+   "confidence_median": 0.56
+  },
+  "hat": {
+   "tracks_with": 188,
+   "per_minute_median": 4.7,
+   "confidence_median": 0.516
+  },
+  "clap": {
+   "tracks_with": 209,
+   "per_minute_median": 2.8,
+   "confidence_median": 0.54
+  },
+  "hook": {
+   "tracks_with": 462,
+   "per_minute_median": 46.4,
+   "confidence_median": 0.548
+  },
+  "space": {
+   "tracks_with": 467,
+   "per_minute_median": 45.0,
+   "confidence_median": 0.496
+  },
+  "rumble": {
+   "tracks_with": 245,
+   "per_minute_median": 4.7,
+   "confidence_median": 0.41
+  }
+ },
+ "hit_library": {
+  "kick": 4138,
+  "hat": 596,
+  "clap": 463,
+  "hook": 2752,
+  "space": 1251,
+  "rumble": 82
+ },
+ "medians": {
+  "corpus": {
+   "kick": {
+    "decay40_ms": 104.0,
+    "sustain_share": 0.375,
+    "band_sub_share": 0.496,
+    "band_air_share": 0.004,
+    "spectral_centroid_hz": 2046.612,
+    "crest_factor_db": 8.259
+   },
+   "hat": {
+    "decay40_ms": 175.0,
+    "sustain_share": 0.733,
+    "band_sub_share": 0.001,
+    "band_air_share": 0.803,
+    "spectral_centroid_hz": 5904.012,
+    "crest_factor_db": 17.077
+   },
+   "clap": {
+    "decay40_ms": 146.0,
+    "sustain_share": 0.848,
+    "band_sub_share": 0.001,
+    "band_air_share": 0.009,
+    "spectral_centroid_hz": 2439.795,
+    "crest_factor_db": 16.327
+   }
+  },
+  "real_packs": {
+   "kick": {
+    "decay40_ms": 186.0,
+    "sustain_share": 0.478,
+    "band_sub_share": 0.336,
+    "band_air_share": 0.0,
+    "spectral_centroid_hz": 1096.219,
+    "crest_factor_db": 11.202
+   },
+   "hat": {
+    "decay40_ms": 330.0,
+    "sustain_share": 0.32,
+    "band_sub_share": 0.0,
+    "band_air_share": 0.701,
+    "spectral_centroid_hz": 8839.33,
+    "crest_factor_db": 19.957
+   },
+   "clap": {
+    "decay40_ms": 111.0,
+    "sustain_share": 0.037,
+    "band_sub_share": 0.002,
+    "band_air_share": 0.027,
+    "spectral_centroid_hz": 4923.949,
+    "crest_factor_db": 13.331
+   }
+  },
+  "synth_v1": {
+   "kick": {
+    "decay40_ms": 129.0,
+    "sustain_share": 0.135,
+    "band_sub_share": 0.483,
+    "band_air_share": 0.0,
+    "spectral_centroid_hz": 1563.571,
+    "crest_factor_db": 11.321
+   },
+   "hat": {
+    "decay40_ms": 50.0,
+    "sustain_share": 0.0,
+    "band_sub_share": 0.0,
+    "band_air_share": 0.931,
+    "spectral_centroid_hz": 11027.959,
+    "crest_factor_db": 24.378
+   },
+   "clap": {
+    "decay40_ms": 84.0,
+    "sustain_share": 0.658,
+    "band_sub_share": 0.0,
+    "band_air_share": 0.0,
+    "spectral_centroid_hz": 3259.183,
+    "crest_factor_db": 21.964
+   }
+  },
+  "synth_v2": {
+   "kick": {
+    "decay40_ms": 129.0,
+    "sustain_share": 0.135,
+    "band_sub_share": 0.483,
+    "band_air_share": 0.0,
+    "spectral_centroid_hz": 1563.571,
+    "crest_factor_db": 11.321
+   },
+   "hat": {
+    "decay40_ms": 97.0,
+    "sustain_share": 0.009,
+    "band_sub_share": 0.0,
+    "band_air_share": 0.932,
+    "spectral_centroid_hz": 10466.374,
+    "crest_factor_db": 24.923
+   },
+   "clap": {
+    "decay40_ms": 89.0,
+    "sustain_share": 0.01,
+    "band_sub_share": 0.0,
+    "band_air_share": 0.0,
+    "spectral_centroid_hz": 3238.84,
+    "crest_factor_db": 20.59
+   }
+  }
+ }
+}

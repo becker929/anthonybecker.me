@@ -1,0 +1,3312 @@
+{
+ "001-sascha-m-ller-punkt-1-01-sascha-muller-1-01": {
+  "lufs": -12.5,
+  "peak_dbfs": -0.23,
+  "crest_db": 13.52
+ },
+ "002-inquieto-inquieto-5am-en-el-bella": {
+  "lufs": -10.79,
+  "peak_dbfs": -0.16,
+  "crest_db": 12.07
+ },
+ "005-va-bassinlove-cant-stand-it": {
+  "lufs": -8.72,
+  "peak_dbfs": -0.08,
+  "crest_db": 9.71
+ },
+ "006-sansetatcivil-01-2021-fight-club-2-flac": {
+  "lufs": -12.9,
+  "peak_dbfs": -4.06,
+  "crest_db": 10.23
+ },
+ "007-psy-shepherd-x-ethnomite-pux-x-invisible-distant-signals-psy-shepherd-x-invisible": {
+  "lufs": -18.53,
+  "peak_dbfs": -0.28,
+  "crest_db": 18.11
+ },
+ "008-x-d-d-cuba-connection": {
+  "lufs": -11.0,
+  "peak_dbfs": -0.72,
+  "crest_db": 12.17
+ },
+ "009-stanley-hottek-stupid-love": {
+  "lufs": -11.61,
+  "peak_dbfs": -1.16,
+  "crest_db": 10.53
+ },
+ "011-klangbild-dinkelschock": {
+  "lufs": -10.03,
+  "peak_dbfs": -0.64,
+  "crest_db": 10.48
+ },
+ "013-technobotts-dampframme": {
+  "lufs": -12.36,
+  "peak_dbfs": 2.27,
+  "crest_db": 7.63
+ },
+ "015-combat-killer-combat-troops": {
+  "lufs": -7.59,
+  "peak_dbfs": -0.1,
+  "crest_db": 8.14
+ },
+ "016-afflicted-district": {
+  "lufs": -9.38,
+  "peak_dbfs": -0.69,
+  "crest_db": 9.98
+ },
+ "018-x-eject-corpses": {
+  "lufs": -5.31,
+  "peak_dbfs": -0.34,
+  "crest_db": 6.31
+ },
+ "020-3cloneb-chicks": {
+  "lufs": -8.3,
+  "peak_dbfs": -0.42,
+  "crest_db": 8.77
+ },
+ "022-steven-casteel-01-drum-bass-dnb-liquid-jungle-breakbeat": {
+  "lufs": -11.5,
+  "peak_dbfs": -0.08,
+  "crest_db": 12.2
+ },
+ "023-blank-banshee-hall-of-mirrors": {
+  "lufs": -9.7,
+  "peak_dbfs": -0.05,
+  "crest_db": 10.18
+ },
+ "024-4zzz1-black-acid-1": {
+  "lufs": -12.81,
+  "peak_dbfs": -0.99,
+  "crest_db": 12.38
+ },
+ "026-knarz-maschine-acid-knarz-1": {
+  "lufs": -7.72,
+  "peak_dbfs": -0.24,
+  "crest_db": 10.08
+ },
+ "027-bellkatze-k-lnisch-wasser": {
+  "lufs": -13.15,
+  "peak_dbfs": -0.15,
+  "crest_db": 14.5
+ },
+ "028-unknown-war-heads-daddys-riders": {
+  "lufs": -13.25,
+  "peak_dbfs": -0.59,
+  "crest_db": 12.85
+ },
+ "029-pasquale-maassen-demonica": {
+  "lufs": -8.76,
+  "peak_dbfs": -0.03,
+  "crest_db": 11.77
+ },
+ "030-berba-pt-911": {
+  "lufs": -7.15,
+  "peak_dbfs": 0.16,
+  "crest_db": 8.23
+ },
+ "031-stromtod-bootstrap": {
+  "lufs": -16.93,
+  "peak_dbfs": -0.39,
+  "crest_db": 17.46
+ },
+ "032-ayako-mori-inquieto-ayako-mori-your-will-inquieto-remix": {
+  "lufs": -14.03,
+  "peak_dbfs": -0.11,
+  "crest_db": 15.91
+ },
+ "033-vislumbres-composici-n": {
+  "lufs": -11.76,
+  "peak_dbfs": -0.24,
+  "crest_db": 13.35
+ },
+ "035-p-t-b-s-sascha-m-ller-buschlecke": {
+  "lufs": -15.16,
+  "peak_dbfs": -0.85,
+  "crest_db": 16.02
+ },
+ "036-pakistand-techno-force-creed": {
+  "lufs": -10.57,
+  "peak_dbfs": -0.93,
+  "crest_db": 13.32
+ },
+ "037-brutal-rave-bastards-nuke-vol-18": {
+  "lufs": -7.36,
+  "peak_dbfs": -0.11,
+  "crest_db": 9.5
+ },
+ "038-void-r-gestohlene-zeit": {
+  "lufs": -9.5,
+  "peak_dbfs": -1.02,
+  "crest_db": 9.46
+ },
+ "042-user78954441235-cosmic-function": {
+  "lufs": -11.48,
+  "peak_dbfs": -0.08,
+  "crest_db": 13.34
+ },
+ "043-cement-tea-chip-withdrawal": {
+  "lufs": -8.76,
+  "peak_dbfs": 0.16,
+  "crest_db": 8.56
+ },
+ "044-user41254475475-blue-line": {
+  "lufs": -6.34,
+  "peak_dbfs": -0.19,
+  "crest_db": 8.6
+ },
+ "045-user08779333356-dooms-day": {
+  "lufs": -13.69,
+  "peak_dbfs": -0.84,
+  "crest_db": 13.04
+ },
+ "046-user04821460007-escape": {
+  "lufs": -9.89,
+  "peak_dbfs": -0.5,
+  "crest_db": 9.6
+ },
+ "047-user02358844564-asche-zu-asche": {
+  "lufs": -6.48,
+  "peak_dbfs": -0.78,
+  "crest_db": 6.51
+ },
+ "048-user33886060077-country-boy": {
+  "lufs": -19.58,
+  "peak_dbfs": -0.16,
+  "crest_db": 17.33
+ },
+ "049-user80254894876-newsline-of-the-agent-death": {
+  "lufs": -17.06,
+  "peak_dbfs": -1.49,
+  "crest_db": 18.78
+ },
+ "052-user84564100548-kirschblut": {
+  "lufs": -13.19,
+  "peak_dbfs": -1.08,
+  "crest_db": 11.78
+ },
+ "053-user54466587890-untitled-1": {
+  "lufs": -5.94,
+  "peak_dbfs": -1.92,
+  "crest_db": 4.51
+ },
+ "054-user85694743322-kurdish-violin-compressor": {
+  "lufs": -10.03,
+  "peak_dbfs": -1.6,
+  "crest_db": 10.76
+ },
+ "055-user23564112514-untitled-5-1": {
+  "lufs": -12.28,
+  "peak_dbfs": -2.46,
+  "crest_db": 12.33
+ },
+ "056-user08200140031-untitled-1-1": {
+  "lufs": -13.68,
+  "peak_dbfs": -1.08,
+  "crest_db": 14.89
+ },
+ "057-user34567443478-untitled-12-1": {
+  "lufs": -8.53,
+  "peak_dbfs": -2.5,
+  "crest_db": 9.12
+ },
+ "058-user11000044425-segment-shuffler": {
+  "lufs": -11.51,
+  "peak_dbfs": -0.66,
+  "crest_db": 11.75
+ },
+ "060-user55864367882-darkness": {
+  "lufs": -8.14,
+  "peak_dbfs": -0.2,
+  "crest_db": 8.68
+ },
+ "061-user54875487546-expander": {
+  "lufs": -16.49,
+  "peak_dbfs": -2.09,
+  "crest_db": 15.35
+ },
+ "062-user88800903441-barada": {
+  "lufs": -14.32,
+  "peak_dbfs": -2.05,
+  "crest_db": 12.96
+ },
+ "063-der-schwarze-adel-fuck-society": {
+  "lufs": -12.27,
+  "peak_dbfs": -0.35,
+  "crest_db": 14.24
+ },
+ "064-evade-nld25": {
+  "lufs": -12.78,
+  "peak_dbfs": -0.1,
+  "crest_db": 13.65
+ },
+ "067-user10000667856-the-heart-of-africa": {
+  "lufs": -12.82,
+  "peak_dbfs": -1.34,
+  "crest_db": 11.66
+ },
+ "068-user04374532748-acid-hell": {
+  "lufs": -6.11,
+  "peak_dbfs": -0.21,
+  "crest_db": 7.27
+ },
+ "069-user77856934351-alante": {
+  "lufs": -13.69,
+  "peak_dbfs": -2.2,
+  "crest_db": 11.41
+ },
+ "072-user55454557544-rolling-knarz": {
+  "lufs": -6.91,
+  "peak_dbfs": 0.13,
+  "crest_db": 8.21
+ },
+ "073-p-b-r-death-row": {
+  "lufs": -7.55,
+  "peak_dbfs": -0.51,
+  "crest_db": 9.32
+ },
+ "074-mr-jason-mentalin": {
+  "lufs": -12.3,
+  "peak_dbfs": 0.02,
+  "crest_db": 14.57
+ },
+ "077-user22233300085-der-eiswagen": {
+  "lufs": -8.62,
+  "peak_dbfs": -0.31,
+  "crest_db": 8.97
+ },
+ "078-user11508366478-nightcrawler": {
+  "lufs": -13.12,
+  "peak_dbfs": -0.35,
+  "crest_db": 12.72
+ },
+ "079-user22067782234-fluff-boyz-in-the-hood": {
+  "lufs": -6.25,
+  "peak_dbfs": -0.13,
+  "crest_db": 7.29
+ },
+ "080-user17883214582-5g": {
+  "lufs": -12.07,
+  "peak_dbfs": -0.89,
+  "crest_db": 12.73
+ },
+ "081-user89945677442-machine-music": {
+  "lufs": -13.0,
+  "peak_dbfs": -0.31,
+  "crest_db": 12.95
+ },
+ "084-sascha-muller-city-rain": {
+  "lufs": -26.24,
+  "peak_dbfs": -2.09,
+  "crest_db": 16.69
+ },
+ "085-user78654786842-3-a-m": {
+  "lufs": -7.97,
+  "peak_dbfs": 0.11,
+  "crest_db": 11.41
+ },
+ "087-user66866546841-acid-embargo-part-1": {
+  "lufs": -9.13,
+  "peak_dbfs": -0.42,
+  "crest_db": 10.84
+ },
+ "088-user66788884902-the-face-of-destruction": {
+  "lufs": -9.86,
+  "peak_dbfs": -0.29,
+  "crest_db": 10.04
+ },
+ "089-user87742587412-border": {
+  "lufs": -8.56,
+  "peak_dbfs": -0.65,
+  "crest_db": 11.41
+ },
+ "090-user04574546444-606-303-904": {
+  "lufs": -12.25,
+  "peak_dbfs": -0.31,
+  "crest_db": 13.52
+ },
+ "092-user99899889988-cavemen": {
+  "lufs": -10.97,
+  "peak_dbfs": -0.21,
+  "crest_db": 11.62
+ },
+ "093-atheist-if-jesus-was-a-raver": {
+  "lufs": -10.05,
+  "peak_dbfs": 0.16,
+  "crest_db": 13.04
+ },
+ "094-pakistan-techno-force-bouncer": {
+  "lufs": -13.8,
+  "peak_dbfs": -0.36,
+  "crest_db": 14.91
+ },
+ "095-user12121325544-seaside": {
+  "lufs": -8.54,
+  "peak_dbfs": -0.4,
+  "crest_db": 9.66
+ },
+ "096-bitterfeld-death-is-coming": {
+  "lufs": -8.77,
+  "peak_dbfs": -0.3,
+  "crest_db": 9.38
+ },
+ "097-user99457585343-death-of-an-agent": {
+  "lufs": -7.05,
+  "peak_dbfs": 0.15,
+  "crest_db": 10.4
+ },
+ "098-user25244578642-606-303-903": {
+  "lufs": -10.06,
+  "peak_dbfs": -0.42,
+  "crest_db": 11.53
+ },
+ "099-user75468548102-no-big-deal": {
+  "lufs": -8.21,
+  "peak_dbfs": -0.01,
+  "crest_db": 8.76
+ },
+ "100-user11188078453-606-303-902": {
+  "lufs": -9.65,
+  "peak_dbfs": -0.49,
+  "crest_db": 10.46
+ },
+ "102-user88745774467-untitled-3-1": {
+  "lufs": -12.67,
+  "peak_dbfs": -1.69,
+  "crest_db": 13.38
+ },
+ "105-hanzzo-sascha-m-ller-nuke-vol-22": {
+  "lufs": -8.34,
+  "peak_dbfs": -0.2,
+  "crest_db": 9.34
+ },
+ "108-duality-micro-sidewinder": {
+  "lufs": -9.04,
+  "peak_dbfs": -0.22,
+  "crest_db": 10.53
+ },
+ "109-el-atalaya-sascha-m-ller-respect-my-ability-sascha-m-ller-hard-ac": {
+  "lufs": -13.85,
+  "peak_dbfs": -0.42,
+  "crest_db": 14.64
+ },
+ "111-el-atalaya-respect-my-ability-sascha-m-ller-hard-ac": {
+  "lufs": -13.85,
+  "peak_dbfs": -0.34,
+  "crest_db": 14.73
+ },
+ "112-the-808-hillbillys-untitled-3": {
+  "lufs": -12.51,
+  "peak_dbfs": -1.21,
+  "crest_db": 12.39
+ },
+ "113-dize7-two-specifications": {
+  "lufs": -8.65,
+  "peak_dbfs": 0.31,
+  "crest_db": 10.16
+ },
+ "114-the-d3vi7-jens-mueller-computer-stimulation-jens-mueller-remix": {
+  "lufs": -12.35,
+  "peak_dbfs": -0.58,
+  "crest_db": 12.03
+ },
+ "115-user20684003752-euroman": {
+  "lufs": -9.57,
+  "peak_dbfs": -1.3,
+  "crest_db": 8.99
+ },
+ "117-svecent-pro-opportunity-or-not": {
+  "lufs": -13.77,
+  "peak_dbfs": -0.11,
+  "crest_db": 13.62
+ },
+ "119-pasquale-maassen-vs-peter-mummert-ho-em-ah": {
+  "lufs": -12.03,
+  "peak_dbfs": -0.32,
+  "crest_db": 13.37
+ },
+ "120-dj-muthafukka-turkish-delight-the-d3vi7-psy-remix": {
+  "lufs": -6.63,
+  "peak_dbfs": -0.17,
+  "crest_db": 7.17
+ },
+ "123-rotura-xxl-inquieto-rotura-xxl-the-crow-inquieto-remix": {
+  "lufs": -10.07,
+  "peak_dbfs": -0.05,
+  "crest_db": 11.56
+ },
+ "125-matias-jose-espejo-antognoli-svecent-sex-production": {
+  "lufs": -14.67,
+  "peak_dbfs": -5.77,
+  "crest_db": 9.07
+ },
+ "126-p-t-b-s-b-t-m-knarz-maschine-remix": {
+  "lufs": -8.64,
+  "peak_dbfs": -0.94,
+  "crest_db": 8.97
+ },
+ "127-ohrchitekt-vollpfosten": {
+  "lufs": -9.23,
+  "peak_dbfs": -1.27,
+  "crest_db": 8.84
+ },
+ "128-widerwille-entasis": {
+  "lufs": -6.37,
+  "peak_dbfs": 0.02,
+  "crest_db": 8.12
+ },
+ "130-p-t-b-s-hanzzo-the-d3vi7-space": {
+  "lufs": -11.8,
+  "peak_dbfs": -0.62,
+  "crest_db": 11.83
+ },
+ "131-nitrogene-lost-transmission-planet-earth": {
+  "lufs": -12.48,
+  "peak_dbfs": -0.25,
+  "crest_db": 12.84
+ },
+ "132-duality-micro-sascha-m-ller-press-start-edit02": {
+  "lufs": -11.32,
+  "peak_dbfs": -0.44,
+  "crest_db": 11.63
+ },
+ "133-p-t-b-s-sascha-m-ller-out-of-control-sascha-m-ller-breakbeat-r": {
+  "lufs": -9.96,
+  "peak_dbfs": -0.07,
+  "crest_db": 10.19
+ },
+ "134-jerzz-sascha-m-ller-nuke-vol-21": {
+  "lufs": -8.84,
+  "peak_dbfs": -0.61,
+  "crest_db": 10.76
+ },
+ "135-jens-mueller-p-t-b-s-marudi-p-t-b-s-remix": {
+  "lufs": -12.45,
+  "peak_dbfs": -0.75,
+  "crest_db": 12.67
+ },
+ "136-jens-mueller-afflicted-marudi-afflicted-remix": {
+  "lufs": -12.59,
+  "peak_dbfs": -0.5,
+  "crest_db": 13.1
+ },
+ "137-sans-fin-zeit-rmx-sans-fin": {
+  "lufs": -10.99,
+  "peak_dbfs": -0.91,
+  "crest_db": 11.43
+ },
+ "138-stahlschlag-zeit-rmx-stahlschlag": {
+  "lufs": -10.71,
+  "peak_dbfs": -0.36,
+  "crest_db": 12.14
+ },
+ "139-maschienekrieger-kr52-zeit-rmx-maschinenkrieger-kr52": {
+  "lufs": -9.33,
+  "peak_dbfs": -2.76,
+  "crest_db": 8.47
+ },
+ "141-assey-don-t-sleep-mastered": {
+  "lufs": -11.28,
+  "peak_dbfs": -1.27,
+  "crest_db": 11.11
+ },
+ "142-valovoima-x": {
+  "lufs": -15.25,
+  "peak_dbfs": -1.62,
+  "crest_db": 11.81
+ },
+ "143-pagna-nuke-vol-07": {
+  "lufs": -6.58,
+  "peak_dbfs": -0.02,
+  "crest_db": 6.72
+ },
+ "145-acin-nuke-vol-04": {
+  "lufs": -8.14,
+  "peak_dbfs": -0.3,
+  "crest_db": 9.35
+ },
+ "146-rabbits-on-speed-nuke-vol-12": {
+  "lufs": -0.42,
+  "peak_dbfs": -0.04,
+  "crest_db": 3.09
+ },
+ "147-ego-drums-nuke-vol-09": {
+  "lufs": -4.72,
+  "peak_dbfs": -1.57,
+  "crest_db": 5.3
+ },
+ "148-sascha-m-ller-punkt-1-02-sascha-muller-1-02": {
+  "lufs": -11.71,
+  "peak_dbfs": -0.83,
+  "crest_db": 13.08
+ },
+ "149-inquieto-inquieto-baila-milodon": {
+  "lufs": -14.33,
+  "peak_dbfs": -0.09,
+  "crest_db": 15.86
+ },
+ "151-the-d3vi7-all-time": {
+  "lufs": -11.73,
+  "peak_dbfs": 0.13,
+  "crest_db": 12.86
+ },
+ "152-va-behlial-cocaina": {
+  "lufs": -8.54,
+  "peak_dbfs": -0.24,
+  "crest_db": 10.45
+ },
+ "153-sansetatcivil-02-2021-stalker-79-pt1-flac": {
+  "lufs": -12.38,
+  "peak_dbfs": -0.49,
+  "crest_db": 11.78
+ },
+ "154-psy-shepherd-x-ethnomite-pux-x-invisible-electronic-quicksands-ii-ethnomite-pux-t": {
+  "lufs": -12.85,
+  "peak_dbfs": -1.59,
+  "crest_db": 13.53
+ },
+ "155-x-d-d-dark-elements": {
+  "lufs": -7.48,
+  "peak_dbfs": -0.21,
+  "crest_db": 10.74
+ },
+ "156-stanley-hottek-colakevin": {
+  "lufs": -11.84,
+  "peak_dbfs": -0.35,
+  "crest_db": 12.59
+ },
+ "157-johann-schwengel-love": {
+  "lufs": -8.48,
+  "peak_dbfs": 4.6,
+  "crest_db": 4.8
+ },
+ "162-combat-killer-defluxcompensator": {
+  "lufs": -8.66,
+  "peak_dbfs": -0.25,
+  "crest_db": 9.4
+ },
+ "163-afflicted-dr-who-1": {
+  "lufs": -8.84,
+  "peak_dbfs": -0.75,
+  "crest_db": 8.45
+ },
+ "166-ru-dead-42-acid-to-acid": {
+  "lufs": -8.3,
+  "peak_dbfs": -0.22,
+  "crest_db": 9.58
+ },
+ "167-3cloneb-kanbarra": {
+  "lufs": -17.04,
+  "peak_dbfs": -0.38,
+  "crest_db": 17.27
+ },
+ "169-steven-casteel-02-guitar": {
+  "lufs": -11.45,
+  "peak_dbfs": -0.66,
+  "crest_db": 12.85
+ },
+ "171-4zzz1-black-acid-2": {
+  "lufs": -10.42,
+  "peak_dbfs": -0.16,
+  "crest_db": 11.57
+ },
+ "172-erick-jaeger-cleansing": {
+  "lufs": -11.93,
+  "peak_dbfs": -1.96,
+  "crest_db": 11.93
+ },
+ "173-knarz-maschine-acid-knarz-2": {
+  "lufs": -10.39,
+  "peak_dbfs": -1.19,
+  "crest_db": 10.51
+ },
+ "174-bellkatze-lightweight-memphis": {
+  "lufs": -13.54,
+  "peak_dbfs": -0.49,
+  "crest_db": 16.65
+ },
+ "175-unknown-war-heads-kalium": {
+  "lufs": -9.11,
+  "peak_dbfs": -0.53,
+  "crest_db": 9.71
+ },
+ "176-pasquale-maassen-stompin": {
+  "lufs": -6.17,
+  "peak_dbfs": -0.22,
+  "crest_db": 6.45
+ },
+ "177-berba-pt-cooking-cookies": {
+  "lufs": -7.06,
+  "peak_dbfs": -0.97,
+  "crest_db": 6.9
+ },
+ "178-stromtod-ein-endloser-kreislauf": {
+  "lufs": -10.68,
+  "peak_dbfs": -0.25,
+  "crest_db": 11.28
+ },
+ "179-ayako-mori-inquieto-ayako-mori-ire-land-of-the-wind-inquieto": {
+  "lufs": -12.24,
+  "peak_dbfs": 0.02,
+  "crest_db": 14.68
+ },
+ "180-vislumbres-ne": {
+  "lufs": -9.73,
+  "peak_dbfs": -0.29,
+  "crest_db": 10.97
+ },
+ "182-p-t-b-s-sascha-m-ller-content": {
+  "lufs": -10.24,
+  "peak_dbfs": -0.75,
+  "crest_db": 9.61
+ },
+ "183-pakistand-techno-force-dropball": {
+  "lufs": -9.83,
+  "peak_dbfs": -0.35,
+  "crest_db": 9.81
+ },
+ "185-void-r-kalter-schwei": {
+  "lufs": -8.52,
+  "peak_dbfs": -0.41,
+  "crest_db": 9.17
+ },
+ "186-angel-s-domain-soulful-hell": {
+  "lufs": 0.95,
+  "peak_dbfs": 0.09,
+  "crest_db": 3.89
+ },
+ "187-adscum-adscum-lada": {
+  "lufs": -6.71,
+  "peak_dbfs": 0.34,
+  "crest_db": 6.37
+ },
+ "188-user12746456775-untitled135": {
+  "lufs": -14.14,
+  "peak_dbfs": -1.23,
+  "crest_db": 12.85
+ },
+ "189-user78954441235-trip-to-the-moon": {
+  "lufs": -10.44,
+  "peak_dbfs": -0.66,
+  "crest_db": 11.28
+ },
+ "190-cement-tea-kubizt": {
+  "lufs": -10.04,
+  "peak_dbfs": -0.08,
+  "crest_db": 9.04
+ },
+ "191-user41254475475-die-apokalypse": {
+  "lufs": -7.94,
+  "peak_dbfs": 0.02,
+  "crest_db": 10.45
+ },
+ "192-user08779333356-geek": {
+  "lufs": -7.11,
+  "peak_dbfs": -0.17,
+  "crest_db": 8.28
+ },
+ "193-user04821460007-the-agent-girls": {
+  "lufs": -9.2,
+  "peak_dbfs": -0.5,
+  "crest_db": 10.16
+ },
+ "196-user80254894876-sympathikus-stimmulation": {
+  "lufs": -6.18,
+  "peak_dbfs": 0.06,
+  "crest_db": 8.41
+ },
+ "198-user10005668945-untitled-11": {
+  "lufs": -9.47,
+  "peak_dbfs": -0.58,
+  "crest_db": 10.52
+ },
+ "199-user84564100548-klappbong": {
+  "lufs": -9.12,
+  "peak_dbfs": -0.39,
+  "crest_db": 10.11
+ },
+ "200-user54466587890-voltmeter": {
+  "lufs": -12.41,
+  "peak_dbfs": -0.59,
+  "crest_db": 10.72
+ },
+ "201-user85694743322-untitled-8": {
+  "lufs": -9.77,
+  "peak_dbfs": -0.57,
+  "crest_db": 10.48
+ },
+ "202-user23564112514-untitled-6-1": {
+  "lufs": -10.61,
+  "peak_dbfs": -2.57,
+  "crest_db": 11.23
+ },
+ "203-user08200140031-untitled-2-1": {
+  "lufs": -11.97,
+  "peak_dbfs": -1.38,
+  "crest_db": 12.77
+ },
+ "205-user11000044425-spandau": {
+  "lufs": -6.18,
+  "peak_dbfs": -0.12,
+  "crest_db": 6.95
+ },
+ "206-user72467634894-fear": {
+  "lufs": -7.92,
+  "peak_dbfs": -0.9,
+  "crest_db": 7.39
+ },
+ "207-user55864367882-deeper": {
+  "lufs": -8.34,
+  "peak_dbfs": -0.38,
+  "crest_db": 7.47
+ },
+ "209-user88800903441-eisenbass": {
+  "lufs": -6.73,
+  "peak_dbfs": -0.63,
+  "crest_db": 7.09
+ },
+ "210-der-schwarze-adel-when-the-truth-is-found-to-be-lies": {
+  "lufs": -9.66,
+  "peak_dbfs": 0.11,
+  "crest_db": 12.49
+ },
+ "211-evade-noises-edit": {
+  "lufs": -11.26,
+  "peak_dbfs": 0.01,
+  "crest_db": 12.55
+ },
+ "212-sol-1-wild-thing": {
+  "lufs": -15.38,
+  "peak_dbfs": -0.33,
+  "crest_db": 19.1
+ },
+ "213-user-records-user015-02-user22647388499-cornelius-fev": {
+  "lufs": -10.8,
+  "peak_dbfs": -1.35,
+  "crest_db": 10.43
+ },
+ "214-user10000667856-zapata-qua": {
+  "lufs": -13.47,
+  "peak_dbfs": 0.01,
+  "crest_db": 15.17
+ },
+ "217-user11375674564-reformhaus": {
+  "lufs": -12.3,
+  "peak_dbfs": -0.62,
+  "crest_db": 11.82
+ },
+ "218-user45682211145-untitled-11-1": {
+  "lufs": -12.26,
+  "peak_dbfs": -1.6,
+  "crest_db": 13.94
+ },
+ "219-user55454557544-shady-blinder": {
+  "lufs": -9.86,
+  "peak_dbfs": -0.43,
+  "crest_db": 11.24
+ },
+ "220-p-b-r-dynamic-range": {
+  "lufs": -7.78,
+  "peak_dbfs": -0.09,
+  "crest_db": 9.64
+ },
+ "223-user44856009320-the-big-manner": {
+  "lufs": -15.3,
+  "peak_dbfs": -2.36,
+  "crest_db": 13.82
+ },
+ "224-user22233300085-k-enick": {
+  "lufs": -7.5,
+  "peak_dbfs": -0.29,
+  "crest_db": 8.44
+ },
+ "225-user11508366478-no10-a18": {
+  "lufs": -13.4,
+  "peak_dbfs": -0.69,
+  "crest_db": 12.51
+ },
+ "226-user22067782234-the-a-master": {
+  "lufs": -8.3,
+  "peak_dbfs": -0.05,
+  "crest_db": 8.88
+ },
+ "227-user17883214582-you-cock-fukker": {
+  "lufs": -7.84,
+  "peak_dbfs": -0.13,
+  "crest_db": 9.77
+ },
+ "228-user89945677442-totem": {
+  "lufs": -8.54,
+  "peak_dbfs": -0.96,
+  "crest_db": 9.25
+ },
+ "230-dr-walker-very-bad-acid-sascha-m-ller-remix": {
+  "lufs": -5.71,
+  "peak_dbfs": -0.42,
+  "crest_db": 7.89
+ },
+ "231-sascha-muller-streamin-black-hole": {
+  "lufs": -26.44,
+  "peak_dbfs": -5.71,
+  "crest_db": 16.06
+ },
+ "232-user78654786842-pullover": {
+  "lufs": -8.49,
+  "peak_dbfs": -0.22,
+  "crest_db": 9.66
+ },
+ "233-user12400003580-the-b-master": {
+  "lufs": -7.79,
+  "peak_dbfs": -0.22,
+  "crest_db": 8.21
+ },
+ "234-user66866546841-cold-shaker": {
+  "lufs": -6.08,
+  "peak_dbfs": 0.36,
+  "crest_db": 6.65
+ },
+ "235-user66788884902-untitled-9-1": {
+  "lufs": -10.44,
+  "peak_dbfs": -2.58,
+  "crest_db": 10.92
+ },
+ "236-user87742587412-oha": {
+  "lufs": -10.21,
+  "peak_dbfs": -0.09,
+  "crest_db": 11.89
+ },
+ "237-user04574546444-mistaken-identity": {
+  "lufs": -11.19,
+  "peak_dbfs": -1.65,
+  "crest_db": 9.29
+ },
+ "238-tiefenrausch-baikal": {
+  "lufs": -9.12,
+  "peak_dbfs": -0.06,
+  "crest_db": 11.95
+ },
+ "239-user99899889988-energy": {
+  "lufs": -15.73,
+  "peak_dbfs": -0.56,
+  "crest_db": 16.78
+ },
+ "240-atheist-the-horns-of-jericho": {
+  "lufs": -11.62,
+  "peak_dbfs": -0.8,
+  "crest_db": 14.28
+ },
+ "241-pakistan-techno-force-randomise": {
+  "lufs": -8.38,
+  "peak_dbfs": -0.72,
+  "crest_db": 7.65
+ },
+ "244-user99457585343-we-want-freedom": {
+  "lufs": -16.67,
+  "peak_dbfs": 0.02,
+  "crest_db": 19.93
+ },
+ "245-user25244578642-the-sequencer": {
+  "lufs": -7.5,
+  "peak_dbfs": -0.39,
+  "crest_db": 6.77
+ },
+ "248-user83254130235-the-gentleman": {
+  "lufs": -9.38,
+  "peak_dbfs": -0.39,
+  "crest_db": 9.52
+ },
+ "249-user88745774467-untitled-4-1": {
+  "lufs": -8.59,
+  "peak_dbfs": -2.52,
+  "crest_db": 9.7
+ },
+ "250-death-in-paradise-nuke-vol-11": {
+  "lufs": -2.12,
+  "peak_dbfs": -2.38,
+  "crest_db": 3.38
+ },
+ "251-kasma-nuke-vol-08": {
+  "lufs": -3.1,
+  "peak_dbfs": 0.18,
+  "crest_db": 5.72
+ },
+ "252-sascha-m-ller-punkt-10-01-sascha-muller-10-01": {
+  "lufs": -15.63,
+  "peak_dbfs": 0.32,
+  "crest_db": 16.99
+ },
+ "253-inquieto-inquieto-de-madrugada": {
+  "lufs": -9.58,
+  "peak_dbfs": -0.6,
+  "crest_db": 10.69
+ },
+ "255-the-d3vi7-ausstieg": {
+  "lufs": -6.49,
+  "peak_dbfs": 0.17,
+  "crest_db": 7.63
+ },
+ "256-va-carles-dj-mising": {
+  "lufs": -7.86,
+  "peak_dbfs": -0.69,
+  "crest_db": 7.81
+ },
+ "257-sansetatcivil-02-2021-stalker-79-pt2-flac": {
+  "lufs": -12.54,
+  "peak_dbfs": -0.33,
+  "crest_db": 12.29
+ },
+ "259-x-d-d-exit-e": {
+  "lufs": -5.99,
+  "peak_dbfs": -0.71,
+  "crest_db": 5.77
+ },
+ "261-johann-schwengel-manhatten": {
+  "lufs": -7.35,
+  "peak_dbfs": -0.58,
+  "crest_db": 6.72
+ },
+ "262-klangbild-klotzgeschiebe": {
+  "lufs": -9.09,
+  "peak_dbfs": -0.29,
+  "crest_db": 10.57
+ },
+ "264-technobotts-in-motion": {
+  "lufs": -10.33,
+  "peak_dbfs": 2.97,
+  "crest_db": 7.68
+ },
+ "265-sacro-servo-depredador": {
+  "lufs": -13.42,
+  "peak_dbfs": -3.31,
+  "crest_db": 10.75
+ },
+ "266-combat-killer-kevlar": {
+  "lufs": -9.54,
+  "peak_dbfs": -0.48,
+  "crest_db": 9.35
+ },
+ "269-x-oh-fuck-right-off": {
+  "lufs": -5.76,
+  "peak_dbfs": -0.12,
+  "crest_db": 7.71
+ },
+ "271-3cloneb-katapult": {
+  "lufs": -15.12,
+  "peak_dbfs": -0.43,
+  "crest_db": 15.54
+ },
+ "274-blank-banshee-revelations": {
+  "lufs": -14.15,
+  "peak_dbfs": -0.05,
+  "crest_db": 15.48
+ },
+ "275-4zzz1-untitled-5": {
+  "lufs": -10.23,
+  "peak_dbfs": -0.13,
+  "crest_db": 11.24
+ },
+ "277-knarz-maschine-acid-knarz-3": {
+  "lufs": -8.2,
+  "peak_dbfs": -0.66,
+  "crest_db": 8.82
+ },
+ "278-bellkatze-modern-war": {
+  "lufs": -14.43,
+  "peak_dbfs": -0.51,
+  "crest_db": 15.99
+ },
+ "279-unknown-war-heads-patty-pinku": {
+  "lufs": -11.26,
+  "peak_dbfs": -1.1,
+  "crest_db": 11.32
+ },
+ "281-berba-pt-dishes": {
+  "lufs": -5.89,
+  "peak_dbfs": -0.09,
+  "crest_db": 6.21
+ },
+ "282-stromtod-reaktor": {
+  "lufs": -10.79,
+  "peak_dbfs": -0.86,
+  "crest_db": 10.39
+ },
+ "283-ayako-mori-inquieto-ayako-mori-bodhisattva-inquieto-remix": {
+  "lufs": -10.09,
+  "peak_dbfs": -0.22,
+  "crest_db": 10.84
+ },
+ "284-vislumbres-persc": {
+  "lufs": -9.93,
+  "peak_dbfs": -0.63,
+  "crest_db": 10.39
+ },
+ "286-p-t-b-s-sascha-m-ller-waveshaper": {
+  "lufs": -9.01,
+  "peak_dbfs": -0.86,
+  "crest_db": 7.73
+ },
+ "287-pakistand-techno-force-katakombs": {
+  "lufs": -8.64,
+  "peak_dbfs": 0.09,
+  "crest_db": 9.36
+ },
+ "288-brutal-rave-bastards-nuke-vol-10": {
+  "lufs": 0.97,
+  "peak_dbfs": 0.69,
+  "crest_db": 2.96
+ },
+ "289-void-r-nachtzug": {
+  "lufs": -8.75,
+  "peak_dbfs": -0.35,
+  "crest_db": 9.51
+ },
+ "291-adscum-adscum-sarkas": {
+  "lufs": -8.59,
+  "peak_dbfs": -0.1,
+  "crest_db": 10.54
+ },
+ "292-sascha-m-ller-punkt-10-02-sascha-muller-10-02": {
+  "lufs": -13.78,
+  "peak_dbfs": -0.18,
+  "crest_db": 13.62
+ },
+ "295-the-d3vi7-back-to-house": {
+  "lufs": -9.17,
+  "peak_dbfs": -0.94,
+  "crest_db": 8.46
+ },
+ "296-va-coyote-paul-will-this-madness-ever-end": {
+  "lufs": -7.49,
+  "peak_dbfs": -0.12,
+  "crest_db": 9.68
+ },
+ "298-psy-shepherd-x-ethnomite-pux-x-invisible-electronic-quicksands-iv-ethnomite-pux-t": {
+  "lufs": -12.81,
+  "peak_dbfs": -1.05,
+  "crest_db": 14.53
+ },
+ "300-stanley-hottek-flame": {
+  "lufs": -20.04,
+  "peak_dbfs": -9.43,
+  "crest_db": 10.38
+ },
+ "301-sascha-m-ller-punkt-11-01-sascha-muller-11-01": {
+  "lufs": -12.13,
+  "peak_dbfs": -0.22,
+  "crest_db": 11.74
+ },
+ "302-inquieto-inquieto-el-extraviado": {
+  "lufs": -12.35,
+  "peak_dbfs": 0.04,
+  "crest_db": 15.49
+ },
+ "303-steven-casteel-udio-v1-5-avgarth": {
+  "lufs": -10.27,
+  "peak_dbfs": -0.89,
+  "crest_db": 12.11
+ },
+ "304-the-d3vi7-budget-acid": {
+  "lufs": -8.15,
+  "peak_dbfs": -0.29,
+  "crest_db": 10.27
+ },
+ "305-va-cyraxx-feel-my-bass": {
+  "lufs": -6.42,
+  "peak_dbfs": -0.21,
+  "crest_db": 8.48
+ },
+ "306-sansetatcivil-03-2021-rave-melancolia-2-pt2-flac": {
+  "lufs": -11.23,
+  "peak_dbfs": 0.07,
+  "crest_db": 12.02
+ },
+ "307-psy-shepherd-x-ethnomite-pux-x-invisible-electronic-quicksands-vi-ethnomite-pux-t": {
+  "lufs": -12.77,
+  "peak_dbfs": -2.16,
+  "crest_db": 13.28
+ },
+ "308-x-d-d-geek": {
+  "lufs": -7.18,
+  "peak_dbfs": -0.28,
+  "crest_db": 8.25
+ },
+ "309-stanley-hottek-gnome": {
+  "lufs": -14.08,
+  "peak_dbfs": -1.3,
+  "crest_db": 14.75
+ },
+ "310-johann-schwengel-marathon-man": {
+  "lufs": -9.85,
+  "peak_dbfs": -0.82,
+  "crest_db": 9.12
+ },
+ "311-klangbild-kompetenzgerangel": {
+  "lufs": -9.24,
+  "peak_dbfs": -1.14,
+  "crest_db": 9.78
+ },
+ "312-2fel-kahan-mrook-markwon-mennaceannihila-mentally-ill-klickaud": {
+  "lufs": -9.45,
+  "peak_dbfs": -0.03,
+  "crest_db": 11.27
+ },
+ "313-technobotts-old-money": {
+  "lufs": -9.43,
+  "peak_dbfs": -0.01,
+  "crest_db": 10.16
+ },
+ "314-sacro-servo-el-sistema": {
+  "lufs": -14.07,
+  "peak_dbfs": -3.35,
+  "crest_db": 11.71
+ },
+ "315-combat-killer-lautlose-invasion": {
+  "lufs": -7.01,
+  "peak_dbfs": -0.48,
+  "crest_db": 7.38
+ },
+ "316-afflicted-dr-who-3": {
+  "lufs": -10.21,
+  "peak_dbfs": -1.26,
+  "crest_db": 9.42
+ },
+ "317-ru-dead-42-acid-jackson": {
+  "lufs": -9.05,
+  "peak_dbfs": -0.06,
+  "crest_db": 10.25
+ },
+ "318-fraction-studio-a4-ruthless-girl": {
+  "lufs": -20.56,
+  "peak_dbfs": -6.48,
+  "crest_db": 16.22
+ },
+ "319-x-piss-on-the-pope": {
+  "lufs": -4.08,
+  "peak_dbfs": 0.24,
+  "crest_db": 6.04
+ },
+ "320-3cloneb-on-range": {
+  "lufs": -16.96,
+  "peak_dbfs": -0.87,
+  "crest_db": 17.24
+ },
+ "321-quote-the-joker-the-demon": {
+  "lufs": -10.14,
+  "peak_dbfs": -0.27,
+  "crest_db": 12.88
+ },
+ "322-steven-casteel-04-jazz-big-band-bossa-nova": {
+  "lufs": -12.67,
+  "peak_dbfs": -0.05,
+  "crest_db": 16.21
+ },
+ "323-blank-banshee-time-thief": {
+  "lufs": -8.34,
+  "peak_dbfs": -0.2,
+  "crest_db": 8.85
+ },
+ "324-erick-jaeger-cleansing": {
+  "lufs": -13.02,
+  "peak_dbfs": -3.76,
+  "crest_db": 11.39
+ },
+ "325-pasquale-maassen-stompin-2": {
+  "lufs": -7.27,
+  "peak_dbfs": -0.2,
+  "crest_db": 9.1
+ },
+ "326-4zzz1-untitled-6": {
+  "lufs": -9.78,
+  "peak_dbfs": -0.43,
+  "crest_db": 10.73
+ },
+ "327-user78654786842-3-a-m": {
+  "lufs": -7.82,
+  "peak_dbfs": 0.19,
+  "crest_db": 11.33
+ },
+ "328-bellkatze-sky-high": {
+  "lufs": -16.48,
+  "peak_dbfs": -0.51,
+  "crest_db": 17.6
+ },
+ "329-unknown-war-heads-pretty-pinku": {
+  "lufs": -11.26,
+  "peak_dbfs": -1.16,
+  "crest_db": 11.27
+ },
+ "330-berba-pt-mechanical-body": {
+  "lufs": -7.32,
+  "peak_dbfs": -0.01,
+  "crest_db": 9.03
+ },
+ "331-knarz-maschine-ost-deutschland-cement-tea-remix": {
+  "lufs": -9.36,
+  "peak_dbfs": -0.24,
+  "crest_db": 13.24
+ },
+ "332-stromtod-zeit": {
+  "lufs": -9.0,
+  "peak_dbfs": -1.19,
+  "crest_db": 8.31
+ },
+ "333-valovoima-x": {
+  "lufs": -13.64,
+  "peak_dbfs": -1.55,
+  "crest_db": 12.43
+ },
+ "334-sascha-m-ller-punkt-11-02-sascha-muller-11-02": {
+  "lufs": -13.05,
+  "peak_dbfs": -0.55,
+  "crest_db": 14.11
+ },
+ "335-inquieto-inquieto-el-pavo-de-navidad-bonus-cd-tra": {
+  "lufs": -11.23,
+  "peak_dbfs": -0.25,
+  "crest_db": 13.04
+ },
+ "336-steven-casteel-udio-v1-5-breged-r": {
+  "lufs": -10.28,
+  "peak_dbfs": -0.78,
+  "crest_db": 12.33
+ },
+ "337-the-d3vi7-bum-bum-bum": {
+  "lufs": -12.42,
+  "peak_dbfs": -1.4,
+  "crest_db": 12.72
+ },
+ "338-va-dabsss-alarm": {
+  "lufs": -8.76,
+  "peak_dbfs": -0.29,
+  "crest_db": 10.0
+ },
+ "339-sansetatcivil-04-2021-no-cov19-84-flac": {
+  "lufs": -11.25,
+  "peak_dbfs": -1.69,
+  "crest_db": 10.81
+ },
+ "340-psy-shepherd-x-ethnomite-pux-x-invisible-in-memory-of-sahel-psy-shepherd-x-invisi": {
+  "lufs": -13.98,
+  "peak_dbfs": -3.73,
+  "crest_db": 11.64
+ },
+ "341-x-d-d-hard-hit": {
+  "lufs": -9.42,
+  "peak_dbfs": -0.79,
+  "crest_db": 8.79
+ },
+ "342-stanley-hottek-interference": {
+  "lufs": -16.57,
+  "peak_dbfs": -4.87,
+  "crest_db": 12.79
+ },
+ "343-johann-schwengel-mindscape": {
+  "lufs": -12.32,
+  "peak_dbfs": -0.25,
+  "crest_db": 13.45
+ },
+ "344-klangbild-optimist": {
+  "lufs": -10.49,
+  "peak_dbfs": -0.9,
+  "crest_db": 10.35
+ },
+ "345-2fel-kahan-mrook-markwon-mennaceannihila-mmcccxcix-x-negative-saqar-klickaud": {
+  "lufs": -8.87,
+  "peak_dbfs": -0.24,
+  "crest_db": 9.48
+ },
+ "346-technobotts-reaction": {
+  "lufs": -10.24,
+  "peak_dbfs": -0.28,
+  "crest_db": 11.14
+ },
+ "347-sacro-servo-juguete-roto": {
+  "lufs": -14.93,
+  "peak_dbfs": -2.88,
+  "crest_db": 12.86
+ },
+ "348-combat-killer-natural-desaster": {
+  "lufs": -6.29,
+  "peak_dbfs": -0.05,
+  "crest_db": 6.33
+ },
+ "349-afflicted-e-w-t-b-s": {
+  "lufs": -7.43,
+  "peak_dbfs": -0.44,
+  "crest_db": 6.66
+ },
+ "350-ru-dead-42-untitled-1-1": {
+  "lufs": -13.68,
+  "peak_dbfs": -1.2,
+  "crest_db": 14.77
+ },
+ "351-fraction-studio-b1-orphan": {
+  "lufs": -17.25,
+  "peak_dbfs": -5.17,
+  "crest_db": 14.29
+ },
+ "352-x-run-away": {
+  "lufs": -6.04,
+  "peak_dbfs": 0.11,
+  "crest_db": 8.09
+ },
+ "353-3cloneb-p-ppy-love": {
+  "lufs": -13.8,
+  "peak_dbfs": -0.55,
+  "crest_db": 15.01
+ },
+ "354-quote-the-joker-the-gateway": {
+  "lufs": -9.21,
+  "peak_dbfs": -0.23,
+  "crest_db": 11.25
+ },
+ "355-steven-casteel-06-celtic-folk-medieval-electronica-folk": {
+  "lufs": -10.86,
+  "peak_dbfs": -0.67,
+  "crest_db": 13.19
+ },
+ "356-blank-banshee-tracer": {
+  "lufs": -10.51,
+  "peak_dbfs": -0.09,
+  "crest_db": 11.19
+ },
+ "357-erick-jaeger-minimini": {
+  "lufs": -9.43,
+  "peak_dbfs": -0.14,
+  "crest_db": 10.58
+ },
+ "358-pasquale-maassen-vandal-hearts": {
+  "lufs": -8.23,
+  "peak_dbfs": -0.97,
+  "crest_db": 8.9
+ },
+ "359-4zzz1-untitled-7": {
+  "lufs": -9.0,
+  "peak_dbfs": -0.42,
+  "crest_db": 11.0
+ },
+ "360-user78654786842-pullover": {
+  "lufs": -8.49,
+  "peak_dbfs": -0.17,
+  "crest_db": 9.72
+ },
+ "361-sascha-m-ller-punkt-12-01-sascha-muller-12-01": {
+  "lufs": -15.32,
+  "peak_dbfs": -1.55,
+  "crest_db": 14.48
+ },
+ "362-inquieto-inquieto-el-preso": {
+  "lufs": -9.9,
+  "peak_dbfs": -0.25,
+  "crest_db": 10.38
+ },
+ "363-steven-casteel-udio-v1-5-calu-am-calu": {
+  "lufs": -12.02,
+  "peak_dbfs": -0.82,
+  "crest_db": 13.01
+ },
+ "364-the-d3vi7-der-b-sewicht": {
+  "lufs": -15.08,
+  "peak_dbfs": -1.89,
+  "crest_db": 14.16
+ },
+ "365-va-industeak-hit-the-floor": {
+  "lufs": -5.68,
+  "peak_dbfs": -0.38,
+  "crest_db": 7.59
+ },
+ "366-sansetatcivil-05-2021-brut-basic-pt-1-demo-flac": {
+  "lufs": -11.06,
+  "peak_dbfs": -0.87,
+  "crest_db": 9.97
+ },
+ "367-psy-shepherd-x-ethnomite-pux-x-invisible-low-throat-noise-emission-invisible-illu": {
+  "lufs": -17.53,
+  "peak_dbfs": -1.52,
+  "crest_db": 18.14
+ },
+ "368-x-d-d-momentaufnahme": {
+  "lufs": -8.91,
+  "peak_dbfs": -0.47,
+  "crest_db": 9.56
+ },
+ "369-stanley-hottek-klatschsabine": {
+  "lufs": -10.7,
+  "peak_dbfs": -1.05,
+  "crest_db": 10.27
+ },
+ "370-johann-schwengel-solo-talent": {
+  "lufs": -8.46,
+  "peak_dbfs": 4.04,
+  "crest_db": 5.29
+ },
+ "371-klangbild-pausenbrot": {
+  "lufs": -11.62,
+  "peak_dbfs": -0.43,
+  "crest_db": 12.56
+ },
+ "372-2fel-kahan-mrook-markwon-mennaceannihila-premiere-parapher-x-negative-yelatif-sun": {
+  "lufs": -8.4,
+  "peak_dbfs": -0.05,
+  "crest_db": 8.56
+ },
+ "373-technobotts-self-propellered-gun": {
+  "lufs": -8.62,
+  "peak_dbfs": -0.41,
+  "crest_db": 7.38
+ },
+ "374-sacro-servo-la-llegada": {
+  "lufs": -13.85,
+  "peak_dbfs": -3.09,
+  "crest_db": 11.13
+ },
+ "375-combat-killer-no-chance-for-peace": {
+  "lufs": -6.7,
+  "peak_dbfs": -0.61,
+  "crest_db": 8.11
+ },
+ "376-afflicted-kill-somebody-the-d3vi7-kill-em-all-remi": {
+  "lufs": -8.04,
+  "peak_dbfs": 0.23,
+  "crest_db": 8.97
+ },
+ "377-ru-dead-42-untitled-2-1": {
+  "lufs": -11.91,
+  "peak_dbfs": -1.36,
+  "crest_db": 12.71
+ },
+ "378-fraction-studio-b2-pragmatic-movement": {
+  "lufs": -18.34,
+  "peak_dbfs": -6.27,
+  "crest_db": 14.35
+ },
+ "379-x-stop-it-please-for-the-love-of-god": {
+  "lufs": -5.37,
+  "peak_dbfs": -0.01,
+  "crest_db": 6.42
+ },
+ "380-3cloneb-rpg": {
+  "lufs": -11.26,
+  "peak_dbfs": -0.29,
+  "crest_db": 13.33
+ },
+ "381-quote-the-joker-true-evil": {
+  "lufs": -8.77,
+  "peak_dbfs": -0.53,
+  "crest_db": 11.76
+ },
+ "382-steven-casteel-08-orchestral": {
+  "lufs": -12.8,
+  "peak_dbfs": -1.09,
+  "crest_db": 15.22
+ },
+ "383-blank-banshee-trojan-horse": {
+  "lufs": -10.99,
+  "peak_dbfs": -0.1,
+  "crest_db": 11.68
+ },
+ "384-erick-jaeger-nightlife": {
+  "lufs": -11.69,
+  "peak_dbfs": -0.93,
+  "crest_db": 10.25
+ },
+ "385-sascha-m-ller-punkt-12-02-sascha-muller-12-02": {
+  "lufs": -10.22,
+  "peak_dbfs": -0.21,
+  "crest_db": 11.65
+ },
+ "386-inquieto-inquieto-el-reclamo": {
+  "lufs": -11.32,
+  "peak_dbfs": -1.45,
+  "crest_db": 11.96
+ },
+ "387-steven-casteel-udio-v1-5-celu-meluina": {
+  "lufs": -13.7,
+  "peak_dbfs": -0.93,
+  "crest_db": 15.31
+ },
+ "388-the-d3vi7-der-mantel-der-nacht": {
+  "lufs": -8.64,
+  "peak_dbfs": -0.45,
+  "crest_db": 9.21
+ },
+ "389-va-inquieto-es-un-hermoso-dia": {
+  "lufs": -11.21,
+  "peak_dbfs": -0.17,
+  "crest_db": 13.42
+ },
+ "390-sansetatcivil-05-2021-brut-basic-pt-2-demo-flac": {
+  "lufs": -11.82,
+  "peak_dbfs": -0.87,
+  "crest_db": 11.03
+ },
+ "391-psy-shepherd-x-ethnomite-pux-x-invisible-malikat-alwuhush-psy-shepherd-x-invisibl": {
+  "lufs": -14.17,
+  "peak_dbfs": 0.12,
+  "crest_db": 13.78
+ },
+ "392-x-d-d-random-pulses": {
+  "lufs": -7.96,
+  "peak_dbfs": -0.68,
+  "crest_db": 8.5
+ },
+ "393-stanley-hottek-raverudi": {
+  "lufs": -11.74,
+  "peak_dbfs": -0.66,
+  "crest_db": 11.68
+ },
+ "394-johann-schwengel-springbreak": {
+  "lufs": -10.23,
+  "peak_dbfs": -0.26,
+  "crest_db": 11.04
+ },
+ "395-klangbild-randnotiz": {
+  "lufs": -9.71,
+  "peak_dbfs": -0.33,
+  "crest_db": 11.27
+ },
+ "396-2fel-kahan-mrook-markwon-mennaceannihila-klickaud": {
+  "lufs": -6.52,
+  "peak_dbfs": -0.48,
+  "crest_db": 8.13
+ },
+ "398-sacro-servo-sangre-en-la-boca": {
+  "lufs": -15.25,
+  "peak_dbfs": -4.48,
+  "crest_db": 12.5
+ },
+ "399-combat-killer-untitled": {
+  "lufs": -5.22,
+  "peak_dbfs": -0.56,
+  "crest_db": 6.44
+ },
+ "400-afflicted-psychodoc": {
+  "lufs": -13.15,
+  "peak_dbfs": -0.71,
+  "crest_db": 13.09
+ },
+ "401-ru-dead-42-untitled-3-1": {
+  "lufs": -12.67,
+  "peak_dbfs": -1.55,
+  "crest_db": 13.52
+ },
+ "402-fraction-studio-b3-horror-mess": {
+  "lufs": -19.35,
+  "peak_dbfs": -6.73,
+  "crest_db": 14.83
+ },
+ "403-x-ur-fucking-stupid-lol-album-edit": {
+  "lufs": -5.8,
+  "peak_dbfs": -0.21,
+  "crest_db": 4.23
+ },
+ "404-sascha-m-ller-punkt-13-01-sascha-muller-13-01": {
+  "lufs": -14.39,
+  "peak_dbfs": 0.03,
+  "crest_db": 15.95
+ },
+ "405-inquieto-inquieto-elisa-de-fiesta": {
+  "lufs": -9.61,
+  "peak_dbfs": 0.18,
+  "crest_db": 13.94
+ },
+ "406-steven-casteel-udio-v1-5-cor-amarth": {
+  "lufs": -10.52,
+  "peak_dbfs": -0.74,
+  "crest_db": 13.04
+ },
+ "407-the-d3vi7-dimension": {
+  "lufs": -12.96,
+  "peak_dbfs": -0.86,
+  "crest_db": 13.61
+ },
+ "408-va-juds-cloudy-nun": {
+  "lufs": -7.81,
+  "peak_dbfs": -0.25,
+  "crest_db": 8.57
+ },
+ "409-sansetatcivil-07-2022-melancolia-acid-pt-1-flac": {
+  "lufs": -10.9,
+  "peak_dbfs": 0.11,
+  "crest_db": 12.02
+ },
+ "410-psy-shepherd-x-ethnomite-pux-x-invisible-nomad-robot-blues-ethnomite-pux-x-invisi": {
+  "lufs": -17.65,
+  "peak_dbfs": -1.66,
+  "crest_db": 18.19
+ },
+ "411-x-d-d-savage": {
+  "lufs": -9.87,
+  "peak_dbfs": -0.51,
+  "crest_db": 11.56
+ },
+ "412-stanley-hottek-relevant-emphasis": {
+  "lufs": -10.52,
+  "peak_dbfs": -0.9,
+  "crest_db": 11.17
+ },
+ "413-johann-schwengel-steppin-out": {
+  "lufs": -10.72,
+  "peak_dbfs": 2.09,
+  "crest_db": 7.65
+ },
+ "414-klangbild-stolperstein": {
+  "lufs": -10.44,
+  "peak_dbfs": -0.51,
+  "crest_db": 10.12
+ },
+ "415-2fel-kahan-mrook-markwon-mennaceannihila-klickaud": {
+  "lufs": -7.71,
+  "peak_dbfs": -0.4,
+  "crest_db": 7.41
+ },
+ "416-technobotts-the-boy-from-ipanema": {
+  "lufs": -7.75,
+  "peak_dbfs": -0.58,
+  "crest_db": 9.5
+ },
+ "417-sacro-servo-voz-metalica": {
+  "lufs": -13.72,
+  "peak_dbfs": -1.53,
+  "crest_db": 14.23
+ },
+ "418-sascha-m-ller-punkt-13-02-sascha-muller-13-02": {
+  "lufs": -12.74,
+  "peak_dbfs": -0.75,
+  "crest_db": 12.77
+ },
+ "419-inquieto-inquieto-extorsion": {
+  "lufs": -14.29,
+  "peak_dbfs": -0.28,
+  "crest_db": 16.06
+ },
+ "420-steven-casteel-udio-v1-5-d-ath-maethor": {
+  "lufs": -11.32,
+  "peak_dbfs": -0.41,
+  "crest_db": 13.89
+ },
+ "421-the-d3vi7-glue-bond": {
+  "lufs": -6.77,
+  "peak_dbfs": 0.05,
+  "crest_db": 9.94
+ },
+ "422-va-k-rm-time": {
+  "lufs": -11.06,
+  "peak_dbfs": -0.69,
+  "crest_db": 11.92
+ },
+ "423-sansetatcivil-07-2022-melancolia-acid-pt-2-flac": {
+  "lufs": -12.14,
+  "peak_dbfs": 0.1,
+  "crest_db": 13.34
+ },
+ "424-psy-shepherd-x-ethnomite-pux-x-invisible-slow-burner-invisible-illusion-the-deser": {
+  "lufs": -20.73,
+  "peak_dbfs": -1.92,
+  "crest_db": 20.85
+ },
+ "425-x-d-d-secret-drop": {
+  "lufs": -9.63,
+  "peak_dbfs": -0.36,
+  "crest_db": 10.21
+ },
+ "426-stanley-hottek-satellite": {
+  "lufs": -9.6,
+  "peak_dbfs": -1.29,
+  "crest_db": 8.87
+ },
+ "427-johann-schwengel-strange-things": {
+  "lufs": -12.71,
+  "peak_dbfs": -1.05,
+  "crest_db": 12.06
+ },
+ "428-klangbild-teppichklopfer": {
+  "lufs": -9.87,
+  "peak_dbfs": -0.78,
+  "crest_db": 10.8
+ },
+ "429-sascha-m-ller-punkt-14-01-sascha-muller-14-01": {
+  "lufs": -12.75,
+  "peak_dbfs": -0.35,
+  "crest_db": 11.94
+ },
+ "430-inquieto-inquieto-extracto-digestivo": {
+  "lufs": -14.01,
+  "peak_dbfs": -1.36,
+  "crest_db": 13.31
+ },
+ "431-steven-casteel-udio-v1-5-edraith-o-rhach": {
+  "lufs": -10.88,
+  "peak_dbfs": -0.44,
+  "crest_db": 13.56
+ },
+ "432-the-d3vi7-mantra": {
+  "lufs": -7.39,
+  "peak_dbfs": -0.4,
+  "crest_db": 8.12
+ },
+ "433-va-lively-racket-control": {
+  "lufs": -10.64,
+  "peak_dbfs": 0.12,
+  "crest_db": 12.51
+ },
+ "434-sansetatcivil-08-2022-f-k-the-great-reset-flac": {
+  "lufs": -11.98,
+  "peak_dbfs": -1.2,
+  "crest_db": 12.84
+ },
+ "435-psy-shepherd-x-ethnomite-pux-x-invisible-slow-burner-blues-invisible-illusion-the": {
+  "lufs": -16.13,
+  "peak_dbfs": -2.53,
+  "crest_db": 15.81
+ },
+ "436-x-d-d-self-propellered-gun": {
+  "lufs": -11.79,
+  "peak_dbfs": -0.21,
+  "crest_db": 11.92
+ },
+ "437-stanley-hottek-seltersiggy": {
+  "lufs": -11.3,
+  "peak_dbfs": -0.16,
+  "crest_db": 11.98
+ },
+ "438-johann-schwengel-vitalpower": {
+  "lufs": -8.03,
+  "peak_dbfs": -0.35,
+  "crest_db": 8.84
+ },
+ "439-klangbild-wellenbad": {
+  "lufs": -10.07,
+  "peak_dbfs": -0.92,
+  "crest_db": 10.8
+ },
+ "440-sascha-m-ller-punkt-14-02-sascha-muller-14-02": {
+  "lufs": -11.7,
+  "peak_dbfs": -0.74,
+  "crest_db": 10.72
+ },
+ "441-inquieto-inquieto-friends-time": {
+  "lufs": -8.91,
+  "peak_dbfs": 0.01,
+  "crest_db": 10.22
+ },
+ "442-steven-casteel-udio-v1-5-elen-s-la": {
+  "lufs": -10.43,
+  "peak_dbfs": -0.88,
+  "crest_db": 11.99
+ },
+ "443-the-d3vi7-marauder": {
+  "lufs": -8.75,
+  "peak_dbfs": -0.08,
+  "crest_db": 10.29
+ },
+ "444-va-marcel-ruew-mental-breakdown": {
+  "lufs": -7.73,
+  "peak_dbfs": 0.06,
+  "crest_db": 9.83
+ },
+ "445-sansetatcivil-10-2022-duckduckgo-flac": {
+  "lufs": -9.31,
+  "peak_dbfs": -0.9,
+  "crest_db": 8.46
+ },
+ "446-psy-shepherd-x-ethnomite-pux-x-invisible-this-is-living-in-burning-man-invisible-": {
+  "lufs": -21.43,
+  "peak_dbfs": -4.0,
+  "crest_db": 19.6
+ },
+ "447-x-d-d-snaak-snaak": {
+  "lufs": -8.45,
+  "peak_dbfs": -0.66,
+  "crest_db": 9.03
+ },
+ "448-1ka-120spaces-smart-phone": {
+  "lufs": -10.34,
+  "peak_dbfs": -0.43,
+  "crest_db": 11.59
+ },
+ "448-stanley-hottek-unkown-origin": {
+  "lufs": -9.9,
+  "peak_dbfs": -1.05,
+  "crest_db": 10.45
+ },
+ "449-thomas-park-and-various-artists-all-over-thomas-park-remix-with-rowboat-": {
+  "lufs": -16.92,
+  "peak_dbfs": -2.13,
+  "crest_db": 15.08
+ },
+ "450-gothic-spectra-borderline": {
+  "lufs": -12.1,
+  "peak_dbfs": -0.44,
+  "crest_db": 13.62
+ },
+ "451-areal-kollen-13": {
+  "lufs": -8.62,
+  "peak_dbfs": -0.35,
+  "crest_db": 10.22
+ },
+ "452-shabnak-anomaly": {
+  "lufs": -9.01,
+  "peak_dbfs": -0.54,
+  "crest_db": 11.8
+ },
+ "453-invisible-illusion-is-wordless": {
+  "lufs": -9.86,
+  "peak_dbfs": -0.05,
+  "crest_db": 11.45
+ },
+ "454-nikolay-chesnokov-arabskaja-opasnost": {
+  "lufs": -7.93,
+  "peak_dbfs": -0.04,
+  "crest_db": 9.43
+ },
+ "455-radio-end-9-conditions-conclusion": {
+  "lufs": -16.17,
+  "peak_dbfs": -4.47,
+  "crest_db": 13.21
+ },
+ "456-fredius-darde-achupa-la-uva": {
+  "lufs": -12.05,
+  "peak_dbfs": -2.54,
+  "crest_db": 9.99
+ },
+ "457-kamil-muzyk-howarang-van-k-blair-witch": {
+  "lufs": -9.88,
+  "peak_dbfs": 0.69,
+  "crest_db": 15.17
+ },
+ "458-phons-140": {
+  "lufs": -17.0,
+  "peak_dbfs": -2.99,
+  "crest_db": 15.4
+ },
+ "459-lupusmechanicus-amoral-scrutiny": {
+  "lufs": -11.33,
+  "peak_dbfs": 0.37,
+  "crest_db": 9.89
+ },
+ "460-ncpsd-ashes-one": {
+  "lufs": -15.18,
+  "peak_dbfs": -1.11,
+  "crest_db": 16.43
+ },
+ "461-humanfobia-sadako-never-dies": {
+  "lufs": -13.63,
+  "peak_dbfs": 0.71,
+  "crest_db": 13.64
+ },
+ "462-sciurid-a-dwindling-luxury": {
+  "lufs": -11.05,
+  "peak_dbfs": 0.42,
+  "crest_db": 13.48
+ },
+ "463-ant-nio-bizarro-a-lonely-place": {
+  "lufs": null,
+  "peak_dbfs": null,
+  "crest_db": null
+ },
+ "464-cortex-31-backdoor-beats": {
+  "lufs": -12.83,
+  "peak_dbfs": -0.73,
+  "crest_db": 11.81
+ },
+ "465-confield-feat-nurs-110000": {
+  "lufs": -15.06,
+  "peak_dbfs": -0.58,
+  "crest_db": 14.39
+ },
+ "466-ix-acht-life-is-made-of-traps-ep-version": {
+  "lufs": -14.3,
+  "peak_dbfs": -6.29,
+  "crest_db": 9.52
+ },
+ "467-wall-noise-action-attendance-of-this": {
+  "lufs": -0.89,
+  "peak_dbfs": -0.1,
+  "crest_db": 5.42
+ },
+ "468-x-post-mortem-iris-potockaya-nielepanda": {
+  "lufs": -7.38,
+  "peak_dbfs": -3.17,
+  "crest_db": 6.34
+ },
+ "469-fraction-studio-a1-bloody-girl": {
+  "lufs": -12.4,
+  "peak_dbfs": -3.07,
+  "crest_db": 12.0
+ },
+ "470-2025-selected-soundworks-vol-1-01-1999-parler-manga-original-edit": {
+  "lufs": -16.28,
+  "peak_dbfs": -1.49,
+  "crest_db": 16.67
+ },
+ "471-alexey-frolov-01-graphity": {
+  "lufs": -13.93,
+  "peak_dbfs": -2.09,
+  "crest_db": 12.01
+ },
+ "472-sour-candy-augment": {
+  "lufs": -17.2,
+  "peak_dbfs": -5.83,
+  "crest_db": 12.86
+ },
+ "473-solo-mati-a-deux": {
+  "lufs": -14.73,
+  "peak_dbfs": -3.89,
+  "crest_db": 13.12
+ },
+ "474-sven-phalanx-klangtherapie-anja-kreysing-remix": {
+  "lufs": -12.02,
+  "peak_dbfs": -0.75,
+  "crest_db": 13.65
+ },
+ "475-noxpox-2cb-line": {
+  "lufs": -8.32,
+  "peak_dbfs": 0.23,
+  "crest_db": 9.59
+ },
+ "476-second-brunch-a-confession": {
+  "lufs": -11.25,
+  "peak_dbfs": -0.25,
+  "crest_db": 13.66
+ },
+ "477-skrol-aegis": {
+  "lufs": -10.67,
+  "peak_dbfs": -0.8,
+  "crest_db": 12.51
+ },
+ "478-simonzer0-jackal-knife": {
+  "lufs": -12.52,
+  "peak_dbfs": 0.32,
+  "crest_db": 13.97
+ },
+ "479-dirty-tapes-master-1-ce-n-est-pas-encore-mon-tour-su": {
+  "lufs": -11.26,
+  "peak_dbfs": -0.49,
+  "crest_db": 10.57
+ },
+ "480-dj-r3v3r3nd-murd3r-the-final-judgement-feat-deszumidifikato": {
+  "lufs": -12.53,
+  "peak_dbfs": 3.21,
+  "crest_db": 8.04
+ },
+ "481-miss-kitty-sven-phalanx-dein-herz-meine-gier-tribute-to-suicide-": {
+  "lufs": -7.63,
+  "peak_dbfs": 0.25,
+  "crest_db": 8.56
+ },
+ "483-eternal-sunset-606-dreams-part-2": {
+  "lufs": -11.2,
+  "peak_dbfs": -0.04,
+  "crest_db": 12.21
+ },
+ "484-d-d-beverte-breaking-out": {
+  "lufs": -12.67,
+  "peak_dbfs": -0.33,
+  "crest_db": 16.02
+ },
+ "485-maksimov-sergey-broken-silense": {
+  "lufs": -14.86,
+  "peak_dbfs": -3.17,
+  "crest_db": 13.65
+ },
+ "486-rose-sobchak-anal-excites": {
+  "lufs": -0.36,
+  "peak_dbfs": -0.1,
+  "crest_db": 4.85
+ },
+ "487-j-neuros-j-neuros-1-plus-1-equals-3-equation-infi": {
+  "lufs": -11.91,
+  "peak_dbfs": -0.4,
+  "crest_db": 12.97
+ },
+ "488-dethcentrik-columbine-justice-spree-aquilaeon-remix": {
+  "lufs": -11.41,
+  "peak_dbfs": -0.5,
+  "crest_db": 12.41
+ },
+ "489-x-01-payback-time-intro": {
+  "lufs": -9.52,
+  "peak_dbfs": -0.74,
+  "crest_db": 9.4
+ },
+ "490-internet-daemon-gothic-spectra-chris-skordylis-featuring-theofil-tsiola": {
+  "lufs": -13.8,
+  "peak_dbfs": -0.75,
+  "crest_db": 15.49
+ },
+ "491-institor-10-the-hangman": {
+  "lufs": -12.62,
+  "peak_dbfs": -2.03,
+  "crest_db": 12.12
+ },
+ "492-various-artists-7-bandits-ghost-cells": {
+  "lufs": -16.23,
+  "peak_dbfs": -5.89,
+  "crest_db": 10.99
+ },
+ "493-alxthenomad-1-outside-the-matrix-god-version-one": {
+  "lufs": -13.61,
+  "peak_dbfs": -3.35,
+  "crest_db": 11.34
+ },
+ "494-underglass-a-first-step": {
+  "lufs": -21.69,
+  "peak_dbfs": -1.98,
+  "crest_db": 15.98
+ },
+ "495-cian-orbe-netlabel-brain-influenza-leichenfund": {
+  "lufs": -16.47,
+  "peak_dbfs": -0.36,
+  "crest_db": 18.7
+ },
+ "496-a-j-kaufmann-be-right-back": {
+  "lufs": -9.67,
+  "peak_dbfs": -0.6,
+  "crest_db": 10.8
+ },
+ "497-85-amnesia-psycho-1-v1-feat-broken-tape-rec": {
+  "lufs": -16.04,
+  "peak_dbfs": -5.16,
+  "crest_db": 14.1
+ },
+ "498-escaped-trees-approach-to-the-snow-queen-part-iii": {
+  "lufs": -12.7,
+  "peak_dbfs": -1.88,
+  "crest_db": 11.45
+ },
+ "499-mr-devo-mr-devo-vs-dreun-klootzak-zonder-ballen": {
+  "lufs": -7.75,
+  "peak_dbfs": 2.89,
+  "crest_db": 6.79
+ },
+ "500-simonzer0-bmbaal3pxobirironmix": {
+  "lufs": -7.84,
+  "peak_dbfs": -0.7,
+  "crest_db": 10.01
+ },
+ "501-sevyn-16-bit-emulator-mode-7": {
+  "lufs": -10.33,
+  "peak_dbfs": 0.67,
+  "crest_db": 12.63
+ },
+ "502-pulse-burst-in-the-midst-of-black-seas-of-infinity": {
+  "lufs": -8.84,
+  "peak_dbfs": -0.02,
+  "crest_db": 8.93
+ },
+ "503-sedative-01-rm-2k24": {
+  "lufs": -11.42,
+  "peak_dbfs": -3.03,
+  "crest_db": 10.23
+ },
+ "504-dystopia-industrial-en-la-granja-maskabr-adi-s-amigo-fiel": {
+  "lufs": -16.73,
+  "peak_dbfs": -6.65,
+  "crest_db": 11.91
+ },
+ "505-deficit-electric-spring": {
+  "lufs": -21.78,
+  "peak_dbfs": -5.13,
+  "crest_db": 15.39
+ },
+ "506-gothic-spectra-compilations-audiobake-x-humanfobia-special-darkness": {
+  "lufs": -14.03,
+  "peak_dbfs": -0.01,
+  "crest_db": 14.58
+ },
+ "507-petter-baiestorf-u-04-cubo-de-yutu": {
+  "lufs": -13.75,
+  "peak_dbfs": 0.31,
+  "crest_db": 18.97
+ },
+ "508-the-silence-bureau-bxrw-jqdi-rjhwp": {
+  "lufs": -16.14,
+  "peak_dbfs": -1.27,
+  "crest_db": 14.81
+ },
+ "509-jura-acid-man": {
+  "lufs": -10.04,
+  "peak_dbfs": -0.4,
+  "crest_db": 10.2
+ },
+ "510-the-dada-tribe-aktionreaktion": {
+  "lufs": -8.04,
+  "peak_dbfs": -0.8,
+  "crest_db": 9.33
+ },
+ "511-roberto-massoni-autorojo": {
+  "lufs": -9.94,
+  "peak_dbfs": -0.18,
+  "crest_db": 11.97
+ },
+ "512-jazyus-edsegame-cj": {
+  "lufs": -14.55,
+  "peak_dbfs": -1.07,
+  "crest_db": 14.63
+ },
+ "513-tkno-beurk-a-freeze-listening": {
+  "lufs": -8.64,
+  "peak_dbfs": 0.07,
+  "crest_db": 9.11
+ },
+ "514-4zzz1-armadillo": {
+  "lufs": -7.73,
+  "peak_dbfs": 0.02,
+  "crest_db": 8.57
+ },
+ "515-entropija-aerobika": {
+  "lufs": -16.3,
+  "peak_dbfs": -2.71,
+  "crest_db": 14.39
+ },
+ "516-s-h-a-p-e-r-douzirec-s-h-a-p-e-r-2021-aerial-douzirec-remix-f": {
+  "lufs": -14.52,
+  "peak_dbfs": -0.92,
+  "crest_db": 14.02
+ },
+ "517-flame-of-life-auma": {
+  "lufs": -7.29,
+  "peak_dbfs": 0.08,
+  "crest_db": 11.18
+ },
+ "518-soul-heater-humanfobia-aura-obscura-la-morte-dell-anima": {
+  "lufs": -14.19,
+  "peak_dbfs": -0.26,
+  "crest_db": 15.68
+ },
+ "519-somnoroase-p-s-rele-auto-10": {
+  "lufs": -18.93,
+  "peak_dbfs": -1.18,
+  "crest_db": 20.59
+ },
+ "520-mark-meino-ec98jp": {
+  "lufs": -12.09,
+  "peak_dbfs": -0.44,
+  "crest_db": 9.93
+ },
+ "521-alframusic-allied-forces": {
+  "lufs": -19.92,
+  "peak_dbfs": -4.42,
+  "crest_db": 17.71
+ },
+ "522-death-tape-super-bass-death-tape-super-bass-1-manic": {
+  "lufs": -13.43,
+  "peak_dbfs": -6.33,
+  "crest_db": 10.42
+ },
+ "523-kombopatras-all-swift": {
+  "lufs": -12.78,
+  "peak_dbfs": -1.88,
+  "crest_db": 14.26
+ },
+ "524-stefan-gomolka-34-wrangle": {
+  "lufs": -9.88,
+  "peak_dbfs": -0.22,
+  "crest_db": 11.84
+ },
+ "525-bad-erna-bad-erna-caminho-torto": {
+  "lufs": -8.88,
+  "peak_dbfs": -4.05,
+  "crest_db": 12.92
+ },
+ "526-029-busted": {
+  "lufs": -9.24,
+  "peak_dbfs": -0.87,
+  "crest_db": 6.31
+ },
+ "527-must-wave-9-330-2": {
+  "lufs": -7.39,
+  "peak_dbfs": 0.18,
+  "crest_db": 6.05
+ },
+ "528-6xamax9-1ka-caldeira11": {
+  "lufs": -13.22,
+  "peak_dbfs": -0.4,
+  "crest_db": 12.17
+ },
+ "529-rooberto-massoni-el-pasado-en-pasado": {
+  "lufs": -9.34,
+  "peak_dbfs": -0.79,
+  "crest_db": 9.97
+ },
+ "530-xotla-declan-clark-catalysis-22edo": {
+  "lufs": -12.7,
+  "peak_dbfs": -1.14,
+  "crest_db": 12.8
+ },
+ "531-simplefixty-abyss": {
+  "lufs": -8.65,
+  "peak_dbfs": 0.03,
+  "crest_db": 11.93
+ },
+ "532-mysie-connector": {
+  "lufs": -9.68,
+  "peak_dbfs": -0.3,
+  "crest_db": 10.87
+ },
+ "533-suicidas-en-el-bosque-negro-algunosdiassonigualesaotrosdiasquesongua": {
+  "lufs": -9.35,
+  "peak_dbfs": -0.48,
+  "crest_db": 9.03
+ },
+ "534-spoiled-egg-is-she-a-cat": {
+  "lufs": -11.98,
+  "peak_dbfs": -1.23,
+  "crest_db": 10.03
+ },
+ "535-electric-shock-can-kill-dead-walk-v2-0": {
+  "lufs": -9.98,
+  "peak_dbfs": 1.04,
+  "crest_db": 10.33
+ },
+ "536-aleksei-nisiforov-anabiosis": {
+  "lufs": -15.91,
+  "peak_dbfs": -1.6,
+  "crest_db": 16.53
+ },
+ "537-extreme-kindness-0x416d796764616c61204f766572726964650a": {
+  "lufs": -4.53,
+  "peak_dbfs": 1.18,
+  "crest_db": 6.62
+ },
+ "538-skoddie-bauble-pops": {
+  "lufs": -12.34,
+  "peak_dbfs": -0.44,
+  "crest_db": 11.92
+ },
+ "539-catalyst-x-humanfobia-06-abandoned-ghostly-ruins": {
+  "lufs": -14.73,
+  "peak_dbfs": -0.37,
+  "crest_db": 15.49
+ },
+ "540-s-a-lzk-g-p-ns-ausstieg-aus-der-realit-t": {
+  "lufs": -16.31,
+  "peak_dbfs": -4.36,
+  "crest_db": 14.48
+ },
+ "541-refugees-from-beyond-devil-s-tritone-trick": {
+  "lufs": -19.55,
+  "peak_dbfs": -5.95,
+  "crest_db": 15.63
+ },
+ "542-jaime-mun-rriz-and-thomas-park-china-listed-times": {
+  "lufs": -15.85,
+  "peak_dbfs": -1.35,
+  "crest_db": 15.53
+ },
+ "543-dave-mono-aircon": {
+  "lufs": -12.26,
+  "peak_dbfs": -0.18,
+  "crest_db": 13.08
+ },
+ "544-cristian-agrillo-cristian-agrillo-8": {
+  "lufs": -10.11,
+  "peak_dbfs": -0.05,
+  "crest_db": 9.43
+ },
+ "545-nenormalizm-recs-afinde": {
+  "lufs": -9.61,
+  "peak_dbfs": 0.18,
+  "crest_db": 10.79
+ },
+ "546-uman-aka-u-23-convolution": {
+  "lufs": -10.96,
+  "peak_dbfs": -0.74,
+  "crest_db": 10.8
+ },
+ "547-sh-sh-zombie-mamba-x-filmy-ghost-bsod": {
+  "lufs": -17.65,
+  "peak_dbfs": 1.74,
+  "crest_db": 10.61
+ },
+ "548-cortex-dieu-est-machine": {
+  "lufs": -15.76,
+  "peak_dbfs": -1.75,
+  "crest_db": 16.46
+ },
+ "549-yaka-anima-yaka-anima-dariusz-jackowski-the-auditor": {
+  "lufs": -10.53,
+  "peak_dbfs": -1.0,
+  "crest_db": 10.37
+ },
+ "550-humanfobia-catalyst-a-i-g-d": {
+  "lufs": -12.62,
+  "peak_dbfs": 0.35,
+  "crest_db": 13.96
+ },
+ "551-a-symbiotic-experience-anima-specimeno-a-symbiotic-experience-r": {
+  "lufs": -10.18,
+  "peak_dbfs": -0.55,
+  "crest_db": 12.25
+ },
+ "552-audiorcist-allt-ger-vika": {
+  "lufs": -7.94,
+  "peak_dbfs": -0.55,
+  "crest_db": 9.2
+ },
+ "553-autharktos-atrktiline-thuzzumulgu-autharktos-ollaol": {
+  "lufs": -4.78,
+  "peak_dbfs": -0.9,
+  "crest_db": 5.91
+ },
+ "554-obscure-heaven-equilibrium": {
+  "lufs": -5.45,
+  "peak_dbfs": -0.2,
+  "crest_db": 6.04
+ },
+ "555-internet-daemon-netlabel-the-catabomb-videogame-abyss-armageddon-": {
+  "lufs": -12.95,
+  "peak_dbfs": -0.32,
+  "crest_db": 14.41
+ },
+ "556-m-m-02-r-p-siegfried-siegreic-er": {
+  "lufs": -8.33,
+  "peak_dbfs": -0.15,
+  "crest_db": 9.91
+ },
+ "557-eee-ville-betting-on-a-pale-horse": {
+  "lufs": -8.65,
+  "peak_dbfs": -0.1,
+  "crest_db": 9.67
+ },
+ "558-3cloneb-admira": {
+  "lufs": -12.88,
+  "peak_dbfs": -0.76,
+  "crest_db": 13.07
+ },
+ "559-a-r-n-1ka-eclipsis": {
+  "lufs": -17.83,
+  "peak_dbfs": -2.53,
+  "crest_db": 15.43
+ },
+ "560-julien-vouilloux-modular-r120-piriforme-1": {
+  "lufs": -17.86,
+  "peak_dbfs": -2.55,
+  "crest_db": 20.75
+ },
+ "561-xidentbeatz-assault": {
+  "lufs": -12.29,
+  "peak_dbfs": -1.16,
+  "crest_db": 10.01
+ },
+ "562-lost-in-transmission-desperate": {
+  "lufs": -8.38,
+  "peak_dbfs": -0.24,
+  "crest_db": 10.27
+ },
+ "563-mmsneonchan-830": {
+  "lufs": -10.15,
+  "peak_dbfs": -0.99,
+  "crest_db": 12.14
+ },
+ "564-muza-production-escape": {
+  "lufs": -11.08,
+  "peak_dbfs": -0.09,
+  "crest_db": 13.1
+ },
+ "565-starlust-amit-adok": {
+  "lufs": -11.2,
+  "peak_dbfs": -0.3,
+  "crest_db": 10.83
+ },
+ "566-kastropodux-apollo-crash": {
+  "lufs": -12.24,
+  "peak_dbfs": -0.37,
+  "crest_db": 13.99
+ },
+ "567-douzirec-2022-tatenokai-remix-pt-1-flac": {
+  "lufs": -11.14,
+  "peak_dbfs": -0.91,
+  "crest_db": 11.41
+ },
+ "568-no-nitz-kyrie-eleison": {
+  "lufs": -10.24,
+  "peak_dbfs": -0.26,
+  "crest_db": 13.31
+ },
+ "569-fierce-deity-amp-abuse": {
+  "lufs": -14.04,
+  "peak_dbfs": -7.02,
+  "crest_db": 10.71
+ },
+ "570-thomas-park-01-storm-1": {
+  "lufs": -18.75,
+  "peak_dbfs": -1.06,
+  "crest_db": 19.53
+ },
+ "571-x-njbhd4nybuu": {
+  "lufs": -9.11,
+  "peak_dbfs": -4.17,
+  "crest_db": 7.33
+ },
+ "572-autodestruction-failing-light": {
+  "lufs": -5.01,
+  "peak_dbfs": -0.18,
+  "crest_db": 7.61
+ },
+ "573-vakkhanaliya-dermatomycosis-in-my-consciousness": {
+  "lufs": -6.34,
+  "peak_dbfs": 4.0,
+  "crest_db": 7.42
+ },
+ "574-codeo96-code096-bigs": {
+  "lufs": -7.53,
+  "peak_dbfs": -0.07,
+  "crest_db": 10.35
+ },
+ "575-randomvolt-der-innere-geist": {
+  "lufs": -11.14,
+  "peak_dbfs": 0.96,
+  "crest_db": 13.72
+ },
+ "576-atef-ben-othman-akigahora": {
+  "lufs": -11.5,
+  "peak_dbfs": -5.68,
+  "crest_db": 5.7
+ },
+ "577-eroguro-yaka-anima-eroguro-mirai-wa-joseirash": {
+  "lufs": -16.26,
+  "peak_dbfs": -5.52,
+  "crest_db": 12.31
+ },
+ "578-altpod-all-night": {
+  "lufs": -9.18,
+  "peak_dbfs": -1.04,
+  "crest_db": 10.2
+ },
+ "579-jon-gillespie-da-vinci": {
+  "lufs": -20.78,
+  "peak_dbfs": -4.23,
+  "crest_db": 18.86
+ },
+ "580-x-x": {
+  "lufs": -5.12,
+  "peak_dbfs": -0.02,
+  "crest_db": 6.26
+ },
+ "581-svechanost-abandoned": {
+  "lufs": -12.76,
+  "peak_dbfs": -0.92,
+  "crest_db": 14.01
+ },
+ "582-alma-sebosa-d-o-m-alma-sebosa-cotidiano-amargo-e-cole-es-d": {
+  "lufs": -13.86,
+  "peak_dbfs": -3.36,
+  "crest_db": 14.61
+ },
+ "583-asomatic-cosmic-glitch-for-a-newborn-baby": {
+  "lufs": -9.5,
+  "peak_dbfs": -0.07,
+  "crest_db": 10.08
+ },
+ "584-fange-d-un-d-sarroi-l-autre": {
+  "lufs": -9.45,
+  "peak_dbfs": -0.12,
+  "crest_db": 11.5
+ },
+ "585-g-r-o-s-s-digital-white": {
+  "lufs": -5.15,
+  "peak_dbfs": -0.11,
+  "crest_db": 7.87
+ },
+ "586-incentive-brainfog": {
+  "lufs": -6.84,
+  "peak_dbfs": 0.01,
+  "crest_db": 8.25
+ },
+ "587-industrial-sound-machine-black-dog": {
+  "lufs": -10.79,
+  "peak_dbfs": -1.08,
+  "crest_db": 13.07
+ },
+ "588-black-purification-necro-aesthetics-pt-1": {
+  "lufs": -11.07,
+  "peak_dbfs": 5.78,
+  "crest_db": 3.6
+ },
+ "589-daniel-giano-giano-be-quiet": {
+  "lufs": -6.78,
+  "peak_dbfs": 0.79,
+  "crest_db": 8.54
+ },
+ "590-r-di-v-ln-erase": {
+  "lufs": -14.81,
+  "peak_dbfs": -1.06,
+  "crest_db": 13.0
+ },
+ "591-the-red-wave-act-1": {
+  "lufs": -15.46,
+  "peak_dbfs": -2.94,
+  "crest_db": 12.23
+ },
+ "592-frog-bitch-last-wave": {
+  "lufs": -8.15,
+  "peak_dbfs": -0.3,
+  "crest_db": 9.48
+ },
+ "593-papaverhof-don-t-stop": {
+  "lufs": -9.95,
+  "peak_dbfs": -0.1,
+  "crest_db": 11.65
+ },
+ "594-nikproteus-deconstructed-body": {
+  "lufs": -19.07,
+  "peak_dbfs": -6.13,
+  "crest_db": 13.19
+ },
+ "595-insatiable-void-guardians-of-the-outer-core": {
+  "lufs": -7.34,
+  "peak_dbfs": -0.04,
+  "crest_db": 8.78
+ },
+ "596-doppelganger-baba-yaga": {
+  "lufs": -14.56,
+  "peak_dbfs": -0.95,
+  "crest_db": 14.94
+ },
+ "597-subtopialimburg-08-12-2018-b": {
+  "lufs": -6.96,
+  "peak_dbfs": 0.45,
+  "crest_db": 9.12
+ },
+ "598-dekonstruktor-eating-the-universe": {
+  "lufs": -7.22,
+  "peak_dbfs": -0.01,
+  "crest_db": 8.63
+ },
+ "599-coven-midnight": {
+  "lufs": -10.8,
+  "peak_dbfs": -0.63,
+  "crest_db": 8.61
+ },
+ "600-spore-designers-bloodstream-of-jericho": {
+  "lufs": -12.34,
+  "peak_dbfs": 5.65,
+  "crest_db": 3.57
+ },
+ "601-yavor-parvanov-endless-circuit": {
+  "lufs": -10.74,
+  "peak_dbfs": -0.26,
+  "crest_db": 12.16
+ },
+ "602-refugees-from-beyond-english-cream-around-the-floating-island": {
+  "lufs": -15.51,
+  "peak_dbfs": -2.53,
+  "crest_db": 15.73
+ },
+ "603-ravcan-psychogenic-pain-all-streams": {
+  "lufs": -5.22,
+  "peak_dbfs": -0.57,
+  "crest_db": 8.46
+ },
+ "604-pharmacopia-phinnished": {
+  "lufs": -15.41,
+  "peak_dbfs": -5.58,
+  "crest_db": 12.26
+ },
+ "605-mokkamusic-cyberpunk-dubstep": {
+  "lufs": -8.79,
+  "peak_dbfs": -0.07,
+  "crest_db": 9.92
+ },
+ "606-aryan-golem-x": {
+  "lufs": -15.65,
+  "peak_dbfs": -3.85,
+  "crest_db": 15.61
+ },
+ "607-ss-cosmic-church-of-the-god": {
+  "lufs": -11.31,
+  "peak_dbfs": -0.44,
+  "crest_db": 10.59
+ },
+ "609-rauppwar-insanity-is-relative-remix": {
+  "lufs": -21.73,
+  "peak_dbfs": -12.91,
+  "crest_db": 11.48
+ },
+ "610-imperial-needles-fins-and-wings": {
+  "lufs": -14.06,
+  "peak_dbfs": -2.06,
+  "crest_db": 12.22
+ },
+ "611-white-rabbit-project-apocalyptic-clash": {
+  "lufs": -15.76,
+  "peak_dbfs": -5.09,
+  "crest_db": 12.73
+ },
+ "612-s-raphit-s-s-raph-ta-enh-part-i": {
+  "lufs": -8.55,
+  "peak_dbfs": -0.19,
+  "crest_db": 2.42
+ },
+ "613-thirst-for-consumption-x": {
+  "lufs": -8.91,
+  "peak_dbfs": -0.02,
+  "crest_db": 10.17
+ },
+ "614-tugosral-sandakov-tugodakov-1": {
+  "lufs": -14.74,
+  "peak_dbfs": -2.32,
+  "crest_db": 13.3
+ },
+ "615-cb2ooo-all-blackx": {
+  "lufs": -9.45,
+  "peak_dbfs": 1.02,
+  "crest_db": 12.62
+ },
+ "616-yoshiwaku-chasing-a-rainbow-part-1": {
+  "lufs": -17.29,
+  "peak_dbfs": -0.13,
+  "crest_db": 19.83
+ },
+ "618-dreaming-in-spanda-agony-of-angels": {
+  "lufs": -5.74,
+  "peak_dbfs": -1.36,
+  "crest_db": 7.05
+ },
+ "619-filmy-ghost-sticky-monsters": {
+  "lufs": -17.59,
+  "peak_dbfs": -2.47,
+  "crest_db": 16.33
+ },
+ "620-suzana-s-bauten-suzana-s-bauten-a-supernova": {
+  "lufs": -13.14,
+  "peak_dbfs": -4.46,
+  "crest_db": 10.92
+ },
+ "621-daniel-james-mcbride-interuption-done": {
+  "lufs": -13.1,
+  "peak_dbfs": -3.93,
+  "crest_db": 12.56
+ },
+ "622-section-27-halibut-of-my-dream-part-i": {
+  "lufs": -7.42,
+  "peak_dbfs": -0.0,
+  "crest_db": 7.93
+ },
+ "623-unit-moebius-bombe-mit-bombe": {
+  "lufs": -10.87,
+  "peak_dbfs": -0.21,
+  "crest_db": 13.09
+ },
+ "624-e-g-dodo-tape-1": {
+  "lufs": -11.75,
+  "peak_dbfs": 0.55,
+  "crest_db": 10.84
+ },
+ "625-user12132546540-grand-hotel": {
+  "lufs": -10.61,
+  "peak_dbfs": -2.56,
+  "crest_db": 11.25
+ },
+ "626-alien-wars-alien-wars": {
+  "lufs": -14.69,
+  "peak_dbfs": -0.75,
+  "crest_db": 14.81
+ },
+ "627-user78863085453-hnw": {
+  "lufs": -5.69,
+  "peak_dbfs": -0.29,
+  "crest_db": 5.2
+ },
+ "628-zark-18-1": {
+  "lufs": -12.26,
+  "peak_dbfs": -0.59,
+  "crest_db": 11.97
+ },
+ "629-user95003500040-untitled-8-1": {
+  "lufs": -10.89,
+  "peak_dbfs": -2.22,
+  "crest_db": 11.31
+ },
+ "630-user29834755543-desert-force": {
+  "lufs": -15.53,
+  "peak_dbfs": -5.41,
+  "crest_db": 13.74
+ },
+ "631-user-records-user026-01-user33885745203-untitled-8-1-": {
+  "lufs": -10.89,
+  "peak_dbfs": -2.22,
+  "crest_db": 11.31
+ },
+ "632-p-b-r-acid-data": {
+  "lufs": -8.28,
+  "peak_dbfs": 0.02,
+  "crest_db": 10.22
+ },
+ "633-ru-dead-42-acid-zweifel": {
+  "lufs": -7.7,
+  "peak_dbfs": -0.53,
+  "crest_db": 7.07
+ },
+ "634-hexagon-industries-die-matrix": {
+  "lufs": -14.21,
+  "peak_dbfs": -0.48,
+  "crest_db": 13.39
+ },
+ "635-dan-mind-klirrfaktor": {
+  "lufs": -7.75,
+  "peak_dbfs": 0.46,
+  "crest_db": 8.25
+ },
+ "636-radio-parasite-clockworks-146-ready2": {
+  "lufs": -14.69,
+  "peak_dbfs": -2.27,
+  "crest_db": 13.68
+ },
+ "637-x-x": {
+  "lufs": -1.33,
+  "peak_dbfs": 1.47,
+  "crest_db": 4.68
+ },
+ "638-project-form-x": {
+  "lufs": -4.69,
+  "peak_dbfs": 0.94,
+  "crest_db": 7.61
+ },
+ "639-sea-of-poppies-untitled": {
+  "lufs": -9.27,
+  "peak_dbfs": -3.15,
+  "crest_db": 9.88
+ },
+ "640-hippie-karmas-devastating-sounds": {
+  "lufs": -9.53,
+  "peak_dbfs": -0.06,
+  "crest_db": 9.15
+ },
+ "641-desolated-obsession-structure-apart": {
+  "lufs": -7.69,
+  "peak_dbfs": -0.4,
+  "crest_db": 10.51
+ },
+ "642-niels-moleveld-skeve-nelis-kk-dronken-ouwe": {
+  "lufs": -6.16,
+  "peak_dbfs": 0.47,
+  "crest_db": 8.2
+ },
+ "643-dominatrexxx-mental-fracktal": {
+  "lufs": -17.94,
+  "peak_dbfs": -0.48,
+  "crest_db": 20.26
+ },
+ "644-celotrox-and-der-d-nk-r-celotrox-vampirf-rst": {
+  "lufs": -12.82,
+  "peak_dbfs": -1.09,
+  "crest_db": 13.62
+ },
+ "645-aura-en-el-espejo-aura-en-el-espejo-evelyn-bersa-n-campos-": {
+  "lufs": -19.41,
+  "peak_dbfs": -3.12,
+  "crest_db": 18.2
+ },
+ "646-anastasia-vronski-incantation": {
+  "lufs": -10.54,
+  "peak_dbfs": -0.08,
+  "crest_db": 13.21
+ },
+ "647-general-harm-general-harm-horseamp1": {
+  "lufs": -8.56,
+  "peak_dbfs": -0.13,
+  "crest_db": 10.63
+ },
+ "648-wilfried-hanrath-deep-into-the-northwest-forest-rework": {
+  "lufs": -19.85,
+  "peak_dbfs": -7.74,
+  "crest_db": 13.91
+ },
+ "649-venus-vulture-insanity-is-relative-asylum-remix": {
+  "lufs": -18.42,
+  "peak_dbfs": -6.14,
+  "crest_db": 13.49
+ },
+ "650-brokenchelust-e-q-1": {
+  "lufs": -4.97,
+  "peak_dbfs": -1.14,
+  "crest_db": 5.22
+ },
+ "651-spurr-interzona-gabriel-pereira-spurr-animeles-solares-1": {
+  "lufs": -11.99,
+  "peak_dbfs": -3.77,
+  "crest_db": 9.83
+ },
+ "652-grust-x": {
+  "lufs": -9.77,
+  "peak_dbfs": 0.16,
+  "crest_db": 9.94
+ },
+ "653-tomorrow-sounds-i-know-everything": {
+  "lufs": -9.68,
+  "peak_dbfs": 0.12,
+  "crest_db": 10.52
+ },
+ "654-isabel-nogueira-medula-beauty-doesn-t-solve-anybody-s-problems": {
+  "lufs": -14.31,
+  "peak_dbfs": -1.43,
+  "crest_db": 14.48
+ },
+ "655-dj-frankenstone-track20201226095447807182-22": {
+  "lufs": -16.36,
+  "peak_dbfs": -1.98,
+  "crest_db": 15.44
+ },
+ "656-hvirfilvindur-bones-on-the-grass": {
+  "lufs": -3.28,
+  "peak_dbfs": -1.11,
+  "crest_db": 4.43
+ },
+ "657-x-017": {
+  "lufs": -7.5,
+  "peak_dbfs": -0.54,
+  "crest_db": 11.67
+ },
+ "658-x-x": {
+  "lufs": 0.4,
+  "peak_dbfs": 0.19,
+  "crest_db": 4.23
+ },
+ "659-hr0n3-hex-on": {
+  "lufs": -11.41,
+  "peak_dbfs": -0.5,
+  "crest_db": 13.24
+ },
+ "660-jan-van-wissen-toiletpot": {
+  "lufs": -19.46,
+  "peak_dbfs": 1.43,
+  "crest_db": 28.54
+ },
+ "661-smedley-butler-04-chapter-4-how-to-smash-this-racket": {
+  "lufs": -20.22,
+  "peak_dbfs": -4.93,
+  "crest_db": 18.07
+ },
+ "662-nihil-gun-d-o-m-orgulho-seboso-aberra-o-barulho-na-cidade-esquecida-iii": {
+  "lufs": -10.89,
+  "peak_dbfs": -0.79,
+  "crest_db": 12.88
+ },
+ "663-house-squatt-let-me-be-your-dog-indsutrialfunktechno": {
+  "lufs": -9.91,
+  "peak_dbfs": -0.11,
+  "crest_db": 13.56
+ },
+ "664-hueco-negro-comeciervos": {
+  "lufs": -9.57,
+  "peak_dbfs": -0.92,
+  "crest_db": 10.81
+ },
+ "665-ixzo-eft-013-track08-m": {
+  "lufs": -16.98,
+  "peak_dbfs": -1.95,
+  "crest_db": 15.53
+ },
+ "666-ausgang-v-newport": {
+  "lufs": -11.85,
+  "peak_dbfs": -0.6,
+  "crest_db": 10.48
+ },
+ "667-user08945538961-active": {
+  "lufs": -7.94,
+  "peak_dbfs": -0.27,
+  "crest_db": 9.0
+ },
+ "668-zetterstroem-biophilia-zetterstroem-remix": {
+  "lufs": -15.2,
+  "peak_dbfs": -0.81,
+  "crest_db": 14.57
+ },
+ "669-user14533637474-earth-view": {
+  "lufs": -6.9,
+  "peak_dbfs": 0.07,
+  "crest_db": 8.55
+ },
+ "670-shitcluster-b2-untitled": {
+  "lufs": -16.92,
+  "peak_dbfs": -2.87,
+  "crest_db": 16.02
+ },
+ "671-sal-mentale-we-bring-the-world-new-order": {
+  "lufs": -10.85,
+  "peak_dbfs": 0.15,
+  "crest_db": 11.64
+ },
+ "672-technobotts-solism": {
+  "lufs": -9.23,
+  "peak_dbfs": -1.1,
+  "crest_db": 9.17
+ },
+ "673-valovoima-x": {
+  "lufs": -12.09,
+  "peak_dbfs": -1.97,
+  "crest_db": 10.16
+ },
+ "674-p-t-b-s-sascha-m-ller-mentally-glitch": {
+  "lufs": -12.91,
+  "peak_dbfs": -0.77,
+  "crest_db": 12.08
+ },
+ "675-periodo-particular-periodo-particular-soiuncerdo": {
+  "lufs": -12.98,
+  "peak_dbfs": -0.47,
+  "crest_db": 13.8
+ },
+ "676-halted-instant-halted-instant-soiuncerdo": {
+  "lufs": -12.74,
+  "peak_dbfs": -0.72,
+  "crest_db": 13.34
+ },
+ "677-user75487548548-schnittmenge": {
+  "lufs": -11.05,
+  "peak_dbfs": -1.04,
+  "crest_db": 11.21
+ },
+ "678-p-t-b-s-and-hammed-maliq-sascha-m-ller-borrooo-sascha-m-ller-acid-bro-remix": {
+  "lufs": -11.96,
+  "peak_dbfs": -0.1,
+  "crest_db": 11.71
+ },
+ "679-datacore-productionz-meets-the-808-hillb-sickening-pleasure": {
+  "lufs": -12.03,
+  "peak_dbfs": -0.48,
+  "crest_db": 11.47
+ },
+ "680-nada-1ka-krashausbass": {
+  "lufs": -19.57,
+  "peak_dbfs": -4.34,
+  "crest_db": 11.48
+ },
+ "681-6xamax9-1ka-planitia10": {
+  "lufs": -15.76,
+  "peak_dbfs": -0.21,
+  "crest_db": 15.82
+ },
+ "682-6xamax9-1ka-planitia9": {
+  "lufs": -15.62,
+  "peak_dbfs": 0.42,
+  "crest_db": 15.95
+ },
+ "683-mika-l-parantho-n-m-tal-jeu-de-sport-pour-console": {
+  "lufs": -10.31,
+  "peak_dbfs": 0.46,
+  "crest_db": 13.11
+ },
+ "684-rabbit-one-sunday-morning": {
+  "lufs": -12.67,
+  "peak_dbfs": -0.17,
+  "crest_db": 14.87
+ },
+ "685-guillermo-flores-electric-desert": {
+  "lufs": -32.77,
+  "peak_dbfs": -17.22,
+  "crest_db": 14.56
+ },
+ "686-electro-dries-luigi-took-the-cocktails-from-the-counte": {
+  "lufs": -8.86,
+  "peak_dbfs": -0.05,
+  "crest_db": 11.3
+ },
+ "687-zetez-happy-day": {
+  "lufs": -31.23,
+  "peak_dbfs": -13.49,
+  "crest_db": 19.11
+ },
+ "688-broken-tape-orchestra-4-2-loop-remix": {
+  "lufs": -5.57,
+  "peak_dbfs": -0.06,
+  "crest_db": 9.07
+ },
+ "689-xen-hatlock-a-trip-down-the-dark-void": {
+  "lufs": -15.63,
+  "peak_dbfs": -0.8,
+  "crest_db": 17.74
+ },
+ "690-yukinaomi404-toxic-alarm": {
+  "lufs": -9.67,
+  "peak_dbfs": -1.03,
+  "crest_db": 8.92
+ },
+ "691-semmath-in-space-a-mothership-lies-wounded": {
+  "lufs": -17.42,
+  "peak_dbfs": -4.02,
+  "crest_db": 14.13
+ },
+ "692-diaspora-psichica-hysteresis-human-mind": {
+  "lufs": -17.51,
+  "peak_dbfs": -2.87,
+  "crest_db": 14.63
+ },
+ "693-confield-vex-l": {
+  "lufs": -12.81,
+  "peak_dbfs": -0.14,
+  "crest_db": 14.0
+ },
+ "694-tuonela-your-credit-and-inclusions-will-expire": {
+  "lufs": -14.61,
+  "peak_dbfs": -0.28,
+  "crest_db": 16.01
+ },
+ "695-the-billows-burn-bright-gradiency": {
+  "lufs": -20.67,
+  "peak_dbfs": -6.1,
+  "crest_db": 16.28
+ },
+ "696-insufficient-technology-cleaning-the-kitchen-tiles": {
+  "lufs": -15.3,
+  "peak_dbfs": -1.78,
+  "crest_db": 14.77
+ },
+ "697-i-nexus-jerusalem-1-0": {
+  "lufs": -15.87,
+  "peak_dbfs": -2.77,
+  "crest_db": 13.86
+ },
+ "698-jenny-jumble-i-hate-to-sleep": {
+  "lufs": -8.63,
+  "peak_dbfs": 0.06,
+  "crest_db": 8.87
+ },
+ "699-caffeine-mit-cocaine-blasphemy": {
+  "lufs": -10.25,
+  "peak_dbfs": -0.37,
+  "crest_db": 13.37
+ },
+ "700-cb64-momentum": {
+  "lufs": -10.12,
+  "peak_dbfs": -0.32,
+  "crest_db": 12.03
+ },
+ "701-black-sheep-dark-electro-13-shadows": {
+  "lufs": -14.87,
+  "peak_dbfs": -0.1,
+  "crest_db": 16.41
+ },
+ "702-charles-dickens-01-lo-necesario": {
+  "lufs": -19.22,
+  "peak_dbfs": -5.51,
+  "crest_db": 16.73
+ },
+ "703-g4v0-jalog-in-bit": {
+  "lufs": -21.52,
+  "peak_dbfs": -2.46,
+  "crest_db": 19.2
+ },
+ "704-prius-prius": {
+  "lufs": -15.21,
+  "peak_dbfs": -0.12,
+  "crest_db": 16.3
+ },
+ "705-la-escotilla-escjuantxo": {
+  "lufs": -12.28,
+  "peak_dbfs": -0.97,
+  "crest_db": 14.97
+ },
+ "706-mo2-la-t-te-dans-le-caisson-basse-by-mo2": {
+  "lufs": -9.16,
+  "peak_dbfs": -0.42,
+  "crest_db": 11.35
+ },
+ "707-unios-bgm": {
+  "lufs": -17.17,
+  "peak_dbfs": -4.54,
+  "crest_db": 15.82
+ },
+ "708-dom-sith-crushing-constricting": {
+  "lufs": -10.72,
+  "peak_dbfs": 0.22,
+  "crest_db": 12.44
+ },
+ "709-x-2018-03-09-wellbeing": {
+  "lufs": -11.33,
+  "peak_dbfs": 0.06,
+  "crest_db": 13.95
+ },
+ "710-dimitris-sidiropoulos-dimsidi-the-parting-song": {
+  "lufs": -8.1,
+  "peak_dbfs": -0.28,
+  "crest_db": 11.7
+ },
+ "711-sam-leopard-welcome-on-earth-hard-to-be-born-in-the-": {
+  "lufs": -15.83,
+  "peak_dbfs": -1.15,
+  "crest_db": 19.14
+ },
+ "712-mer10-op-10-nr-2-acid-blob-2": {
+  "lufs": -14.71,
+  "peak_dbfs": -2.12,
+  "crest_db": 15.06
+ },
+ "713-lord-daelith-reworked": {
+  "lufs": -9.8,
+  "peak_dbfs": 0.29,
+  "crest_db": 11.06
+ },
+ "714-x-x": {
+  "lufs": -4.14,
+  "peak_dbfs": -2.37,
+  "crest_db": 5.16
+ },
+ "715-radio-end-introspection-prologue-aka-do-you-feel-t": {
+  "lufs": -13.84,
+  "peak_dbfs": -2.85,
+  "crest_db": 11.42
+ },
+ "716-defcronyke-realiti": {
+  "lufs": -6.44,
+  "peak_dbfs": -1.06,
+  "crest_db": 8.28
+ },
+ "717-skeve-nelis-pattypattypatty": {
+  "lufs": -6.04,
+  "peak_dbfs": -0.94,
+  "crest_db": 6.31
+ },
+ "718-reinier-zonneveld-pet-van-ket-skeve-nelis-remix": {
+  "lufs": -7.29,
+  "peak_dbfs": 0.05,
+  "crest_db": 7.94
+ },
+ "719-art-imitati-n-superheavy": {
+  "lufs": -6.44,
+  "peak_dbfs": -0.33,
+  "crest_db": 7.8
+ },
+ "720-badrich-steyr-pflager-katsumata": {
+  "lufs": -7.91,
+  "peak_dbfs": -0.03,
+  "crest_db": 8.62
+ },
+ "721-bandhu-moon-rocks": {
+  "lufs": -8.1,
+  "peak_dbfs": 0.37,
+  "crest_db": 8.39
+ },
+ "722-evis-may-alive-for-now": {
+  "lufs": -7.59,
+  "peak_dbfs": 0.29,
+  "crest_db": 9.38
+ },
+ "723-jaise-a-i-returns-empty-handed": {
+  "lufs": -8.3,
+  "peak_dbfs": 0.17,
+  "crest_db": 8.18
+ },
+ "724-lightning-tree-the-sword-that-waits": {
+  "lufs": -7.81,
+  "peak_dbfs": 0.57,
+  "crest_db": 8.82
+ },
+ "725-o-c-o-s-i-161": {
+  "lufs": -10.37,
+  "peak_dbfs": -0.14,
+  "crest_db": 10.76
+ },
+ "726-prtcl-xenon-neukoelln-taxi": {
+  "lufs": -8.45,
+  "peak_dbfs": 0.09,
+  "crest_db": 8.85
+ },
+ "727-quoit-the-crinkler": {
+  "lufs": -6.65,
+  "peak_dbfs": 0.19,
+  "crest_db": 8.23
+ },
+ "728-red-hand-emptiness": {
+  "lufs": -6.48,
+  "peak_dbfs": -0.12,
+  "crest_db": 7.45
+ },
+ "729-simm-splinter": {
+  "lufs": -12.91,
+  "peak_dbfs": 0.06,
+  "crest_db": 12.83
+ },
+ "730-skd-smforma-dzil-a-k-par-skan-u": {
+  "lufs": -8.93,
+  "peak_dbfs": 0.2,
+  "crest_db": 10.93
+ },
+ "731-skintape-convulsion": {
+  "lufs": -8.18,
+  "peak_dbfs": -0.61,
+  "crest_db": 8.33
+ },
+ "732-snowbeasts-missing": {
+  "lufs": -7.93,
+  "peak_dbfs": 0.19,
+  "crest_db": 8.27
+ },
+ "733-submerged-vs-undrig-controlled-release": {
+  "lufs": -9.56,
+  "peak_dbfs": 0.28,
+  "crest_db": 8.87
+ },
+ "734-tech-level-2-blackboard": {
+  "lufs": -5.22,
+  "peak_dbfs": 0.26,
+  "crest_db": 6.2
+ },
+ "735-the-masamune-a-new-twilight-zone": {
+  "lufs": -7.02,
+  "peak_dbfs": 2.17,
+  "crest_db": 7.41
+ },
+ "736-uewpeap-concept": {
+  "lufs": -8.55,
+  "peak_dbfs": 1.4,
+  "crest_db": 8.28
+ },
+ "737-uewpeap-x-frajeeli-the-deep": {
+  "lufs": -9.13,
+  "peak_dbfs": -0.12,
+  "crest_db": 9.98
+ },
+ "738-vilify-reaching-ra": {
+  "lufs": -8.87,
+  "peak_dbfs": 0.71,
+  "crest_db": 8.2
+ },
+ "739-katarzyna-bieniaszewska-krawczyk-shy-all-rise": {
+  "lufs": -11.44,
+  "peak_dbfs": -0.19,
+  "crest_db": 11.31
+ },
+ "740-tommaso-patrick-perilli-latenza-emotiva": {
+  "lufs": -15.2,
+  "peak_dbfs": 0.01,
+  "crest_db": 12.93
+ },
+ "741-unleashing-vengeance-governmental-hypocrisy-remix": {
+  "lufs": -2.2,
+  "peak_dbfs": -1.71,
+  "crest_db": 5.01
+ },
+ "742-dark-vibration-here-comes-the-dusk": {
+  "lufs": -16.25,
+  "peak_dbfs": -2.81,
+  "crest_db": 15.64
+ },
+ "743-roark-techno-industrial-technologies": {
+  "lufs": -27.78,
+  "peak_dbfs": -13.39,
+  "crest_db": 17.42
+ },
+ "744-ramon-vidal-banos-au-dela-des-e-toiles": {
+  "lufs": -12.04,
+  "peak_dbfs": -0.17,
+  "crest_db": 13.2
+ },
+ "745-atow-atow-hare-krishna-single-edit": {
+  "lufs": -7.14,
+  "peak_dbfs": 0.01,
+  "crest_db": 9.75
+ },
+ "746-gregory-sevezen-mc-muggso-22prod-detente-22prod": {
+  "lufs": -13.39,
+  "peak_dbfs": -0.3,
+  "crest_db": 15.56
+ },
+ "747-m-lys-the-stranger": {
+  "lufs": -7.26,
+  "peak_dbfs": 0.08,
+  "crest_db": 9.12
+ }
+}
