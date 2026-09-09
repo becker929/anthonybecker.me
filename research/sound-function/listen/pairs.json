@@ -1,562 +1,684 @@
 [
-  {
-    "id": "001_clap_bursts_1v4",
-    "sound": "clap",
-    "param": "bursts",
-    "job": "clap",
-    "a": {
-      "file": "audio/clap__bursts__1.mp3",
-      "value": 1
-    },
-    "b": {
-      "file": "audio/clap__bursts__4.mp3",
-      "value": 4
-    }
+ {
+  "id": "001_clap_decay_ms_60v300",
+  "set": "v2-real",
+  "sound": "clap",
+  "param": "decay_ms",
+  "job": "clap",
+  "a": {
+   "file": "audio/v2-real__clap__decay_ms__60.mp3",
+   "value": 60.0
   },
-  {
-    "id": "002_clap_decay_ms_80v300",
-    "sound": "clap",
-    "param": "decay_ms",
-    "job": "clap",
-    "a": {
-      "file": "audio/clap__decay_ms__80.mp3",
-      "value": 80
-    },
-    "b": {
-      "file": "audio/clap__decay_ms__300.mp3",
-      "value": 300
-    }
+  "b": {
+   "file": "audio/v2-real__clap__decay_ms__300.mp3",
+   "value": 300.0
   },
-  {
-    "id": "003_hat_decay_ms_15v250",
-    "sound": "hat",
-    "param": "decay_ms",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__decay_ms__15.mp3",
-      "value": 15
-    },
-    "b": {
-      "file": "audio/hat__decay_ms__250.mp3",
-      "value": 250
-    }
+  "source": {
+   "file": "clap__real__0023.wav",
+   "item": "beckstrom-volca-modular-drum-samples-1",
+   "licence": "CC BY 4.0",
+   "url": "https://archive.org/details/beckstrom-volca-modular-drum-samples-1"
   },
-  {
-    "id": "004_hat_highpass_hz_3000v9000",
-    "sound": "hat",
-    "param": "highpass_hz",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__highpass_hz__3000.mp3",
-      "value": 3000
-    },
-    "b": {
-      "file": "audio/hat__highpass_hz__9000.mp3",
-      "value": 9000
-    }
+  "credit": "beckstrom-volca-modular-drum-samples-1, licensed under CC BY 4.0"
+ },
+ {
+  "id": "002_clap_lowpass_hz_2000v12000",
+  "set": "v2-real",
+  "sound": "clap",
+  "param": "lowpass_hz",
+  "job": "clap",
+  "a": {
+   "file": "audio/v2-real__clap__lowpass_hz__2000.mp3",
+   "value": 2000.0
   },
-  {
-    "id": "005_hat_tone_0v1p0",
-    "sound": "hat",
-    "param": "tone",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__tone__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/hat__tone__1.0.mp3",
-      "value": 1.0
-    }
+  "b": {
+   "file": "audio/v2-real__clap__lowpass_hz__12000.mp3",
+   "value": 12000.0
   },
-  {
-    "id": "006_kick_amp_decay_ms_120v700",
-    "sound": "kick",
-    "param": "amp_decay_ms",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__amp_decay_ms__120.mp3",
-      "value": 120
-    },
-    "b": {
-      "file": "audio/kick__amp_decay_ms__700.mp3",
-      "value": 700
-    }
+  "source": {
+   "file": "clap__real__0023.wav",
+   "item": "beckstrom-volca-modular-drum-samples-1",
+   "licence": "CC BY 4.0",
+   "url": "https://archive.org/details/beckstrom-volca-modular-drum-samples-1"
   },
-  {
-    "id": "007_kick_click_level_0v1p0",
-    "sound": "kick",
-    "param": "click_level",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__click_level__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/kick__click_level__1.0.mp3",
-      "value": 1.0
-    }
+  "credit": "beckstrom-volca-modular-drum-samples-1, licensed under CC BY 4.0"
+ },
+ {
+  "id": "003_hat_closed_decay_ms_15v100",
+  "set": "v2-real",
+  "sound": "hat_closed",
+  "param": "decay_ms",
+  "job": "hat",
+  "a": {
+   "file": "audio/v2-real__hat_closed__decay_ms__15.mp3",
+   "value": 15.0
   },
-  {
-    "id": "008_kick_drive_0v0p9",
-    "sound": "kick",
-    "param": "drive",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__drive__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/kick__drive__0.9.mp3",
-      "value": 0.9
-    }
+  "b": {
+   "file": "audio/v2-real__hat_closed__decay_ms__100.mp3",
+   "value": 100.0
   },
-  {
-    "id": "009_kick_pitch_end_hz_35v90",
-    "sound": "kick",
-    "param": "pitch_end_hz",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__pitch_end_hz__35.mp3",
-      "value": 35
-    },
-    "b": {
-      "file": "audio/kick__pitch_end_hz__90.mp3",
-      "value": 90
-    }
+  "source": {
+   "file": "hat_closed__real__0017.wav",
+   "item": "SC8850DrumSamples",
+   "licence": "CC Public Domain Mark 1.0",
+   "url": "https://archive.org/details/SC8850DrumSamples"
   },
-  {
-    "id": "010_rumble_decay_ms_300v1500",
-    "sound": "rumble",
-    "param": "decay_ms",
-    "job": "rumble",
-    "a": {
-      "file": "audio/rumble__decay_ms__300.mp3",
-      "value": 300
-    },
-    "b": {
-      "file": "audio/rumble__decay_ms__1500.mp3",
-      "value": 1500
-    }
+  "credit": "SC8850DrumSamples, public domain (CC Public Domain Mark 1.0)"
+ },
+ {
+  "id": "004_hat_closed_lowpass_hz_4000v16000",
+  "set": "v2-real",
+  "sound": "hat_closed",
+  "param": "lowpass_hz",
+  "job": "hat",
+  "a": {
+   "file": "audio/v2-real__hat_closed__lowpass_hz__4000.mp3",
+   "value": 4000.0
   },
-  {
-    "id": "011_rumble_lowpass_hz_90v260",
-    "sound": "rumble",
-    "param": "lowpass_hz",
-    "job": "rumble",
-    "a": {
-      "file": "audio/rumble__lowpass_hz__90.mp3",
-      "value": 90
-    },
-    "b": {
-      "file": "audio/rumble__lowpass_hz__260.mp3",
-      "value": 260
-    }
+  "b": {
+   "file": "audio/v2-real__hat_closed__lowpass_hz__16000.mp3",
+   "value": 16000.0
   },
-  {
-    "id": "012_stab_cutoff_hz_600v4800",
-    "sound": "stab",
-    "param": "cutoff_hz",
-    "job": "hook",
-    "a": {
-      "file": "audio/stab__cutoff_hz__600.mp3",
-      "value": 600
-    },
-    "b": {
-      "file": "audio/stab__cutoff_hz__4800.mp3",
-      "value": 4800
-    }
+  "source": {
+   "file": "hat_closed__real__0017.wav",
+   "item": "SC8850DrumSamples",
+   "licence": "CC Public Domain Mark 1.0",
+   "url": "https://archive.org/details/SC8850DrumSamples"
   },
-  {
-    "id": "013_stab_decay_ms_60v600",
-    "sound": "stab",
-    "param": "decay_ms",
-    "job": "hook",
-    "a": {
-      "file": "audio/stab__decay_ms__60.mp3",
-      "value": 60
-    },
-    "b": {
-      "file": "audio/stab__decay_ms__600.mp3",
-      "value": 600
-    }
+  "credit": "SC8850DrumSamples, public domain (CC Public Domain Mark 1.0)"
+ },
+ {
+  "id": "005_hat_open_decay_ms_80v450",
+  "set": "v2-real",
+  "sound": "hat_open",
+  "param": "decay_ms",
+  "job": "hat",
+  "a": {
+   "file": "audio/v2-real__hat_open__decay_ms__80.mp3",
+   "value": 80.0
   },
-  {
-    "id": "014_stab_drive_0v0p8",
-    "sound": "stab",
-    "param": "drive",
-    "job": "hook",
-    "a": {
-      "file": "audio/stab__drive__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/stab__drive__0.8.mp3",
-      "value": 0.8
-    }
+  "b": {
+   "file": "audio/v2-real__hat_open__decay_ms__450.mp3",
+   "value": 450.0
   },
-  {
-    "id": "015_clap_bursts_1v3",
-    "sound": "clap",
-    "param": "bursts",
-    "job": "clap",
-    "a": {
-      "file": "audio/clap__bursts__1.mp3",
-      "value": 1
-    },
-    "b": {
-      "file": "audio/clap__bursts__3.mp3",
-      "value": 3
-    }
+  "source": {
+   "file": "hat_open__real__0010.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
   },
-  {
-    "id": "016_clap_decay_ms_80v200",
-    "sound": "clap",
-    "param": "decay_ms",
-    "job": "clap",
-    "a": {
-      "file": "audio/clap__decay_ms__80.mp3",
-      "value": 80
-    },
-    "b": {
-      "file": "audio/clap__decay_ms__200.mp3",
-      "value": 200
-    }
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "006_kick_decay_ms_60v480",
+  "set": "v2-real",
+  "sound": "kick",
+  "param": "decay_ms",
+  "job": "kick",
+  "a": {
+   "file": "audio/v2-real__kick__decay_ms__60.mp3",
+   "value": 60.0
   },
-  {
-    "id": "017_hat_decay_ms_15v60",
-    "sound": "hat",
-    "param": "decay_ms",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__decay_ms__15.mp3",
-      "value": 15
-    },
-    "b": {
-      "file": "audio/hat__decay_ms__60.mp3",
-      "value": 60
-    }
+  "b": {
+   "file": "audio/v2-real__kick__decay_ms__480.mp3",
+   "value": 480.0
   },
-  {
-    "id": "018_hat_highpass_hz_3000v7000",
-    "sound": "hat",
-    "param": "highpass_hz",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__highpass_hz__3000.mp3",
-      "value": 3000
-    },
-    "b": {
-      "file": "audio/hat__highpass_hz__7000.mp3",
-      "value": 7000
-    }
+  "source": {
+   "file": "kick__real__0086.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
   },
-  {
-    "id": "019_hat_tone_0v0p6",
-    "sound": "hat",
-    "param": "tone",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__tone__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/hat__tone__0.6.mp3",
-      "value": 0.6
-    }
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "007_kick_drive_0p0v0p7",
+  "set": "v2-real",
+  "sound": "kick",
+  "param": "drive",
+  "job": "kick",
+  "a": {
+   "file": "audio/v2-real__kick__drive__0.0.mp3",
+   "value": 0.0
   },
-  {
-    "id": "020_kick_amp_decay_ms_120v300",
-    "sound": "kick",
-    "param": "amp_decay_ms",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__amp_decay_ms__120.mp3",
-      "value": 120
-    },
-    "b": {
-      "file": "audio/kick__amp_decay_ms__300.mp3",
-      "value": 300
-    }
+  "b": {
+   "file": "audio/v2-real__kick__drive__0.7.mp3",
+   "value": 0.7
   },
-  {
-    "id": "021_kick_click_level_0v0p5",
-    "sound": "kick",
-    "param": "click_level",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__click_level__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/kick__click_level__0.5.mp3",
-      "value": 0.5
-    }
+  "source": {
+   "file": "kick__real__0086.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
   },
-  {
-    "id": "022_kick_drive_0v0p6",
-    "sound": "kick",
-    "param": "drive",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__drive__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/kick__drive__0.6.mp3",
-      "value": 0.6
-    }
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "008_kick_pitch_st_5v5",
+  "set": "v2-real",
+  "sound": "kick",
+  "param": "pitch_st",
+  "job": "kick",
+  "a": {
+   "file": "audio/v2-real__kick__pitch_st__-5.mp3",
+   "value": -5.0
   },
-  {
-    "id": "023_kick_pitch_end_hz_35v55",
-    "sound": "kick",
-    "param": "pitch_end_hz",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__pitch_end_hz__35.mp3",
-      "value": 35
-    },
-    "b": {
-      "file": "audio/kick__pitch_end_hz__55.mp3",
-      "value": 55
-    }
+  "b": {
+   "file": "audio/v2-real__kick__pitch_st__5.mp3",
+   "value": 5.0
   },
-  {
-    "id": "024_rumble_decay_ms_300v900",
-    "sound": "rumble",
-    "param": "decay_ms",
-    "job": "rumble",
-    "a": {
-      "file": "audio/rumble__decay_ms__300.mp3",
-      "value": 300
-    },
-    "b": {
-      "file": "audio/rumble__decay_ms__900.mp3",
-      "value": 900
-    }
+  "source": {
+   "file": "kick__real__0086.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
   },
-  {
-    "id": "025_rumble_lowpass_hz_90v180",
-    "sound": "rumble",
-    "param": "lowpass_hz",
-    "job": "rumble",
-    "a": {
-      "file": "audio/rumble__lowpass_hz__90.mp3",
-      "value": 90
-    },
-    "b": {
-      "file": "audio/rumble__lowpass_hz__180.mp3",
-      "value": 180
-    }
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "009_perc_decay_ms_50v400",
+  "set": "v2-real",
+  "sound": "perc",
+  "param": "decay_ms",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__perc__decay_ms__50.mp3",
+   "value": 50.0
   },
-  {
-    "id": "026_stab_cutoff_hz_600v2400",
-    "sound": "stab",
-    "param": "cutoff_hz",
-    "job": "hook",
-    "a": {
-      "file": "audio/stab__cutoff_hz__600.mp3",
-      "value": 600
-    },
-    "b": {
-      "file": "audio/stab__cutoff_hz__2400.mp3",
-      "value": 2400
-    }
+  "b": {
+   "file": "audio/v2-real__perc__decay_ms__400.mp3",
+   "value": 400.0
   },
-  {
-    "id": "027_stab_decay_ms_60v300",
-    "sound": "stab",
-    "param": "decay_ms",
-    "job": "hook",
-    "a": {
-      "file": "audio/stab__decay_ms__60.mp3",
-      "value": 60
-    },
-    "b": {
-      "file": "audio/stab__decay_ms__300.mp3",
-      "value": 300
-    }
+  "source": {
+   "file": "perc__real__0060.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
   },
-  {
-    "id": "028_stab_drive_0v0p4",
-    "sound": "stab",
-    "param": "drive",
-    "job": "hook",
-    "a": {
-      "file": "audio/stab__drive__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/stab__drive__0.4.mp3",
-      "value": 0.4
-    }
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "010_perc_lowpass_hz_1500v10000",
+  "set": "v2-real",
+  "sound": "perc",
+  "param": "lowpass_hz",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__perc__lowpass_hz__1500.mp3",
+   "value": 1500.0
   },
-  {
-    "id": "029_clap_bursts_1v2",
-    "sound": "clap",
-    "param": "bursts",
-    "job": "clap",
-    "a": {
-      "file": "audio/clap__bursts__1.mp3",
-      "value": 1
-    },
-    "b": {
-      "file": "audio/clap__bursts__2.mp3",
-      "value": 2
-    }
+  "b": {
+   "file": "audio/v2-real__perc__lowpass_hz__10000.mp3",
+   "value": 10000.0
   },
-  {
-    "id": "030_clap_decay_ms_80v140",
-    "sound": "clap",
-    "param": "decay_ms",
-    "job": "clap",
-    "a": {
-      "file": "audio/clap__decay_ms__80.mp3",
-      "value": 80
-    },
-    "b": {
-      "file": "audio/clap__decay_ms__140.mp3",
-      "value": 140
-    }
+  "source": {
+   "file": "perc__real__0060.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
   },
-  {
-    "id": "031_hat_decay_ms_15v30",
-    "sound": "hat",
-    "param": "decay_ms",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__decay_ms__15.mp3",
-      "value": 15
-    },
-    "b": {
-      "file": "audio/hat__decay_ms__30.mp3",
-      "value": 30
-    }
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "011_rumble_decay_ms_200v1000",
+  "set": "v2-real",
+  "sound": "rumble",
+  "param": "decay_ms",
+  "job": "rumble",
+  "a": {
+   "file": "audio/v2-real__rumble__decay_ms__200.mp3",
+   "value": 200.0
   },
-  {
-    "id": "032_hat_highpass_hz_3000v5000",
-    "sound": "hat",
-    "param": "highpass_hz",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__highpass_hz__3000.mp3",
-      "value": 3000
-    },
-    "b": {
-      "file": "audio/hat__highpass_hz__5000.mp3",
-      "value": 5000
-    }
+  "b": {
+   "file": "audio/v2-real__rumble__decay_ms__1000.mp3",
+   "value": 1000.0
   },
-  {
-    "id": "033_hat_tone_0v0p3",
-    "sound": "hat",
-    "param": "tone",
-    "job": "hat",
-    "a": {
-      "file": "audio/hat__tone__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/hat__tone__0.3.mp3",
-      "value": 0.3
-    }
+  "source": {
+   "file": "rumble__real__0003.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
   },
-  {
-    "id": "034_kick_amp_decay_ms_120v200",
-    "sound": "kick",
-    "param": "amp_decay_ms",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__amp_decay_ms__120.mp3",
-      "value": 120
-    },
-    "b": {
-      "file": "audio/kick__amp_decay_ms__200.mp3",
-      "value": 200
-    }
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "012_rumble_lowpass_hz_90v300",
+  "set": "v2-real",
+  "sound": "rumble",
+  "param": "lowpass_hz",
+  "job": "rumble",
+  "a": {
+   "file": "audio/v2-real__rumble__lowpass_hz__90.mp3",
+   "value": 90.0
   },
-  {
-    "id": "035_kick_click_level_0v0p25",
-    "sound": "kick",
-    "param": "click_level",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__click_level__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/kick__click_level__0.25.mp3",
-      "value": 0.25
-    }
+  "b": {
+   "file": "audio/v2-real__rumble__lowpass_hz__300.mp3",
+   "value": 300.0
   },
-  {
-    "id": "036_kick_drive_0v0p3",
-    "sound": "kick",
-    "param": "drive",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__drive__0.mp3",
-      "value": 0
-    },
-    "b": {
-      "file": "audio/kick__drive__0.3.mp3",
-      "value": 0.3
-    }
+  "source": {
+   "file": "rumble__real__0003.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
   },
-  {
-    "id": "037_kick_pitch_end_hz_35v45",
-    "sound": "kick",
-    "param": "pitch_end_hz",
-    "job": "kick",
-    "a": {
-      "file": "audio/kick__pitch_end_hz__35.mp3",
-      "value": 35
-    },
-    "b": {
-      "file": "audio/kick__pitch_end_hz__45.mp3",
-      "value": 45
-    }
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "013_stab_decay_ms_80v600",
+  "set": "v2-real",
+  "sound": "stab",
+  "param": "decay_ms",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__stab__decay_ms__80.mp3",
+   "value": 80.0
   },
-  {
-    "id": "038_rumble_decay_ms_300v600",
-    "sound": "rumble",
-    "param": "decay_ms",
-    "job": "rumble",
-    "a": {
-      "file": "audio/rumble__decay_ms__300.mp3",
-      "value": 300
-    },
-    "b": {
-      "file": "audio/rumble__decay_ms__600.mp3",
-      "value": 600
-    }
+  "b": {
+   "file": "audio/v2-real__stab__decay_ms__600.mp3",
+   "value": 600.0
   },
-  {
-    "id": "039_rumble_lowpass_hz_90v130",
-    "sound": "rumble",
-    "param": "lowpass_hz",
-    "job": "rumble",
-    "a": {
-      "file": "audio/rumble__lowpass_hz__90.mp3",
-      "value": 90
-    },
-    "b": {
-      "file": "audio/rumble__lowpass_hz__130.mp3",
-      "value": 130
-    }
+  "source": {
+   "file": "stab__real__0013.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
   },
-  {
-    "id": "040_stab_cutoff_hz_600v1200",
-    "sound": "stab",
-    "param": "cutoff_hz",
-    "job": "hook",
-    "a": {
-      "file": "audio/stab__cutoff_hz__600.mp3",
-      "value": 600
-    },
-    "b": {
-      "file": "audio/stab__cutoff_hz__1200.mp3",
-      "value": 1200
-    }
-  }
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "014_stab_drive_0p0v0p8",
+  "set": "v2-real",
+  "sound": "stab",
+  "param": "drive",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__stab__drive__0.0.mp3",
+   "value": 0.0
+  },
+  "b": {
+   "file": "audio/v2-real__stab__drive__0.8.mp3",
+   "value": 0.8
+  },
+  "source": {
+   "file": "stab__real__0013.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
+  },
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "015_stab_lowpass_hz_600v4000",
+  "set": "v2-real",
+  "sound": "stab",
+  "param": "lowpass_hz",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__stab__lowpass_hz__600.mp3",
+   "value": 600.0
+  },
+  "b": {
+   "file": "audio/v2-real__stab__lowpass_hz__4000.mp3",
+   "value": 4000.0
+  },
+  "source": {
+   "file": "stab__real__0013.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
+  },
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "016_clap_decay_ms_60v140",
+  "set": "v2-real",
+  "sound": "clap",
+  "param": "decay_ms",
+  "job": "clap",
+  "a": {
+   "file": "audio/v2-real__clap__decay_ms__60.mp3",
+   "value": 60.0
+  },
+  "b": {
+   "file": "audio/v2-real__clap__decay_ms__140.mp3",
+   "value": 140.0
+  },
+  "source": {
+   "file": "clap__real__0023.wav",
+   "item": "beckstrom-volca-modular-drum-samples-1",
+   "licence": "CC BY 4.0",
+   "url": "https://archive.org/details/beckstrom-volca-modular-drum-samples-1"
+  },
+  "credit": "beckstrom-volca-modular-drum-samples-1, licensed under CC BY 4.0"
+ },
+ {
+  "id": "017_clap_lowpass_hz_2000v5000",
+  "set": "v2-real",
+  "sound": "clap",
+  "param": "lowpass_hz",
+  "job": "clap",
+  "a": {
+   "file": "audio/v2-real__clap__lowpass_hz__2000.mp3",
+   "value": 2000.0
+  },
+  "b": {
+   "file": "audio/v2-real__clap__lowpass_hz__5000.mp3",
+   "value": 5000.0
+  },
+  "source": {
+   "file": "clap__real__0023.wav",
+   "item": "beckstrom-volca-modular-drum-samples-1",
+   "licence": "CC BY 4.0",
+   "url": "https://archive.org/details/beckstrom-volca-modular-drum-samples-1"
+  },
+  "credit": "beckstrom-volca-modular-drum-samples-1, licensed under CC BY 4.0"
+ },
+ {
+  "id": "018_hat_closed_decay_ms_15v40",
+  "set": "v2-real",
+  "sound": "hat_closed",
+  "param": "decay_ms",
+  "job": "hat",
+  "a": {
+   "file": "audio/v2-real__hat_closed__decay_ms__15.mp3",
+   "value": 15.0
+  },
+  "b": {
+   "file": "audio/v2-real__hat_closed__decay_ms__40.mp3",
+   "value": 40.0
+  },
+  "source": {
+   "file": "hat_closed__real__0017.wav",
+   "item": "SC8850DrumSamples",
+   "licence": "CC Public Domain Mark 1.0",
+   "url": "https://archive.org/details/SC8850DrumSamples"
+  },
+  "credit": "SC8850DrumSamples, public domain (CC Public Domain Mark 1.0)"
+ },
+ {
+  "id": "019_hat_closed_lowpass_hz_4000v8000",
+  "set": "v2-real",
+  "sound": "hat_closed",
+  "param": "lowpass_hz",
+  "job": "hat",
+  "a": {
+   "file": "audio/v2-real__hat_closed__lowpass_hz__4000.mp3",
+   "value": 4000.0
+  },
+  "b": {
+   "file": "audio/v2-real__hat_closed__lowpass_hz__8000.mp3",
+   "value": 8000.0
+  },
+  "source": {
+   "file": "hat_closed__real__0017.wav",
+   "item": "SC8850DrumSamples",
+   "licence": "CC Public Domain Mark 1.0",
+   "url": "https://archive.org/details/SC8850DrumSamples"
+  },
+  "credit": "SC8850DrumSamples, public domain (CC Public Domain Mark 1.0)"
+ },
+ {
+  "id": "020_hat_open_decay_ms_80v200",
+  "set": "v2-real",
+  "sound": "hat_open",
+  "param": "decay_ms",
+  "job": "hat",
+  "a": {
+   "file": "audio/v2-real__hat_open__decay_ms__80.mp3",
+   "value": 80.0
+  },
+  "b": {
+   "file": "audio/v2-real__hat_open__decay_ms__200.mp3",
+   "value": 200.0
+  },
+  "source": {
+   "file": "hat_open__real__0010.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
+  },
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "021_kick_decay_ms_60v120",
+  "set": "v2-real",
+  "sound": "kick",
+  "param": "decay_ms",
+  "job": "kick",
+  "a": {
+   "file": "audio/v2-real__kick__decay_ms__60.mp3",
+   "value": 60.0
+  },
+  "b": {
+   "file": "audio/v2-real__kick__decay_ms__120.mp3",
+   "value": 120.0
+  },
+  "source": {
+   "file": "kick__real__0086.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
+  },
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "022_kick_drive_0p0v0p35",
+  "set": "v2-real",
+  "sound": "kick",
+  "param": "drive",
+  "job": "kick",
+  "a": {
+   "file": "audio/v2-real__kick__drive__0.0.mp3",
+   "value": 0.0
+  },
+  "b": {
+   "file": "audio/v2-real__kick__drive__0.35.mp3",
+   "value": 0.35
+  },
+  "source": {
+   "file": "kick__real__0086.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
+  },
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "023_kick_pitch_st_5v0",
+  "set": "v2-real",
+  "sound": "kick",
+  "param": "pitch_st",
+  "job": "kick",
+  "a": {
+   "file": "audio/v2-real__kick__pitch_st__-5.mp3",
+   "value": -5.0
+  },
+  "b": {
+   "file": "audio/v2-real__kick__pitch_st__0.mp3",
+   "value": 0.0
+  },
+  "source": {
+   "file": "kick__real__0086.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
+  },
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "024_perc_decay_ms_50v150",
+  "set": "v2-real",
+  "sound": "perc",
+  "param": "decay_ms",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__perc__decay_ms__50.mp3",
+   "value": 50.0
+  },
+  "b": {
+   "file": "audio/v2-real__perc__decay_ms__150.mp3",
+   "value": 150.0
+  },
+  "source": {
+   "file": "perc__real__0060.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
+  },
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "025_perc_lowpass_hz_1500v4000",
+  "set": "v2-real",
+  "sound": "perc",
+  "param": "lowpass_hz",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__perc__lowpass_hz__1500.mp3",
+   "value": 1500.0
+  },
+  "b": {
+   "file": "audio/v2-real__perc__lowpass_hz__4000.mp3",
+   "value": 4000.0
+  },
+  "source": {
+   "file": "perc__real__0060.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
+  },
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ },
+ {
+  "id": "026_rumble_decay_ms_200v500",
+  "set": "v2-real",
+  "sound": "rumble",
+  "param": "decay_ms",
+  "job": "rumble",
+  "a": {
+   "file": "audio/v2-real__rumble__decay_ms__200.mp3",
+   "value": 200.0
+  },
+  "b": {
+   "file": "audio/v2-real__rumble__decay_ms__500.mp3",
+   "value": 500.0
+  },
+  "source": {
+   "file": "rumble__real__0003.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
+  },
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "027_rumble_lowpass_hz_90v160",
+  "set": "v2-real",
+  "sound": "rumble",
+  "param": "lowpass_hz",
+  "job": "rumble",
+  "a": {
+   "file": "audio/v2-real__rumble__lowpass_hz__90.mp3",
+   "value": 90.0
+  },
+  "b": {
+   "file": "audio/v2-real__rumble__lowpass_hz__160.mp3",
+   "value": 160.0
+  },
+  "source": {
+   "file": "rumble__real__0003.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
+  },
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "028_stab_decay_ms_80v250",
+  "set": "v2-real",
+  "sound": "stab",
+  "param": "decay_ms",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__stab__decay_ms__80.mp3",
+   "value": 80.0
+  },
+  "b": {
+   "file": "audio/v2-real__stab__decay_ms__250.mp3",
+   "value": 250.0
+  },
+  "source": {
+   "file": "stab__real__0013.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
+  },
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "029_stab_drive_0p0v0p4",
+  "set": "v2-real",
+  "sound": "stab",
+  "param": "drive",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__stab__drive__0.0.mp3",
+   "value": 0.0
+  },
+  "b": {
+   "file": "audio/v2-real__stab__drive__0.4.mp3",
+   "value": 0.4
+  },
+  "source": {
+   "file": "stab__real__0013.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
+  },
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "030_stab_lowpass_hz_600v1600",
+  "set": "v2-real",
+  "sound": "stab",
+  "param": "lowpass_hz",
+  "job": "hook",
+  "a": {
+   "file": "audio/v2-real__stab__lowpass_hz__600.mp3",
+   "value": 600.0
+  },
+  "b": {
+   "file": "audio/v2-real__stab__lowpass_hz__1600.mp3",
+   "value": 1600.0
+  },
+  "source": {
+   "file": "stab__real__0013.wav",
+   "item": "ejay-virtual-music-studio-samples",
+   "licence": "CC0 1.0",
+   "url": "https://archive.org/details/ejay-virtual-music-studio-samples"
+  },
+  "credit": "ejay-virtual-music-studio-samples, public domain (CC0 1.0)"
+ },
+ {
+  "id": "031_kick_decay_ms_60v240",
+  "set": "v2-real",
+  "sound": "kick",
+  "param": "decay_ms",
+  "job": "kick",
+  "a": {
+   "file": "audio/v2-real__kick__decay_ms__60.mp3",
+   "value": 60.0
+  },
+  "b": {
+   "file": "audio/v2-real__kick__decay_ms__240.mp3",
+   "value": 240.0
+  },
+  "source": {
+   "file": "kick__real__0086.wav",
+   "item": "TamTamDrumKits",
+   "licence": "CC BY 3.0",
+   "url": "https://archive.org/details/TamTamDrumKits"
+  },
+  "credit": "TamTamDrumKits, licensed under CC BY 3.0"
+ }
 ]

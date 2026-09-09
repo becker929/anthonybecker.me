@@ -85,6 +85,30 @@ function clearRadios(name) {
   });
 }
 
+
+// Attribution for the stimulus sources. CC BY packs require a credit line, so
+// the page builds one from the same data the stimuli carry.
+function renderCredits(pairs) {
+  const list = byId("credit-list");
+  if (!list) return;
+  const seen = new Map();
+  pairs.forEach((p) => {
+    const s = p.source;
+    if (s && s.item && !seen.has(s.item)) seen.set(s.item, s);
+  });
+  list.innerHTML = "";
+  seen.forEach((s) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = s.url;
+    a.textContent = s.item;
+    a.rel = "noopener";
+    li.appendChild(a);
+    li.appendChild(document.createTextNode(` — ${s.licence}`));
+    list.appendChild(li);
+  });
+}
+
 function postAnswer(payload) {
   try {
     fetch("/api/listen", {
@@ -158,6 +182,7 @@ function handleNext(event) {
   postAnswer({
     session: SESSION_ID,
     pair: currentPair().id,
+    set: currentPair().set || "v1-synth",
     order: state.currentOrder,
     jobs: { a: jobA, b: jobB },
     more,
@@ -212,6 +237,7 @@ async function init() {
   try {
     const res = await fetch("pairs.json");
     state.pairs = await res.json();
+    renderCredits(state.pairs);
     byId("progress-total").textContent = String(state.pairs.length);
   } catch {
     byId("intro").innerHTML =
