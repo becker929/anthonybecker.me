@@ -1,0 +1,47 @@
+file,job,param,value,source_file,source_item,licence,source_url
+kick__decay_ms__60.wav,kick,decay_ms,60,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__decay_ms__120.wav,kick,decay_ms,120,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__decay_ms__240.wav,kick,decay_ms,240,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__decay_ms__480.wav,kick,decay_ms,480,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__drive__0.0.wav,kick,drive,0.0,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__drive__0.35.wav,kick,drive,0.35,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__drive__0.7.wav,kick,drive,0.7,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__pitch_st__-5.wav,kick,pitch_st,-5,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__pitch_st__0.wav,kick,pitch_st,0,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+kick__pitch_st__5.wav,kick,pitch_st,5,kick__real__0086.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+rumble__decay_ms__200.wav,rumble,decay_ms,200,rumble__real__0003.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+rumble__decay_ms__500.wav,rumble,decay_ms,500,rumble__real__0003.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+rumble__decay_ms__1000.wav,rumble,decay_ms,1000,rumble__real__0003.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+rumble__lowpass_hz__90.wav,rumble,lowpass_hz,90,rumble__real__0003.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+rumble__lowpass_hz__160.wav,rumble,lowpass_hz,160,rumble__real__0003.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+rumble__lowpass_hz__300.wav,rumble,lowpass_hz,300,rumble__real__0003.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+hat_closed__decay_ms__15.wav,hat_closed,decay_ms,15,hat_closed__real__0017.wav,SC8850DrumSamples,CC Public Domain Mark 1.0,https://archive.org/details/SC8850DrumSamples
+hat_closed__decay_ms__40.wav,hat_closed,decay_ms,40,hat_closed__real__0017.wav,SC8850DrumSamples,CC Public Domain Mark 1.0,https://archive.org/details/SC8850DrumSamples
+hat_closed__decay_ms__100.wav,hat_closed,decay_ms,100,hat_closed__real__0017.wav,SC8850DrumSamples,CC Public Domain Mark 1.0,https://archive.org/details/SC8850DrumSamples
+hat_closed__lowpass_hz__4000.wav,hat_closed,lowpass_hz,4000,hat_closed__real__0017.wav,SC8850DrumSamples,CC Public Domain Mark 1.0,https://archive.org/details/SC8850DrumSamples
+hat_closed__lowpass_hz__8000.wav,hat_closed,lowpass_hz,8000,hat_closed__real__0017.wav,SC8850DrumSamples,CC Public Domain Mark 1.0,https://archive.org/details/SC8850DrumSamples
+hat_closed__lowpass_hz__16000.wav,hat_closed,lowpass_hz,16000,hat_closed__real__0017.wav,SC8850DrumSamples,CC Public Domain Mark 1.0,https://archive.org/details/SC8850DrumSamples
+hat_open__decay_ms__80.wav,hat_open,decay_ms,80,hat_open__real__0010.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+hat_open__decay_ms__200.wav,hat_open,decay_ms,200,hat_open__real__0010.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+hat_open__decay_ms__450.wav,hat_open,decay_ms,450,hat_open__real__0010.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+clap__decay_ms__60.wav,clap,decay_ms,60,clap__real__0023.wav,beckstrom-volca-modular-drum-samples-1,CC BY 4.0,https://archive.org/details/beckstrom-volca-modular-drum-samples-1
+clap__decay_ms__140.wav,clap,decay_ms,140,clap__real__0023.wav,beckstrom-volca-modular-drum-samples-1,CC BY 4.0,https://archive.org/details/beckstrom-volca-modular-drum-samples-1
+clap__decay_ms__300.wav,clap,decay_ms,300,clap__real__0023.wav,beckstrom-volca-modular-drum-samples-1,CC BY 4.0,https://archive.org/details/beckstrom-volca-modular-drum-samples-1
+clap__lowpass_hz__2000.wav,clap,lowpass_hz,2000,clap__real__0023.wav,beckstrom-volca-modular-drum-samples-1,CC BY 4.0,https://archive.org/details/beckstrom-volca-modular-drum-samples-1
+clap__lowpass_hz__5000.wav,clap,lowpass_hz,5000,clap__real__0023.wav,beckstrom-volca-modular-drum-samples-1,CC BY 4.0,https://archive.org/details/beckstrom-volca-modular-drum-samples-1
+clap__lowpass_hz__12000.wav,clap,lowpass_hz,12000,clap__real__0023.wav,beckstrom-volca-modular-drum-samples-1,CC BY 4.0,https://archive.org/details/beckstrom-volca-modular-drum-samples-1
+perc__decay_ms__50.wav,perc,decay_ms,50,perc__real__0060.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+perc__decay_ms__150.wav,perc,decay_ms,150,perc__real__0060.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+perc__decay_ms__400.wav,perc,decay_ms,400,perc__real__0060.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+perc__lowpass_hz__1500.wav,perc,lowpass_hz,1500,perc__real__0060.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+perc__lowpass_hz__4000.wav,perc,lowpass_hz,4000,perc__real__0060.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+perc__lowpass_hz__10000.wav,perc,lowpass_hz,10000,perc__real__0060.wav,TamTamDrumKits,CC BY 3.0,https://archive.org/details/TamTamDrumKits
+stab__decay_ms__80.wav,stab,decay_ms,80,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+stab__decay_ms__250.wav,stab,decay_ms,250,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+stab__decay_ms__600.wav,stab,decay_ms,600,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+stab__lowpass_hz__600.wav,stab,lowpass_hz,600,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+stab__lowpass_hz__1600.wav,stab,lowpass_hz,1600,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+stab__lowpass_hz__4000.wav,stab,lowpass_hz,4000,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+stab__drive__0.0.wav,stab,drive,0.0,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+stab__drive__0.4.wav,stab,drive,0.4,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples
+stab__drive__0.8.wav,stab,drive,0.8,stab__real__0013.wav,ejay-virtual-music-studio-samples,CC0 1.0,https://archive.org/details/ejay-virtual-music-studio-samples

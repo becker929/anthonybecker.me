@@ -1,0 +1,3174 @@
+{
+ "summary": {
+  "stimuli": 46,
+  "feature_checks": 276,
+  "out_of_range": 42,
+  "share_out_of_range": 0.152,
+  "worst": [
+   {
+    "file": "clap__lowpass_hz__2000.wav",
+    "sound": "clap",
+    "ref_sound": "clap",
+    "features": {
+     "attack_ms": {
+      "value": 4.829931972789116,
+      "real_p10": 5.124716553287982,
+      "real_p50": 8.820861678004535,
+      "real_p90": 24.467120181405896,
+      "in_range": false,
+      "ratio_to_median": 0.5475578406169667
+     },
+     "decay_ms": {
+      "value": 18.0,
+      "real_p10": 12.0,
+      "real_p50": 26.0,
+      "real_p90": 100.0,
+      "in_range": true,
+      "ratio_to_median": 0.6923076923076923
+     },
+     "crest_factor_db": {
+      "value": 16.33802541142429,
+      "real_p10": 12.252256903569856,
+      "real_p50": 13.428529348590573,
+      "real_p90": 21.26664432065508,
+      "in_range": true,
+      "ratio_to_median": 1.2166652793694859
+     },
+     "spectral_centroid_hz": {
+      "value": 1132.9500815692745,
+      "real_p10": 2881.496335558964,
+      "real_p50": 4934.996838859156,
+      "real_p90": 6581.173176578311,
+      "in_range": false,
+      "ratio_to_median": 0.22957463166910222
+     },
+     "band_sub_share": {
+      "value": 0.004085039977001949,
+      "real_p10": 7.819525374153982e-05,
+      "real_p50": 0.0017119027165845237,
+      "real_p90": 0.00398190316035452,
+      "in_range": false,
+      "ratio_to_median": 2.386257079579939
+     },
+     "band_high_share": {
+      "value": 0.05022043060181672,
+      "real_p10": 0.24653464477829076,
+      "real_p50": 0.3640583918205393,
+      "real_p90": 0.41794819072901007,
+      "in_range": false,
+      "ratio_to_median": 0.13794608702928243
+     }
+    },
+    "out_of_range": 4
+   },
+   {
+    "file": "rumble__lowpass_hz__160.wav",
+    "sound": "rumble",
+    "ref_sound": "rumble",
+    "features": {
+     "attack_ms": {
+      "value": 73.35600907029479,
+      "real_p10": 2.2448979591836733,
+      "real_p50": 18.52607709750567,
+      "real_p90": 49.84126984126984,
+      "in_range": false,
+      "ratio_to_median": 3.959608323133415
+     },
+     "decay_ms": {
+      "value": 618.0,
+      "real_p10": 14.0,
+      "real_p50": 242.0,
+      "real_p90": 1026.0,
+      "in_range": true,
+      "ratio_to_median": 2.553719008264463
+     },
+     "crest_factor_db": {
+      "value": 8.532490185672387,
+      "real_p10": 5.693226436361437,
+      "real_p50": 10.618452595599678,
+      "real_p90": 16.451894153676218,
+      "in_range": true,
+      "ratio_to_median": 0.8035530703605797
+     },
+     "spectral_centroid_hz": {
+      "value": 117.28554575268677,
+      "real_p10": 118.65233691233942,
+      "real_p50": 531.3705224557062,
+      "real_p90": 5378.467850780173,
+      "in_range": false,
+      "ratio_to_median": 0.22072271756938383
+     },
+     "band_sub_share": {
+      "value": 0.27167362535839124,
+      "real_p10": 6.697417334693102e-05,
+      "real_p50": 0.3026707859736521,
+      "real_p90": 0.8465778234391541,
+      "in_range": true,
+      "ratio_to_median": 0.8975878675718666
+     },
+     "band_high_share": {
+      "value": 1.5192499232247462e-10,
+      "real_p10": 2.170396795983927e-08,
+      "real_p50": 0.00021436611705444533,
+      "real_p90": 0.027229130585626173,
+      "in_range": false,
+      "ratio_to_median": 7.087173775876542e-07
+     }
+    },
+    "out_of_range": 3
+   },
+   {
+    "file": "rumble__lowpass_hz__90.wav",
+    "sound": "rumble",
+    "ref_sound": "rumble",
+    "features": {
+     "attack_ms": {
+      "value": 186.00907029478458,
+      "real_p10": 2.2448979591836733,
+      "real_p50": 18.52607709750567,
+      "real_p90": 49.84126984126984,
+      "in_range": false,
+      "ratio_to_median": 10.040391676866584
+     },
+     "decay_ms": {
+      "value": 524.0,
+      "real_p10": 14.0,
+      "real_p50": 242.0,
+      "real_p90": 1026.0,
+      "in_range": true,
+      "ratio_to_median": 2.165289256198347
+     },
+     "crest_factor_db": {
+      "value": 8.716629622939394,
+      "real_p10": 5.693226436361437,
+      "real_p50": 10.618452595599678,
+      "real_p90": 16.451894153676218,
+      "in_range": true,
+      "ratio_to_median": 0.8208945271886032
+     },
+     "spectral_centroid_hz": {
+      "value": 107.3880537458601,
+      "real_p10": 118.65233691233942,
+      "real_p50": 531.3705224557062,
+      "real_p90": 5378.467850780173,
+      "in_range": false,
+      "ratio_to_median": 0.20209637006127248
+     },
+     "band_sub_share": {
+      "value": 0.3582500072004731,
+      "real_p10": 6.697417334693102e-05,
+      "real_p50": 0.3026707859736521,
+      "real_p90": 0.8465778234391541,
+      "in_range": true,
+      "ratio_to_median": 1.1836292889914366
+     },
+     "band_high_share": {
+      "value": 1.6729671544286242e-10,
+      "real_p10": 2.170396795983927e-08,
+      "real_p50": 0.00021436611705444533,
+      "real_p90": 0.027229130585626173,
+      "in_range": false,
+      "ratio_to_median": 7.804251797888932e-07
+     }
+    },
+    "out_of_range": 3
+   },
+   {
+    "file": "clap__decay_ms__140.wav",
+    "sound": "clap",
+    "ref_sound": "clap",
+    "features": {
+     "attack_ms": {
+      "value": 3.8775510204081636,
+      "real_p10": 5.124716553287982,
+      "real_p50": 8.820861678004535,
+      "real_p90": 24.467120181405896,
+      "in_range": false,
+      "ratio_to_median": 0.43958868894601544
+     },
+     "decay_ms": {
+      "value": 22.0,
+      "real_p10": 12.0,
+      "real_p50": 26.0,
+      "real_p90": 100.0,
+      "in_range": true,
+      "ratio_to_median": 0.8461538461538461
+     },
+     "crest_factor_db": {
+      "value": 14.450819642149952,
+      "real_p10": 12.252256903569856,
+      "real_p50": 13.428529348590573,
+      "real_p90": 21.26664432065508,
+      "in_range": true,
+      "ratio_to_median": 1.0761282391408467
+     },
+     "spectral_centroid_hz": {
+      "value": 5595.108552964543,
+      "real_p10": 2881.496335558964,
+      "real_p50": 4934.996838859156,
+      "real_p90": 6581.173176578311,
+      "in_range": true,
+      "ratio_to_median": 1.1337613246086675
+     },
+     "band_sub_share": {
+      "value": 0.0019018816290668943,
+      "real_p10": 7.819525374153982e-05,
+      "real_p50": 0.0017119027165845237,
+      "real_p90": 0.00398190316035452,
+      "in_range": true,
+      "ratio_to_median": 1.1109752970434
+     },
+     "band_high_share": {
+      "value": 0.42033010511359425,
+      "real_p10": 0.24653464477829076,
+      "real_p50": 0.3640583918205393,
+      "real_p90": 0.41794819072901007,
+      "in_range": false,
+      "ratio_to_median": 1.1545678236165857
+     }
+    },
+    "out_of_range": 2
+   },
+   {
+    "file": "clap__decay_ms__60.wav",
+    "sound": "clap",
+    "ref_sound": "clap",
+    "features": {
+     "attack_ms": {
+      "value": 3.8775510204081636,
+      "real_p10": 5.124716553287982,
+      "real_p50": 8.820861678004535,
+      "real_p90": 24.467120181405896,
+      "in_range": false,
+      "ratio_to_median": 0.43958868894601544
+     },
+     "decay_ms": {
+      "value": 20.0,
+      "real_p10": 12.0,
+      "real_p50": 26.0,
+      "real_p90": 100.0,
+      "in_range": true,
+      "ratio_to_median": 0.7692307692307693
+     },
+     "crest_factor_db": {
+      "value": 15.38797139928138,
+      "real_p10": 12.252256903569856,
+      "real_p50": 13.428529348590573,
+      "real_p90": 21.26664432065508,
+      "in_range": true,
+      "ratio_to_median": 1.1459163546376332
+     },
+     "spectral_centroid_hz": {
+      "value": 6458.095468199718,
+      "real_p10": 2881.496335558964,
+      "real_p50": 4934.996838859156,
+      "real_p90": 6581.173176578311,
+      "in_range": true,
+      "ratio_to_median": 1.3086321387984239
+     },
+     "band_sub_share": {
+      "value": 0.001960036047461607,
+      "real_p10": 7.819525374153982e-05,
+      "real_p50": 0.0017119027165845237,
+      "real_p90": 0.00398190316035452,
+      "in_range": true,
+      "ratio_to_median": 1.1449459297384275
+     },
+     "band_high_share": {
+      "value": 0.4353168951579278,
+      "real_p10": 0.24653464477829076,
+      "real_p50": 0.3640583918205393,
+      "real_p90": 0.41794819072901007,
+      "in_range": false,
+      "ratio_to_median": 1.195733720025097
+     }
+    },
+    "out_of_range": 2
+   },
+   {
+    "file": "hat_open__decay_ms__200.wav",
+    "sound": "hat_open",
+    "ref_sound": "hat_open",
+    "features": {
+     "attack_ms": {
+      "value": 21.020408163265305,
+      "real_p10": 0.9750566893424036,
+      "real_p50": 18.54875283446712,
+      "real_p90": 78.84353741496598,
+      "in_range": true,
+      "ratio_to_median": 1.1332518337408313
+     },
+     "decay_ms": {
+      "value": 88.0,
+      "real_p10": 126.0,
+      "real_p50": 262.0,
+      "real_p90": 618.0,
+      "in_range": false,
+      "ratio_to_median": 0.33587786259541985
+     },
+     "crest_factor_db": {
+      "value": 22.690268190048073,
+      "real_p10": 13.149230125029952,
+      "real_p50": 19.072911212347737,
+      "real_p90": 21.543407028070835,
+      "in_range": false,
+      "ratio_to_median": 1.1896594042423094
+     },
+     "spectral_centroid_hz": {
+      "value": 9253.125090221114,
+      "real_p10": 6803.888310936162,
+      "real_p50": 9231.12057327276,
+      "real_p90": 10733.866211629975,
+      "in_range": true,
+      "ratio_to_median": 1.0023837319395508
+     },
+     "band_sub_share": {
+      "value": 0.0001375512338445146,
+      "real_p10": 1.8146857675361052e-08,
+      "real_p50": 1.5047744205294298e-05,
+      "real_p90": 0.01556849479713328,
+      "in_range": true,
+      "ratio_to_median": 9.140986979039655
+     },
+     "band_high_share": {
+      "value": 0.2257122883889801,
+      "real_p10": 0.0801926745879985,
+      "real_p50": 0.2658349257020845,
+      "real_p90": 0.5825881645399497,
+      "in_range": true,
+      "ratio_to_median": 0.8490693530688703
+     }
+    },
+    "out_of_range": 2
+   },
+   {
+    "file": "perc__lowpass_hz__1500.wav",
+    "sound": "perc",
+    "ref_sound": "perc",
+    "features": {
+     "attack_ms": {
+      "value": 9.954648526077097,
+      "real_p10": 1.383219954648526,
+      "real_p50": 7.437641723356009,
+      "real_p90": 33.26530612244898,
+      "in_range": true,
+      "ratio_to_median": 1.3384146341463414
+     },
+     "decay_ms": {
+      "value": 116.0,
+      "real_p10": 24.0,
+      "real_p50": 76.0,
+      "real_p90": 204.0,
+      "in_range": true,
+      "ratio_to_median": 1.5263157894736843
+     },
+     "crest_factor_db": {
+      "value": 18.7947687348462,
+      "real_p10": 11.097985764831407,
+      "real_p50": 17.138211733819862,
+      "real_p90": 24.53232986214917,
+      "in_range": true,
+      "ratio_to_median": 1.0966586845089186
+     },
+     "spectral_centroid_hz": {
+      "value": 912.0911040400233,
+      "real_p10": 936.5431015266142,
+      "real_p50": 2734.879478376971,
+      "real_p90": 8570.279242561262,
+      "in_range": false,
+      "ratio_to_median": 0.33350321696124935
+     },
+     "band_sub_share": {
+      "value": 3.222770527485615e-05,
+      "real_p10": 1.7695527341118063e-06,
+      "real_p50": 0.002177346139811744,
+      "real_p90": 0.18283131253613702,
+      "in_range": true,
+      "ratio_to_median": 0.014801369743463296
+     },
+     "band_high_share": {
+      "value": 0.00018371965386488983,
+      "real_p10": 0.00126534377356881,
+      "real_p50": 0.02520293019488635,
+      "real_p90": 0.29048323568422246,
+      "in_range": false,
+      "ratio_to_median": 0.007289614836221162
+     }
+    },
+    "out_of_range": 2
+   },
+   {
+    "file": "rumble__decay_ms__200.wav",
+    "sound": "rumble",
+    "ref_sound": "rumble",
+    "features": {
+     "attack_ms": {
+      "value": 1.9501133786848073,
+      "real_p10": 2.2448979591836733,
+      "real_p50": 18.52607709750567,
+      "real_p90": 49.84126984126984,
+      "in_range": false,
+      "ratio_to_median": 0.10526315789473684
+     },
+     "decay_ms": {
+      "value": 188.0,
+      "real_p10": 14.0,
+      "real_p50": 242.0,
+      "real_p90": 1026.0,
+      "in_range": true,
+      "ratio_to_median": 0.7768595041322314
+     },
+     "crest_factor_db": {
+      "value": 14.322280344135681,
+      "real_p10": 5.693226436361437,
+      "real_p50": 10.618452595599678,
+      "real_p90": 16.451894153676218,
+      "in_range": true,
+      "ratio_to_median": 1.3488104990053713
+     },
+     "spectral_centroid_hz": {
+      "value": 738.2825198342347,
+      "real_p10": 118.65233691233942,
+      "real_p50": 531.3705224557062,
+      "real_p90": 5378.467850780173,
+      "in_range": true,
+      "ratio_to_median": 1.389393066860942
+     },
+     "band_sub_share": {
+      "value": 0.006700638249974435,
+      "real_p10": 6.697417334693102e-05,
+      "real_p50": 0.3026707859736521,
+      "real_p90": 0.8465778234391541,
+      "in_range": true,
+      "ratio_to_median": 0.02213837132784178
+     },
+     "band_high_share": {
+      "value": 9.847167577993825e-09,
+      "real_p10": 2.170396795983927e-08,
+      "real_p50": 0.00021436611705444533,
+      "real_p90": 0.027229130585626173,
+      "in_range": false,
+      "ratio_to_median": 4.5936212836718094e-05
+     }
+    },
+    "out_of_range": 2
+   },
+   {
+    "file": "stab__lowpass_hz__600.wav",
+    "sound": "stab",
+    "ref_sound": "stab",
+    "features": {
+     "attack_ms": {
+      "value": 67.57369614512471,
+      "real_p10": 10.249433106575964,
+      "real_p50": 68.20861678004535,
+      "real_p90": 135.0793650793651,
+      "in_range": true,
+      "ratio_to_median": 0.9906914893617021
+     },
+     "decay_ms": {
+      "value": 122.0,
+      "real_p10": 114.0,
+      "real_p50": 270.0,
+      "real_p90": 562.0,
+      "in_range": true,
+      "ratio_to_median": 0.45185185185185184
+     },
+     "crest_factor_db": {
+      "value": 16.69185513829158,
+      "real_p10": 8.749392804937045,
+      "real_p50": 17.19152422327019,
+      "real_p90": 19.42917040933259,
+      "in_range": true,
+      "ratio_to_median": 0.9709351492927971
+     },
+     "spectral_centroid_hz": {
+      "value": 552.354830108527,
+      "real_p10": 693.400952852751,
+      "real_p50": 2137.1155125254804,
+      "real_p90": 3142.4974269216045,
+      "in_range": false,
+      "ratio_to_median": 0.25845810714077694
+     },
+     "band_sub_share": {
+      "value": 0.00026909594938901544,
+      "real_p10": 2.1211353060672297e-06,
+      "real_p50": 0.0006780284108879003,
+      "real_p90": 0.020230987705888225,
+      "in_range": true,
+      "ratio_to_median": 0.39688004966727797
+     },
+     "band_high_share": {
+      "value": 4.063820210743586e-06,
+      "real_p10": 0.0038338362252443013,
+      "real_p50": 0.04342598115680782,
+      "real_p90": 0.2158984917583929,
+      "in_range": false,
+      "ratio_to_median": 9.358038903184361e-05
+     }
+    },
+    "out_of_range": 2
+   },
+   {
+    "file": "clap__decay_ms__300.wav",
+    "sound": "clap",
+    "ref_sound": "clap",
+    "features": {
+     "attack_ms": {
+      "value": 3.854875283446712,
+      "real_p10": 5.124716553287982,
+      "real_p50": 8.820861678004535,
+      "real_p90": 24.467120181405896,
+      "in_range": false,
+      "ratio_to_median": 0.43701799485861187
+     },
+     "decay_ms": {
+      "value": 22.0,
+      "real_p10": 12.0,
+      "real_p50": 26.0,
+      "real_p90": 100.0,
+      "in_range": true,
+      "ratio_to_median": 0.8461538461538461
+     },
+     "crest_factor_db": {
+      "value": 13.97854401230136,
+      "real_p10": 12.252256903569856,
+      "real_p50": 13.428529348590573,
+      "real_p90": 21.26664432065508,
+      "in_range": true,
+      "ratio_to_median": 1.0409586671356916
+     },
+     "spectral_centroid_hz": {
+      "value": 5468.594412403881,
+      "real_p10": 2881.496335558964,
+      "real_p50": 4934.996838859156,
+      "real_p90": 6581.173176578311,
+      "in_range": true,
+      "ratio_to_median": 1.1081252108092694
+     },
+     "band_sub_share": {
+      "value": 0.0020628059914731415,
+      "real_p10": 7.819525374153982e-05,
+      "real_p50": 0.0017119027165845237,
+      "real_p90": 0.00398190316035452,
+      "in_range": true,
+      "ratio_to_median": 1.2049785139594364
+     },
+     "band_high_share": {
+      "value": 0.41029617631235005,
+      "real_p10": 0.24653464477829076,
+      "real_p50": 0.3640583918205393,
+      "real_p90": 0.41794819072901007,
+      "in_range": true,
+      "ratio_to_median": 1.1270065064579076
+     }
+    },
+    "out_of_range": 1
+   }
+  ],
+  "by_feature": {
+   "attack_ms": {
+    "out": 7,
+    "of": 46
+   },
+   "decay_ms": {
+    "out": 7,
+    "of": 46
+   },
+   "crest_factor_db": {
+    "out": 5,
+    "of": 46
+   },
+   "spectral_centroid_hz": {
+    "out": 8,
+    "of": 46
+   },
+   "band_sub_share": {
+    "out": 3,
+    "of": 46
+   },
+   "band_high_share": {
+    "out": 12,
+    "of": 46
+   }
+  }
+ },
+ "stimuli": [
+  {
+   "file": "clap__decay_ms__140.wav",
+   "sound": "clap",
+   "ref_sound": "clap",
+   "features": {
+    "attack_ms": {
+     "value": 3.8775510204081636,
+     "real_p10": 5.124716553287982,
+     "real_p50": 8.820861678004535,
+     "real_p90": 24.467120181405896,
+     "in_range": false,
+     "ratio_to_median": 0.43958868894601544
+    },
+    "decay_ms": {
+     "value": 22.0,
+     "real_p10": 12.0,
+     "real_p50": 26.0,
+     "real_p90": 100.0,
+     "in_range": true,
+     "ratio_to_median": 0.8461538461538461
+    },
+    "crest_factor_db": {
+     "value": 14.450819642149952,
+     "real_p10": 12.252256903569856,
+     "real_p50": 13.428529348590573,
+     "real_p90": 21.26664432065508,
+     "in_range": true,
+     "ratio_to_median": 1.0761282391408467
+    },
+    "spectral_centroid_hz": {
+     "value": 5595.108552964543,
+     "real_p10": 2881.496335558964,
+     "real_p50": 4934.996838859156,
+     "real_p90": 6581.173176578311,
+     "in_range": true,
+     "ratio_to_median": 1.1337613246086675
+    },
+    "band_sub_share": {
+     "value": 0.0019018816290668943,
+     "real_p10": 7.819525374153982e-05,
+     "real_p50": 0.0017119027165845237,
+     "real_p90": 0.00398190316035452,
+     "in_range": true,
+     "ratio_to_median": 1.1109752970434
+    },
+    "band_high_share": {
+     "value": 0.42033010511359425,
+     "real_p10": 0.24653464477829076,
+     "real_p50": 0.3640583918205393,
+     "real_p90": 0.41794819072901007,
+     "in_range": false,
+     "ratio_to_median": 1.1545678236165857
+    }
+   },
+   "out_of_range": 2
+  },
+  {
+   "file": "clap__decay_ms__300.wav",
+   "sound": "clap",
+   "ref_sound": "clap",
+   "features": {
+    "attack_ms": {
+     "value": 3.854875283446712,
+     "real_p10": 5.124716553287982,
+     "real_p50": 8.820861678004535,
+     "real_p90": 24.467120181405896,
+     "in_range": false,
+     "ratio_to_median": 0.43701799485861187
+    },
+    "decay_ms": {
+     "value": 22.0,
+     "real_p10": 12.0,
+     "real_p50": 26.0,
+     "real_p90": 100.0,
+     "in_range": true,
+     "ratio_to_median": 0.8461538461538461
+    },
+    "crest_factor_db": {
+     "value": 13.97854401230136,
+     "real_p10": 12.252256903569856,
+     "real_p50": 13.428529348590573,
+     "real_p90": 21.26664432065508,
+     "in_range": true,
+     "ratio_to_median": 1.0409586671356916
+    },
+    "spectral_centroid_hz": {
+     "value": 5468.594412403881,
+     "real_p10": 2881.496335558964,
+     "real_p50": 4934.996838859156,
+     "real_p90": 6581.173176578311,
+     "in_range": true,
+     "ratio_to_median": 1.1081252108092694
+    },
+    "band_sub_share": {
+     "value": 0.0020628059914731415,
+     "real_p10": 7.819525374153982e-05,
+     "real_p50": 0.0017119027165845237,
+     "real_p90": 0.00398190316035452,
+     "in_range": true,
+     "ratio_to_median": 1.2049785139594364
+    },
+    "band_high_share": {
+     "value": 0.41029617631235005,
+     "real_p10": 0.24653464477829076,
+     "real_p50": 0.3640583918205393,
+     "real_p90": 0.41794819072901007,
+     "in_range": true,
+     "ratio_to_median": 1.1270065064579076
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "clap__decay_ms__60.wav",
+   "sound": "clap",
+   "ref_sound": "clap",
+   "features": {
+    "attack_ms": {
+     "value": 3.8775510204081636,
+     "real_p10": 5.124716553287982,
+     "real_p50": 8.820861678004535,
+     "real_p90": 24.467120181405896,
+     "in_range": false,
+     "ratio_to_median": 0.43958868894601544
+    },
+    "decay_ms": {
+     "value": 20.0,
+     "real_p10": 12.0,
+     "real_p50": 26.0,
+     "real_p90": 100.0,
+     "in_range": true,
+     "ratio_to_median": 0.7692307692307693
+    },
+    "crest_factor_db": {
+     "value": 15.38797139928138,
+     "real_p10": 12.252256903569856,
+     "real_p50": 13.428529348590573,
+     "real_p90": 21.26664432065508,
+     "in_range": true,
+     "ratio_to_median": 1.1459163546376332
+    },
+    "spectral_centroid_hz": {
+     "value": 6458.095468199718,
+     "real_p10": 2881.496335558964,
+     "real_p50": 4934.996838859156,
+     "real_p90": 6581.173176578311,
+     "in_range": true,
+     "ratio_to_median": 1.3086321387984239
+    },
+    "band_sub_share": {
+     "value": 0.001960036047461607,
+     "real_p10": 7.819525374153982e-05,
+     "real_p50": 0.0017119027165845237,
+     "real_p90": 0.00398190316035452,
+     "in_range": true,
+     "ratio_to_median": 1.1449459297384275
+    },
+    "band_high_share": {
+     "value": 0.4353168951579278,
+     "real_p10": 0.24653464477829076,
+     "real_p50": 0.3640583918205393,
+     "real_p90": 0.41794819072901007,
+     "in_range": false,
+     "ratio_to_median": 1.195733720025097
+    }
+   },
+   "out_of_range": 2
+  },
+  {
+   "file": "clap__lowpass_hz__12000.wav",
+   "sound": "clap",
+   "ref_sound": "clap",
+   "features": {
+    "attack_ms": {
+     "value": 7.551020408163265,
+     "real_p10": 5.124716553287982,
+     "real_p50": 8.820861678004535,
+     "real_p90": 24.467120181405896,
+     "in_range": true,
+     "ratio_to_median": 0.8560411311053985
+    },
+    "decay_ms": {
+     "value": 20.0,
+     "real_p10": 12.0,
+     "real_p50": 26.0,
+     "real_p90": 100.0,
+     "in_range": true,
+     "ratio_to_median": 0.7692307692307693
+    },
+    "crest_factor_db": {
+     "value": 15.041065877396484,
+     "real_p10": 12.252256903569856,
+     "real_p50": 13.428529348590573,
+     "real_p90": 21.26664432065508,
+     "in_range": true,
+     "ratio_to_median": 1.1200828837578674
+    },
+    "spectral_centroid_hz": {
+     "value": 2558.6003138040774,
+     "real_p10": 2881.496335558964,
+     "real_p50": 4934.996838859156,
+     "real_p90": 6581.173176578311,
+     "in_range": false,
+     "ratio_to_median": 0.5184603754266153
+    },
+    "band_sub_share": {
+     "value": 0.002442206871222848,
+     "real_p10": 7.819525374153982e-05,
+     "real_p50": 0.0017119027165845237,
+     "real_p90": 0.00398190316035452,
+     "in_range": true,
+     "ratio_to_median": 1.4266037710924249
+    },
+    "band_high_share": {
+     "value": 0.39951281277729583,
+     "real_p10": 0.24653464477829076,
+     "real_p50": 0.3640583918205393,
+     "real_p90": 0.41794819072901007,
+     "in_range": true,
+     "ratio_to_median": 1.09738663289551
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "clap__lowpass_hz__2000.wav",
+   "sound": "clap",
+   "ref_sound": "clap",
+   "features": {
+    "attack_ms": {
+     "value": 4.829931972789116,
+     "real_p10": 5.124716553287982,
+     "real_p50": 8.820861678004535,
+     "real_p90": 24.467120181405896,
+     "in_range": false,
+     "ratio_to_median": 0.5475578406169667
+    },
+    "decay_ms": {
+     "value": 18.0,
+     "real_p10": 12.0,
+     "real_p50": 26.0,
+     "real_p90": 100.0,
+     "in_range": true,
+     "ratio_to_median": 0.6923076923076923
+    },
+    "crest_factor_db": {
+     "value": 16.33802541142429,
+     "real_p10": 12.252256903569856,
+     "real_p50": 13.428529348590573,
+     "real_p90": 21.26664432065508,
+     "in_range": true,
+     "ratio_to_median": 1.2166652793694859
+    },
+    "spectral_centroid_hz": {
+     "value": 1132.9500815692745,
+     "real_p10": 2881.496335558964,
+     "real_p50": 4934.996838859156,
+     "real_p90": 6581.173176578311,
+     "in_range": false,
+     "ratio_to_median": 0.22957463166910222
+    },
+    "band_sub_share": {
+     "value": 0.004085039977001949,
+     "real_p10": 7.819525374153982e-05,
+     "real_p50": 0.0017119027165845237,
+     "real_p90": 0.00398190316035452,
+     "in_range": false,
+     "ratio_to_median": 2.386257079579939
+    },
+    "band_high_share": {
+     "value": 0.05022043060181672,
+     "real_p10": 0.24653464477829076,
+     "real_p50": 0.3640583918205393,
+     "real_p90": 0.41794819072901007,
+     "in_range": false,
+     "ratio_to_median": 0.13794608702928243
+    }
+   },
+   "out_of_range": 4
+  },
+  {
+   "file": "clap__lowpass_hz__5000.wav",
+   "sound": "clap",
+   "ref_sound": "clap",
+   "features": {
+    "attack_ms": {
+     "value": 6.462585034013605,
+     "real_p10": 5.124716553287982,
+     "real_p50": 8.820861678004535,
+     "real_p90": 24.467120181405896,
+     "in_range": true,
+     "ratio_to_median": 0.7326478149100257
+    },
+    "decay_ms": {
+     "value": 20.0,
+     "real_p10": 12.0,
+     "real_p50": 26.0,
+     "real_p90": 100.0,
+     "in_range": true,
+     "ratio_to_median": 0.7692307692307693
+    },
+    "crest_factor_db": {
+     "value": 15.541970079554954,
+     "real_p10": 12.252256903569856,
+     "real_p50": 13.428529348590573,
+     "real_p90": 21.26664432065508,
+     "in_range": true,
+     "ratio_to_median": 1.1573843774028914
+    },
+    "spectral_centroid_hz": {
+     "value": 1943.0713069078463,
+     "real_p10": 2881.496335558964,
+     "real_p50": 4934.996838859156,
+     "real_p90": 6581.173176578311,
+     "in_range": false,
+     "ratio_to_median": 0.393733039828458
+    },
+    "band_sub_share": {
+     "value": 0.0025740563079233785,
+     "real_p10": 7.819525374153982e-05,
+     "real_p50": 0.0017119027165845237,
+     "real_p90": 0.00398190316035452,
+     "in_range": true,
+     "ratio_to_median": 1.5036230055519553
+    },
+    "band_high_share": {
+     "value": 0.3868453888070806,
+     "real_p10": 0.24653464477829076,
+     "real_p50": 0.3640583918205393,
+     "real_p90": 0.41794819072901007,
+     "in_range": true,
+     "ratio_to_median": 1.0625915993107338
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "hat_closed__decay_ms__100.wav",
+   "sound": "hat_closed",
+   "ref_sound": "hat_closed",
+   "features": {
+    "attack_ms": {
+     "value": 12.857142857142858,
+     "real_p10": 0.9297052154195011,
+     "real_p50": 13.356009070294784,
+     "real_p90": 35.12471655328798,
+     "in_range": true,
+     "ratio_to_median": 0.9626485568760612
+    },
+    "decay_ms": {
+     "value": 40.0,
+     "real_p10": 40.0,
+     "real_p50": 72.0,
+     "real_p90": 286.0,
+     "in_range": true,
+     "ratio_to_median": 0.5555555555555556
+    },
+    "crest_factor_db": {
+     "value": 20.35909707363049,
+     "real_p10": 11.978284240986708,
+     "real_p50": 20.40089778729668,
+     "real_p90": 24.35205662671607,
+     "in_range": true,
+     "ratio_to_median": 0.9979510355817665
+    },
+    "spectral_centroid_hz": {
+     "value": 9133.25309036656,
+     "real_p10": 3960.40305599669,
+     "real_p50": 7562.374523141409,
+     "real_p90": 13933.559072516256,
+     "in_range": true,
+     "ratio_to_median": 1.2077229264985685
+    },
+    "band_sub_share": {
+     "value": 2.061460107134115e-05,
+     "real_p10": 1.894447329359521e-05,
+     "real_p50": 0.0011635669444243135,
+     "real_p90": 0.20352231874244728,
+     "in_range": true,
+     "ratio_to_median": 0.017716729725027067
+    },
+    "band_high_share": {
+     "value": 0.07282754357270603,
+     "real_p10": 0.03943713317059837,
+     "real_p50": 0.1455887626612478,
+     "real_p90": 0.3926802733887891,
+     "in_range": true,
+     "ratio_to_median": 0.500227780231633
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "hat_closed__decay_ms__15.wav",
+   "sound": "hat_closed",
+   "ref_sound": "hat_closed",
+   "features": {
+    "attack_ms": {
+     "value": 5.759637188208617,
+     "real_p10": 0.9297052154195011,
+     "real_p50": 13.356009070294784,
+     "real_p90": 35.12471655328798,
+     "in_range": true,
+     "ratio_to_median": 0.43123938879456714
+    },
+    "decay_ms": {
+     "value": 12.0,
+     "real_p10": 40.0,
+     "real_p50": 72.0,
+     "real_p90": 286.0,
+     "in_range": false,
+     "ratio_to_median": 0.16666666666666666
+    },
+    "crest_factor_db": {
+     "value": 19.608144743423722,
+     "real_p10": 11.978284240986708,
+     "real_p50": 20.40089778729668,
+     "real_p90": 24.35205662671607,
+     "in_range": true,
+     "ratio_to_median": 0.9611412668139245
+    },
+    "spectral_centroid_hz": {
+     "value": 10029.47916081416,
+     "real_p10": 3960.40305599669,
+     "real_p50": 7562.374523141409,
+     "real_p90": 13933.559072516256,
+     "in_range": true,
+     "ratio_to_median": 1.326234125290044
+    },
+    "band_sub_share": {
+     "value": 7.484609819248661e-05,
+     "real_p10": 1.894447329359521e-05,
+     "real_p50": 0.0011635669444243135,
+     "real_p90": 0.20352231874244728,
+     "in_range": true,
+     "ratio_to_median": 0.06432470306168543
+    },
+    "band_high_share": {
+     "value": 0.07883388348302242,
+     "real_p10": 0.03943713317059837,
+     "real_p50": 0.1455887626612478,
+     "real_p90": 0.3926802733887891,
+     "in_range": true,
+     "ratio_to_median": 0.5414832988618159
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "hat_closed__decay_ms__40.wav",
+   "sound": "hat_closed",
+   "ref_sound": "hat_closed",
+   "features": {
+    "attack_ms": {
+     "value": 5.759637188208617,
+     "real_p10": 0.9297052154195011,
+     "real_p50": 13.356009070294784,
+     "real_p90": 35.12471655328798,
+     "in_range": true,
+     "ratio_to_median": 0.43123938879456714
+    },
+    "decay_ms": {
+     "value": 32.0,
+     "real_p10": 40.0,
+     "real_p50": 72.0,
+     "real_p90": 286.0,
+     "in_range": false,
+     "ratio_to_median": 0.4444444444444444
+    },
+    "crest_factor_db": {
+     "value": 20.0880086868897,
+     "real_p10": 11.978284240986708,
+     "real_p50": 20.40089778729668,
+     "real_p90": 24.35205662671607,
+     "in_range": true,
+     "ratio_to_median": 0.9846629739696156
+    },
+    "spectral_centroid_hz": {
+     "value": 9438.525804575907,
+     "real_p10": 3960.40305599669,
+     "real_p50": 7562.374523141409,
+     "real_p90": 13933.559072516256,
+     "in_range": true,
+     "ratio_to_median": 1.248090236167667
+    },
+    "band_sub_share": {
+     "value": 2.7632693424114687e-05,
+     "real_p10": 1.894447329359521e-05,
+     "real_p50": 0.0011635669444243135,
+     "real_p90": 0.20352231874244728,
+     "in_range": true,
+     "ratio_to_median": 0.023748262664668805
+    },
+    "band_high_share": {
+     "value": 0.0714571163952595,
+     "real_p10": 0.03943713317059837,
+     "real_p50": 0.1455887626612478,
+     "real_p90": 0.3926802733887891,
+     "in_range": true,
+     "ratio_to_median": 0.4908147791703134
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "hat_closed__lowpass_hz__16000.wav",
+   "sound": "hat_closed",
+   "ref_sound": "hat_closed",
+   "features": {
+    "attack_ms": {
+     "value": 12.879818594104309,
+     "real_p10": 0.9297052154195011,
+     "real_p50": 13.356009070294784,
+     "real_p90": 35.12471655328798,
+     "in_range": true,
+     "ratio_to_median": 0.9643463497453312
+    },
+    "decay_ms": {
+     "value": 52.0,
+     "real_p10": 40.0,
+     "real_p50": 72.0,
+     "real_p90": 286.0,
+     "in_range": true,
+     "ratio_to_median": 0.7222222222222222
+    },
+    "crest_factor_db": {
+     "value": 19.671920409734096,
+     "real_p10": 11.978284240986708,
+     "real_p50": 20.40089778729668,
+     "real_p90": 24.35205662671607,
+     "in_range": true,
+     "ratio_to_median": 0.9642673873883869
+    },
+    "spectral_centroid_hz": {
+     "value": 8819.090456169479,
+     "real_p10": 3960.40305599669,
+     "real_p50": 7562.374523141409,
+     "real_p90": 13933.559072516256,
+     "in_range": true,
+     "ratio_to_median": 1.166180070714883
+    },
+    "band_sub_share": {
+     "value": 2.0001853472716786e-05,
+     "real_p10": 1.894447329359521e-05,
+     "real_p50": 0.0011635669444243135,
+     "real_p90": 0.20352231874244728,
+     "in_range": true,
+     "ratio_to_median": 0.017190118341332657
+    },
+    "band_high_share": {
+     "value": 0.08305500928046329,
+     "real_p10": 0.03943713317059837,
+     "real_p50": 0.1455887626612478,
+     "real_p90": 0.3926802733887891,
+     "in_range": true,
+     "ratio_to_median": 0.5704767851740973
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "hat_closed__lowpass_hz__4000.wav",
+   "sound": "hat_closed",
+   "ref_sound": "hat_closed",
+   "features": {
+    "attack_ms": {
+     "value": 8.00453514739229,
+     "real_p10": 0.9297052154195011,
+     "real_p50": 13.356009070294784,
+     "real_p90": 35.12471655328798,
+     "in_range": true,
+     "ratio_to_median": 0.599320882852292
+    },
+    "decay_ms": {
+     "value": 68.0,
+     "real_p10": 40.0,
+     "real_p50": 72.0,
+     "real_p90": 286.0,
+     "in_range": true,
+     "ratio_to_median": 0.9444444444444444
+    },
+    "crest_factor_db": {
+     "value": 18.972423085156436,
+     "real_p10": 11.978284240986708,
+     "real_p50": 20.40089778729668,
+     "real_p90": 24.35205662671607,
+     "in_range": true,
+     "ratio_to_median": 0.9299798118183928
+    },
+    "spectral_centroid_hz": {
+     "value": 2664.5164798906467,
+     "real_p10": 3960.40305599669,
+     "real_p50": 7562.374523141409,
+     "real_p90": 13933.559072516256,
+     "in_range": false,
+     "ratio_to_median": 0.35233860366701425
+    },
+    "band_sub_share": {
+     "value": 0.00023923910034390455,
+     "real_p10": 1.894447329359521e-05,
+     "real_p50": 0.0011635669444243135,
+     "real_p90": 0.20352231874244728,
+     "in_range": true,
+     "ratio_to_median": 0.2056083678642749
+    },
+    "band_high_share": {
+     "value": 0.39138912553100824,
+     "real_p10": 0.03943713317059837,
+     "real_p50": 0.1455887626612478,
+     "real_p90": 0.3926802733887891,
+     "in_range": true,
+     "ratio_to_median": 2.6883196091286417
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "hat_closed__lowpass_hz__8000.wav",
+   "sound": "hat_closed",
+   "ref_sound": "hat_closed",
+   "features": {
+    "attack_ms": {
+     "value": 8.412698412698413,
+     "real_p10": 0.9297052154195011,
+     "real_p50": 13.356009070294784,
+     "real_p90": 35.12471655328798,
+     "in_range": true,
+     "ratio_to_median": 0.6298811544991512
+    },
+    "decay_ms": {
+     "value": 62.0,
+     "real_p10": 40.0,
+     "real_p50": 72.0,
+     "real_p90": 286.0,
+     "in_range": true,
+     "ratio_to_median": 0.8611111111111112
+    },
+    "crest_factor_db": {
+     "value": 20.0455023862585,
+     "real_p10": 11.978284240986708,
+     "real_p50": 20.40089778729668,
+     "real_p90": 24.35205662671607,
+     "in_range": true,
+     "ratio_to_median": 0.9825794234771629
+    },
+    "spectral_centroid_hz": {
+     "value": 5077.886607254773,
+     "real_p10": 3960.40305599669,
+     "real_p50": 7562.374523141409,
+     "real_p90": 13933.559072516256,
+     "in_range": true,
+     "ratio_to_median": 0.6714672212697315
+    },
+    "band_sub_share": {
+     "value": 9.928749223933348e-05,
+     "real_p10": 1.894447329359521e-05,
+     "real_p50": 0.0011635669444243135,
+     "real_p90": 0.20352231874244728,
+     "in_range": true,
+     "ratio_to_median": 0.08533027920319357
+    },
+    "band_high_share": {
+     "value": 0.4063782632043054,
+     "real_p10": 0.03943713317059837,
+     "real_p50": 0.1455887626612478,
+     "real_p90": 0.3926802733887891,
+     "in_range": false,
+     "ratio_to_median": 2.7912749293010752
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "hat_open__decay_ms__200.wav",
+   "sound": "hat_open",
+   "ref_sound": "hat_open",
+   "features": {
+    "attack_ms": {
+     "value": 21.020408163265305,
+     "real_p10": 0.9750566893424036,
+     "real_p50": 18.54875283446712,
+     "real_p90": 78.84353741496598,
+     "in_range": true,
+     "ratio_to_median": 1.1332518337408313
+    },
+    "decay_ms": {
+     "value": 88.0,
+     "real_p10": 126.0,
+     "real_p50": 262.0,
+     "real_p90": 618.0,
+     "in_range": false,
+     "ratio_to_median": 0.33587786259541985
+    },
+    "crest_factor_db": {
+     "value": 22.690268190048073,
+     "real_p10": 13.149230125029952,
+     "real_p50": 19.072911212347737,
+     "real_p90": 21.543407028070835,
+     "in_range": false,
+     "ratio_to_median": 1.1896594042423094
+    },
+    "spectral_centroid_hz": {
+     "value": 9253.125090221114,
+     "real_p10": 6803.888310936162,
+     "real_p50": 9231.12057327276,
+     "real_p90": 10733.866211629975,
+     "in_range": true,
+     "ratio_to_median": 1.0023837319395508
+    },
+    "band_sub_share": {
+     "value": 0.0001375512338445146,
+     "real_p10": 1.8146857675361052e-08,
+     "real_p50": 1.5047744205294298e-05,
+     "real_p90": 0.01556849479713328,
+     "in_range": true,
+     "ratio_to_median": 9.140986979039655
+    },
+    "band_high_share": {
+     "value": 0.2257122883889801,
+     "real_p10": 0.0801926745879985,
+     "real_p50": 0.2658349257020845,
+     "real_p90": 0.5825881645399497,
+     "in_range": true,
+     "ratio_to_median": 0.8490693530688703
+    }
+   },
+   "out_of_range": 2
+  },
+  {
+   "file": "hat_open__decay_ms__450.wav",
+   "sound": "hat_open",
+   "ref_sound": "hat_open",
+   "features": {
+    "attack_ms": {
+     "value": 20.975056689342406,
+     "real_p10": 0.9750566893424036,
+     "real_p50": 18.54875283446712,
+     "real_p90": 78.84353741496598,
+     "in_range": true,
+     "ratio_to_median": 1.1308068459657703
+    },
+    "decay_ms": {
+     "value": 138.0,
+     "real_p10": 126.0,
+     "real_p50": 262.0,
+     "real_p90": 618.0,
+     "in_range": true,
+     "ratio_to_median": 0.5267175572519084
+    },
+    "crest_factor_db": {
+     "value": 22.299445701862368,
+     "real_p10": 13.149230125029952,
+     "real_p50": 19.072911212347737,
+     "real_p90": 21.543407028070835,
+     "in_range": false,
+     "ratio_to_median": 1.1691684323170226
+    },
+    "spectral_centroid_hz": {
+     "value": 9230.659783644593,
+     "real_p10": 6803.888310936162,
+     "real_p50": 9231.12057327276,
+     "real_p90": 10733.866211629975,
+     "in_range": true,
+     "ratio_to_median": 0.9999500830235605
+    },
+    "band_sub_share": {
+     "value": 0.00011564486288166336,
+     "real_p10": 1.8146857675361052e-08,
+     "real_p50": 1.5047744205294298e-05,
+     "real_p90": 0.01556849479713328,
+     "in_range": true,
+     "ratio_to_median": 7.685195953887603
+    },
+    "band_high_share": {
+     "value": 0.231856265534821,
+     "real_p10": 0.0801926745879985,
+     "real_p50": 0.2658349257020845,
+     "real_p90": 0.5825881645399497,
+     "in_range": true,
+     "ratio_to_median": 0.8721813543591986
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "hat_open__decay_ms__80.wav",
+   "sound": "hat_open",
+   "ref_sound": "hat_open",
+   "features": {
+    "attack_ms": {
+     "value": 11.337868480725623,
+     "real_p10": 0.9750566893424036,
+     "real_p50": 18.54875283446712,
+     "real_p90": 78.84353741496598,
+     "in_range": true,
+     "ratio_to_median": 0.6112469437652812
+    },
+    "decay_ms": {
+     "value": 64.0,
+     "real_p10": 126.0,
+     "real_p50": 262.0,
+     "real_p90": 618.0,
+     "in_range": false,
+     "ratio_to_median": 0.24427480916030533
+    },
+    "crest_factor_db": {
+     "value": 21.30466642223316,
+     "real_p10": 13.149230125029952,
+     "real_p50": 19.072911212347737,
+     "real_p90": 21.543407028070835,
+     "in_range": true,
+     "ratio_to_median": 1.1170117757608284
+    },
+    "spectral_centroid_hz": {
+     "value": 9305.169714465354,
+     "real_p10": 6803.888310936162,
+     "real_p50": 9231.12057327276,
+     "real_p90": 10733.866211629975,
+     "in_range": true,
+     "ratio_to_median": 1.0080216849736523
+    },
+    "band_sub_share": {
+     "value": 0.00017575150377398553,
+     "real_p10": 1.8146857675361052e-08,
+     "real_p50": 1.5047744205294298e-05,
+     "real_p90": 0.01556849479713328,
+     "in_range": true,
+     "ratio_to_median": 11.679591397636218
+    },
+    "band_high_share": {
+     "value": 0.22171921892258648,
+     "real_p10": 0.0801926745879985,
+     "real_p50": 0.2658349257020845,
+     "real_p90": 0.5825881645399497,
+     "in_range": true,
+     "ratio_to_median": 0.8340484920745984
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "kick__decay_ms__120.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 1.6780045351473922,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.21574344023323613
+    },
+    "decay_ms": {
+     "value": 74.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 0.7115384615384616
+    },
+    "crest_factor_db": {
+     "value": 15.80990056465767,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": true,
+     "ratio_to_median": 1.4065102711501916
+    },
+    "spectral_centroid_hz": {
+     "value": 1371.1650579135403,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 1.2395148273878633
+    },
+    "band_sub_share": {
+     "value": 0.07600115320636665,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": true,
+     "ratio_to_median": 0.2219640965495552
+    },
+    "band_high_share": {
+     "value": 0.00014573188941887345,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.0314410259641143
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "kick__decay_ms__240.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 1.6780045351473922,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.21574344023323613
+    },
+    "decay_ms": {
+     "value": 96.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 0.9230769230769231
+    },
+    "crest_factor_db": {
+     "value": 14.439689864436978,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": true,
+     "ratio_to_median": 1.284610995717144
+    },
+    "spectral_centroid_hz": {
+     "value": 755.1037263644363,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 0.6826036439907327
+    },
+    "band_sub_share": {
+     "value": 0.14300981959814077,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": true,
+     "ratio_to_median": 0.4176653125068247
+    },
+    "band_high_share": {
+     "value": 0.00011086911344478304,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.02391953256309263
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "kick__decay_ms__480.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 1.6780045351473922,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.21574344023323613
+    },
+    "decay_ms": {
+     "value": 124.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 1.1923076923076923
+    },
+    "crest_factor_db": {
+     "value": 13.465697222566842,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": true,
+     "ratio_to_median": 1.1979608204543422
+    },
+    "spectral_centroid_hz": {
+     "value": 654.639155167229,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 0.5917850186856279
+    },
+    "band_sub_share": {
+     "value": 0.19854267752067015,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": true,
+     "ratio_to_median": 0.5798510178226286
+    },
+    "band_high_share": {
+     "value": 9.085137049518629e-05,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.019600790945654104
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "kick__decay_ms__60.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 1.6780045351473922,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.21574344023323613
+    },
+    "decay_ms": {
+     "value": 42.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 0.40384615384615385
+    },
+    "crest_factor_db": {
+     "value": 16.20377541752344,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": true,
+     "ratio_to_median": 1.4415509106430098
+    },
+    "spectral_centroid_hz": {
+     "value": 1271.1207490026834,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 1.1490761135546246
+    },
+    "band_sub_share": {
+     "value": 0.02636686958730291,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": false,
+     "ratio_to_median": 0.0770053892589536
+    },
+    "band_high_share": {
+     "value": 0.0002025370084976234,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.04369648515682466
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "kick__drive__0.0.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 6.8480725623582765,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.880466472303207
+    },
+    "decay_ms": {
+     "value": 158.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 1.5192307692307692
+    },
+    "crest_factor_db": {
+     "value": 12.237262378772854,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": true,
+     "ratio_to_median": 1.0886744768642087
+    },
+    "spectral_centroid_hz": {
+     "value": 642.2616782703924,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 0.5805959455315722
+    },
+    "band_sub_share": {
+     "value": 0.2750039682730423,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": true,
+     "ratio_to_median": 0.8031589625952538
+    },
+    "band_high_share": {
+     "value": 6.906281748454434e-05,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.014900004702781485
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "kick__drive__0.35.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 9.501133786848072,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 1.2215743440233235
+    },
+    "decay_ms": {
+     "value": 212.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 2.0384615384615383
+    },
+    "crest_factor_db": {
+     "value": 6.301995914876287,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": false,
+     "ratio_to_median": 0.5606500778907317
+    },
+    "spectral_centroid_hz": {
+     "value": 639.233319586092,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 0.5778583498860479
+    },
+    "band_sub_share": {
+     "value": 0.4274121622658729,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": true,
+     "ratio_to_median": 1.248272564944305
+    },
+    "band_high_share": {
+     "value": 6.668345761602191e-05,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.014386668083716853
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "kick__drive__0.7.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 6.462585034013605,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.8309037900874635
+    },
+    "decay_ms": {
+     "value": 238.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 2.2884615384615383
+    },
+    "crest_factor_db": {
+     "value": 4.651634441220592,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": false,
+     "ratio_to_median": 0.41382749957570086
+    },
+    "spectral_centroid_hz": {
+     "value": 660.3412453185118,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 0.5969396317271624
+    },
+    "band_sub_share": {
+     "value": 0.4646344798971609,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": true,
+     "ratio_to_median": 1.3569816799504348
+    },
+    "band_high_share": {
+     "value": 0.00021486721516662645,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.04635667401163829
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "kick__pitch_st__-5.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 2.857142857142857,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.3673469387755102
+    },
+    "decay_ms": {
+     "value": 168.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 1.6153846153846154
+    },
+    "crest_factor_db": {
+     "value": 11.830188578289441,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": true,
+     "ratio_to_median": 1.0524596076337227
+    },
+    "spectral_centroid_hz": {
+     "value": 355.7155041596194,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 0.32156204622696827
+    },
+    "band_sub_share": {
+     "value": 0.47977822254385705,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": true,
+     "ratio_to_median": 1.4012095240441387
+    },
+    "band_high_share": {
+     "value": 6.875039297431328e-05,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.014832600463550312
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "kick__pitch_st__0.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 6.8480725623582765,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.880466472303207
+    },
+    "decay_ms": {
+     "value": 158.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 1.5192307692307692
+    },
+    "crest_factor_db": {
+     "value": 12.237262378772854,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": true,
+     "ratio_to_median": 1.0886744768642087
+    },
+    "spectral_centroid_hz": {
+     "value": 642.2616782703924,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 0.5805959455315722
+    },
+    "band_sub_share": {
+     "value": 0.2750039682730423,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": true,
+     "ratio_to_median": 0.8031589625952538
+    },
+    "band_high_share": {
+     "value": 6.906281748454434e-05,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.014900004702781485
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "kick__pitch_st__5.wav",
+   "sound": "kick",
+   "ref_sound": "kick",
+   "features": {
+    "attack_ms": {
+     "value": 4.988662131519274,
+     "real_p10": 1.0430839002267573,
+     "real_p50": 7.777777777777778,
+     "real_p90": 36.621315192743765,
+     "in_range": true,
+     "ratio_to_median": 0.641399416909621
+    },
+    "decay_ms": {
+     "value": 140.0,
+     "real_p10": 34.0,
+     "real_p50": 104.0,
+     "real_p90": 346.0,
+     "in_range": true,
+     "ratio_to_median": 1.3461538461538463
+    },
+    "crest_factor_db": {
+     "value": 14.199796286443398,
+     "real_p10": 7.6268227106517354,
+     "real_p50": 11.240515543287803,
+     "real_p90": 17.0447584011037,
+     "in_range": true,
+     "ratio_to_median": 1.2632691295838927
+    },
+    "spectral_centroid_hz": {
+     "value": 506.01929328209155,
+     "real_p10": 218.2162557972977,
+     "real_p50": 1106.2110977753407,
+     "real_p90": 2485.6152431434343,
+     "in_range": true,
+     "ratio_to_median": 0.45743465627828883
+    },
+    "band_sub_share": {
+     "value": 0.03291467233689393,
+     "real_p10": 0.060123334875367876,
+     "real_p50": 0.3424029128485597,
+     "real_p90": 0.7410881357025121,
+     "in_range": false,
+     "ratio_to_median": 0.09612848226980958
+    },
+    "band_high_share": {
+     "value": 0.00015796178778713273,
+     "real_p10": 4.143933611309378e-06,
+     "real_p50": 0.004635086958841826,
+     "real_p90": 0.03174037873382905,
+     "in_range": true,
+     "ratio_to_median": 0.03407957373611018
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "perc__decay_ms__150.wav",
+   "sound": "perc",
+   "ref_sound": "perc",
+   "features": {
+    "attack_ms": {
+     "value": 10.022675736961451,
+     "real_p10": 1.383219954648526,
+     "real_p50": 7.437641723356009,
+     "real_p90": 33.26530612244898,
+     "in_range": true,
+     "ratio_to_median": 1.3475609756097562
+    },
+    "decay_ms": {
+     "value": 78.0,
+     "real_p10": 24.0,
+     "real_p50": 76.0,
+     "real_p90": 204.0,
+     "in_range": true,
+     "ratio_to_median": 1.0263157894736843
+    },
+    "crest_factor_db": {
+     "value": 20.288631756869055,
+     "real_p10": 11.097985764831407,
+     "real_p50": 17.138211733819862,
+     "real_p90": 24.53232986214917,
+     "in_range": true,
+     "ratio_to_median": 1.1838243144605503
+    },
+    "spectral_centroid_hz": {
+     "value": 3750.3387421503985,
+     "real_p10": 936.5431015266142,
+     "real_p50": 2734.879478376971,
+     "real_p90": 8570.279242561262,
+     "in_range": true,
+     "ratio_to_median": 1.371299456448464
+    },
+    "band_sub_share": {
+     "value": 3.351237600802656e-05,
+     "real_p10": 1.7695527341118063e-06,
+     "real_p50": 0.002177346139811744,
+     "real_p90": 0.18283131253613702,
+     "in_range": true,
+     "ratio_to_median": 0.015391386511895661
+    },
+    "band_high_share": {
+     "value": 0.009817045943372781,
+     "real_p10": 0.00126534377356881,
+     "real_p50": 0.02520293019488635,
+     "real_p90": 0.29048323568422246,
+     "in_range": true,
+     "ratio_to_median": 0.38952002276960046
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "perc__decay_ms__400.wav",
+   "sound": "perc",
+   "ref_sound": "perc",
+   "features": {
+    "attack_ms": {
+     "value": 10.022675736961451,
+     "real_p10": 1.383219954648526,
+     "real_p50": 7.437641723356009,
+     "real_p90": 33.26530612244898,
+     "in_range": true,
+     "ratio_to_median": 1.3475609756097562
+    },
+    "decay_ms": {
+     "value": 82.0,
+     "real_p10": 24.0,
+     "real_p50": 76.0,
+     "real_p90": 204.0,
+     "in_range": true,
+     "ratio_to_median": 1.0789473684210527
+    },
+    "crest_factor_db": {
+     "value": 19.804330883215698,
+     "real_p10": 11.097985764831407,
+     "real_p50": 17.138211733819862,
+     "real_p90": 24.53232986214917,
+     "in_range": true,
+     "ratio_to_median": 1.1555657726024369
+    },
+    "spectral_centroid_hz": {
+     "value": 2677.274098562792,
+     "real_p10": 936.5431015266142,
+     "real_p50": 2734.879478376971,
+     "real_p90": 8570.279242561262,
+     "in_range": true,
+     "ratio_to_median": 0.9789367757264518
+    },
+    "band_sub_share": {
+     "value": 2.6993483334349446e-05,
+     "real_p10": 1.7695527341118063e-06,
+     "real_p50": 0.002177346139811744,
+     "real_p90": 0.18283131253613702,
+     "in_range": true,
+     "ratio_to_median": 0.01239742402036423
+    },
+    "band_high_share": {
+     "value": 0.009034883107360617,
+     "real_p10": 0.00126534377356881,
+     "real_p50": 0.02520293019488635,
+     "real_p90": 0.29048323568422246,
+     "in_range": true,
+     "ratio_to_median": 0.3584854236192658
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "perc__decay_ms__50.wav",
+   "sound": "perc",
+   "ref_sound": "perc",
+   "features": {
+    "attack_ms": {
+     "value": 6.122448979591836,
+     "real_p10": 1.383219954648526,
+     "real_p50": 7.437641723356009,
+     "real_p90": 33.26530612244898,
+     "in_range": true,
+     "ratio_to_median": 0.823170731707317
+    },
+    "decay_ms": {
+     "value": 40.0,
+     "real_p10": 24.0,
+     "real_p50": 76.0,
+     "real_p90": 204.0,
+     "in_range": true,
+     "ratio_to_median": 0.5263157894736842
+    },
+    "crest_factor_db": {
+     "value": 18.272044038301953,
+     "real_p10": 11.097985764831407,
+     "real_p50": 17.138211733819862,
+     "real_p90": 24.53232986214917,
+     "in_range": true,
+     "ratio_to_median": 1.0661581454408473
+    },
+    "spectral_centroid_hz": {
+     "value": 2981.4195948990127,
+     "real_p10": 936.5431015266142,
+     "real_p50": 2734.879478376971,
+     "real_p90": 8570.279242561262,
+     "in_range": true,
+     "ratio_to_median": 1.0901466110193465
+    },
+    "band_sub_share": {
+     "value": 5.466374893802016e-05,
+     "real_p10": 1.7695527341118063e-06,
+     "real_p50": 0.002177346139811744,
+     "real_p90": 0.18283131253613702,
+     "in_range": true,
+     "ratio_to_median": 0.025105677015941276
+    },
+    "band_high_share": {
+     "value": 0.011029014476365855,
+     "real_p10": 0.00126534377356881,
+     "real_p50": 0.02520293019488635,
+     "real_p90": 0.29048323568422246,
+     "in_range": true,
+     "ratio_to_median": 0.4376084205718124
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "perc__lowpass_hz__10000.wav",
+   "sound": "perc",
+   "ref_sound": "perc",
+   "features": {
+    "attack_ms": {
+     "value": 10.0,
+     "real_p10": 1.383219954648526,
+     "real_p50": 7.437641723356009,
+     "real_p90": 33.26530612244898,
+     "in_range": true,
+     "ratio_to_median": 1.3445121951219512
+    },
+    "decay_ms": {
+     "value": 112.0,
+     "real_p10": 24.0,
+     "real_p50": 76.0,
+     "real_p90": 204.0,
+     "in_range": true,
+     "ratio_to_median": 1.4736842105263157
+    },
+    "crest_factor_db": {
+     "value": 18.929403670471753,
+     "real_p10": 11.097985764831407,
+     "real_p50": 17.138211733819862,
+     "real_p90": 24.53232986214917,
+     "in_range": true,
+     "ratio_to_median": 1.1045145178780365
+    },
+    "spectral_centroid_hz": {
+     "value": 1346.9201765901164,
+     "real_p10": 936.5431015266142,
+     "real_p50": 2734.879478376971,
+     "real_p90": 8570.279242561262,
+     "in_range": true,
+     "ratio_to_median": 0.49249708707070833
+    },
+    "band_sub_share": {
+     "value": 3.1553184622584684e-05,
+     "real_p10": 1.7695527341118063e-06,
+     "real_p50": 0.002177346139811744,
+     "real_p90": 0.18283131253613702,
+     "in_range": true,
+     "ratio_to_median": 0.01449157947174757
+    },
+    "band_high_share": {
+     "value": 0.008374132350070508,
+     "real_p10": 0.00126534377356881,
+     "real_p50": 0.02520293019488635,
+     "real_p90": 0.29048323568422246,
+     "in_range": true,
+     "ratio_to_median": 0.33226820394755574
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "perc__lowpass_hz__1500.wav",
+   "sound": "perc",
+   "ref_sound": "perc",
+   "features": {
+    "attack_ms": {
+     "value": 9.954648526077097,
+     "real_p10": 1.383219954648526,
+     "real_p50": 7.437641723356009,
+     "real_p90": 33.26530612244898,
+     "in_range": true,
+     "ratio_to_median": 1.3384146341463414
+    },
+    "decay_ms": {
+     "value": 116.0,
+     "real_p10": 24.0,
+     "real_p50": 76.0,
+     "real_p90": 204.0,
+     "in_range": true,
+     "ratio_to_median": 1.5263157894736843
+    },
+    "crest_factor_db": {
+     "value": 18.7947687348462,
+     "real_p10": 11.097985764831407,
+     "real_p50": 17.138211733819862,
+     "real_p90": 24.53232986214917,
+     "in_range": true,
+     "ratio_to_median": 1.0966586845089186
+    },
+    "spectral_centroid_hz": {
+     "value": 912.0911040400233,
+     "real_p10": 936.5431015266142,
+     "real_p50": 2734.879478376971,
+     "real_p90": 8570.279242561262,
+     "in_range": false,
+     "ratio_to_median": 0.33350321696124935
+    },
+    "band_sub_share": {
+     "value": 3.222770527485615e-05,
+     "real_p10": 1.7695527341118063e-06,
+     "real_p50": 0.002177346139811744,
+     "real_p90": 0.18283131253613702,
+     "in_range": true,
+     "ratio_to_median": 0.014801369743463296
+    },
+    "band_high_share": {
+     "value": 0.00018371965386488983,
+     "real_p10": 0.00126534377356881,
+     "real_p50": 0.02520293019488635,
+     "real_p90": 0.29048323568422246,
+     "in_range": false,
+     "ratio_to_median": 0.007289614836221162
+    }
+   },
+   "out_of_range": 2
+  },
+  {
+   "file": "perc__lowpass_hz__4000.wav",
+   "sound": "perc",
+   "ref_sound": "perc",
+   "features": {
+    "attack_ms": {
+     "value": 10.0,
+     "real_p10": 1.383219954648526,
+     "real_p50": 7.437641723356009,
+     "real_p90": 33.26530612244898,
+     "in_range": true,
+     "ratio_to_median": 1.3445121951219512
+    },
+    "decay_ms": {
+     "value": 116.0,
+     "real_p10": 24.0,
+     "real_p50": 76.0,
+     "real_p90": 204.0,
+     "in_range": true,
+     "ratio_to_median": 1.5263157894736843
+    },
+    "crest_factor_db": {
+     "value": 18.896601513886186,
+     "real_p10": 11.097985764831407,
+     "real_p50": 17.138211733819862,
+     "real_p90": 24.53232986214917,
+     "in_range": true,
+     "ratio_to_median": 1.1026005400899785
+    },
+    "spectral_centroid_hz": {
+     "value": 1111.355847672947,
+     "real_p10": 936.5431015266142,
+     "real_p50": 2734.879478376971,
+     "real_p90": 8570.279242561262,
+     "in_range": true,
+     "ratio_to_median": 0.40636373794887926
+    },
+    "band_sub_share": {
+     "value": 3.1603843081821074e-05,
+     "real_p10": 1.7695527341118063e-06,
+     "real_p50": 0.002177346139811744,
+     "real_p90": 0.18283131253613702,
+     "in_range": true,
+     "ratio_to_median": 0.014514845620528476
+    },
+    "band_high_share": {
+     "value": 0.007319491378024878,
+     "real_p10": 0.00126534377356881,
+     "real_p50": 0.02520293019488635,
+     "real_p90": 0.29048323568422246,
+     "in_range": true,
+     "ratio_to_median": 0.29042223747102214
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "rumble__decay_ms__1000.wav",
+   "sound": "rumble",
+   "ref_sound": "rumble",
+   "features": {
+    "attack_ms": {
+     "value": 4.988662131519274,
+     "real_p10": 2.2448979591836733,
+     "real_p50": 18.52607709750567,
+     "real_p90": 49.84126984126984,
+     "in_range": true,
+     "ratio_to_median": 0.26927784577723374
+    },
+    "decay_ms": {
+     "value": 482.0,
+     "real_p10": 14.0,
+     "real_p50": 242.0,
+     "real_p90": 1026.0,
+     "in_range": true,
+     "ratio_to_median": 1.9917355371900827
+    },
+    "crest_factor_db": {
+     "value": 11.143847188934306,
+     "real_p10": 5.693226436361437,
+     "real_p50": 10.618452595599678,
+     "real_p90": 16.451894153676218,
+     "in_range": true,
+     "ratio_to_median": 1.049479393405434
+    },
+    "spectral_centroid_hz": {
+     "value": 670.3922235609838,
+     "real_p10": 118.65233691233942,
+     "real_p50": 531.3705224557062,
+     "real_p90": 5378.467850780173,
+     "in_range": true,
+     "ratio_to_median": 1.261628553392075
+    },
+    "band_sub_share": {
+     "value": 0.12637402672499112,
+     "real_p10": 6.697417334693102e-05,
+     "real_p50": 0.3026707859736521,
+     "real_p90": 0.8465778234391541,
+     "in_range": true,
+     "ratio_to_median": 0.41752964799183545
+    },
+    "band_high_share": {
+     "value": 1.1133741292861037e-08,
+     "real_p10": 2.170396795983927e-08,
+     "real_p50": 0.00021436611705444533,
+     "real_p90": 0.027229130585626173,
+     "in_range": false,
+     "ratio_to_median": 5.1937971568674994e-05
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "rumble__decay_ms__200.wav",
+   "sound": "rumble",
+   "ref_sound": "rumble",
+   "features": {
+    "attack_ms": {
+     "value": 1.9501133786848073,
+     "real_p10": 2.2448979591836733,
+     "real_p50": 18.52607709750567,
+     "real_p90": 49.84126984126984,
+     "in_range": false,
+     "ratio_to_median": 0.10526315789473684
+    },
+    "decay_ms": {
+     "value": 188.0,
+     "real_p10": 14.0,
+     "real_p50": 242.0,
+     "real_p90": 1026.0,
+     "in_range": true,
+     "ratio_to_median": 0.7768595041322314
+    },
+    "crest_factor_db": {
+     "value": 14.322280344135681,
+     "real_p10": 5.693226436361437,
+     "real_p50": 10.618452595599678,
+     "real_p90": 16.451894153676218,
+     "in_range": true,
+     "ratio_to_median": 1.3488104990053713
+    },
+    "spectral_centroid_hz": {
+     "value": 738.2825198342347,
+     "real_p10": 118.65233691233942,
+     "real_p50": 531.3705224557062,
+     "real_p90": 5378.467850780173,
+     "in_range": true,
+     "ratio_to_median": 1.389393066860942
+    },
+    "band_sub_share": {
+     "value": 0.006700638249974435,
+     "real_p10": 6.697417334693102e-05,
+     "real_p50": 0.3026707859736521,
+     "real_p90": 0.8465778234391541,
+     "in_range": true,
+     "ratio_to_median": 0.02213837132784178
+    },
+    "band_high_share": {
+     "value": 9.847167577993825e-09,
+     "real_p10": 2.170396795983927e-08,
+     "real_p50": 0.00021436611705444533,
+     "real_p90": 0.027229130585626173,
+     "in_range": false,
+     "ratio_to_median": 4.5936212836718094e-05
+    }
+   },
+   "out_of_range": 2
+  },
+  {
+   "file": "rumble__decay_ms__500.wav",
+   "sound": "rumble",
+   "ref_sound": "rumble",
+   "features": {
+    "attack_ms": {
+     "value": 4.988662131519274,
+     "real_p10": 2.2448979591836733,
+     "real_p50": 18.52607709750567,
+     "real_p90": 49.84126984126984,
+     "in_range": true,
+     "ratio_to_median": 0.26927784577723374
+    },
+    "decay_ms": {
+     "value": 360.0,
+     "real_p10": 14.0,
+     "real_p50": 242.0,
+     "real_p90": 1026.0,
+     "in_range": true,
+     "ratio_to_median": 1.487603305785124
+    },
+    "crest_factor_db": {
+     "value": 13.076657204768047,
+     "real_p10": 5.693226436361437,
+     "real_p50": 10.618452595599678,
+     "real_p90": 16.451894153676218,
+     "in_range": true,
+     "ratio_to_median": 1.2315030920971535
+    },
+    "spectral_centroid_hz": {
+     "value": 1072.1147628208769,
+     "real_p10": 118.65233691233942,
+     "real_p50": 531.3705224557062,
+     "real_p90": 5378.467850780173,
+     "in_range": true,
+     "ratio_to_median": 2.0176406434179754
+    },
+    "band_sub_share": {
+     "value": 0.05760670675931778,
+     "real_p10": 6.697417334693102e-05,
+     "real_p50": 0.3026707859736521,
+     "real_p90": 0.8465778234391541,
+     "in_range": true,
+     "ratio_to_median": 0.19032793856864838
+    },
+    "band_high_share": {
+     "value": 9.188877051508498e-09,
+     "real_p10": 2.170396795983927e-08,
+     "real_p50": 0.00021436611705444533,
+     "real_p90": 0.027229130585626173,
+     "in_range": false,
+     "ratio_to_median": 4.286534260997357e-05
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "rumble__lowpass_hz__160.wav",
+   "sound": "rumble",
+   "ref_sound": "rumble",
+   "features": {
+    "attack_ms": {
+     "value": 73.35600907029479,
+     "real_p10": 2.2448979591836733,
+     "real_p50": 18.52607709750567,
+     "real_p90": 49.84126984126984,
+     "in_range": false,
+     "ratio_to_median": 3.959608323133415
+    },
+    "decay_ms": {
+     "value": 618.0,
+     "real_p10": 14.0,
+     "real_p50": 242.0,
+     "real_p90": 1026.0,
+     "in_range": true,
+     "ratio_to_median": 2.553719008264463
+    },
+    "crest_factor_db": {
+     "value": 8.532490185672387,
+     "real_p10": 5.693226436361437,
+     "real_p50": 10.618452595599678,
+     "real_p90": 16.451894153676218,
+     "in_range": true,
+     "ratio_to_median": 0.8035530703605797
+    },
+    "spectral_centroid_hz": {
+     "value": 117.28554575268677,
+     "real_p10": 118.65233691233942,
+     "real_p50": 531.3705224557062,
+     "real_p90": 5378.467850780173,
+     "in_range": false,
+     "ratio_to_median": 0.22072271756938383
+    },
+    "band_sub_share": {
+     "value": 0.27167362535839124,
+     "real_p10": 6.697417334693102e-05,
+     "real_p50": 0.3026707859736521,
+     "real_p90": 0.8465778234391541,
+     "in_range": true,
+     "ratio_to_median": 0.8975878675718666
+    },
+    "band_high_share": {
+     "value": 1.5192499232247462e-10,
+     "real_p10": 2.170396795983927e-08,
+     "real_p50": 0.00021436611705444533,
+     "real_p90": 0.027229130585626173,
+     "in_range": false,
+     "ratio_to_median": 7.087173775876542e-07
+    }
+   },
+   "out_of_range": 3
+  },
+  {
+   "file": "rumble__lowpass_hz__300.wav",
+   "sound": "rumble",
+   "ref_sound": "rumble",
+   "features": {
+    "attack_ms": {
+     "value": 5.28344671201814,
+     "real_p10": 2.2448979591836733,
+     "real_p50": 18.52607709750567,
+     "real_p90": 49.84126984126984,
+     "in_range": true,
+     "ratio_to_median": 0.2851897184822521
+    },
+    "decay_ms": {
+     "value": 678.0,
+     "real_p10": 14.0,
+     "real_p50": 242.0,
+     "real_p90": 1026.0,
+     "in_range": true,
+     "ratio_to_median": 2.8016528925619837
+    },
+    "crest_factor_db": {
+     "value": 8.720396015030932,
+     "real_p10": 5.693226436361437,
+     "real_p50": 10.618452595599678,
+     "real_p90": 16.451894153676218,
+     "in_range": true,
+     "ratio_to_median": 0.8212492297271915
+    },
+    "spectral_centroid_hz": {
+     "value": 122.22096579194849,
+     "real_p10": 118.65233691233942,
+     "real_p50": 531.3705224557062,
+     "real_p90": 5378.467850780173,
+     "in_range": true,
+     "ratio_to_median": 0.23001081284507371
+    },
+    "band_sub_share": {
+     "value": 0.2677640628557,
+     "real_p10": 6.697417334693102e-05,
+     "real_p50": 0.3026707859736521,
+     "real_p90": 0.8465778234391541,
+     "in_range": true,
+     "ratio_to_median": 0.8846709866442453
+    },
+    "band_high_share": {
+     "value": 1.535977836357051e-10,
+     "real_p10": 2.170396795983927e-08,
+     "real_p50": 0.00021436611705444533,
+     "real_p90": 0.027229130585626173,
+     "in_range": false,
+     "ratio_to_median": 7.165208091010664e-07
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "rumble__lowpass_hz__90.wav",
+   "sound": "rumble",
+   "ref_sound": "rumble",
+   "features": {
+    "attack_ms": {
+     "value": 186.00907029478458,
+     "real_p10": 2.2448979591836733,
+     "real_p50": 18.52607709750567,
+     "real_p90": 49.84126984126984,
+     "in_range": false,
+     "ratio_to_median": 10.040391676866584
+    },
+    "decay_ms": {
+     "value": 524.0,
+     "real_p10": 14.0,
+     "real_p50": 242.0,
+     "real_p90": 1026.0,
+     "in_range": true,
+     "ratio_to_median": 2.165289256198347
+    },
+    "crest_factor_db": {
+     "value": 8.716629622939394,
+     "real_p10": 5.693226436361437,
+     "real_p50": 10.618452595599678,
+     "real_p90": 16.451894153676218,
+     "in_range": true,
+     "ratio_to_median": 0.8208945271886032
+    },
+    "spectral_centroid_hz": {
+     "value": 107.3880537458601,
+     "real_p10": 118.65233691233942,
+     "real_p50": 531.3705224557062,
+     "real_p90": 5378.467850780173,
+     "in_range": false,
+     "ratio_to_median": 0.20209637006127248
+    },
+    "band_sub_share": {
+     "value": 0.3582500072004731,
+     "real_p10": 6.697417334693102e-05,
+     "real_p50": 0.3026707859736521,
+     "real_p90": 0.8465778234391541,
+     "in_range": true,
+     "ratio_to_median": 1.1836292889914366
+    },
+    "band_high_share": {
+     "value": 1.6729671544286242e-10,
+     "real_p10": 2.170396795983927e-08,
+     "real_p50": 0.00021436611705444533,
+     "real_p90": 0.027229130585626173,
+     "in_range": false,
+     "ratio_to_median": 7.804251797888932e-07
+    }
+   },
+   "out_of_range": 3
+  },
+  {
+   "file": "stab__decay_ms__250.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 72.53968253968254,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 1.0634973404255321
+    },
+    "decay_ms": {
+     "value": 94.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": false,
+     "ratio_to_median": 0.34814814814814815
+    },
+    "crest_factor_db": {
+     "value": 18.7454959505253,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": true,
+     "ratio_to_median": 1.0903917364785884
+    },
+    "spectral_centroid_hz": {
+     "value": 2812.829496469107,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": true,
+     "ratio_to_median": 1.3161803748947194
+    },
+    "band_sub_share": {
+     "value": 8.357309042873946e-05,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 0.12325898013520963
+    },
+    "band_high_share": {
+     "value": 0.06623468794434165,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": true,
+     "ratio_to_median": 1.525231812383775
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "stab__decay_ms__600.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 72.49433106575964,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 1.0628324468085106
+    },
+    "decay_ms": {
+     "value": 100.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": false,
+     "ratio_to_median": 0.37037037037037035
+    },
+    "crest_factor_db": {
+     "value": 19.175714198055744,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": true,
+     "ratio_to_median": 1.1154167570610047
+    },
+    "spectral_centroid_hz": {
+     "value": 2182.2715877097553,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": true,
+     "ratio_to_median": 1.0211294499149055
+    },
+    "band_sub_share": {
+     "value": 8.887920789950737e-05,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 0.13108478416578023
+    },
+    "band_high_share": {
+     "value": 0.06508703363195556,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": true,
+     "ratio_to_median": 1.4988039854973312
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "stab__decay_ms__80.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 27.188208616780045,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 0.3986037234042554
+    },
+    "decay_ms": {
+     "value": 76.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": false,
+     "ratio_to_median": 0.2814814814814815
+    },
+    "crest_factor_db": {
+     "value": 17.603715467236796,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": true,
+     "ratio_to_median": 1.0239764222539773
+    },
+    "spectral_centroid_hz": {
+     "value": 2194.483123801849,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": true,
+     "ratio_to_median": 1.0268434770793349
+    },
+    "band_sub_share": {
+     "value": 5.388360488611542e-05,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 0.0794710133393276
+    },
+    "band_high_share": {
+     "value": 0.06041212744578395,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": true,
+     "ratio_to_median": 1.3911516985106331
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "stab__drive__0.0.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 72.49433106575964,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 1.0628324468085106
+    },
+    "decay_ms": {
+     "value": 162.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": true,
+     "ratio_to_median": 0.6
+    },
+    "crest_factor_db": {
+     "value": 19.028054213748323,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": true,
+     "ratio_to_median": 1.1068276417277902
+    },
+    "spectral_centroid_hz": {
+     "value": 2134.1942960781103,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": true,
+     "ratio_to_median": 0.9986331031569191
+    },
+    "band_sub_share": {
+     "value": 9.428423287513513e-05,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 0.13905646335920768
+    },
+    "band_high_share": {
+     "value": 0.062331863506068404,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": true,
+     "ratio_to_median": 1.4353587839729613
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "stab__drive__0.4.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 72.58503401360544,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 1.0641622340425532
+    },
+    "decay_ms": {
+     "value": 250.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": true,
+     "ratio_to_median": 0.9259259259259259
+    },
+    "crest_factor_db": {
+     "value": 10.24958121221464,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": true,
+     "ratio_to_median": 0.5961996783473661
+    },
+    "spectral_centroid_hz": {
+     "value": 2195.6096176896544,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": true,
+     "ratio_to_median": 1.027370586578659
+    },
+    "band_sub_share": {
+     "value": 0.0006205979666404405,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 0.9152978793731479
+    },
+    "band_high_share": {
+     "value": 0.06992199316501901,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": true,
+     "ratio_to_median": 1.6101419312216843
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "stab__drive__0.8.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 78.75283446712018,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 1.1545877659574468
+    },
+    "decay_ms": {
+     "value": 268.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": true,
+     "ratio_to_median": 0.9925925925925926
+    },
+    "crest_factor_db": {
+     "value": 7.8583638259910416,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": false,
+     "ratio_to_median": 0.45710686986986754
+    },
+    "spectral_centroid_hz": {
+     "value": 2292.5838128491077,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": true,
+     "ratio_to_median": 1.0727467932418433
+    },
+    "band_sub_share": {
+     "value": 0.0012988420398535032,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 1.915615952069954
+    },
+    "band_high_share": {
+     "value": 0.08681942122754671,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": true,
+     "ratio_to_median": 1.9992506539817392
+    }
+   },
+   "out_of_range": 1
+  },
+  {
+   "file": "stab__lowpass_hz__1600.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 72.44897959183673,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 1.0621675531914894
+    },
+    "decay_ms": {
+     "value": 162.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": true,
+     "ratio_to_median": 0.6
+    },
+    "crest_factor_db": {
+     "value": 18.113978595848263,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": true,
+     "ratio_to_median": 1.0536575093981169
+    },
+    "spectral_centroid_hz": {
+     "value": 956.0419592100592,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": true,
+     "ratio_to_median": 0.44735156036572005
+    },
+    "band_sub_share": {
+     "value": 0.00010876453231484191,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 0.16041294224295294
+    },
+    "band_high_share": {
+     "value": 0.003994797802001379,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": true,
+     "ratio_to_median": 0.09199096245117587
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "stab__lowpass_hz__4000.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 72.49433106575964,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 1.0628324468085106
+    },
+    "decay_ms": {
+     "value": 162.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": true,
+     "ratio_to_median": 0.6
+    },
+    "crest_factor_db": {
+     "value": 19.03263951269904,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": true,
+     "ratio_to_median": 1.107094360309061
+    },
+    "spectral_centroid_hz": {
+     "value": 1294.9642850008336,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": true,
+     "ratio_to_median": 0.6059402392669657
+    },
+    "band_sub_share": {
+     "value": 9.476402686128272e-05,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 0.13976409445318985
+    },
+    "band_high_share": {
+     "value": 0.05814757727362188,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": true,
+     "ratio_to_median": 1.3390043408266479
+    }
+   },
+   "out_of_range": 0
+  },
+  {
+   "file": "stab__lowpass_hz__600.wav",
+   "sound": "stab",
+   "ref_sound": "stab",
+   "features": {
+    "attack_ms": {
+     "value": 67.57369614512471,
+     "real_p10": 10.249433106575964,
+     "real_p50": 68.20861678004535,
+     "real_p90": 135.0793650793651,
+     "in_range": true,
+     "ratio_to_median": 0.9906914893617021
+    },
+    "decay_ms": {
+     "value": 122.0,
+     "real_p10": 114.0,
+     "real_p50": 270.0,
+     "real_p90": 562.0,
+     "in_range": true,
+     "ratio_to_median": 0.45185185185185184
+    },
+    "crest_factor_db": {
+     "value": 16.69185513829158,
+     "real_p10": 8.749392804937045,
+     "real_p50": 17.19152422327019,
+     "real_p90": 19.42917040933259,
+     "in_range": true,
+     "ratio_to_median": 0.9709351492927971
+    },
+    "spectral_centroid_hz": {
+     "value": 552.354830108527,
+     "real_p10": 693.400952852751,
+     "real_p50": 2137.1155125254804,
+     "real_p90": 3142.4974269216045,
+     "in_range": false,
+     "ratio_to_median": 0.25845810714077694
+    },
+    "band_sub_share": {
+     "value": 0.00026909594938901544,
+     "real_p10": 2.1211353060672297e-06,
+     "real_p50": 0.0006780284108879003,
+     "real_p90": 0.020230987705888225,
+     "in_range": true,
+     "ratio_to_median": 0.39688004966727797
+    },
+    "band_high_share": {
+     "value": 4.063820210743586e-06,
+     "real_p10": 0.0038338362252443013,
+     "real_p50": 0.04342598115680782,
+     "real_p90": 0.2158984917583929,
+     "in_range": false,
+     "ratio_to_median": 9.358038903184361e-05
+    }
+   },
+   "out_of_range": 2
+  }
+ ]
+}
