@@ -21,28 +21,26 @@ default, not something a script has to fight for.
 
 ## 2. How the two agents work together
 
-Two agents, two machines, one rule: audio stays yours, only numbers get
-published. Audio moves from your Mac to your own Drive to the research
-agent's container, where it is measured and then dies with the container.
-Nothing audio ever goes to the site or anywhere public. The site gets numbers.
+Two agents, two machines. The measurements run where the audio already is.
 
-- The research agent (the web session) writes job specs, reads results,
-  measures, and publishes. It never touches the Mac.
-- The Live agent (on the Mac) runs jobs against Live, writes stems and
-  sidecars, and packs a zip. It never publishes anything. The only place
-  your audio goes is your own Drive.
-- Specs flow one way: the research agent publishes them at
-  `anthonybecker.me/research/sound-function/repo/research/specs/` and writes
-  you a prompt to paste. Results flow the other way: the Live agent leaves a
-  zip on your Mac, you drop it in the Drive folder
-  `claude-research-2026-09-06/tracks/` (or paste a link), and the research
-  agent fetches it.
-- Every job has an id like `live_multitrack_bounce_v1`. The zip, its
-  MANIFEST.md, and the research write-up all carry the same id, so nothing has
-  to be matched by memory.
-- If the Live agent hits something the spec did not foresee, it writes it in
-  MANIFEST.md under "things that fought us" and carries on. That section is
-  how the spec gets fixed for next time. It worked well this round.
+- The Live agent (on the Mac) drives Live AND runs the lab. It has the same
+  analysis code as the research agent, cloned from the `sound-function-research`
+  branch, and returns numbers: JSON, CSV, a MANIFEST.md. How to set that up
+  and which tool answers which question is in `research/mac-lab.md`.
+- The research agent (the web session) writes job specs and tools, reads the
+  numbers, keeps the register and the site. It does not hold your audio. If
+  it needs to hear something it asks for a clip: at most 30 s, at most 20 MB,
+  never a whole track by default.
+- Specs and tools go out through the branch: `git pull` on the Mac brings
+  whatever the research agent added. Numbers come back through Drive, or
+  pasted here when small.
+- Every job has an id like `live_multitrack_bounce_v1`. The zip of results,
+  its MANIFEST.md, and the write-up all carry it.
+- When the Live agent hits something the spec did not foresee, it writes it
+  in MANIFEST.md under "things that fought us" and carries on. That is how
+  the spec gets fixed. It worked well this round.
+- If a tool is missing on the Mac, the Live agent says so in the MANIFEST and
+  stops. The research agent adds it to the branch.
 
 ## 3. The next Live job, ready to paste
 
@@ -50,22 +48,36 @@ This is the one that turns every published pump number from a floor into a
 value, and settles the split-duck question for your track exactly.
 
 ```
-Bounce HW002_14 track 3 ("rumble") twice from the same clone, same
+First, set up the lab if it is not there yet: follow
+https://anthonybecker.me/research/sound-function/repo/research/mac-lab.md
+(clone the sound-function-research branch, venv, pip install -r
+requirements.txt, run the six feature tests).
+
+Then bounce HW002_14 track 3 ("rumble") twice from the same clone, same
 arrangement, same length: once exactly as it is, and once with ONLY the
 LFOTool device bypassed (device on = 0). Change nothing else. Name them
-03__rumble.wav and 03__rumble__lfotool-off.wav, each with a sidecar. This
-time also record LFOTool's parameter values in the sidecar, not just its
-name, so we can see whether it is shaping volume or a filter. Wrap the run
-in caffeinate -dis. Pack as live_rumble_bypass_v1.zip with a MANIFEST.md in
-the same style as last time, and leave it on the Mac for Anthony.
+03__rumble.wav and 03__rumble__lfotool-off.wav, each with a sidecar, and this
+time record LFOTool's parameter values in the sidecar, not just its name, so
+we can see whether it shapes volume or a filter. Wrap the run in
+caffeinate -dis.
+
+Then run the analysis locally, on the Mac, and send only the JSON:
+  python3 lab/duck_calibration.py calibrate --kick stems/hw002/02__kick.wav --out duck_calibrate.json
+  python3 lab/duck_calibration.py bypass --kick stems/hw002/02__kick.wav \
+      --bass stems/hw002/03__rumble.wav --bypass stems/hw002/03__rumble__lfotool-off.wav \
+      --out duck_bypass.json
+
+Pack the two JSON files, the two sidecars and a MANIFEST.md (same style as
+last time) as live_rumble_bypass_v1.zip. Do not include the wavs. Leave the
+zip on the Mac for Anthony.
 ```
 
 ## 4. Things only you can do
 
 In order of how much they unblock.
 
-1. Paste the job above into the Live agent. About an hour of rig time.
-2. Drop the resulting zip into the Drive folder, or paste a link here.
+1. Paste the job above into the Live agent. About an hour of rig time, plus a one-time lab setup of ten minutes.
+2. Send me the resulting zip. It is small now, numbers only, so a link or a paste both work.
 3. Do the listening test once with the new sounds. Thirty-one pairs, about
    fifteen minutes. Your three earlier answers were against the old set.
 4. Make one track with a target in mind, using the clipper table: pick a
