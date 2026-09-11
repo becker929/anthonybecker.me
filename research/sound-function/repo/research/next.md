@@ -21,13 +21,16 @@ default, not something a script has to fight for.
 
 ## 2. How the two agents work together
 
-Two agents, two machines, one rule: numbers cross, audio does not.
+Two agents, two machines, one rule: audio stays yours, only numbers get
+published. Audio moves from your Mac to your own Drive to the research
+agent's container, where it is measured and then dies with the container.
+Nothing audio ever goes to the site or anywhere public. The site gets numbers.
 
 - The research agent (the web session) writes job specs, reads results,
   measures, and publishes. It never touches the Mac.
 - The Live agent (on the Mac) runs jobs against Live, writes stems and
-  sidecars, and packs a zip. It never publishes anything and never uploads
-  your audio anywhere except your own Drive.
+  sidecars, and packs a zip. It never publishes anything. The only place
+  your audio goes is your own Drive.
 - Specs flow one way: the research agent publishes them at
   `anthonybecker.me/research/sound-function/repo/research/specs/` and writes
   you a prompt to paste. Results flow the other way: the Live agent leaves a
