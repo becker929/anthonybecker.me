@@ -1,25 +1,25 @@
 [
   {
     "slug": "sound-function",
-    "title": "What decides a sound's job in hard techno",
-    "description": "Preliminary research, in plain language: which measurable things tell you whether a sound is a kick, a rumble, a hat, a clap, a hook or a riser \u2014 and a programme for finding out ten times more.",
+    "title": "Sound function in hard techno",
+    "description": "Preliminary research, in plain language: which measurable things tell you whether a sound is a kick, a rumble, a hat, a clap, a hook or a riser — and a programme for finding out ten times more.",
     "path": "/research/sound-function/"
   },
   {
     "slug": "sound-function-part-two",
-    "title": "Ten times more: what we found when we ran the programme",
+    "title": "An expanded corpus and the first listening test",
     "description": "Part two of the sound-function research: a labelled library of 718 sounds, a browser role meter, a listening test, the pump measured, and hundreds of hard techno tracks with bar one found.",
     "path": "/research/sound-function/part-two/"
   },
   {
     "slug": "sound-function-part-three",
-    "title": "What the stems say: the corpus taken apart",
+    "title": "Source-separated stems and pump measurements",
     "description": "Part three: 218 hard techno tracks split into stems with a free separator; the pump measured three ways, where real kicks land, and real hits against the synthetic ones.",
     "path": "/research/sound-function/part-three/"
   },
   {
     "slug": "sound-function-part-four",
-    "title": "Twice as much: the expansion",
+    "title": "A doubled corpus and a register of tested hypotheses",
     "description": "Part four: the literature doubled, the corpus grown, a register of tested hypotheses with two reversals, loudness measured for the first time, and two more notes on where this goes.",
     "path": "/research/sound-function/part-four/"
   }

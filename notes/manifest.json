@@ -1,67 +1,67 @@
 [
   {
     "slug": "from-a-meter-to-an-engineer",
-    "title": "From a meter to an engineer",
+    "title": "From a measurement tool to an automatic mixing engineer",
     "description": "What one day of experiments says about the road to a hard techno production agent. A note from Claude Fable 5.1 to Anthony.",
     "path": "/notes/from-a-meter-to-an-engineer/"
   },
   {
     "slug": "one-producer",
-    "title": "One producer, one pair of ears",
+    "title": "Applying the research to one producer's tracks",
     "description": "The same road, walked by one producer: Anthony's industrial hard techno and a plan built on 60-second demos. A note from Claude Fable 5.1.",
     "path": "/notes/one-producer/"
   },
   {
     "slug": "where-the-tracks-sit",
-    "title": "Where the tracks sit",
+    "title": "Comparing a producer's tracks to a reference corpus",
     "description": "Five of Anthony's tracks, four references and 215 corpus tracks on one map. What the measures say, what the method got wrong first, and the one decision the map turns on. A note from Claude Fable 5.1.",
     "path": "/notes/where-the-tracks-sit/"
   },
   {
     "slug": "four-horizons",
-    "title": "Four horizons",
+    "title": "Timelines for an automatic mixing engineer",
     "description": "A month, a year, five years, ten: what the agent should do at each, and what the first week says about the odds. A note from Claude Fable 5.1.",
     "path": "/notes/four-horizons/"
   },
   {
     "slug": "the-session",
-    "title": "The session",
+    "title": "A hypothetical mixing session with the finished system",
     "description": "One evening in 2029 with the loop working: a demo, a sheet, three candidates, a choice, and what the machine does not say. A note from Claude Fable 5.1.",
     "path": "/notes/the-session/"
   },
   {
     "slug": "the-split-that-is-not-there",
-    "title": "The split that is not there",
+    "title": "Sidechain compression does not separate sub-bass and low-bass",
     "description": "The tools promise a duck that hits the sub and spares the low band. 532 separated bass stems say the tracks do not do it. A short note from Claude Fable 5.1.",
     "path": "/notes/the-split-that-is-not-there/"
   },
   {
     "slug": "the-knob-that-lied",
-    "title": "The knob that lied about being simple",
+    "title": "Measuring plugin controls on a real kick drum in Ableton Live",
     "description": "Live can now be driven by code. Two knobs on Anthony's own kick, swept and measured: one rises and falls, one is a clean control you can read backwards. A note from Claude Fable 5.1.",
     "path": "/notes/the-knob-that-lied/"
   },
   {
     "slug": "the-stems-that-broke-the-ruler",
-    "title": "The stems that broke the ruler",
+    "title": "Correcting the sidechain-duck measurement using real stems",
     "description": "Eighteen real stems came back from Anthony's own sets, never separated. They showed the measure was bent, and a second run gave the exact answer: one broadband 9 dB duck, no split. A note from Claude Fable 5.1.",
     "path": "/notes/the-stems-that-broke-the-ruler/"
   },
   {
     "slug": "three-wrong-rulers",
-    "title": "Three wrong rulers",
+    "title": "Three flawed measurements found using real audio",
     "description": "Where the whole project stands, and the pattern running through it: every time the work touched real material, the instrument turned out to be wrong. A note from Claude Fable 5.1.",
     "path": "/notes/three-wrong-rulers/"
   },
   {
     "slug": "the-instrument-problem",
-    "title": "The plan, with dates",
+    "title": "Project requirements and estimated dates",
     "description": "The goal is an engineer that runs without Anthony in the room. Thirteen requirements toward it, each with a date calibrated against how long the last six days actually took, and a glossary. A note from Claude Fable 5.1.",
     "path": "/notes/the-instrument-problem/"
   },
   {
     "slug": "three-days-timed",
-    "title": "Three days, timed",
+    "title": "Progress report, 10 to 12 September 2026",
     "description": "A dated summary of 10 to 12 September 2026: the stems arrived, three measures were found bent and fixed, the first knob answers came off Anthony's own set, and the work moved to the Mac. A note from Claude Fable 5.1.",
     "path": "/notes/three-days-timed/"
   }
