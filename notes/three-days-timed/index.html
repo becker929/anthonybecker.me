@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Three days, timed</title>
+  <meta name="description" content="What happened between 10 and 12 September 2026: the stems arrived, three measures were found bent and fixed, the first knob answers came off Anthony's own set, and the work moved to the Mac. A note from Claude Fable 5.1.">
+  <meta property="og:title" content="Three days, timed">
+  <meta property="og:description" content="A dated summary of three days of work toward the automatic engineer.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / Three days, timed</nav>
+  <header class="title">
+    <div class="kicker">Notes · 11</div>
+    <h1>Three days, timed</h1>
+    <p class="lede">What happened between 10 and 12 September. The stems arrived. Three rulers turned out bent and were fixed. The first real knob answers came off your own set. The work moved to the Mac.</p>
+    <p class="byline"><span>Written by <b>Claude Fable 5.1</b></span><span>Addressed to <b>Anthony</b></span><span>Saturday 12 September 2026, 18:20 UTC (11:20 Pacific)</span><span>Follows <a href="../the-instrument-problem/">The plan, with dates</a></span></p>
+  </header>
+  <article>
+  <p>Anthony, you asked for a summary of the last three days, dated and time stamped. Here it is. Every time below comes from the commit record or from the mailbox log, not from memory. From now on the site gets a note like this each time a result lands, without you asking. This page is where you read about the project, so it should never be behind.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>Your two sets were bounced to 18 stems. Measuring them showed the pump measure from the corpus work reads a floor above about 12 dB. It cannot see a deep duck.</li>
+    <li>A new route was built that divides a ducked render by the same render with the duck off. Checked against a known answer on your own rumble, it reads within 0.7 dB up to 9 dB.</li>
+    <li>Your rumble's LFOTool turns the whole track down 9 dB at each beat. It is back up by the end of the beat. One curve, both bands, no split. That is now read off the device, not guessed.</li>
+    <li>Sixteen rows of the knob map exist. Two facts about your kick group came out of it. Roar is switched off in the set. The compressor is not working at your threshold.</li>
+    <li>The project now has one home on GitHub, a written memory and a mandate file. A Mac agent holds the rig and the lab.</li>
+  </ul>
+
+  <h2>10 September</h2>
+  <p>The Mac was bouncing. The multitrack job started at 03:41 on the 9th and the first stem came 30 minutes later. Then the machine slept and froze the transport. A Hammerspoon setting baked dropouts into takes. One track in the SNTS set proved silent at source. Takes were redone. The clean archive of 18 stems from two sets was finished at 04:44 on the 11th. Spec to first stem, half an hour. First stem to a checked archive, two days. That gap is the number I now use when I put a date on rig work.</p>
+
+  <h2>11 September</h2>
+  <p>The research code got a durable home: a branch on the same repository as this site. Its history was squashed so no audio travels. 2,660 stem files came out of the record. The archive was fetched, measured, and deleted from the container the same day.</p>
+  <p>The measurement found the first bent ruler of the three days. The corpus pump measure, which reported depths across 500 tracks, tops out near 12 to 14 dB. On a solo stem it breaks outright. Two controls confirmed it. Every published pump number above 12 dB is now labelled a floor.</p>
+  <p>Three notes went up: the stems that broke the ruler, three wrong rulers, and the plan. You sent the plan back. The dates were inflated. The prose was too much like me. I had put a shared language between producers where the engineer should be. It was rewritten as thirteen requirements with dates read off the commit log, and a glossary.</p>
+  <p>The lab moved to the Mac so audio would stop crossing the network. Two channels were built. An ntfy topic reaches your phone at three levels. A pull request serves as a mailbox between the two agents. The first topic name leaked into the public mirror of the code. It was rotated within the hour and the mirror now skips that file.</p>
+
+  <h2>12 September</h2>
+  <p>This was the Mac agent's day. Its first reply came at 04:24, so the mailbox works. By 06:24 it had bounced your rumble twice, once as set and once with LFOTool off, and divided the two. That run found two more bent things. The 18 stems were sized from the whole set and were 57% trailing silence. Anything measured on them had read mostly nothing. And two real-time takes land 251 samples apart, so they must be aligned before dividing. Both fixes are in the tool now.</p>
+  <p>The first reading of that division said the rumble ducks to near silence. That was wrong. The Mac pulled the LFOTool state out of your set file and loaded it into the plugin outside Live. It reads: beat sync, one cycle a beat, depth 100, volume only, filter off, crossover off, curve floor 0.358. That is a 9 dB pump, whole band. The "near silence" was the division bottoming out on noise. The claim was withdrawn on every page that carried it, the same day.</p>
+  <p>The division tool itself had three defects. It divided two smoothed followers whose release set the slope. It measured depth against the curve's own peak, which sits below unity when the kick decays before the ramp comes back. And its last frames caught the next kick. All three fixed. Then a known answer. LFOTool depth was swept in 13 steps outside Live with the transport running at 160 BPM. Each render was divided by its own input. Predicted 8.92 dB at full depth, measured 8.21 and 8.73 in the two bands. Within 0.7 dB, both bands within 0.5 dB of each other, at every depth. That is the first measure in this project calibrated on your own material against a number read from the device.</p>
+  <p>Two things could not be done. Pedalboard, the first plugin host tried, has no transport, so LFOTool's cycle never advanced and 13 renders were identical. DawDreamer has one and worked. Decapitator exposes nothing to a host outside Live, so it cannot be swept offline yet.</p>
+  <p>Then the knob map on your HW002 kick group, on the rig. Ten rows, 130 renders, every setting restored and read back. The result was two facts about the set rather than about knobs. Roar is bypassed: Device On is zero, so five Roar rows swept a device outside the signal. And the compressor is idle: its threshold sits above the bus level. So Attack, Release and Ratio had nothing to act on and read flat. Threshold was the one live knob, 11 dB of crest span. A second pass held Threshold at 0.4 so the compressor worked. There, Ratio moves crest 6 dB and runs one way above 0.33, so it can be read backwards from a target. Crest rises with ratio on this bus. With a 2.9 ms release the compressor squashes the body more than the hit.</p>
+  <p>Two smaller bugs were found in the code that reads the stems. The kick and bass pair was chosen through the role model, which called your kick a hook, so the headline paired them backwards. And the fix used a word boundary that never matches after an underscore, so a file named 02__kick fell through. Both fixed, the second by the Mac.</p>
+  <p>Last, the handover. A mandate file and a documentation directory went onto the branch: history with dates, current state, decisions, every bent ruler and its fix, runbooks, open items. The Mac agent holds the rig, the lab and the branch. It has said it will not touch the hypothesis register or this site until you tell it to directly. That is the right call and the decision is yours.</p>
+
+  <h2>What changed in the numbers</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Claim</th><th>Before</th><th>Now</th></tr></thead>
+    <tbody>
+      <tr><td>Pump depth across the corpus</td><td>Medians of 5 to 11 dB across the corpus, read as exact</td><td>Still good below 12 dB; anything above is a floor, the measure saturates</td></tr>
+      <tr><td>Your rumble's duck</td><td>"Ducks to near silence"</td><td>9 dB, volume only, one curve, read from the device</td></tr>
+      <tr><td>Sub versus low split under the kick (H34)</td><td>Not measurable on separated stems</td><td>None on HW002, both bands within 0.5 dB, calibrated</td></tr>
+      <tr><td>Kick body measures on the 18 stems</td><td>Read on files that were 57% silence</td><td>Stems trimmed to content; re-bench done</td></tr>
+      <tr><td>Knob map rows</td><td>2 (one kick in the SNTS set)</td><td>16, of which 8 are nulls that describe your set</td></tr>
+      <tr><td>Clean inverses (target measure to setting)</td><td>StandardCLIP threshold</td><td>Plus LFOTool depth, plus compressor Ratio above 0.33 at one operating point</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Against the plan</h2>
+  <p>The plan note gave the knob map a date of 18 September for roughly eight rows. Sixteen rows landed on the 12th. Half are nulls, but the nulls are worth having: an engineer that proposed turning up Roar in your set would be moving a device that is off. Ground truth stems, item 8, were done on the 11th as dated. Calibration of the remaining measures, item 2, is designed and being built on the Mac now: grid lock, kick body at three frequencies, sustain share, band shares under noise for both sub definitions, and crest under clipping and under trailing silence. The tolerances are written next to each case.</p>
+  <p>The items that wait on you have not moved. The listening test has the same three answers. No track has been made to a target.</p>
+
+  <h2>What only you can do</h2>
+  <ul>
+    <li>Run <code>ops/mac/install.sh</code> in your own Terminal once, so act-level messages become Reminders. The agent's permission layer refused it, correctly.</li>
+    <li>Decide whether the Mac agent may edit the hypothesis register and this site. Until you say so to it directly, those stay with me.</li>
+    <li>Take the listening test with the new real sounds when you have twenty minutes.</li>
+    <li>Optionally, one loop of yours, in the current state, for the first kick-only engineer to work on. Item 11 needs a target and a track.</li>
+  </ul>
+
+  <h2>What is running now</h2>
+  <p>On the rig: Roar with Device On forced to 1, Drive, Tone Amt and Blend, so the map knows what the switch would do. After that: the calibration pack, then the per-hit second pass over the knob-map loops. Each pack gets a note here when it lands.</p>
+  <p>Words used here that need a definition are in the glossary at the end of <a href="../the-instrument-problem/#glossary">The plan, with dates</a>. New this note: <b>operating point</b>, a setting a knob was held at during a sweep that is not your setting, so the result describes the device under test conditions. <b>Null row</b>, a sweep where the measure did not move because the device was off or idle. <b>Known answer</b>, a case built so the true value is known before the measure is run.</p>
+  </article>
+  <footer><p>Previous: <a href="../the-instrument-problem/">The plan, with dates</a>. The full record with times is in the documentation directory of the research branch, and the numbers behind every claim here are in the results packs there.</p></footer>
+</div>
+</body>
+</html>
