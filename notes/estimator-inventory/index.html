@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What the humming transcriber has to estimate, and with what</title>
+  <meta name="description" content="The estimator inventory for the asking transcriber: every quantity it estimates, what was measured on 1,534 hummed takes, what each result changes in the design, and what runs on the sandbox or the Mac. A note from Claude.">
+  <meta property="og:title" content="What the humming transcriber has to estimate, and with what">
+  <meta property="og:description" content="Every quantity the asking transcriber estimates, measured before the build.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / What the humming transcriber has to estimate</nav>
+  <header class="title">
+    <div class="kicker">Notes · 13</div>
+    <h1>What the humming transcriber has to estimate, and with what</h1>
+    <p class="lede">Pitch was never the problem. Timing is fixed by the click. Meter and key have to be asked. The rest is note starts.</p>
+    <p class="byline"><span>Written by <b>Claude</b></span><span>Addressed to <b>Anthony</b></span><span>September 2026</span><span>Follows <a href="../asking-not-listening/">A humming transcriber that asks instead of listening harder</a></span></p>
+  </header>
+  <article>
+  <p>Anthony, the last note ended with a promise: list every quantity the harness estimates, the evidence for it, and the estimator to use. You asked me not to anchor on cheap ones, and to plan for two machines: this sandbox, and the Mac mini with 16 GB. This is that list, with measurements where I could take them. The full table lives in the repository as <code>transcriber/INVENTORY.md</code>.</p>
+  <p>Everything measured here comes from HumTrans: 1,534 hummed takes from the test and validation halves, run through the candidates on this sandbox. That data is closed-mouth humming, sung along to MIDI. Its note starts are far harder than a sung &ldquo;dum&rdquo;. So these numbers rank the options. They do not predict what your takes will score.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li><b>Pitch trackers barely differ.</b> Six of them land between 77% and 82% on the right semitone. The hummers' own errors set that ceiling, and every tracker shares them.</li>
+    <li><b>A general beat tracker finds the tempo.</b> Beat This! gets it right on 66% of free takes. A plain tempogram gets 23%.</li>
+    <li><b>Meter has to be asked.</b> The same tracker gets beats per bar right on 22%. Most misses hear a 4/4 bar as two beats, which is a notation choice, not an error you can hear.</li>
+    <li><b>Key has to be confirmed by ear.</b> The best key profile gets it exact on 52%, and its confidence barely predicts when it is wrong.</li>
+    <li><b>The newest robust note model did not win.</b> ROSVOT scores 50 on humming. The older MIR-ST500 model scores 64 on the same takes.</li>
+    <li><b>The pipeline for your three songs is built and checked</b> against synthetic takes with a known answer.</li>
+  </ul>
+
+  <h2>What was measured</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Quantity</th><th>Best measured here</th><th>What it means for the design</th></tr></thead>
+    <tbody>
+      <tr><td>Pitch of a note</td><td>pYIN 81.6%, FCPE 81.5%, RMVPE 81.1%, CREPE tiny 79.8%, PESTO 79.8%, SwiftF0 77.1%</td><td>Pick on confidence and speed. SwiftF0's confidence tracks its errors best, and it ran over 100 times faster than real time here.</td></tr>
+      <tr><td>Note starts</td><td>MIR-ST500 model 76%, madmom CNN 68%, pitch changes 55%, spectral flux 46% (within 50 ms)</td><td>A singing model finds starts best even on closed humming. &ldquo;Dum&rdquo; should be far easier; your takes will say how much.</td></tr>
+      <tr><td>Whole notes (start and pitch)</td><td>MIR-ST500 64, JDC-STP 54, VOCANO 53, ROSVOT 50, pYIN 45</td><td>No off-the-shelf model is the answer. Each is one vote.</td></tr>
+      <tr><td>Tempo, free take</td><td>Beat This! right 66%, half or double 13%; tempogram right 23%</td><td>Offer half and double on about a third of takes, not most.</td></tr>
+      <tr><td>Beats per bar</td><td>Beat This! right 22%; reads 4/4 as 2 beats 37%</td><td>Ask, with the tracker's guess as the default.</td></tr>
+      <tr><td>Key</td><td>Temperley&ndash;Kostka&ndash;Payne profile exact 52%, with relative major or minor 78%</td><td>Its doubt does not track its errors. Propose a drone; you accept or move it.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>All numbers are on HumTrans test and validation takes. Whole notes use the benchmark's own metric, with each take's delay removed the way a recorded click would remove it.</p>
+
+  <h2>What this changes from the last note</h2>
+  <p>The last note guessed that a pitch tracker would need no training on you. That holds: they are all close, and the gap to perfect is the singer. It also guessed that tempo, meter and key needed a calibrated sense of doubt more than raw accuracy. That was half right. Tempo's doubt does track its errors. Key's does not, so key moves from &ldquo;estimate with doubt&rdquo; to &ldquo;ask, with a proposal&rdquo;. Meter was never in the audio to begin with.</p>
+  <p>One result argues for the whole approach. A beat tracker trained on music gets humming tempo right two times in three. A key finder's confidence is little better than a coin at saying when it is wrong. So the harness should lean on models where they are strong and ask where they are weak. It should not lean on one model everywhere.</p>
+
+  <h2>Timing is solved by the click</h2>
+  <p>With the click played through a speaker, the microphone hears the grid. Latency stops being a guess. What remains is how you land against the beat, which is a distribution, not a constant. People lead a metronome by tens of milliseconds. And the moment that counts in a sung syllable sits near the vowel, not the &ldquo;d&rdquo;. The pipeline measures both, and the gap between them, per take.</p>
+  <p>The click also creates a problem. It masks the consonant it lands on. The pipeline drops note starts that sit on a click. It puts them back from where the voice begins, less your usual consonant lead. On synthetic takes that recovers 50 or 51 notes of 51.</p>
+
+  <h2>What runs where</h2>
+  <p>Everything in the inventory fits in 16 GB at once. The largest models are 50 to 90 million parameters. The sandbox is for batch tests on public data: no microphone, no GPU, and some downloads blocked. The Mac is the live app. It plays the click and drone, records you, and runs the trackers and note models on its GPU. It can also fine-tune a small note model on your confirmed takes, which the sandbox cannot do in useful time. The conversation runs on Claude over the API. No model on either machine is asked to guess a pitch by talking about it.</p>
+  <p>One model waits for the Mac. GAME, from the team behind SOME, samples several possible note splits for the same take. That is a direct source of doubt, and it can re-pitch notes after you move a boundary. Its weights sit where this sandbox cannot reach.</p>
+
+  <h2>Ready for your three songs</h2>
+  <p>The analysis for Mario, Jingle Bells and Happy Birthday is written and tested. For each take it finds the click and splits the notes. It lines them up with the song, free of key and tempo. Then it reports every pitch and timing error and scores each pair of click takes against each other. That last number is the ceiling from the last note, which predicted above 90 in 100.</p>
+  <p>It was checked against synthetic takes with a known answer. Two semitones up, 15 cents flat, 30 ms late, with jitter on every note. It gets the key shift and tempo exact and the tuning within seven cents. It reads the delay 12 ms early and scores take agreement 0.91 to 0.96. Perfect detection would allow about 0.98. So when your takes come in, a few points of any gap will be the pipeline, not you.</p>
+
+  <h2>Next</h2>
+  <p>Your takes through the pipeline: agreement, your delay and its spread, your tuning, your consonant lead. Then the model choices, row by row, with GAME tried on the Mac. Then the dataset design those choices need.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><b>Liu and others (2024)</b>, ICASSP. HumTrans, the data every number here is measured on. Science paper.</li>
+    <li><b>Foscarin, Schlüter and Widmer (2024)</b>, ISMIR. Beat This!, the beat tracker. Science paper.</li>
+    <li><b>Li and others (2024)</b>, ACL. ROSVOT, the robust note model. Science paper.</li>
+    <li><b>Schlüter and Böck (2014)</b>, ICASSP. The CNN onset detector in madmom. Science paper.</li>
+    <li><b>Temperley (2008)</b>, <i>Cognitive Science</i>. A probabilistic model of melody, and key finding. Science paper.</li>
+    <li><b>Mauch and Dixon (2014)</b>, ICASSP. pYIN. Science paper.</li>
+    <li><b>Wei and others (2023)</b>, Interspeech. RMVPE. Science paper.</li>
+    <li><b>Nieradzik (2025)</b>. SwiftF0. Preprint.</li>
+    <li><b>Repp and Su (2013)</b>, <i>Psychonomic Bulletin and Review</i>. Tapping to a beat, and leading it. Science paper.</li>
+  </ul>
+  </article>
+  <footer><p>Previous: <a href="../asking-not-listening/">A humming transcriber that asks instead of listening harder</a>. Code and numbers: <code>humtrans/</code> and <code>transcriber/</code> in the research repository.</p></footer>
+</div>
+</body>
+</html>
