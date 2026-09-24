@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
-"""The lab runner: fetch pending items from the site, measure them, post reports.
+"""The lab runner: measure a local folder of audio and write one report per item.
 
-    LAB_TOKEN=... python3 lab/runner.py --base https://anthonybecker.me [--once] [--item ID]
+    python3 lab/runner.py --local <folder> [--out lab/reports]
+
+The folder usually comes from the owner's Google Drive, mirrored by
+lab/drive_fetch.py; run_local() documents the layout. (The runner once also
+polled an upload area on the site; that was turned off in September 2026.)
 
 Kinds and what they get:
   track / reference  grid (tempo, lock, bar one, kick on/off, breakdowns), pump on the mix
@@ -14,9 +18,9 @@ Kinds and what they get:
   multitrack         each stem measured on its own (level, band shares, role of its hits),
                      the kick-like and bass-like stems found, and the true sidechain between
                      them measured with no guessing about the grid.
-Reports are plain JSON in the shape private/lab/lab.js renders: headline, rows, sections.
+Reports are plain JSON: headline, rows, sections, raw.
 """
-import argparse, json, os, sys, tempfile, time, traceback, urllib.request, urllib.error
+import argparse, json, sys, tempfile, time, traceback
 from pathlib import Path
 import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -24,28 +28,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 ROOT = Path(__file__).resolve().parent.parent
 CORPUS = json.load(open(ROOT / "corpus2" / "summary.json"))["all"]
 LIB = {}
-
-
-def api(base, token, path, method="GET", data=None, headers=None, raw=False):
-    h = {"Authorization": f"Bearer {token}", **(headers or {})}
-    body = None
-    if data is not None and not raw:
-        body = json.dumps(data).encode(); h["Content-Type"] = "application/json"
-    elif data is not None:
-        body = data
-    req = urllib.request.Request(base + "/lab/api" + path, data=body, method=method, headers=h)
-    with urllib.request.urlopen(req, timeout=600) as r:
-        ct = r.headers.get("Content-Type", "")
-        return json.load(r) if "json" in ct else r.read()
-
-
-def download(base, token, item, f, dest):
-    req = urllib.request.Request(f"{base}/lab/api/items/{item['id']}/files/{urllib.request.quote(f['name'])}", headers={"Authorization": f"Bearer {token}"})
-    with urllib.request.urlopen(req, timeout=600) as r, open(dest, "wb") as out:
-        while True:
-            b = r.read(1 << 20)
-            if not b: break
-            out.write(b)
 
 
 def to_wav(src, dst, sr=44100):
@@ -225,35 +207,6 @@ def report_multitrack(paths, item, refs, work):
                 raw=dict(stems=per, sidechain=sc))
 
 
-def reference_medians(base, token):
-    """Medians of the owner's own reference items' raw numbers, for the reference column."""
-    items = api(base, token, "/items?status=done")["items"]
-    vals = {}
-    for it in items:
-        if it["kind"] != "reference": continue
-        full = api(base, token, f"/items/{it['id']}")
-        raw = (full.get("report") or {}).get("raw") or {}
-        for k in ("tempo", "pump_depth_db", "bass_pump_depth_db", "pump_return_ms", "bass_sub_share", "kick_pitch_hz", "kick_off_share"):
-            if raw.get(k) is not None: vals.setdefault(k, []).append(raw[k])
-    return {k: float(np.median(v)) for k, v in vals.items()}
-
-
-def run_item(base, token, item):
-    api(base, token, f"/items/{item['id']}", "PATCH", {"status": "running", "error": None})
-    with tempfile.TemporaryDirectory() as td:
-        work = Path(td); paths = []
-        (work / "raw").mkdir(); (work / "wav").mkdir()
-        for f in item["files"]:
-            raw = work / "raw" / f["name"]; download(base, token, item, f, raw)
-            wav = work / "wav" / (Path(f["name"]).stem + ".wav")   # mono 44.1k, whatever came in
-            to_wav(raw, wav); paths.append(wav)
-        refs = reference_medians(base, token) if item["kind"] == "track" else {}
-        fn = {"track": report_track, "reference": report_track, "sample": report_sample, "multitrack": report_multitrack}[item["kind"]]
-        t0 = time.time(); report = fn(paths, item, refs, work); report["runner"] = dict(seconds=round(time.time() - t0, 1), when=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
-        api(base, token, f"/items/{item['id']}/results", "PUT", report)
-    return report
-
-
 AUDIO_EXT = {".wav", ".aif", ".aiff", ".flac", ".mp3", ".ogg", ".m4a", ".opus"}
 
 
@@ -314,27 +267,11 @@ def run_local(src, out):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--base", default="https://anthonybecker.me"); ap.add_argument("--once", action="store_true")
-    ap.add_argument("--item"); ap.add_argument("--poll", type=int, default=120)
-    ap.add_argument("--local", help="analyse a local folder instead of the site (see run_local)"); ap.add_argument("--out", default="lab/reports")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--local", required=True, help="a folder in the run_local layout, e.g. mirrored from Drive by drive_fetch.py")
+    ap.add_argument("--out", default="lab/reports")
     a = ap.parse_args()
-    if a.local:
-        run_local(a.local, a.out); return
-    token = os.environ.get("LAB_TOKEN")
-    if not token: sys.exit("LAB_TOKEN is not set")
-    while True:
-        items = api(a.base, token, "/items?status=pending")["items"]
-        if a.item: items = [i for i in items if i["id"] == a.item] or [api(a.base, token, f"/items/{a.item}")]
-        for it in items:
-            print(f"running {it['id']} ({it['kind']}, {len(it['files'])} files)", file=sys.stderr, flush=True)
-            try:
-                rep = run_item(a.base, token, it); print(f"  done: {rep['headline']}", file=sys.stderr, flush=True)
-            except Exception as e:
-                traceback.print_exc()
-                try: api(a.base, token, f"/items/{it['id']}", "PATCH", {"status": "failed", "error": f"{type(e).__name__}: {e}"})
-                except Exception: pass
-        if a.once or a.item: break
-        time.sleep(a.poll)
+    run_local(a.local, a.out)
 
 
 if __name__ == "__main__":

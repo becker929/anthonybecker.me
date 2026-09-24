@@ -71,5 +71,5 @@ In order of how much they unblock.
 4. Make one track with a target in mind, using the clipper table: pick a
    crest, set the value, bounce it, put it in Drive. That closes the loop
    once, by hand, before the machine does it.
-5. Optional: set the `LAB_TOKEN` secret on the site so the runner can post
-   results without me. Not needed for anything above.
+5. (Retired: the site's upload area and its `LAB_TOKEN` were turned off in
+   September 2026. Audio comes through Drive.)

@@ -90,20 +90,21 @@ keep their own licences, credited in the manifest and on the page.
 
 ## The lab runner
 
-`lab/runner.py` serves the private lab on the site: it lists pending uploads,
-downloads them, separates stems with Demucs (`pip install demucs`; CPU is fine,
-about 2.5x real time here), measures them with the same code as the corpus, and
-posts a report the lab page renders.
+`lab/runner.py` measures a local folder of audio: it separates stems with Demucs
+(`pip install demucs`; CPU is fine, about 2.5x real time here), measures them
+with the same code as the corpus, and writes one JSON report per item. Audio
+comes from Anthony's Google Drive: list the shared folder, write a manifest,
+mirror it with `lab/drive_fetch.py`. The site's upload area that the runner
+once polled was turned off in September 2026.
 
 ```
-export LAB_TOKEN=...                                   # the same secret the Worker has
-python3 lab/runner.py --base https://anthonybecker.me --once     # one pass
-python3 lab/runner.py --base https://anthonybecker.me            # poll every 2 minutes
+python3 lab/drive_fetch.py manifest.json lab/drive/     # mirror the shared Drive folder
+python3 lab/runner.py --local lab/drive/ --out lab/reports/
 ```
 
 Kinds: `track` and `reference` get the grid, the pump on the mix and on the bass
 stem, hits from the drum stem named by the role model, and the kick's landing
 pitch; `sample` gets the full feature set and the role; `multitrack` gets each
 stem measured and the true sidechain from the kick-like stem into the bass-like
-one. Tracks are compared to the corpus medians and, once you have uploaded some,
-to the medians of your own `reference` items.
+one. Tracks are compared to the corpus medians and, when the folder has a
+`refs/` folder, to the medians of those reference tracks.

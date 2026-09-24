@@ -1,5 +1,5 @@
 // A local full stack for end-to-end tests: static files from the repo root, and
-// every path the Worker owns (the lab, the listening API, the studio) routed
+// every path the Worker owns (the listening API, the studio) routed
 // through the real Worker fetch() with in-memory fakes for KV and R2. Nothing
 // here touches Cloudflare; it is the same code the Worker runs, on a port.
 import http from "node:http";
@@ -12,7 +12,6 @@ import { FakeKV, FakeR2, FakeD1 } from "../src/test/fakes.js";
 const ROOT = path.resolve(new URL(".", import.meta.url).pathname, "..");
 const PORT = Number(process.env.PORT || 8790);
 const PASSWORD = process.env.DEMO_PASSWORD || "e2e-password";
-const TOKEN = process.env.LAB_TOKEN || "e2e-token";
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".mjs": "text/javascript", ".css": "text/css", ".json": "application/json", ".png": "image/png", ".svg": "image/svg+xml", ".mp3": "audio/mpeg", ".wav": "audio/wav", ".ico": "image/x-icon" };
 
 const assets = {
@@ -29,7 +28,7 @@ const assets = {
     return new Response(fs.readFileSync(file), { headers: { "Content-Type": TYPES[path.extname(file)] || "application/octet-stream" } });
   },
 };
-const env = { DEMO_PASSWORD: PASSWORD, LAB_TOKEN: TOKEN, AUDIO_KV: new FakeKV(), AUDIO_BUCKET: new FakeR2(), CARD_DB: new FakeD1(), CARD_BUCKET: new FakeR2(), ASSETS: assets };
+const env = { DEMO_PASSWORD: PASSWORD, AUDIO_KV: new FakeKV(), AUDIO_BUCKET: new FakeR2(), CARD_DB: new FakeD1(), CARD_BUCKET: new FakeR2(), ASSETS: assets };
 
 http.createServer(async (req, res) => {
   try {
@@ -45,4 +44,4 @@ http.createServer(async (req, res) => {
   } catch (err) {
     res.statusCode = 500; res.end(String(err && err.stack || err));
   }
-}).listen(PORT, () => console.log(`e2e stack on http://localhost:${PORT} (password ${PASSWORD}, token ${TOKEN})`));
+}).listen(PORT, () => console.log(`e2e stack on http://localhost:${PORT} (password ${PASSWORD})`));

@@ -1,14 +1,12 @@
 // End-to-end tests in a real browser against the local full stack (e2e/server.mjs).
 //   node e2e/server.mjs &   then   node e2e/run.mjs
 // Covers: the listening test (all pairs, stop, export), the role meter (examples,
-// drop a file), and the lab (login, upload, list, the runner's API, the report view, delete).
+// drop a file), and that the retired lab stays off.
 import { chromium } from "playwright";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 
 const BASE = process.env.BASE || "http://localhost:8790";
-const PASSWORD = process.env.DEMO_PASSWORD || "e2e-password";
-const TOKEN = process.env.LAB_TOKEN || "e2e-token";
 const results = [];
 async function step(name, fn) {
   const t = Date.now();
@@ -94,81 +92,9 @@ await step("meter: a dropped wav file is analysed", async () => {
   assert.ok(["kick", "rumble"].includes(head), `50 Hz decaying sine reads as ${head}`);
 });
 
-// ---------------- the lab ----------------
-let itemId;
-await step("lab: login page, wrong then right password", async () => {
-  await page.goto(`${BASE}/lab/`, { waitUntil: "networkidle" });
-  assert.match(await page.textContent("body"), /Same password as the studio/);
-  await page.fill("input[name=password]", "wrong"); await page.click("button[type=submit]");
-  await page.waitForSelector("text=That is not it");
-  await page.fill("input[name=password]", PASSWORD); await page.click("button[type=submit]");
-  await page.waitForSelector("text=Upload a track, a sample, or the stems", { timeout: 10000 });
-});
-await step("lab: upload a track and see it pending", async () => {
-  fs.writeFileSync("/tmp/e2e-demo 01.wav", wavBytes(2, 50));
-  await page.selectOption("select[name=kind]", "track");
-  await page.fill("input[name=title]", "e2e demo");
-  await page.fill("input[name=notes]", "made by the e2e run");
-  await page.setInputFiles("input[name=files]", "/tmp/e2e-demo 01.wav");
-  await page.click("#go");
-  await page.waitForSelector("text=Uploaded. The runner will pick it up.", { timeout: 20000 });
-  const li = page.locator("#item-list li[data-id]").first();
-  assert.match(await li.textContent(), /e2e demo/); assert.match(await li.textContent(), /pending/);
-  itemId = await li.getAttribute("data-id");
-});
-await step("lab: multitrack takes several files; a track refuses two", async () => {
-  fs.writeFileSync("/tmp/e2e-kick.wav", wavBytes(2, 50)); fs.writeFileSync("/tmp/e2e-hat.wav", wavBytes(2, 8000));
-  await page.selectOption("select[name=kind]", "track");
-  await page.setInputFiles("input[name=files]", ["/tmp/e2e-kick.wav", "/tmp/e2e-hat.wav"]);
-  await page.click("#go");
-  await page.waitForSelector("text=Only a multitrack item takes several files");
-  await page.selectOption("select[name=kind]", "multitrack");
-  await page.fill("input[name=title]", "e2e stems");
-  await page.click("#go");
-  await page.waitForSelector("text=Uploaded. The runner will pick it up.", { timeout: 20000 });
-  const items = await (await fetch(`${BASE}/lab/api/items`, { headers: { Authorization: `Bearer ${TOKEN}` } })).json();
-  const mt = items.items.find((i) => i.title === "e2e stems");
-  assert.equal(mt.files.length, 2);
-});
-await step("lab: the runner's api sees pending items, downloads, and posts a report", async () => {
-  const h = { Authorization: `Bearer ${TOKEN}` };
-  const pending = (await (await fetch(`${BASE}/lab/api/items?status=pending`, { headers: h })).json()).items;
-  assert.ok(pending.some((i) => i.id === itemId));
-  const file = await fetch(`${BASE}/lab/api/items/${itemId}/files/${encodeURIComponent("e2e-demo 01.wav")}`, { headers: h });
-  assert.equal(file.status, 200); assert.equal((await file.arrayBuffer()).byteLength, wavBytes(2, 50).length);
-  await fetch(`${BASE}/lab/api/items/${itemId}`, { method: "PATCH", headers: h, body: JSON.stringify({ status: "running" }) });
-  const report = { headline: "148 bpm, pump 9 dB on the bass, kick lands near 52 Hz", rows: [{ label: "tempo", value: 148, unit: "bpm", ref: 142.6, note: "corpus median" }],
-    sections: [{ title: "Where the attacks land in the bar", grid: Array.from({ length: 6 }, (_, r) => Array.from({ length: 16 }, (_, k) => (r === 0 && k % 4 === 0 ? 1 : 0.1))) }, { title: "Stem levels", rows: [{ label: "drums", value: 0, unit: "dB" }, { label: "bass", value: -7.7, unit: "dB" }] }] };
-  const put = await fetch(`${BASE}/lab/api/items/${itemId}/results`, { method: "PUT", headers: h, body: JSON.stringify(report) });
-  assert.equal(put.status, 200);
-  const png = Buffer.from("89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000d4944415478da63f8ffff3f0005fe02fea7350e1e0000000049454e44ae426082", "hex");
-  const art = await fetch(`${BASE}/lab/api/items/${itemId}/artifacts/grid.png`, { method: "PUT", headers: { ...h, "Content-Type": "image/png", "Content-Length": String(png.length) }, body: png });
-  assert.equal(art.status, 200);
-});
-await step("lab: the report renders in the browser", async () => {
-  await page.click("#refresh"); await page.waitForTimeout(300);
-  await page.click(`#item-list li[data-id="${itemId}"]`);
-  await page.waitForSelector("text=148 bpm, pump 9 dB on the bass", { timeout: 10000 });
-  const body = await page.textContent("#detail");
-  assert.match(body, /done/); assert.match(body, /corpus median/); assert.match(body, /Stem levels/);
-  assert.equal(await page.locator("canvas.grid").count(), 1);
-  assert.equal(await page.locator("#detail audio").count(), 1);
-  await page.screenshot({ path: "/tmp/e2e-lab-report.png", fullPage: true });
-});
-await step("lab: run again and delete", async () => {
-  await page.click("#requeue"); await page.waitForTimeout(300);
-  assert.match(await page.textContent("#detail-meta"), /pending/);
-  page.once("dialog", (d) => d.accept());
-  await page.click("#delete"); await page.waitForTimeout(500);
-  const items = await (await fetch(`${BASE}/lab/api/items`, { headers: { Authorization: `Bearer ${TOKEN}` } })).json();
-  assert.ok(!items.items.some((i) => i.id === itemId));
-});
-await step("lab: signed-out browser gets the login page, not the app", async () => {
-  const fresh = await browser.newPage();
-  await fresh.goto(`${BASE}/lab/`); assert.match(await fresh.textContent("body"), /Same password/);
-  const api = await fetch(`${BASE}/lab/api/items`); assert.equal(api.status, 401);
-  const priv = await fetch(`${BASE}/private/lab/lab.js`); assert.equal(priv.status, 404);
-  await fresh.close();
+// ---------------- the lab is off ----------------
+await step("lab: turned off, /lab/ is not found", async () => {
+  const r = await fetch(`${BASE}/lab/`); assert.equal(r.status, 404);
 });
 
 await browser.close();
