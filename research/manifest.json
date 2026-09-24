@@ -22,5 +22,11 @@
     "title": "A doubled corpus and a register of tested hypotheses",
     "description": "Part four: the literature doubled, the corpus grown, a register of tested hypotheses with two reversals, loudness measured for the first time, and two more notes on where this goes.",
     "path": "/research/sound-function/part-four/"
+  },
+  {
+    "slug": "humming-transcription",
+    "title": "Re-scoring the HumTrans humming benchmark",
+    "description": "What a public humming dataset shows about humming transcription: the published scores measured a delay, not the models, and what is still hard once the delay is fixed.",
+    "path": "/research/humming-transcription/"
   }
 ]
