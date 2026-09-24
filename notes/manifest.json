@@ -64,5 +64,11 @@
     "title": "Progress report, 10 to 12 September 2026",
     "description": "A dated summary of 10 to 12 September 2026: the stems arrived, three measures were found bent and fixed, the first knob answers came off Anthony's own set, and the work moved to the Mac. A note from Claude Fable 5.1.",
     "path": "/notes/three-days-timed/"
+  },
+  {
+    "slug": "asking-not-listening",
+    "title": "A humming transcriber that asks instead of listening harder",
+    "description": "The design bet for turning a tune in Anthony's head into notes. Constrain the voice, get two sources for every fact, and let playback settle intent. A note from Claude.",
+    "path": "/notes/asking-not-listening/"
   }
 ]

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A humming transcriber that asks instead of listening harder</title>
+  <meta name="description" content="The design bet for turning a tune in Anthony's head into notes. Constrain the voice, get two sources for every fact, and let playback settle intent. A note from Claude.">
+  <meta property="og:title" content="A humming transcriber that asks instead of listening harder">
+  <meta property="og:description" content="The design bet for humming transcription, pinned before the build.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / A humming transcriber that asks instead of listening harder</nav>
+  <header class="title">
+    <div class="kicker">Notes · 12</div>
+    <h1>A humming transcriber that asks instead of listening harder</h1>
+    <p class="lede">A better model narrows the gap. Asking closes it. This note pins the bet so later work can be checked against it.</p>
+    <p class="byline"><span>Written by <b>Claude</b></span><span>Addressed to <b>Anthony</b></span><span>September 2026</span><span>Follows <a href="/research/humming-transcription/">Re-scoring the HumTrans humming benchmark</a></span></p>
+  </header>
+  <article>
+  <p>Anthony, the re-scoring page ended on a lesson. Delay and tuning are a few numbers a short calibration can learn. The real losses are note starts and semitone choices, for one voice. This note pins the design that follows from that. The goal is a melody that exists only in your head, written down with small error bars. The goal is not a better score on someone else's benchmark.</p>
+
+  <h2>The bet</h2>
+  <p>This is not a &ldquo;hum in, notes out&rdquo; problem. The recording is a first guess. Your judgments are the evidence. The harness gathers them by asking well-chosen questions, and only where it has to.</p>
+  <p>Every fact about a note gets at least two independent sources: where it starts, how long it lasts, what pitch it has, what key it sits in. Where the sources agree, the fact is settled. Where they disagree, the harness asks about that note and nothing else. A learned model is one source among several. No single model has to be good.</p>
+
+  <h2>Why not a better model</h2>
+  <p>The numbers say a model alone will not get there. On HumTrans, the best published model scores 6 notes in 100 as the authors scored it. With each hummer's delay removed, it scores 47. That is our own page. Another group trained on corrected labels and reached 65 with pitch and start exact, and 82 on pitch alone (Gupta and others, 2024). That was on the half of the data their cleaning kept.</p>
+  <p>Singing, in its home domain, does not do much better. The strongest system on the main pop-singing benchmark gets 70 in 100 when start and pitch must match. It drops to 53 when note ends count too (Gu and others, 2023). So even the easier problem leaves one note in three wrong.</p>
+  <p>Two facts about HumTrans cap how far training on it can go. It has ten hummers. Its labels are the score each hummer heard, not what they hummed. A model trained on it learns to guess a score from a stranger's voice. We want something narrower: your intent, from your voice.</p>
+
+  <h2>The ceiling is you</h2>
+  <p>No transcriber can agree with your intent more than your own takes agree with each other. That gives the ceiling a measure. Sing one phrase several times. Line the takes up in tempo and key. Score every pair with the same metric used for the models. The mean is a conservative estimate of the ceiling, because both takes in each pair carry their own errors.</p>
+  <p>The kind of disagreement matters more than the number. Wrong pitches mean you are unsure of the melody. Loose starts with right pitches mean loose rhythm. A note split in one take and merged in another means the phrase itself is ambiguous. More takes will not fix that last kind. A different question will, such as tapping the rhythm or confirming the note count.</p>
+
+  <h2>Constraining the voice</h2>
+  <p>Three constraints come first, because they cost you little.</p>
+  <p><b>Sing &ldquo;dum&rdquo;, not a closed hum.</b> The &ldquo;d&rdquo; gives every note a sharp start. One rule removes the worst ambiguity: every new note gets a new consonant. A held vowel is a held note. A new &ldquo;d&rdquo; is a new note. Use &ldquo;duck&rdquo; where short versus held is the open question, because its closure is real silence.</p>
+  <p><b>Rhythm syllables for duration.</b> You already use them, so they add little load. With a beat grid and rhythm syllables, a note's length comes from the syllable, not from finding where the sound fades. Note ends are the weakest measure in every system above, so this matters. Solfège would do the same for pitch, but it is not a skill you have yet. So pitch leans on the drone, the contour and playback.</p>
+  <p><b>Call and response, not sing-along.</b> The re-scoring page is the argument. HumTrans hummers sang along to MIDI in headphones, and every one of them trailed it by a personal delay. Sing-along data teaches following, not recall. So the app plays a phrase, then you sing it back from memory. That is the same act as singing a tune from your head. A few minutes of sing-along stay, only to measure your delay and tuning.</p>
+
+  <h2>Two sources for every fact</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Fact</th><th>First source</th><th>Second source</th></tr></thead>
+    <tbody>
+      <tr><td>Where a note starts</td><td>The consonant</td><td>The click grid, or a tap</td></tr>
+      <tr><td>How many notes</td><td>The new-consonant rule</td><td>Rhythm syllables</td></tr>
+      <tr><td>How long it lasts</td><td>Rhythm syllables</td><td>The grid, and the closure on &ldquo;duck&rdquo;</td></tr>
+      <tr><td>Pitch</td><td>Pitch tracker over a drone</td><td>The key, a contour swipe, playback</td></tr>
+      <tr><td>Tempo and meter</td><td>Estimate from the free take</td><td>Metronome check, with half and double offered</td></tr>
+      <tr><td>Key and tuning</td><td>The drone</td><td>Calibration, and tracked drift</td></tr>
+      <tr><td>Intent</td><td>Playback of the transcription</td><td>Comparison with the free take</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>The session</h2>
+  <ol>
+    <li><b>The vomit take.</b> One free performance, no click, never thrown away. It is the only recording the harness has not shaped. It holds your original intent and feel.</li>
+    <li><b>Silent analysis.</b> Pitch, starts, candidate tempos and meters, candidate keys, phrase boundaries, and a confidence score for each phrase. Nothing is shown yet, so nothing anchors you.</li>
+    <li><b>Rhythm check.</b> A metronome at the estimated tempo, with a count-in. Free singing is often read at half or double speed, so you pick, or tap to correct. You sing on &ldquo;dum&rdquo; or rhythm syllables. Out come the meter, the beat grid and the note count.</li>
+    <li><b>Pitch check.</b> A drone on the estimated key note, sung to the now-fixed grid. Every note already has a slot, so each slot needs only one pitch.</li>
+    <li><b>Targeted re-asking.</b> Only for phrases still unsure. Unsure pitch gets a slow take over the drone, or a contour swipe. Unsure rhythm gets tapping. Unsure note count gets rhythm syllables.</li>
+    <li><b>First playback.</b> Only now does the transcription appear. It plays against the vomit take, and you accept notes or flag them. Flagged notes go back to step 5.</li>
+    <li><b>Commit.</b> The confirmed notes and every take are saved together, as training pairs.</li>
+  </ol>
+  <p>One check runs throughout. Where the rhythm-check take and the vomit take disagree, the metronome may have changed your melody instead of clarifying it. Then the vomit take wins, or it triggers a question.</p>
+
+  <h2>Constraints are layered, not stacked</h2>
+  <p>Every constraint adds load, and load can bend the tune you are holding. A click, tapping and syllables all compete with recall. So the harness uses the lightest set that settles a phrase. It adds a channel only for the notes where the others disagree. A click and a grid are right for notation but erase deliberate rubato. If expressive timing matters, it is kept as a separate layer over the grid.</p>
+
+  <h2>What learns, and what does not</h2>
+  <p>The harness has many small estimators, and each should be the cheapest kind that is good enough. My first guess at the split is below. The next note tests it.</p>
+  <p>A pitch tracker should already be close to exact on a sung vowel over a drone. It needs no training on you. The re-scoring page used pYIN, and it held up. Starts on plosive consonants against a click are easy to find with simple detectors, tuned once to your voice. Tempo, meter and key are structured unknowns. For those, a calibrated sense of doubt matters more than raw accuracy, because the doubt is what triggers a question (Cemgil and Kappen, 2003).</p>
+  <p>Only three things need learning from your data: your start habits, your pitch drift, and a prior over the melodies you tend to write. The language model in the loop runs the conversation. It picks the next question, reads your spoken corrections, and decides when a phrase is settled. It never estimates a pitch.</p>
+
+  <h2>Data that does not exist yet</h2>
+  <p>There are no dozens of hours of your humming. There are a few minutes of your own compositions. That is enough to tilt a general melody prior toward your style, not to build one. The rest comes from two places. Call-and-response drills sweep intervals, rhythms, range and tempo, so your voice is heard everywhere it will be asked to perform. And every real session ends in step 7, adding confirmed pairs. The data grows from use.</p>
+
+  <h2>What would prove the bet wrong</h2>
+  <p>Three predictions, written down before any data.</p>
+  <p>On &ldquo;dum&rdquo; with a click and a drone, your take-to-take agreement will be above 90 in 100, with start and pitch both exact. If it is not, the constraints are not buying enough, and the design needs a stronger channel.</p>
+  <p>The number of questions needed to settle a phrase will fall across sessions. If it does not, the learned parts are not learning you.</p>
+  <p>And the bet loses outright if a plain pretrained model, fed a free hum, matches the full harness on your confirmed transcriptions. Then the questions were overhead.</p>
+
+  <h2>Next</h2>
+  <p>The estimator inventory: every quantity the harness estimates, the evidence for it, and the cheapest estimator that is good enough. Then the model choices it implies. Then the dataset design those choices need.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><b>Liu and others (2024)</b>, ICASSP. HumTrans: the dataset, its ten hummers, and the published baselines. Science paper.</li>
+    <li><b>Gupta and others (2024)</b>. Dynamic HumTrans: training on corrected HumTrans labels. Preprint.</li>
+    <li><b>Gu and others (2023)</b>. Singing transcription with self-supervised features, scored on MIR-ST500. Figures as reported by Li and others (2024). Science paper.</li>
+    <li><b>Raffel and others (2014)</b>, ISMIR. mir_eval, the scoring library behind every number above. Science paper.</li>
+    <li><b>Mauch and Dixon (2014)</b>, ICASSP. pYIN, the pitch tracker. Science paper.</li>
+    <li><b>Cemgil and Kappen (2003)</b>, <i>JAIR</i>. Tempo and rhythm as inference over a hidden metrical grid. Science paper.</li>
+  </ul>
+  </article>
+  <footer><p>Previous: <a href="/research/humming-transcription/">Re-scoring the HumTrans humming benchmark</a>. The session design grew out of the brief of 15 September.</p></footer>
+</div>
+</body>
+</html>
