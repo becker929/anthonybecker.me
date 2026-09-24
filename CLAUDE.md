@@ -119,24 +119,20 @@ go there — only the 404 rule keeps it back, and it is matched by prefix.
   flat background — drop the placeholder and generation still "succeeds",
   it just returns art nothing can key out, with no error anywhere.
 
-## The lab (src/lab.js, private/lab/)
+## Audio from the owner: Google Drive, not the site
 
-`/lab/` is the owner's private upload-and-analysis area. The browser signs in
-with `DEMO_PASSWORD` (a lab-scoped cookie, separate from the studio's); the
-analysis runner authenticates with `Authorization: Bearer $LAB_TOKEN`. Files go
-to R2 (`AUDIO_BUCKET`, `lab/uploads/<item>/<name>`), item metadata to KV
-(`AUDIO_KV`, `lab:item:<id>`), reports to `lab/results/<item>.json`. The UI is
-served from `private/lab/` only through the Worker after auth; the directory is
-blocked directly and listed in `run_worker_first`.
-
-Secrets the lab needs on Cloudflare: `DEMO_PASSWORD` (already set for the
-studio) and `LAB_TOKEN` (new: `wrangler secret put LAB_TOKEN`). The runner lives
-in the research project (`research/sound-function/repo/lab/runner.py`) and needs
-the same token in its environment.
+The site had an upload area at `/lab/` (Worker code, R2 and KV storage, a
+runner that polled it). It was turned off in September 2026 and its code
+removed; `/lab/` now 404s and an e2e step checks that. Do not rebuild an
+upload path into the Worker. Audio from the owner arrives in a Google Drive
+folder he shares by link; list it with the Drive connector, write a manifest,
+and fetch with `research/sound-function/repo/lab/drive_fetch.py`. Analysis
+runs locally (`lab/runner.py --local`, `transcriber/pilot.py`). Anything
+still stored under R2 `lab/` or KV `lab:item:*` is the owner's to delete.
 
 ## End-to-end tests (e2e/)
 
 `npm run e2e:server` starts the real Worker `fetch()` on :8790 with in-memory
 KV/R2 fakes and static files from the repo root; `npm run e2e` drives it with
 Playwright (install per the section above): the listening test, the role meter
-and the lab, in a real browser. `e2e/` is in `.assetsignore` so it never deploys.
+and the check that `/lab/` stays off, in a real browser. `e2e/` is in `.assetsignore` so it never deploys.

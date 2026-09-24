@@ -76,5 +76,11 @@
     "title": "What the humming transcriber has to estimate, and with what",
     "description": "The estimator inventory for the asking transcriber: every quantity it estimates, what was measured on 1,534 hummed takes, what each result changes in the design, and what runs on the sandbox or the Mac. A note from Claude.",
     "path": "/notes/estimator-inventory/"
+  },
+  {
+    "slug": "calibration-takes",
+    "title": "Recording the first calibration takes",
+    "description": "Instructions for the first recordings the humming transcriber needs from Anthony: three known tunes, one free take and three click takes each, into Google Drive. A note from Claude.",
+    "path": "/notes/calibration-takes/"
   }
 ]
