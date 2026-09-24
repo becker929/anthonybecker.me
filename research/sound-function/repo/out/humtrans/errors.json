@@ -1,0 +1,112 @@
+{
+ "MIR-ST500": {
+  "onset_F1": 0.6049,
+  "note_F1": 0.4678,
+  "est_per_ref_note": 0.996,
+  "pitch_off_semitones_among_onset_matches": {
+   "-3": 0.0121,
+   "-2": 0.0106,
+   "-1": 0.1095,
+   "0": 0.7872,
+   "1": 0.0486,
+   "2": 0.0167,
+   "3": 0.0153
+  },
+  "recall_repeat_vs_change": {
+   "repeat": 0.5223,
+   "change": 0.4646
+  },
+  "recall_short_vs_long": {
+   "short": 0.4612,
+   "long": 0.4797
+  }
+ },
+ "VOCANO": {
+  "onset_F1": 0.6145,
+  "note_F1": 0.4294,
+  "est_per_ref_note": 0.968,
+  "pitch_off_semitones_among_onset_matches": {
+   "-3": 0.0207,
+   "-2": 0.0119,
+   "-1": 0.2228,
+   "0": 0.7034,
+   "1": 0.0225,
+   "2": 0.0073,
+   "3": 0.0114
+  },
+  "recall_repeat_vs_change": {
+   "repeat": 0.4718,
+   "change": 0.4185
+  },
+  "recall_short_vs_long": {
+   "short": 0.4102,
+   "long": 0.4345
+  }
+ },
+ "JDC-STP": {
+  "onset_F1": 0.5053,
+  "note_F1": 0.3939,
+  "est_per_ref_note": 0.984,
+  "pitch_off_semitones_among_onset_matches": {
+   "-3": 0.0195,
+   "-2": 0.0187,
+   "-1": 0.1182,
+   "0": 0.7692,
+   "1": 0.0478,
+   "2": 0.014,
+   "3": 0.0125
+  },
+  "recall_repeat_vs_change": {
+   "repeat": 0.1194,
+   "change": 0.4465
+  },
+  "recall_short_vs_long": {
+   "short": 0.3632,
+   "long": 0.4022
+  }
+ },
+ "SheetSage": {
+  "onset_F1": 0.619,
+  "note_F1": 0.1118,
+  "est_per_ref_note": 0.971,
+  "pitch_off_semitones_among_onset_matches": {
+   "-3": 0.2648,
+   "-2": 0.1162,
+   "-1": 0.0213,
+   "0": 0.2047,
+   "1": 0.0216,
+   "2": 0.0866,
+   "3": 0.2847
+  },
+  "recall_repeat_vs_change": {
+   "repeat": 0.149,
+   "change": 0.1022
+  },
+  "recall_short_vs_long": {
+   "short": 0.1043,
+   "long": 0.1124
+  }
+ },
+ "pyin": {
+  "onset_F1": 0.5051,
+  "note_F1": 0.3638,
+  "est_per_ref_note": 1.369,
+  "pitch_off_semitones_among_onset_matches": {
+   "-3": 0.0191,
+   "-2": 0.0233,
+   "-1": 0.1328,
+   "0": 0.7099,
+   "1": 0.0866,
+   "2": 0.0139,
+   "3": 0.0144
+  },
+  "recall_repeat_vs_change": {
+   "repeat": 0.4623,
+   "change": 0.4224
+  },
+  "recall_short_vs_long": {
+   "short": 0.435,
+   "long": 0.4268
+  }
+ }
+}

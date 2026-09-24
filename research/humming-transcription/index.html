@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Re-scoring the HumTrans humming benchmark</title>
+  <meta name="description" content="What a public humming dataset shows about humming transcription, in plain language: the published scores measured a delay, not the models, and what is still hard once the delay is fixed.">
+  <meta property="og:title" content="Re-scoring the HumTrans humming benchmark">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / Research / Humming transcription</nav>
+  <header class="title">
+    <div class="kicker">Research</div>
+    <h1>Re-scoring the HumTrans humming benchmark</h1>
+    <p class="meta">September 2026 · plain language · <a href="#glossary">glossary</a></p>
+  </header>
+
+  <h2 id="intro">What this is</h2>
+  <p>HumTrans is a public set of hummed tunes with their written notes. It holds 56 hours from ten people. Its authors tested four <a class="term" href="#g-transcription">transcription</a> models on it. The best got about six notes in a hundred right. We wanted to know why the scores were so low.</p>
+  <p>The short answer is timing. The hummers came in late, by about a fifth of a second. The scoring forgives only a twentieth. Allow for the delay, and the same outputs score up to 47 in 100. This page shows how we found that. It also shows what is still hard.</p>
+
+  <h2 id="dataset">What is in the dataset</h2>
+  <p>Ten music students hummed 500 songs. Five were women and five were men. Each song was cut into one to four <a class="term" href="#g-segment">segments</a>. Each segment was hummed about fifteen times, across people and takes. That gives 14,614 recordings. The <a class="term" href="#g-median">median</a> recording lasts 13 seconds and holds about 27 notes.</p>
+  <p>The notes came from sheet music, turned into <a class="term" href="#g-midi">MIDI</a>. The hummer heard that MIDI through headphones. They hummed along with it. So each <a class="term" href="#g-label">label</a> is the score, not a timing of the humming. Nobody marked where each hummed note really starts.</p>
+  <p>The official split keeps songs apart. No song in the <a class="term" href="#g-test-set">test set</a> appears in training. All ten hummers appear in every part, though. So the test is fair for new songs. It is not a test on new voices.</p>
+  <p>The audio is clean. Background noise sits a median 41 <a class="term" href="#g-db">dB</a> below the humming. Clipping is rare. The <a class="term" href="#g-octave">octave</a> is less tidy. Two recordings in five sit an octave away from their label.</p>
+  <p>The hummers are fairly accurate on pitch. Held notes land a median 18 <a class="term" href="#g-cent">cents</a> from the label. That is under a fifth of a <a class="term" href="#g-semitone">semitone</a>. Most hum a little <a class="term" href="#g-flat">flat</a>. One hummer, M02, is flat by a third of a semitone.</p>
+  <figure>
+    <img src="img/example.png" alt="Two panels of pitch against time. Yellow bars mark the label's notes. A cyan line traces the hummed pitch. For singer F01 each hummed note starts just after its bar and matches its pitch. For singer M02 the hummed notes start much later and line up loosely.">
+    <figcaption>Two test recordings. The humming follows the label's pitches, but starts late. M02 is much later.</figcaption>
+  </figure>
+
+  <h2 id="timing">Why the published scores were so low</h2>
+  <p>We first ran the authors' own scoring script. It gave back all 24 numbers in their table, to the digit. The four models' outputs are public, so nothing had to be run again. The <a class="term" href="#g-metric">metric</a> counts a note right if it starts within 50 ms. It must also have the right semitone, in any octave.</p>
+  <p>Then we slid each model's notes earlier in time. Scores rose steeply and peaked near 180 ms. At the peak, the best model scores five times higher. Every model peaks in the same place. That points to the recordings, not the models.</p>
+  <figure>
+    <img src="img/lag-curve.png" alt="Line chart. Note F1 on the test set against how far predictions are moved earlier, from minus 100 to 600 ms. At zero, all four models sit between 3 and 6 percent. Three models peak between 23 and 29 percent near 160 to 200 ms. Sheet Sage peaks at 7 percent.">
+    <figcaption>The same model outputs, moved earlier in steps of 20 ms. The shaded band is the 50 ms window the metric allows.</figcaption>
+  </figure>
+  <p>We then measured the delay in the humming itself. For that we used a <a class="term" href="#g-pitch-tracker">pitch tracker</a>, which needs no training. We lined its pitch up with the label, one shift at a time. The best shift is the delay. Its median is 190 ms.</p>
+  <p>The delay belongs to the hummer. Eight hummers sit between 60 and 270 ms. Two sit near 850 ms, and spread widely. Within one recording the delay barely moves. The second half matches the first to within about 50 ms, nine times in ten.</p>
+  <figure>
+    <img src="img/singer-lags.png" alt="Dot chart, one row per hummer, one dot per recording. Eight hummers cluster tightly between about 60 and 270 ms. F02 and M02 sit near 850 ms, spread from about 400 to 1600 ms. All sit to the right of the 50 ms scoring window.">
+    <figcaption>How late each recording is, measured from its pitch alone. White bars are each hummer's median.</figcaption>
+  </figure>
+  <p>We cannot say where the delay comes from. Headphones, phone audio and reaction time could each add some. The delay has one more cost. Each recording stops where the label's last note ends. So a late hummer loses part of the last note. The median loss is 15 percent of it.</p>
+
+  <h2 id="hard">What is still hard</h2>
+  <p>We scored the same outputs three ways. First as published. Then with one delay for everyone. Then with one delay per hummer. Each delay was picked on the <a class="term" href="#g-validation-set">validation set</a>. It was then scored on the test set, which it never saw.</p>
+  <p>The best model goes from 6 to 47 in 100. The pitch tracker reaches 36, with a few hand-set rules. That is close to two of the trained models. Sheet Sage stays low, at 11. It finds note starts as well as the others. Then it gets most pitches wrong.</p>
+  <figure>
+    <img src="img/protocols.png" alt="Grouped bar chart, one group per model. As published: 3 to 6 percent. One delay for all: 8 to 29. One delay per hummer: MIR-ST500 47, VOCANO 43, JDC-STP 39, pYIN 36, Sheet Sage 11.">
+    <figcaption>Note <a class="term" href="#g-f1">F1</a> on the test set. Only the timing changes between bars.</figcaption>
+  </figure>
+  <p>Even corrected, about half of all notes are missed or wrong. Most of the loss is at note starts. The best models find about 60 in 100 of them. Pitch costs the rest. One in five to three in ten well-timed notes has the wrong pitch.</p>
+  <p>The wrong pitches lean flat. Three models make flat errors two to ten times more often than sharp ones. That fits hummers who sing flat. A model that knew each hummer's tuning could fix some of these.</p>
+  <figure>
+    <img src="img/errors.png" alt="Two bar charts. Left: for each model, F1 for right timing is 50 to 62 percent, and for right timing and pitch 11 to 47. Right: among well-timed notes, errors one semitone flat run 11 to 22 percent for three models, against 2 to 5 percent sharp.">
+    <figcaption>Left: the gap between the bars is pitch error. Right: where near misses land. Sheet Sage's misses are further off.</figcaption>
+  </figure>
+  <p>The hummer matters as much as the model. The best model scores 71 on F03 and 16 on M02. The weakest are the two late hummers, then the least accurate one. So a transcriber that knows its hummer has room to gain.</p>
+
+  <h2 id="learned">What we learned</h2>
+  <p>This benchmark scored humming against the wrong clock. The labels are the score, played to the hummer. The humming trails it by a personal delay, steady within each take. Fix that, and today's models get about half the notes right. Not six in a hundred.</p>
+  <p>Three lessons carry over to any humming tool. Measure the delay of each person and device. Expect the octave to be off, and ignore it. Spend effort on note starts and semitone choices. That is where the errors are now.</p>
+  <p>This bears on a personal transcription system. For most hummers, delay and tuning are a few numbers. A short calibration can learn them. The two late hummers drift between takes, so check it each session. The larger gains lie in note starts and pitch choices for one voice. That is where many takes would pay off.</p>
+  <p>The dataset and paper are by <a href="https://arxiv.org/abs/2309.09623">Liu and others, 2023</a>. The model outputs and scoring script are in <a href="https://github.com/shansongliu/HumTrans">their repository</a>. Our code and numbers are <a href="https://github.com/becker929/anthonybecker.me/tree/main/research/sound-function/repo/humtrans">on GitHub</a>. No audio is shared.</p>
+
+  <h2 id="glossary">Glossary</h2>
+  <dl class="glossary">
+    <dt id="g-cent">cent</dt><dd>A hundredth of a semitone. Few people hear a gap under ten.</dd>
+    <dt id="g-db">dB</dt><dd>Decibel, a unit for level. Forty dB quieter is very much quieter.</dd>
+    <dt id="g-f1">F1</dt><dd>One score for how many notes a model got right. It is low if the model misses notes. It is also low if it adds wrong ones. 100 is perfect.</dd>
+    <dt id="g-flat">flat, sharp</dt><dd>Flat is a little below the right pitch. Sharp is a little above.</dd>
+    <dt id="g-label">label</dt><dd>The correct notes for a recording, which a model's answer is checked against.</dd>
+    <dt id="g-median">median</dt><dd>The middle value. Half are above it, half below.</dd>
+    <dt id="g-metric">metric</dt><dd>The rule that turns a model's answer into a score.</dd>
+    <dt id="g-midi">MIDI</dt><dd>A file of notes, each with a pitch, a start and an end.</dd>
+    <dt id="g-octave">octave</dt><dd>The gap between a note and the same note twice as high. Twelve semitones.</dd>
+    <dt id="g-pitch-tracker">pitch tracker</dt><dd>A program that follows the pitch of a voice over time. Ours is called pYIN. We cut its output into notes with simple rules.</dd>
+    <dt id="g-segment">segment</dt><dd>A short part of a song, about a phrase or two.</dd>
+    <dt id="g-semitone">semitone</dt><dd>The smallest step on a piano, from one key to the next.</dd>
+    <dt id="g-test-set">test set</dt><dd>Recordings kept aside, used once, for the final score.</dd>
+    <dt id="g-transcription">transcription</dt><dd>Turning sound into written notes.</dd>
+    <dt id="g-validation-set">validation set</dt><dd>Recordings kept aside for choosing settings. Choosing them on the test set would flatter the score.</dd>
+  </dl>
+
+  <footer>
+    <p>Text on this page is CC BY 4.0. The HumTrans dataset is CC BY-NC 4.0.</p>
+  </footer>
+</div>
+</body>
+</html>
