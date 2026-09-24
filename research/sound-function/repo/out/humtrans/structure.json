@@ -1,0 +1,83 @@
+{
+ "recordings": 1534,
+ "tempo": {
+  "audio": {
+   "class": {
+    "double": 0.3514,
+    "right": 0.2314,
+    "other": 0.2282,
+    "half": 0.1291,
+    "two-thirds": 0.043,
+    "third": 0.0137,
+    "three-halves": 0.0033
+   },
+   "auroc_conf_vs_right": 0.793,
+   "right_when_conf_top_half": 0.3937,
+   "right_when_conf_bottom_half": 0.0691
+  },
+  "onsets": {
+   "class": {
+    "other": 0.3638,
+    "double": 0.2321,
+    "right": 0.1767,
+    "half": 0.1343,
+    "two-thirds": 0.0658,
+    "third": 0.0202,
+    "triple": 0.0046,
+    "three-halves": 0.0026
+   },
+   "auroc_conf_vs_right": 0.702,
+   "right_when_conf_top_half": 0.2712,
+   "right_when_conf_bottom_half": 0.0821
+  },
+  "both": {
+   "class": {
+    "double": 0.3546,
+    "other": 0.2327,
+    "right": 0.2216,
+    "half": 0.1265,
+    "two-thirds": 0.0417,
+    "third": 0.0183,
+    "triple": 0.0026,
+    "three-halves": 0.002
+   },
+   "auroc_conf_vs_right": 0.766,
+   "right_when_conf_top_half": 0.375,
+   "right_when_conf_bottom_half": 0.0679
+  }
+ },
+ "key": {
+  "label_signature_fits_label_notes": 0.7705,
+  "recordings_with_key_truth": 1182,
+  "kk": {
+   "hummed": {
+    "other": 0.3494,
+    "exact": 0.2953,
+    "relative": 0.2081,
+    "fifth": 0.1354,
+    "parallel": 0.0118
+   },
+   "from_label_notes": {
+    "exact": 0.4255,
+    "relative": 0.247,
+    "other": 0.198,
+    "fifth": 0.1294
+   },
+   "auroc_margin_vs_exact": 0.593
+  },
+  "tkp": {
+   "hummed": {
+    "exact": 0.5152,
+    "relative": 0.2657,
+    "other": 0.1379,
+    "fifth": 0.0719,
+    "parallel": 0.0093
+   },
+   "from_label_notes": {
+    "exact": 0.7327,
+    "relative": 0.2673
+   },
+   "auroc_margin_vs_exact": 0.599
+  }
+ }
+}

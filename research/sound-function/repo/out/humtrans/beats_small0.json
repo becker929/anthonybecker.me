@@ -1,0 +1,24 @@
+{
+ "checkpoint": "small0",
+ "recordings": 1534,
+ "tempo": {
+  "right": 0.661,
+  "other": 0.1773,
+  "double": 0.09,
+  "half": 0.0385,
+  "no beats": 0.0169,
+  "two-thirds": 0.0111,
+  "three-halves": 0.0046,
+  "third": 0.0007
+ },
+ "beats_per_bar": {
+  "2 for 4": 0.3742,
+  "right": 0.2229,
+  "1 for 4": 0.1649,
+  "3 for 4": 0.0821,
+  "4 for 2": 0.043,
+  "1 for 2": 0.0385,
+  "3 for 2": 0.0248,
+  "2 for 3": 0.0196
+ }
+}
