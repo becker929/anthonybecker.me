@@ -18,3 +18,4 @@ lab/drive/reports_v*/
 ops/local.env
 ops/mac/.mailbox_last_id
 ops/mac/*.log
+datasets/
