@@ -1,0 +1,13 @@
+[
+  {
+    "id": "2026-09-30-hw002-30s-experiment",
+    "title": "HW002 — 30 s arrangement experiment",
+    "date": "2026-09-30",
+    "file": "/skrng/renders/2026-09-30-hw002-30s-experiment.mp3",
+    "duration_s": 30.0,
+    "bpm": 160,
+    "lufs": -19.6,
+    "true_peak_dbtp": -1.0,
+    "notes": "Bars 77–84, 93–104 of HW002_121 cut down to 20 bars in Live. Dist COLDFIRE and LFOTool bypassed, so not the real mix. Loud hit at 0:07 caps the level."
+  }
+]
