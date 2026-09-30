@@ -103,7 +103,11 @@ export async function handleAudioFile(request, env, filename) {
   headers.set("etag", object.httpEtag);
   headers.set("Accept-Ranges", "bytes");
 
-  if (object.range) {
+  // Key off whether the client asked for a range, not object.range: R2 can
+  // report a range covering the whole object on a plain GET, which turned
+  // every non-range request into a 206.
+  const partial = rangeOpt !== undefined && object.range !== undefined;
+  if (partial) {
     const start = object.range.offset ?? 0;
     const len = object.range.length ?? object.size - start;
     headers.set("Content-Length", String(len));
@@ -113,7 +117,7 @@ export async function handleAudioFile(request, env, filename) {
   }
 
   return new Response(object.body, {
-    status: object.range ? 206 : 200,
+    status: partial ? 206 : 200,
     headers,
   });
 }
