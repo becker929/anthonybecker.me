@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Where the production system stands on 30 September 2026</title>
+  <meta name="description" content="Status of every part of the production automation system on 30 September 2026, and the blockers, sorted by who can clear them. A note from Claude.">
+  <meta property="og:title" content="Where the production system stands on 30 September 2026">
+  <meta property="og:description" content="Status and blockers for the rig, hands, ears, taste, the research, the mastering lab, Hammerspoon and HW002.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / Where the production system stands on 30 September 2026</nav>
+  <header class="title">
+    <div class="kicker">Notes · 16</div>
+    <h1>Where the production system stands on 30 September 2026</h1>
+    <p class="lede">The second of five review notes. What works today, what is stalled, and what blocks it. Blockers are sorted by who can clear them.</p>
+    <p class="byline"><span>Written by <b>Claude</b></span><span>Addressed to <b>Anthony</b></span><span>Wednesday 30 September 2026, 19:52 UTC (12:52 Pacific)</span><span>Follows <a href="../three-eras/">The production system in three eras</a></span></p>
+  </header>
+  <article>
+  <p>Anthony, this is the state of each part as of today. The previous note has the history behind it. Anything I checked by running it, I say so. Anything I only read about, I mark as read.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>The bottom rung works. Live can be driven, rendered and measured without a screen.</li>
+    <li>Nothing above the meter runs yet. The critic is not wired to calibrated measures.</li>
+    <li>The judging half, taste, has not moved since March. It holds no real verdicts from you.</li>
+    <li>Work is scattered. Some of it is uncommitted, on an external drive.</li>
+    <li>The 16 October date for the first overnight kick engineer is at risk.</li>
+    <li>Two plugins and your picks are the main things only you can supply.</li>
+  </ul>
+
+  <h2>Part by part</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Part</th><th>State</th><th>How I know</th></tr></thead>
+    <tbody>
+      <tr><td>Live rig</td><td>Working. Headless on a virtual display. Startup script checks the audio clock.</td><td>Ran it, TV off</td></tr>
+      <tr><td>hands</td><td>Working. Arrangement render, safe session bounce, 50 offline tests.</td><td>Ran it on HW002</td></tr>
+      <tr><td>ears</td><td>Fixed and merged. Embeddings off: the model is not in the repo.</td><td>Ran it</td></tr>
+      <tr><td>taste</td><td>A stub. The judge call is not written. Five seed verdicts in the corpus.</td><td>Read</td></tr>
+      <tr><td>taste prototype</td><td>The only working judge. Holds the only copy of the embedding model on GitHub.</td><td>Read, model tested</td></tr>
+      <tr><td>Sound research</td><td>Paused since 12 September. Kick body fails calibration. Pump floor uncorrected.</td><td>Read</td></tr>
+      <tr><td>Knob map</td><td>16 rows, on GitHub in the research copy. Sweep scripts not committed.</td><td>Read</td></tr>
+      <tr><td>Mastering lab</td><td>Ready. Waiting on your premaster and references.</td><td>Read</td></tr>
+      <tr><td>Hammerspoon</td><td>Not installed on the Mac mini. Local copy switched off since 8 September.</td><td>Checked</td></tr>
+      <tr><td>This site</td><td>/skrng streams renders from cloud storage. Notes up to date as of this series.</td><td>Ran it</td></tr>
+      <tr><td>HW002</td><td>A 30-second cut exists. Rendered without two plugins.</td><td>Made it</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>What works</h2>
+  <p>The rig is the strongest part. On 30 September it ran with the TV off. hands built a track, rendered it, and ears measured it. The render path refuses to damage an existing arrangement.</p>
+  <p>Editing time inside Live also works now. The Live API cannot cut or delete time. The Edit menu can, and it moves automation along with clips. That is how HW002 became 30 seconds.</p>
+  <p>ears now reports honest numbers. True peak is a real true peak. Loudness uses the file's actual channels. A missing model now reads as missing, not as zeros.</p>
+  <p>The mastering lab is the best-calibrated tool in the system. Its 94 known-answer checks all pass. It has already found facts about the HW002 demo. The loudest moment is a breakdown hit, not the kick. There is a hole in the low mids.</p>
+  <p>This site can now take a render and stream it. The audio lives in cloud storage, not in git. Adding one is a single upload and a line of text.</p>
+
+  <h2>What is stalled</h2>
+  <h3>The rungs above the meter</h3>
+  <p>The plan in note 10 set four steps before the kick engineer. Calibrate the measures. Wire the critic to them. Join the critic to the knob map. Then run a kick-only loop.</p>
+  <p>Only the first step is started. The kick body measure failed its calibration by 17 to 37 percent.</p>
+  <p>Note 3 compared your kick to the corpus using that measure. It called your kick "a short, dark, sub-carrying note". Part of that reading may be the ruler. No page has revisited it yet.</p><p>The pump measure also still reads a floor near 12 dB on full mixes. That fix is designed but not built.</p>
+
+  <h3>Taste</h3>
+  <p>taste has not changed since 30 March. The judge function raises an error or returns a placeholder. The prototype has a real judge, but no tests and no packaging.</p>
+  <p>The corpus holds five verdicts that look like seed data. The listening test has three answers, all on the retired synthetic set. Note 10 estimated about 200 picks for a first model. At three a week that is fifteen months.</p>
+
+  <h3>Scattered work</h3>
+  <p>Important work sits outside GitHub. The September sweep scripts live in an untracked folder inside autodaw. So does a newer recorder with a routing retry. The Hammerspoon idle-aware backup rewrite was never committed.</p>
+  <p>All of it is on an external backup drive. None of it is on the Mac mini. The current rig was rebuilt from the March code.</p>
+
+  <h3>Contracts between repos</h3>
+  <p>The repos talk through JSON files and command lines. Two of those joins are broken. taste calls ears with a flag ears does not have. The ears schema uses field names the code does not emit. Inside ears, the rhythm step failed in March on a missing library.</p>
+  <p>So the full loop has never run end to end. hands to ears works. ears to taste does not.</p>
+
+  <h2>Blockers, by who can clear them</h2>
+  <h3>Only you</h3>
+  <ul>
+    <li>Activate Dist COLDFIRE through Native Access, and LFOTool through Xfer. You have deferred this.</li>
+    <li>Picks between renders. Any engineer loop needs them to learn what you want.</li>
+    <li>The listening test on the real-sound set. It takes about fifteen minutes.</li>
+    <li>A premaster and three to five references for the mastering lab.</li>
+    <li>Permission grants on the Mac that agents are refused. One is the background job installer.</li>
+    <li>Power and lock settings, so long runs are not killed by sleep.</li>
+  </ul>
+
+  <h3>Technical</h3>
+  <ul>
+    <li>Live's API cannot export or edit time. Workarounds exist and are tested, but they are slower.</li>
+    <li>Enabling a control surface still needs one click in Live's settings.</li>
+    <li>The embedding model has no home that ears can fetch from.</li>
+    <li>The kick body measure needs fixing before the critic can trust it.</li>
+    <li>The pump measure reads a floor above about 12 dB on full mixes.</li>
+  </ul>
+
+  <h3>Organisational</h3>
+  <ul>
+    <li>Work is split across at least eight places. Some of them are not in version control.</li>
+    <li>Three measuring stacks exist: ears, the research measures and the mastering lab. Each is calibrated differently.</li>
+    <li>Two threads compete with production: the humming transcriber and autodaw's browser work.</li>
+    <li>No production note was published between 12 September and today. The rule says to publish each result.</li>
+  </ul>
+
+  <h2>Risks worth naming</h2>
+  <p>An old prototype server in hands was built for listening on a phone. It has powers that are unsafe on a network. It must stay offline until it is rebuilt.</p>
+    <p>Live updates can change dialog layouts. Scripts that drive Export by screen reader need a recheck after each update.</p>
+
+  <h2>Against the dates in note 10</h2>
+  <p>Ground-truth stems were due and done on 11 September. The knob map beat its date with 16 rows on the 12th. Calibration is partly done. The kick body fails, and the pump floor is uncorrected.</p>
+  <p>The critic and the kick loop have no date met. The first overnight kick engineer was dated 16 October. Sixteen days remain and the critic is unwired. That date will slip unless work resumes now. The third note in this series says where I think the effort should go.</p>
+  <p>Terms are defined in the glossary of <a href="../three-eras/#glossary">note 15</a> and <a href="../the-instrument-problem/#glossary">note 10</a>.</p>
+  </article>
+  <footer><p>Previous: <a href="../three-eras/">The production system in three eras</a>. Next: <a href="../one-direction/">Goals, and whether the work is heading one way</a>.</p></footer>
+</div>
+</body>
+</html>
