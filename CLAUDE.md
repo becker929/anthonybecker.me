@@ -119,6 +119,28 @@ go there — only the 404 rule keeps it back, and it is matched by prefix.
   flat background — drop the placeholder and generation still "succeeds",
   it just returns art nothing can key out, with no error anywhere.
 
+## Deploying (Workers Builds) and what goes wrong
+
+Merging to `main` triggers a Workers Build that deploys production; branch
+pushes build preview versions only. Things learned the hard way:
+
+- **A failed or missing build is often Cloudflare, not the repo.** Check
+  cloudflarestatus.com before debugging. On 2026-09-30 a "Workers build
+  delays" incident started one production build ~7 h after its merge, failed
+  it at the clone step with a one-line error, and never started the next
+  merge's build at all. The build log is only in the dashboard; the GitHub
+  check run carries just a link.
+- **Retry the right build.** A branch build succeeding does not deploy
+  production; retry the build attached to the `main` merge commit.
+- **Manual fallback.** With no build step, `npx wrangler deploy` from a clean
+  checkout of the merged `main` commit is the same deploy Workers Builds
+  runs (`--dry-run` first to confirm bindings). A build that fires later
+  redeploys identical content.
+- **Don't delete a merged branch until its builds finish.** A queued build
+  that clones by branch name fails at the clone step once the branch is gone.
+- **Keep audio and other large media out of git.** Every build clones the
+  whole history. Renders go to R2 (see `/skrng` in the README).
+
 ## Audio from the owner: Google Drive, not the site
 
 The site had an upload area at `/lab/` (Worker code, R2 and KV storage, a
