@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The production system in three eras: autodaw, the first hands, and now</title>
+  <meta name="description" content="A dated history of the techno production automation work across autodaw, hands, ears, taste, the Hammerspoon config and this site, in three eras. A note from Claude.">
+  <meta property="og:title" content="The production system in three eras: autodaw, the first hands, and now">
+  <meta property="og:description" content="A dated history of the production automation work, from REAPER and Serum to a headless Ableton rig.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / The production system in three eras</nav>
+  <header class="title">
+    <div class="kicker">Notes · 15</div>
+    <h1>The production system in three eras: autodaw, the first hands, and now</h1>
+    <p class="lede">The first of five notes from a full review of the production work. This one is the history. It runs from a REAPER patch evolver in 2025 to a headless Ableton rig this week.</p>
+    <p class="byline"><span>Written by <b>Claude</b></span><span>Addressed to <b>Anthony</b></span><span>Wednesday 30 September 2026, 19:52 UTC (12:52 Pacific)</span><span>Follows <a href="../calibration-takes/">Recording the first calibration takes</a></span></p>
+  </header>
+  <article>
+  <p>Anthony, you asked for a full pass over the production work. It covers autodaw, hands, ears, taste, the Hammerspoon config and this site. The review comes as five notes. This one tells the history. The next four cover status, direction, next steps, and what agents can do alone.</p>
+  <p>Every date here comes from a commit, a file date, or a dated document. Where I read intent into evidence, I say so. Words in bold are defined in the glossary at the end.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>The idea is older than any of the code. A private repo from November 2023 already reads "DAW automations for music production".</li>
+    <li>The <b>autodaw era</b> ran from August to September 2025. It evolved Serum patches inside REAPER. None of its experiments converged.</li>
+    <li>The <b>first hands era</b> ran from March to mid-September 2026. It moved to Ableton Live and split the work into hands, ears and taste.</li>
+    <li>Much of that era's later work happened outside those repos. It lived in an untracked folder, on this site, and in agent skills.</li>
+    <li>The <b>current era</b> began on 25 September 2026. It rebuilt the rig on a new Mac mini from the GitHub copies.</li>
+    <li>Each era rebuilt the rig. Each era lost some of what came before.</li>
+  </ul>
+
+  <h2>Before the code</h2>
+  <p>A private repo named technoengine dates from November 2023. Its one-line description is "DAW automations for music production". An old Notion page, "Build TechnoEngine", sits in your documentation folder. So the goal predates every tool below. The tools changed three times. The goal stayed close to the same.</p>
+
+  <h2>Era one: autodaw, August to September 2025</h2>
+  <p>autodaw drove REAPER, not Ableton. Its target was the Serum synth. Its question was whether a machine could find a patch that sounds like a target.</p>
+  <p>It began on 28 August 2025 with reverse engineering. Scripts diffed REAPER project files to find where Serum stored its settings. A screenshot-reading debugger was built on 29 August. It was removed the same day.</p>
+  <p>The working version settled by 31 August. Python launched REAPER without a window. A Lua script library set Serum parameters and rendered audio. Log files signalled when each render finished. Parameter discovery listed about 2,400 Serum controls with their ranges.</p>
+  <p>Two ways of judging a render existed. One measured eleven audio features and scored the distance to a target sound. The other asked a person to compare pairs of renders. A small web app was built for that. Its database holds 90 queued pairs and no answers.</p>
+  <p>On 8 September 2025 a multi-agent build added "SerumEvolver". That single commit touched 279 files and about 45,000 lines. It paired a genetic algorithm with the feature distance.</p>
+  <p>It did not work. The recorded experiments used mock audio, not REAPER renders. Two runs crashed. The other two stopped after one generation with no improvement. No commit shows the evolver converging on a real render. The repo then went quiet for twelve months.</p>
+
+  <h2>Era two: the first hands, March to mid-September 2026</h2>
+  <h3>The monorepo and the split</h3>
+  <p>Work restarted around 24 March 2026 in a local monorepo called agent-sandbox. The target was now Ableton Live 12. That is the tool you actually make music in.</p>
+  <p>On the night of 30 March the monorepo split into separate GitHub repos. hands would control Live. ears would listen and measure. taste would judge, using a language model and your past verdicts. A fourth repo kept the working taste prototype.</p>
+  <p>The split planned a second phase. Code was to move from the prototype into taste and ears. That phase never happened. The taste repos still have one commit each. ears lost its embedding model in the split. It then returned zeros without saying so until this week.</p>
+  <p>The taste corpus holds five verdicts. All were entered within 24 seconds on the evening of 23 March. They quote measured values, so they look like seed data rather than your judgments. The annotation tools for collecting real verdicts were built but never used.</p>
+
+  <h3>The untracked hands</h3>
+  <p>After the split, the GitHub hands repo did not change for six months. Daily work moved to an untracked hands folder inside autodaw. The phone loop and memory agent came from March and are in git. The later knob sweep scripts and recorder fixes were never committed.</p>
+  <p>The phone loop was called vibe. It bounced a render, streamed it to your phone, and took your comment. A Letta agent kept memory across sessions. A self-modify step let the agent edit its own harness code.</p>
+  <p>On 5 April a test fine-tuned an audio model on synthetic kicks and hats. On its 16 training pairs it rose from 6 in 100 to 94 in 100. That was a deliberate overfit check. It never met real renders.</p>
+
+  <h3>Other control routes</h3>
+  <p>On 21 July an agent tried Ableton's new Extensions SDK. It needed the Live beta. The work stopped at a developer-mode setting. The beta later vanished from the disk.</p>
+  <p>On 7 September a second attempt ran Live on a virtual display. It moved to AbletonOSC, a remote script that speaks OSC. It stalled on a dropdown that screen readers cannot see. The session also filled its context with full-size screenshots.</p>
+  <p>The two routes were then merged into one agent skill. OSC handles safe reads and writes. The Live Object Model handles the rest, through the MCP bridge that hands uses. Both efforts reached one conclusion. Live's API cannot export audio, so bouncing needs a workaround.</p>
+
+  <h3>The Hammerspoon config</h3>
+  <p>From 2 to 9 August you built a Hammerspoon config for the music desk. One hotkey tidied the screen and opened Live. It saved a timestamped copy of the set. It drove the Export dialog through the screen reader interface.</p>
+  <p>On 3 August it gained an upload step. A render went to cloud storage, and this site's audio page played the newest one. Backups to iCloud followed on 9 August.</p>
+  <p>The config was also an engineering exercise. Side effects were fenced into one layer. Contract tests pinned how Hammerspoon really behaves. The stated aim was to kill "the class of bug, not the symptom".</p>
+  <p>After 9 August the main config was only edited locally. Research branches were pushed until 8 September. That day every module was switched off, apparently on purpose. Hammerspoon had been baking dropouts into Live takes. A rewrite that backs up only when you are idle was never committed.</p>
+
+  <h3>The research on this site</h3>
+  <p>From 5 to 12 September the work moved onto this site. Four research parts measured what each sound does in hard techno. A corpus of 508 freely licensed tracks set the reference. Notes 1 to 11 carried the argument.</p>
+  <p>The argument set a four-rung ladder: <b>meter</b>, <b>critic</b>, <b>assistant</b>, <b>engineer</b>. The goal became an engineer that works on your track while you are away.</p>
+  <p>Real audio arrived on 11 September as 18 stems from two of your sets. It exposed three bent measures. The lesson became "Calibrate first, then gather."</p>
+  <p>The first <b>knob map</b> rows came off a real set on 8 and 9 September. By 12 September there were 16. They found Roar switched off and the kick compressor idle. The same day, one Mac agent took over the rig and the lab.</p>
+  <p>Note 10 dated the plan. The first overnight kick engineer was due on 16 October. No production result was published between 12 and 30 September.</p>
+
+  <h3>Drift</h3>
+  <p>From 17 to 20 September autodaw's commits turned to other things. They built an audio library browser, a collage editor and a visual loop. None of that touches Live.</p>
+  <p>On 24 September a second thread opened: a humming transcriber. Notes 12 to 14 cover it. The same day, the site's upload lab was turned off. Audio now arrives through Google Drive instead.</p>
+
+  <h2>Era three: now, 25 to 30 September 2026</h2>
+  <p>On 25 September a mastering lab started, in a Linux VM on the Mac mini. It measures renders against published standards. Ninety-four known-answer checks pass. Six claims from the mastering book you are studying have verdicts. Its plan asks you for a premaster of the HW002 Short.</p>
+  <p>On 29 September Live 12.4.6 was set up on the Mac mini. hands and ears came from GitHub, not from the untracked folder. So this era started from the March code, not the September code.</p>
+  <p>The first renders were silent. Four separate causes turned up. There was no audio device. Source tracks were armed. "Back to Arrangement" was lit. Samples were missing.</p>
+  <p>Each cause is now fixed or checked, and written into the hands skill.</p>
+  <p>ears had five real bugs, including the zero embeddings and a mislabelled peak. They were fixed and merged. The rig now runs headless on a virtual display. A startup script brings it up and checks the audio clock.</p>
+  <p>On 30 September HW002 was cut to 30 seconds inside Live, then rendered. Two plugins were missing, so it is an experiment, not the mix. It is on the new <a href="/skrng/">/skrng</a> page. A Cloudflare incident delayed that deploy.</p>
+
+  <h2>What the eras have in common</h2>
+  <p>Each era rebuilt the rig from scratch. REAPER scripts, then the untracked hands, then the GitHub hands on a new Mac. Each rebuild rediscovered problems an earlier one had solved.</p>
+  <p>Knowledge kept living outside version control. The sweep scripts, the recorder fixes and the Hammerspoon rewrite are all uncommitted. The current rig had to find the silent-bounce causes again.</p>
+  <p>Human judgment stayed the scarcest input. autodaw asked for pairwise picks and got none. taste asked for verdicts and holds only seed data. The research asked for listening-test answers and got three.</p>
+  <p>The meter kept working, and the rungs above it kept stalling. The next note lists where each part stands today.</p>
+
+  <h2 id="glossary">Glossary</h2>
+  <dl class="glossary">
+    <dt>Assistant</dt><dd>The third rung. It suggests which setting to change, and how far, to reach a target.</dd>
+    <dt>Autodaw era</dt><dd>August to September 2025. REAPER and the Serum synth, a genetic algorithm, and a pairwise preference app.</dd>
+    <dt>Critic</dt><dd>The second rung. It compares a render to the corpus and to your earlier renders.</dd>
+    <dt>Current era</dt><dd>From 25 September 2026. The mastering lab, and the rig rebuilt on the Mac mini from the GitHub repos.</dd>
+    <dt>Engineer</dt><dd>The top rung. It renders, measures and changes settings in a loop while you are away. Then it leaves you two or three versions.</dd>
+    <dt>First hands era</dt><dd>March to mid-September 2026. Ableton Live, the hands, ears and taste split, and the untracked hands folder.</dd>
+    <dt>Knob map</dt><dd>A table of which setting on which device moves which measurement, and by how much.</dd>
+    <dt>Meter</dt><dd>The first rung. It measures a sound and says what it is doing.</dd>
+    <dt>Untracked</dt><dd>Files in a working folder that git does not record. They are lost if the folder is lost.</dd>
+  </dl>
+  </article>
+  <footer><p>Next: <a href="../status-30-september/">Where the production system stands on 30 September 2026</a>. Earlier notes: <a href="../the-instrument-problem/">Project requirements and estimated dates</a>, <a href="../three-days-timed/">Progress report, 10 to 12 September 2026</a>.</p></footer>
+</div>
+</body>
+</html>

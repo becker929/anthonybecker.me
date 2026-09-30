@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Goals, and whether the work is heading one way</title>
+  <meta name="description" content="A synthesis of the production system's goals from 2023 to now, a judgment on whether the work is coherent, and where to focus effort. A note from Claude.">
+  <meta property="og:title" content="Goals, and whether the work is heading one way">
+  <meta property="og:description" content="The goal has held steady for three years. The execution has not. Where to focus.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / Goals, and whether the work is heading one way</nav>
+  <header class="title">
+    <div class="kicker">Notes · 17</div>
+    <h1>Goals, and whether the work is heading one way</h1>
+    <p class="lede">The third of five review notes. The goal has barely moved in three years. The work has moved a lot. This note asks whether they point the same way, and where to push.</p>
+    <p class="byline"><span>Written by <b>Claude</b></span><span>Addressed to <b>Anthony</b></span><span>Wednesday 30 September 2026, 19:52 UTC (12:52 Pacific)</span><span>Follows <a href="../status-30-september/">Where the production system stands on 30 September 2026</a></span></p>
+  </header>
+  <article>
+  <p>Anthony, this is the longest note in the series. It is also the one with opinions. The history and the status are in the two notes before it. Here I try to say what the whole effort is for. Then I judge whether it is heading there, and where I would focus.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>The goal is coherent. Every era wanted a loop: render, judge, change a setting, repeat.</li>
+    <li>The execution is not. The rig was rebuilt three times, and the judge was designed three times.</li>
+    <li>Every era designed a judge before it had judgments to train or test it on.</li>
+    <li>Little of the automation has yet touched a musical decision you kept.</li>
+    <li>Focus on one track, one meter, one code home and one cheap question.</li>
+    <li>I would split targets into two kinds. Some need your taste. Many do not.</li>
+  </ul>
+
+  <h2>The goal, said five ways</h2>
+  <p>The same aim appears in every era, in different words. Here it is in order.</p>
+  <ul>
+    <li>2023, the technoengine repo: "DAW automations for music production".</li>
+    <li>2025, autodaw: parameter tuning that "relies on human preference feedback".</li>
+    <li>March 2026, taste: it "closes the loop" between production actions and your judgment.</li>
+    <li>September 2026, the research: an engineer that works on your track while you are away.</li>
+    <li>September 2026, the mastering lab: "finish HW002 and master its YouTube Short ourselves."</li>
+  </ul>
+  <p>The Hammerspoon config adds a sixth, smaller aim. It calls itself "the seed of an in-DAW macro suite". That aim is about your hands at the desk. The other five are about an agent's hands when you are not there.</p>
+
+  <h2>What stayed the same</h2>
+  <p>Three things never changed. First, the system is a loop. It renders, judges, adjusts, and renders again.</p>
+  <p>Second, the judge must agree with your ears. Note 9 said it plainly. The goal is "a measure that agrees with your ear often enough to optimise against."</p>
+  <p>Third, the system does not write the music. The handoff file from September says "Not by generating music." It works on your tracks, with your devices, and leaves you the choice.</p>
+  <p>These three are a sound foundation. They rule out a lot of tempting side paths. They keep you as the producer.</p>
+
+  <h2>What changed, and why it mostly helped</h2>
+  <p>The instrument changed from REAPER to Ableton Live. That was right. Live is where your music actually lives.</p>
+  <p>The scope shrank from a whole scene to one producer. Note 2 made that turn. It was right too. One person's taste is a smaller, answerable question.</p>
+  <p>The judge changed three times. First it was a distance to a target sound. Then it was a language model reading your past verdicts. Now it is calibrated measures, a reference corpus, and your picks. Each version was more honest than the last.</p>
+  <p>The dates changed from years to weeks. Note 10 cut them after you pushed back. That was the most useful correction in the record.</p>
+
+  <h2>Is it heading one way?</h2>
+  <p>In aim, yes. Each era moved closer to the same target. The ladder of meter, critic, assistant and engineer is a good map. Nothing I read argues against it.</p>
+  <p>In execution, no. Four patterns pull against the aim. Each is visible in more than one era.</p>
+
+  <h3>Rebuilding instead of carrying forward</h3>
+  <p>The rig was built in REAPER. Then it was rebuilt in an untracked hands folder. Then again from GitHub. Each rebuild found problems that were already solved. This week rediscovered silent bounces that the untracked recorder had partly fixed.</p>
+  <p>The cause is simple. Working code lived outside version control, on one machine. When the machine or the session changed, the knowledge did not travel.</p>
+
+  <h3>Judges before judgments</h3>
+  <p>autodaw built a preference app and collected no answers. taste built a language-model judge on five seed verdicts. The research built a listening test with three answers.</p>
+  <p>Each time the judge was the exciting part. The judgments were the hard part. A judge with no real examples cannot be tested, let alone trusted. This is the single biggest gap in the whole system.</p>
+
+  <h3>Many meters, calibrated differently</h3>
+  <p>Three measuring stacks exist today. ears was uncalibrated until this week. The research measures are partly calibrated, with two known problems. The mastering lab passes 94 known-answer checks.</p>
+  <p>Numbers from one stack cannot be compared with another. A critic built on the wrong one will argue with your ears.</p>
+
+  <h3>Breadth</h3>
+  <p>Side threads keep opening. September alone added a humming transcriber, an audio browser, a collage editor and visuals. Each is interesting. None moves a render closer to a choice you keep.</p>
+  <p>The humming transcriber may be a real second product. If so, it should be named as one, with its own notes. Right now it reads as a detour from production.</p>
+
+  <h2>The honest scorecard</h2>
+  <p>The music output of the system so far is small. There is a one-minute HW002 demo that you made. There is a 30-second cut that the rig made, with two plugins missing.</p>
+  <p>The system has told you real things. Roar is off in your kick group. Your compressor is idle. Your LFOTool pump is a 9 dB whole-band duck. Your demo's loudest moment is a breakdown hit.</p>
+  <p>That is the meter doing its job. What has not happened yet is the system changing a setting that you then kept. That is the milestone that matters.</p>
+
+  <h2>A tension, and a way through it</h2>
+  <p>The engineer is meant to work without you. But its target is your taste. Those two aims fight.</p>
+  <p>The way through is to split the targets. Some targets need no taste at all. Loudness for delivery is a number. A true-peak ceiling is a number. Where your kick sits against the corpus is a number you choose once.</p>
+  <p>Other targets really are taste. Which of three kicks you would post is one of them. Those need picks, and picks are scarce.</p>
+  <p>So the engineer should work in two stages. First it meets the targets you set once, with no questions. Then it offers you two or three versions that all pass. Your pick chooses between good options. It does not rescue bad ones.</p>
+  <p>That design makes each pick worth more. It also means most overnight work needs no pick at all.</p>
+
+  <h2>Where to focus</h2>
+  <h3>One track</h3>
+  <p>Make HW002 the vehicle. Take it from demo to a finished, mastered Short. Every rung has to work for that to happen. It gives each tool a real test and a finish line.</p>
+
+  <h3>One meter</h3>
+  <p>Pick one measuring stack and make the others call it. The mastering lab is the best calibrated. Its loudness and peak code should move into ears. The research measures should join once they pass their checks.</p>
+
+  <h3>One home</h3>
+  <p>Everything that works goes into git, on GitHub, this month. That means the sweep scripts, the newer recorder and the Hammerspoon rewrite. A rebuild should never again start from old code.</p>
+
+  <h3>One cheap question</h3>
+  <p>Make picking effortless. /skrng already streams renders to your phone. It could ask "which would you post?" with two players and two buttons. Thirty seconds a day beats twenty minutes once a month.</p>
+  <p>It must not reuse the old phone server. That one is unsafe on a network.</p>
+
+  <h3>Park the rest</h3>
+  <p>Park the language-model judge until there are fifty picks. Park the autodaw browser and collage work. Decide whether the humming transcriber is its own product. If it is, give it its own series.</p>
+
+  <h2>How to tell it is working</h2>
+  <p>Count one thing. How many settings in HW002 did the system propose that you kept? Today the answer is zero.</p>
+  <p>The first time it is one, the assistant rung is real. When a batch of them comes from an overnight run, the engineer is real. Every other metric is a proxy for that count.</p>
+  <p>Terms are defined in the glossaries of <a href="../three-eras/#glossary">note 15</a> and <a href="../the-instrument-problem/#glossary">note 10</a>. New here: an <b>objective target</b> is a number you set once, like a loudness level. A <b>preference target</b> needs your judgment, like which kick you would post.</p>
+  </article>
+  <footer><p>Previous: <a href="../status-30-september/">Where the production system stands on 30 September 2026</a>. Next: <a href="../next-steps-october/">Proposed next steps for October 2026</a>.</p></footer>
+</div>
+</body>
+</html>

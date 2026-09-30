@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What agents can learn and build without Anthony</title>
+  <meta name="description" content="For agents working on the production system: lessons from the record, the work that needs no human feedback, how to know each piece is done, and what not to do alone. A note from Claude.">
+  <meta property="og:title" content="What agents can learn and build without Anthony">
+  <meta property="og:description" content="Lessons, work that needs no human feedback, and limits, written for agents.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / What agents can learn and build without Anthony</nav>
+  <header class="title">
+    <div class="kicker">Notes · 19</div>
+    <h1>What agents can learn and build without Anthony</h1>
+    <p class="lede">The last of five review notes. It is written for the next agent that works on this system. Anthony can read it too. It says what the record teaches, and what can be built with no input from him.</p>
+    <p class="byline"><span>Written by <b>Claude</b></span><span>Addressed to <b>agents working on this system</b>, and to Anthony</span><span>Wednesday 30 September 2026, 19:52 UTC (12:52 Pacific)</span><span>Follows <a href="../next-steps-october/">Proposed next steps for October 2026</a></span></p>
+  </header>
+  <article>
+  <p>If you are an agent starting work on the production system, read this first. Then read notes 15 to 18 for the history, status, direction and plan. Anthony's time and judgment are the scarcest inputs here. Most useful work does not need them. This note sorts one kind from the other.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>Trust the file, not the report. Measure the audio you actually wrote.</li>
+    <li>Calibrate every measure against a known answer before using it.</li>
+    <li>Commit everything that works, the same day. Untracked work has been left behind twice.</li>
+    <li>Most of the ladder's lower rungs need no human feedback. Build those.</li>
+    <li>Only taste needs Anthony. Make each question to him cheap and informative.</li>
+  </ul>
+
+  <h2>What the record teaches</h2>
+  <p>Each lesson below cost at least one session to learn. Each has a source in the repos or notes.</p>
+
+  <h3>Check the output, not the report</h3>
+  <p>A render can report success and be silent. This week found four separate causes. There was no audio device. Source tracks were armed. "Back to Arrangement" was lit. Samples were missing.</p>
+  <p>A tool also reported a 3.7-second file that was 6.7 seconds long. A tight loop polling meters once left the control channel stuck. The rule is simple. Open the file and measure its peak before you believe anything.</p>
+
+  <h3>Every ruler bends on real audio</h3>
+  <p>The research found three bent measures in three days. Decay read pitch. The pump measure saturated near 12 dB. The listening test used sounds that real tracks never make.</p>
+  <p>This week ears had a mislabelled peak and fake embeddings. None of these showed up on synthetic tests alone. Build a known-answer case first. Then gather data.</p>
+
+  <h3>Commit or lose it</h3>
+  <p>The sweep scripts, a better recorder and a Hammerspoon rewrite were never committed. When the rig moved to a new Mac, it was rebuilt from March code. The same bugs were found again.</p>
+  <p>Commit working code the day it works. Push it to GitHub. Keep big audio in cloud storage, not git.</p>
+
+  <h3>Live's API has hard edges</h3>
+  <p>The Live API cannot export audio. It cannot cut or delete time either. Record through a resampling track instead. Edit time through the Edit menu, which moves automation too.</p>
+  <p>Never read a value in the same call that wrote it. That can crash Live. Keep each call under about twelve seconds and twenty parameters. The hands skill lists the rest.</p>
+
+  <h3>Knob labels are not behaviour</h3>
+  <p>A knob's name does not tell you what it does to the sound. Decapitator's Drive does not raise crest steadily. It rises, then falls. Roar was switched off in the real set. The compressor never engaged at the set's threshold.</p>
+  <p>Read the set before you sweep it. Then sweep, and write down what you measured.</p>
+
+  <h3>Protect the originals and the person</h3>
+  <p>Work on a copy of the whole project, never the original. Never press a destructive button in a dialog. Answer with the safe one.</p>
+  <p>Screenshots fill context fast. One session passed a million tokens on full-size captures. Prefer text from the control channel. Crop images when you must use them.</p>
+  <p>Ask Anthony before taking screenshots or taking over his screen. He has said so directly.</p>
+
+  <h3>Date from the record</h3>
+  <p>One task was once given a year and took a day. Another took two days where the first result came in thirty minutes. Date new work from similar past work in the commit log.</p>
+  <p>External services fail too. A Cloudflare incident this week delayed a deploy for hours. Check the status page before debugging your own code.</p>
+
+  <h2>What can be built without him</h2>
+  <p>The work below needs no taste judgment. Each piece has a test that says when it is done. The order follows the ladder.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Work</th><th>Rung</th><th>Done when</th></tr></thead>
+    <tbody>
+      <tr><td>One shared known-answer suite for every measure</td><td>Meter</td><td>ears passes the mastering lab's 94 checks</td></tr>
+      <tr><td>Fix the kick body decay measure</td><td>Meter</td><td>Within tolerance on all three test frequencies</td></tr>
+      <tr><td>Correct the pump floor with the recovered LFOTool curve</td><td>Meter</td><td>Reads a known 24 dB duck as 24</td></tr>
+      <tr><td>Repeatability for every measure</td><td>Meter</td><td>Two renders of one set give a noise figure per measure</td></tr>
+      <tr><td>Rig preflight: clock, samples, plugins, arm state</td><td>Meter</td><td>A render refuses to start when any check fails</td></tr>
+      <tr><td>Knob maps for every installed device in HW002</td><td>Assistant</td><td>Each knob has a curve, a noise band and an invert flag</td></tr>
+      <tr><td>Critic: place a render against the 508-track corpus</td><td>Critic</td><td>Reports each distance with its uncertainty</td></tr>
+      <tr><td>Loop that meets objective targets</td><td>Engineer</td><td>Hits loudness and peak targets on a copy of HW002, unattended</td></tr>
+      <tr><td>Pick page on /skrng</td><td>Engineer</td><td>Two players, two buttons, one stored choice</td></tr>
+      <tr><td>Choose which pairs to ask</td><td>Engineer</td><td>Each question is picked to cut the most uncertainty</td></tr>
+      <tr><td>Mastering lab reruns on each new render</td><td>Critic</td><td>H001 to H006 verdicts refreshed, logged in the lab</td></tr>
+    </tbody>
+  </table></div>
+  <p>Two items deserve a word. Objective targets must come from Anthony once. After that, the loop needs nothing from him. The pair chooser is how his scarce time buys the most. Ask where the system is least sure, not at random.</p>
+  <p>Every finished row gets a dated note on this site the same day. That rule already exists. It lapsed for two weeks in September.</p>
+
+  <h2>What learning is possible without him</h2>
+  <p>The corpus holds 508 tracks from 317 producers. Genre facts can be learned from it alone. How often clap lands on two and four is one. Where kicks sit in pitch is another.</p>
+  <p>Device behaviour can be learned by sweeping. That covers every installed plugin and every Live device. It needs compute and a working rig, not taste.</p>
+  <p>The rig itself can be learned. Which failures happen, how often, and how long renders take. That record makes future dates honest.</p>
+  <p>What cannot be learned alone is which of two good versions he prefers. No amount of corpus data answers that. Do not pretend it can.</p>
+
+  <h2>What not to do without him</h2>
+  <ul>
+    <li>Decide what sounds better. Offer choices instead.</li>
+    <li>Save, move or delete his originals. Work on copies.</li>
+    <li>Publish anything to this site without his yes, except dated notes about results.</li>
+    <li>Install background jobs or change system settings. Ask.</li>
+    <li>Sign into his accounts or activate plugins. Those are his.</li>
+    <li>Put the old phone server online. It is unsafe on a network.</li>
+    <li>Get around a refused permission. Report it and let him decide.</li>
+  </ul>
+
+  <h2>Where to start</h2>
+  <p>Run the startup script in the hands repo. Check the audio clock and the Live set. Read the hands skill end to end. Then take the first unfinished row in the table above.</p>
+  <p>Terms are defined in the glossaries of <a href="../three-eras/#glossary">note 15</a> and <a href="../the-instrument-problem/#glossary">note 10</a>. New here: a <b>known-answer case</b> is a test signal with a known true value. A <b>preflight</b> is a set of checks run before a render starts.</p>
+  </article>
+  <footer><p>Previous: <a href="../next-steps-october/">Proposed next steps for October 2026</a>. First in this series: <a href="../three-eras/">The production system in three eras</a>.</p></footer>
+</div>
+</body>
+</html>
