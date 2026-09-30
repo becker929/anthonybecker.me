@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>skrng — Anthony Becker</title>
+  <meta name="description" content="Work-in-progress renders, streamed as they come off the rig.">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="skrng.css">
+</head>
+<body>
+  <main>
+    <nav class="crumbs"><a href="/">← home</a></nav>
+    <h1>skrng</h1>
+    <p class="lede">Renders off the rig, rough and unmastered. Newest first.</p>
+    <ul class="renders" id="renders">
+      <li class="empty">Loading…</li>
+    </ul>
+  </main>
+
+  <script>
+    // Renders are listed from manifest.json so adding one is a file drop
+    // plus one entry; nothing else on the page changes.
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+    function facts(r) {
+      const out = [];
+      if (r.duration_s != null) out.push(`${Math.floor(r.duration_s / 60)}:${String(Math.round(r.duration_s % 60)).padStart(2, '0')}`);
+      if (r.bpm != null) out.push(`${r.bpm} BPM`);
+      if (r.lufs != null) out.push(`${r.lufs} LUFS`);
+      if (r.true_peak_dbtp != null) out.push(`${r.true_peak_dbtp} dBTP`);
+      return out.join(' · ');
+    }
+
+    fetch('/skrng/manifest.json')
+      .then((res) => res.json())
+      .then((renders) => {
+        const list = document.getElementById('renders');
+        if (!renders.length) {
+          list.innerHTML = '<li class="empty">Nothing yet.</li>';
+          return;
+        }
+        renders.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+        list.innerHTML = renders
+          .map((r) => `
+            <li id="${esc(r.id)}">
+              <div class="head">
+                <a class="title" href="#${esc(r.id)}">${esc(r.title)}</a>
+                <time datetime="${esc(r.date)}">${esc(r.date)}</time>
+              </div>
+              <audio controls preload="none" src="${esc(r.file)}"></audio>
+              <p class="facts">${esc(facts(r))} · <a href="${esc(r.file)}" download>mp3</a></p>
+              ${r.notes ? `<p class="notes">${esc(r.notes)}</p>` : ''}
+            </li>
+          `)
+          .join('');
+
+        // One render at a time: starting a player pauses the others.
+        const players = [...list.querySelectorAll('audio')];
+        players.forEach((p) => p.addEventListener('play', () => {
+          players.forEach((o) => { if (o !== p) o.pause(); });
+        }));
+
+        // A #id link scrolls to that render once the list exists.
+        if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+      })
+      .catch(() => {
+        document.getElementById('renders').innerHTML = '<li class="error">Couldn\'t load renders.</li>';
+      });
+  </script>
+</body>
+</html>
