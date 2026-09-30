@@ -25,10 +25,20 @@ other page needs to change.
 ## Renders (/skrng)
 
 `/skrng/` ("scrounge") streams work-in-progress renders. It lists
-`skrng/manifest.json`, newest first by `date`. To add one, drop the MP3 in
-`skrng/renders/<date>-<slug>.mp3` and add an entry with `id`, `title`,
-`date`, `file`, and optionally `duration_s`, `bpm`, `lufs`,
-`true_peak_dbtp`, `notes`. The page is `noindex` and not linked from `/`.
+`skrng/manifest.json`, newest first by `date`. Audio lives in R2, not in
+git — every clone (including each Workers Build) would otherwise carry every
+render ever posted. To add one:
+
+```
+npx wrangler r2 object put anthonybecker-audio/audio/skrng/<date>-<slug>.mp3 \
+  --file <render>.mp3 --content-type audio/mpeg --remote
+```
+
+The Worker's `/audio/*` route serves that key at
+`/audio/skrng/<date>-<slug>.mp3` with byte-range support. Then add a manifest
+entry with `id`, `title`, `date`, `file` (that URL), and optionally
+`duration_s`, `bpm`, `lufs`, `true_peak_dbtp`, `notes`. The page is `noindex`
+and not linked from `/`.
 
 Redirects (old/short paths → canonical `/demos/<n>/<slug>/`) live in
 `_redirects`, read natively by Cloudflare.
