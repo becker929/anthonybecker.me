@@ -101,49 +101,94 @@
         // One render at a time: starting a player pauses the others and the sequence.
         const seq = document.getElementById('seq');
         const players = [...list.querySelectorAll('audio')];
-        players.forEach((p) => p.addEventListener('play', () => {
+        let playing = false; // a Play batch run is in progress
+        players.forEach((p, i) => p.addEventListener('play', () => {
+          if (driving) return; // the batch run started this player
           players.forEach((o) => { if (o !== p) o.pause(); });
-          if (playing) stop();
+          // Starting a different track by hand ends the batch run.
+          const q = queue[pos];
+          if (playing && !(q && q.kind === 'track' && q.i === i)) { stop(); now.textContent = ''; }
         }));
 
         // Play batch: announcement (500 ms silence, spoken title, 500 ms
-        // silence, baked into the file) then the track, for every track.
-        // A single <audio> element keeps mobile autoplay permission across
-        // the whole run once the button has been pressed.
+        // silence, baked into the file) on the hidden player, then the track
+        // on its own visible player, so that player shows it playing.
+        // Mobile browsers only let an element start playing on its own after
+        // it has played once from a tap, so the button tap unlocks every
+        // player (muted play, then pause) before the run starts.
         const queue = [];
         items.forEach((r, i) => {
-          if (r.announce) queue.push({ src: r.announce, i, kind: 'announce' });
-          queue.push({ src: r.file, i, kind: 'track' });
+          if (r.announce) queue.push({ i, kind: 'announce', src: r.announce });
+          queue.push({ i, kind: 'track' });
         });
         const btn = document.getElementById('play-batch');
         const now = document.getElementById('now');
-        let playing = false;
         let pos = 0;
+        let driving = false; // true while the batch itself starts or stops players
 
         function mark(i) {
           list.querySelectorAll('li').forEach((li) => li.classList.toggle('current', Number(li.dataset.i) === i));
         }
+        function quiet(fn) { driving = true; try { fn(); } finally { setTimeout(() => { driving = false; }, 0); } }
         function step() {
           if (!playing) return;
           if (pos >= queue.length) { stop(); now.textContent = 'Batch finished.'; return; }
           const q = queue[pos];
           mark(q.i);
-          now.textContent = `${q.kind === 'announce' ? 'Next' : 'Playing'}: ${q.i + 1}. ${items[q.i].title}`;
-          seq.src = q.src;
-          seq.play().catch(() => stop());
+          const li = list.querySelector(`li[data-i="${q.i}"]`);
+          if (q.kind === 'announce') {
+            now.textContent = `Next: ${q.i + 1}. ${items[q.i].title}`;
+            li?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            seq.src = q.src;
+            seq.play().catch(() => advance());
+          } else {
+            now.textContent = `Playing: ${q.i + 1}. ${items[q.i].title}`;
+            const p = players[q.i];
+            quiet(() => {
+              players.forEach((o) => { if (o !== p) o.pause(); });
+              p.currentTime = 0;
+              p.play().catch(() => advance());
+            });
+          }
         }
+        function advance() { pos += 1; step(); }
         function stop() {
           playing = false;
-          seq.pause();
+          quiet(() => {
+            seq.pause();
+            const q = queue[pos];
+            if (q && q.kind === 'track') players[q.i].pause();
+          });
           btn.textContent = '▶ Play batch';
           btn.classList.remove('on');
           mark(-1);
         }
-        seq.addEventListener('ended', () => { pos += 1; step(); });
-        seq.addEventListener('error', () => { pos += 1; step(); });
+        seq.addEventListener('ended', advance);
+        seq.addEventListener('error', () => { if (playing) advance(); });
+        players.forEach((p, i) => {
+          p.addEventListener('ended', () => {
+            const q = queue[pos];
+            if (playing && q && q.kind === 'track' && q.i === i) advance();
+          });
+          // Pausing the playing track by hand ends the batch run.
+          p.addEventListener('pause', () => {
+            const q = queue[pos];
+            if (playing && !driving && !p.ended && q && q.kind === 'track' && q.i === i) { stop(); now.textContent = ''; }
+          });
+        });
         btn.addEventListener('click', () => {
           if (playing) { stop(); now.textContent = ''; return; }
-          players.forEach((p) => p.pause());
+          quiet(() => {
+            players.forEach((p) => {
+              p.pause();
+              p.muted = true;
+              p.play().then(() => { p.pause(); p.currentTime = 0; p.muted = false; })
+                .catch(() => { p.muted = false; });
+            });
+          });
+          // The unlock plays settle asynchronously; ignore their pause events.
+          driving = true;
+          setTimeout(() => { driving = false; }, 400);
           playing = true;
           pos = 0;
           btn.textContent = '■ Stop';
