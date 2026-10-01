@@ -1,25 +1,337 @@
 [
   {
+    "id": "2026-10-01-hw002-b3-01-postdrop-climb-30s",
+    "batch": 3,
+    "title": "HW002 — Post-drop climb, 30 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-01-postdrop-climb-30s.mp3",
+    "duration_s": 30.0,
+    "bpm": 160,
+    "lufs": -13.8,
+    "true_peak_dbtp": -3.7,
+    "notes": "Kick and one hat layer, then each 4-bar step adds percussion: drop (97), second perc (105), texture and new perc (113), the peak with its accent (125). Source bars 97–100, 105–108, 113–116, 125–132. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-01-postdrop-climb-30s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-02-intro-climb-30s",
+    "batch": 3,
+    "title": "HW002 — Intro climb, 30 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-02-intro-climb-30s.mp3",
+    "duration_s": 30.0,
+    "bpm": 160,
+    "lufs": -14.3,
+    "true_peak_dbtp": -5.3,
+    "notes": "The opening's own build in 4-bar steps: offbeat hat, texture in (9), perc variation (25), second perc (33), all layers (41). Source bars 5–8, 9–12, 25–28, 33–36, 41–44. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-02-intro-climb-30s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-03-build-into-climb-33s",
+    "batch": 3,
+    "title": "HW002 — Build into the climb, 33 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-03-build-into-climb-33s.mp3",
+    "duration_s": 33.0,
+    "bpm": 160,
+    "lufs": -13.8,
+    "true_peak_dbtp": -1.9,
+    "notes": "Breakdown build, then the post-drop layers step in every 4 bars up to the peak. Source bars 93–96, 97–100, 105–108, 113–116, 125–130. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-03-build-into-climb-33s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-04-continuous-climb-36s",
+    "batch": 3,
+    "title": "HW002 — Continuous climb, 36 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-04-continuous-climb-36s.mp3",
+    "duration_s": 36.0,
+    "bpm": 160,
+    "lufs": -13.9,
+    "true_peak_dbtp": -3.8,
+    "notes": "Bars 97-120 uncut: the song's own post-drop layering, 8 bars per step. Source bars 97–120. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-04-continuous-climb-36s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-05-first-peak-climb-30s",
+    "batch": 3,
+    "title": "HW002 — Climb to the first peak, 30 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-05-first-peak-climb-30s.mp3",
+    "duration_s": 30.0,
+    "bpm": 160,
+    "lufs": -14.2,
+    "true_peak_dbtp": -5.1,
+    "notes": "Four steps of the pre-break hat layering, ending on 8 bars of the first peak. Source bars 17–20, 25–28, 33–36, 41–48. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-05-first-peak-climb-30s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-06-break-then-climb-30s",
+    "batch": 3,
+    "title": "HW002 — Breakdown, then climb, 30 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-06-break-then-climb-30s.mp3",
+    "duration_s": 30.0,
+    "bpm": 160,
+    "lufs": -14.0,
+    "true_peak_dbtp": -2.9,
+    "notes": "Half the breakdown with its build, then three layer steps to the peak. Source bars 89–96, 97–100, 105–108, 125–128. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-06-break-then-climb-30s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-07-short-climb-24s",
+    "batch": 3,
+    "title": "HW002 — Short climb, 24 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-07-short-climb-24s.mp3",
+    "duration_s": 24.0,
+    "bpm": 160,
+    "lufs": -13.8,
+    "true_peak_dbtp": -3.3,
+    "notes": "Three steps: sparse drop, layered, peak. Source bars 97–100, 113–116, 125–132. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-07-short-climb-24s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-08-two-step-18s",
+    "batch": 3,
+    "title": "HW002 — Two steps, 18 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-08-two-step-18s.mp3",
+    "duration_s": 18.0,
+    "bpm": 160,
+    "lufs": -13.7,
+    "true_peak_dbtp": -3.9,
+    "notes": "One step up into the peak, Short length. Source bars 105–108, 125–132. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-08-two-step-18s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-09-climb-into-break-36s",
+    "batch": 3,
+    "title": "HW002 — Climb into the breakdown, 36 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-09-climb-into-break-36s.mp3",
+    "duration_s": 36.0,
+    "bpm": 160,
+    "lufs": -13.9,
+    "true_peak_dbtp": -1.9,
+    "notes": "Layer steps up to the first peak, then the breakdown hit as the payoff. Source bars 25–28, 33–36, 41–44, 73–80, 81–84. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-09-climb-into-break-36s.mp3"
+  },
+  {
+    "id": "2026-10-01-hw002-b3-10-mini-arc-33s",
+    "batch": 3,
+    "title": "HW002 — Mini arc, 33 s",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-b3-10-mini-arc-33s.mp3",
+    "duration_s": 33.0,
+    "bpm": 160,
+    "lufs": -13.5,
+    "true_peak_dbtp": -1.6,
+    "notes": "First peak, the breakdown hit, its build, then the climb to the peak, all under 40 s. Source bars 41–44, 81–82, 95–96, 97–100, 113–116, 125–130. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ],
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-b3-10-mini-arc-33s.mp3"
+  },
+  {
     "id": "2026-10-01-hw002-v00-demo-60s-fixed",
     "title": "HW002 — 60 s demo: peak, breakdown, peak (fixed)",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v00-demo-60s-fixed.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v00-demo-60s-fixed-r2.mp3",
     "duration_s": 60.0,
     "bpm": 160,
     "lufs": -13.7,
-    "true_peak_dbtp": -1.9,
-    "notes": "Same cut as the 30 Sep demo: bars 73–80, breakdown 81–84 and 93–96, then 125–148. The 30 Sep render had the kick-scoop EQ stuck on, so the kick lost about 5 dB below 100 Hz. Fixed here. Unmastered."
+    "true_peak_dbtp": -2.6,
+    "notes": "Same cut as the 30 Sep demo: bars 73–80, breakdown 81–84 and 93–96, then 125–148. The 30 Sep render had the kick-scoop EQ stuck on, so the kick lost about 5 dB below 100 Hz. Fixed here. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v00-demo-60s-fixed.mp3"
   },
   {
     "id": "2026-10-01-hw002-v01-short-12s",
     "title": "HW002 — Short shape, 12 s: the impact only",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v01-short-12s.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v01-short-12s-r2.mp3",
     "duration_s": 12.0,
     "bpm": 160,
-    "lufs": -13.5,
-    "true_peak_dbtp": -3.7,
-    "notes": "One drop, starting on the impact at bar 125, the way genre Shorts that travel do (6–34 s). Source bars 125–132. Unmastered.",
+    "lufs": -13.6,
+    "true_peak_dbtp": -3.8,
+    "notes": "One drop, starting on the impact at bar 125, the way genre Shorts that travel do (6–34 s). Source bars 125–132. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "I Hate Models — Work It (Short, 25 s)",
@@ -37,18 +349,20 @@
         "title": "Karah — ID (Short, 34 s)",
         "url": "https://youtube.com/shorts/BzOT5LECo1w"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v01-short-12s.mp3"
   },
   {
     "id": "2026-10-01-hw002-v02-short-24s",
     "title": "HW002 — Short shape, 24 s: two-bar pickup into the impact",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v02-short-24s.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v02-short-24s-r2.mp3",
     "duration_s": 24.0,
     "bpm": 160,
-    "lufs": -13.5,
-    "true_peak_dbtp": -2.7,
-    "notes": "The last two breakdown bars as a pickup, then the impact. Source bars 95–96, 125–138. Unmastered.",
+    "lufs": -13.6,
+    "true_peak_dbtp": -2.9,
+    "notes": "The last two breakdown bars as a pickup, then the impact. Source bars 95–96, 125–138. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "I Hate Models — Work It (Short, 25 s)",
@@ -66,18 +380,20 @@
         "title": "Karah — ID (Short, 34 s)",
         "url": "https://youtube.com/shorts/BzOT5LECo1w"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v02-short-24s.mp3"
   },
   {
     "id": "2026-10-01-hw002-v03-short-30s",
     "title": "HW002 — Short shape, 30 s: build into the impact",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v03-short-30s.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v03-short-30s-r2.mp3",
     "duration_s": 30.0,
     "bpm": 160,
     "lufs": -13.7,
-    "true_peak_dbtp": -2.7,
-    "notes": "Four bars of breakdown build, then the impact. Source bars 93–96, 125–140. Unmastered.",
+    "true_peak_dbtp": -3.2,
+    "notes": "Four bars of breakdown build, then the impact. Source bars 93–96, 125–140. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "I Hate Models — Work It (Short, 25 s)",
@@ -95,18 +411,20 @@
         "title": "Karah — ID (Short, 34 s)",
         "url": "https://youtube.com/shorts/BzOT5LECo1w"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v03-short-30s.mp3"
   },
   {
     "id": "2026-10-01-hw002-v04-ntn-48s-peak",
     "title": "HW002 — label-preview shape, 48 s: peak only",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v04-ntn-48s-peak.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v04-ntn-48s-peak-r2.mp3",
     "duration_s": 48.0,
     "bpm": 160,
     "lufs": -13.7,
-    "true_peak_dbtp": -3.9,
-    "notes": "One section held, like NineTimesNine's 42–60 s preview slots. Starts on the kick scoop at 121. Source bars 121–152. Unmastered.",
+    "true_peak_dbtp": -4.0,
+    "notes": "One section held, like NineTimesNine's 42–60 s preview slots. Starts on the kick scoop at 121. Source bars 121–152. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "Remon Verhoeve — Contradiction previews (~46 s per track)",
@@ -120,18 +438,20 @@
         "title": "B2 — Anatomy EP previews (~42 s per track)",
         "url": "https://soundcloud.com/999999999music/b2-anatomy-ep-previews-ntnb002"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v04-ntn-48s-peak.mp3"
   },
   {
     "id": "2026-10-01-hw002-v05-ntn-48s-break-drop",
     "title": "HW002 — label-preview shape, 48 s: breakdown into the drop",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v05-ntn-48s-break-drop.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v05-ntn-48s-break-drop-r2.mp3",
     "duration_s": 48.0,
     "bpm": 160,
-    "lufs": -13.6,
-    "true_peak_dbtp": -1.6,
-    "notes": "Breakdown start and build, then the peak. Source bars 81–84, 89–96, 125–144. Unmastered.",
+    "lufs": -13.7,
+    "true_peak_dbtp": -1.9,
+    "notes": "Breakdown start and build, then the peak. Source bars 81–84, 89–96, 125–144. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "Remon Verhoeve — Contradiction previews (~46 s per track)",
@@ -145,18 +465,20 @@
         "title": "B2 — Anatomy EP previews (~42 s per track)",
         "url": "https://soundcloud.com/999999999music/b2-anatomy-ep-previews-ntnb002"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v05-ntn-48s-break-drop.mp3"
   },
   {
     "id": "2026-10-01-hw002-v06-ntn-60s",
     "title": "HW002 — label-preview shape, 60 s: peak, build, peak",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v06-ntn-60s.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v06-ntn-60s-r2.mp3",
     "duration_s": 60.0,
     "bpm": 160,
     "lufs": -13.8,
-    "true_peak_dbtp": -3.5,
-    "notes": "Peak, a four-bar build, the bigger peak. Source bars 73–80, 93–96, 125–152. Unmastered.",
+    "true_peak_dbtp": -2.8,
+    "notes": "Peak, a four-bar build, the bigger peak. Source bars 73–80, 93–96, 125–152. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "Remon Verhoeve — Contradiction previews (~46 s per track)",
@@ -170,18 +492,20 @@
         "title": "B2 — Anatomy EP previews (~42 s per track)",
         "url": "https://soundcloud.com/999999999music/b2-anatomy-ep-previews-ntnb002"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v06-ntn-60s.mp3"
   },
   {
     "id": "2026-10-01-hw002-v07-snts-78s",
     "title": "HW002 — label-preview shape, 78 s: SNTS length",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v07-snts-78s.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v07-snts-78s-r2.mp3",
     "duration_s": 78.0,
     "bpm": 160,
     "lufs": -13.6,
     "true_peak_dbtp": 0.0,
-    "notes": "SNTS gives each track about 77–98 s. Peak with its fill at 65, half the breakdown, build, peak. Source bars 65–88, 93–96, 125–148. Unmastered.",
+    "notes": "SNTS gives each track about 77–98 s. Peak with its fill at 65, half the breakdown, build, peak. Source bars 65–88, 93–96, 125–148. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "KSMS — Roses of Flesh and Blood EP preview (~77 s per track)",
@@ -195,18 +519,20 @@
         "title": "SNTS — Empire Of Loss EP preview (~91 s per track)",
         "url": "https://soundcloud.com/sntsrecords/snts-empire-of-loss-ep-snts013"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v07-snts-78s.mp3"
   },
   {
     "id": "2026-10-01-hw002-v08-snts-90s",
     "title": "HW002 — label-preview shape, 90 s: the whole arc condensed",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v08-snts-90s.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v08-snts-90s-r2.mp3",
     "duration_s": 90.0,
     "bpm": 160,
     "lufs": -13.8,
     "true_peak_dbtp": 0.1,
-    "notes": "Peak, the full breakdown, the sparse drop, then the bigger peak. Source bars 65–104, 125–144. Unmastered.",
+    "notes": "Peak, the full breakdown, the sparse drop, then the bigger peak. Source bars 65–104, 125–144. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "KSMS — Roses of Flesh and Blood EP preview (~77 s per track)",
@@ -220,18 +546,20 @@
         "title": "SNTS — Empire Of Loss EP preview (~91 s per track)",
         "url": "https://soundcloud.com/sntsrecords/snts-empire-of-loss-ep-snts013"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v08-snts-90s.mp3"
   },
   {
     "id": "2026-10-01-hw002-v09-ksms-shape-60s",
     "title": "HW002 — KSMS shape, 60 s: long breakdown straight into the peak",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v09-ksms-shape-60s.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v09-ksms-shape-60s-r2.mp3",
     "duration_s": 60.0,
     "bpm": 160,
     "lufs": -13.6,
     "true_peak_dbtp": 0.0,
-    "notes": "Roses Of Flesh And Blood puts its peak right after a long breakdown. Full breakdown, then the peak. Source bars 81–96, 125–148. Includes the loud hit at bar 81 (0.0 dBTP). Unmastered.",
+    "notes": "Roses Of Flesh And Blood puts its peak right after a long breakdown. Full breakdown, then the peak. Source bars 81–96, 125–148. Includes the loud hit at bar 81 (0.0 dBTP). Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "KSMS — Roses Of Flesh And Blood (full track)",
@@ -241,24 +569,28 @@
         "title": "KSMS — EP preview",
         "url": "https://soundcloud.com/sntsrecords/ksms-roses-of-flesh-and-blood-ep-scx021d"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v09-ksms-shape-60s.mp3"
   },
   {
     "id": "2026-10-01-hw002-v10-hedon-shape-60s",
     "title": "HW002 — Hedon shape, 60 s: no breakdown, steady peak",
     "date": "2026-10-01",
-    "file": "/audio/skrng/2026-10-01-hw002-v10-hedon-shape-60s.mp3",
+    "file": "/audio/skrng/2026-10-01-hw002-v10-hedon-shape-60s-r2.mp3",
     "duration_s": 60.0,
     "bpm": 160,
     "lufs": -13.7,
-    "true_peak_dbtp": -3.9,
-    "notes": "Hedon holds one density for minutes, DJ-tool style. The peak, unbroken. Source bars 113–152. Unmastered.",
+    "true_peak_dbtp": -4.1,
+    "notes": "Hedon holds one density for minutes, DJ-tool style. The peak, unbroken. Source bars 113–152. Unmastered. Re-rendered 1 Oct: the first render opened with about a second of misplaced audio (a recording glitch).",
     "refs": [
       {
         "title": "DJ JS x RedLotus — Hedon",
         "url": "https://open.spotify.com/track/47bUY3KbJRh7FNhABNAH8D"
       }
-    ]
+    ],
+    "batch": 2,
+    "announce": "/audio/skrng/tts/2026-10-01-hw002-v10-hedon-shape-60s.mp3"
   },
   {
     "id": "2026-09-30-hw002-60s-demo",
@@ -269,7 +601,9 @@
     "bpm": 160,
     "lufs": -13.4,
     "true_peak_dbtp": -2.5,
-    "notes": "HW002_121 cut to 40 bars in Live: bars 73–80, breakdown 81–84 and 93–96, then 125–148. All plugins load. Unmastered. Superseded on 1 Oct: in this render the kick-scoop EQ was stuck on, so the kick lost about 5 dB below 100 Hz. See the fixed version."
+    "notes": "HW002_121 cut to 40 bars in Live: bars 73–80, breakdown 81–84 and 93–96, then 125–148. All plugins load. Unmastered. Superseded on 1 Oct: in this render the kick-scoop EQ was stuck on, so the kick lost about 5 dB below 100 Hz. See the fixed version.",
+    "batch": 1,
+    "announce": "/audio/skrng/tts/2026-09-30-hw002-60s-demo.mp3"
   },
   {
     "id": "2026-09-30-hw002-30s-experiment",
@@ -280,6 +614,8 @@
     "bpm": 160,
     "lufs": -19.6,
     "true_peak_dbtp": -1.0,
-    "notes": "Bars 77–84, 93–104 of HW002_121 cut down to 20 bars in Live. Dist COLDFIRE and LFOTool bypassed, so not the real mix. Loud hit at 0:07 caps the level."
+    "notes": "Bars 77–84, 93–104 of HW002_121 cut down to 20 bars in Live. Dist COLDFIRE and LFOTool bypassed, so not the real mix. Loud hit at 0:07 caps the level.",
+    "batch": 1,
+    "announce": "/audio/skrng/tts/2026-09-30-hw002-30s-experiment.mp3"
   }
 ]

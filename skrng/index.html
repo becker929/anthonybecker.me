@@ -13,15 +13,24 @@
   <main>
     <nav class="crumbs"><a href="/">← home</a></nav>
     <h1>skrng</h1>
-    <p class="lede">Renders off the rig, rough and unmastered. Newest first.</p>
+    <p class="lede">Renders off the rig, rough and unmastered. One batch per page, newest first.</p>
+    <section class="batch-head" id="batch-head" hidden>
+      <h2 id="batch-title"></h2>
+      <p class="batch-notes" id="batch-notes"></p>
+      <button type="button" class="play-batch" id="play-batch">▶ Play batch</button>
+      <p class="now" id="now" aria-live="polite"></p>
+    </section>
     <ul class="renders" id="renders">
       <li class="empty">Loading…</li>
     </ul>
+    <nav class="batch-nav" id="batch-nav"></nav>
+    <audio id="seq" preload="none"></audio>
   </main>
 
   <script>
-    // Renders are listed from manifest.json so adding one is a file drop
-    // plus one entry; nothing else on the page changes.
+    // Renders come from manifest.json; batch titles from batches.json.
+    // One batch per page (?batch=N, default newest). Older batches are
+    // reached only through the link at the bottom of the page.
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
     function facts(r) {
@@ -43,20 +52,35 @@
       return `<p class="refs">Shaped after: ${items.join(' · ')}</p>`;
     }
 
-    fetch('/skrng/manifest.json')
-      .then((res) => res.json())
-      .then((renders) => {
+    const batchOf = (r) => (Number.isInteger(r.batch) ? r.batch : 1);
+
+    Promise.all([
+      fetch('/skrng/manifest.json').then((res) => res.json()),
+      fetch('/skrng/batches.json').then((res) => (res.ok ? res.json() : [])).catch(() => []),
+    ])
+      .then(([renders, batches]) => {
         const list = document.getElementById('renders');
         if (!renders.length) {
           list.innerHTML = '<li class="empty">Nothing yet.</li>';
           return;
         }
-        renders.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
-        list.innerHTML = renders
-          .map((r) => `
-            <li id="${esc(r.id)}">
+        const nums = [...new Set(renders.map(batchOf))].sort((a, b) => a - b);
+        const newest = nums[nums.length - 1];
+        const asked = parseInt(new URLSearchParams(location.search).get('batch'), 10);
+        const n = nums.includes(asked) ? asked : newest;
+        const meta = batches.find((b) => b.n === n) || {};
+        const items = renders.filter((r) => batchOf(r) === n);
+        if (!meta.ordered) items.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+
+        document.getElementById('batch-head').hidden = false;
+        document.getElementById('batch-title').textContent = meta.title || `Batch ${n}`;
+        document.getElementById('batch-notes').textContent = meta.notes || '';
+
+        list.innerHTML = items
+          .map((r, i) => `
+            <li id="${esc(r.id)}" data-i="${i}">
               <div class="head">
-                <a class="title" href="#${esc(r.id)}">${esc(r.title)}</a>
+                <a class="title" href="?batch=${n}#${esc(r.id)}">${i + 1}. ${esc(r.title)}</a>
                 <time datetime="${esc(r.date)}">${esc(r.date)}</time>
               </div>
               <audio controls preload="none" src="${esc(r.file)}"></audio>
@@ -67,11 +91,65 @@
           `)
           .join('');
 
-        // One render at a time: starting a player pauses the others.
+        // Bottom navigation is the only way to older (and back to newer) batches.
+        const idx = nums.indexOf(n);
+        const nav = [];
+        if (idx > 0) nav.push(`<a href="?batch=${nums[idx - 1]}">← Older: batch ${nums[idx - 1]}</a>`);
+        if (idx < nums.length - 1) nav.push(`<a href="?batch=${nums[idx + 1]}">Newer: batch ${nums[idx + 1]} →</a>`);
+        document.getElementById('batch-nav').innerHTML = nav.join('');
+
+        // One render at a time: starting a player pauses the others and the sequence.
+        const seq = document.getElementById('seq');
         const players = [...list.querySelectorAll('audio')];
         players.forEach((p) => p.addEventListener('play', () => {
           players.forEach((o) => { if (o !== p) o.pause(); });
+          if (playing) stop();
         }));
+
+        // Play batch: announcement (500 ms silence, spoken title, 500 ms
+        // silence, baked into the file) then the track, for every track.
+        // A single <audio> element keeps mobile autoplay permission across
+        // the whole run once the button has been pressed.
+        const queue = [];
+        items.forEach((r, i) => {
+          if (r.announce) queue.push({ src: r.announce, i, kind: 'announce' });
+          queue.push({ src: r.file, i, kind: 'track' });
+        });
+        const btn = document.getElementById('play-batch');
+        const now = document.getElementById('now');
+        let playing = false;
+        let pos = 0;
+
+        function mark(i) {
+          list.querySelectorAll('li').forEach((li) => li.classList.toggle('current', Number(li.dataset.i) === i));
+        }
+        function step() {
+          if (!playing) return;
+          if (pos >= queue.length) { stop(); now.textContent = 'Batch finished.'; return; }
+          const q = queue[pos];
+          mark(q.i);
+          now.textContent = `${q.kind === 'announce' ? 'Next' : 'Playing'}: ${q.i + 1}. ${items[q.i].title}`;
+          seq.src = q.src;
+          seq.play().catch(() => stop());
+        }
+        function stop() {
+          playing = false;
+          seq.pause();
+          btn.textContent = '▶ Play batch';
+          btn.classList.remove('on');
+          mark(-1);
+        }
+        seq.addEventListener('ended', () => { pos += 1; step(); });
+        seq.addEventListener('error', () => { pos += 1; step(); });
+        btn.addEventListener('click', () => {
+          if (playing) { stop(); now.textContent = ''; return; }
+          players.forEach((p) => p.pause());
+          playing = true;
+          pos = 0;
+          btn.textContent = '■ Stop';
+          btn.classList.add('on');
+          step();
+        });
 
         // A #id link scrolls to that render once the list exists.
         if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
