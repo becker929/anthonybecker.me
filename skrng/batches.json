@@ -1,0 +1,20 @@
+[
+  {
+    "n": 1,
+    "title": "Batch 1 — first renders (30 Sep)",
+    "notes": "The first 30 s experiment and the first 60 s demo. Both predate later fixes.",
+    "ordered": true
+  },
+  {
+    "n": 2,
+    "title": "Batch 2 — shapes after references (1 Oct)",
+    "notes": "Ten cuts shaped after genre Shorts, label previews (NineTimesNine, SNTS) and two of the audio references, plus the fixed 60 s demo. Re-rendered to remove a glitch in the first second.",
+    "ordered": true
+  },
+  {
+    "n": 3,
+    "title": "Batch 3 — hat progressions, all under 40 s (1 Oct)",
+    "notes": "Each cut climbs through the song's own layering: the hats and percussion step up every few bars instead of holding one level.",
+    "ordered": true
+  }
+]
