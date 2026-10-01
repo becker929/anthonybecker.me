@@ -1,14 +1,275 @@
 [
   {
+    "id": "2026-10-01-hw002-v00-demo-60s-fixed",
+    "title": "HW002 — 60 s demo: peak, breakdown, peak (fixed)",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v00-demo-60s-fixed.mp3",
+    "duration_s": 60.0,
+    "bpm": 160,
+    "lufs": -13.7,
+    "true_peak_dbtp": -1.9,
+    "notes": "Same cut as the 30 Sep demo: bars 73–80, breakdown 81–84 and 93–96, then 125–148. The 30 Sep render had the kick-scoop EQ stuck on, so the kick lost about 5 dB below 100 Hz. Fixed here. Unmastered."
+  },
+  {
+    "id": "2026-10-01-hw002-v01-short-12s",
+    "title": "HW002 — Short shape, 12 s: the impact only",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v01-short-12s.mp3",
+    "duration_s": 12.0,
+    "bpm": 160,
+    "lufs": -13.5,
+    "true_peak_dbtp": -3.7,
+    "notes": "One drop, starting on the impact at bar 125, the way genre Shorts that travel do (6–34 s). Source bars 125–132. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v02-short-24s",
+    "title": "HW002 — Short shape, 24 s: two-bar pickup into the impact",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v02-short-24s.mp3",
+    "duration_s": 24.0,
+    "bpm": 160,
+    "lufs": -13.5,
+    "true_peak_dbtp": -2.7,
+    "notes": "The last two breakdown bars as a pickup, then the impact. Source bars 95–96, 125–138. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v03-short-30s",
+    "title": "HW002 — Short shape, 30 s: build into the impact",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v03-short-30s.mp3",
+    "duration_s": 30.0,
+    "bpm": 160,
+    "lufs": -13.7,
+    "true_peak_dbtp": -2.7,
+    "notes": "Four bars of breakdown build, then the impact. Source bars 93–96, 125–140. Unmastered.",
+    "refs": [
+      {
+        "title": "I Hate Models — Work It (Short, 25 s)",
+        "url": "https://youtube.com/shorts/wXD_xGs9Zj0"
+      },
+      {
+        "title": "Techno Samurai — ID (Short, 11 s)",
+        "url": "https://youtube.com/shorts/CAYGM-B5dWg"
+      },
+      {
+        "title": "Jazzy — GHETTOBLASTER (Short, 13 s)",
+        "url": "https://youtube.com/shorts/vzVLk8QvmNY"
+      },
+      {
+        "title": "Karah — ID (Short, 34 s)",
+        "url": "https://youtube.com/shorts/BzOT5LECo1w"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v04-ntn-48s-peak",
+    "title": "HW002 — label-preview shape, 48 s: peak only",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v04-ntn-48s-peak.mp3",
+    "duration_s": 48.0,
+    "bpm": 160,
+    "lufs": -13.7,
+    "true_peak_dbtp": -3.9,
+    "notes": "One section held, like NineTimesNine's 42–60 s preview slots. Starts on the kick scoop at 121. Source bars 121–152. Unmastered.",
+    "refs": [
+      {
+        "title": "Remon Verhoeve — Contradiction previews (~46 s per track)",
+        "url": "https://soundcloud.com/999999999music/remon-verhoeve-contradiction-previews-ntnd015-1"
+      },
+      {
+        "title": "Amstra — RE:GENESIS previews (~60 s per track)",
+        "url": "https://soundcloud.com/999999999music/amstra-regenesis-ntna001-previews"
+      },
+      {
+        "title": "B2 — Anatomy EP previews (~42 s per track)",
+        "url": "https://soundcloud.com/999999999music/b2-anatomy-ep-previews-ntnb002"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v05-ntn-48s-break-drop",
+    "title": "HW002 — label-preview shape, 48 s: breakdown into the drop",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v05-ntn-48s-break-drop.mp3",
+    "duration_s": 48.0,
+    "bpm": 160,
+    "lufs": -13.6,
+    "true_peak_dbtp": -1.6,
+    "notes": "Breakdown start and build, then the peak. Source bars 81–84, 89–96, 125–144. Unmastered.",
+    "refs": [
+      {
+        "title": "Remon Verhoeve — Contradiction previews (~46 s per track)",
+        "url": "https://soundcloud.com/999999999music/remon-verhoeve-contradiction-previews-ntnd015-1"
+      },
+      {
+        "title": "Amstra — RE:GENESIS previews (~60 s per track)",
+        "url": "https://soundcloud.com/999999999music/amstra-regenesis-ntna001-previews"
+      },
+      {
+        "title": "B2 — Anatomy EP previews (~42 s per track)",
+        "url": "https://soundcloud.com/999999999music/b2-anatomy-ep-previews-ntnb002"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v06-ntn-60s",
+    "title": "HW002 — label-preview shape, 60 s: peak, build, peak",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v06-ntn-60s.mp3",
+    "duration_s": 60.0,
+    "bpm": 160,
+    "lufs": -13.8,
+    "true_peak_dbtp": -3.5,
+    "notes": "Peak, a four-bar build, the bigger peak. Source bars 73–80, 93–96, 125–152. Unmastered.",
+    "refs": [
+      {
+        "title": "Remon Verhoeve — Contradiction previews (~46 s per track)",
+        "url": "https://soundcloud.com/999999999music/remon-verhoeve-contradiction-previews-ntnd015-1"
+      },
+      {
+        "title": "Amstra — RE:GENESIS previews (~60 s per track)",
+        "url": "https://soundcloud.com/999999999music/amstra-regenesis-ntna001-previews"
+      },
+      {
+        "title": "B2 — Anatomy EP previews (~42 s per track)",
+        "url": "https://soundcloud.com/999999999music/b2-anatomy-ep-previews-ntnb002"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v07-snts-78s",
+    "title": "HW002 — label-preview shape, 78 s: SNTS length",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v07-snts-78s.mp3",
+    "duration_s": 78.0,
+    "bpm": 160,
+    "lufs": -13.6,
+    "true_peak_dbtp": 0.0,
+    "notes": "SNTS gives each track about 77–98 s. Peak with its fill at 65, half the breakdown, build, peak. Source bars 65–88, 93–96, 125–148. Unmastered.",
+    "refs": [
+      {
+        "title": "KSMS — Roses of Flesh and Blood EP preview (~77 s per track)",
+        "url": "https://soundcloud.com/sntsrecords/ksms-roses-of-flesh-and-blood-ep-scx021d"
+      },
+      {
+        "title": "SNTS — Evoked Rvptvre EP preview (~98 s per track)",
+        "url": "https://soundcloud.com/sntsrecords/snts-evoked-rvptvre-ep-snts014"
+      },
+      {
+        "title": "SNTS — Empire Of Loss EP preview (~91 s per track)",
+        "url": "https://soundcloud.com/sntsrecords/snts-empire-of-loss-ep-snts013"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v08-snts-90s",
+    "title": "HW002 — label-preview shape, 90 s: the whole arc condensed",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v08-snts-90s.mp3",
+    "duration_s": 90.0,
+    "bpm": 160,
+    "lufs": -13.8,
+    "true_peak_dbtp": 0.1,
+    "notes": "Peak, the full breakdown, the sparse drop, then the bigger peak. Source bars 65–104, 125–144. Unmastered.",
+    "refs": [
+      {
+        "title": "KSMS — Roses of Flesh and Blood EP preview (~77 s per track)",
+        "url": "https://soundcloud.com/sntsrecords/ksms-roses-of-flesh-and-blood-ep-scx021d"
+      },
+      {
+        "title": "SNTS — Evoked Rvptvre EP preview (~98 s per track)",
+        "url": "https://soundcloud.com/sntsrecords/snts-evoked-rvptvre-ep-snts014"
+      },
+      {
+        "title": "SNTS — Empire Of Loss EP preview (~91 s per track)",
+        "url": "https://soundcloud.com/sntsrecords/snts-empire-of-loss-ep-snts013"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v09-ksms-shape-60s",
+    "title": "HW002 — KSMS shape, 60 s: long breakdown straight into the peak",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v09-ksms-shape-60s.mp3",
+    "duration_s": 60.0,
+    "bpm": 160,
+    "lufs": -13.6,
+    "true_peak_dbtp": 0.0,
+    "notes": "Roses Of Flesh And Blood puts its peak right after a long breakdown. Full breakdown, then the peak. Source bars 81–96, 125–148. Includes the loud hit at bar 81 (0.0 dBTP). Unmastered.",
+    "refs": [
+      {
+        "title": "KSMS — Roses Of Flesh And Blood (full track)",
+        "url": "https://ksmsmu.bandcamp.com/track/roses-of-flesh-and-blood"
+      },
+      {
+        "title": "KSMS — EP preview",
+        "url": "https://soundcloud.com/sntsrecords/ksms-roses-of-flesh-and-blood-ep-scx021d"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-01-hw002-v10-hedon-shape-60s",
+    "title": "HW002 — Hedon shape, 60 s: no breakdown, steady peak",
+    "date": "2026-10-01",
+    "file": "/audio/skrng/2026-10-01-hw002-v10-hedon-shape-60s.mp3",
+    "duration_s": 60.0,
+    "bpm": 160,
+    "lufs": -13.7,
+    "true_peak_dbtp": -3.9,
+    "notes": "Hedon holds one density for minutes, DJ-tool style. The peak, unbroken. Source bars 113–152. Unmastered.",
+    "refs": [
+      {
+        "title": "DJ JS x RedLotus — Hedon",
+        "url": "https://open.spotify.com/track/47bUY3KbJRh7FNhABNAH8D"
+      }
+    ]
+  },
+  {
     "id": "2026-09-30-hw002-60s-demo",
-    "title": "HW002 — 60 s demo: peak, breakdown, peak",
+    "title": "HW002 — 60 s demo: peak, breakdown, peak (superseded)",
     "date": "2026-09-30",
     "file": "/audio/skrng/2026-09-30-hw002-60s-demo.mp3",
     "duration_s": 60.0,
     "bpm": 160,
     "lufs": -13.4,
     "true_peak_dbtp": -2.5,
-    "notes": "HW002_121 cut to 40 bars in Live: bars 73–80, breakdown 81–84 and 93–96, then 125–148. All plugins load. Unmastered."
+    "notes": "HW002_121 cut to 40 bars in Live: bars 73–80, breakdown 81–84 and 93–96, then 125–148. All plugins load. Unmastered. Superseded on 1 Oct: in this render the kick-scoop EQ was stuck on, so the kick lost about 5 dB below 100 Hz. See the fixed version."
   },
   {
     "id": "2026-09-30-hw002-30s-experiment",
