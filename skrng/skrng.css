@@ -131,3 +131,81 @@ main {
   color: var(--fg);
   font-weight: 600;
 }
+
+/* Sticky transport: follows whichever track is playing. */
+body {
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+}
+
+.transport {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem max(1rem, env(safe-area-inset-right)) calc(0.6rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  background: var(--bg);
+  border-top: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+  box-shadow: 0 -4px 16px color-mix(in srgb, var(--fg) 8%, transparent);
+}
+
+.transport button {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  font: inherit;
+  font-size: 1.1rem;
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 8%, transparent);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.transport button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.transport .t-play {
+  width: 3.25rem;
+  height: 3.25rem;
+  color: var(--bg);
+  background: var(--fg);
+}
+
+.transport .t-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-left: 0.25rem;
+}
+
+.transport .t-title {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transport .t-time {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+
+.play-batch,
+.transport button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.play-batch svg {
+  width: 1.1em;
+  height: 1.1em;
+}
