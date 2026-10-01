@@ -1,5 +1,16 @@
 [
   {
+    "id": "2026-09-30-hw002-60s-demo",
+    "title": "HW002 — 60 s demo: peak, breakdown, peak",
+    "date": "2026-09-30",
+    "file": "/audio/skrng/2026-09-30-hw002-60s-demo.mp3",
+    "duration_s": 60.0,
+    "bpm": 160,
+    "lufs": -13.4,
+    "true_peak_dbtp": -2.5,
+    "notes": "HW002_121 cut to 40 bars in Live: bars 73–80, breakdown 81–84 and 93–96, then 125–148. All plugins load. Unmastered."
+  },
+  {
     "id": "2026-09-30-hw002-30s-experiment",
     "title": "HW002 — 30 s arrangement experiment",
     "date": "2026-09-30",
