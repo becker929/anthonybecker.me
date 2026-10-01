@@ -33,6 +33,16 @@
       return out.join(' · ');
     }
 
+    // Optional "refs": [{title, url}] — what a render was shaped after.
+    // Only https links are made clickable.
+    function refs(r) {
+      if (!Array.isArray(r.refs) || !r.refs.length) return '';
+      const items = r.refs.map((x) => (/^https:\/\//.test(x.url || '')
+        ? `<a href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">${esc(x.title)}</a>`
+        : esc(x.title)));
+      return `<p class="refs">Shaped after: ${items.join(' · ')}</p>`;
+    }
+
     fetch('/skrng/manifest.json')
       .then((res) => res.json())
       .then((renders) => {
@@ -52,6 +62,7 @@
               <audio controls preload="none" src="${esc(r.file)}"></audio>
               <p class="facts">${esc(facts(r))} · <a href="${esc(r.file)}" download>mp3</a></p>
               ${r.notes ? `<p class="notes">${esc(r.notes)}</p>` : ''}
+              ${refs(r)}
             </li>
           `)
           .join('');
