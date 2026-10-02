@@ -45,7 +45,9 @@ and not linked from `/`.
 "Review by voice" runs a batch hands-free. For each track it says where you
 are and what differs, plays the track, asks "What did you think?", and
 listens until you say **next** (or tap Done, or click an earbud). Also:
-**again** replays, **go back** returns a track, **stop** ends. The words
+**again** replays, **go back** returns a track, **stop review** or
+**that's all** ends (Chrome's recogniser drops a bare "stop", so it is
+not taught, though it still works where a recogniser passes it through). The words
 come from `skrng/voice.js` (tested in `src/test/skrng-voice.test.js`); the
 browser side is `skrng/review.js`.
 

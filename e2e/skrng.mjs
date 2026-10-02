@@ -68,7 +68,9 @@ function speechStandIns(mic) {
     start() {
       if (window.__mic.active) throw new Error("already started");
       window.__mic.active = this; window.__mic.starts += 1; this.results = []; this.interim = null;
-      setTimeout(() => this.onstart && this.onstart(), 5);
+      // Real recognisers take a while to report that they started (hundreds of
+      // ms on a phone); answers and taps can land in that gap.
+      setTimeout(() => this.onstart && this.onstart(), 200);
     }
     stop() { this.end(true); }
     abort() { this.end(false); }
@@ -112,9 +114,9 @@ async function newPage(mic) {
   return page;
 }
 
-const listening = (page, n) => page.waitForFunction(
+const listening = (page, n, timeout = 15000) => page.waitForFunction(
   (k) => document.getElementById("rv-state").textContent.startsWith(`Track ${k}: listening`) && window.__mic.active,
-  n, { timeout: 15000 },
+  n, { timeout },
 );
 const say = async (page, text, final = true) => {
   assert.ok(await page.evaluate(([t, f]) => window.__say(t, f), [text, final]), `mic was not open for "${text}"`);
@@ -241,6 +243,21 @@ await step("no speech input: the question says to tap, Done moves on", async () 
   const typedRec = recs.find((r) => r.typed === "typed note on track 1");
   assert.ok(typedRec && typedRec.stt === "none" && typedRec.ended_by === "tap");
   assert.deepEqual(p2.errors, []);
+});
+
+await step("a track that never loads is skipped, not waited on forever", async () => {
+  const p3 = await newPage(true);
+  // Track 1's request never answers, as when Chrome defers media in a hidden
+  // tab or the network drops; play() then never settles.
+  await p3.route("**/*-b41-01-*.mp3", () => {});
+  await p3.goto(`${BASE}/skrng/?batch=4.1`, { waitUntil: "domcontentloaded" });
+  await p3.waitForSelector("#rv-from-start:not([hidden]), #review:not([hidden])");
+  if (await p3.isVisible("#rv-from-start")) await p3.click("#rv-from-start"); else await p3.click("#review");
+  await listening(p3, 2, 30000); // the watchdog gives a track 12 s to start
+  assert.ok((await spoken(p3)).includes("Track 1 didn't load. Moving on."));
+  assert.equal(await p3.evaluate(() => document.getElementById("rv-audio").muted), false);
+  await say(p3, "that's all");
+  await p3.waitForSelector("#review:not([hidden])", { timeout: 15000 });
 });
 
 await step("no page errors", async () => { assert.deepEqual(page.errors, []); });

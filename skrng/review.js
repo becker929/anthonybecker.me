@@ -31,6 +31,11 @@ const FB_STORE = "skrng.fb";
 const REMIND_AFTER_MS = 30000;   // one spoken reminder if nothing is heard
 const NEXT_SETTLE_MS = 900;      // an interim "...next" that stays put counts
 const GAP_AFTER_MIC_MS = 500;    // let a headset leave its call codec
+const TRACK_START_MS = 12000;    // a track that has not started by then is skipped
+const TRACK_STALL_MS = 15000;    // a track that stops moving that long is ended
+// 0.1 s of silence: what the start tap plays to unlock the track player, so
+// unlocking never depends on a track loading.
+const SILENCE = "data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==";
 
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 const synth = window.speechSynthesis || null;
@@ -254,23 +259,38 @@ function start(page) {
     });
   }
 
+  // Resolves true once the track has played (to the end, or until skipped),
+  // false if it never started. play() can stay pending indefinitely — Chrome
+  // defers loading media in a tab that is not visible, and a dropped network
+  // leaves it loading — so a watchdog decides instead of the promise.
   function playTrack(i) {
     return new Promise((resolve) => {
-      if (run.cancelled) return resolve();
+      if (run.cancelled) return resolve(true);
       const item = items[i];
+      let started = false;
+      let lastMove = Date.now();
+      let lastTime = -1;
       const done = () => {
-        audio.onended = audio.onerror = audio.ontimeupdate = null;
+        clearInterval(watch);
+        audio.onended = audio.onerror = audio.ontimeupdate = audio.onplaying = null;
         audio.pause();
-        resolve();
+        resolve(started);
       };
+      const watch = setInterval(() => {
+        if (!started && Date.now() - lastMove > TRACK_START_MS) done();
+        else if (started && !audio.paused && Date.now() - lastMove > TRACK_STALL_MS) done();
+      }, 1000);
       audio.onended = done;
       audio.onerror = done;
+      audio.onplaying = () => { started = true; lastMove = Date.now(); };
       audio.ontimeupdate = () => {
+        if (audio.currentTime !== lastTime) { lastTime = audio.currentTime; lastMove = Date.now(); if (audio.currentTime > 0) started = true; }
         const t = (s) => (Number.isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}` : "–:––");
         state.textContent = `Playing track ${i + 1} · ${t(audio.currentTime)} / ${t(audio.duration || item.duration_s)}`;
       };
       run.abort = done;
       run.skip = done; // earbud "next" during a track ends it and asks
+      audio.muted = false;
       if (!audio.src.endsWith(item.file)) audio.src = item.file;
       audio.currentTime = 0;
       audio.play().catch(done);
@@ -343,7 +363,6 @@ function start(page) {
         rec.lang = "en-US";
         rec.continuous = true;
         rec.interimResults = true;
-        rec.onstart = () => { recRunning = true; };
         rec.onresult = (e) => {
           interim = "";
           for (let k = e.resultIndex; k < e.results.length; k += 1) {
@@ -376,7 +395,10 @@ function start(page) {
           if (run.micDenied) return noMic();
           setTimeout(openMic, 250);
         };
-        try { rec.start(); } catch { setTimeout(openMic, 500); }
+        // Count the mic as on from the moment it is asked for, not from
+        // onstart: an answer can end (a tap, an earbud press) before the
+        // recogniser reports that it started, and stopMic must still close it.
+        try { rec.start(); recRunning = true; } catch { setTimeout(openMic, 500); }
       };
 
       const noMic = async () => {
@@ -465,7 +487,13 @@ function start(page) {
       await speak(announcement(items, groups, i, { resumed }));
       resumed = false;
       if (me.cancelled) break;
-      await playTrack(i);
+      if (!(await playTrack(i))) {
+        if (me.cancelled) break;
+        state.textContent = `Track ${i + 1} didn't load`;
+        await speak(`Track ${i + 1} didn't load. Moving on.`);
+        i += 1;
+        continue;
+      }
       if (me.cancelled) break;
       await sleep(150);
 
@@ -558,9 +586,8 @@ function start(page) {
       audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
       audioCtx.resume();
     } catch {}
-    audio.src = items[startAt].file;
-    audio.muted = true;
-    audio.play().then(() => { audio.pause(); audio.muted = false; }).catch(() => { audio.muted = false; });
+    audio.src = SILENCE;
+    audio.play().then(() => audio.pause()).catch(() => {});
     if (synth) {
       const u = new SpeechSynthesisUtterance(" ");
       u.volume = 0;
