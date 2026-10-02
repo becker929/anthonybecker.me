@@ -8,13 +8,19 @@
   {
     "n": 2,
     "title": "Batch 2 — shapes after references (1 Oct)",
-    "notes": "Ten cuts shaped after genre Shorts, label previews (NineTimesNine, SNTS) and two of the audio references, plus the fixed 60 s demo. Re-rendered to remove a glitch in the first second.",
+    "notes": "Ten cuts shaped after genre Shorts, label previews (NineTimesNine, SNTS) and two of the audio references, plus the fixed 60 s demo. Re-rendered to remove a glitch in the first second. Re-trimmed onto the grid on 1 Oct (they had started about 0.9 s early).",
     "ordered": true
   },
   {
     "n": 3,
     "title": "Batch 3 — hat progressions, all under 40 s (1 Oct)",
-    "notes": "Each cut climbs through the song's own layering: the hats and percussion step up every few bars instead of holding one level.",
+    "notes": "Each cut climbs through the song's own layering: the hats and percussion step up every few bars instead of holding one level. Re-trimmed onto the grid on 1 Oct (they had started about 0.9 s early).",
+    "ordered": true
+  },
+  {
+    "n": 4,
+    "title": "Batch 4 — longer, on the grid, hats that stack (1 Oct)",
+    "notes": "Answers the first commute feedback: 36–48 s, sections of 4 or 8 bars, a longer scoop, hats added one layer at a time without dropping any, a longer pre-kick sound, and drop-outs before the kick.",
     "ordered": true
   }
 ]
