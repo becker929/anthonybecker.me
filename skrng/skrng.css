@@ -209,3 +209,137 @@ body {
   width: 1.1em;
   height: 1.1em;
 }
+
+/* Voice review: one big button to start, then a panel that says where the
+   review is, shows what was heard, and keeps three large targets in reach. */
+.review {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1.1rem 1rem;
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--fg);
+  border: 0;
+  border-radius: 0.6rem;
+  cursor: pointer;
+}
+
+.review[hidden] { display: none; }
+
+/* Play batch becomes the quieter option next to the voice review. */
+.play-batch {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  padding: 0.75rem;
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
+}
+
+.play-batch.on { background: color-mix(in srgb, var(--fg) 20%, transparent); }
+.play-batch:disabled { opacity: 0.4; cursor: default; }
+
+.review-alt {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.review-alt a { color: var(--fg); }
+
+.rv {
+  padding: 1rem;
+  border-radius: 0.6rem;
+  background: color-mix(in srgb, var(--fg) 7%, transparent);
+}
+
+.rv-state {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.rv-heard {
+  min-height: 3em;
+  margin: 0.5rem 0 0.75rem;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.rv-heard em { opacity: 0.6; }
+
+.rv-buttons {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.rv-buttons button {
+  min-height: 3.5rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 12%, transparent);
+  border: 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.rv-buttons .rv-done {
+  font-size: 1.2rem;
+  color: var(--bg);
+  background: var(--fg);
+}
+
+.rv-buttons button:disabled { opacity: 0.35; cursor: default; }
+
+.rv-type {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.rv-type input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.6rem;
+  font: inherit;
+  font-size: 1rem; /* 16px keeps iOS from zooming on focus */
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--fg) 25%, transparent);
+  border-radius: 0.4rem;
+}
+
+.rv-help {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.rv-key {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.rv-key:empty { display: none; }
+
+.renders .fb p {
+  margin: 0.4rem 0 0;
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--fg);
+  font-size: 0.9rem;
+}
+
+.renders .fb .unsynced {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}

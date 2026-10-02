@@ -157,4 +157,6 @@ still stored under R2 `lab/` or KV `lab:item:*` is the owner's to delete.
 `npm run e2e:server` starts the real Worker `fetch()` on :8790 with in-memory
 KV/R2 fakes and static files from the repo root; `npm run e2e` drives it with
 Playwright (install per the section above): the listening test, the role meter
-and the check that `/lab/` stays off, in a real browser. `e2e/` is in `.assetsignore` so it never deploys.
+and the check that `/lab/` stays off, in a real browser. `npm run e2e:skrng` drives the /skrng voice
+review with scripted speech in and out (`SKRNG_TOKEN` defaults to
+`e2e-skrng-token` on the e2e server). `e2e/` is in `.assetsignore` so it never deploys.

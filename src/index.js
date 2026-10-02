@@ -16,6 +16,7 @@ import {
 } from "./cards.js";
 import { handleAudioPage, handleAudioLatest, handleAudioLatestUpdate, handleAudioFile } from "./audio.js";
 import { handleListenSubmit, handleListenExport } from "./listen.js";
+import { handleSkrngFeedbackSubmit, handleSkrngFeedbackList } from "./skrng.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
@@ -419,6 +420,15 @@ export default {
 
     if (path === "/api/listen/export" && request.method === "GET") {
       return handleListenExport(env);
+    }
+
+    // Spoken feedback from the /skrng voice review — gated by SKRNG_TOKEN.
+    if (path === "/api/skrng/feedback" && request.method === "POST") {
+      return handleSkrngFeedbackSubmit(request, env);
+    }
+
+    if (path === "/api/skrng/feedback" && request.method === "GET") {
+      return handleSkrngFeedbackList(request, env);
     }
 
     if (path === BASE) {

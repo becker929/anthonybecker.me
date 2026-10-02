@@ -17,6 +17,22 @@
     <section class="batch-head" id="batch-head" hidden>
       <h2 id="batch-title"></h2>
       <p class="batch-notes" id="batch-notes"></p>
+      <button type="button" class="review" id="review" hidden>Review by voice</button>
+      <p class="review-alt"><a href="#" id="rv-from-start" hidden>Review from track 1</a></p>
+      <section class="rv" id="rv" hidden aria-label="Voice review">
+        <p class="rv-state" id="rv-state" aria-live="polite"></p>
+        <p class="rv-heard" id="rv-heard" aria-live="polite"></p>
+        <div class="rv-buttons">
+          <button type="button" id="rv-done" class="rv-done" disabled>Done</button>
+          <button type="button" id="rv-again" disabled>Again</button>
+          <button type="button" id="rv-stop">Stop</button>
+        </div>
+        <label class="rv-type">Or type a note for this track
+          <input id="rv-typed" type="text" autocomplete="off" enterkeyhint="done">
+        </label>
+        <p class="rv-help">Say <b>next</b> to finish an answer, <b>again</b> to replay, <b>go back</b> for the previous track, <b>stop</b> to end. An earbud click skips to the question, or ends your answer.</p>
+      </section>
+      <p class="rv-key" id="rv-key"></p>
       <button type="button" class="play-batch" id="play-batch">Play batch</button>
       <p class="now" id="now" aria-live="polite"></p>
     </section>
@@ -25,6 +41,7 @@
     </ul>
     <nav class="batch-nav" id="batch-nav"></nav>
     <audio id="seq" preload="none"></audio>
+    <audio id="rv-audio" preload="none"></audio>
   </main>
   <div class="transport" role="region" aria-label="Player">
     <button type="button" id="t-prev" aria-label="Previous track (plays its announcement)"></button>
@@ -274,6 +291,10 @@
         tNext.addEventListener('click', () => { if (cur < items.length - 1) runFrom(cur + 1); });
         render();
 
+        // Hand the batch to the voice review (review.js).
+        window.skrngPage = { n, meta, items, list, players, stopRun: () => { if (running) { stopRun(); now.textContent = ''; } } };
+        window.dispatchEvent(new CustomEvent('skrng:ready', { detail: window.skrngPage }));
+
         // A #id link scrolls to that render once the list exists.
         if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
       })
@@ -281,5 +302,6 @@
         document.getElementById('renders').innerHTML = '<li class="error">Couldn\'t load renders.</li>';
       });
   </script>
+  <script type="module" src="review.js"></script>
 </body>
 </html>
