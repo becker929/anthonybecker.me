@@ -61,7 +61,7 @@
       return `<p class="refs">Shaped after: ${items.join(' · ')}</p>`;
     }
 
-    const batchOf = (r) => (Number.isInteger(r.batch) ? r.batch : 1);
+    const batchOf = (r) => (Number.isFinite(r.batch) ? r.batch : 1); // batches may be decimal, e.g. 4.1
 
     Promise.all([
       fetch('/skrng/manifest.json').then((res) => res.json()),
@@ -75,7 +75,7 @@
         }
         const nums = [...new Set(renders.map(batchOf))].sort((a, b) => a - b);
         const newest = nums[nums.length - 1];
-        const asked = parseInt(new URLSearchParams(location.search).get('batch'), 10);
+        const asked = parseFloat(new URLSearchParams(location.search).get('batch'));
         const n = nums.includes(asked) ? asked : newest;
         const meta = batches.find((b) => b.n === n) || {};
         const items = renders.filter((r) => batchOf(r) === n);
