@@ -30,7 +30,7 @@ const KEY_STORE = "skrng.key";
 const FB_STORE = "skrng.fb";
 const REMIND_AFTER_MS = 30000;   // one spoken reminder if nothing is heard
 const NEXT_SETTLE_MS = 900;      // an interim "...next" that stays put counts
-const GAP_AFTER_MIC_MS = 500;    // let a headset leave its call codec
+const GAP_AFTER_MIC_MS = 150;    // a breath between steps; forOutput() waits for the headset
 const TRACK_START_MS = 12000;    // a track that has not started by then is skipped
 const TRACK_STALL_MS = 15000;    // a track that stops moving that long is ended
 // 0.1 s of silence: what the start tap plays to unlock the track player, so
@@ -39,6 +39,27 @@ const SILENCE = "data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfA
 
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 const synth = window.speechSynthesis || null;
+
+// Audio session. With a Bluetooth headset, an open mic moves the headset to its
+// call profile (HFP: mono, phone quality); playback alone keeps it in its
+// stereo media profile (A2DP). Left to itself the phone guesses and flips
+// between the two mid-sound. Safari (16.4+) lets a page say which it wants:
+// navigator.audioSession.type = "playback" or "play-and-record". Every sound
+// (speech, cues, tracks) first locks "playback"; only listening switches to
+// "play-and-record". Each switch waits for the headset to change profile
+// before anything is played or heard. Browsers without the API still get
+// the wait, which is what lets their headset settle too.
+const SESSION = navigator.audioSession || null;
+const ROUTE_SETTLE_MS = 1200;
+let sessionMode = null;
+async function setMode(m) {
+  if (sessionMode === m) return;
+  sessionMode = m;
+  if (SESSION) { try { SESSION.type = m; } catch {} }
+  await sleep(ROUTE_SETTLE_MS);
+}
+const forOutput = () => setMode("playback");
+const forInput = () => setMode("play-and-record");
 
 const $ = (id) => document.getElementById(id);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -74,7 +95,8 @@ function saveLocal(records) {
 // --- Sound: earcons and speech ---------------------------------------------
 
 let audioCtx = null;
-function cue(up) {
+async function cue(up) {
+  await forOutput();
   try {
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     const t0 = audioCtx.currentTime + 0.02;
@@ -162,6 +184,28 @@ function start(page) {
     fromStart.hidden = !resume;
   }
 
+  // Where the answers are: on the site (agents can read them) or only on this phone.
+  function showWhere() {
+    const where = $("rv-where");
+    const exp = $("rv-export");
+    const all = records.filter((r) => r.transcript || r.typed);
+    if (!all.length) { where.hidden = true; exp.hidden = true; return; }
+    const onSite = all.filter((r) => r.synced).length;
+    const local = all.length - onSite;
+    where.textContent = local
+      ? `${all.length} answers: ${onSite} saved to the site, ${local} only on this phone.`
+      : `${all.length} answers, all saved to the site, where the agent building the next batch reads them.`;
+    where.hidden = false;
+    exp.hidden = false;
+  }
+
+  function exportText() {
+    return records.filter((r) => r.transcript || r.typed).map((r) => {
+      const item = items.find((it) => it.id === r.track);
+      return `batch ${r.batch} · ${item ? item.title : r.track} · ${r.client_time}${r.synced ? "" : " (phone only)"}\n${[r.transcript, r.typed].filter(Boolean).join(" — ")}`;
+    }).join("\n\n");
+  }
+
   function showKey(msg) {
     keyLine.textContent = msg || (key
       ? "Answers save to the site."
@@ -207,6 +251,7 @@ function start(page) {
     saveLocal(records);
     showKey(note);
     showFeedback();
+    showWhere();
   }
 
   // Pull answers already on the site (another phone, an earlier session).
@@ -228,7 +273,8 @@ function start(page) {
   // Each step resolves early when Stop (or a skip) calls run.abort(). After
   // every await the loop checks run.cancelled.
 
-  function speak(text) {
+  async function speak(text) {
+    if (synth && !run?.cancelled) await forOutput();
     return new Promise((resolve) => {
       if (!synth || run?.cancelled) return resolve();
       let done = false;
@@ -263,7 +309,8 @@ function start(page) {
   // false if it never started. play() can stay pending indefinitely — Chrome
   // defers loading media in a tab that is not visible, and a dropped network
   // leaves it loading — so a watchdog decides instead of the promise.
-  function playTrack(i) {
+  async function playTrack(i) {
+    if (!run.cancelled) await forOutput();
     return new Promise((resolve) => {
       if (run.cancelled) return resolve(true);
       const item = items[i];
@@ -420,6 +467,8 @@ function start(page) {
           await speak(REMINDER);
           if (run.cancelled) return finish("stop", "stop");
           await cue(true);
+          await forInput();
+          if (finished || run.cancelled) return;
           openMic();
         }, REMIND_AFTER_MS);
       };
@@ -439,6 +488,12 @@ function start(page) {
       await cue(true);
       if (finished) return;
       if (run.cancelled) return finish("stop", "stop");
+      if (usable) {
+        state.textContent = `Track ${i + 1}: opening the mic…`;
+        await forInput();
+        if (finished) return;
+        if (run.cancelled) return finish("stop", "stop");
+      }
       state.textContent = usable ? `Track ${i + 1}: listening — say "next" when you're done` : `Track ${i + 1}: tap Done when you're ready`;
       openMic();
       armReminder();
@@ -470,7 +525,7 @@ function start(page) {
     document.addEventListener("visibilitychange", me.relock);
 
     claimButtons(true);
-    if (SR) await primeMic(me);
+    if (SR) { await forInput(); await primeMic(me); }
 
     state.textContent = `Batch ${n}`;
     await speak(batchIntro(n, items, groups, meta, startAt));
@@ -627,10 +682,22 @@ function start(page) {
     }
   }
 
+  $("rv-export").addEventListener("click", async (e) => {
+    e.preventDefault();
+    const text = exportText();
+    try {
+      if (navigator.share) await navigator.share({ title: `skrng answers`, text });
+      else { await navigator.clipboard.writeText(text); $("rv-export").textContent = "Copied"; }
+    } catch {
+      try { await navigator.clipboard.writeText(text); $("rv-export").textContent = "Copied"; } catch {}
+    }
+  });
+
   window.addEventListener("online", sync);
   showKey();
   idleLabel();
   showFeedback();
+  showWhere();
   btn.hidden = false;
   pull().then(() => { showFeedback(); idleLabel(); sync(); });
 }

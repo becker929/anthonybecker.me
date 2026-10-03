@@ -34,6 +34,11 @@ function speechStandIns(mic) {
   window.__spoken = [];
   window.__violations = [];
   window.__mic = { active: null, starts: 0 };
+  // Safari's audio session, faked: records the mode in force at each sound and
+  // each mic start, so the test can check a headset is never asked to play
+  // speech or a track in its call profile.
+  window.__session = { type: "auto", wrong: [] };
+  Object.defineProperty(navigator, "audioSession", { value: window.__session, configurable: true });
   class Utterance { constructor(text) { this.text = text; this.volume = 1; } }
   window.SpeechSynthesisUtterance = Utterance;
   const synth = {
@@ -42,6 +47,7 @@ function speechStandIns(mic) {
       if (u.text.trim()) {
         window.__spoken.push(u.text);
         if (window.__mic.active) window.__violations.push(`mic open while speaking: ${u.text}`);
+        if (window.__session.type !== "playback") window.__session.wrong.push(`speech in ${window.__session.type}: ${u.text}`);
       }
       this.speaking = true; this.cur = u;
       this.t = setTimeout(() => { this.speaking = false; u.onend && u.onend(); }, 20);
@@ -57,6 +63,7 @@ function speechStandIns(mic) {
   const play = HTMLMediaElement.prototype.play;
   HTMLMediaElement.prototype.play = function () {
     if (window.__mic.active && !this.muted) window.__violations.push("mic open while a track plays");
+    if (!this.muted && !String(this.src).startsWith("data:") && window.__session.type !== "playback") window.__session.wrong.push(`track in ${window.__session.type}`);
     return play.call(this);
   };
   if (!mic) {
@@ -68,6 +75,7 @@ function speechStandIns(mic) {
     start() {
       if (window.__mic.active) throw new Error("already started");
       window.__mic.active = this; window.__mic.starts += 1; this.results = []; this.interim = null;
+      if (window.__session.type !== "play-and-record") window.__session.wrong.push(`mic opened in ${window.__session.type}`);
       // Real recognisers take a while to report that they started (hundreds of
       // ms on a phone); answers and taps can land in that gap.
       setTimeout(() => this.onstart && this.onstart(), 200);
@@ -197,6 +205,10 @@ await step("server: one record per track, with the words as said", async () => {
 
 await step("the mic was never open while the page spoke or a track played", async () => {
   assert.deepEqual(await page.evaluate(() => window.__violations), []);
+});
+
+await step("audio session: speech and tracks in playback, the mic only in play-and-record", async () => {
+  assert.deepEqual(await page.evaluate(() => window.__session.wrong), []);
 });
 
 await step("resume: starts at the first unanswered track with its group intro; \"go back\" works", async () => {
