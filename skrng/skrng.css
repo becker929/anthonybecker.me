@@ -349,3 +349,61 @@ body {
   font-size: 0.85rem;
   opacity: 0.75;
 }
+
+/* Agent panel (agent.js) */
+.agent {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--fg) 15%, transparent);
+}
+.agent h2 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+.ag-status { margin: 0 0 0.25rem; }
+.ag-help, .job-when, .job-resume, .ag-ask label { font-size: 0.85rem; opacity: 0.75; }
+.ag-feedback, .ag-ask button {
+  font: inherit;
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-radius: 6px;
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
+  cursor: pointer;
+}
+.ag-feedback:disabled, .ag-ask button:disabled { opacity: 0.5; cursor: default; }
+.ag-jobs { list-style: none; padding: 0; margin: 1rem 0; }
+.ag-jobs li.empty { opacity: 0.6; }
+.job { border-bottom: 1px solid color-mix(in srgb, var(--fg) 10%, transparent); }
+.job-row {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0 0.75rem;
+  width: 100%;
+  padding: 0.6rem 0;
+  font: inherit;
+  text-align: left;
+  color: var(--fg);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.job-when { grid-column: 2; }
+.job-state { font-size: 0.85rem; font-weight: 600; }
+.job.running .job-state, .job.queued .job-state { opacity: 0.8; }
+.job.failed .job-state { text-decoration: underline; }
+.job-detail { padding: 0 0 0.75rem; overflow-wrap: anywhere; }
+.job-result, .job-error { white-space: pre-wrap; margin: 0 0 0.5rem; }
+.job-steps { font-size: 0.8rem; opacity: 0.75; padding-left: 1.2rem; }
+.job-resume code { font-size: 0.8rem; }
+.ag-ask { margin-top: 1rem; }
+.ag-ask label { display: block; margin-bottom: 0.3rem; }
+.ag-ask-row { display: flex; gap: 0.5rem; }
+.ag-ask-row input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 0.45rem 0.6rem;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--fg) 25%, transparent);
+  border-radius: 6px;
+}
+.ag-answer { white-space: pre-wrap; padding: 0.75rem; border-radius: 6px; background: color-mix(in srgb, var(--fg) 7%, transparent); }

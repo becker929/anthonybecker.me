@@ -42,6 +42,18 @@
       <li class="empty">Loading…</li>
     </ul>
     <nav class="batch-nav" id="batch-nav"></nav>
+    <section class="agent" id="agent" hidden>
+      <h2 id="jobs">Agent</h2>
+      <p class="ag-status" id="ag-status" aria-live="polite">Checking the Mac…</p>
+      <p class="ag-help">A finished voice review starts a Claude Code job on the Mac that reads your answers and acts on them. You get a notification when it starts and when it is done; the result stays here.</p>
+      <button type="button" class="ag-feedback" id="ag-feedback" disabled>Start a job from this batch's answers</button>
+      <ul class="ag-jobs" id="ag-jobs"></ul>
+      <form class="ag-ask" id="ag-ask">
+        <label for="ag-q">Ask about this batch (read-only, answers in under two minutes)</label>
+        <div class="ag-ask-row"><input id="ag-q" type="text" autocomplete="off" enterkeyhint="send"><button type="submit" disabled>Ask</button></div>
+      </form>
+      <p class="ag-answer" id="ag-answer" aria-live="polite" hidden></p>
+    </section>
     <audio id="seq" preload="none"></audio>
     <audio id="rv-audio" preload="none"></audio>
   </main>
@@ -305,5 +317,6 @@
       });
   </script>
   <script type="module" src="review.js"></script>
+  <script type="module" src="agent.js"></script>
 </body>
 </html>

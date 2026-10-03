@@ -13,7 +13,7 @@ not_found_handling = "404-page"
 # one part of this system meant to be reachable with no password), so they
 # need their own entry or every card-battler demo silently falls back to
 # its fixed placeholder deck with no error anywhere.
-run_worker_first = ["/studio-c33f3ea406426b41*", "/private/c33f3ea406426b41/*", "/api/battler-cards*", "/audio*", "/api/listen*", "/api/skrng*"]
+run_worker_first = ["/studio-c33f3ea406426b41*", "/private/c33f3ea406426b41/*", "/api/battler-cards*", "/audio*", "/api/listen*", "/api/skrng*", "/api/rig*", "/api/rpc*"]
 
 # Trading-card design system storage (see private/c33f3ea406426b41/cards/).
 [[d1_databases]]
@@ -40,3 +40,13 @@ bucket_name = "anthonybecker-audio"
 [[kv_namespaces]]
 binding = "AUDIO_KV"
 id = "49b4801f51cb441ea636c619a75f12c8"
+
+# Browser -> Mac RPC broker (src/rig.js). The Mac's harness holds one
+# WebSocket to it; /api/rpc calls are forwarded down that socket.
+[[durable_objects.bindings]]
+name = "RIG"
+class_name = "RigBroker"
+
+[[migrations]]
+tag = "v1-rig"
+new_sqlite_classes = ["RigBroker"]
