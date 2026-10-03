@@ -110,10 +110,22 @@ function speechStandIns(mic) {
   };
 }
 
+const rpcCalls = [];
 const browser = await chromium.launch({ args: ["--autoplay-policy=no-user-gesture-required"] });
 async function newPage(mic) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
   await ctx.route("**/audio/skrng/**", (route) => route.fulfill({ status: 200, contentType: "audio/wav", body: wavBytes() }));
+  // The Mac end of /api/rpc (src/rig.js has its own tests): record each call.
+  await ctx.route("**/api/rpc", async (route) => {
+    const call = JSON.parse(route.request().postData() || "{}");
+    rpcCalls.push(call);
+    const result = {
+      ping: { ok: true, running: null, queued: 0 },
+      jobs: { jobs: [] },
+      feedback: { job_id: "job-1", status: "queued" },
+    }[call.method];
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ result }) });
+  });
   await ctx.addInitScript(speechStandIns, mic);
   const page = await ctx.newPage();
   page.errors = [];
@@ -186,7 +198,7 @@ await step("\"stop\" ends the review and says where it stopped", async () => {
   await say(page, "stop");
   await page.waitForSelector("#review:not([hidden])", { timeout: 15000 });
   const s = await spoken(page);
-  assert.equal(s[s.length - 1], "Stopped after track 4. 3 of 10 answered, and saved.");
+  assert.equal(s[s.length - 1], "Stopped after track 4. 3 of 10 answered, and saved. Sent to the agent. You will get a notification when it starts and when it is done.");
   assert.match(await page.textContent("#review"), /Resume voice review at track 5/);
 });
 
@@ -201,6 +213,13 @@ await step("server: one record per track, with the words as said", async () => {
   ]);
   assert.ok(recs.every((r) => r.stt === "speech" && r.session === recs[0].session));
   assert.equal(await page.locator(".renders .fb p").count(), 3);
+});
+
+await step("agent: the finished review started one job for its batch, after its answers were saved", async () => {
+  const jobs = rpcCalls.filter((c) => c.method === "feedback");
+  assert.equal(jobs.length, 1);
+  assert.equal(jobs[0].params.batch, 4.1);
+  assert.match(await page.textContent("#ag-status"), /online/);
 });
 
 await step("the mic was never open while the page spoke or a track played", async () => {

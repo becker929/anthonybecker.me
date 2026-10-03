@@ -602,7 +602,14 @@ function start(page) {
     const wasTapStop = me.tapStopped;
     if (wasTapStop && stoppedAfter == null && i > startAt) stoppedAfter = i - 1;
     me.cancelled = false; // allow the closing line to be spoken
-    const words = closing(n, answered, items.length - startAt, stoppedAfter);
+    let words = closing(n, answered, items.length - startAt, stoppedAfter);
+    // Answers given: start a Claude Code job on the Mac that acts on them
+    // (agent.js). Every answer reaches the site first, so the job reads them all.
+    if (answered && key && window.skrngAgent) {
+      await sync();
+      if (records.some((r) => r.batch === n && !r.synced)) words += " Some answers are not on the site yet, so no job started.";
+      else words += " " + (await window.skrngAgent.fromFeedback(n, session)).text;
+    }
     state.textContent = words;
     if (!wasTapStop) await speak(words);
     me.cancelled = true;

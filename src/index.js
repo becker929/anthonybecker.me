@@ -17,6 +17,9 @@ import {
 import { handleAudioPage, handleAudioLatest, handleAudioLatestUpdate, handleAudioFile } from "./audio.js";
 import { handleListenSubmit, handleListenExport } from "./listen.js";
 import { handleSkrngFeedbackSubmit, handleSkrngFeedbackList } from "./skrng.js";
+import { handleRigConnect, handleRpc } from "./rig.js";
+
+export { RigBroker } from "./rig.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
@@ -430,6 +433,10 @@ export default {
     if (path === "/api/skrng/feedback" && request.method === "GET") {
       return handleSkrngFeedbackList(request, env);
     }
+
+    // Browser -> Mac RPC (see src/rig.js). The Mac dials in; nothing on it listens.
+    if (path === "/api/rig/connect" && request.method === "GET") return handleRigConnect(request, env);
+    if (path === "/api/rpc" && request.method === "POST") return handleRpc(request, env);
 
     if (path === BASE) {
       return Response.redirect(`${url.origin}${BASE}/`, 301);
