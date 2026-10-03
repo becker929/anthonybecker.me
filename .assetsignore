@@ -11,3 +11,5 @@ wrangler.toml
 /src/
 /d1/
 /e2e/
+# Lets Node tests import skrng/*.js as ES modules; not site content.
+/skrng/package.json
