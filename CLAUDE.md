@@ -136,6 +136,11 @@ pushes build preview versions only. Things learned the hard way:
   checkout of the merged `main` commit is the same deploy Workers Builds
   runs (`--dry-run` first to confirm bindings). A build that fires later
   redeploys identical content.
+- **A new Durable Object class fails the branch build.** Preview versions
+  (`wrangler versions upload`) cannot apply a `[[migrations]]` entry, so the
+  PR that added `RigBroker` (v1-rig) failed its branch build by design; the
+  production build on `main` runs `wrangler deploy`, which applies it. Expect
+  the same for any later migration tag.
 - **Don't delete a merged branch until its builds finish.** A queued build
   that clones by branch name fails at the clone step once the branch is gone.
 - **Keep audio and other large media out of git.** Every build clones the
