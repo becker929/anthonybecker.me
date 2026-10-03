@@ -59,8 +59,10 @@ function start(page) {
     if (!key()) { status.textContent = "No key on this device: open the page once with your key link to use the agent."; return false; }
     const r = await rpc("ping");
     if (r.error) { status.textContent = r.status === 503 ? "The Mac is offline. Jobs start when it reconnects; your answers are kept on the site." : r.error; return false; }
-    const { running, queued } = r.result;
-    status.textContent = `The Mac is online${running ? ", running a job" : ""}${queued ? `, ${queued} waiting` : ""}.`;
+    const { running, queued, signed_in: signedIn } = r.result;
+    status.textContent = signedIn === false
+      ? "The Mac is online, but Claude Code is not signed in for jobs yet (claude setup-token on the Mac)."
+      : `The Mac is online${running ? ", running a job" : ""}${queued ? `, ${queued} waiting` : ""}.`;
     return true;
   }
 
