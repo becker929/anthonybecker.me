@@ -1,14 +1,14 @@
 [
   {
-    "id": "2026-10-06-hw002-b5-01-kick-distortion-r1",
+    "id": "2026-10-06-hw002-b5-01-kick-distortion-r51",
     "batch": 5,
     "title": "HW002 — Kick distortion: before and after, 24 s",
     "date": "2026-10-06",
-    "file": "/audio/skrng/2026-10-06-hw002-b5-01-kick-distortion-r1.mp3",
+    "file": "/audio/skrng/2026-10-06-hw002-b5-01-kick-distortion-r51.mp3",
     "duration_s": 24.6,
     "bpm": 160,
-    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Kick bus, mono, clean below 186 Hz: 1.4 dB lift at 2152 Hz into 1.2 dB of drive, low-passed at 16.5 kHz, 22% blended. 2 kHz band: -25.9 dB to -25.8 dB (references -20.7 dB to -17.6 dB). Peak density (block crest): 8.4 dB to 8.4 dB (references 4.4 dB to 6.6 dB). Score -2.45, found in round 1. Still climbing. Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-01-kick-distortion-r1.mp3"
+    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Kick bus, mono, clean below 60 Hz: 12.0 dB lift at 1584 Hz into 23.4 dB of drive, low-passed at 12.1 kHz, 100% blended. 2 kHz band: -25.9 dB to -20.6 dB (references -20.7 dB to -17.6 dB). Peak density (block crest): 8.4 dB to 7.9 dB (references 4.4 dB to 6.6 dB). Score -1.05, found in round 51. Still climbing. Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-01-kick-distortion-r51.mp3"
   },
   {
     "id": "2026-10-06-hw002-b5-02-drop-power-r14",
@@ -22,59 +22,59 @@
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-02-drop-power-r14.mp3"
   },
   {
-    "id": "2026-10-06-hw002-b5-03-deep-sub-r24",
+    "id": "2026-10-06-hw002-b5-03-deep-sub-r73",
     "batch": 5,
     "title": "HW002 — Deep sub: before and after, 24 s",
     "date": "2026-10-06",
-    "file": "/audio/skrng/2026-10-06-hw002-b5-03-deep-sub-r24.mp3",
+    "file": "/audio/skrng/2026-10-06-hw002-b5-03-deep-sub-r73.mp3",
     "duration_s": 24.6,
     "bpm": 160,
-    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Kick bus: +8.0 dB at 29 Hz (Q 1.5), -1.3 dB at 79 Hz. 31.5 Hz band: -34.1 dB to -27.7 dB (references -27.6 dB to -22.6 dB). 40 Hz band: -22.9 dB to -19.7 dB (references -20.5 dB to -11.9 dB). Score -0.58, found in round 24. Still climbing. Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-03-deep-sub-r24.mp3"
+    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Kick bus: +8.7 dB at 29 Hz (Q 1.5), -1.2 dB at 75 Hz. 31.5 Hz band: -34.1 dB to -27.5 dB (references -27.6 dB to -22.6 dB). 40 Hz band: -22.9 dB to -19.8 dB (references -20.5 dB to -11.9 dB). Score -0.49, found in round 73. Plateaued after 83 rounds. Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-03-deep-sub-r73.mp3"
   },
   {
-    "id": "2026-10-06-hw002-b5-04-mono-low-end-r28",
+    "id": "2026-10-06-hw002-b5-04-mono-low-end-r37",
     "batch": 5,
     "title": "HW002 — Mono low end: before and after, 24 s",
     "date": "2026-10-06",
-    "file": "/audio/skrng/2026-10-06-hw002-b5-04-mono-low-end-r28.mp3",
+    "file": "/audio/skrng/2026-10-06-hw002-b5-04-mono-low-end-r37.mp3",
     "duration_s": 24.6,
     "bpm": 160,
-    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Mix: the side signal is turned down 60 dB below 136 Hz. Low-end correlation: 0.876 to 1.000 (references 0.987 to 1.000). Low-end side: -11.8 dB to -37.0 dB (references -45.0 dB to -21.9 dB). Score -0.59, found in round 28. Still climbing. Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-04-mono-low-end-r28.mp3"
+    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Mix: the side signal is turned down 60 dB below 136 Hz. Low-end correlation: 0.876 to 1.000 (references 0.987 to 1.000). Low-end side: -11.8 dB to -37.0 dB (references -45.0 dB to -21.9 dB). Score -0.59, found in round 37. Plateaued after 47 rounds. Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-04-mono-low-end-r37.mp3"
   },
   {
-    "id": "2026-10-06-hw002-b5-05-colour-r29",
+    "id": "2026-10-06-hw002-b5-05-colour-r51",
     "batch": 5,
     "title": "HW002 — Colour: before and after, 24 s",
     "date": "2026-10-06",
-    "file": "/audio/skrng/2026-10-06-hw002-b5-05-colour-r29.mp3",
+    "file": "/audio/skrng/2026-10-06-hw002-b5-05-colour-r51.mp3",
     "duration_s": 24.6,
     "bpm": 160,
-    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Mix EQ: +6.0 dB at 1528 Hz (Q 0.6), -1.0 dB at 163 Hz, high shelf -4.9 dB from 5.7 kHz. 2 kHz band: -25.9 dB to -20.3 dB (references -20.7 dB to -17.6 dB). 10 kHz band: -22.4 dB to -26.4 dB (references -29.4 dB to -22.5 dB). Spectral centroid: 4623 Hz to 3515 Hz (references 2691 Hz to 3844 Hz). Score -0.36, found in round 29. Still climbing. Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-05-colour-r29.mp3"
+    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Mix EQ: +6.0 dB at 1569 Hz (Q 0.5), -1.1 dB at 184 Hz, high shelf -4.8 dB from 5.5 kHz. 2 kHz band: -25.9 dB to -20.2 dB (references -20.7 dB to -17.6 dB). 10 kHz band: -22.4 dB to -26.3 dB (references -29.4 dB to -22.5 dB). Spectral centroid: 4623 Hz to 3534 Hz (references 2691 Hz to 3844 Hz). Score -0.34, found in round 51. Plateaued after 61 rounds. Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-05-colour-r51.mp3"
   },
   {
-    "id": "2026-10-06-hw002-b5-06-space-r26",
+    "id": "2026-10-06-hw002-b5-06-space-r52",
     "batch": 5,
     "title": "HW002 — Space: before and after, 24 s",
     "date": "2026-10-06",
-    "file": "/audio/skrng/2026-10-06-hw002-b5-06-space-r26.mp3",
+    "file": "/audio/skrng/2026-10-06-hw002-b5-06-space-r52.mp3",
     "duration_s": 24.6,
     "bpm": 160,
-    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Perc bus: reverb (size 0.74, damping 0.45, wet 26%), side lifted 0.0 dB above 500 Hz. 2-8 kHz correlation: 0.58 to 0.53 (references 0.30 to 0.74). 2-8 kHz side: -5.7 dB to -5.1 dB (references -8.3 dB to -2.7 dB). Score -0.28, found in round 26. Still climbing. Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-06-space-r26.mp3"
+    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Perc bus: reverb (size 0.72, damping 0.51, wet 29%), side lifted 0.0 dB above 518 Hz. 2-8 kHz correlation: 0.58 to 0.52 (references 0.30 to 0.74). 2-8 kHz side: -5.7 dB to -5.0 dB (references -8.3 dB to -2.7 dB). Score -0.27, found in round 52. Plateaued after 62 rounds. Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-06-space-r52.mp3"
   },
   {
-    "id": "2026-10-06-hw002-b5-07-all-six-r1-14-24-28-29-26",
+    "id": "2026-10-06-hw002-b5-07-all-six-r51-14-73-37-51-52",
     "batch": 5,
     "title": "HW002 — All six together: before and after, 24 s",
     "date": "2026-10-06",
-    "file": "/audio/skrng/2026-10-06-hw002-b5-07-all-six-r1-14-24-28-29-26.mp3",
+    "file": "/audio/skrng/2026-10-06-hw002-b5-07-all-six-r51-14-73-37-51-52.mp3",
     "duration_s": 24.6,
     "bpm": 160,
-    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Every change at once, stacked in mix order. Nothing was tuned for the combination. Block crest: 8.4 dB to 8.1 dB (references 4.4 dB to 6.6 dB). 2 kHz band: -25.9 dB to -19.9 dB (references -20.7 dB to -17.6 dB). 31.5 Hz band: -34.1 dB to -27.2 dB (references -27.6 dB to -22.6 dB). Low-end correlation: 0.876 to 1.000 (references 0.987 to 1.000). Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-07-all-six-r1-14-24-28-29-26.mp3"
+    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Every change at once, stacked in mix order. Nothing was tuned for the combination. Block crest: 8.4 dB to 8.7 dB (references 4.4 dB to 6.6 dB). 2 kHz band: -25.9 dB to -15.0 dB (references -20.7 dB to -17.6 dB). 31.5 Hz band: -34.1 dB to -26.2 dB (references -27.6 dB to -22.6 dB). Low-end correlation: 0.876 to 1.000 (references 0.987 to 1.000). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-07-all-six-r51-14-73-37-51-52.mp3"
   },
   {
     "id": "2026-10-06-hw002-b44-01-steps-every-4-bars-30s",
