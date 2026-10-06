@@ -90,5 +90,11 @@
     "title": "Batch 7.2 — Drop power: 6 versions against the references (6 Oct)",
     "notes": "6 versions of the drop, rendered in Live: the original, then the kick group Compressor, threshold from 0 to -30 dB while the ratio goes from 1.5:1 to 12:1. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (block crest 4.4 dB to 6.6 dB; transient contrast 3.9 dB to 5.6 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: block crest 7.9 dB to 13.9 dB. The batch 6 climb (3 rounds of 31 settings) found no setting nearer the references than the original, beyond the measurement noise.",
     "ordered": true
+  },
+  {
+    "n": 7.3,
+    "title": "Batch 7.3 — Deep sub: 6 versions against the references (6 Oct)",
+    "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (31.5 Hz band -27.6 dB to -22.6 dB; 40 Hz band -20.5 dB to -11.9 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 31.5 Hz band -34.0 dB to -25.4 dB; 40 Hz band -22.3 dB to -17.9 dB. The batch 6 climb's best version is in batch 6.",
+    "ordered": true
   }
 ]
