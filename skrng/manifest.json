@@ -132,6 +132,83 @@
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-2-drop-power-1536-v6.mp3"
   },
   {
+    "id": "2026-10-06-hw002-b7-3-deep-sub-1542-v1",
+    "batch": 7.3,
+    "title": "HW002 — Deep sub 1 (original): 31.5 Hz 7.0 dB under the references, 40 Hz 2.3 dB under",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-3-deep-sub-1542-v1.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "The set as mixed. Measured at -14 LUFS: 31.5 Hz band -34.5 dB (references -27.6 dB to -22.6 dB). 40 Hz band -22.8 dB (references -20.5 dB to -11.9 dB). 7 bars of the drop, rendered in Live (sweep pattern 0). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-3-deep-sub-1542-v1.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-3-deep-sub-1542-v2",
+    "batch": 7.3,
+    "title": "HW002 — Deep sub 2: 31.5 Hz 6.4 dB under the references, 40 Hz 1.8 dB under",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-3-deep-sub-1542-v2.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "0.08 times the change the batch 6 climb found (1.00 is its best): EQ Eight on kick, band 4: 126 Hz → 119 Hz; EQ Eight on S01 kick group, band 1: -14.8 dB → -13.2 dB; second EQ Eight on S01 kick group, band 1: -4.3 dB → -4.0 dB; EQ Eight on rumble, band 1: -14.3 dB → -12.9 dB. Measured at -14 LUFS: 31.5 Hz band -34.0 dB (references -27.6 dB to -22.6 dB). 40 Hz band -22.3 dB (references -20.5 dB to -11.9 dB). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-3-deep-sub-1542-v2.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-3-deep-sub-1542-v3",
+    "batch": 7.3,
+    "title": "HW002 — Deep sub 3: 31.5 Hz 3.2 dB under the references, 40 Hz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-3-deep-sub-1542-v3.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "0.65 times the change the batch 6 climb found (1.00 is its best): EQ Eight on kick, band 4: 126 Hz → 76 Hz; EQ Eight on S01 kick group, band 1: -14.8 dB → -2.2 dB; second EQ Eight on S01 kick group, band 1: -4.3 dB → -1.4 dB; EQ Eight on rumble, band 1: -14.3 dB → -3.1 dB. Measured at -14 LUFS: 31.5 Hz band -30.7 dB (references -27.6 dB to -22.6 dB). 40 Hz band -20.2 dB (references -20.5 dB to -11.9 dB). 7 bars of the drop, rendered in Live (sweep pattern 8). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-3-deep-sub-1542-v3.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-3-deep-sub-1542-v4",
+    "batch": 7.3,
+    "title": "HW002 — Deep sub 4: 31.5 Hz within the references' range, 40 Hz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-3-deep-sub-1542-v4.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "1.29 times the change the batch 6 climb found (1.00 is its best): EQ Eight on kick, band 4: 126 Hz → 45 Hz; EQ Eight on S01 kick group, band 1: -14.8 dB → +6.0 dB; second EQ Eight on S01 kick group, band 1: -4.3 dB → +1.5 dB; EQ Eight on rumble, band 1: -14.3 dB → +6.0 dB. Measured at -14 LUFS: 31.5 Hz band -27.3 dB (references -27.6 dB to -22.6 dB). 40 Hz band -19.0 dB (references -20.5 dB to -11.9 dB). 7 bars of the drop, rendered in Live (sweep pattern 16). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-3-deep-sub-1542-v4.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-3-deep-sub-1542-v5",
+    "batch": 7.3,
+    "title": "HW002 — Deep sub 5: 31.5 Hz within the references' range, 40 Hz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-3-deep-sub-1542-v5.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "1.94 times the change the batch 6 climb found (1.00 is its best): EQ Eight on kick, band 4: 126 Hz → 27 Hz; EQ Eight on S01 kick group, band 1: -14.8 dB → +6.0 dB; second EQ Eight on S01 kick group, band 1: -4.3 dB → +4.5 dB; EQ Eight on rumble, band 1: -14.3 dB → +6.0 dB. Measured at -14 LUFS: 31.5 Hz band -26.0 dB (references -27.6 dB to -22.6 dB). 40 Hz band -18.2 dB (references -20.5 dB to -11.9 dB). 7 bars of the drop, rendered in Live (sweep pattern 24). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-3-deep-sub-1542-v5.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-3-deep-sub-1542-v6",
+    "batch": 7.3,
+    "title": "HW002 — Deep sub 6: 31.5 Hz within the references' range, 40 Hz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-3-deep-sub-1542-v6.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "2.42 times the change the batch 6 climb found (1.00 is its best): EQ Eight on kick, band 4: 126 Hz → 20 Hz; EQ Eight on S01 kick group, band 1: -14.8 dB → +6.0 dB; second EQ Eight on S01 kick group, band 1: -4.3 dB → +6.0 dB; EQ Eight on rumble, band 1: -14.3 dB → +6.0 dB. Closest of the sweep to the references. Measured at -14 LUFS: 31.5 Hz band -25.4 dB (references -27.6 dB to -22.6 dB). 40 Hz band -17.9 dB (references -20.5 dB to -11.9 dB). 7 bars of the drop, rendered in Live (sweep pattern 30). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-3-deep-sub-1542-v6.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b6-03-deep-sub-r0",
+    "batch": 6,
+    "title": "HW002 — Deep sub, in Live: before and after, 21 s",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b6-03-deep-sub-r0.mp3",
+    "duration_s": 21.6,
+    "bpm": 160,
+    "notes": "The drop of the canonical shape, 7 bars: first as mixed, then with the change. Both rendered in Live; both halves at -14 LUFS. Changed: EQ Eight on kick, band 4: 126 Hz → 57 Hz; EQ Eight on S01 kick group, band 1: -14.8 dB → +4.8 dB; second EQ Eight on S01 kick group, band 1: -4.3 dB → +0.2 dB; EQ Eight on rumble, band 1: -14.3 dB → +3.0 dB. 31.5 Hz band: -34.5 dB to -28.3 dB (references -27.6 dB to -22.6 dB). 40 Hz band: -22.8 dB to -19.2 dB (references -20.5 dB to -11.9 dB). Score -0.42 (original -1.88), found in round 1. Plateaued after 4 rounds. Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b6-03-deep-sub-r0.mp3"
+  },
+  {
     "id": "2026-10-06-hw002-b5-01-kick-distortion-r51",
     "batch": 5,
     "title": "HW002 — Kick distortion: before and after, 24 s",
