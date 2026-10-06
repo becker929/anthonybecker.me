@@ -54,5 +54,17 @@
     "title": "Batch 4.2 — the wuh, the silence and the drop on the grid; a louder drop (2 Oct)",
     "notes": "Tracks 1–6 try different grids for the beatbox wuh, the silence and the kick: the wuh on the bar, wuh plus 8th or 16th chops of its last part, a long wuh from bar 11, a long wuh plus chops, and a 2-beat silence. The breakdown sounds stay in, 4 dB quieter so the drop stands out (6 dB in track 7). Splash: 8 beats at the drop, 3 beats on later section downbeats. Tracks 8 and 10 stop the hats at three layers. Tracks 9–10 open on a 4-bar scoop kick.",
     "ordered": true
+  },
+  {
+    "n": 4.3,
+    "title": "Batch 4.3 — fewer splashes (6 Oct)",
+    "notes": "Four versions that change only the splashes. Kick, rumble, splash and hats play. Each one starts on the scooped kick. Batch 4.2 had a splash on every section. Here there are fewer of them, or only short ones.",
+    "ordered": true
+  },
+  {
+    "n": 4.4,
+    "title": "Batch 4.4 — the hats (6 Oct)",
+    "notes": "Five versions that change only the hats. Kick, rumble and hats play, with no splashes. Tracks one and two are batch 4's numbers 7 and 9. Tracks three to five leave out the quiet ride.",
+    "ordered": true
   }
 ]
