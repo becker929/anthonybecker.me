@@ -1,5 +1,71 @@
 [
   {
+    "id": "2026-10-06-hw002-b7-1-kick-distortion-1530-v1",
+    "batch": 7.1,
+    "title": "HW002 — Kick distortion 1 (original): 2 kHz 6.1 dB under the references, crest 1.3 dB over",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-1-kick-distortion-1530-v1.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "The set as mixed. Measured at -14 LUFS: 2 kHz band -26.8 dB (references -20.7 dB to -17.6 dB). Block crest 8.0 dB (references 4.4 dB to 6.6 dB). 7 bars of the drop, rendered in Live (sweep pattern 0). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-1-kick-distortion-1530-v1.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-1-kick-distortion-1530-v2",
+    "batch": 7.1,
+    "title": "HW002 — Kick distortion 2: 2 kHz 4.8 dB under the references, crest 2.4 dB over",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-1-kick-distortion-1530-v2.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "Changed: Decapitator on rumble: Drive 27% → 0%; Dist COLDFIRE on S01 kick group: Distortion A Drive 12% → 0%. Measured at -14 LUFS: 2 kHz band -25.5 dB (references -20.7 dB to -17.6 dB). Block crest 9.0 dB (references 4.4 dB to 6.6 dB). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-1-kick-distortion-1530-v2.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-1-kick-distortion-1530-v3",
+    "batch": 7.1,
+    "title": "HW002 — Kick distortion 3: 2 kHz 6.8 dB under the references, crest 0.8 dB over",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-1-kick-distortion-1530-v3.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "Changed: Decapitator on rumble: Drive 27% → 37%; Dist COLDFIRE on S01 kick group: Distortion A Drive 12% → 37%. Closest of the sweep to the references. Measured at -14 LUFS: 2 kHz band -27.5 dB (references -20.7 dB to -17.6 dB). Block crest 7.4 dB (references 4.4 dB to 6.6 dB). 7 bars of the drop, rendered in Live (sweep pattern 12). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-1-kick-distortion-1530-v3.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-1-kick-distortion-1530-v4",
+    "batch": 7.1,
+    "title": "HW002 — Kick distortion 4: 2 kHz 7.8 dB under the references, crest 0.6 dB over",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-1-kick-distortion-1530-v4.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "Changed: Decapitator on rumble: Drive 27% → 50%; Dist COLDFIRE on S01 kick group: Distortion A Drive 12% → 50%. Measured at -14 LUFS: 2 kHz band -28.5 dB (references -20.7 dB to -17.6 dB). Block crest 7.3 dB (references 4.4 dB to 6.6 dB). 7 bars of the drop, rendered in Live (sweep pattern 16). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-1-kick-distortion-1530-v4.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-1-kick-distortion-1530-v5",
+    "batch": 7.1,
+    "title": "HW002 — Kick distortion 5: 2 kHz 9.4 dB under the references, crest 0.4 dB over",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-1-kick-distortion-1530-v5.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "Changed: Decapitator on rumble: Drive 27% → 77%; Dist COLDFIRE on S01 kick group: Distortion A Drive 12% → 77%. Measured at -14 LUFS: 2 kHz band -30.1 dB (references -20.7 dB to -17.6 dB). Block crest 7.0 dB (references 4.4 dB to 6.6 dB). 7 bars of the drop, rendered in Live (sweep pattern 24). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-1-kick-distortion-1530-v5.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-1-kick-distortion-1530-v6",
+    "batch": 7.1,
+    "title": "HW002 — Kick distortion 6: 2 kHz 9.9 dB under the references, crest 0.4 dB over",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-1-kick-distortion-1530-v6.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "Changed: Decapitator on rumble: Drive 27% → 100%; Dist COLDFIRE on S01 kick group: Distortion A Drive 12% → 100%. Measured at -14 LUFS: 2 kHz band -30.6 dB (references -20.7 dB to -17.6 dB). Block crest 7.0 dB (references 4.4 dB to 6.6 dB). 7 bars of the drop, rendered in Live (sweep pattern 31). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-1-kick-distortion-1530-v6.mp3"
+  },
+  {
     "id": "2026-10-06-hw002-b5-01-kick-distortion-r51",
     "batch": 5,
     "title": "HW002 — Kick distortion: before and after, 24 s",
