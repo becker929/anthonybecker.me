@@ -102,5 +102,11 @@
     "title": "Batch 7.4 — Mono low end: 6 versions against the references (6 Oct)",
     "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (low-end correlation 0.987 to 1.000; low-end side -45.0 dB to -21.9 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: low-end correlation 0.874 to 1.000; low-end side -11.7 dB to -47.7 dB. The batch 6 climb's best version is in batch 6.",
     "ordered": true
+  },
+  {
+    "n": 7.5,
+    "title": "Batch 7.5 — Colour: 6 versions against the references (6 Oct)",
+    "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (spectral centroid 2691 Hz to 3844 Hz; 10 kHz band -29.4 dB to -22.5 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: spectral centroid 3922 Hz to 3460 Hz; 10 kHz band -25.9 dB to -26.9 dB. The batch 6 climb's best version is in batch 6.",
+    "ordered": true
   }
 ]

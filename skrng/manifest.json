@@ -216,7 +216,7 @@
     "file": "/audio/skrng/2026-10-06-hw002-b7-4-mono-low-end-1548-v2.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "0.08 times the change the batch 6 climb found (1.00 is its best): Utility on Main: Bass Mono below 120 Hz → 123 Hz; Utility on rumble: width 88% → 88%. Measured at -14 LUFS: Low-end correlation 0.874 (references 0.987 to 1.000). Low-end side -11.7 dB (references -45.0 dB to -21.9 dB). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
+    "notes": "0.08 times the change the batch 6 climb found (1.00 is its best): Utility on Main: Bass Mono below 120 Hz → 123 Hz. Measured at -14 LUFS: Low-end correlation 0.874 (references 0.987 to 1.000). Low-end side -11.7 dB (references -45.0 dB to -21.9 dB). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-4-mono-low-end-1548-v2.mp3"
   },
   {
@@ -264,6 +264,72 @@
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-4-mono-low-end-1548-v6.mp3"
   },
   {
+    "id": "2026-10-06-hw002-b7-5-colour-1559-v1",
+    "batch": 7.5,
+    "title": "HW002 — Colour 1 (original): centroid 84 Hz over the references, 10 kHz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v1.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "The set as mixed. Measured at -14 LUFS: 2 kHz band -26.8 dB (references -20.7 dB to -17.6 dB). 10 kHz band -26.1 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3928 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 0). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v1.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-5-colour-1559-v2",
+    "batch": 7.5,
+    "title": "HW002 — Colour 2: centroid 78 Hz over the references, 10 kHz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v2.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "0.08 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 547 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +6.0 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -1.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +0.3 dB; EQ Eight on perc 2, band 4: +0.0 dB → -0.2 dB; EQ Eight on rumble, band 4: +0.0 dB → -0.5 dB. Measured at -14 LUFS: 2 kHz band -26.2 dB (references -20.7 dB to -17.6 dB). 10 kHz band -25.9 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3922 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v2.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-5-colour-1559-v3",
+    "batch": 7.5,
+    "title": "HW002 — Colour 3: centroid 51 Hz over the references, 10 kHz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v3.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "0.65 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 1280 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +7.0 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -7.5 dB; EQ Eight on perc 2, band 3: +0.0 dB → +2.6 dB; EQ Eight on perc 2, band 4: +0.0 dB → -1.5 dB; EQ Eight on rumble, band 4: +0.0 dB → -4.4 dB. Measured at -14 LUFS: 2 kHz band -23.1 dB (references -20.7 dB to -17.6 dB). 10 kHz band -25.2 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3895 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 8). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v3.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-5-colour-1559-v4",
+    "batch": 7.5,
+    "title": "HW002 — Colour 4: centroid within the references' range, 10 kHz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v4.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "1.29 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 3382 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +8.1 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +5.2 dB; EQ Eight on perc 2, band 4: +0.0 dB → -3.0 dB; EQ Eight on rumble, band 4: +0.0 dB → -8.8 dB. Measured at -14 LUFS: 2 kHz band -21.5 dB (references -20.7 dB to -17.6 dB). 10 kHz band -25.4 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3838 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 16). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v4.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-5-colour-1559-v5",
+    "batch": 7.5,
+    "title": "HW002 — Colour 5: centroid within the references' range, 10 kHz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v5.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "1.94 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 4000 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +9.2 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +7.8 dB; EQ Eight on perc 2, band 4: +0.0 dB → -4.5 dB; EQ Eight on rumble, band 4: +0.0 dB → -12.0 dB. Measured at -14 LUFS: 2 kHz band -21.0 dB (references -20.7 dB to -17.6 dB). 10 kHz band -26.3 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3611 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 24). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v5.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b7-5-colour-1559-v6",
+    "batch": 7.5,
+    "title": "HW002 — Colour 6: centroid within the references' range, 10 kHz in range",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v6.mp3",
+    "duration_s": 10.5,
+    "bpm": 160,
+    "notes": "2.34 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 4000 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +9.9 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +9.4 dB; EQ Eight on perc 2, band 4: +0.0 dB → -5.5 dB; EQ Eight on rumble, band 4: +0.0 dB → -12.0 dB. Closest of the sweep to the references. Measured at -14 LUFS: 2 kHz band -20.8 dB (references -20.7 dB to -17.6 dB). 10 kHz band -26.9 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3460 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 29). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v6.mp3"
+  },
+  {
     "id": "2026-10-06-hw002-b6-03-deep-sub-r0",
     "batch": 6,
     "title": "HW002 — Deep sub, in Live: before and after, 21 s",
@@ -284,6 +350,17 @@
     "bpm": 160,
     "notes": "The drop of the canonical shape, 7 bars: first as mixed, then with the change. Both rendered in Live; both halves at -14 LUFS. Changed: Utility on Main: Bass Mono off → on; Utility on Main: Bass Mono below 120 Hz → 169 Hz; Utility on rumble: Bass Mono off → on; Utility on rumble: width 88% → 96%. Low-end correlation: 0.878 to 0.999 (references 0.987 to 1.000). Low-end side: -11.9 dB to -35.8 dB (references -45.0 dB to -21.9 dB). Score -0.15 (original -2.90), found in round 1. Plateaued after 4 rounds. Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b6-04-mono-low-end-r0.mp3"
+  },
+  {
+    "id": "2026-10-06-hw002-b6-05-colour-r4",
+    "batch": 6,
+    "title": "HW002 — Colour, in Live: before and after, 21 s",
+    "date": "2026-10-06",
+    "file": "/audio/skrng/2026-10-06-hw002-b6-05-colour-r4.mp3",
+    "duration_s": 21.6,
+    "bpm": 160,
+    "notes": "The drop of the canonical shape, 7 bars: first as mixed, then with the change. Both rendered in Live; both halves at -14 LUFS. Changed: second EQ Eight on S01 kick group, band 3: 484 Hz → 2184 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +7.6 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -11.6 dB; EQ Eight on perc 2, band 3: +0.0 dB → +4.0 dB; EQ Eight on perc 2, band 4: +0.0 dB → -2.3 dB; EQ Eight on rumble, band 4: +0.0 dB → -6.8 dB. 2 kHz band: -26.8 dB to -21.9 dB (references -20.7 dB to -17.6 dB). 10 kHz band: -26.1 dB to -25.2 dB (references -29.4 dB to -22.5 dB). Spectral centroid: 3927 Hz to 3867 Hz (references 2691 Hz to 3844 Hz). Score -0.91 (original -1.40), found in round 5. Plateaued after 8 rounds. Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b6-05-colour-r4.mp3"
   },
   {
     "id": "2026-10-06-hw002-b5-01-kick-distortion-r51",
