@@ -76,13 +76,19 @@
   {
     "n": 6,
     "title": "Batch 6 — the six mix changes, made in Live (6 Oct)",
-    "notes": "The batch 5 changes again, made in Live with the devices already in the set: Decapitator, COLDFIRE, the Compressor, EQ Eights, Utility and Supermassive. Each track plays the drop twice, as mixed and changed. A program tuned each change toward the four Bandcamp references, 32 Live renders at a time. No setting beat the original for: Kick distortion. This page updates as each aspect finishes.",
+    "notes": "The batch 5 changes again, made in Live with the devices already in the set: Decapitator, COLDFIRE, the Compressor, EQ Eights, Utility and Supermassive. Each track plays the drop twice, as mixed and changed. A program tuned each change toward the four Bandcamp references, 32 Live renders at a time. No setting beat the original for: Kick distortion, Drop power. This page updates as each aspect finishes.",
     "ordered": true
   },
   {
     "n": 7.1,
     "title": "Batch 7.1 — Kick distortion: 6 versions against the references (6 Oct)",
     "notes": "6 versions of the drop, rendered in Live: the original, then Decapitator drive on rumble and COLDFIRE drive on the kick group, together from 0 to 100%. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (2 kHz band -20.7 dB to -17.6 dB; block crest 4.4 dB to 6.6 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 2 kHz band -25.5 dB to -30.6 dB; block crest 9.0 dB to 7.0 dB. The batch 6 climb (5 rounds of 31 settings) found no setting nearer the references than the original, beyond the measurement noise.",
+    "ordered": true
+  },
+  {
+    "n": 7.2,
+    "title": "Batch 7.2 — Drop power: 6 versions against the references (6 Oct)",
+    "notes": "6 versions of the drop, rendered in Live: the original, then the kick group Compressor, threshold from 0 to -30 dB while the ratio goes from 1.5:1 to 12:1. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (block crest 4.4 dB to 6.6 dB; transient contrast 3.9 dB to 5.6 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: block crest 7.9 dB to 13.9 dB. The batch 6 climb (3 rounds of 31 settings) found no setting nearer the references than the original, beyond the measurement noise.",
     "ordered": true
   }
 ]
