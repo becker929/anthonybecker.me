@@ -76,7 +76,7 @@
   {
     "n": 6,
     "title": "Batch 6 — the six mix changes, made in Live (6 Oct)",
-    "notes": "The batch 5 changes again, made in Live with the devices already in the set: Decapitator, COLDFIRE, the Compressor, EQ Eights, Utility and Supermassive. Each track plays the drop twice, as mixed and changed. A program tuned each change toward the four Bandcamp references, 32 Live renders at a time. No setting beat the original for: Kick distortion, Drop power. This page updates as each aspect finishes.",
+    "notes": "The batch 5 changes again, made in Live with the devices already in the set: Decapitator, COLDFIRE, the Compressor, EQ Eights, Utility and Supermassive. Each track plays the drop twice, as mixed and changed. A program tuned each change toward the four Bandcamp references, 32 Live renders at a time. No setting beat the original for: Kick distortion, Drop power. All aspects have stopped; these are final.",
     "ordered": true
   },
   {
@@ -106,7 +106,13 @@
   {
     "n": 7.5,
     "title": "Batch 7.5 — Colour: 6 versions against the references (6 Oct)",
-    "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (spectral centroid 2691 Hz to 3844 Hz; 10 kHz band -29.4 dB to -22.5 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: spectral centroid 3922 Hz to 3460 Hz; 10 kHz band -25.9 dB to -26.9 dB. The batch 6 climb's best version is in batch 6.",
+    "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (2 kHz band -20.7 dB to -17.6 dB; spectral centroid 2691 Hz to 3844 Hz). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 2 kHz band -26.2 dB to -20.7 dB; spectral centroid 3922 Hz to 3435 Hz. The batch 6 climb's best version is in batch 6.",
+    "ordered": true
+  },
+  {
+    "n": 7.6,
+    "title": "Batch 7.6 — Space: 6 versions against the references (6 Oct)",
+    "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (2-8 kHz correlation 0.30 to 0.74; 2-8 kHz side -8.3 dB to -2.7 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 2-8 kHz correlation 0.67 to 0.16; 2-8 kHz side -7.0 dB to -1.4 dB. The batch 6 climb's best version is in batch 6.",
     "ordered": true
   }
 ]
