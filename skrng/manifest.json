@@ -271,7 +271,7 @@
     "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v1.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "The set as mixed. Measured at -14 LUFS: 2 kHz band -26.8 dB (references -20.7 dB to -17.6 dB). 10 kHz band -26.1 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3928 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 0). Unmastered.",
+    "notes": "The set as mixed. Measured at -14 LUFS: 2 kHz band -26.8 dB (references -20.7 dB to -17.6 dB). Spectral centroid 3928 Hz (references 2691 Hz to 3844 Hz). 10 kHz band -26.1 dB (references -29.4 dB to -22.5 dB). 7 bars of the drop, rendered in Live (sweep pattern 0). Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v1-3c7bb0.mp3"
   },
   {
@@ -282,7 +282,7 @@
     "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v2.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "0.08 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 547 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +6.0 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -1.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +0.3 dB; EQ Eight on perc 2, band 4: +0.0 dB → -0.2 dB; EQ Eight on rumble, band 4: +0.0 dB → -0.5 dB. Measured at -14 LUFS: 2 kHz band -26.2 dB (references -20.7 dB to -17.6 dB). 10 kHz band -25.9 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3922 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
+    "notes": "0.08 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 547 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +6.0 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -1.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +0.3 dB; EQ Eight on perc 2, band 4: +0.0 dB → -0.2 dB; EQ Eight on rumble, band 4: +0.0 dB → -0.5 dB. Measured at -14 LUFS: 2 kHz band -26.2 dB (references -20.7 dB to -17.6 dB). Spectral centroid 3922 Hz (references 2691 Hz to 3844 Hz). 10 kHz band -25.9 dB (references -29.4 dB to -22.5 dB). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v2-c3cedc.mp3"
   },
   {
@@ -293,7 +293,7 @@
     "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v3.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "0.65 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 1280 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +7.0 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -7.5 dB; EQ Eight on perc 2, band 3: +0.0 dB → +2.6 dB; EQ Eight on perc 2, band 4: +0.0 dB → -1.5 dB; EQ Eight on rumble, band 4: +0.0 dB → -4.4 dB. Measured at -14 LUFS: 2 kHz band -23.1 dB (references -20.7 dB to -17.6 dB). 10 kHz band -25.2 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3895 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 8). Unmastered.",
+    "notes": "0.65 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 1280 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +7.0 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -7.5 dB; EQ Eight on perc 2, band 3: +0.0 dB → +2.6 dB; EQ Eight on perc 2, band 4: +0.0 dB → -1.5 dB; EQ Eight on rumble, band 4: +0.0 dB → -4.4 dB. Measured at -14 LUFS: 2 kHz band -23.1 dB (references -20.7 dB to -17.6 dB). Spectral centroid 3895 Hz (references 2691 Hz to 3844 Hz). 10 kHz band -25.2 dB (references -29.4 dB to -22.5 dB). 7 bars of the drop, rendered in Live (sweep pattern 8). Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v3-92cd50.mp3"
   },
   {
@@ -304,7 +304,7 @@
     "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v4.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "1.29 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 3382 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +8.1 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +5.2 dB; EQ Eight on perc 2, band 4: +0.0 dB → -3.0 dB; EQ Eight on rumble, band 4: +0.0 dB → -8.8 dB. Measured at -14 LUFS: 2 kHz band -21.5 dB (references -20.7 dB to -17.6 dB). 10 kHz band -25.4 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3838 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 16). Unmastered.",
+    "notes": "1.29 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 3382 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +8.1 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +5.2 dB; EQ Eight on perc 2, band 4: +0.0 dB → -3.0 dB; EQ Eight on rumble, band 4: +0.0 dB → -8.8 dB. Measured at -14 LUFS: 2 kHz band -21.5 dB (references -20.7 dB to -17.6 dB). Spectral centroid 3838 Hz (references 2691 Hz to 3844 Hz). 10 kHz band -25.4 dB (references -29.4 dB to -22.5 dB). 7 bars of the drop, rendered in Live (sweep pattern 16). Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v4-3d3d49.mp3"
   },
   {
@@ -315,7 +315,7 @@
     "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v5.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "1.94 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 4000 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +9.2 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +7.8 dB; EQ Eight on perc 2, band 4: +0.0 dB → -4.5 dB; EQ Eight on rumble, band 4: +0.0 dB → -12.0 dB. Measured at -14 LUFS: 2 kHz band -21.0 dB (references -20.7 dB to -17.6 dB). 10 kHz band -26.3 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3611 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 24). Unmastered.",
+    "notes": "1.94 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 4000 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +9.2 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +7.8 dB; EQ Eight on perc 2, band 4: +0.0 dB → -4.5 dB; EQ Eight on rumble, band 4: +0.0 dB → -12.0 dB. Measured at -14 LUFS: 2 kHz band -21.0 dB (references -20.7 dB to -17.6 dB). Spectral centroid 3611 Hz (references 2691 Hz to 3844 Hz). 10 kHz band -26.3 dB (references -29.4 dB to -22.5 dB). 7 bars of the drop, rendered in Live (sweep pattern 24). Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v5-844b8a.mp3"
   },
   {
@@ -326,74 +326,74 @@
     "file": "/audio/skrng/2026-10-06-hw002-b7-5-colour-1559-v6.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "2.42 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 4000 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +10.1 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +9.7 dB; EQ Eight on perc 2, band 4: +0.0 dB → -5.7 dB; EQ Eight on rumble, band 4: +0.0 dB → -12.0 dB. Closest of the sweep to the references. Measured at -14 LUFS: 2 kHz band -20.7 dB (references -20.7 dB to -17.6 dB). 10 kHz band -27.0 dB (references -29.4 dB to -22.5 dB). Spectral centroid 3435 Hz (references 2691 Hz to 3844 Hz). 7 bars of the drop, rendered in Live (sweep pattern 30). Unmastered.",
+    "notes": "2.42 times the change the batch 6 climb found (1.00 is its best): second EQ Eight on S01 kick group, band 3: 484 Hz → 4000 Hz; second EQ Eight on S01 kick group, band 3: +5.8 dB → +10.1 dB; second EQ Eight on S01 kick group, band 4: -0.1 dB → -12.0 dB; EQ Eight on perc 2, band 3: +0.0 dB → +9.7 dB; EQ Eight on perc 2, band 4: +0.0 dB → -5.7 dB; EQ Eight on rumble, band 4: +0.0 dB → -12.0 dB. Closest of the sweep to the references. Measured at -14 LUFS: 2 kHz band -20.7 dB (references -20.7 dB to -17.6 dB). Spectral centroid 3435 Hz (references 2691 Hz to 3844 Hz). 10 kHz band -27.0 dB (references -29.4 dB to -22.5 dB). 7 bars of the drop, rendered in Live (sweep pattern 30). Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-5-colour-1559-v6-7e2c18.mp3"
   },
   {
     "id": "2026-10-06-hw002-b7-6-space-1607-v1",
     "batch": 7.6,
-    "title": "HW002 — Space 1 (original): 2-8 kHz correlation within the references' range, 2-8 kHz side in range",
+    "title": "HW002 — Space 1 (original): 0.5-2 kHz side 0.8 dB under the references, 8-20 kHz side 0.5 dB under",
     "date": "2026-10-06",
     "file": "/audio/skrng/2026-10-06-hw002-b7-6-space-1607-v1.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "The set as mixed. Measured at -14 LUFS: 2-8 kHz correlation 0.68 (references 0.30 to 0.74). 2-8 kHz side -7.2 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 0). Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v1-901ade.mp3"
+    "notes": "The set as mixed. Measured at -14 LUFS: 0.5-2 kHz side -8.2 dB (references -7.4 dB to -1.1 dB). 8-20 kHz side -10.6 dB (references -10.1 dB to -2.6 dB). 2-8 kHz correlation 0.68 (references 0.30 to 0.74). 2-8 kHz side -7.2 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 0). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v1-b3d7a8.mp3"
   },
   {
     "id": "2026-10-06-hw002-b7-6-space-1607-v2",
     "batch": 7.6,
-    "title": "HW002 — Space 2: 2-8 kHz correlation within the references' range, 2-8 kHz side in range",
+    "title": "HW002 — Space 2: 0.5-2 kHz side 0.8 dB under the references, 8-20 kHz side 0.1 dB under",
     "date": "2026-10-06",
     "file": "/audio/skrng/2026-10-06-hw002-b7-6-space-1607-v2.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "0.08 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 29%; ValhallaSupermassive on perc 2: Feedback 0% → 7%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 9%; ValhallaSupermassive on perc 2: Density 90% → 91%; ValhallaSupermassive on perc 2: HighCut 43% → 45%. Measured at -14 LUFS: 2-8 kHz correlation 0.67 (references 0.30 to 0.74). 2-8 kHz side -7.0 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v2-f68bda.mp3"
+    "notes": "0.08 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 29%; ValhallaSupermassive on perc 2: Feedback 0% → 7%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 9%; ValhallaSupermassive on perc 2: Density 90% → 91%; ValhallaSupermassive on perc 2: HighCut 43% → 45%. Measured at -14 LUFS: 0.5-2 kHz side -8.1 dB (references -7.4 dB to -1.1 dB). 8-20 kHz side -10.2 dB (references -10.1 dB to -2.6 dB). 2-8 kHz correlation 0.67 (references 0.30 to 0.74). 2-8 kHz side -7.0 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 1). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v2-f3c073.mp3"
   },
   {
     "id": "2026-10-06-hw002-b7-6-space-1607-v3",
     "batch": 7.6,
-    "title": "HW002 — Space 3: 2-8 kHz correlation within the references' range, 2-8 kHz side in range",
+    "title": "HW002 — Space 3: 0.5-2 kHz side 0.6 dB under the references, 8-20 kHz side in range",
     "date": "2026-10-06",
     "file": "/audio/skrng/2026-10-06-hw002-b7-6-space-1607-v3.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "0.89 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 41%; ValhallaSupermassive on perc 2: Feedback 0% → 74%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 33%; ValhallaSupermassive on perc 2: Density 90% → 98%; ValhallaSupermassive on perc 2: HighCut 43% → 62%. Closest of the sweep to the references. Measured at -14 LUFS: 2-8 kHz correlation 0.51 (references 0.30 to 0.74). 2-8 kHz side -4.8 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 11). Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v3-9d9954.mp3"
+    "notes": "0.65 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 38%; ValhallaSupermassive on perc 2: Feedback 0% → 54%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 26%; ValhallaSupermassive on perc 2: Density 90% → 96%; ValhallaSupermassive on perc 2: HighCut 43% → 57%. Measured at -14 LUFS: 0.5-2 kHz side -7.9 dB (references -7.4 dB to -1.1 dB). 8-20 kHz side -7.7 dB (references -10.1 dB to -2.6 dB). 2-8 kHz correlation 0.58 (references 0.30 to 0.74). 2-8 kHz side -5.7 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 8). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v3-e3c815.mp3"
   },
   {
     "id": "2026-10-06-hw002-b7-6-space-1607-v4",
     "batch": 7.6,
-    "title": "HW002 — Space 4: 2-8 kHz correlation within the references' range, 2-8 kHz side in range",
+    "title": "HW002 — Space 4: 0.5-2 kHz side 0.1 dB under the references, 8-20 kHz side in range",
     "date": "2026-10-06",
     "file": "/audio/skrng/2026-10-06-hw002-b7-6-space-1607-v4.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "1.29 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 47%; ValhallaSupermassive on perc 2: Feedback 0% → 90%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 45%; ValhallaSupermassive on perc 2: Density 90% → 100%; ValhallaSupermassive on perc 2: HighCut 43% → 71%. Measured at -14 LUFS: 2-8 kHz correlation 0.32 (references 0.30 to 0.74). 2-8 kHz side -2.9 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 16). Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v4-0d0049.mp3"
+    "notes": "1.13 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 45%; ValhallaSupermassive on perc 2: Feedback 0% → 90%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 40%; ValhallaSupermassive on perc 2: Density 90% → 99%; ValhallaSupermassive on perc 2: HighCut 43% → 68%. Closest of the sweep to the references. Measured at -14 LUFS: 0.5-2 kHz side -7.4 dB (references -7.4 dB to -1.1 dB). 8-20 kHz side -4.6 dB (references -10.1 dB to -2.6 dB). 2-8 kHz correlation 0.36 (references 0.30 to 0.74). 2-8 kHz side -3.2 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 14). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v4-45e730.mp3"
   },
   {
     "id": "2026-10-06-hw002-b7-6-space-1607-v5",
     "batch": 7.6,
-    "title": "HW002 — Space 5: 2-8 kHz correlation 0.07 under the references, 2-8 kHz side 0.7 dB over",
+    "title": "HW002 — Space 5: 0.5-2 kHz side within the references' range, 8-20 kHz side 0.1 dB over",
     "date": "2026-10-06",
     "file": "/audio/skrng/2026-10-06-hw002-b7-6-space-1607-v5.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "1.94 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 56%; ValhallaSupermassive on perc 2: Feedback 0% → 90%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 64%; ValhallaSupermassive on perc 2: Density 90% → 100%; ValhallaSupermassive on perc 2: HighCut 43% → 86%. Measured at -14 LUFS: 2-8 kHz correlation 0.23 (references 0.30 to 0.74). 2-8 kHz side -2.0 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 24). Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v5-c50b25.mp3"
+    "notes": "1.94 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 56%; ValhallaSupermassive on perc 2: Feedback 0% → 90%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 64%; ValhallaSupermassive on perc 2: Density 90% → 100%; ValhallaSupermassive on perc 2: HighCut 43% → 86%. Measured at -14 LUFS: 0.5-2 kHz side -7.2 dB (references -7.4 dB to -1.1 dB). 8-20 kHz side -2.5 dB (references -10.1 dB to -2.6 dB). 2-8 kHz correlation 0.23 (references 0.30 to 0.74). 2-8 kHz side -2.0 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 24). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v5-fb5114.mp3"
   },
   {
     "id": "2026-10-06-hw002-b7-6-space-1607-v6",
     "batch": 7.6,
-    "title": "HW002 — Space 6: 2-8 kHz correlation 0.15 under the references, 2-8 kHz side 1.3 dB over",
+    "title": "HW002 — Space 6: 0.5-2 kHz side within the references' range, 8-20 kHz side 0.6 dB over",
     "date": "2026-10-06",
     "file": "/audio/skrng/2026-10-06-hw002-b7-6-space-1607-v6.mp3",
     "duration_s": 10.5,
     "bpm": 160,
-    "notes": "2.50 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 64%; ValhallaSupermassive on perc 2: Feedback 0% → 90%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 81%; ValhallaSupermassive on perc 2: Density 90% → 100%; ValhallaSupermassive on perc 2: HighCut 43% → 98%. Measured at -14 LUFS: 2-8 kHz correlation 0.16 (references 0.30 to 0.74). 2-8 kHz side -1.4 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 31). Unmastered.",
-    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v6-d6fe69.mp3"
+    "notes": "2.50 times the change the batch 6 climb found (1.00 is its best): ValhallaSupermassive on perc 2: Mix 28% → 64%; ValhallaSupermassive on perc 2: Feedback 0% → 90%; ValhallaSupermassive on perc 2: Delay_Ms 7% → 81%; ValhallaSupermassive on perc 2: Density 90% → 100%; ValhallaSupermassive on perc 2: HighCut 43% → 98%. Measured at -14 LUFS: 0.5-2 kHz side -6.7 dB (references -7.4 dB to -1.1 dB). 8-20 kHz side -2.0 dB (references -10.1 dB to -2.6 dB). 2-8 kHz correlation 0.16 (references 0.30 to 0.74). 2-8 kHz side -1.4 dB (references -8.3 dB to -2.7 dB). 7 bars of the drop, rendered in Live (sweep pattern 31). Unmastered.",
+    "announce": "/audio/skrng/tts/2026-10-06-hw002-b7-6-space-1607-v6-ae5d37.mp3"
   },
   {
     "id": "2026-10-06-hw002-b6-03-deep-sub-r0",

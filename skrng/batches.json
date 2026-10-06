@@ -112,7 +112,7 @@
   {
     "n": 7.6,
     "title": "Batch 7.6 — Space: 6 versions against the references (6 Oct)",
-    "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (2-8 kHz correlation 0.30 to 0.74; 2-8 kHz side -8.3 dB to -2.7 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 2-8 kHz correlation 0.67 to 0.16; 2-8 kHz side -7.0 dB to -1.4 dB. The batch 6 climb's best version is in batch 6.",
+    "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (0.5-2 kHz side -7.4 dB to -1.1 dB; 8-20 kHz side -10.1 dB to -2.6 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 0.5-2 kHz side -8.1 dB to -6.7 dB; 8-20 kHz side -10.2 dB to -2.0 dB. The batch 6 climb's best version is in batch 6.",
     "ordered": true
   }
 ]
