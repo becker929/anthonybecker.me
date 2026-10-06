@@ -7,7 +7,7 @@
     "file": "/audio/skrng/2026-10-06-hw002-b5-01-kick-distortion-r51.mp3",
     "duration_s": 24.6,
     "bpm": 160,
-    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Kick bus, mono, clean below 60 Hz: 12.0 dB lift at 1584 Hz into 23.4 dB of drive, low-passed at 12.1 kHz, 100% blended. 2 kHz band: -25.9 dB to -20.6 dB (references -20.7 dB to -17.6 dB). Peak density (block crest): 8.4 dB to 7.9 dB (references 4.4 dB to 6.6 dB). Score -1.05, found in round 51. Still climbing. Unmastered.",
+    "notes": "The drop of the canonical shape (4.3 track 1), bars 5 to 12: first as mixed, then with the change. Both halves at -14 LUFS. Kick bus, mono, clean below 60 Hz: 12.0 dB lift at 1584 Hz into 23.4 dB of drive, low-passed at 12.1 kHz, 100% blended. 2 kHz band: -25.9 dB to -20.6 dB (references -20.7 dB to -17.6 dB). Peak density (block crest): 8.4 dB to 7.9 dB (references 4.4 dB to 6.6 dB). Score -1.05, found in round 51. Plateaued after 61 rounds. Unmastered.",
     "announce": "/audio/skrng/tts/2026-10-06-hw002-b5-01-kick-distortion-r51.mp3"
   },
   {
