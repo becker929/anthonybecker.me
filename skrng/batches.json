@@ -96,5 +96,11 @@
     "title": "Batch 7.3 — Deep sub: 6 versions against the references (6 Oct)",
     "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (31.5 Hz band -27.6 dB to -22.6 dB; 40 Hz band -20.5 dB to -11.9 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 31.5 Hz band -34.0 dB to -25.4 dB; 40 Hz band -22.3 dB to -17.9 dB. The batch 6 climb's best version is in batch 6.",
     "ordered": true
+  },
+  {
+    "n": 7.4,
+    "title": "Batch 7.4 — Mono low end: 6 versions against the references (6 Oct)",
+    "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (low-end correlation 0.987 to 1.000; low-end side -45.0 dB to -21.9 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: low-end correlation 0.874 to 1.000; low-end side -11.7 dB to -47.7 dB. The batch 6 climb's best version is in batch 6.",
+    "ordered": true
   }
 ]
