@@ -5,7 +5,7 @@
     "notes": "The first 30 s experiment and the first 60 s demo. Both predate later fixes.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-1-c2d876.mp3",
-    "say": "Batch 1. First renders."
+    "say": "First renders."
   },
   {
     "n": 2,
@@ -13,7 +13,7 @@
     "notes": "Ten cuts shaped after genre Shorts, label previews (NineTimesNine, SNTS) and two of the audio references, plus the fixed 60 s demo. Re-rendered to remove a glitch in the first second. Re-trimmed onto the grid on 1 Oct (they had started about 0.9 s early).",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-2-6fc9ca.mp3",
-    "say": "Batch 2. Shapes after references."
+    "say": "Shapes after references."
   },
   {
     "n": 3,
@@ -21,7 +21,7 @@
     "notes": "Each cut climbs through the song's own layering: the hats and percussion step up every few bars instead of holding one level. Re-trimmed onto the grid on 1 Oct (they had started about 0.9 s early).",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-3-dbf844.mp3",
-    "say": "Batch 3. Hat progressions, all under 40 seconds."
+    "say": "Hat progressions, all under 40 seconds."
   },
   {
     "n": 4,
@@ -29,7 +29,7 @@
     "notes": "Answers the first commute feedback: 36–48 s, sections of 4 or 8 bars, a longer scoop, hats added one layer at a time without dropping any, a longer pre-kick sound, and drop-outs before the kick.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-4-8e5964.mp3",
-    "say": "Batch 4. Longer, on the grid, hats that stack."
+    "say": "Longer, on the grid, hats that stack."
   },
   {
     "n": 4.1,
@@ -57,7 +57,7 @@
       }
     ],
     "announce": "/audio/skrng/tts/batch-4-1-b7e700.mp3",
-    "say": "Batch 4, part 1. Track 1 earlier, track 2's beatbox fixed, splash lengths."
+    "say": "Track 1 earlier, track 2's beatbox fixed, splash lengths."
   },
   {
     "n": 4.2,
@@ -65,7 +65,7 @@
     "notes": "Tracks 1–6 try different grids for the beatbox wuh, the silence and the kick: the wuh on the bar, wuh plus 8th or 16th chops of its last part, a long wuh from bar 11, a long wuh plus chops, and a 2-beat silence. The breakdown sounds stay in, 4 dB quieter so the drop stands out (6 dB in track 7). Splash: 8 beats at the drop, 3 beats on later section downbeats. Tracks 8 and 10 stop the hats at three layers. Tracks 9–10 open on a 4-bar scoop kick.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-4-2-b6e514.mp3",
-    "say": "Batch 4, part 2. The wuh, the silence and the drop on the grid; a louder drop."
+    "say": "The wuh, the silence and the drop on the grid; a louder drop."
   },
   {
     "n": 4.3,
@@ -73,7 +73,7 @@
     "notes": "Four versions that change only the splashes. Kick, rumble, splash and hats play. Each one starts on the scooped kick. Batch 4.2 had a splash on every section. Here there are fewer of them, or only short ones.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-4-3-74a969.mp3",
-    "say": "Batch 4, part 3. Fewer splashes."
+    "say": "Fewer splashes."
   },
   {
     "n": 4.4,
@@ -81,7 +81,7 @@
     "notes": "Five versions that change only the hats. Kick, rumble and hats play, with no splashes. Tracks one and two are batch 4's numbers 7 and 9. Tracks three to five leave out the quiet ride.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-4-4-f385b5.mp3",
-    "say": "Batch 4, part 4. The hats."
+    "say": "The hats."
   },
   {
     "n": 5,
@@ -89,7 +89,7 @@
     "notes": "Each track plays the drop twice: as mixed, then with one change. Both halves are equally loud. A program tuned each change toward the four Bandcamp references. It stops when ten rounds in a row find nothing better. All six have stopped; these are final.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-5-00ace8.mp3",
-    "say": "Batch 5. Six mix changes, tuned toward the references."
+    "say": "Six mix changes, tuned toward the references."
   },
   {
     "n": 6,
@@ -97,7 +97,7 @@
     "notes": "The batch 5 changes again, made in Live with the devices already in the set: Decapitator, COLDFIRE, the Compressor, EQ Eights, Utility and Supermassive. Each track plays the drop twice, as mixed and changed. A program tuned each change toward the four Bandcamp references, 32 Live renders at a time. No setting beat the original for: Kick distortion, Drop power. All aspects have stopped; these are final.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-6-39e9d7.mp3",
-    "say": "Batch 6. The six mix changes, made in Live."
+    "say": "The six mix changes, made in Live."
   },
   {
     "n": 7.1,
@@ -105,7 +105,7 @@
     "notes": "6 versions of the drop, rendered in Live: the original, then Decapitator drive on rumble and COLDFIRE drive on the kick group, together from 0 to 100%. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (2 kHz band -20.7 dB to -17.6 dB; block crest 4.4 dB to 6.6 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 2 kHz band -25.5 dB to -30.6 dB; block crest 9.0 dB to 7.0 dB. The batch 6 climb (5 rounds of 31 settings) found no setting nearer the references than the original, beyond the measurement noise.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-7-1-9db17c.mp3",
-    "say": "Batch 7, part 1. Kick distortion: 6 versions against the references."
+    "say": "Kick distortion: 6 versions against the references."
   },
   {
     "n": 7.2,
@@ -113,7 +113,7 @@
     "notes": "6 versions of the drop, rendered in Live: the original, then the kick group Compressor, threshold from 0 to -30 dB while the ratio goes from 1.5:1 to 12:1. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (block crest 4.4 dB to 6.6 dB; transient contrast 3.9 dB to 5.6 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: block crest 7.9 dB to 13.9 dB. The batch 6 climb (3 rounds of 31 settings) found no setting nearer the references than the original, beyond the measurement noise.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-7-2-3210c3.mp3",
-    "say": "Batch 7, part 2. Drop power: 6 versions against the references."
+    "say": "Drop power: 6 versions against the references."
   },
   {
     "n": 7.3,
@@ -121,7 +121,7 @@
     "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (31.5 Hz band -27.6 dB to -22.6 dB; 40 Hz band -20.5 dB to -11.9 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 31.5 Hz band -34.0 dB to -25.4 dB; 40 Hz band -22.3 dB to -17.9 dB. The batch 6 climb's best version is in batch 6.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-7-3-af49ab.mp3",
-    "say": "Batch 7, part 3. Deep sub: 6 versions against the references."
+    "say": "Deep sub: 6 versions against the references."
   },
   {
     "n": 7.4,
@@ -129,7 +129,7 @@
     "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (low-end correlation 0.987 to 1.000; low-end side -45.0 dB to -21.9 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: low-end correlation 0.874 to 1.000; low-end side -11.7 dB to -47.7 dB. The batch 6 climb's best version is in batch 6.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-7-4-1d128d.mp3",
-    "say": "Batch 7, part 4. Mono low end: 6 versions against the references."
+    "say": "Mono low end: 6 versions against the references."
   },
   {
     "n": 7.5,
@@ -137,7 +137,7 @@
     "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (2 kHz band -20.7 dB to -17.6 dB; spectral centroid 2691 Hz to 3844 Hz). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 2 kHz band -26.2 dB to -20.7 dB; spectral centroid 3922 Hz to 3435 Hz. The batch 6 climb's best version is in batch 6.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-7-5-a1cfa4.mp3",
-    "say": "Batch 7, part 5. Colour: 6 versions against the references."
+    "say": "Colour: 6 versions against the references."
   },
   {
     "n": 7.6,
@@ -145,6 +145,6 @@
     "notes": "6 versions of the drop, rendered in Live: the original, then the original moved along the change the batch 6 climb found, past its best to 2.5 times the change. Titles place each version against the four Bandcamp references, measured the same way at -14 LUFS (0.5-2 kHz side -7.4 dB to -1.1 dB; 8-20 kHz side -10.1 dB to -2.6 dB). Under and over are distances outside that range. Each version is at -14 LUFS. From the first to the last version of the sweep: 0.5-2 kHz side -8.1 dB to -6.7 dB; 8-20 kHz side -10.2 dB to -2.0 dB. The batch 6 climb's best version is in batch 6.",
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-7-6-fa5cde.mp3",
-    "say": "Batch 7, part 6. Space: 6 versions against the references."
+    "say": "Space: 6 versions against the references."
   }
 ]
