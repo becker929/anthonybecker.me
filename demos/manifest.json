@@ -40,5 +40,12 @@
     "title": "Moon Rangers",
     "description": "A hoverbike ride across the lunar surface, built on the engine pulled out of Buster Whack 3D: no board and no squares, forward is not a choice, and the only obstacle is the boulder — go around it or take it apart with the buster.",
     "path": "/demos/6/moon-rangers/"
+  },
+  {
+    "number": 7,
+    "slug": "zpkt-hw002",
+    "title": "ZPKT HW002",
+    "description": "A 33-second demo in the old demoscene style. HW002 plays from one Ableton Live set, with no generated audio, and every picture is built from a screen recording of that set: textmode, a tunnel, a rotozoomer, a box of agents' screens and a kaleidoscope.",
+    "path": "/demos/7/zpkt-hw002/"
   }
 ]
