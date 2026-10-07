@@ -67,10 +67,13 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
     // Renders come from manifest.json; batch titles from batches.json.
     // One batch per page (?batch=N, default newest). Older batches are
-    // reached only through the link at the bottom of the page.
+    // reached through the link at the bottom of the page, and Play batch
+    // carries on into them.
+    import { batchOf, metaOf, itemsOf, buildQueue, startOf, skipTo } from './playlist.js';
+
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
     function facts(r) {
@@ -92,8 +95,6 @@
       return `<p class="refs">Shaped after: ${items.join(' · ')}</p>`;
     }
 
-    const batchOf = (r) => (Number.isFinite(r.batch) ? r.batch : 1); // batches may be decimal, e.g. 4.1
-
     Promise.all([
       fetch('/skrng/manifest.json').then((res) => res.json()),
       fetch('/skrng/batches.json').then((res) => (res.ok ? res.json() : [])).catch(() => []),
@@ -108,9 +109,8 @@
         const newest = nums[nums.length - 1];
         const asked = parseFloat(new URLSearchParams(location.search).get('batch'));
         const n = nums.includes(asked) ? asked : newest;
-        const meta = batches.find((b) => b.n === n) || {};
-        const items = renders.filter((r) => batchOf(r) === n);
-        if (!meta.ordered) items.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+        const meta = metaOf(batches, n);
+        const items = itemsOf(renders, batches, n);
 
         document.getElementById('batch-head').hidden = false;
         document.getElementById('batch-title').textContent = meta.title || `Batch ${n}`;
@@ -131,31 +131,30 @@
           `)
           .join('');
 
-        // Bottom navigation is the only way to older (and back to newer) batches.
+        // Bottom navigation: older and newer batches.
         const idx = nums.indexOf(n);
         const nav = [];
         if (idx > 0) nav.push(`<a href="?batch=${nums[idx - 1]}">← Older: batch ${nums[idx - 1]}</a>`);
         if (idx < nums.length - 1) nav.push(`<a href="?batch=${nums[idx + 1]}">Newer: batch ${nums[idx + 1]} →</a>`);
         document.getElementById('batch-nav').innerHTML = nav.join('');
 
-        // Playback controller shared by the Play batch button, each track's
-        // own player and the sticky transport at the bottom of the page.
-        //
-        // A "run" plays, for each track from a start point: the announcement
-        // (500 ms silence, spoken title, 500 ms silence, baked into the file)
-        // on the hidden player, then the track on its own visible player so
-        // that player shows it playing. Skip back/forward start a run at the
-        // previous/next track, so the announcement plays first.
-        // Mobile browsers only let an element start playing on its own after
-        // it has played once from a tap, so the first tap that starts a run
-        // unlocks every player (muted play, then pause).
+        // Playback. Play batch, the sticky transport and the car's or lock
+        // screen's buttons all drive one hidden player (#seq) through the
+        // queue from playlist.js: this batch's intro, each track's
+        // announcement (500 ms silence, the words, 500 ms silence, baked into
+        // the file) and the track, then on into every older batch. One element
+        // matters: on a locked phone or over Bluetooth, the element that is
+        // already playing is the one allowed to start the next file. Each
+        // track's own player still plays it by hand, which ends a run.
         const seq = document.getElementById('seq');
         const players = [...list.querySelectorAll('audio')];
-        const queue = [];
-        items.forEach((r, i) => {
-          if (r.announce) queue.push({ i, kind: 'announce', src: r.announce });
-          queue.push({ i, kind: 'track' });
-        });
+        const queue = buildQueue(renders, batches, n);
+        const byBatch = new Map();
+        const itemsFor = (b) => {
+          if (!byBatch.has(b)) byBatch.set(b, itemsOf(renders, batches, b));
+          return byBatch.get(b);
+        };
+        const short = (t) => String(t || '').replace(/^HW\d+ — /, '');
         const btn = document.getElementById('play-batch');
         const now = document.getElementById('now');
         const tPrev = document.getElementById('t-prev');
@@ -173,140 +172,165 @@
           next: svg('M16.5 5H19v14h-2.5zM5 5v14l10.5-7z'),
         };
         let running = false; // a run is in progress (possibly paused)
-        let pos = 0;         // index into queue while running
-        let cur = -1;        // track the transport follows
-        let driving = false; // the controller itself is starting/stopping media
-        let unlocked = false;
+        let pos = -1;        // the queue entry #seq holds while running
+        let cur = -1;        // this batch's track played by hand, outside a run
 
         const fmt = (t) => (Number.isFinite(t) ? `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}` : '–:––');
-        function quiet(fn) { driving = true; try { fn(); } finally { setTimeout(() => { driving = false; }, 0); } }
+        const entry = () => (running ? queue[pos] : null);
+        const itemOf = (e) => (e && e.i >= 0 ? itemsFor(e.b)[e.i] : null);
+        function label(e) {
+          if (e.kind === 'intro') return `Batch ${e.b}`;
+          const where = e.b === n ? '' : `Batch ${e.b} · `;
+          return `${e.kind === 'announce' ? 'Next: ' : ''}${where}${e.i + 1}. ${short(itemOf(e).title)}`;
+        }
         function mark(i) {
           list.querySelectorAll('li').forEach((li) => li.classList.toggle('current', Number(li.dataset.i) === i));
         }
-        function active() {
-          if (running && queue[pos] && queue[pos].kind === 'announce') return seq;
-          return cur >= 0 ? players[cur] : null;
-        }
         function render() {
-          const m = active();
-          const isAnnounce = m === seq;
+          const e = entry();
+          const m = e ? seq : cur >= 0 ? players[cur] : null;
           const isPlaying = !!m && !m.paused;
           tPlay.innerHTML = isPlaying ? ICON.pause : ICON.play;
           tPlay.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
-          tPrev.disabled = cur < 0; // on track 1, skip back replays it (announcement first)
-          tNext.disabled = cur >= items.length - 1;
-          if (cur < 0) {
+          if (e) {
+            tTitle.textContent = label(e);
+            tTime.textContent = e.kind === 'track' ? `${fmt(seq.currentTime)} / ${fmt(seq.duration || itemOf(e).duration_s)}` : '';
+          } else if (cur >= 0) {
+            tTitle.textContent = `${cur + 1}. ${short(items[cur].title)}`;
+            tTime.textContent = `${fmt(players[cur].currentTime)} / ${fmt(players[cur].duration || items[cur].duration_s)}`;
+          } else {
             tTitle.textContent = 'Nothing playing';
             tTime.textContent = '';
-          } else {
-            tTitle.textContent = `${isAnnounce ? 'Next: ' : ''}${cur + 1}. ${items[cur].title.replace(/^HW002 — /, '')}`;
-            tTime.textContent = isAnnounce ? '' : `${fmt(players[cur].currentTime)} / ${fmt(players[cur].duration || items[cur].duration_s)}`;
           }
+          tPrev.disabled = !e && cur < 0;
+          tNext.disabled = !!e && skipTo(queue, pos, 1) < 0;
           btn.innerHTML = running ? `${ICON.stop}<span>Stop</span>` : `${ICON.play}<span>Play batch</span>`;
           btn.classList.toggle('on', running);
-          mark(cur);
+          mark(e ? (e.b === n ? e.i : -1) : cur);
         }
-        function unlock() {
-          if (unlocked) return;
-          unlocked = true;
-          driving = true;
-          players.forEach((p) => {
-            p.muted = true;
-            p.play().then(() => { p.pause(); p.currentTime = 0; p.muted = false; }).catch(() => { p.muted = false; });
-          });
-          // The unlock plays settle asynchronously; ignore their events.
-          setTimeout(() => { driving = false; }, 400);
+
+        // What the car or lock screen shows, and where the track is.
+        const MS = 'mediaSession' in navigator ? navigator.mediaSession : null;
+        function describe(title, b, album) {
+          if (!MS) return;
+          try { MS.metadata = new MediaMetadata({ title, artist: `skrng · batch ${b}`, album }); } catch {}
         }
-        function step() {
-          if (!running) return;
-          if (pos >= queue.length) { stopRun(); now.textContent = 'Batch finished.'; return render(); }
-          const q = queue[pos];
-          cur = q.i;
-          const li = list.querySelector(`li[data-i="${q.i}"]`);
-          if (q.kind === 'announce') {
-            now.textContent = `Next: ${q.i + 1}. ${items[q.i].title}`;
-            li?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-            quiet(() => players.forEach((o) => o.pause()));
-            seq.src = q.src;
-            seq.play().catch(() => advance());
+        let positioned = 0;
+        function position() {
+          const d = seq.duration;
+          if (!MS || !MS.setPositionState || !running || !(d > 0) || !Number.isFinite(d)) return;
+          try { MS.setPositionState({ duration: d, playbackRate: 1, position: Math.min(seq.currentTime, d) }); } catch {}
+        }
+
+        function play(k) {
+          const e = queue[k];
+          if (!e) return finish();
+          pos = k;
+          if (e.kind === 'intro') {
+            now.textContent = `Next: batch ${e.b}. ${short(metaOf(batches, e.b).title || '')}`;
+            describe(`Batch ${e.b}`, e.b, short(metaOf(batches, e.b).title || ''));
           } else {
-            now.textContent = `Playing: ${q.i + 1}. ${items[q.i].title}`;
-            const p = players[q.i];
-            quiet(() => {
-              players.forEach((o) => { if (o !== p) o.pause(); });
-              p.currentTime = 0;
-              p.play().catch(() => advance());
-            });
+            now.textContent = e.kind === 'track' ? `Playing: ${label(e)}` : label(e);
+            describe(`Track ${e.i + 1}`, e.b, short(itemOf(e).title));
           }
+          if (e.b === n) list.querySelector(`li[data-i="${e.i}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          seq.src = e.src;
+          seq.play().catch((err) => {
+            // Blocked until a tap (or a car button): wait instead of racing
+            // through the queue. A file that fails to load fires 'error'.
+            if (err && err.name === 'NotAllowedError') { now.textContent = 'Tap play to continue.'; render(); }
+          });
           render();
         }
-        function advance() { pos += 1; step(); }
-        function runFrom(i) {
-          unlock();
-          quiet(() => { seq.pause(); players.forEach((o) => o.pause()); });
+        function advance() { if (running) play(pos + 1); }
+        function finish() {
+          running = false;
+          pos = -1;
+          now.textContent = 'That was the oldest batch.';
+          if (MS) MS.playbackState = 'none';
+          render();
+        }
+        function runFrom(k) {
+          if (k < 0) return;
+          players.forEach((p) => p.pause());
+          cur = -1;
           running = true;
-          pos = queue.findIndex((q) => q.i === i);
-          step();
+          play(k);
         }
         function stopRun() {
           running = false;
-          quiet(() => {
-            seq.pause();
-            const q = queue[pos];
-            if (q && q.kind === 'track') players[q.i].pause();
-          });
+          pos = -1;
+          seq.pause();
+          now.textContent = '';
           render();
+        }
+        // Outside a run, skipping starts one from the track played by hand.
+        function next() {
+          const from = running ? pos : cur >= 0 ? startOf(queue, n, cur) : -1;
+          if (from < 0) return runFrom(0);
+          const k = skipTo(queue, from, 1);
+          if (k < 0) return running ? finish() : undefined;
+          runFrom(k);
+        }
+        function prev() {
+          if (running) return runFrom(skipTo(queue, pos, -1, { restart: queue[pos].kind === 'track' && seq.currentTime > 3 }));
+          runFrom(cur >= 0 ? skipTo(queue, startOf(queue, n, cur), -1) : 0);
+        }
+        function toggle() {
+          const m = entry() ? seq : cur >= 0 ? players[cur] : null;
+          if (!m) return runFrom(0);
+          if (m.paused) m.play().catch(() => {});
+          else m.pause();
         }
 
         seq.addEventListener('ended', advance);
         seq.addEventListener('error', () => { if (running) advance(); });
-        ['play', 'pause', 'timeupdate'].forEach((ev) => seq.addEventListener(ev, render));
+        seq.addEventListener('play', () => { if (MS) MS.playbackState = 'playing'; render(); });
+        seq.addEventListener('pause', () => { if (MS && running) MS.playbackState = 'paused'; render(); });
+        seq.addEventListener('loadedmetadata', position);
+        seq.addEventListener('timeupdate', () => {
+          render();
+          if (Date.now() - positioned > 1000) { positioned = Date.now(); position(); }
+        });
         players.forEach((p, i) => {
-          ['pause', 'timeupdate', 'loadedmetadata'].forEach((ev) => p.addEventListener(ev, () => { if (i === cur) render(); }));
+          ['pause', 'timeupdate', 'loadedmetadata', 'ended'].forEach((ev) => p.addEventListener(ev, () => { if (i === cur) render(); }));
           p.addEventListener('play', () => {
-            if (driving) return render();
-            // Playing a track by hand: one track at a time, and the transport follows it.
-            quiet(() => { seq.pause(); players.forEach((o) => { if (o !== p) o.pause(); }); });
-            const q = queue[pos];
-            if (running && !(q && q.kind === 'track' && q.i === i)) { running = false; now.textContent = ''; }
+            // Playing a track by hand ends a run; one track at a time.
+            if (running) stopRun();
+            players.forEach((o) => { if (o !== p) o.pause(); });
             cur = i;
+            describe(`Track ${i + 1}`, n, short(items[i].title));
             render();
-          });
-          p.addEventListener('ended', () => {
-            const q = queue[pos];
-            if (running && q && q.kind === 'track' && q.i === i) advance();
-            else render();
-          });
-          // Pausing the playing track on its own player ends the run;
-          // the transport's pause keeps it (see tPlay).
-          p.addEventListener('pause', () => {
-            const q = queue[pos];
-            if (running && !driving && !p.ended && q && q.kind === 'track' && q.i === i) { stopRun(); now.textContent = ''; }
           });
         });
 
-        btn.addEventListener('click', () => {
-          if (running) { stopRun(); now.textContent = ''; return; }
-          runFrom(0);
-        });
-        tPlay.addEventListener('click', () => {
-          const m = active();
-          if (!m) return runFrom(0);
-          if (m.paused) {
-            quiet(() => m.play().catch(() => {}));
-          } else {
-            quiet(() => m.pause());
-          }
-          render();
-        });
+        btn.addEventListener('click', () => (running ? stopRun() : runFrom(0)));
+        tPlay.addEventListener('click', toggle);
         tPrev.innerHTML = ICON.prev;
         tNext.innerHTML = ICON.next;
-        tPrev.addEventListener('click', () => runFrom(Math.max(0, cur - 1)));
-        tNext.addEventListener('click', () => { if (cur < items.length - 1) runFrom(cur + 1); });
+        tPrev.addEventListener('click', prev);
+        tNext.addEventListener('click', next);
+
+        // The car's and lock screen's buttons, over Bluetooth too. The voice
+        // review takes them while it runs (review.js) and hands them back.
+        function claimButtons() {
+          if (!MS) return;
+          const set = (action, fn) => { try { MS.setActionHandler(action, fn); } catch {} };
+          set('play', () => { if (entry() || cur >= 0) toggle(); else runFrom(0); });
+          set('pause', () => { const m = entry() ? seq : cur >= 0 ? players[cur] : null; m?.pause(); });
+          set('stop', () => { if (running) stopRun(); });
+          set('nexttrack', next);
+          set('previoustrack', prev);
+          // Track buttons rather than 10-second skips: with seek handlers,
+          // some cars and lock screens show seek buttons instead.
+          set('seekbackward', null);
+          set('seekforward', null);
+        }
+        claimButtons();
         render();
 
         // Hand the batch to the voice review (review.js).
-        window.skrngPage = { n, meta, items, list, players, stopRun: () => { if (running) { stopRun(); now.textContent = ''; } } };
+        window.skrngPage = { n, meta, items, list, players, stopRun: () => { if (running) stopRun(); }, claimButtons };
         window.dispatchEvent(new CustomEvent('skrng:ready', { detail: window.skrngPage }));
 
         // A #id link scrolls to that render once the list exists.

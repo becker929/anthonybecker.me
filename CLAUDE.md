@@ -164,4 +164,5 @@ KV/R2 fakes and static files from the repo root; `npm run e2e` drives it with
 Playwright (install per the section above): the listening test, the role meter
 and the check that `/lab/` stays off, in a real browser. `npm run e2e:skrng` drives the /skrng voice
 review with scripted speech in and out (`SKRNG_TOKEN` defaults to
-`e2e-skrng-token` on the e2e server). `e2e/` is in `.assetsignore` so it never deploys.
+`e2e-skrng-token` on the e2e server). `npm run e2e:play` checks Play batch: the run
+carries on into the next older batch, and car or lock-screen buttons drive it. `e2e/` is in `.assetsignore` so it never deploys.
