@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZPKT HW002 — Anthony Becker</title>
+<meta name="description" content="A 33-second demo in the old demoscene style. HW002 plays from one Ableton Live set, with no generated audio, and every picture is built from a screen recording of that set.">
+<meta name="theme-color" content="#05060a">
+<link rel="canonical" href="https://anthonybecker.me/demos/7/zpkt-hw002/">
+<meta property="og:title" content="ZPKT HW002">
+<meta property="og:description" content="A 33-second demo. No generated audio: every sound plays from one Ableton Live set.">
+<meta property="og:image" content="https://anthonybecker.me/audio/demos/zpkt-hw002-poster.jpg">
+<meta property="og:video" content="https://anthonybecker.me/audio/demos/zpkt-hw002-demo.mp4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2305060a'/%3E%3Crect x='2' y='5' width='12' height='2' fill='%2372e4ff'/%3E%3Crect x='2' y='9' width='12' height='2' fill='%23f3c86b'/%3E%3C/svg%3E">
+<style>
+  /* Media lives in R2 (anthonybecker-audio, audio/demos/), served by the
+     Worker at /audio/demos/ with range requests, so the video can seek. */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #05060a; color: #c9ced8; }
+  body { font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 1280px; margin: 0 auto; padding: 24px 16px 48px; }
+  nav { font-size: 0.9rem; margin-bottom: 1rem; }
+  a { color: #e8ecf2; }
+  nav a { text-decoration: none; border-bottom: 1px solid currentColor; }
+  h1 { font: 700 1.6rem/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.08em; color: #f5f2ea; margin: 0 0 1rem; }
+  video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  .text { max-width: 44rem; }
+  p { margin: 1rem 0 0; }
+  .small { font-size: 0.875rem; opacity: 0.75; }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/demos/">← demos</a></nav>
+  <h1>ZPKT HW002</h1>
+  <video controls playsinline preload="metadata"
+         poster="/audio/demos/zpkt-hw002-poster.jpg"
+         src="/audio/demos/zpkt-hw002-demo.mp4"></video>
+  <div class="text">
+    <p>A 33-second demo in the old demoscene style. The music is HW002, made by
+      Anthony and four AI agents (ears, hands, taste and engineer) in one Ableton
+      Live set. There is no generated audio: every sound plays from that set.</p>
+    <p>Every picture is built from a screen recording of the set playing HW002:
+      Live as coloured text, a tunnel lined with the arrangement, a rotozoomer,
+      a box with one agent's screen on each side, and a kaleidoscope.</p>
+    <p class="small"><a href="/audio/demos/zpkt-hw002-demo-master.mp4" download>Download the 1080p master</a> (111 MB, MP4)</p>
+  </div>
+</main>
+</body>
+</html>
