@@ -146,5 +146,13 @@
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-7-6-fa5cde.mp3",
     "say": "Space: 6 versions against the references."
+  },
+  {
+    "n": 8.1,
+    "title": "Batch 8.1 — Kick distortion between 37% and 50%, on batch 6's mix (7 Oct)",
+    "notes": "Batch 6's mix with all four changes is now the baseline. Batch 7.1's tracks 3 and 4 were the best: Decapitator drive on the rumble and COLDFIRE drive on the kick group, together, at 37% and 50%. Here the two ends of that range and its middle: 37%, 43.5% and 50% (the baseline is 27% and 12%). Tracks 1 to 3 switch every 2 bars, the new drive first, then the baseline. Track 4 goes round: the baseline, 37%, 43.5%, 50%. Rendered in Live; every version at -14 LUFS.",
+    "ordered": true,
+    "announce": "/audio/skrng/tts/batch-8-1-0f6251.mp3",
+    "say": "Kick distortion. The mix now has all of batch 6's changes. Three amounts of drive on the kick and the rumble: 37, 43 and a half, and 50 percent. Each track starts with the new drive, then switches back to the mix as it is, every 2 bars. Track 4 goes round: the mix as it is, then all three in turn."
   }
 ]
