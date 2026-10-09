@@ -178,5 +178,29 @@
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-8-4-71afe1.mp3",
     "say": "The chord loop's width. It is nearly mono in the set. The chord is 8 decibels up in every version. Three widths: 50, 100 and 150 percent, each at the same loudness. Each track starts wide, then switches back, every 2 bars. Track 4 goes round."
+  },
+  {
+    "n": 8.5,
+    "title": "Batch 8.5 — The chord loop's texture: its Supermassive short and tight, with the chord up 8 dB (9 Oct)",
+    "notes": "Anthony asked for the chord's Supermassive short and tight, to change texture and frequency rather than add space. Short delay (0.1), low feedback (0.2), low cut 0.3; Mix 0.3, 0.55 and 0.8. The baseline is batch 6's mix with the chord 8 dB up; every version keeps the chord at the same loudness (within 0.3 LU). At Mix 0.8 the chord's low mids drop about 2 dB and its top rises about 2 dB. Tracks 1 to 3 switch every 2 bars, the texture first. Track 4 goes round.",
+    "ordered": true,
+    "announce": "/audio/skrng/tts/batch-8-5-1187cd.mp3",
+    "say": "The chord loop's texture. The chord is 8 decibels up in every version. Its own Supermassive comes on, short and tight, at three amounts, each at the same loudness. Each track starts with the texture, then switches back, every 2 bars. Track 4 goes round."
+  },
+  {
+    "n": 8.6,
+    "title": "Batch 8.6 — Space in the break: the Break group's reverb at 70, 80 and 90% wet (9 Oct)",
+    "notes": "The break (bars 81-88: the synths, the horn and the beatbox) on batch 6's mix. Its group reverb (Hybrid: Prism with a Textures convolution in parallel) is 50% wet in the set; here 70, 80 and 90%. Same loudness; wetter takes 3-5 dB off the lows and the top and keeps the mids. Tracks 1 to 3 switch every 2 bars, the wetter break first. Track 4 goes round.",
+    "ordered": true,
+    "announce": "/audio/skrng/tts/batch-8-6-1b8363.mp3",
+    "say": "Space in the break. The break's group reverb, wetter: 70, 80 and 90 percent, against 50 in the set. Each track starts wetter, then switches back, every 2 bars. Track 4 goes round."
+  },
+  {
+    "n": 8.7,
+    "title": "Batch 8.7 — Colour in the break: the Break group's COLDFIRE Colour, dark to bright (9 Oct)",
+    "notes": "The break on batch 6's mix. The Break group's COLDFIRE (wavefolder) has Colour at 0.7 in the set. Here 0.3 and 0.5, darker (the top 4 and 2 dB down, the lows up), and 1.0, brighter (the top 3 dB up). Every version at the same loudness. Tracks 1 to 3 switch every 2 bars, the new colour first. Track 4 goes round.",
+    "ordered": true,
+    "announce": "/audio/skrng/tts/batch-8-7-502bc3.mp3",
+    "say": "Colour in the break. The break's COLDFIRE colour: two darker, then one brighter. Each track starts with the new colour, then switches back, every 2 bars. Track 4 goes round."
   }
 ]
