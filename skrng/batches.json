@@ -154,5 +154,29 @@
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-8-1-0f6251.mp3",
     "say": "Kick distortion. The mix now has all of batch 6's changes. Three amounts of drive on the kick and the rumble: 37, 43 and a half, and 50 percent. Each track starts with the new drive, then switches back to the mix as it is, every 2 bars. Track 4 goes round: the mix as it is, then all three in turn."
+  },
+  {
+    "n": 8.2,
+    "title": "Batch 8.2 — The chord loop up 4, 8 and 12 dB, on batch 6's mix (9 Oct)",
+    "notes": "The processed synth chord loop that plays under the intro, the peak and the outro sits about 21 LU under the rest of the mix. It was muted in every batch since 4.3. Here it is back, at its level in the song (the baseline) and raised 4, 8 and 12 dB with its own Utility: 17, 13 and 10 LU under the rest. Level only, no colour. Tracks 1 to 3 switch every 2 bars, the louder chord first. Track 4 goes round.",
+    "ordered": true,
+    "announce": "/audio/skrng/tts/batch-8-2-4efe17.mp3",
+    "say": "The chord loop. It plays under the intro, the peak and the outro, and it sits far under the drums. Three levels: up 4, 8 and 12 decibels. Each track starts with the louder chord, then switches back to the mix as it is, every 2 bars. Track 4 goes round: the mix as it is, then all three."
+  },
+  {
+    "n": 8.3,
+    "title": "Batch 8.3 — The chord loop's colour through COLDFIRE, with the chord up 8 dB (9 Oct)",
+    "notes": "Colour is only heard once the chord is up, so the baseline here is batch 6's mix with the chord loop 8 dB up (batch 8.2, track 2). The alternatives switch on the chord's own COLDFIRE (Shine Bright: tube into transformer, it was bypassed inside the plugin) and turn its Colour to 0.5, 0.75 and 1. Its top octaves rise 4, 6 and 9 dB. Every version keeps the chord at the same loudness (within 0.2 LU), so only the colour changes. Measured in the full mix, the top octaves move under 0.5 dB: the hats still cover the chord's top, so this one may be subtle. Tracks 1 to 3 switch every 2 bars, the colour first. Track 4 goes round.",
+    "ordered": true,
+    "announce": "/audio/skrng/tts/batch-8-3-6ef85c.mp3",
+    "say": "The chord loop's colour. The chord is 8 decibels up in every version. Its own COLDFIRE distortion comes on, with three amounts of colour, each at the same loudness. Each track starts with the colour, then switches back, every 2 bars. Track 4 goes round."
+  },
+  {
+    "n": 8.4,
+    "title": "Batch 8.4 — The chord loop's width, 50, 100 and 150%, with the chord up 8 dB (9 Oct)",
+    "notes": "The chord loop's Utility narrows it to 10% width, so it sits in the middle with the kick and the rumble. The baseline is batch 6's mix with the chord 8 dB up. The alternatives widen it to 50, 100 and 150%, each at the same chord loudness (within 0.2 LU): wider, not louder. Tracks 1 to 3 switch every 2 bars, the wider chord first. Track 4 goes round.",
+    "ordered": true,
+    "announce": "/audio/skrng/tts/batch-8-4-71afe1.mp3",
+    "say": "The chord loop's width. It is nearly mono in the set. The chord is 8 decibels up in every version. Three widths: 50, 100 and 150 percent, each at the same loudness. Each track starts wide, then switches back, every 2 bars. Track 4 goes round."
   }
 ]
