@@ -615,6 +615,7 @@ function start(page) {
     me.cancelled = true;
     document.removeEventListener("visibilitychange", me.relock);
     claimButtons(false);
+    page.claimButtons?.(); // the buttons go back to Play batch
     try { await lock?.release(); } catch {}
     run = null;
     panel.hidden = true;
@@ -678,8 +679,8 @@ function start(page) {
   // Earbud and lock-screen buttons. Browsers route these to whatever last
   // played media, so they work best right after a track; on a phone with
   // the screen on they reach the page throughout.
-  // They are claimed only while a review runs, so Play batch and the
-  // track players keep the browser's own pause and skip outside a review.
+  // The review claims them while it runs; outside a review they drive
+  // Play batch (index.html), which takes them back when the review ends.
   const BUTTONS = ["nexttrack", "play", "pause", "previoustrack"];
   function claimButtons(on) {
     if (!("mediaSession" in navigator)) return;

@@ -1,5 +1,53 @@
 [
   {
+    "id": "2026-10-07-hw002-b8-1-kick-distortion-t1",
+    "title": "HW002 — Track 1: drive 37%",
+    "date": "2026-10-07",
+    "file": "/audio/skrng/2026-10-07-hw002-b8-1-kick-distortion-t1.mp3",
+    "batch": 8.1,
+    "bpm": 160,
+    "duration_s": 24.0,
+    "notes": "Drive 37% against the baseline, switching every 2 bars, the new version first.",
+    "say": "drive 37 percent",
+    "announce": "/audio/skrng/tts/2026-10-07-hw002-b8-1-kick-distortion-t1.mp3"
+  },
+  {
+    "id": "2026-10-07-hw002-b8-1-kick-distortion-t2",
+    "title": "HW002 — Track 2: drive 43.5%",
+    "date": "2026-10-07",
+    "file": "/audio/skrng/2026-10-07-hw002-b8-1-kick-distortion-t2.mp3",
+    "batch": 8.1,
+    "bpm": 160,
+    "duration_s": 24.0,
+    "notes": "Drive 43.5% against the baseline, switching every 2 bars, the new version first.",
+    "say": "drive 43.5 percent",
+    "announce": "/audio/skrng/tts/2026-10-07-hw002-b8-1-kick-distortion-t2.mp3"
+  },
+  {
+    "id": "2026-10-07-hw002-b8-1-kick-distortion-t3",
+    "title": "HW002 — Track 3: drive 50%",
+    "date": "2026-10-07",
+    "file": "/audio/skrng/2026-10-07-hw002-b8-1-kick-distortion-t3.mp3",
+    "batch": 8.1,
+    "bpm": 160,
+    "duration_s": 24.0,
+    "notes": "Drive 50% against the baseline, switching every 2 bars, the new version first.",
+    "say": "drive 50 percent",
+    "announce": "/audio/skrng/tts/2026-10-07-hw002-b8-1-kick-distortion-t3.mp3"
+  },
+  {
+    "id": "2026-10-07-hw002-b8-1-kick-distortion-t4",
+    "title": "HW002 — Track 4: round: baseline, 37%, 43.5%, 50%",
+    "date": "2026-10-07",
+    "file": "/audio/skrng/2026-10-07-hw002-b8-1-kick-distortion-t4.mp3",
+    "batch": 8.1,
+    "bpm": 160,
+    "duration_s": 24.0,
+    "notes": "The baseline, then each alternative in turn, 2 bars each.",
+    "say": "round: baseline, 37 percent, 43.5 percent, 50 percent",
+    "announce": "/audio/skrng/tts/2026-10-07-hw002-b8-1-kick-distortion-t4.mp3"
+  },
+  {
     "id": "2026-10-06-hw002-b7-1-kick-distortion-1530-v1",
     "batch": 7.1,
     "title": "HW002 — Kick distortion 1 (original): 2 kHz 6.1 dB under the references, crest 1.3 dB over",

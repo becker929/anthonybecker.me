@@ -40,6 +40,18 @@ entry with `id`, `title`, `date`, `file` (that URL), and optionally
 `duration_s`, `bpm`, `lufs`, `true_peak_dbtp`, `notes`. The page is `noindex`
 and not linked from `/`.
 
+### Play batch
+
+Play batch plays the batch, then carries on into every older one: each
+batch's intro (`"announce"` in `batches.json`, the experiment said once),
+then each track's announcement and the track. Everything goes through one
+hidden `<audio>` element, so it keeps going on a locked phone. The car's or
+lock screen's buttons (Media Session: play, pause, next, previous, stop;
+Bluetooth AVRCP buttons arrive as these) drive it, outside a voice review
+too; the review takes them while it runs and hands them back. The order
+comes from `skrng/playlist.js` (tested in `src/test/skrng-playlist.test.js`).
+zpkt `lib/record/batch_intro.py` makes a batch's intro and sets `announce`.
+
 ### Voice review
 
 "Review by voice" runs a batch hands-free. For each track it says where you
