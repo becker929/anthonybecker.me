@@ -67,7 +67,18 @@ function readKey() {
   }
   try { return localStorage.getItem(KEY_STORE) || ""; } catch { return ""; }
 }
-const key = readKey();
+let key = readKey();
+
+// Step 1 asks the site, not just this phone: a stale key is found but refused.
+async function checkKey() {
+  if (!key) { $("keyform").hidden = false; return { ok: false, why: "missing: paste your key below, or open /skrng/talk/#key=… once" }; }
+  try {
+    const res = await fetch(`/api/skrng/feedback?batch=${BATCH}`, { headers: auth(), cache: "no-store" });
+    if (res.ok) { $("keyform").hidden = true; return { ok: true, why: "accepted by the site" }; }
+    $("keyform").hidden = false;
+    return { ok: false, why: res.status === 401 ? "this phone's key is wrong or old: paste the current one below" : `site answered ${res.status}` };
+  } catch { return { ok: false, why: "offline" }; }
+}
 const auth = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${key}` });
 
 // --- sound -------------------------------------------------------------------
@@ -316,7 +327,8 @@ async function runTest() {
   $("reply").textContent = "";
   for (const s of ["key", "speak", "music", "listen", "save", "mac"]) result(s, null, "");
 
-  result("key", !!key, key ? "found" : "missing: open /skrng/#key=… once on this phone");
+  const k = await checkKey();
+  result("key", k.ok, k.why);
 
   const sp = await speak("Talk test. If you can hear me, step two passed. Next, eight seconds of music.");
   result("speak", sp.ok, sp.ok ? `spoken (${sp.ms} ms)` : `nothing spoken: ${sp.why}`);
@@ -398,4 +410,14 @@ $("run").addEventListener("click", guarded(runTest));
 $("talk").addEventListener("click", guarded(talkLoop));
 $("done").addEventListener("click", () => done());
 $("stop").addEventListener("click", () => { stopped = true; abort(); });
-result("key", key ? true : false, key ? "found" : "missing: open /skrng/#key=… once on this phone");
+checkKey().then((k) => result("key", k.ok, k.why));
+$("keyform").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const v = $("keyin").value.trim();
+  if (!v) return;
+  key = v;
+  try { localStorage.setItem(KEY_STORE, v); } catch {}
+  $("keyin").value = "";
+  const k = await checkKey();
+  result("key", k.ok, k.why);
+});
