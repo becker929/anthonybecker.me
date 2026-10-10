@@ -37,11 +37,16 @@
       <button type="button" id="stop">Stop</button>
     </div>
 
+    <form id="keyform" hidden class="tt-buttons">
+      <input id="keyin" type="password" autocomplete="off" placeholder="Paste your skrng key" style="flex:1;min-width:12rem;font:inherit;padding:.6rem">
+      <button type="submit">Save key</button>
+    </form>
+
     <p class="tt-heard" id="heard" aria-live="polite"></p>
     <p class="tt-reply" id="reply" aria-live="polite"></p>
 
     <ol class="tt-steps">
-      <li><b>1</b> Key on this phone <span class="tt-res" id="r-key"></span></li>
+      <li><b>1</b> The site accepts this phone's key <span class="tt-res" id="r-key"></span></li>
       <li><b>2</b> The page speaks <span class="tt-res" id="r-speak"></span></li>
       <li><b>3</b> Music plays (8 s of batch 8.7) <span class="tt-res" id="r-music"></span></li>
       <li><b>4</b> The page hears you <span class="tt-res" id="r-listen"></span></li>

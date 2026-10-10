@@ -55,6 +55,17 @@ await ctx.route("**/api/rpc", async (r) => {
   asks.push(call.params.prompt);
   return r.fulfill({ json: { answer: `Answer ${asks.length}.`, session_id: "s" } });
 });
+// A stale key is found on the phone but refused by the site: step 1 says so and offers the box.
+const stale = await ctx.newPage();
+await stale.addInitScript(standIns);
+await stale.goto(`${BASE}/skrng/talk/#key=old-key`);
+await stale.waitForFunction(() => /wrong or old/.test(document.getElementById("r-key").textContent));
+assert.equal(await stale.isVisible("#keyform"), true);
+await stale.fill("#keyin", TOKEN);
+await stale.click("#keyform button");
+await stale.waitForFunction(() => document.getElementById("r-key").classList.contains("ok"));
+await stale.close();
+
 const page = await ctx.newPage();
 await page.addInitScript(standIns);
 page.on("pageerror", (e) => console.error("pageerror", e.message));
