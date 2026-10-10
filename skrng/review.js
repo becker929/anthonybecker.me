@@ -27,6 +27,8 @@ import {
 } from "./voice.js";
 
 const KEY_STORE = "skrng.key";
+// On the Mac (tailnet, behind its password) the sign-in cookie is the key.
+const ON_MAC = location.hostname.endsWith(".ts.net");
 const FB_STORE = "skrng.fb";
 const REMIND_AFTER_MS = 30000;   // one spoken reminder if nothing is heard
 const NEXT_SETTLE_MS = 900;      // an interim "...next" that stays put counts
@@ -69,6 +71,7 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 // --- Key and local store --------------------------------------------------
 
 function readKey() {
+  if (ON_MAC) return "mac";
   const hash = new URLSearchParams(location.hash.slice(1));
   const query = new URLSearchParams(location.search);
   const fresh = hash.get("key") || query.get("key");

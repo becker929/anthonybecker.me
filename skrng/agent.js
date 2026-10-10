@@ -13,11 +13,14 @@
 // finished review starts a job without a tap.
 
 const KEY_STORE = "skrng.key";
+// On the Mac (tailnet, behind its password) the sign-in cookie is the key.
+const ON_MAC = location.hostname.endsWith(".ts.net");
 const POLL_MS = 10000;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 function key() {
+  if (ON_MAC) return "mac";
   try { return localStorage.getItem(KEY_STORE) || ""; } catch { return ""; }
 }
 
