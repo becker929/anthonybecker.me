@@ -82,6 +82,16 @@ curl -H "Authorization: Bearer $SKRNG_TOKEN" \
   "https://anthonybecker.me/api/skrng/feedback?batch=4.1"   # what was said
 ```
 
+### Talk test
+
+`/skrng/talk/` proves the spoken loop one step at a time on a real phone:
+the key, speech out, 8 s of music, speech in, the words stored and read
+back, and an answer from the Mac (`ask` over `/api/rpc`) read aloud. **Talk
+with Claude** loops the last three as a conversation, ending each turn on a
+pause; "that's all" ends it. Records land as batch 0 (`talk-test`, and
+`talk-test-log` with the page's own log), so the agent can see which step
+broke. `node e2e/skrng-talk.mjs` tests it in Chromium.
+
 `node e2e/skrng.mjs` (with `node e2e/server.mjs` running) drives a review in
 Chromium with scripted speech in and out.
 
