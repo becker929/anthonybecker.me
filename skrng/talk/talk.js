@@ -15,6 +15,8 @@
 import { parseCommand, speakable } from "../voice.js";
 
 const KEY_STORE = "skrng.key";
+// On the Mac (tailnet, behind its password) the sign-in cookie is the key.
+const ON_MAC = location.hostname.endsWith(".ts.net");
 const BATCH = 0;
 const CLIP = "/audio/skrng/2026-10-09-hw002-b8-7-break-colour-t1.mp3";
 const CLIP_S = 8;
@@ -58,6 +60,7 @@ function result(step, ok, text) {
 
 // --- key ---------------------------------------------------------------------
 function readKey() {
+  if (ON_MAC) return "mac";
   const hash = new URLSearchParams(location.hash.slice(1));
   const fresh = hash.get("key");
   if (fresh) {
@@ -74,7 +77,7 @@ async function checkKey() {
   if (!key) { $("keyform").hidden = false; return { ok: false, why: "missing: paste your key below, or open /skrng/talk/#key=… once" }; }
   try {
     const res = await fetch(`/api/skrng/feedback?batch=${BATCH}`, { headers: auth(), cache: "no-store" });
-    if (res.ok) { $("keyform").hidden = true; return { ok: true, why: "accepted by the site" }; }
+    if (res.ok) { $("keyform").hidden = true; return { ok: true, why: ON_MAC ? "signed in to the Mac" : "accepted by the site" }; }
     $("keyform").hidden = false;
     return { ok: false, why: res.status === 401 ? "this phone's key is wrong or old: paste the current one below" : `site answered ${res.status}` };
   } catch { return { ok: false, why: "offline" }; }
