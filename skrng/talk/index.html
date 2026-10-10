@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>skrng talk test — Anthony Becker</title>
+  <meta name="description" content="Proves the spoken loop: speech out, music, speech in, saved, and an answer from the Mac.">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../skrng.css">
+  <style>
+    .tt-steps { list-style: none; padding: 0; margin: 1.5rem 0; display: grid; gap: .75rem; }
+    .tt-steps li { border: 1px solid currentColor; border-radius: 6px; padding: .6rem .8rem; opacity: .9; }
+    .tt-steps b { display: inline-block; min-width: 1.5em; }
+    .tt-res { display: block; font-size: .9em; margin-top: .25rem; min-height: 1.2em; }
+    .tt-res.ok::before { content: "pass · "; font-weight: 600; }
+    .tt-res.bad::before { content: "fail · "; font-weight: 600; }
+    .tt-heard { font-size: 1.15em; min-height: 2.4em; margin: 1rem 0; }
+    .tt-heard i { opacity: .55; }
+    .tt-buttons { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+    .tt-buttons button { font: inherit; padding: .7rem 1rem; border-radius: 6px; border: 1px solid currentColor; background: transparent; color: inherit; }
+    .tt-buttons button.primary { font-weight: 600; }
+    .tt-reply { white-space: pre-wrap; margin: 1rem 0; }
+    .tt-log { font: .78rem/1.35 ui-monospace, Menlo, monospace; white-space: pre-wrap; max-height: 40vh; overflow: auto; opacity: .8; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="crumbs"><a href="/skrng/">← skrng</a></nav>
+    <h1>Talk test</h1>
+    <p class="lede">Proves the spoken loop one step at a time, so we can see which part breaks on your phone and in the car. Tap <b>Run the test</b> and follow the voice.</p>
+
+    <div class="tt-buttons">
+      <button type="button" class="primary" id="run">Run the test</button>
+      <button type="button" id="talk">Talk with Claude</button>
+      <button type="button" id="done" disabled>Done</button>
+      <button type="button" id="stop">Stop</button>
+    </div>
+
+    <p class="tt-heard" id="heard" aria-live="polite"></p>
+    <p class="tt-reply" id="reply" aria-live="polite"></p>
+
+    <ol class="tt-steps">
+      <li><b>1</b> Key on this phone <span class="tt-res" id="r-key"></span></li>
+      <li><b>2</b> The page speaks <span class="tt-res" id="r-speak"></span></li>
+      <li><b>3</b> Music plays (8 s of batch 8.7) <span class="tt-res" id="r-music"></span></li>
+      <li><b>4</b> The page hears you <span class="tt-res" id="r-listen"></span></li>
+      <li><b>5</b> Your words reach the site and come back <span class="tt-res" id="r-save"></span></li>
+      <li><b>6</b> The Mac answers, out loud <span class="tt-res" id="r-mac"></span></li>
+    </ol>
+
+    <p><b>Talk with Claude</b> loops steps 4 to 6: say something, wait for the spoken answer, say the next thing. Say <b>that's all</b> to end it. Each test sends its log to the site, so Claude can read what broke.</p>
+
+    <details>
+      <summary>Log</summary>
+      <pre class="tt-log" id="log"></pre>
+    </details>
+  </main>
+  <script type="module" src="talk.js"></script>
+</body>
+</html>
