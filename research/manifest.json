@@ -28,5 +28,23 @@
     "title": "Re-scoring the HumTrans humming benchmark",
     "description": "What a public humming dataset shows about humming transcription: the published scores measured a delay, not the models, and what is still hard once the delay is fixed.",
     "path": "/research/humming-transcription/"
+  },
+  {
+    "slug": "games-of-2024",
+    "title": "Counting the video games of 2024",
+    "description": "A count of the video games first released in 2024, with its error range. It also finds the critic score where acclaim begins.",
+    "path": "/research/games-of-2024/"
+  },
+  {
+    "slug": "music-space",
+    "title": "How much room a hook takes up in music space",
+    "description": "A toy model of melodic space, with no real songs yet. It measures how much room one record claims and who owns the popular ground.",
+    "path": "/research/music-space/"
+  },
+  {
+    "slug": "open-net-battle-on-a-mac",
+    "title": "Building Open Net Battle on an Apple Silicon Mac",
+    "description": "We built a fan-made battle game engine from source on an Apple Silicon Mac mini. Seven small patches and one launch option took it from download to a real battle.",
+    "path": "/research/open-net-battle-on-a-mac/"
   }
 ]

@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How much room a hook takes up in music space</title>
+  <meta name="description" content="A toy model of melodic space, in plain language: how much room one record claims, how often records collide, who owns the popular ground, and which assumptions matter most.">
+  <meta property="og:title" content="How much room a hook takes up in music space">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / Research / Music space</nav>
+  <header class="title">
+    <div class="kicker">Research</div>
+    <h1>How much room a hook takes up in music space</h1>
+    <p class="meta">11 October 2026 · written by Claude (Opus 5.5) · plain language · <a href="#glossary">glossary</a></p>
+  </header>
+
+  <h2 id="intro">What this asks</h2>
+  <p>Every new song lands among millions of older ones. This project asks how crowded that space of melodies is. It starts from one idea. A record takes up room, because listeners recognize melodies close to it. Earlier records claim that room first. Composers then move through whatever is left.</p>
+  <p>The project built a small mathematical model to answer questions like these.</p>
+  <ul>
+    <li>How much room does one record take?</li>
+    <li>How many records fit before their rooms overlap?</li>
+    <li>How often do two records land close enough to be confused?</li>
+    <li>Who owns a region when records arrive one after another?</li>
+    <li>How far must a new composer move to find free ground?</li>
+    <li>Which assumptions matter most, and what real data could settle them?</li>
+  </ul>
+  <div class="note">
+    <p><strong>This is a toy model.</strong> It holds no real songs yet. Every number on this page describes the model under chosen settings. No real data has fixed those settings so far. A section below names the data that could.</p>
+  </div>
+
+  <h3 id="found">What it found</h3>
+  <ul>
+    <li>One record covers 20,791 sixteen-note <a class="term" href="#g-hook">hooks</a>, at the default setting for what listeners tolerate. That is one part in 10<sup>13.3</sup> of all possible hooks.</li>
+    <li>Each extra change a listener tolerates multiplies that room. The factors for the first three changes run from 61 to 211.</li>
+    <li>By count, the space is almost empty. The melodies composers are likely to write fill up fast. Early records own most of that ground.</li>
+    <li>Pairs of records close enough to confuse grow with the square of the catalog. Popular styles multiply them. Copying adds many when listeners tolerate almost no change.</li>
+    <li>Three settings drive the answers: listener tolerance, the preference for small steps, and hook length.</li>
+    <li>Each moves the count of confusable pairs by 5.4 to 6.0 <a class="term" href="#g-order">orders of magnitude</a>.</li>
+  </ul>
+  <p>Numbers come in two kinds. <a class="term" href="#g-counted">Counted</a> numbers are exact inside the model. <a class="term" href="#g-estimated">Estimated</a> numbers come from simulation or approximation. Estimates appear with the word about, or as a range.</p>
+
+  <h2 id="ball">A record covers a ball of hooks</h2>
+  <p>A <a class="term" href="#g-hook">hook</a> here is a short melody of sixteen notes, four bars of quarter notes. The model stores it as fifteen <a class="term" href="#g-interval">intervals</a>, the steps between notes. Each step runs from seven <a class="term" href="#g-semitone">semitones</a> down to seven up. Storing steps makes a hook the same in every key. Rhythm, harmony and <a class="term" href="#g-timbre">timbre</a> are left out.</p>
+  <p>An <a class="term" href="#g-edit">edit</a> changes one interval. The <a class="term" href="#g-hamming-distance">Hamming distance</a> between two hooks counts the intervals where they differ. The <a class="term" href="#g-radius">recognition radius</a>, r, is how many edits a listener tolerates. Within that distance, a listener still hears the original record. The default radius is 2, so 13 of 15 intervals must match. That is a similarity of 86.7%.</p>
+  <p>So a record covers more than one point. It claims a <a class="term" href="#g-ball">ball</a>, every hook within r edits of its own. Figure 1 shows the idea.</p>
+  <figure class="viz" id="fig1">
+<!-- BEGIN gen:diagram -->
+<div class="diagram">
+<svg class="dg" viewBox="0 0 340 264" role="img" aria-label="A made-up sixteen-note hook drawn as a contour, and three edited versions below it. Each edit changes one step between notes, so the notes after it shift up or down together. The versions one and two edits away are marked recognized. The version three edits away is marked not recognized.">
+<text class="lab" x="8" y="22.0">The record&#x27;s hook</text>
+<path class="melody main" d="M18.0,48.2 L38.2,42.5 L58.4,36.8 L78.6,34.0 L98.8,42.5 L119.0,48.2 L139.2,48.2 L159.4,36.8 L179.6,42.5 L199.8,45.3 L220.0,51.0 L240.2,45.3 L260.4,36.8 L280.6,39.7 L300.8,45.3 L321.0,51.0"/>
+<circle class="nt main" cx="18.0" cy="48.2" r="2.6"/>
+<circle class="nt main" cx="38.2" cy="42.5" r="2.6"/>
+<circle class="nt main" cx="58.4" cy="36.8" r="2.6"/>
+<circle class="nt main" cx="78.6" cy="34.0" r="2.6"/>
+<circle class="nt main" cx="98.8" cy="42.5" r="2.6"/>
+<circle class="nt main" cx="119.0" cy="48.2" r="2.6"/>
+<circle class="nt main" cx="139.2" cy="48.2" r="2.6"/>
+<circle class="nt main" cx="159.4" cy="36.8" r="2.6"/>
+<circle class="nt main" cx="179.6" cy="42.5" r="2.6"/>
+<circle class="nt main" cx="199.8" cy="45.3" r="2.6"/>
+<circle class="nt main" cx="220.0" cy="51.0" r="2.6"/>
+<circle class="nt main" cx="240.2" cy="45.3" r="2.6"/>
+<circle class="nt main" cx="260.4" cy="36.8" r="2.6"/>
+<circle class="nt main" cx="280.6" cy="39.7" r="2.6"/>
+<circle class="nt main" cx="300.8" cy="45.3" r="2.6"/>
+<circle class="nt main" cx="321.0" cy="51.0" r="2.6"/>
+<text class="lab" x="8" y="84.0">1 edit away</text>
+<text class="tick" x="332" y="84.0" text-anchor="end">recognized</text>
+<path class="ghost" d="M18.0,110.2 L38.2,104.5 L58.4,98.8 L78.6,96.0 L98.8,104.5 L119.0,110.2 L139.2,110.2 L159.4,98.8 L179.6,104.5 L199.8,107.3 L220.0,113.0 L240.2,107.3 L260.4,98.8 L280.6,101.7 L300.8,107.3 L321.0,113.0"/>
+<path class="melody" d="M18.0,110.2 L38.2,104.5 L58.4,98.8 L78.6,96.0 L98.8,104.5 L119.0,110.2 L139.2,110.2 L159.4,107.3 L179.6,113.0 L199.8,115.8 L220.0,121.5 L240.2,115.8 L260.4,107.3 L280.6,110.2 L300.8,115.8 L321.0,121.5"/>
+<path class="edit" d="M139.2,110.2 L159.4,107.3"/>
+<circle class="nt" cx="18.0" cy="110.2" r="2.6"/>
+<circle class="nt" cx="38.2" cy="104.5" r="2.6"/>
+<circle class="nt" cx="58.4" cy="98.8" r="2.6"/>
+<circle class="nt" cx="78.6" cy="96.0" r="2.6"/>
+<circle class="nt" cx="98.8" cy="104.5" r="2.6"/>
+<circle class="nt" cx="119.0" cy="110.2" r="2.6"/>
+<circle class="nt" cx="139.2" cy="110.2" r="2.6"/>
+<circle class="nt" cx="159.4" cy="107.3" r="2.6"/>
+<circle class="nt" cx="179.6" cy="113.0" r="2.6"/>
+<circle class="nt" cx="199.8" cy="115.8" r="2.6"/>
+<circle class="nt" cx="220.0" cy="121.5" r="2.6"/>
+<circle class="nt" cx="240.2" cy="115.8" r="2.6"/>
+<circle class="nt" cx="260.4" cy="107.3" r="2.6"/>
+<circle class="nt" cx="280.6" cy="110.2" r="2.6"/>
+<circle class="nt" cx="300.8" cy="115.8" r="2.6"/>
+<circle class="nt" cx="321.0" cy="121.5" r="2.6"/>
+<text class="lab" x="8" y="146.0">2 edits away</text>
+<text class="tick" x="332" y="146.0" text-anchor="end">recognized</text>
+<path class="ghost" d="M18.0,172.2 L38.2,166.5 L58.4,160.8 L78.6,158.0 L98.8,166.5 L119.0,172.2 L139.2,172.2 L159.4,160.8 L179.6,166.5 L199.8,169.3 L220.0,175.0 L240.2,169.3 L260.4,160.8 L280.6,163.7 L300.8,169.3 L321.0,175.0"/>
+<path class="melody" d="M18.0,172.2 L38.2,166.5 L58.4,160.8 L78.6,158.0 L98.8,166.5 L119.0,172.2 L139.2,172.2 L159.4,169.3 L179.6,175.0 L199.8,177.8 L220.0,183.5 L240.2,177.8 L260.4,163.7 L280.6,166.5 L300.8,172.2 L321.0,177.8"/>
+<path class="edit" d="M139.2,172.2 L159.4,169.3"/>
+<path class="edit" d="M240.2,177.8 L260.4,163.7"/>
+<circle class="nt" cx="18.0" cy="172.2" r="2.6"/>
+<circle class="nt" cx="38.2" cy="166.5" r="2.6"/>
+<circle class="nt" cx="58.4" cy="160.8" r="2.6"/>
+<circle class="nt" cx="78.6" cy="158.0" r="2.6"/>
+<circle class="nt" cx="98.8" cy="166.5" r="2.6"/>
+<circle class="nt" cx="119.0" cy="172.2" r="2.6"/>
+<circle class="nt" cx="139.2" cy="172.2" r="2.6"/>
+<circle class="nt" cx="159.4" cy="169.3" r="2.6"/>
+<circle class="nt" cx="179.6" cy="175.0" r="2.6"/>
+<circle class="nt" cx="199.8" cy="177.8" r="2.6"/>
+<circle class="nt" cx="220.0" cy="183.5" r="2.6"/>
+<circle class="nt" cx="240.2" cy="177.8" r="2.6"/>
+<circle class="nt" cx="260.4" cy="163.7" r="2.6"/>
+<circle class="nt" cx="280.6" cy="166.5" r="2.6"/>
+<circle class="nt" cx="300.8" cy="172.2" r="2.6"/>
+<circle class="nt" cx="321.0" cy="177.8" r="2.6"/>
+<text class="lab" x="8" y="208.0">3 edits away</text>
+<text class="tick" x="332" y="208.0" text-anchor="end">not recognized</text>
+<path class="ghost" d="M18.0,234.2 L38.2,228.5 L58.4,222.8 L78.6,220.0 L98.8,228.5 L119.0,234.2 L139.2,234.2 L159.4,222.8 L179.6,228.5 L199.8,231.3 L220.0,237.0 L240.2,231.3 L260.4,222.8 L280.6,225.7 L300.8,231.3 L321.0,237.0"/>
+<path class="melody" d="M18.0,234.2 L38.2,228.5 L58.4,222.8 L78.6,228.5 L98.8,237.0 L119.0,242.7 L139.2,242.7 L159.4,239.8 L179.6,245.5 L199.8,248.3 L220.0,254.0 L240.2,248.3 L260.4,234.2 L280.6,237.0 L300.8,242.7 L321.0,248.3"/>
+<path class="edit" d="M58.4,222.8 L78.6,228.5"/>
+<path class="edit" d="M139.2,242.7 L159.4,239.8"/>
+<path class="edit" d="M240.2,248.3 L260.4,234.2"/>
+<circle class="nt" cx="18.0" cy="234.2" r="2.6"/>
+<circle class="nt" cx="38.2" cy="228.5" r="2.6"/>
+<circle class="nt" cx="58.4" cy="222.8" r="2.6"/>
+<circle class="nt" cx="78.6" cy="228.5" r="2.6"/>
+<circle class="nt" cx="98.8" cy="237.0" r="2.6"/>
+<circle class="nt" cx="119.0" cy="242.7" r="2.6"/>
+<circle class="nt" cx="139.2" cy="242.7" r="2.6"/>
+<circle class="nt" cx="159.4" cy="239.8" r="2.6"/>
+<circle class="nt" cx="179.6" cy="245.5" r="2.6"/>
+<circle class="nt" cx="199.8" cy="248.3" r="2.6"/>
+<circle class="nt" cx="220.0" cy="254.0" r="2.6"/>
+<circle class="nt" cx="240.2" cy="248.3" r="2.6"/>
+<circle class="nt" cx="260.4" cy="234.2" r="2.6"/>
+<circle class="nt" cx="280.6" cy="237.0" r="2.6"/>
+<circle class="nt" cx="300.8" cy="242.7" r="2.6"/>
+<circle class="nt" cx="321.0" cy="248.3" r="2.6"/>
+</svg>
+<svg class="dg" viewBox="0 0 340 264" role="img" aria-label="A target diagram. The record&#x27;s hook sits at the centre. A shaded disc covers every hook within two edits. Within one edit lie 211 hooks. Within two edits lie 20,791 hooks. Hooks three or more edits away fall outside the disc and are not recognized as the record.">
+<circle class="ball" cx="108" cy="132" r="86"/>
+<circle class="pt in" cx="142.8" cy="141.3" r="3.6"/>
+<circle class="pt in" cx="117.3" cy="166.8" r="3.6"/>
+<circle class="pt in" cx="82.5" cy="157.5" r="3.6"/>
+<circle class="pt in" cx="73.2" cy="122.7" r="3.6"/>
+<circle class="pt in" cx="98.7" cy="97.2" r="3.6"/>
+<circle class="pt in" cx="133.5" cy="106.5" r="3.6"/>
+<circle class="pt in" cx="173.4" cy="140.6" r="3.6"/>
+<circle class="pt in" cx="160.4" cy="172.2" r="3.6"/>
+<circle class="pt in" cx="133.3" cy="193.0" r="3.6"/>
+<circle class="pt in" cx="99.4" cy="197.4" r="3.6"/>
+<circle class="pt in" cx="67.8" cy="184.4" r="3.6"/>
+<circle class="pt in" cx="47.0" cy="157.3" r="3.6"/>
+<circle class="pt in" cx="42.6" cy="123.4" r="3.6"/>
+<circle class="pt in" cx="55.6" cy="91.8" r="3.6"/>
+<circle class="pt in" cx="82.7" cy="71.0" r="3.6"/>
+<circle class="pt in" cx="116.6" cy="66.6" r="3.6"/>
+<circle class="pt in" cx="148.2" cy="79.6" r="3.6"/>
+<circle class="pt in" cx="169.0" cy="106.7" r="3.6"/>
+<circle class="pt out" cx="208.8" cy="164.8" r="3"/>
+<circle class="pt out" cx="193.8" cy="194.3" r="3"/>
+<circle class="pt out" cx="170.3" cy="217.8" r="3"/>
+<circle class="pt out" cx="140.8" cy="232.8" r="3"/>
+<circle class="pt out" cx="108.0" cy="238.0" r="3"/>
+<circle class="pt out" cx="75.2" cy="232.8" r="3"/>
+<circle class="pt out" cx="45.7" cy="217.8" r="3"/>
+<circle class="pt out" cx="22.2" cy="194.3" r="3"/>
+<circle class="pt out" cx="7.2" cy="164.8" r="3"/>
+<circle class="pt out" cx="7.2" cy="99.2" r="3"/>
+<circle class="pt out" cx="22.2" cy="69.7" r="3"/>
+<circle class="pt out" cx="45.7" cy="46.2" r="3"/>
+<circle class="pt out" cx="75.2" cy="31.2" r="3"/>
+<circle class="pt out" cx="108.0" cy="26.0" r="3"/>
+<circle class="pt out" cx="140.8" cy="31.2" r="3"/>
+<circle class="pt out" cx="170.3" cy="46.2" r="3"/>
+<circle class="pt out" cx="193.8" cy="69.7" r="3"/>
+<circle class="pt out" cx="208.8" cy="99.2" r="3"/>
+<circle class="pt centre" cx="108" cy="132" r="5.5"/>
+<text class="lab" x="108" y="153" text-anchor="middle">the record</text>
+<path class="leader" d="M133.5,106.5 L218,48"/>
+<text class="lab" x="224" y="52">Within 1 edit</text>
+<text class="tick" x="224" y="67">211 hooks</text>
+<path class="leader" d="M173.4,123.4 L218,114"/>
+<text class="lab" x="224" y="118">Within 2 edits</text>
+<text class="tick" x="224" y="133">20,791 hooks</text>
+<path class="leader" d="M208.8,164.8 L218,186"/>
+<text class="lab" x="224" y="190">3 or more edits</text>
+<text class="tick" x="224" y="205">not recognized</text>
+<text class="lab" x="8" y="16">Recognition radius r = 2</text>
+</svg>
+</div>
+<!-- END gen:diagram -->
+    <figcaption>Figure 1. The melodies: a made-up hook and three edited versions. Each marked step is one edit. Later notes shift with it, against the faint original. The disc: at radius 2, the record claims every hook within two edits.</figcaption>
+  </figure>
+  <p>The results use two worlds. The hook-scale world is the one just described. It holds 15<sup>15</sup> hooks, which is 10<sup>17.6</sup>. The <a class="term" href="#g-toy">toy world</a> has hooks of eight intervals, each one of five kinds. The kinds are leap down, step down, repeat, step up and leap up. Its 390,625 hooks are few enough to check one by one.</p>
+
+  <h2 id="volume">How much room one record takes</h2>
+  <p>The number of hooks in a ball is its <a class="term" href="#g-counting-volume">counting volume</a>. It is the same for every record, so a formula gives it exactly. Within one edit lie 211 hooks. Within two lie 20,791. Within three lie 1,269,311. So at radius 2, one record covers one part in 10<sup>13.3</sup> of the space.</p>
+  <p>Each tolerated edit multiplies the volume. From radius 0 to 1 the factor is 211. From 1 to 2 it is 98.5, and from 2 to 3 it is 61.1. The factor shrinks slowly, because each new edit has fewer free positions.</p>
+  <figure class="viz" id="fig2">
+<!-- BEGIN gen:volume -->
+<ul class="legend"><li><span class="key line c-s1"></span>hooks inside one record&#x27;s ball</li><li><span class="key line c-s2"></span>the whole space divided by one ball</li><li><span class="key line c-ref"></span>earlier rough estimate, 10¹⁰</li></ul>
+<div class="chart" role="group" tabindex="0" data-chart="volume" aria-label="Line chart on a log scale. Hooks inside one record&#x27;s ball rise from 1 at radius 0 to 211 at radius 1, 20,791 at radius 2 and 1.3 million at radius 3. The whole space divided by one ball falls from 4.4 × 10^17 to about 10^7 at radius 6. Hover or tap the chart to read values. Arrow keys step through the values.">
+<svg class="wide" viewBox="0 0 680 330" role="img" aria-label="Line chart on a log scale. Hooks inside one record&#x27;s ball rise from 1 at radius 0 to 211 at radius 1, 20,791 at radius 2 and 1.3 million at radius 3. The whole space divided by one ball falls from 4.4 × 10^17 to about 10^7 at radius 6.">
+<line class="axis" x1="40.0" x2="548.0" y1="284.0" y2="284.0"/>
+<text class="tick" x="34.0" y="288.0" text-anchor="end">10⁰</text>
+<line class="grid" x1="40.0" x2="548.0" y1="241.7" y2="241.7"/>
+<text class="tick" x="34.0" y="245.7" text-anchor="end">10³</text>
+<line class="grid" x1="40.0" x2="548.0" y1="199.3" y2="199.3"/>
+<text class="tick" x="34.0" y="203.3" text-anchor="end">10⁶</text>
+<line class="grid" x1="40.0" x2="548.0" y1="157.0" y2="157.0"/>
+<text class="tick" x="34.0" y="161.0" text-anchor="end">10⁹</text>
+<line class="grid" x1="40.0" x2="548.0" y1="114.7" y2="114.7"/>
+<text class="tick" x="34.0" y="118.7" text-anchor="end">10¹²</text>
+<line class="grid" x1="40.0" x2="548.0" y1="72.3" y2="72.3"/>
+<text class="tick" x="34.0" y="76.3" text-anchor="end">10¹⁵</text>
+<line class="grid" x1="40.0" x2="548.0" y1="30.0" y2="30.0"/>
+<text class="tick" x="34.0" y="34.0" text-anchor="end">10¹⁸</text>
+<line class="axis" x1="59.5" x2="59.5" y1="284.0" y2="288.0"/>
+<text class="tick" x="59.5" y="303.0" text-anchor="middle">0</text>
+<line class="axis" x1="137.7" x2="137.7" y1="284.0" y2="288.0"/>
+<text class="tick" x="137.7" y="303.0" text-anchor="middle">1</text>
+<line class="axis" x1="215.8" x2="215.8" y1="284.0" y2="288.0"/>
+<text class="tick" x="215.8" y="303.0" text-anchor="middle">2</text>
+<line class="axis" x1="294.0" x2="294.0" y1="284.0" y2="288.0"/>
+<text class="tick" x="294.0" y="303.0" text-anchor="middle">3</text>
+<line class="axis" x1="372.2" x2="372.2" y1="284.0" y2="288.0"/>
+<text class="tick" x="372.2" y="303.0" text-anchor="middle">4</text>
+<line class="axis" x1="450.3" x2="450.3" y1="284.0" y2="288.0"/>
+<text class="tick" x="450.3" y="303.0" text-anchor="middle">5</text>
+<line class="axis" x1="528.5" x2="528.5" y1="284.0" y2="288.0"/>
+<text class="tick" x="528.5" y="303.0" text-anchor="middle">6</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Count (log scale)</text>
+<text class="ttl" x="294.0" y="324.0" text-anchor="middle">radius r: intervals that may differ, of 15</text>
+<line class="ref" x1="40.0" x2="548.0" y1="142.9" y2="142.9"/>
+<text class="lab" x="47.8" y="157.9" text-anchor="start">10¹⁰: an earlier rough estimate</text>
+<path class="ln k-s1" d="M59.5,284.0 L137.7,251.2 L215.8,223.1 L294.0,197.9 L372.2,174.9 L450.3,153.9 L528.5,134.5"/>
+<path class="ln k-s2" d="M59.5,35.1 L137.7,67.9 L215.8,96.0 L294.0,121.2 L372.2,144.1 L450.3,165.2 L528.5,184.6"/>
+<circle class="dot f-s1" cx="59.5" cy="284.0" r="4"/>
+<circle class="dot f-s2" cx="59.5" cy="35.1" r="4"/>
+<circle class="dot f-s1" cx="137.7" cy="251.2" r="4"/>
+<circle class="dot f-s2" cx="137.7" cy="67.9" r="4"/>
+<circle class="dot f-s1" cx="215.8" cy="223.1" r="4"/>
+<circle class="dot f-s2" cx="215.8" cy="96.0" r="4"/>
+<circle class="dot f-s1" cx="294.0" cy="197.9" r="4"/>
+<circle class="dot f-s2" cx="294.0" cy="121.2" r="4"/>
+<circle class="dot f-s1" cx="372.2" cy="174.9" r="4"/>
+<circle class="dot f-s2" cx="372.2" cy="144.1" r="4"/>
+<circle class="dot f-s1" cx="450.3" cy="153.9" r="4"/>
+<circle class="dot f-s2" cx="450.3" cy="165.2" r="4"/>
+<circle class="dot f-s1" cx="528.5" cy="134.5" r="4"/>
+<circle class="dot f-s2" cx="528.5" cy="184.6" r="4"/>
+<text class="lab" x="537.5" y="138.5" text-anchor="start">hooks in one ball</text>
+<text class="lab" x="537.5" y="188.6" text-anchor="start">space ÷ one ball</text>
+<line class="xhair" x1="0" x2="0" y1="30.0" y2="284.0"/>
+<rect class="hitarea" x="40.0" y="30.0" width="508.0" height="254.0"/>
+</svg>
+<svg class="narrow" viewBox="0 0 340 300" role="img" aria-label="Line chart on a log scale. Hooks inside one record&#x27;s ball rise from 1 at radius 0 to 211 at radius 1, 20,791 at radius 2 and 1.3 million at radius 3. The whole space divided by one ball falls from 4.4 × 10^17 to about 10^7 at radius 6.">
+<line class="axis" x1="40.0" x2="262.0" y1="254.0" y2="254.0"/>
+<text class="tick" x="34.0" y="258.0" text-anchor="end">10⁰</text>
+<line class="grid" x1="40.0" x2="262.0" y1="216.7" y2="216.7"/>
+<text class="tick" x="34.0" y="220.7" text-anchor="end">10³</text>
+<line class="grid" x1="40.0" x2="262.0" y1="179.3" y2="179.3"/>
+<text class="tick" x="34.0" y="183.3" text-anchor="end">10⁶</text>
+<line class="grid" x1="40.0" x2="262.0" y1="142.0" y2="142.0"/>
+<text class="tick" x="34.0" y="146.0" text-anchor="end">10⁹</text>
+<line class="grid" x1="40.0" x2="262.0" y1="104.7" y2="104.7"/>
+<text class="tick" x="34.0" y="108.7" text-anchor="end">10¹²</text>
+<line class="grid" x1="40.0" x2="262.0" y1="67.3" y2="67.3"/>
+<text class="tick" x="34.0" y="71.3" text-anchor="end">10¹⁵</text>
+<line class="grid" x1="40.0" x2="262.0" y1="30.0" y2="30.0"/>
+<text class="tick" x="34.0" y="34.0" text-anchor="end">10¹⁸</text>
+<line class="axis" x1="48.5" x2="48.5" y1="254.0" y2="258.0"/>
+<text class="tick" x="48.5" y="273.0" text-anchor="middle">0</text>
+<line class="axis" x1="82.7" x2="82.7" y1="254.0" y2="258.0"/>
+<text class="tick" x="82.7" y="273.0" text-anchor="middle">1</text>
+<line class="axis" x1="116.8" x2="116.8" y1="254.0" y2="258.0"/>
+<text class="tick" x="116.8" y="273.0" text-anchor="middle">2</text>
+<line class="axis" x1="151.0" x2="151.0" y1="254.0" y2="258.0"/>
+<text class="tick" x="151.0" y="273.0" text-anchor="middle">3</text>
+<line class="axis" x1="185.2" x2="185.2" y1="254.0" y2="258.0"/>
+<text class="tick" x="185.2" y="273.0" text-anchor="middle">4</text>
+<line class="axis" x1="219.3" x2="219.3" y1="254.0" y2="258.0"/>
+<text class="tick" x="219.3" y="273.0" text-anchor="middle">5</text>
+<line class="axis" x1="253.5" x2="253.5" y1="254.0" y2="258.0"/>
+<text class="tick" x="253.5" y="273.0" text-anchor="middle">6</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Count (log scale)</text>
+<text class="ttl" x="151.0" y="294.0" text-anchor="middle">radius r: edits allowed, of 15</text>
+<line class="ref" x1="40.0" x2="262.0" y1="129.6" y2="129.6"/>
+<text class="lab" x="43.4" y="144.6" text-anchor="start">10¹⁰: earlier estimate</text>
+<path class="ln k-s1" d="M48.5,254.0 L82.7,225.1 L116.8,200.3 L151.0,178.0 L185.2,157.8 L219.3,139.2 L253.5,122.2"/>
+<path class="ln k-s2" d="M48.5,34.5 L82.7,63.4 L116.8,88.2 L151.0,110.4 L185.2,130.7 L219.3,149.2 L253.5,166.3"/>
+<circle class="dot f-s1" cx="48.5" cy="254.0" r="4"/>
+<circle class="dot f-s2" cx="48.5" cy="34.5" r="4"/>
+<circle class="dot f-s1" cx="82.7" cy="225.1" r="4"/>
+<circle class="dot f-s2" cx="82.7" cy="63.4" r="4"/>
+<circle class="dot f-s1" cx="116.8" cy="200.3" r="4"/>
+<circle class="dot f-s2" cx="116.8" cy="88.2" r="4"/>
+<circle class="dot f-s1" cx="151.0" cy="178.0" r="4"/>
+<circle class="dot f-s2" cx="151.0" cy="110.4" r="4"/>
+<circle class="dot f-s1" cx="185.2" cy="157.8" r="4"/>
+<circle class="dot f-s2" cx="185.2" cy="130.7" r="4"/>
+<circle class="dot f-s1" cx="219.3" cy="139.2" r="4"/>
+<circle class="dot f-s2" cx="219.3" cy="149.2" r="4"/>
+<circle class="dot f-s1" cx="253.5" cy="122.2" r="4"/>
+<circle class="dot f-s2" cx="253.5" cy="166.3" r="4"/>
+<text class="lab" x="262.5" y="120.2" text-anchor="start">hooks in</text>
+<text class="lab" x="262.5" y="134.2" text-anchor="start">one ball</text>
+<text class="lab" x="262.5" y="164.3" text-anchor="start">space ÷</text>
+<text class="lab" x="262.5" y="178.3" text-anchor="start">one ball</text>
+<line class="xhair" x1="0" x2="0" y1="30.0" y2="254.0"/>
+<rect class="hitarea" x="40.0" y="30.0" width="222.0" height="224.0"/>
+</svg>
+<div class="tip" hidden></div>
+<script type="application/json" class="tipdata">{"mode":"x","wx":[59.5,137.7,215.8,294.0,372.2,450.3,528.5],"nx":[48.5,82.7,116.8,151.0,185.2,219.3,253.5],"pts":[{"t":"r = 0: 15 of 15 intervals match (100.0%)","r":[["1","hooks in one ball","s1"],["4.4 × 10¹⁷","space ÷ one ball","s2"]]},{"t":"r = 1: 14 of 15 intervals match (93.3%)","r":[["211","hooks in one ball","s1"],["2.1 × 10¹⁵","space ÷ one ball","s2"]]},{"t":"r = 2: 13 of 15 intervals match (86.7%)","r":[["20,791","hooks in one ball","s1"],["2.1 × 10¹³","space ÷ one ball","s2"]]},{"t":"r = 3: 12 of 15 intervals match (80.0%)","r":[["1,269,311","hooks in one ball","s1"],["3.4 × 10¹¹","space ÷ one ball","s2"]]},{"t":"r = 4: 11 of 15 intervals match (73.3%)","r":[["5.4 × 10⁷","hooks in one ball","s1"],["8.2 × 10⁹","space ÷ one ball","s2"]]},{"t":"r = 5: 10 of 15 intervals match (66.7%)","r":[["1.7 × 10⁹","hooks in one ball","s1"],["2.6 × 10⁸","space ÷ one ball","s2"]]},{"t":"r = 6: 9 of 15 intervals match (60.0%)","r":[["3.9 × 10¹⁰","hooks in one ball","s1"],["1.1 × 10⁷","space ÷ one ball","s2"]]}]}</script>
+</div>
+<!-- END gen:volume -->
+    <figcaption>Figure 2. Hooks inside one record's ball, and the whole space divided by that ball, by radius. Each gridline is a thousandfold step. The space divided by one ball reaches 10<sup>10</sup> near four edits.</figcaption>
+<!-- BEGIN gen:volume-table -->
+<details class="data"><summary>Table: hooks per ball by radius (counted)</summary><div class="tablewrap"><table><thead><tr><th>Radius r</th><th>Similarity</th><th>Hooks in one ball</th><th>Growth from r − 1</th><th>Space ÷ ball</th></tr></thead><tbody><tr><td>0</td><td class="num">100.0%</td><td class="num">1</td><td class="num"></td><td class="num">4.4 × 10¹⁷</td></tr><tr><td>1</td><td class="num">93.3%</td><td class="num">211</td><td class="num">211.0</td><td class="num">2.1 × 10¹⁵</td></tr><tr><td>2</td><td class="num">86.7%</td><td class="num">20,791</td><td class="num">98.5</td><td class="num">2.1 × 10¹³</td></tr><tr><td>3</td><td class="num">80.0%</td><td class="num">1,269,311</td><td class="num">61.1</td><td class="num">3.4 × 10¹¹</td></tr><tr><td>4</td><td class="num">73.3%</td><td class="num">53,707,151</td><td class="num">42.3</td><td class="num">8.2 × 10⁹</td></tr><tr><td>5</td><td class="num">66.7%</td><td class="num">1,668,792,623</td><td class="num">31.1</td><td class="num">2.6 × 10⁸</td></tr><tr><td>6</td><td class="num">60.0%</td><td class="num">39,354,120,303</td><td class="num">23.6</td><td class="num">1.1 × 10⁷</td></tr></tbody></table></div></details>
+<!-- END gen:volume-table -->
+  </figure>
+  <p>That growth makes a fuzzy threshold risky. Suppose recognition fades gradually instead of stopping sharply at r. Then the many hooks just outside the ball start to count. A fade a quarter of an edit wide already inflates the volume 20-fold. Keeping the inflation under double needs a fade narrower than 0.123 edits. So a record's volume is well defined only if recognition drops off sharply.</p>
+  <p>The kind of edit matters much less. Suppose edits may also insert or delete intervals. Then the radius-2 ball grows between 4.55 and 4.61 times. One more edit of radius moves the volume far more than that.</p>
+
+  <h2 id="plausible">Not every hook is equally likely</h2>
+  <p>The model assumes melodies favour small steps, runs in one direction, and turns after leaps. The model captures this with a <a class="term" href="#g-chain">plausibility chain</a>. That is a rule giving the chance of each next interval, given the last one. Under the default chain, each interval carries 2.90 <a class="term" href="#g-bit">bits</a>. That works like a free choice among 7.47 equally likely steps. It leaves 10<sup>13.1</sup> plausible hooks, far fewer than all 10<sup>17.6</sup>.</p>
+  <p>So the <a class="term" href="#g-mass">plausibility mass</a> inside a ball differs from record to record. That mass is the chance that a fresh, plausible hook lands inside. Call it the record's <a class="term" href="#g-mass-volume">mass volume</a>. Take toy records drawn from the chain, at radius 2. The median one holds 2.97 times an average share. One in ten holds more than 10.3 times.</p>
+  <p>At hook scale, the median is about 21,000 times an average share. A record in a popular region therefore claims far more of what composers will write.</p>
+
+  <h2 id="packing">How many records fit</h2>
+  <p>Two balls are disjoint when they share no hook. The <a class="term" href="#g-packing">packing number</a> counts how many records fit with disjoint balls. Coding theory, the mathematics of error-correcting codes, gives a ceiling and a floor. The ceiling is the <a class="term" href="#g-hamming-bound">Hamming bound</a>. The floor is the <a class="term" href="#g-gv-bound">Gilbert–Varshamov bound</a>.</p>
+  <p>At radius 2, between 10<sup>9.9</sup> and 10<sup>13.3</sup> disjoint records fit. Both ends come exactly from formulas. The plausible region alone is much smaller. It holds about 10<sup>6.7</sup> to 10<sup>9.5</sup> disjoint records, an approximate range. Every toy-world packing attempt landed between the two bounds, as theory requires.</p>
+
+  <h2 id="collisions">When two records collide</h2>
+  <p>Two records <a class="term" href="#g-collide">collide</a> when they sit within r edits of each other. A listener could then mistake one for the other. For records placed independently, a simple rule gives the expected count. Count every pair of records, then multiply by the chance that one pair collides. So pairs grow with the square of the <a class="term" href="#g-catalog">catalog</a>. Double the catalog, and the pairs quadruple.</p>
+  <p>Figure 3 applies that rule to the default plausibility chain. Take 2.5 × 10<sup>8</sup> hooks, close to the streaming catalog at the end of 2025. At radius 0, which means identical hooks, there are 2.3 × 10<sup>5</sup> pairs. Radius 1 gives 1.5 × 10<sup>7</sup>. Radius 2 gives 4.5 × 10<sup>8</sup>. The model counts every track as one hook, which real data could refine.</p>
+  <figure class="viz" id="fig3">
+<!-- BEGIN gen:pairs -->
+<ul class="legend"><li><span class="key line c-o1"></span>r = 0</li><li><span class="key line c-o2"></span>r = 1</li><li><span class="key line c-o3"></span>r = 2</li><li><span class="key line c-o4"></span>r = 3</li><li><span class="key line c-o5"></span>r = 4</li><li><span class="key line c-s2"></span>identical copy-and-parent pairs, 30% copying</li></ul>
+<div class="chart" role="group" tabindex="0" data-chart="pairs" aria-label="Log-log line chart of expected near-duplicate pairs against catalog size, one line per recognition radius from 0 to 4. Each line rises a hundredfold for every tenfold growth in the catalog. At 2.5 × 10^8 hooks the pairs are about 2.3 × 10^5 at radius 0, 1.5 × 10^7 at radius 1 and 4.5 × 10^8 at radius 2. An orange line for copies at radius 0 rises only tenfold per tenfold growth, reaching 1.5 × 10^7. Hover or tap the chart to read values. Arrow keys step through the values.">
+<svg class="wide" viewBox="0 0 680 340" role="img" aria-label="Log-log line chart of expected near-duplicate pairs against catalog size, one line per recognition radius from 0 to 4. Each line rises a hundredfold for every tenfold growth in the catalog. At 2.5 × 10^8 hooks the pairs are about 2.3 × 10^5 at radius 0, 1.5 × 10^7 at radius 1 and 4.5 × 10^8 at radius 2. An orange line for copies at radius 0 rises only tenfold per tenfold growth, reaching 1.5 × 10^7.">
+<line class="axis" x1="40.0" x2="618.0" y1="294.0" y2="294.0"/>
+<text class="tick" x="34.0" y="298.0" text-anchor="end">10⁰</text>
+<line class="grid" x1="40.0" x2="618.0" y1="250.0" y2="250.0"/>
+<text class="tick" x="34.0" y="254.0" text-anchor="end">10²</text>
+<line class="grid" x1="40.0" x2="618.0" y1="206.0" y2="206.0"/>
+<text class="tick" x="34.0" y="210.0" text-anchor="end">10⁴</text>
+<line class="grid" x1="40.0" x2="618.0" y1="162.0" y2="162.0"/>
+<text class="tick" x="34.0" y="166.0" text-anchor="end">10⁶</text>
+<line class="grid" x1="40.0" x2="618.0" y1="118.0" y2="118.0"/>
+<text class="tick" x="34.0" y="122.0" text-anchor="end">10⁸</text>
+<line class="grid" x1="40.0" x2="618.0" y1="74.0" y2="74.0"/>
+<text class="tick" x="34.0" y="78.0" text-anchor="end">10¹⁰</text>
+<line class="grid" x1="40.0" x2="618.0" y1="30.0" y2="30.0"/>
+<text class="tick" x="34.0" y="34.0" text-anchor="end">10¹²</text>
+<line class="axis" x1="40.0" x2="40.0" y1="294.0" y2="298.0"/>
+<text class="tick" x="40.0" y="313.0" text-anchor="middle">10⁶</text>
+<line class="axis" x1="260.6" x2="260.6" y1="294.0" y2="298.0"/>
+<text class="tick" x="260.6" y="313.0" text-anchor="middle">10⁷</text>
+<line class="axis" x1="481.2" x2="481.2" y1="294.0" y2="298.0"/>
+<text class="tick" x="481.2" y="313.0" text-anchor="middle">10⁸</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Expected near-duplicate pairs (log scale)</text>
+<text class="ttl" x="329.0" y="334.0" text-anchor="middle">hooks in the catalog (log scale)</text>
+<line class="ref" x1="569.0" x2="569.0" y1="30.0" y2="294.0"/>
+<text class="lab" x="564.0" y="40.0" text-anchor="end">2.5 × 10⁸ hooks</text>
+<path class="ln k-o1" d="M40.0,281.4 L51.0,279.2 L62.1,277.0 L73.1,274.8 L84.1,272.6 L95.2,270.4 L106.2,268.2 L117.2,266.0 L128.2,263.8 L139.3,261.6 L150.3,259.4 L161.3,257.2 L172.4,255.0 L183.4,252.8 L194.4,250.6 L205.5,248.4 L216.5,246.2 L227.5,244.0 L238.5,241.8 L249.6,239.6 L260.6,237.4 L271.6,235.2 L282.7,233.0 L293.7,230.8 L304.7,228.6 L315.8,226.4 L326.8,224.2 L337.8,222.0 L348.9,219.8 L359.9,217.6 L370.9,215.4 L381.9,213.2 L393.0,211.0 L404.0,208.8 L415.0,206.6 L426.1,204.4 L437.1,202.2 L448.1,200.0 L459.2,197.8 L470.2,195.6 L481.2,193.4 L492.3,191.2 L503.3,189.0 L514.3,186.8 L525.3,184.6 L536.4,182.4 L547.4,180.2 L558.4,178.0 L569.0,175.9"/>
+<path class="ln k-o2" d="M40.0,241.7 L51.0,239.5 L62.1,237.3 L73.1,235.1 L84.1,232.9 L95.2,230.7 L106.2,228.5 L117.2,226.3 L128.2,224.1 L139.3,221.9 L150.3,219.7 L161.3,217.5 L172.4,215.3 L183.4,213.1 L194.4,210.9 L205.5,208.7 L216.5,206.5 L227.5,204.3 L238.5,202.1 L249.6,199.9 L260.6,197.7 L271.6,195.5 L282.7,193.3 L293.7,191.1 L304.7,188.9 L315.8,186.7 L326.8,184.5 L337.8,182.3 L348.9,180.1 L359.9,177.9 L370.9,175.7 L381.9,173.5 L393.0,171.3 L404.0,169.1 L415.0,166.9 L426.1,164.7 L437.1,162.5 L448.1,160.3 L459.2,158.1 L470.2,155.9 L481.2,153.7 L492.3,151.5 L503.3,149.3 L514.3,147.1 L525.3,144.9 L536.4,142.7 L547.4,140.5 L558.4,138.3 L569.0,136.2"/>
+<path class="ln k-o3" d="M40.0,209.2 L51.0,207.0 L62.1,204.8 L73.1,202.6 L84.1,200.4 L95.2,198.2 L106.2,196.0 L117.2,193.8 L128.2,191.6 L139.3,189.4 L150.3,187.2 L161.3,185.0 L172.4,182.8 L183.4,180.6 L194.4,178.4 L205.5,176.2 L216.5,174.0 L227.5,171.8 L238.5,169.6 L249.6,167.4 L260.6,165.2 L271.6,163.0 L282.7,160.8 L293.7,158.6 L304.7,156.4 L315.8,154.2 L326.8,152.0 L337.8,149.8 L348.9,147.6 L359.9,145.4 L370.9,143.2 L381.9,141.0 L393.0,138.8 L404.0,136.6 L415.0,134.4 L426.1,132.2 L437.1,130.0 L448.1,127.8 L459.2,125.6 L470.2,123.4 L481.2,121.2 L492.3,119.0 L503.3,116.8 L514.3,114.6 L525.3,112.4 L536.4,110.2 L547.4,108.0 L558.4,105.8 L569.0,103.7"/>
+<path class="ln k-o4" d="M40.0,181.1 L51.0,178.9 L62.1,176.7 L73.1,174.5 L84.1,172.3 L95.2,170.1 L106.2,167.9 L117.2,165.7 L128.2,163.5 L139.3,161.3 L150.3,159.1 L161.3,156.9 L172.4,154.7 L183.4,152.5 L194.4,150.3 L205.5,148.1 L216.5,145.9 L227.5,143.7 L238.5,141.5 L249.6,139.3 L260.6,137.1 L271.6,134.9 L282.7,132.7 L293.7,130.5 L304.7,128.3 L315.8,126.1 L326.8,123.9 L337.8,121.7 L348.9,119.5 L359.9,117.3 L370.9,115.1 L381.9,112.9 L393.0,110.7 L404.0,108.5 L415.0,106.3 L426.1,104.1 L437.1,101.9 L448.1,99.7 L459.2,97.5 L470.2,95.3 L481.2,93.1 L492.3,90.9 L503.3,88.7 L514.3,86.5 L525.3,84.3 L536.4,82.1 L547.4,79.9 L558.4,77.7 L569.0,75.6"/>
+<path class="ln k-o5" d="M40.0,156.3 L51.0,154.1 L62.1,151.9 L73.1,149.7 L84.1,147.5 L95.2,145.3 L106.2,143.1 L117.2,140.9 L128.2,138.7 L139.3,136.5 L150.3,134.3 L161.3,132.1 L172.4,129.9 L183.4,127.7 L194.4,125.5 L205.5,123.3 L216.5,121.1 L227.5,118.9 L238.5,116.7 L249.6,114.5 L260.6,112.3 L271.6,110.1 L282.7,107.9 L293.7,105.7 L304.7,103.5 L315.8,101.3 L326.8,99.1 L337.8,96.9 L348.9,94.7 L359.9,92.5 L370.9,90.3 L381.9,88.1 L393.0,85.9 L404.0,83.7 L415.0,81.5 L426.1,79.3 L437.1,77.1 L448.1,74.9 L459.2,72.7 L470.2,70.5 L481.2,68.3 L492.3,66.1 L503.3,63.9 L514.3,61.7 L525.3,59.5 L536.4,57.3 L547.4,55.1 L558.4,52.9 L569.0,50.8"/>
+<path class="ln k-s2" d="M40.0,188.6 L51.0,187.5 L62.1,186.4 L73.1,185.3 L84.1,184.2 L95.2,183.1 L106.2,182.0 L117.2,180.9 L128.2,179.8 L139.3,178.7 L150.3,177.6 L161.3,176.5 L172.4,175.4 L183.4,174.3 L194.4,173.2 L205.5,172.1 L216.5,171.0 L227.5,169.9 L238.5,168.8 L249.6,167.7 L260.6,166.6 L271.6,165.5 L282.7,164.4 L293.7,163.3 L304.7,162.2 L315.8,161.1 L326.8,160.0 L337.8,158.9 L348.9,157.8 L359.9,156.7 L370.9,155.6 L381.9,154.5 L393.0,153.4 L404.0,152.3 L415.0,151.2 L426.1,150.1 L437.1,149.0 L448.1,147.9 L459.2,146.8 L470.2,145.7 L481.2,144.6 L492.3,143.5 L503.3,142.4 L514.3,141.3 L525.3,140.2 L536.4,139.1 L547.4,138.0 L558.4,136.9 L569.0,135.8"/>
+<circle class="dot f-o1" cx="569.0" cy="175.9" r="3.5"/>
+<text class="lab" x="578.0" y="179.9" text-anchor="start">r = 0</text>
+<circle class="dot f-o2" cx="569.0" cy="136.2" r="3.5"/>
+<path class="leader" d="M573.0,136.2 L577.0,145.2"/>
+<text class="lab" x="578.0" y="149.2" text-anchor="start">r = 1</text>
+<circle class="dot f-o3" cx="569.0" cy="103.7" r="3.5"/>
+<text class="lab" x="578.0" y="107.7" text-anchor="start">r = 2</text>
+<circle class="dot f-o4" cx="569.0" cy="75.6" r="3.5"/>
+<text class="lab" x="578.0" y="79.6" text-anchor="start">r = 3</text>
+<circle class="dot f-o5" cx="569.0" cy="50.8" r="3.5"/>
+<text class="lab" x="578.0" y="54.8" text-anchor="start">r = 4</text>
+<circle class="dot f-s2" cx="569.0" cy="135.8" r="3.5"/>
+<path class="leader" d="M573.0,135.8 L577.0,126.8"/>
+<text class="lab" x="578.0" y="128.8" text-anchor="start">copies</text>
+<line class="xhair" x1="0" x2="0" y1="30.0" y2="294.0"/>
+<rect class="hitarea" x="40.0" y="30.0" width="578.0" height="264.0"/>
+</svg>
+<svg class="narrow" viewBox="0 0 340 320" role="img" aria-label="Log-log line chart of expected near-duplicate pairs against catalog size, one line per recognition radius from 0 to 4. Each line rises a hundredfold for every tenfold growth in the catalog. At 2.5 × 10^8 hooks the pairs are about 2.3 × 10^5 at radius 0, 1.5 × 10^7 at radius 1 and 4.5 × 10^8 at radius 2. An orange line for copies at radius 0 rises only tenfold per tenfold growth, reaching 1.5 × 10^7.">
+<line class="axis" x1="40.0" x2="290.0" y1="274.0" y2="274.0"/>
+<text class="tick" x="34.0" y="278.0" text-anchor="end">10⁰</text>
+<line class="grid" x1="40.0" x2="290.0" y1="233.3" y2="233.3"/>
+<text class="tick" x="34.0" y="237.3" text-anchor="end">10²</text>
+<line class="grid" x1="40.0" x2="290.0" y1="192.7" y2="192.7"/>
+<text class="tick" x="34.0" y="196.7" text-anchor="end">10⁴</text>
+<line class="grid" x1="40.0" x2="290.0" y1="152.0" y2="152.0"/>
+<text class="tick" x="34.0" y="156.0" text-anchor="end">10⁶</text>
+<line class="grid" x1="40.0" x2="290.0" y1="111.3" y2="111.3"/>
+<text class="tick" x="34.0" y="115.3" text-anchor="end">10⁸</text>
+<line class="grid" x1="40.0" x2="290.0" y1="70.7" y2="70.7"/>
+<text class="tick" x="34.0" y="74.7" text-anchor="end">10¹⁰</text>
+<line class="grid" x1="40.0" x2="290.0" y1="30.0" y2="30.0"/>
+<text class="tick" x="34.0" y="34.0" text-anchor="end">10¹²</text>
+<line class="axis" x1="40.0" x2="40.0" y1="274.0" y2="278.0"/>
+<text class="tick" x="40.0" y="293.0" text-anchor="middle">10⁶</text>
+<line class="axis" x1="135.4" x2="135.4" y1="274.0" y2="278.0"/>
+<text class="tick" x="135.4" y="293.0" text-anchor="middle">10⁷</text>
+<line class="axis" x1="230.8" x2="230.8" y1="274.0" y2="278.0"/>
+<text class="tick" x="230.8" y="293.0" text-anchor="middle">10⁸</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Expected near-duplicate pairs (log scale)</text>
+<text class="ttl" x="165.0" y="314.0" text-anchor="middle">hooks in the catalog (log scale)</text>
+<line class="ref" x1="268.8" x2="268.8" y1="30.0" y2="274.0"/>
+<text class="lab" x="263.8" y="40.0" text-anchor="end">2.5 × 10⁸</text>
+<path class="ln k-o1" d="M40.0,262.4 L44.8,260.3 L49.5,258.3 L54.3,256.3 L59.1,254.2 L63.9,252.2 L68.6,250.2 L73.4,248.1 L78.2,246.1 L82.9,244.1 L87.7,242.0 L92.5,240.0 L97.3,238.0 L102.0,235.9 L106.8,233.9 L111.6,231.9 L116.3,229.8 L121.1,227.8 L125.9,225.8 L130.6,223.7 L135.4,221.7 L140.2,219.7 L145.0,217.6 L149.7,215.6 L154.5,213.6 L159.3,211.5 L164.0,209.5 L168.8,207.5 L173.6,205.4 L178.4,203.4 L183.1,201.4 L187.9,199.3 L192.7,197.3 L197.4,195.3 L202.2,193.2 L207.0,191.2 L211.8,189.2 L216.5,187.1 L221.3,185.1 L226.1,183.1 L230.8,181.0 L235.6,179.0 L240.4,177.0 L245.2,174.9 L249.9,172.9 L254.7,170.9 L259.5,168.8 L264.2,166.8 L268.8,164.8"/>
+<path class="ln k-o2" d="M40.0,225.7 L44.8,223.7 L49.5,221.6 L54.3,219.6 L59.1,217.6 L63.9,215.5 L68.6,213.5 L73.4,211.5 L78.2,209.4 L82.9,207.4 L87.7,205.4 L92.5,203.3 L97.3,201.3 L102.0,199.3 L106.8,197.2 L111.6,195.2 L116.3,193.2 L121.1,191.1 L125.9,189.1 L130.6,187.1 L135.4,185.0 L140.2,183.0 L145.0,181.0 L149.7,178.9 L154.5,176.9 L159.3,174.9 L164.0,172.8 L168.8,170.8 L173.6,168.8 L178.4,166.7 L183.1,164.7 L187.9,162.7 L192.7,160.6 L197.4,158.6 L202.2,156.6 L207.0,154.5 L211.8,152.5 L216.5,150.5 L221.3,148.4 L226.1,146.4 L230.8,144.4 L235.6,142.3 L240.4,140.3 L245.2,138.3 L249.9,136.2 L254.7,134.2 L259.5,132.2 L264.2,130.1 L268.8,128.2"/>
+<path class="ln k-o3" d="M40.0,195.6 L44.8,193.6 L49.5,191.6 L54.3,189.5 L59.1,187.5 L63.9,185.5 L68.6,183.4 L73.4,181.4 L78.2,179.4 L82.9,177.3 L87.7,175.3 L92.5,173.3 L97.3,171.2 L102.0,169.2 L106.8,167.2 L111.6,165.1 L116.3,163.1 L121.1,161.1 L125.9,159.0 L130.6,157.0 L135.4,155.0 L140.2,152.9 L145.0,150.9 L149.7,148.9 L154.5,146.8 L159.3,144.8 L164.0,142.8 L168.8,140.7 L173.6,138.7 L178.4,136.7 L183.1,134.6 L187.9,132.6 L192.7,130.6 L197.4,128.5 L202.2,126.5 L207.0,124.5 L211.8,122.4 L216.5,120.4 L221.3,118.4 L226.1,116.3 L230.8,114.3 L235.6,112.3 L240.4,110.2 L245.2,108.2 L249.9,106.2 L254.7,104.1 L259.5,102.1 L264.2,100.1 L268.8,98.1"/>
+<path class="ln k-o4" d="M40.0,169.6 L44.8,167.6 L49.5,165.6 L54.3,163.5 L59.1,161.5 L63.9,159.5 L68.6,157.4 L73.4,155.4 L78.2,153.4 L82.9,151.3 L87.7,149.3 L92.5,147.3 L97.3,145.2 L102.0,143.2 L106.8,141.2 L111.6,139.1 L116.3,137.1 L121.1,135.1 L125.9,133.0 L130.6,131.0 L135.4,129.0 L140.2,126.9 L145.0,124.9 L149.7,122.9 L154.5,120.8 L159.3,118.8 L164.0,116.8 L168.8,114.7 L173.6,112.7 L178.4,110.7 L183.1,108.6 L187.9,106.6 L192.7,104.6 L197.4,102.5 L202.2,100.5 L207.0,98.5 L211.8,96.4 L216.5,94.4 L221.3,92.4 L226.1,90.3 L230.8,88.3 L235.6,86.3 L240.4,84.2 L245.2,82.2 L249.9,80.2 L254.7,78.1 L259.5,76.1 L264.2,74.1 L268.8,72.1"/>
+<path class="ln k-o5" d="M40.0,146.7 L44.8,144.7 L49.5,142.7 L54.3,140.6 L59.1,138.6 L63.9,136.6 L68.6,134.5 L73.4,132.5 L78.2,130.5 L82.9,128.4 L87.7,126.4 L92.5,124.4 L97.3,122.3 L102.0,120.3 L106.8,118.3 L111.6,116.2 L116.3,114.2 L121.1,112.2 L125.9,110.1 L130.6,108.1 L135.4,106.1 L140.2,104.0 L145.0,102.0 L149.7,100.0 L154.5,97.9 L159.3,95.9 L164.0,93.9 L168.8,91.8 L173.6,89.8 L178.4,87.8 L183.1,85.7 L187.9,83.7 L192.7,81.7 L197.4,79.6 L202.2,77.6 L207.0,75.6 L211.8,73.5 L216.5,71.5 L221.3,69.5 L226.1,67.4 L230.8,65.4 L235.6,63.4 L240.4,61.3 L245.2,59.3 L249.9,57.3 L254.7,55.2 L259.5,53.2 L264.2,51.2 L268.8,49.2"/>
+<path class="ln k-s2" d="M40.0,176.6 L44.8,175.6 L49.5,174.6 L54.3,173.5 L59.1,172.5 L63.9,171.5 L68.6,170.5 L73.4,169.5 L78.2,168.5 L82.9,167.4 L87.7,166.4 L92.5,165.4 L97.3,164.4 L102.0,163.4 L106.8,162.4 L111.6,161.3 L116.3,160.3 L121.1,159.3 L125.9,158.3 L130.6,157.3 L135.4,156.3 L140.2,155.2 L145.0,154.2 L149.7,153.2 L154.5,152.2 L159.3,151.2 L164.0,150.2 L168.8,149.1 L173.6,148.1 L178.4,147.1 L183.1,146.1 L187.9,145.1 L192.7,144.1 L197.4,143.0 L202.2,142.0 L207.0,141.0 L211.8,140.0 L216.5,139.0 L221.3,138.0 L226.1,136.9 L230.8,135.9 L235.6,134.9 L240.4,133.9 L245.2,132.9 L249.9,131.9 L254.7,130.8 L259.5,129.8 L264.2,128.8 L268.8,127.8"/>
+<circle class="dot f-o1" cx="268.8" cy="164.8" r="3.5"/>
+<text class="lab" x="277.8" y="168.8" text-anchor="start">r = 0</text>
+<circle class="dot f-o2" cx="268.8" cy="128.2" r="3.5"/>
+<path class="leader" d="M272.8,128.2 L276.8,137.2"/>
+<text class="lab" x="277.8" y="141.2" text-anchor="start">r = 1</text>
+<circle class="dot f-o3" cx="268.8" cy="98.1" r="3.5"/>
+<text class="lab" x="277.8" y="102.1" text-anchor="start">r = 2</text>
+<circle class="dot f-o4" cx="268.8" cy="72.1" r="3.5"/>
+<text class="lab" x="277.8" y="76.1" text-anchor="start">r = 3</text>
+<circle class="dot f-o5" cx="268.8" cy="49.2" r="3.5"/>
+<text class="lab" x="277.8" y="53.2" text-anchor="start">r = 4</text>
+<circle class="dot f-s2" cx="268.8" cy="127.8" r="3.5"/>
+<path class="leader" d="M272.8,127.8 L276.8,118.8"/>
+<text class="lab" x="277.8" y="120.8" text-anchor="start">copies</text>
+<line class="xhair" x1="0" x2="0" y1="30.0" y2="274.0"/>
+<rect class="hitarea" x="40.0" y="30.0" width="250.0" height="244.0"/>
+</svg>
+<div class="tip" hidden></div>
+<script type="application/json" class="tipdata">{"mode":"x","wx":[40.0,106.4,194.2,260.6,327.0,414.8,481.2,547.6,569.0],"nx":[40.0,68.7,106.7,135.4,164.1,202.1,230.8,259.6,268.8],"pts":[{"t":"1.0 × 10⁶ hooks","r":[["1.8 × 10⁶","independent, r = 4","o5"],["1.4 × 10⁵","independent, r = 3","o4"],["7,151","independent, r = 2","o3"],["237","independent, r = 1","o2"],["3.7","independent, r = 0","o1"],["6.2 × 10⁴","copy and parent, r = 0","s2"]]},{"t":"2.0 × 10⁶ hooks","r":[["7.3 × 10⁶","independent, r = 4","o5"],["5.4 × 10⁵","independent, r = 3","o4"],["2.9 × 10⁴","independent, r = 2","o3"],["949","independent, r = 1","o2"],["15","independent, r = 0","o1"],["1.2 × 10⁵","copy and parent, r = 0","s2"]]},{"t":"5.0 × 10⁶ hooks","r":[["4.5 × 10⁷","independent, r = 4","o5"],["3.4 × 10⁶","independent, r = 3","o4"],["1.8 × 10⁵","independent, r = 2","o3"],["5,931","independent, r = 1","o2"],["93","independent, r = 0","o1"],["3.1 × 10⁵","copy and parent, r = 0","s2"]]},{"t":"1.0 × 10⁷ hooks","r":[["1.8 × 10⁸","independent, r = 4","o5"],["1.4 × 10⁷","independent, r = 3","o4"],["7.2 × 10⁵","independent, r = 2","o3"],["2.4 × 10⁴","independent, r = 1","o2"],["374","independent, r = 0","o1"],["6.2 × 10⁵","copy and parent, r = 0","s2"]]},{"t":"2.0 × 10⁷ hooks","r":[["7.3 × 10⁸","independent, r = 4","o5"],["5.4 × 10⁷","independent, r = 3","o4"],["2.9 × 10⁶","independent, r = 2","o3"],["9.5 × 10⁴","independent, r = 1","o2"],["1,495","independent, r = 0","o1"],["1.2 × 10⁶","copy and parent, r = 0","s2"]]},{"t":"5.0 × 10⁷ hooks","r":[["4.5 × 10⁹","independent, r = 4","o5"],["3.4 × 10⁸","independent, r = 3","o4"],["1.8 × 10⁷","independent, r = 2","o3"],["5.9 × 10⁵","independent, r = 1","o2"],["9,341","independent, r = 0","o1"],["3.1 × 10⁶","copy and parent, r = 0","s2"]]},{"t":"1.0 × 10⁸ hooks","r":[["1.8 × 10¹⁰","independent, r = 4","o5"],["1.4 × 10⁹","independent, r = 3","o4"],["7.2 × 10⁷","independent, r = 2","o3"],["2.4 × 10⁶","independent, r = 1","o2"],["3.7 × 10⁴","independent, r = 0","o1"],["6.2 × 10⁶","copy and parent, r = 0","s2"]]},{"t":"2.0 × 10⁸ hooks","r":[["7.3 × 10¹⁰","independent, r = 4","o5"],["5.4 × 10⁹","independent, r = 3","o4"],["2.9 × 10⁸","independent, r = 2","o3"],["9.5 × 10⁶","independent, r = 1","o2"],["1.5 × 10⁵","independent, r = 0","o1"],["1.2 × 10⁷","copy and parent, r = 0","s2"]]},{"t":"2.5 × 10⁸ hooks","r":[["1.1 × 10¹¹","independent, r = 4","o5"],["8.5 × 10⁹","independent, r = 3","o4"],["4.5 × 10⁸","independent, r = 2","o3"],["1.5 × 10⁷","independent, r = 1","o2"],["2.3 × 10⁵","independent, r = 0","o1"],["1.5 × 10⁷","copy and parent, r = 0","s2"]]}]}</script>
+</div>
+<!-- END gen:pairs -->
+    <figcaption>Figure 3. Expected near-duplicate pairs under the default plausibility chain, by catalog size, one line per radius. A tenfold larger catalog brings a hundredfold more independent pairs. Pairs between copies and their parents grow only tenfold.</figcaption>
+<!-- BEGIN gen:pairs-table -->
+<details class="data"><summary>Table: expected pairs by catalog size and radius (counted)</summary><div class="tablewrap"><table><thead><tr><th>Hooks</th><th>r = 0</th><th>r = 1</th><th>r = 2</th><th>r = 3</th><th>r = 4</th><th>Copies, r = 0</th></tr></thead><tbody><tr><td>1.0 × 10⁶</td><td class="num">3.7</td><td class="num">237</td><td class="num">7,151</td><td class="num">1.4 × 10⁵</td><td class="num">1.8 × 10⁶</td><td class="num">6.2 × 10⁴</td></tr><tr><td>1.0 × 10⁷</td><td class="num">374</td><td class="num">2.4 × 10⁴</td><td class="num">7.2 × 10⁵</td><td class="num">1.4 × 10⁷</td><td class="num">1.8 × 10⁸</td><td class="num">6.2 × 10⁵</td></tr><tr><td>1.0 × 10⁸</td><td class="num">3.7 × 10⁴</td><td class="num">2.4 × 10⁶</td><td class="num">7.2 × 10⁷</td><td class="num">1.4 × 10⁹</td><td class="num">1.8 × 10¹⁰</td><td class="num">6.2 × 10⁶</td></tr><tr><td>2.5 × 10⁸</td><td class="num">2.3 × 10⁵</td><td class="num">1.5 × 10⁷</td><td class="num">4.5 × 10⁸</td><td class="num">8.5 × 10⁹</td><td class="num">1.1 × 10¹¹</td><td class="num">1.5 × 10⁷</td></tr></tbody></table></div></details>
+<!-- END gen:pairs-table -->
+  </figure>
+  <p>Popular styles multiply collisions. Records drawn from the plausibility chain crowd into the same regions. At hook scale and radius 2, that raises the chance of a collision 3.0 × 10<sup>5</sup>-fold. The comparison is with records spread evenly. In the toy world the same factor is 4.62.</p>
+  <p>A <a class="term" href="#g-copy">copy</a> starts from an earlier record and changes a few intervals. Each copy sits near its own parent. So copy pairs grow in proportion to the catalog. Suppose 30% of records copy, changing each interval with chance 0.1. That adds 1.5 × 10<sup>7</sup> identical parent-and-copy pairs. At radius 0, that is far more than the 2.3 × 10<sup>5</sup> independent pairs.</p>
+  <p>In the toy world, heavy copying raised pairs to about 80 times the even-spread count. The range was 70 to 89 times. That run had 90% of records copying, each interval changing with chance 0.1.</p>
+
+  <h2 id="ownership">Who owns the popular ground</h2>
+  <p>Time matters too. Record x <a class="term" href="#g-anticipate">anticipates</a> record y when x came first and y lies in x's ball. The toy history has 2,000 records over thirty years, with arrivals growing 10% a year. Take records drawn from the plausibility chain, at radius 2. About 81% of them are anticipated by an earlier one.</p>
+  <p>Ownership here follows <a class="term" href="#g-first-claim">first claim</a>. Each hook belongs to the earliest record whose ball covers it. Later records can only take what is still free. So early records keep the popular ground.</p>
+  <p>Under that same placement, the first tenth own about 56% of claimed plausibility mass. The range is 55.8% to 56.3%, and a formula gives 56.0%. That is 5.6 times an even split.</p>
+  <figure class="viz" id="fig4">
+<!-- BEGIN gen:ownership -->
+<ul class="legend"><li><span class="key line c-s1"></span>records drawn from the plausibility chain</li><li><span class="key line c-s2"></span>records copied from earlier records</li><li><span class="key line c-s3"></span>records placed uniformly at random</li><li><span class="key line c-ref"></span>even split</li></ul>
+<div class="chart" role="group" tabindex="0" data-chart="ownership" aria-label="Line chart of the share of claimed plausibility mass owned by the earliest records, in the toy world at radius 2. When records are drawn from the plausibility chain, the first tenth own 56% of it. Copies give the first tenth 46%, and uniform placement 24%. An even split would give 10%. Hover or tap the chart to read values. Arrow keys step through the values.">
+<svg class="wide" viewBox="0 0 680 330" role="img" aria-label="Line chart of the share of claimed plausibility mass owned by the earliest records, in the toy world at radius 2. When records are drawn from the plausibility chain, the first tenth own 56% of it. Copies give the first tenth 46%, and uniform placement 24%. An even split would give 10%.">
+<line class="axis" x1="44.0" x2="662.0" y1="284.0" y2="284.0"/>
+<text class="tick" x="38.0" y="288.0" text-anchor="end">0%</text>
+<line class="grid" x1="44.0" x2="662.0" y1="220.5" y2="220.5"/>
+<text class="tick" x="38.0" y="224.5" text-anchor="end">25%</text>
+<line class="grid" x1="44.0" x2="662.0" y1="157.0" y2="157.0"/>
+<text class="tick" x="38.0" y="161.0" text-anchor="end">50%</text>
+<line class="grid" x1="44.0" x2="662.0" y1="93.5" y2="93.5"/>
+<text class="tick" x="38.0" y="97.5" text-anchor="end">75%</text>
+<line class="grid" x1="44.0" x2="662.0" y1="30.0" y2="30.0"/>
+<text class="tick" x="38.0" y="34.0" text-anchor="end">100%</text>
+<line class="axis" x1="44.0" x2="44.0" y1="284.0" y2="288.0"/>
+<text class="tick" x="44.0" y="303.0" text-anchor="middle">0</text>
+<line class="axis" x1="105.8" x2="105.8" y1="284.0" y2="288.0"/>
+<text class="tick" x="105.8" y="303.0" text-anchor="middle">10</text>
+<line class="axis" x1="198.5" x2="198.5" y1="284.0" y2="288.0"/>
+<text class="tick" x="198.5" y="303.0" text-anchor="middle">25</text>
+<line class="axis" x1="353.0" x2="353.0" y1="284.0" y2="288.0"/>
+<text class="tick" x="353.0" y="303.0" text-anchor="middle">50</text>
+<line class="axis" x1="507.5" x2="507.5" y1="284.0" y2="288.0"/>
+<text class="tick" x="507.5" y="303.0" text-anchor="middle">75</text>
+<line class="axis" x1="662.0" x2="662.0" y1="284.0" y2="288.0"/>
+<text class="tick" x="662.0" y="303.0" text-anchor="middle">100</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Share of claimed plausibility mass</text>
+<text class="ttl" x="353.0" y="324.0" text-anchor="middle">earliest records, % of all 2,000 by arrival</text>
+<path class="ln thin k-ref" d="M44.0,284.0 L662.0,30.0"/>
+<line class="ref" x1="105.8" x2="105.8" y1="30.0" y2="284.0"/>
+<path class="ln k-s1" d="M44.0,284.0 L74.9,187.2 L105.8,141.7 L136.7,113.9 L167.6,95.2 L198.5,81.9 L229.4,71.8 L260.3,63.9 L291.2,57.7 L322.1,52.8 L353.0,48.7 L383.9,45.3 L414.8,42.4 L445.7,40.0 L476.6,38.0 L507.5,36.2 L538.4,34.6 L569.3,33.2 L600.2,32.0 L631.1,31.0 L662.0,30.0"/>
+<path class="ln k-s2" d="M44.0,284.0 L74.9,210.2 L105.8,166.9 L136.7,137.1 L167.6,116.0 L198.5,100.0 L229.4,87.6 L260.3,77.7 L291.2,69.5 L322.1,62.9 L353.0,57.2 L383.9,52.4 L414.8,48.4 L445.7,44.9 L476.6,41.9 L507.5,39.2 L538.4,36.9 L569.3,34.9 L600.2,33.0 L631.1,31.4 L662.0,30.0"/>
+<path class="ln k-s3" d="M44.0,284.0 L74.9,251.1 L105.8,222.8 L136.7,197.7 L167.6,175.4 L198.5,156.8 L229.4,139.3 L260.3,123.8 L291.2,110.0 L322.1,98.0 L353.0,87.4 L383.9,77.6 L414.8,69.3 L445.7,62.1 L476.6,55.8 L507.5,50.2 L538.4,45.1 L569.3,40.7 L600.2,36.9 L631.1,33.2 L662.0,30.0"/>
+<circle class="dot f-s1" cx="105.8" cy="141.7" r="4"/>
+<circle class="dot f-s2" cx="105.8" cy="166.9" r="4"/>
+<circle class="dot f-s3" cx="105.8" cy="222.8" r="4"/>
+<text class="tick" x="229.4" y="202.8" transform="rotate(-22.3 229.4 202.8)">even split</text>
+<rect class="plate" x="347.0" y="191.8" width="205" height="78" rx="4"/>
+<text class="lab" x="353.0" y="207.8" text-anchor="start">The first tenth of records owns</text>
+<line class="ln k-s1" x1="353.0" x2="367.0" y1="221.8" y2="221.8"/>
+<text class="lab" x="373.0" y="225.8" text-anchor="start">56%  plausibility</text>
+<line class="ln k-s2" x1="353.0" x2="367.0" y1="239.8" y2="239.8"/>
+<text class="lab" x="373.0" y="243.8" text-anchor="start">46%  copying</text>
+<line class="ln k-s3" x1="353.0" x2="367.0" y1="257.8" y2="257.8"/>
+<text class="lab" x="373.0" y="261.8" text-anchor="start">24%  uniform</text>
+<line class="xhair" x1="0" x2="0" y1="30.0" y2="284.0"/>
+<rect class="hitarea" x="44.0" y="30.0" width="618.0" height="254.0"/>
+</svg>
+<svg class="narrow" viewBox="0 0 340 300" role="img" aria-label="Line chart of the share of claimed plausibility mass owned by the earliest records, in the toy world at radius 2. When records are drawn from the plausibility chain, the first tenth own 56% of it. Copies give the first tenth 46%, and uniform placement 24%. An even split would give 10%.">
+<line class="axis" x1="44.0" x2="322.0" y1="254.0" y2="254.0"/>
+<text class="tick" x="38.0" y="258.0" text-anchor="end">0%</text>
+<line class="grid" x1="44.0" x2="322.0" y1="198.0" y2="198.0"/>
+<text class="tick" x="38.0" y="202.0" text-anchor="end">25%</text>
+<line class="grid" x1="44.0" x2="322.0" y1="142.0" y2="142.0"/>
+<text class="tick" x="38.0" y="146.0" text-anchor="end">50%</text>
+<line class="grid" x1="44.0" x2="322.0" y1="86.0" y2="86.0"/>
+<text class="tick" x="38.0" y="90.0" text-anchor="end">75%</text>
+<line class="grid" x1="44.0" x2="322.0" y1="30.0" y2="30.0"/>
+<text class="tick" x="38.0" y="34.0" text-anchor="end">100%</text>
+<line class="axis" x1="44.0" x2="44.0" y1="254.0" y2="258.0"/>
+<text class="tick" x="44.0" y="273.0" text-anchor="middle">0</text>
+<line class="axis" x1="71.8" x2="71.8" y1="254.0" y2="258.0"/>
+<text class="tick" x="71.8" y="273.0" text-anchor="middle">10</text>
+<line class="axis" x1="113.5" x2="113.5" y1="254.0" y2="258.0"/>
+<text class="tick" x="113.5" y="273.0" text-anchor="middle">25</text>
+<line class="axis" x1="183.0" x2="183.0" y1="254.0" y2="258.0"/>
+<text class="tick" x="183.0" y="273.0" text-anchor="middle">50</text>
+<line class="axis" x1="252.5" x2="252.5" y1="254.0" y2="258.0"/>
+<text class="tick" x="252.5" y="273.0" text-anchor="middle">75</text>
+<line class="axis" x1="322.0" x2="322.0" y1="254.0" y2="258.0"/>
+<text class="tick" x="322.0" y="273.0" text-anchor="middle">100</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Share of claimed plausibility mass</text>
+<text class="ttl" x="183.0" y="294.0" text-anchor="middle">earliest records, % of all 2,000 by arrival</text>
+<path class="ln thin k-ref" d="M44.0,254.0 L322.0,30.0"/>
+<line class="ref" x1="71.8" x2="71.8" y1="30.0" y2="254.0"/>
+<path class="ln k-s1" d="M44.0,254.0 L57.9,168.6 L71.8,128.5 L85.7,103.9 L99.6,87.5 L113.5,75.7 L127.4,66.8 L141.3,59.9 L155.2,54.5 L169.1,50.1 L183.0,46.5 L196.9,43.5 L210.8,41.0 L224.7,38.8 L238.6,37.0 L252.5,35.4 L266.4,34.0 L280.3,32.8 L294.2,31.8 L308.1,30.8 L322.0,30.0"/>
+<path class="ln k-s2" d="M44.0,254.0 L57.9,188.9 L71.8,150.7 L85.7,124.5 L99.6,105.8 L113.5,91.7 L127.4,80.8 L141.3,72.1 L155.2,64.8 L169.1,59.0 L183.0,54.0 L196.9,49.8 L210.8,46.2 L224.7,43.1 L238.6,40.5 L252.5,38.1 L266.4,36.1 L280.3,34.3 L294.2,32.7 L308.1,31.3 L322.0,30.0"/>
+<path class="ln k-s3" d="M44.0,254.0 L57.9,225.0 L71.8,200.0 L85.7,177.9 L99.6,158.3 L113.5,141.8 L127.4,126.4 L141.3,112.7 L155.2,100.6 L169.1,89.9 L183.0,80.6 L196.9,72.0 L210.8,64.7 L224.7,58.3 L238.6,52.7 L252.5,47.8 L266.4,43.3 L280.3,39.5 L294.2,36.0 L308.1,32.8 L322.0,30.0"/>
+<circle class="dot f-s1" cx="71.8" cy="128.5" r="4"/>
+<circle class="dot f-s2" cx="71.8" cy="150.7" r="4"/>
+<circle class="dot f-s3" cx="71.8" cy="200.0" r="4"/>
+<text class="tick" x="127.4" y="181.8" transform="rotate(-38.9 127.4 181.8)">even split</text>
+<rect class="plate" x="149.2" y="164.1" width="120" height="78" rx="4"/>
+<text class="lab" x="155.2" y="180.1" text-anchor="start">First tenth owns</text>
+<line class="ln k-s1" x1="155.2" x2="169.2" y1="194.1" y2="194.1"/>
+<text class="lab" x="175.2" y="198.1" text-anchor="start">56%  plausibility</text>
+<line class="ln k-s2" x1="155.2" x2="169.2" y1="212.1" y2="212.1"/>
+<text class="lab" x="175.2" y="216.1" text-anchor="start">46%  copying</text>
+<line class="ln k-s3" x1="155.2" x2="169.2" y1="230.1" y2="230.1"/>
+<text class="lab" x="175.2" y="234.1" text-anchor="start">24%  uniform</text>
+<line class="xhair" x1="0" x2="0" y1="30.0" y2="254.0"/>
+<rect class="hitarea" x="44.0" y="30.0" width="278.0" height="224.0"/>
+</svg>
+<div class="tip" hidden></div>
+<script type="application/json" class="tipdata">{"mode":"x","wx":[44.0,74.9,105.8,136.7,167.6,198.5,229.4,260.3,291.2,322.1,353.0,383.9,414.8,445.7,476.6,507.5,538.4,569.3,600.2,631.1,662.0],"nx":[44.0,57.9,71.8,85.7,99.6,113.5,127.4,141.3,155.2,169.1,183.0,196.9,210.8,224.7,238.6,252.5,266.4,280.3,294.2,308.1,322.0],"pts":[{"t":"no records yet","r":[["0.0%","drawn from the plausibility chain","s1"],["0.0%","copied from earlier records","s2"],["0.0%","placed uniformly at random","s3"]]},{"t":"first 5% of records","r":[["38.1%","drawn from the plausibility chain","s1"],["29.0%","copied from earlier records","s2"],["13.0%","placed uniformly at random","s3"]]},{"t":"first 10% of records","r":[["56.0%","drawn from the plausibility chain","s1"],["46.1%","copied from earlier records","s2"],["24.1%","placed uniformly at random","s3"]]},{"t":"first 15% of records","r":[["67.0%","drawn from the plausibility chain","s1"],["57.8%","copied from earlier records","s2"],["34.0%","placed uniformly at random","s3"]]},{"t":"first 20% of records","r":[["74.3%","drawn from the plausibility chain","s1"],["66.2%","copied from earlier records","s2"],["42.7%","placed uniformly at random","s3"]]},{"t":"first 25% of records","r":[["79.6%","drawn from the plausibility chain","s1"],["72.4%","copied from earlier records","s2"],["50.1%","placed uniformly at random","s3"]]},{"t":"first 30% of records","r":[["83.6%","drawn from the plausibility chain","s1"],["77.3%","copied from earlier records","s2"],["57.0%","placed uniformly at random","s3"]]},{"t":"first 35% of records","r":[["86.6%","drawn from the plausibility chain","s1"],["81.2%","copied from earlier records","s2"],["63.1%","placed uniformly at random","s3"]]},{"t":"first 40% of records","r":[["89.1%","drawn from the plausibility chain","s1"],["84.4%","copied from earlier records","s2"],["68.5%","placed uniformly at random","s3"]]},{"t":"first 45% of records","r":[["91.0%","drawn from the plausibility chain","s1"],["87.1%","copied from earlier records","s2"],["73.2%","placed uniformly at random","s3"]]},{"t":"first 50% of records","r":[["92.6%","drawn from the plausibility chain","s1"],["89.3%","copied from earlier records","s2"],["77.4%","placed uniformly at random","s3"]]},{"t":"first 55% of records","r":[["94.0%","drawn from the plausibility chain","s1"],["91.2%","copied from earlier records","s2"],["81.3%","placed uniformly at random","s3"]]},{"t":"first 60% of records","r":[["95.1%","drawn from the plausibility chain","s1"],["92.8%","copied from earlier records","s2"],["84.5%","placed uniformly at random","s3"]]},{"t":"first 65% of records","r":[["96.1%","drawn from the plausibility chain","s1"],["94.1%","copied from earlier records","s2"],["87.4%","placed uniformly at random","s3"]]},{"t":"first 70% of records","r":[["96.9%","drawn from the plausibility chain","s1"],["95.3%","copied from earlier records","s2"],["89.9%","placed uniformly at random","s3"]]},{"t":"first 75% of records","r":[["97.6%","drawn from the plausibility chain","s1"],["96.4%","copied from earlier records","s2"],["92.0%","placed uniformly at random","s3"]]},{"t":"first 80% of records","r":[["98.2%","drawn from the plausibility chain","s1"],["97.3%","copied from earlier records","s2"],["94.0%","placed uniformly at random","s3"]]},{"t":"first 85% of records","r":[["98.7%","drawn from the plausibility chain","s1"],["98.1%","copied from earlier records","s2"],["95.8%","placed uniformly at random","s3"]]},{"t":"first 90% of records","r":[["99.2%","drawn from the plausibility chain","s1"],["98.8%","copied from earlier records","s2"],["97.3%","placed uniformly at random","s3"]]},{"t":"first 95% of records","r":[["99.6%","drawn from the plausibility chain","s1"],["99.4%","copied from earlier records","s2"],["98.7%","placed uniformly at random","s3"]]},{"t":"first 100% of records","r":[["100.0%","drawn from the plausibility chain","s1"],["100.0%","copied from earlier records","s2"],["100.0%","placed uniformly at random","s3"]]}]}</script>
+</div>
+<!-- END gen:ownership -->
+    <figcaption>Figure 4. Share of claimed plausibility mass owned by the earliest records, toy world, radius 2. Each line averages 40 simulated histories. The vertical line marks the first tenth of arrivals.</figcaption>
+<!-- BEGIN gen:ownership-table -->
+<details class="data"><summary>Table: claimed mass owned, with 95% ranges over 40 histories (estimated)</summary><div class="tablewrap"><table><thead><tr><th>Earliest records</th><th>Plausibility</th><th>Copying</th><th>Uniform</th></tr></thead><tbody><tr><td>5%</td><td class="num">38.1% (37.7–38.6)</td><td class="num">29.0% (28.1–30.0)</td><td class="num">13.0% (12.4–13.5)</td></tr><tr><td>10%</td><td class="num">56.0% (55.8–56.3)</td><td class="num">46.1% (45.4–46.8)</td><td class="num">24.1% (23.5–24.7)</td></tr><tr><td>15%</td><td class="num">67.0% (66.8–67.2)</td><td class="num">57.8% (57.4–58.3)</td><td class="num">34.0% (33.3–34.6)</td></tr><tr><td>20%</td><td class="num">74.3% (74.2–74.4)</td><td class="num">66.2% (65.8–66.5)</td><td class="num">42.7% (42.0–43.4)</td></tr><tr><td>25%</td><td class="num">79.6% (79.5–79.7)</td><td class="num">72.4% (72.2–72.7)</td><td class="num">50.1% (49.4–50.8)</td></tr><tr><td>30%</td><td class="num">83.6% (83.5–83.7)</td><td class="num">77.3% (77.1–77.5)</td><td class="num">57.0% (56.3–57.7)</td></tr><tr><td>35%</td><td class="num">86.6% (86.6–86.7)</td><td class="num">81.2% (81.0–81.4)</td><td class="num">63.1% (62.4–63.7)</td></tr><tr><td>40%</td><td class="num">89.1% (89.0–89.2)</td><td class="num">84.4% (84.3–84.6)</td><td class="num">68.5% (67.9–69.1)</td></tr><tr><td>45%</td><td class="num">91.0% (91.0–91.1)</td><td class="num">87.1% (86.9–87.2)</td><td class="num">73.2% (72.6–73.8)</td></tr><tr><td>50%</td><td class="num">92.6% (92.6–92.7)</td><td class="num">89.3% (89.2–89.4)</td><td class="num">77.4% (76.9–77.9)</td></tr><tr><td>55%</td><td class="num">94.0% (93.9–94.0)</td><td class="num">91.2% (91.1–91.3)</td><td class="num">81.3% (80.8–81.7)</td></tr><tr><td>60%</td><td class="num">95.1% (95.1–95.2)</td><td class="num">92.8% (92.7–92.8)</td><td class="num">84.5% (84.2–84.8)</td></tr><tr><td>65%</td><td class="num">96.1% (96.0–96.1)</td><td class="num">94.1% (94.1–94.2)</td><td class="num">87.4% (87.1–87.6)</td></tr><tr><td>70%</td><td class="num">96.9% (96.8–96.9)</td><td class="num">95.3% (95.2–95.4)</td><td class="num">89.9% (89.6–90.1)</td></tr><tr><td>75%</td><td class="num">97.6% (97.5–97.6)</td><td class="num">96.4% (96.3–96.4)</td><td class="num">92.0% (91.8–92.2)</td></tr><tr><td>80%</td><td class="num">98.2% (98.2–98.2)</td><td class="num">97.3% (97.2–97.3)</td><td class="num">94.0% (93.9–94.2)</td></tr><tr><td>85%</td><td class="num">98.7% (98.7–98.8)</td><td class="num">98.1% (98.0–98.1)</td><td class="num">95.8% (95.7–95.9)</td></tr><tr><td>90%</td><td class="num">99.2% (99.2–99.2)</td><td class="num">98.8% (98.8–98.8)</td><td class="num">97.3% (97.2–97.4)</td></tr><tr><td>95%</td><td class="num">99.6% (99.6–99.6)</td><td class="num">99.4% (99.4–99.4)</td><td class="num">98.7% (98.7–98.8)</td></tr><tr><td>100%</td><td class="num">100.0% (100.0–100.0)</td><td class="num">100.0% (100.0–100.0)</td><td class="num">100.0% (100.0–100.0)</td></tr></tbody></table></div></details>
+<!-- END gen:ownership-table -->
+  </figure>
+  <p>Placement changes the first movers' edge. With records spread evenly, the first tenth own about 24%. With copying, they own about 46%. The rule matters too. Suppose each hook goes to the nearest record instead. Then the first tenth's share of hooks falls from about 27% to about 21%.</p>
+  <p>By count, the space stays almost empty. At hook scale, between 0.03% and 0.07% of hooks are claimed, even at radius 3. Yet between 38.0% and 39.0% of fresh plausible hooks are already claimed at radius 2. In the toy history's year 30, about 69.5% of hooks are claimed. About 95.7% of the plausibility mass is. Plausible novelty is the scarce resource.</p>
+
+  <h2 id="navigation">Moving through the space</h2>
+  <p>Composers move by edits, one interval at a time. A hook is blocked once some record's ball covers it. Under <a class="term" href="#g-free-transit">free transit</a>, drafts may pass through blocked hooks. Only the released hook must be free. Under <a class="term" href="#g-clean-transit">clean transit</a>, every draft along the way must be free too.</p>
+  <p>Blocking hardly cuts routes. In toy year 30, clean single-edit paths still reach about 99.997% of unclaimed hooks. On average they run only 0.024 to 0.048 edits longer than direct paths. Each toy hook has 32 neighbours, so a detour almost always exists. Earlier records mostly limit where a composer can land.</p>
+  <p>The starting point matters more. In year 30, a composer in a popular style needs about 1.7 edits to escape. A composer starting anywhere needs about 0.8. Popular starting points sit inside claimed ground about 97% of the time.</p>
+
+  <h3 id="cone">The light cone</h3>
+  <p>A composer who edits at a steady speed can reach a growing set of hooks. That reachable set is the composer's <a class="term" href="#g-light-cone">light cone</a>. Its unclaimed part is what the composer could still release. That part grows as the cone widens. It shrinks as new records claim ground.</p>
+  <p>Figure 5 follows composers who start in toy year 10 from a popular hook. At half an edit a year, the free part peaks in year 26. It then holds about 159,000 hooks, between 157,000 and 160,000. That is when the cone first covers the whole toy world. By year 30, new claims cut it to about 120,000. At one edit a year the peak comes in year 18.</p>
+  <figure class="viz" id="fig5">
+<!-- BEGIN gen:cone -->
+<ul class="legend"><li><span class="key line c-o5"></span>1 edit a year</li><li><span class="key line c-o3"></span>0.5 edits a year</li><li><span class="key line c-o1"></span>0.25 edits a year</li></ul>
+<div class="chart" role="group" tabindex="0" data-chart="cone" aria-label="Line chart of unclaimed toy hooks within reach of a composer who starts in year 10. At 1 edit a year the reachable set peaks near 244,000 hooks in year 18, then shrinks. At 0.5 edits a year it peaks near 159,000 in year 26. Both fall to about 120,000 by year 30. At 0.25 edits a year it is still growing in year 30, at about 17,000. Hover or tap the chart to read values. Arrow keys step through the values.">
+<svg class="wide" viewBox="0 0 680 330" role="img" aria-label="Line chart of unclaimed toy hooks within reach of a composer who starts in year 10. At 1 edit a year the reachable set peaks near 244,000 hooks in year 18, then shrinks. At 0.5 edits a year it peaks near 159,000 in year 26. Both fall to about 120,000 by year 30. At 0.25 edits a year it is still growing in year 30, at about 17,000.">
+<line class="axis" x1="60.0" x2="666.0" y1="284.0" y2="284.0"/>
+<text class="tick" x="54.0" y="288.0" text-anchor="end">0</text>
+<line class="grid" x1="60.0" x2="666.0" y1="235.2" y2="235.2"/>
+<text class="tick" x="54.0" y="239.2" text-anchor="end">50,000</text>
+<line class="grid" x1="60.0" x2="666.0" y1="186.3" y2="186.3"/>
+<text class="tick" x="54.0" y="190.3" text-anchor="end">100,000</text>
+<line class="grid" x1="60.0" x2="666.0" y1="137.5" y2="137.5"/>
+<text class="tick" x="54.0" y="141.5" text-anchor="end">150,000</text>
+<line class="grid" x1="60.0" x2="666.0" y1="88.6" y2="88.6"/>
+<text class="tick" x="54.0" y="92.6" text-anchor="end">200,000</text>
+<line class="grid" x1="60.0" x2="666.0" y1="39.8" y2="39.8"/>
+<text class="tick" x="54.0" y="43.8" text-anchor="end">250,000</text>
+<line class="axis" x1="60.0" x2="60.0" y1="284.0" y2="288.0"/>
+<text class="tick" x="60.0" y="303.0" text-anchor="middle">10</text>
+<line class="axis" x1="211.5" x2="211.5" y1="284.0" y2="288.0"/>
+<text class="tick" x="211.5" y="303.0" text-anchor="middle">15</text>
+<line class="axis" x1="363.0" x2="363.0" y1="284.0" y2="288.0"/>
+<text class="tick" x="363.0" y="303.0" text-anchor="middle">20</text>
+<line class="axis" x1="514.5" x2="514.5" y1="284.0" y2="288.0"/>
+<text class="tick" x="514.5" y="303.0" text-anchor="middle">25</text>
+<line class="axis" x1="666.0" x2="666.0" y1="284.0" y2="288.0"/>
+<text class="tick" x="666.0" y="303.0" text-anchor="middle">30</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Unclaimed hooks within reach</text>
+<text class="ttl" x="363.0" y="324.0" text-anchor="middle">toy year (the composer starts in year 10)</text>
+<path class="ln k-o5" d="M60.0,284.0 L67.6,284.0 L75.2,284.0 L82.7,284.0 L90.3,284.0 L97.9,284.0 L105.4,284.0 L113.0,284.0 L120.6,283.7 L128.2,283.7 L135.8,283.8 L143.3,283.8 L150.9,281.7 L158.5,281.7 L166.1,281.8 L173.6,281.8 L181.2,271.1 L188.8,271.3 L196.3,271.4 L203.9,271.6 L211.5,235.9 L219.1,236.6 L226.7,237.1 L234.2,237.8 L241.8,164.0 L249.4,165.2 L257.0,166.5 L264.5,168.0 L272.1,81.6 L279.7,83.9 L287.2,86.2 L294.8,88.4 L302.4,45.6 L310.0,48.1 L317.6,50.8 L325.1,53.3 L332.7,55.8 L340.3,58.6 L347.8,60.8 L355.4,63.3 L363.0,66.0 L370.6,68.7 L378.2,71.3 L385.7,73.9 L393.3,76.6 L400.9,79.3 L408.4,81.8 L416.0,84.4 L423.6,87.1 L431.2,90.0 L438.8,92.5 L446.3,95.0 L453.9,97.8 L461.5,100.4 L469.1,103.0 L476.6,105.8 L484.2,108.6 L491.8,111.1 L499.3,113.7 L506.9,116.2 L514.5,118.7 L522.1,121.2 L529.7,123.9 L537.2,126.4 L544.8,128.9 L552.4,131.4 L560.0,133.6 L567.5,136.3 L575.1,138.8 L582.7,141.1 L590.2,143.5 L597.8,146.2 L605.4,148.3 L613.0,150.8 L620.6,153.2 L628.1,155.5 L635.7,158.0 L643.3,160.3 L650.9,162.7 L658.4,165.0 L666.0,167.2"/>
+<path class="ln k-o3" d="M60.0,284.0 L67.6,284.0 L75.2,284.0 L82.7,284.0 L90.3,284.0 L97.9,284.0 L105.4,284.0 L113.0,284.0 L120.6,284.0 L128.2,284.0 L135.8,284.0 L143.3,284.0 L150.9,284.0 L158.5,284.0 L166.1,284.0 L173.6,284.0 L181.2,283.8 L188.8,283.8 L196.3,283.8 L203.9,283.8 L211.5,283.8 L219.1,283.8 L226.7,283.8 L234.2,283.8 L241.8,282.1 L249.4,282.1 L257.0,282.2 L264.5,282.2 L272.1,282.2 L279.7,282.3 L287.2,282.3 L294.8,282.3 L302.4,273.8 L310.0,274.0 L317.6,274.1 L325.1,274.3 L332.7,274.5 L340.3,274.6 L347.8,274.8 L355.4,274.9 L363.0,247.5 L370.6,248.0 L378.2,248.6 L385.7,249.2 L393.3,249.7 L400.9,250.3 L408.4,250.8 L416.0,251.4 L423.6,196.4 L431.2,197.8 L438.8,199.1 L446.3,200.3 L453.9,201.8 L461.5,203.1 L469.1,204.4 L476.6,205.8 L484.2,143.7 L491.8,145.8 L499.3,148.0 L506.9,150.1 L514.5,152.1 L522.1,154.3 L529.7,156.5 L537.2,158.6 L544.8,128.9 L552.4,131.4 L560.0,133.6 L567.5,136.3 L575.1,138.8 L582.7,141.1 L590.2,143.5 L597.8,146.2 L605.4,148.3 L613.0,150.8 L620.6,153.2 L628.1,155.5 L635.7,158.0 L643.3,160.3 L650.9,162.7 L658.4,165.0 L666.0,167.2"/>
+<path class="ln k-o1" d="M60.0,284.0 L67.6,284.0 L75.2,284.0 L82.7,284.0 L90.3,284.0 L97.9,284.0 L105.4,284.0 L113.0,284.0 L120.6,284.0 L128.2,284.0 L135.8,284.0 L143.3,284.0 L150.9,284.0 L158.5,284.0 L166.1,284.0 L173.6,284.0 L181.2,284.0 L188.8,284.0 L196.3,284.0 L203.9,284.0 L211.5,284.0 L219.1,284.0 L226.7,284.0 L234.2,284.0 L241.8,284.0 L249.4,284.0 L257.0,284.0 L264.5,284.0 L272.1,284.0 L279.7,284.0 L287.2,284.0 L294.8,284.0 L302.4,283.8 L310.0,283.8 L317.6,283.8 L325.1,283.8 L332.7,283.8 L340.3,283.9 L347.8,283.9 L355.4,283.9 L363.0,283.9 L370.6,283.9 L378.2,283.9 L385.7,283.9 L393.3,283.9 L400.9,283.9 L408.4,283.9 L416.0,283.9 L423.6,282.8 L431.2,282.8 L438.8,282.9 L446.3,282.9 L453.9,282.9 L461.5,282.9 L469.1,283.0 L476.6,283.0 L484.2,283.0 L491.8,283.0 L499.3,283.1 L506.9,283.1 L514.5,283.1 L522.1,283.1 L529.7,283.1 L537.2,283.2 L544.8,278.5 L552.4,278.6 L560.0,278.8 L567.5,278.9 L575.1,279.0 L582.7,279.1 L590.2,279.2 L597.8,279.4 L605.4,279.5 L613.0,279.6 L620.6,279.7 L628.1,279.8 L635.7,279.9 L643.3,280.0 L650.9,280.1 L658.4,280.2 L666.0,267.4"/>
+<circle class="dot f-o5" cx="302.4" cy="45.6" r="4"/>
+<circle class="dot f-o3" cx="544.8" cy="128.9" r="4"/>
+<circle class="dot f-o1" cx="666.0" cy="267.4" r="4"/>
+<text class="lab" x="311.4" y="49.6" text-anchor="start">1 edit a year</text>
+<text class="lab" x="475.1" y="161.9" text-anchor="end">0.5 edits a year</text>
+<text class="lab" x="653.9" y="257.4" text-anchor="end">0.25 edits a year</text>
+<line class="xhair" x1="0" x2="0" y1="30.0" y2="284.0"/>
+<rect class="hitarea" x="60.0" y="30.0" width="606.0" height="254.0"/>
+</svg>
+<svg class="narrow" viewBox="0 0 340 300" role="img" aria-label="Line chart of unclaimed toy hooks within reach of a composer who starts in year 10. At 1 edit a year the reachable set peaks near 244,000 hooks in year 18, then shrinks. At 0.5 edits a year it peaks near 159,000 in year 26. Both fall to about 120,000 by year 30. At 0.25 edits a year it is still growing in year 30, at about 17,000.">
+<line class="axis" x1="60.0" x2="326.0" y1="254.0" y2="254.0"/>
+<text class="tick" x="54.0" y="258.0" text-anchor="end">0</text>
+<line class="grid" x1="60.0" x2="326.0" y1="210.9" y2="210.9"/>
+<text class="tick" x="54.0" y="214.9" text-anchor="end">50,000</text>
+<line class="grid" x1="60.0" x2="326.0" y1="167.8" y2="167.8"/>
+<text class="tick" x="54.0" y="171.8" text-anchor="end">100,000</text>
+<line class="grid" x1="60.0" x2="326.0" y1="124.8" y2="124.8"/>
+<text class="tick" x="54.0" y="128.8" text-anchor="end">150,000</text>
+<line class="grid" x1="60.0" x2="326.0" y1="81.7" y2="81.7"/>
+<text class="tick" x="54.0" y="85.7" text-anchor="end">200,000</text>
+<line class="grid" x1="60.0" x2="326.0" y1="38.6" y2="38.6"/>
+<text class="tick" x="54.0" y="42.6" text-anchor="end">250,000</text>
+<line class="axis" x1="60.0" x2="60.0" y1="254.0" y2="258.0"/>
+<text class="tick" x="60.0" y="273.0" text-anchor="middle">10</text>
+<line class="axis" x1="126.5" x2="126.5" y1="254.0" y2="258.0"/>
+<text class="tick" x="126.5" y="273.0" text-anchor="middle">15</text>
+<line class="axis" x1="193.0" x2="193.0" y1="254.0" y2="258.0"/>
+<text class="tick" x="193.0" y="273.0" text-anchor="middle">20</text>
+<line class="axis" x1="259.5" x2="259.5" y1="254.0" y2="258.0"/>
+<text class="tick" x="259.5" y="273.0" text-anchor="middle">25</text>
+<line class="axis" x1="326.0" x2="326.0" y1="254.0" y2="258.0"/>
+<text class="tick" x="326.0" y="273.0" text-anchor="middle">30</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Unclaimed hooks within reach</text>
+<text class="ttl" x="193.0" y="294.0" text-anchor="middle">toy year (the composer starts in year 10)</text>
+<path class="ln k-o5" d="M60.0,254.0 L63.3,254.0 L66.7,254.0 L70.0,254.0 L73.3,254.0 L76.6,254.0 L80.0,254.0 L83.3,254.0 L86.6,253.8 L89.9,253.8 L93.2,253.8 L96.6,253.8 L99.9,252.0 L103.2,252.0 L106.5,252.0 L109.9,252.1 L113.2,242.6 L116.5,242.8 L119.8,242.9 L123.2,243.1 L126.5,211.6 L129.8,212.2 L133.2,212.7 L136.5,213.2 L139.8,148.2 L143.1,149.3 L146.4,150.4 L149.8,151.7 L153.1,75.5 L156.4,77.6 L159.8,79.5 L163.1,81.5 L166.4,43.8 L169.7,46.0 L173.1,48.4 L176.4,50.5 L179.7,52.8 L183.0,55.2 L186.3,57.2 L189.7,59.4 L193.0,61.7 L196.3,64.1 L199.7,66.4 L203.0,68.8 L206.3,71.1 L209.6,73.4 L212.9,75.7 L216.3,78.0 L219.6,80.4 L222.9,82.9 L226.2,85.1 L229.6,87.3 L232.9,89.8 L236.2,92.1 L239.6,94.3 L242.9,96.9 L246.2,99.3 L249.5,101.5 L252.8,103.8 L256.2,106.0 L259.5,108.2 L262.8,110.4 L266.1,112.8 L269.5,115.0 L272.8,117.2 L276.1,119.4 L279.4,121.4 L282.8,123.8 L286.1,125.9 L289.4,127.9 L292.8,130.1 L296.1,132.5 L299.4,134.3 L302.7,136.6 L306.1,138.6 L309.4,140.7 L312.7,142.9 L316.0,144.9 L319.3,147.0 L322.7,149.1 L326.0,151.0"/>
+<path class="ln k-o3" d="M60.0,254.0 L63.3,254.0 L66.7,254.0 L70.0,254.0 L73.3,254.0 L76.6,254.0 L80.0,254.0 L83.3,254.0 L86.6,254.0 L89.9,254.0 L93.2,254.0 L96.6,254.0 L99.9,254.0 L103.2,254.0 L106.5,254.0 L109.9,254.0 L113.2,253.8 L116.5,253.8 L119.8,253.8 L123.2,253.8 L126.5,253.8 L129.8,253.8 L133.2,253.8 L136.5,253.8 L139.8,252.3 L143.1,252.4 L146.4,252.4 L149.8,252.4 L153.1,252.4 L156.4,252.5 L159.8,252.5 L163.1,252.5 L166.4,245.0 L169.7,245.2 L173.1,245.3 L176.4,245.4 L179.7,245.6 L183.0,245.7 L186.3,245.9 L189.7,246.0 L193.0,221.8 L196.3,222.3 L199.7,222.8 L203.0,223.3 L206.3,223.8 L209.6,224.3 L212.9,224.7 L216.3,225.2 L219.6,176.7 L222.9,178.0 L226.2,179.1 L229.6,180.2 L232.9,181.5 L236.2,182.6 L239.6,183.8 L242.9,185.1 L246.2,130.3 L249.5,132.1 L252.8,134.1 L256.2,135.9 L259.5,137.7 L262.8,139.6 L266.1,141.6 L269.5,143.4 L272.8,117.2 L276.1,119.4 L279.4,121.4 L282.8,123.8 L286.1,125.9 L289.4,127.9 L292.8,130.1 L296.1,132.5 L299.4,134.3 L302.7,136.6 L306.1,138.6 L309.4,140.7 L312.7,142.9 L316.0,144.9 L319.3,147.0 L322.7,149.1 L326.0,151.0"/>
+<path class="ln k-o1" d="M60.0,254.0 L63.3,254.0 L66.7,254.0 L70.0,254.0 L73.3,254.0 L76.6,254.0 L80.0,254.0 L83.3,254.0 L86.6,254.0 L89.9,254.0 L93.2,254.0 L96.6,254.0 L99.9,254.0 L103.2,254.0 L106.5,254.0 L109.9,254.0 L113.2,254.0 L116.5,254.0 L119.8,254.0 L123.2,254.0 L126.5,254.0 L129.8,254.0 L133.2,254.0 L136.5,254.0 L139.8,254.0 L143.1,254.0 L146.4,254.0 L149.8,254.0 L153.1,254.0 L156.4,254.0 L159.8,254.0 L163.1,254.0 L166.4,253.9 L169.7,253.9 L173.1,253.9 L176.4,253.9 L179.7,253.9 L183.0,253.9 L186.3,253.9 L189.7,253.9 L193.0,253.9 L196.3,253.9 L199.7,253.9 L203.0,253.9 L206.3,253.9 L209.6,253.9 L212.9,253.9 L216.3,253.9 L219.6,252.9 L222.9,253.0 L226.2,253.0 L229.6,253.0 L232.9,253.0 L236.2,253.1 L239.6,253.1 L242.9,253.1 L246.2,253.1 L249.5,253.1 L252.8,253.2 L256.2,253.2 L259.5,253.2 L262.8,253.2 L266.1,253.2 L269.5,253.3 L272.8,249.2 L276.1,249.3 L279.4,249.4 L282.8,249.5 L286.1,249.6 L289.4,249.7 L292.8,249.8 L296.1,249.9 L299.4,250.0 L302.7,250.1 L306.1,250.2 L309.4,250.3 L312.7,250.4 L316.0,250.5 L319.3,250.6 L322.7,250.7 L326.0,239.3"/>
+<circle class="dot f-o5" cx="166.4" cy="43.8" r="4"/>
+<circle class="dot f-o3" cx="272.8" cy="117.2" r="4"/>
+<circle class="dot f-o1" cx="326.0" cy="239.3" r="4"/>
+<text class="lab" x="175.4" y="47.8" text-anchor="start">1 edit a year</text>
+<text class="lab" x="242.2" y="137.7" text-anchor="end">0.5 edits</text>
+<text class="lab" x="242.2" y="152.7" text-anchor="end">a year</text>
+<text class="lab" x="320.7" y="229.3" text-anchor="end">0.25 edits a year</text>
+<line class="xhair" x1="0" x2="0" y1="30.0" y2="254.0"/>
+<rect class="hitarea" x="60.0" y="30.0" width="266.0" height="224.0"/>
+</svg>
+<div class="tip" hidden></div>
+<script type="application/json" class="tipdata">{"mode":"x","wx":[60.0,90.3,120.6,150.9,181.2,211.5,241.8,272.1,302.4,332.7,363.0,393.3,423.6,453.9,484.2,514.5,544.8,575.1,605.4,635.7,666.0],"nx":[60.0,73.3,86.6,99.9,113.2,126.5,139.8,153.1,166.4,179.7,193.0,206.3,219.6,232.9,246.2,259.5,272.8,286.1,299.4,312.7,326.0],"pts":[{"t":"year 10","r":[["about 0","1 edit a year","o5"],["about 0","0.5 edits a year","o3"],["about 0","0.25 edits a year","o1"]]},{"t":"year 11","r":[["about 17","1 edit a year","o5"],["about 0","0.5 edits a year","o3"],["about 0","0.25 edits a year","o1"]]},{"t":"year 12","r":[["about 263","1 edit a year","o5"],["about 16","0.5 edits a year","o3"],["about 0","0.25 edits a year","o1"]]},{"t":"year 13","r":[["about 2,300","1 edit a year","o5"],["about 15","0.5 edits a year","o3"],["about 0","0.25 edits a year","o1"]]},{"t":"year 14","r":[["about 13,200","1 edit a year","o5"],["about 230","0.5 edits a year","o3"],["about 13","0.25 edits a year","o1"]]},{"t":"year 15","r":[["about 49,200","1 edit a year","o5"],["about 213","0.5 edits a year","o3"],["about 12","0.25 edits a year","o1"]]},{"t":"year 16","r":[["about 122,800","1 edit a year","o5"],["about 1,900","0.5 edits a year","o3"],["about 11","0.25 edits a year","o1"]]},{"t":"year 17","r":[["about 207,100","1 edit a year","o5"],["about 1,800","0.5 edits a year","o3"],["about 10","0.25 edits a year","o1"]]},{"t":"year 18","r":[["about 244,000","1 edit a year","o5"],["about 10,400","0.5 edits a year","o3"],["about 167","0.25 edits a year","o1"]]},{"t":"year 19","r":[["about 233,600","1 edit a year","o5"],["about 9,800","0.5 edits a year","o3"],["about 154","0.25 edits a year","o1"]]},{"t":"year 20","r":[["about 223,100","1 edit a year","o5"],["about 37,400","0.5 edits a year","o3"],["about 142","0.25 edits a year","o1"]]},{"t":"year 21","r":[["about 212,300","1 edit a year","o5"],["about 35,100","0.5 edits a year","o3"],["about 130","0.25 edits a year","o1"]]},{"t":"year 22","r":[["about 201,500","1 edit a year","o5"],["about 89,700","0.5 edits a year","o3"],["about 1,200","0.25 edits a year","o1"]]},{"t":"year 23","r":[["about 190,600","1 edit a year","o5"],["about 84,200","0.5 edits a year","o3"],["about 1,100","0.25 edits a year","o1"]]},{"t":"year 24","r":[["about 179,600","1 edit a year","o5"],["about 143,600","0.5 edits a year","o3"],["about 1,000","0.25 edits a year","o1"]]},{"t":"year 25","r":[["about 169,200","1 edit a year","o5"],["about 135,000","0.5 edits a year","o3"],["about 927","0.25 edits a year","o1"]]},{"t":"year 26","r":[["about 158,800","1 edit a year","o5"],["about 158,800","0.5 edits a year","o3"],["about 5,600","0.25 edits a year","o1"]]},{"t":"year 27","r":[["about 148,700","1 edit a year","o5"],["about 148,700","0.5 edits a year","o3"],["about 5,100","0.25 edits a year","o1"]]},{"t":"year 28","r":[["about 138,900","1 edit a year","o5"],["about 138,900","0.5 edits a year","o3"],["about 4,700","0.25 edits a year","o1"]]},{"t":"year 29","r":[["about 128,900","1 edit a year","o5"],["about 128,900","0.5 edits a year","o3"],["about 4,200","0.25 edits a year","o1"]]},{"t":"year 30","r":[["about 119,600","1 edit a year","o5"],["about 119,600","0.5 edits a year","o3"],["about 17,000","0.25 edits a year","o1"]]}]}</script>
+</div>
+<!-- END gen:cone -->
+    <figcaption>Figure 5. Unclaimed toy hooks within reach of a composer starting in year 10, under free transit. Lines are simulation means. Faster composers reach the whole world sooner, then watch it shrink. From year 26 both faster cones cover everything, so their lines coincide.</figcaption>
+<!-- BEGIN gen:cone-table -->
+<details class="data"><summary>Table: mean unclaimed hooks within reach (estimated; ranges are in the text)</summary><div class="tablewrap"><table><thead><tr><th>Year</th><th>1 edit a year</th><th>0.5 edits a year</th><th>0.25 edits a year</th></tr></thead><tbody><tr><td>10</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr><tr><td>12</td><td class="num">263</td><td class="num">16</td><td class="num">0</td></tr><tr><td>14</td><td class="num">13,213</td><td class="num">230</td><td class="num">13</td></tr><tr><td>16</td><td class="num">122,822</td><td class="num">1,931</td><td class="num">11</td></tr><tr><td>18</td><td class="num">244,005</td><td class="num">10,421</td><td class="num">167</td></tr><tr><td>20</td><td class="num">223,149</td><td class="num">37,413</td><td class="num">142</td></tr><tr><td>22</td><td class="num">201,546</td><td class="num">89,702</td><td class="num">1,225</td></tr><tr><td>24</td><td class="num">179,568</td><td class="num">143,603</td><td class="num">1,016</td></tr><tr><td>26</td><td class="num">158,758</td><td class="num">158,758</td><td class="num">5,615</td></tr><tr><td>28</td><td class="num">138,927</td><td class="num">138,927</td><td class="num">4,657</td></tr><tr><td>30</td><td class="num">119,567</td><td class="num">119,567</td><td class="num">17,017</td></tr></tbody></table></div></details>
+<!-- END gen:cone-table -->
+  </figure>
+  <p>Clean transit trails free transit. With single-edit hops, the clean peak reaches about 85% of the free peak. With two-edit hops it reaches about 97%. Most of the gap comes from composers who start deep in claimed ground. With single-edit hops, about 15% of composers never reach a free hook. These shares rest on only 100 composers, so their ranges are wide.</p>
+  <p>At hook scale, the cone reads best in plausibility mass. Take a composer starting from a popular hook. Within 2 edits, only about 3.5% of plausible mass is unclaimed today. Within 6 edits the share is about 18.7%. After ten more years of uploads, that 6-edit share falls to about 10.5%.</p>
+
+  <h2 id="knobs">Which settings matter</h2>
+  <p>Each setting of the model is a knob. Each knob was moved across a plausible range, with the others held at default. Those ranges are judgment calls. The output was the pair count among 2.5 × 10<sup>8</sup> hooks at radius 2. Its default is 10<sup>8.7</sup> pairs.</p>
+  <p>Three knobs dominate. <a class="term" href="#g-step-bias">Step bias</a>, from 0.4 to 1.2, swings the count by 6.0 orders of magnitude. The radius, from 0 to 4 edits, swings it by 5.7. Hook length, from 11 to 19 intervals, swings it by 5.4. The repeat weight follows at 3.4.</p>
+  <p>The rest matter less. Catalog size moves the count by 1.1 across its range. At radius 2, letting up to half the records copy adds only 0.1. Copying matters most at tight radii, where independent pairs are rare.</p>
+  <figure class="viz" id="fig6">
+<!-- BEGIN gen:sensitivity -->
+
+<div class="chart" role="group" tabindex="0" data-chart="sensitivity" aria-label="Range bars, one per model knob, showing how far the catalog-scale pair count moves as each knob crosses its plausible range. Step bias swings it 6.0 orders of magnitude, recognition radius 5.7, hook length 5.4, repeat weight 3.4, catalog size 1.1, run weight 0.4, leap-reversal weight 0.1 and copy rate 0.1. Hover or tap the chart to read values. Arrow keys step through the values.">
+<svg class="wide" viewBox="0 0 680 416" role="img" aria-label="Range bars, one per model knob, showing how far the catalog-scale pair count moves as each knob crosses its plausible range. Step bias swings it 6.0 orders of magnitude, recognition radius 5.7, hook length 5.4, repeat weight 3.4, catalog size 1.1, run weight 0.4, leap-reversal weight 0.1 and copy rate 0.1.">
+<line class="grid" x1="14.0" x2="14.0" y1="46.0" y2="370.0"/>
+<text class="tick" x="14.0" y="387.0" text-anchor="middle">10⁵</text>
+<line class="grid" x1="98.8" x2="98.8" y1="46.0" y2="370.0"/>
+<text class="tick" x="98.8" y="387.0" text-anchor="middle">10⁶</text>
+<line class="grid" x1="183.6" x2="183.6" y1="46.0" y2="370.0"/>
+<text class="tick" x="183.6" y="387.0" text-anchor="middle">10⁷</text>
+<line class="grid" x1="268.4" x2="268.4" y1="46.0" y2="370.0"/>
+<text class="tick" x="268.4" y="387.0" text-anchor="middle">10⁸</text>
+<line class="grid" x1="353.2" x2="353.2" y1="46.0" y2="370.0"/>
+<text class="tick" x="353.2" y="387.0" text-anchor="middle">10⁹</text>
+<line class="grid" x1="438.0" x2="438.0" y1="46.0" y2="370.0"/>
+<text class="tick" x="438.0" y="387.0" text-anchor="middle">10¹⁰</text>
+<line class="grid" x1="522.8" x2="522.8" y1="46.0" y2="370.0"/>
+<text class="tick" x="522.8" y="387.0" text-anchor="middle">10¹¹</text>
+<line class="grid" x1="607.6" x2="607.6" y1="46.0" y2="370.0"/>
+<text class="tick" x="607.6" y="387.0" text-anchor="middle">10¹²</text>
+<text class="ttl" x="332.0" y="410.0" text-anchor="middle">near-duplicate pairs among 2.5 × 10⁸ hooks, radius 2 (log scale)</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Orders of magnitude each knob moves the pair count</text>
+<line class="ref" x1="323.5" x2="323.5" y1="46.0" y2="370.0"/>
+<text class="tick" x="327.5" y="42.0" text-anchor="start">default</text>
+<g class="row" data-i="0">
+<text class="lab" x="14.0" y="63.0" text-anchor="start">Step bias: how strongly melodies prefer small steps</text>
+<rect class="bar f-s1" x="97.1" y="70.0" width="510.5" height="10" rx="4"/>
+<text class="tick" x="613.6" y="79.0" text-anchor="start">6.0</text>
+</g>
+<g class="row" data-i="1">
+<text class="lab" x="14.0" y="103.0" text-anchor="start">Recognition radius: edits a listener tolerates</text>
+<rect class="bar f-s1" x="45.2" y="110.0" width="482.2" height="10" rx="4"/>
+<text class="tick" x="533.4" y="119.0" text-anchor="start">5.7</text>
+</g>
+<g class="row" data-i="2">
+<text class="lab" x="14.0" y="143.0" text-anchor="start">Hook length: intervals in a hook</text>
+<rect class="bar f-s1" x="90.0" y="150.0" width="461.6" height="10" rx="4"/>
+<text class="tick" x="557.6" y="159.0" text-anchor="start">5.4</text>
+</g>
+<g class="row" data-i="3">
+<text class="lab" x="14.0" y="183.0" text-anchor="start">Repeat weight: how often a note repeats</text>
+<rect class="bar f-s1" x="243.8" y="190.0" width="289.5" height="10" rx="4"/>
+<text class="tick" x="539.2" y="199.0" text-anchor="start">3.4</text>
+</g>
+<g class="row" data-i="4">
+<text class="lab" x="14.0" y="223.0" text-anchor="start">Catalog size: hooks in the catalog</text>
+<rect class="bar f-s1" x="234.9" y="230.0" width="89.6" height="10" rx="4"/>
+<text class="tick" x="330.4" y="239.0" text-anchor="start">1.1</text>
+</g>
+<g class="row" data-i="5">
+<text class="lab" x="14.0" y="263.0" text-anchor="start">Run weight: how often steps continue in one direction</text>
+<rect class="bar f-s1" x="311.5" y="270.0" width="31.1" height="10" rx="4"/>
+<text class="tick" x="348.6" y="279.0" text-anchor="start">0.4</text>
+</g>
+<g class="row" data-i="6">
+<text class="lab" x="14.0" y="303.0" text-anchor="start">Copy rate: share of records that copy an earlier one</text>
+<rect class="bar f-s1" x="323.5" y="310.0" width="7.6" height="10" rx="4"/>
+<text class="tick" x="337.1" y="319.0" text-anchor="start">0.1</text>
+</g>
+<g class="row" data-i="7">
+<text class="lab" x="14.0" y="343.0" text-anchor="start">Leap-reversal weight: how often a leap turns back</text>
+<rect class="bar f-s1" x="322.5" y="350.0" width="7.5" height="10" rx="4"/>
+<text class="tick" x="336.0" y="359.0" text-anchor="start">0.1</text>
+</g>
+<line class="xhair" x1="0" x2="0" y1="50.0" y2="370.0"/>
+<rect class="hitarea" x="14.0" y="50.0" width="636.0" height="320.0"/>
+</svg>
+<svg class="narrow" viewBox="0 0 340 416" role="img" aria-label="Range bars, one per model knob, showing how far the catalog-scale pair count moves as each knob crosses its plausible range. Step bias swings it 6.0 orders of magnitude, recognition radius 5.7, hook length 5.4, repeat weight 3.4, catalog size 1.1, run weight 0.4, leap-reversal weight 0.1 and copy rate 0.1.">
+<line class="grid" x1="14.0" x2="14.0" y1="46.0" y2="370.0"/>
+<text class="tick" x="14.0" y="387.0" text-anchor="middle">10⁵</text>
+<line class="grid" x1="53.5" x2="53.5" y1="46.0" y2="370.0"/>
+<text class="tick" x="53.5" y="387.0" text-anchor="middle">10⁶</text>
+<line class="grid" x1="92.9" x2="92.9" y1="46.0" y2="370.0"/>
+<text class="tick" x="92.9" y="387.0" text-anchor="middle">10⁷</text>
+<line class="grid" x1="132.4" x2="132.4" y1="46.0" y2="370.0"/>
+<text class="tick" x="132.4" y="387.0" text-anchor="middle">10⁸</text>
+<line class="grid" x1="171.9" x2="171.9" y1="46.0" y2="370.0"/>
+<text class="tick" x="171.9" y="387.0" text-anchor="middle">10⁹</text>
+<line class="grid" x1="211.3" x2="211.3" y1="46.0" y2="370.0"/>
+<text class="tick" x="211.3" y="387.0" text-anchor="middle">10¹⁰</text>
+<line class="grid" x1="250.8" x2="250.8" y1="46.0" y2="370.0"/>
+<text class="tick" x="250.8" y="387.0" text-anchor="middle">10¹¹</text>
+<line class="grid" x1="290.3" x2="290.3" y1="46.0" y2="370.0"/>
+<text class="tick" x="290.3" y="387.0" text-anchor="middle">10¹²</text>
+<text class="ttl" x="162.0" y="410.0" text-anchor="middle">pairs among 2.5 × 10⁸ hooks (log scale)</text>
+<text class="ttl" x="4.0" y="14.0" text-anchor="start">Orders of magnitude each knob moves the pair count</text>
+<line class="ref" x1="158.1" x2="158.1" y1="46.0" y2="370.0"/>
+<text class="tick" x="162.1" y="42.0" text-anchor="start">default</text>
+<g class="row" data-i="0">
+<text class="lab" x="14.0" y="63.0" text-anchor="start">Step bias</text>
+<rect class="bar f-s1" x="52.7" y="70.0" width="237.6" height="10" rx="4"/>
+<text class="tick" x="296.3" y="79.0" text-anchor="start">6.0</text>
+</g>
+<g class="row" data-i="1">
+<text class="lab" x="14.0" y="103.0" text-anchor="start">Recognition radius</text>
+<rect class="bar f-s1" x="28.5" y="110.0" width="224.4" height="10" rx="4"/>
+<text class="tick" x="259.0" y="119.0" text-anchor="start">5.7</text>
+</g>
+<g class="row" data-i="2">
+<text class="lab" x="14.0" y="143.0" text-anchor="start">Hook length</text>
+<rect class="bar f-s1" x="49.4" y="150.0" width="214.8" height="10" rx="4"/>
+<text class="tick" x="270.2" y="159.0" text-anchor="start">5.4</text>
+</g>
+<g class="row" data-i="3">
+<text class="lab" x="14.0" y="183.0" text-anchor="start">Repeat weight</text>
+<rect class="bar f-s1" x="120.9" y="190.0" width="134.7" height="10" rx="4"/>
+<text class="tick" x="261.7" y="199.0" text-anchor="start">3.4</text>
+</g>
+<g class="row" data-i="4">
+<text class="lab" x="14.0" y="223.0" text-anchor="start">Catalog size</text>
+<rect class="bar f-s1" x="116.8" y="230.0" width="41.7" height="10" rx="4"/>
+<text class="tick" x="164.5" y="239.0" text-anchor="start">1.1</text>
+</g>
+<g class="row" data-i="5">
+<text class="lab" x="14.0" y="263.0" text-anchor="start">Run weight</text>
+<rect class="bar f-s1" x="152.5" y="270.0" width="14.5" height="10" rx="4"/>
+<text class="tick" x="172.9" y="279.0" text-anchor="start">0.4</text>
+</g>
+<g class="row" data-i="6">
+<text class="lab" x="14.0" y="303.0" text-anchor="start">Copy rate</text>
+<rect class="bar f-s1" x="158.1" y="310.0" width="3.5" height="10" rx="4"/>
+<text class="tick" x="167.6" y="319.0" text-anchor="start">0.1</text>
+</g>
+<g class="row" data-i="7">
+<text class="lab" x="14.0" y="343.0" text-anchor="start">Leap-reversal weight</text>
+<rect class="bar f-s1" x="157.6" y="350.0" width="3.5" height="10" rx="4"/>
+<text class="tick" x="167.1" y="359.0" text-anchor="start">0.1</text>
+</g>
+<line class="xhair" x1="0" x2="0" y1="50.0" y2="370.0"/>
+<rect class="hitarea" x="14.0" y="50.0" width="296.0" height="320.0"/>
+</svg>
+<div class="tip" hidden></div>
+<script type="application/json" class="tipdata">{"mode":"y","wy":[70.0,110.0,150.0,190.0,230.0,270.0,310.0,350.0],"ny":[70.0,110.0,150.0,190.0,230.0,270.0,310.0,350.0],"pts":[{"t":"Step bias: how strongly melodies prefer small steps","r":[["6.0","orders of magnitude","s1"],["9.6 × 10⁵","pairs at 0.4","none"],["1.0 × 10¹²","pairs at 1.2","none"]]},{"t":"Recognition radius: edits a listener tolerates","r":[["5.7","orders of magnitude","s1"],["2.3 × 10⁵","pairs at 0","none"],["1.1 × 10¹¹","pairs at 4 edits","none"]]},{"t":"Hook length: intervals in a hook","r":[["5.4","orders of magnitude","s1"],["2.2 × 10¹¹","pairs at 11","none"],["7.9 × 10⁵","pairs at 19 intervals","none"]]},{"t":"Repeat weight: how often a note repeats","r":[["3.4","orders of magnitude","s1"],["5.1 × 10⁷","pairs at 0.5","none"],["1.3 × 10¹¹","pairs at 2","none"]]},{"t":"Catalog size: hooks in the catalog","r":[["1.1","orders of magnitude","s1"],["4.0 × 10⁷","pairs at 7.5 × 10⁷","none"],["4.6 × 10⁸","pairs at 2.53 × 10⁸","none"]]},{"t":"Run weight: how often steps continue in one direction","r":[["0.4","orders of magnitude","s1"],["7.5 × 10⁸","pairs at 1","none"],["3.2 × 10⁸","pairs at 2.5","none"]]},{"t":"Copy rate: share of records that copy an earlier one","r":[["0.1","orders of magnitude","s1"],["4.5 × 10⁸","pairs at 0","none"],["5.5 × 10⁸","pairs at 0.5","none"]]},{"t":"Leap-reversal weight: how often a leap turns back","r":[["0.1","orders of magnitude","s1"],["5.3 × 10⁸","pairs at 1","none"],["4.3 × 10⁸","pairs at 5","none"]]}]}</script>
+</div>
+<!-- END gen:sensitivity -->
+    <figcaption>Figure 6. How far the pair count moves as each knob crosses its range. Each bar spans the two ends of the range. The grey line marks the default setting.</figcaption>
+<!-- BEGIN gen:sensitivity-table -->
+<details class="data"><summary>Table: pair count at each end of each knob&#x27;s range (counted)</summary><div class="tablewrap"><table><thead><tr><th>Knob</th><th>Range tried</th><th>Pairs at start</th><th>Pairs at end</th><th>Swing (orders)</th></tr></thead><tbody><tr><td>Step bias</td><td class="num">0.4 to 1.2</td><td class="num">9.6 × 10⁵</td><td class="num">1.0 × 10¹²</td><td class="num">6.0</td></tr><tr><td>Recognition radius</td><td class="num">0 to 4 edits</td><td class="num">2.3 × 10⁵</td><td class="num">1.1 × 10¹¹</td><td class="num">5.7</td></tr><tr><td>Hook length</td><td class="num">11 to 19 intervals</td><td class="num">2.2 × 10¹¹</td><td class="num">7.9 × 10⁵</td><td class="num">5.4</td></tr><tr><td>Repeat weight</td><td class="num">0.5 to 2</td><td class="num">5.1 × 10⁷</td><td class="num">1.3 × 10¹¹</td><td class="num">3.4</td></tr><tr><td>Catalog size</td><td class="num">7.5 × 10⁷ to 2.53 × 10⁸</td><td class="num">4.0 × 10⁷</td><td class="num">4.6 × 10⁸</td><td class="num">1.1</td></tr><tr><td>Run weight</td><td class="num">1 to 2.5</td><td class="num">7.5 × 10⁸</td><td class="num">3.2 × 10⁸</td><td class="num">0.4</td></tr><tr><td>Copy rate</td><td class="num">0 to 0.5</td><td class="num">4.5 × 10⁸</td><td class="num">5.5 × 10⁸</td><td class="num">0.1</td></tr><tr><td>Leap-reversal weight</td><td class="num">1 to 5</td><td class="num">5.3 × 10⁸</td><td class="num">4.3 × 10⁸</td><td class="num">0.1</td></tr></tbody></table></div></details>
+<!-- END gen:sensitivity-table -->
+  </figure>
+
+  <h3 id="data">What real data would pin down</h3>
+  <p>None of these knobs is measured yet. The table lists the main ones, with data that could fix each. Much of it comes from a <a class="term" href="#g-corpus">corpus</a> of written-out melodies.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Knob</th><th>Default</th><th>Data that could pin it down</th></tr></thead>
+      <tbody>
+        <tr><td>Recognition radius</td><td>2 of 15 intervals</td><td>Listening tests on edited melodies; expert similarity in copyright cases; cover-detection thresholds</td></tr>
+        <tr><td>How sharply recognition fades</td><td>a sharp cut-off</td><td>The same listening tests, with inserted and deleted notes</td></tr>
+        <tr><td>Hook length</td><td>15 intervals, 16 notes</td><td>Hook annotations in a pop corpus; chorus segmentation</td></tr>
+        <tr><td>Interval range</td><td>7 semitones either way</td><td>Interval counts from a melody corpus</td></tr>
+        <tr><td>Step bias</td><td>0.7</td><td>Interval sizes in a melody corpus</td></tr>
+        <tr><td>Run, leap-reversal and repeat weights</td><td>1.5, 3 and 1</td><td>Statistics of interval pairs in a melody corpus</td></tr>
+        <tr><td>Rhythm</td><td>left out</td><td>Note onset and duration statistics of hooks</td></tr>
+        <tr><td>Catalog size</td><td>2.5 × 10<sup>8</sup></td><td><a class="term" href="#g-luminate">Luminate</a> counts: 253 million tracks at the end of 2025</td></tr>
+        <tr><td>Uploads per year</td><td>4.0 × 10<sup>7</sup></td><td>Luminate counts: 106,000 new tracks a day in 2025</td></tr>
+        <tr><td>Share of tracks with a melodic hook</td><td>all of them</td><td>Genre and instrumentation tags; vocal-melody detection</td></tr>
+        <tr><td>Copy rate and change rate</td><td>0.3 and 0.1</td><td>Cover, sample and interpolation databases; distances between originals and covers</td></tr>
+        <tr><td>Composer speed and hop size</td><td>0.5 edits a year; 1 edit</td><td>Distances between a composer's successive releases</td></tr>
+        <tr><td>Ownership rule</td><td>first claim</td><td>Court rulings and licensing practice</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Some quantities need more than measurement. The share of tracks with a hook needs a model of genres and arrangement. A listener's radius probably varies with how well they know a song. Ownership rules are social choices, which data can only describe.</p>
+
+  <h2 id="earlier">An earlier rough estimate, rechecked</h2>
+  <p>The project began from a rough estimate. It put a four-bar hook at about 10<sup>10</sup> plausible variants. With 2.5 × 10<sup>8</sup> tracks, that implied about three million near-duplicate pairs. The threshold for a near-duplicate was never defined. The model makes each step explicit.</p>
+  <p>The arithmetic holds under one reading. Treat 10<sup>10</sup> as equal cells, with tracks placed at random. Then the pairs come to 3.1 × 10<sup>6</sup>. The default chain gives 10<sup>13.1</sup> plausible variants instead. Reaching 10<sup>10</sup> needs 2.21 bits per interval, against 2.90 here. That takes a strong preference for small steps.</p>
+  <p>The pair count then turns on the radius, as Figure 3 shows. The estimate's stated error ran from 9 bits down to 5 bits up. That band spans 1.8 to 2.4 edits of radius. An even earlier figure, 10<sup>33</sup>, counted raw combinations. It equals about 115 equally likely choices per note.</p>
+  <p>The catalog figure holds up. Luminate counted 253 million tracks on streaming services at the end of 2025. That count was reported in January 2026.</p>
+  <p>An older study gives a loose check on the bits per interval. Youngblood's 1960 thesis, reported by Cohen in 1962, studied Romantic vocal melodies. Its figures imply about 3.1 bits per note. That counts twelve <a class="term" href="#g-pitch-class">pitch classes</a> without context, so it is only a loose ceiling here.</p>
+
+  <h2 id="checks">How it was checked</h2>
+  <p>Two programs worked from one written set of definitions. One simulated histories of records. The other derived formulas without reading the simulator's code. Each formula was then compared with simulation, or with a check of every case.</p>
+  <p>Exact formulas had to match the case-by-case count to one part in a billion. Simulations had to fall inside 99% bands. A curve passed with 90% of its points inside. In all, 127 comparisons ran, with no failures. Of 253 points on checked curves, one fell outside its band.</p>
+  <p>Claimed shares were checked against formulas for randomly scattered balls. That is the subject of coverage theory, as in Hall's 1988 book. One command reruns the whole model. A verifier's rerun matched every output byte for byte.</p>
+
+  <h2 id="limits">Limits and open questions</h2>
+  <ul>
+    <li>This is a toy model with no real songs. None of its settings is measured yet.</li>
+    <li>The recognition radius needs listening data. It probably varies with how familiar a song is.</li>
+    <li>Real hooks carry rhythm, harmony and timbre. The model leaves all three out.</li>
+    <li>Hook length varies by song. A fixed length is a simplification.</li>
+    <li>The copy rule ignores time lags, so influence spreads instantly.</li>
+    <li>Ownership rules are social choices. The model compares only two of them.</li>
+    <li>Some light-cone shares rest on only 100 simulated composers.</li>
+    <li>Two books were checked through catalog records and reviews only. Their texts were not read.</li>
+    <li>A natural next step fits the plausibility chain to a real melody corpus.</li>
+  </ul>
+
+  <h2 id="who">Who did this</h2>
+  <p>Claude agents built this model under Anthony Becker's direction. One agent wrote the definitions, the simulator and the project note. A helper agent derived the formulas from the definitions alone. Another helper checked the references.</p>
+  <p>A separate verifier agent, which had not seen the work, then checked it. It reran the model and derived three formulas on its own. It found one major and ten minor issues, which were fixed. Another fresh verifier checked this page against the project files.</p>
+
+  <h2 id="sources">Sources</h2>
+  <p>Each source was checked on 11 October 2026.</p>
+  <ul class="sources">
+    <li>Hamming, R. W. (1950). Error detecting and error correcting codes. <em>Bell System Technical Journal</em>, 29(2), 147–160. <a href="https://doi.org/10.1002/j.1538-7305.1950.tb00463.x">doi:10.1002/j.1538-7305.1950.tb00463.x</a></li>
+    <li>Gilbert, E. N. (1952). A comparison of signalling alphabets. <em>Bell System Technical Journal</em>, 31(3), 504–522. <a href="https://doi.org/10.1002/j.1538-7305.1952.tb01393.x">doi:10.1002/j.1538-7305.1952.tb01393.x</a></li>
+    <li>Varshamov, R. R. (1957). <em>Doklady Akademii Nauk SSSR</em>, 117, 739–741, in Russian. The English title varies between sources. <a href="https://zbmath.org/?q=an:0081.36905">zbMATH record</a></li>
+    <li>MacWilliams, F. J., and Sloane, N. J. A. (1977). <em>The Theory of Error-Correcting Codes</em>. North-Holland. Chapter 17 covers bounds on code size. Its record was checked, but the bound text was not read. <a href="https://doi.org/10.1016/S0924-6509(08)70542-7">Chapter 17</a></li>
+    <li>Hall, P. (1988). <em>Introduction to the Theory of Coverage Processes</em>. Wiley. Its chapter on uncovered space was confirmed through a review. <a href="https://zbmath.org/?q=an:0659.60024">zbMATH record</a></li>
+    <li>Youngblood, J. E. (1958). Style as information. <em>Journal of Music Theory</em>, 2(1), 24–35. The end page rests on one bibliography. The bits-per-note figure comes from his 1960 thesis, through Cohen. <a href="https://doi.org/10.2307/842928">doi:10.2307/842928</a></li>
+    <li>Cohen, J. E. (1962). Information theory and music. <em>Behavioral Science</em>, 7(2), 137–163. <a href="https://doi.org/10.1002/bs.3830070202">doi:10.1002/bs.3830070202</a></li>
+    <li>Music Business Worldwide, 14 January 2026, article by Murray Stassen. It reports Luminate's end-of-2025 count of 253 million tracks. It also reports 106,000 new tracks a day in 2025. <a href="https://www.musicbusinessworldwide.com/quarter-of-a-billion-tracks-now-sit-on-music-streaming-services-where-does-it-end">Article</a></li>
+  </ul>
+
+  <h2 id="glossary">Glossary</h2>
+  <dl class="glossary">
+    <dt id="g-anticipate">anticipate</dt><dd>Record x anticipates record y when x came first and y lies in x's ball.</dd>
+    <dt id="g-ball">ball</dt><dd>Every hook within a given number of edits of a centre hook.</dd>
+    <dt id="g-bit">bit</dt><dd>A doubling of a count. Here it measures how much choice each interval leaves.</dd>
+    <dt id="g-catalog">catalog</dt><dd>All the records released so far.</dd>
+    <dt id="g-clean-transit">clean transit</dt><dd>Moving through the space so that every draft along the way stays unclaimed.</dd>
+    <dt id="g-collide">collide</dt><dd>Two records collide when they lie within the recognition radius of each other. Such a pair is a near-duplicate pair.</dd>
+    <dt id="g-copy">copy</dt><dd>A new record that starts from an earlier one, then changes a few intervals.</dd>
+    <dt id="g-corpus">corpus</dt><dd>A large collection of examples, here melodies written out as notes.</dd>
+    <dt id="g-counted">counted</dt><dd>Exact inside the model, from a formula or from checking every case.</dd>
+    <dt id="g-counting-volume">counting volume</dt><dd>The number of hooks in a record's ball.</dd>
+    <dt id="g-edit">edit</dt><dd>A change to one interval of a hook.</dd>
+    <dt id="g-estimated">estimated</dt><dd>Found by simulation or by an approximation. A simulation range holds the true model value 95 times in 100.</dd>
+    <dt id="g-first-claim">first claim</dt><dd>The rule that each hook belongs to the earliest record whose ball covers it.</dd>
+    <dt id="g-free-transit">free transit</dt><dd>Moving through the space so that only the released hook must be unclaimed.</dd>
+    <dt id="g-gv-bound">Gilbert–Varshamov bound</dt><dd>A guaranteed minimum count of records that can sit far enough apart.</dd>
+    <dt id="g-hamming-bound">Hamming bound</dt><dd>A ceiling on the count of records whose balls never overlap.</dd>
+    <dt id="g-hamming-distance">Hamming distance</dt><dd>The number of positions where two hooks differ.</dd>
+    <dt id="g-hook">hook</dt><dd>A short, memorable melodic figure. Here it is sixteen notes, stored as fifteen intervals.</dd>
+    <dt id="g-interval">interval</dt><dd>The step in pitch from one note to the next, counted in semitones.</dd>
+    <dt id="g-light-cone">light cone</dt><dd>Every hook a composer can reach by a given year, at a given editing speed.</dd>
+    <dt id="g-luminate">Luminate</dt><dd>A music data company that publishes yearly industry counts.</dd>
+    <dt id="g-mass-volume">mass volume</dt><dd>The plausibility mass inside a record's ball.</dd>
+    <dt id="g-order">order of magnitude</dt><dd>A factor of ten. Six orders of magnitude is a factor of a million.</dd>
+    <dt id="g-packing">packing number</dt><dd>The most records that fit with no two balls sharing a hook.</dd>
+    <dt id="g-pitch-class">pitch class</dt><dd>A note name, such as C or F sharp, in any octave. There are twelve.</dd>
+    <dt id="g-chain">plausibility chain</dt><dd>A rule that gives the chance of each next interval, given the one before. It sets how likely each hook is.</dd>
+    <dt id="g-mass">plausibility mass</dt><dd>The chance that a fresh hook from the plausibility chain lands in a set.</dd>
+    <dt id="g-radius">recognition radius</dt><dd>The most edits at which listeners still recognize a hook as the same record.</dd>
+    <dt id="g-semitone">semitone</dt><dd>The smallest step on a piano, from one key to the next.</dd>
+    <dt id="g-step-bias">step bias</dt><dd>How strongly the plausibility chain prefers small intervals over leaps.</dd>
+    <dt id="g-timbre">timbre</dt><dd>The quality that makes two instruments sound different on the same note.</dd>
+    <dt id="g-toy">toy world</dt><dd>A small version of the space, with 390,625 hooks, small enough to check every one.</dd>
+  </dl>
+
+  <footer>
+    <p>Text and figures on this page are CC BY 4.0.</p>
+  </footer>
+</div>
+<script>
+/* Tooltips for the charts: one reader per chart, values from the JSON next to each SVG.
+   Pointer and touch snap to the nearest data position; arrow keys step through values. */
+(function () {
+  function visibleSvg(chart) {
+    var svgs = chart.querySelectorAll('svg');
+    for (var i = 0; i < svgs.length; i++) if (svgs[i].getBoundingClientRect().width > 0) return svgs[i];
+    return svgs[0];
+  }
+  var charts = document.querySelectorAll('.chart[data-chart]');
+  Array.prototype.forEach.call(charts, function (chart) {
+    var data = JSON.parse(chart.querySelector('.tipdata').textContent);
+    var tip = chart.querySelector('.tip');
+    var idx = -1;
+    function positions(svg) {
+      var narrow = svg.classList.contains('narrow');
+      if (data.mode === 'x') return narrow ? data.nx : data.wx;
+      return narrow ? data.ny : data.wy;
+    }
+    function fill(p) {
+      tip.textContent = '';
+      var t = document.createElement('div');
+      t.className = 'tt';
+      t.textContent = p.t;
+      tip.appendChild(t);
+      p.r.forEach(function (row) {
+        var d = document.createElement('div');
+        d.className = 'tr';
+        if (row[2] && row[2] !== 'none') {
+          var k = document.createElement('span');
+          k.className = 'key line c-' + row[2];
+          d.appendChild(k);
+        }
+        var b = document.createElement('b');
+        b.textContent = row[0];
+        d.appendChild(b);
+        var l = document.createElement('span');
+        l.className = 'l';
+        l.textContent = row[1];
+        d.appendChild(l);
+        tip.appendChild(d);
+      });
+    }
+    function clear(svg) {
+      Array.prototype.forEach.call(chart.querySelectorAll('.xhair'), function (x) { x.style.visibility = 'hidden'; });
+      Array.prototype.forEach.call(chart.querySelectorAll('.row.on'), function (g) { g.classList.remove('on'); });
+    }
+    function show(i, clientY) {
+      if (i < 0 || i >= data.pts.length) return;
+      idx = i;
+      var svg = visibleSvg(chart);
+      var ps = positions(svg);
+      clear(svg);
+      fill(data.pts[i]);
+      tip.hidden = false;
+      var box = chart.getBoundingClientRect();
+      var ctm = svg.getScreenCTM();
+      var pt = svg.createSVGPoint();
+      var w = tip.offsetWidth, h = tip.offsetHeight, left, top;
+      if (data.mode === 'x') {
+        var xh = svg.querySelector('.xhair');
+        xh.setAttribute('x1', ps[i]);
+        xh.setAttribute('x2', ps[i]);
+        xh.style.visibility = 'visible';
+        pt.x = ps[i]; pt.y = 0;
+        var sx = pt.matrixTransform(ctm).x - box.left;
+        left = sx + 14;
+        if (left + w > box.width) left = sx - 14 - w;
+        top = clientY == null ? 36 : clientY - box.top - h / 2;
+      } else {
+        var g = svg.querySelector('.row[data-i="' + i + '"]');
+        if (g) g.classList.add('on');
+        pt.x = 0; pt.y = ps[i];
+        var sy = pt.matrixTransform(ctm).y - box.top;
+        left = box.width - w;
+        top = sy + 22;
+        if (top + h > box.height) top = sy - h - 22;
+      }
+      tip.style.left = Math.max(0, Math.min(left, box.width - w)) + 'px';
+      tip.style.top = Math.max(0, Math.min(top, box.height - h)) + 'px';
+    }
+    function hide() {
+      tip.hidden = true;
+      idx = -1;
+      clear();
+    }
+    function nearest(e) {
+      var svg = visibleSvg(chart);
+      var ps = positions(svg);
+      var pt = svg.createSVGPoint();
+      pt.x = e.clientX; pt.y = e.clientY;
+      var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      var v = data.mode === 'x' ? p.x : p.y, best = 0, bd = Infinity;
+      for (var i = 0; i < ps.length; i++) {
+        var d = Math.abs(ps[i] - v);
+        if (d < bd) { bd = d; best = i; }
+      }
+      return best;
+    }
+    chart.addEventListener('pointermove', function (e) { show(nearest(e), e.clientY); });
+    chart.addEventListener('pointerdown', function (e) { show(nearest(e), e.clientY); });
+    chart.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hide(); });
+    chart.addEventListener('focus', function () {
+      if (chart.matches(':focus-visible') && idx < 0) show(0, null);
+    });
+    chart.addEventListener('blur', hide);
+    chart.addEventListener('keydown', function (e) {
+      var fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+      var back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+      if (fwd || back) {
+        e.preventDefault();
+        var n = idx < 0 ? 0 : idx + (fwd ? 1 : -1);
+        show(Math.max(0, Math.min(data.pts.length - 1, n)), null);
+      } else if (e.key === 'Escape') {
+        hide();
+      }
+    });
+  });
+  document.addEventListener('pointerdown', function (e) {
+    Array.prototype.forEach.call(charts, function (chart) {
+      if (!chart.contains(e.target)) {
+        var tip = chart.querySelector('.tip');
+        if (!tip.hidden) chart.dispatchEvent(new Event('blur'));
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
