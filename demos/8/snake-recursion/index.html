@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snake Recursion — Anthony Becker</title>
+<meta name="description" content="A snake that plays on its own surface: every segment of its body is a screen showing the game it is playing, all the way down.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="canonical" href="https://anthonybecker.me/demos/8/snake-recursion/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230b0d10'/%3E%3Crect x='2' y='6' width='4' height='4' fill='%239be37a'/%3E%3Crect x='6' y='6' width='4' height='4' fill='%2380d0ff'/%3E%3Crect x='10' y='6' width='4' height='4' fill='%23f3c86b'/%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #0b0d10; color: #c9ced8; }
+  body { font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
+  nav { font-size: 0.9rem; margin-bottom: 0.6rem; }
+  a { color: #e8ecf2; }
+  nav a { text-decoration: none; border-bottom: 1px solid currentColor; }
+  h1 { font: 700 1.35rem/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.06em; color: #f2efe6; margin: 0 0 0.75rem; }
+  #stage { position: relative; width: 100%; aspect-ratio: 1; background: #000; touch-action: none; user-select: none; -webkit-user-select: none; border-radius: 4px; overflow: hidden; }
+  #view { display: block; width: 100%; height: 100%; cursor: pointer; }
+  #hud { position: absolute; left: 8px; top: 6px; font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace; color: #e8ecf2; text-shadow: 0 1px 2px #000, 0 0 6px #000; pointer-events: none; }
+  .bar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .bar button { font: 13px/1 ui-monospace, Menlo, Consolas, monospace; color: #e8ecf2; background: #171a20; border: 1px solid #2b3039; border-radius: 4px; padding: 9px 11px; cursor: pointer; }
+  .bar button[aria-pressed="true"] { background: #2a3a26; border-color: #6fae55; color: #d9f5c9; }
+  .bar button:focus-visible { outline: 2px solid #80d0ff; outline-offset: 1px; }
+  p { margin: 0.9rem 0 0; max-width: 40rem; }
+  .small { font-size: 0.85rem; opacity: 0.7; }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/demos/">← demos</a></nav>
+  <h1>SNAKE RECURSION</h1>
+  <div id="stage">
+    <canvas id="view" aria-label="Snake game whose body segments each show the game itself"></canvas>
+    <div id="hud"></div>
+  </div>
+  <div class="bar">
+    <button id="auto" aria-pressed="true">autopilot</button>
+    <button id="follow" aria-pressed="false">follow head</button>
+    <button id="speed">speed: 1×</button>
+    <button id="grid">grid: 10</button>
+    <button id="reset">reset</button>
+  </div>
+  <p>The snake plays on its own surface. Each body segment is a screen showing
+  the whole game, including the snake, whose segments show the game again.
+  The picture is a feedback loop: each frame is painted into the body of the
+  next, so the recursion has no fixed depth.</p>
+  <p class="small">It plays itself. Arrow keys, WASD or a swipe take over;
+  autopilot hands it back. Tap the board to zoom in, or follow the head.
+  After a <a href="https://bsky.app/profile/words.bsky.social/post/3mxzrvsjvvk2z">post by @words.bsky.social</a>.</p>
+</main>
+<script>
+(() => {
+  'use strict';
+
+  // ---- state -------------------------------------------------------------
+  // The board is a square grid of N×N cells. The snake is a list of cell
+  // indices, head first. `prevBody` is the body one step earlier, padded to
+  // the same length, so every frame can draw each segment part-way between
+  // where it was and where it is.
+  let N = 10;
+  let body = [], prevBody = [], dir = 1, food = -1;
+  let auto = true, manualQueue = [];
+  let stepMs = 140, speedIx = 1;
+  const SPEEDS = [[260, '0.5×'], [140, '1×'], [70, '2×'], [30, '4×']];
+  const GRIDS = [6, 8, 10, 12, 16];
+  let stepClock = 0, pauseUntil = 0, sinceFood = 0, best = 0, deaths = 0, wins = 0;
+  let message = '';
+
+  const DX = [0, 1, 0, -1], DY = [-1, 0, 1, 0]; // up right down left
+  const xy = i => [i % N, (i / N) | 0];
+  const idx = (x, y) => y * N + x;
+  function neighbour(i, d) {
+    const [x, y] = xy(i), nx = x + DX[d], ny = y + DY[d];
+    return nx < 0 || ny < 0 || nx >= N || ny >= N ? -1 : idx(nx, ny);
+  }
+
+  function reset() {
+    const c = idx((N / 2) | 0, (N / 2) | 0);
+    body = [c, c - 1, c - 2];
+    prevBody = body.slice();
+    dir = 1; manualQueue = []; sinceFood = 0; message = '';
+    placeFood();
+  }
+  function placeFood() {
+    const occ = new Set(body), free = [];
+    for (let i = 0; i < N * N; i++) if (!occ.has(i)) free.push(i);
+    food = free.length ? free[(Math.random() * free.length) | 0] : -1;
+  }
+
+  // ---- autopilot ---------------------------------------------------------
+  // Standard safe-snake heuristic: take the shortest path to the food only if,
+  // having eaten, the head could still reach its own tail (so it can never
+  // box itself in). Otherwise chase the tail the long way round, which buys
+  // time until the food becomes safely reachable.
+  function bfs(from, to, blocked) {
+    const prev = new Int32Array(N * N).fill(-2);
+    prev[from] = -1;
+    const q = [from];
+    for (let h = 0; h < q.length; h++) {
+      const c = q[h];
+      if (c === to) {
+        const path = [];
+        for (let p = c; p !== from; p = prev[p]) path.push(p);
+        return path.reverse();
+      }
+      for (let d = 0; d < 4; d++) {
+        const n = neighbour(c, d);
+        if (n < 0 || prev[n] !== -2 || (blocked.has(n) && n !== to)) continue;
+        prev[n] = c; q.push(n);
+      }
+    }
+    return null;
+  }
+  function canReachTail(snake) {
+    if (snake.length < 2) return true;
+    const blocked = new Set(snake.slice(1, -1));
+    return bfs(snake[0], snake[snake.length - 1], blocked) !== null;
+  }
+  function moveVirtual(snake, cell, eats) {
+    const s = [cell, ...snake];
+    if (!eats) s.pop();
+    return s;
+  }
+  function dirTo(a, b) { for (let d = 0; d < 4; d++) if (neighbour(a, d) === b) return d; return dir; }
+
+  function chooseDir() {
+    const head = body[0];
+    if (food >= 0) {
+      const path = bfs(head, food, new Set(body.slice(0, -1)));
+      if (path) {
+        let v = body;
+        for (let k = 0; k < path.length; k++) v = moveVirtual(v, path[k], k === path.length - 1);
+        // Stalled too long circling: take the food even if it's risky.
+        if (v.length === N * N || canReachTail(v) || sinceFood > N * N * 3) return dirTo(head, path[0]);
+      }
+    }
+    // Safe moves, preferring the one that keeps the tail farthest away.
+    let bestD = -1, bestScore = -1;
+    for (let d = 0; d < 4; d++) {
+      const n = neighbour(head, d);
+      if (n < 0) continue;
+      const eats = n === food;
+      if (body.slice(0, eats ? body.length : -1).includes(n)) continue;
+      const v = moveVirtual(body, n, eats);
+      if (!canReachTail(v)) continue;
+      const p = bfs(n, v[v.length - 1], new Set(v.slice(1, -1)));
+      const score = (p ? p.length : 0) + Math.random() * 0.1;
+      if (score > bestScore) { bestScore = score; bestD = d; }
+    }
+    if (bestD >= 0) return bestD;
+    for (let d = 0; d < 4; d++) {
+      const n = neighbour(head, d);
+      if (n >= 0 && !body.slice(0, -1).includes(n)) return d;
+    }
+    return dir;
+  }
+
+  // ---- step --------------------------------------------------------------
+  function step(now) {
+    if (now < pauseUntil) { prevBody = body.slice(); return; }
+    if (message) reset();
+    if (auto) dir = chooseDir();
+    else if (manualQueue.length) {
+      const d = manualQueue.shift();
+      if (d !== (dir + 2) % 4 || body.length < 2) dir = d;
+    }
+    const n = neighbour(body[0], dir);
+    const eats = n === food;
+    const hit = n < 0 || body.slice(0, eats ? body.length : -1).includes(n);
+    prevBody = body.slice();
+    if (hit) {
+      deaths++; message = 'crashed'; pauseUntil = now + 900; return;
+    }
+    body.unshift(n);
+    if (eats) { prevBody.push(prevBody[prevBody.length - 1]); sinceFood = 0; placeFood(); }
+    else { body.pop(); sinceFood++; }
+    best = Math.max(best, body.length);
+    if (body.length === N * N) { wins++; message = 'filled the board'; pauseUntil = now + 2200; }
+  }
+
+  // ---- rendering ---------------------------------------------------------
+  // Two square offscreen buffers, ping-ponged. Each frame paints the board
+  // into `cur` and draws `prev` (last frame, complete with its own nested
+  // boards) into every segment cell. Depth k of the recursion is therefore k
+  // frames old, which is why motion ripples inward.
+  const view = document.getElementById('view');
+  const vctx = view.getContext('2d');
+  const hud = document.getElementById('hud');
+  let S = 1024;
+  let bufA = document.createElement('canvas'), bufB = document.createElement('canvas');
+  function sizeBuffers() {
+    const rect = view.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    view.width = Math.round(rect.width * dpr);
+    view.height = Math.round(rect.height * dpr);
+    // Buffer resolution caps detail at depth; big enough to zoom 3× cleanly.
+    S = Math.min(2048, Math.max(1024, view.width * 2));
+    for (const b of [bufA, bufB]) { b.width = b.height = S; }
+  }
+
+  const hueOf = i => (95 + i * 360 / Math.max(12, N * 1.5)) % 360;
+  let cam = { x: 0.5, y: 0.5, z: 1 }, camTarget = { x: 0.5, y: 0.5, z: 1 };
+  let follow = false, zoomed = false;
+
+  function segPos(i, t) {
+    const a = xy(prevBody[i] ?? body[i]), b = xy(body[i]);
+    return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+  }
+
+  function paint(t) {
+    const cur = bufA, prev = bufB;
+    const c = cur.getContext('2d');
+    const cs = S / N;
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.globalAlpha = 1;
+    c.fillStyle = '#0d1014';
+    c.fillRect(0, 0, S, S);
+    // Grid
+    c.strokeStyle = 'rgba(255,255,255,0.06)';
+    c.lineWidth = Math.max(1, S / 512);
+    c.beginPath();
+    for (let k = 1; k < N; k++) {
+      c.moveTo(k * cs, 0); c.lineTo(k * cs, S);
+      c.moveTo(0, k * cs); c.lineTo(S, k * cs);
+    }
+    c.stroke();
+    // Food
+    if (food >= 0) {
+      const [fx, fy] = xy(food);
+      const pulse = 0.30 + 0.04 * Math.sin(performance.now() / 160);
+      c.fillStyle = '#f3c86b';
+      c.beginPath(); c.arc((fx + 0.5) * cs, (fy + 0.5) * cs, cs * pulse, 0, Math.PI * 2); c.fill();
+    }
+    // Body, tail first so the head sits on top.
+    const pad = cs * 0.04;
+    for (let i = body.length - 1; i >= 0; i--) {
+      const [x, y] = segPos(i, t);
+      const px = x * cs + pad, py = y * cs + pad, w = cs - 2 * pad;
+      c.drawImage(prev, px, py, w, w);
+      c.fillStyle = `hsla(${hueOf(i)}, 75%, 55%, 0.22)`;
+      c.fillRect(px, py, w, w);
+      c.strokeStyle = `hsla(${hueOf(i)}, 80%, 70%, 0.9)`;
+      c.lineWidth = Math.max(1, cs * 0.03);
+      c.strokeRect(px, py, w, w);
+    }
+    // Eyes on the head, so the outermost snake reads as a snake.
+    if (body.length) {
+      const [x, y] = segPos(0, t);
+      const cx = (x + 0.5) * cs, cy = (y + 0.5) * cs;
+      const fx = DX[dir], fy = DY[dir], r = cs * 0.09;
+      for (const side of [-1, 1]) {
+        const ex = cx + fx * cs * 0.22 - fy * side * cs * 0.18;
+        const ey = cy + fy * cs * 0.22 + fx * side * cs * 0.18;
+        c.fillStyle = '#fff'; c.beginPath(); c.arc(ex, ey, r, 0, Math.PI * 2); c.fill();
+        c.fillStyle = '#000'; c.beginPath(); c.arc(ex + fx * r * 0.4, ey + fy * r * 0.4, r * 0.55, 0, Math.PI * 2); c.fill();
+      }
+    }
+    if (message) {
+      c.fillStyle = 'rgba(0,0,0,0.35)'; c.fillRect(0, 0, S, S);
+    }
+    // swap
+    bufA = prev; bufB = cur;
+    return cur;
+  }
+
+  function present(frame, dt, t) {
+    if (follow && body.length) {
+      const [hx, hy] = segPos(0, t);
+      camTarget = { x: (hx + 0.5) / N, y: (hy + 0.5) / N, z: Math.max(2, N / 3) };
+    } else if (!zoomed) camTarget = { x: 0.5, y: 0.5, z: 1 };
+    const k = 1 - Math.exp(-dt / 180);
+    for (const key of ['x', 'y', 'z']) cam[key] += (camTarget[key] - cam[key]) * k;
+    // Keep the view inside the board.
+    const half = 0.5 / cam.z;
+    const cx = Math.min(1 - half, Math.max(half, cam.x));
+    const cy = Math.min(1 - half, Math.max(half, cam.y));
+    const sw = S / cam.z;
+    vctx.imageSmoothingQuality = 'high';
+    vctx.drawImage(frame, (cx - half) * S, (cy - half) * S, sw, sw, 0, 0, view.width, view.height);
+    hud.textContent = `length ${body.length}/${N * N}  best ${best}` +
+      (wins ? `  boards filled ${wins}` : '') + (auto ? '' : '  · manual') +
+      (message ? `  · ${message}` : '');
+  }
+
+  // ---- loop --------------------------------------------------------------
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(100, now - last); last = now;
+    stepClock += dt;
+    let guard = 0;
+    while (stepClock >= stepMs && guard++ < 8) { stepClock -= stepMs; step(now); }
+    if (guard >= 8) stepClock = 0;
+    const t = now < pauseUntil ? 1 : Math.min(1, stepClock / stepMs);
+    present(paint(t), dt, t);
+    requestAnimationFrame(frame);
+  }
+
+  // ---- input -------------------------------------------------------------
+  const autoBtn = document.getElementById('auto');
+  const followBtn = document.getElementById('follow');
+  function setAuto(v) { auto = v; manualQueue = []; autoBtn.setAttribute('aria-pressed', String(v)); }
+  function steer(d) {
+    if (auto) setAuto(false);
+    if (manualQueue.length < 3) manualQueue.push(d);
+  }
+  autoBtn.onclick = () => setAuto(!auto);
+  followBtn.onclick = () => {
+    follow = !follow; zoomed = false;
+    followBtn.setAttribute('aria-pressed', String(follow));
+  };
+  document.getElementById('speed').onclick = e => {
+    speedIx = (speedIx + 1) % SPEEDS.length;
+    stepMs = SPEEDS[speedIx][0];
+    e.currentTarget.textContent = 'speed: ' + SPEEDS[speedIx][1];
+  };
+  document.getElementById('grid').onclick = e => {
+    N = GRIDS[(GRIDS.indexOf(N) + 1) % GRIDS.length];
+    e.currentTarget.textContent = 'grid: ' + N;
+    best = 0; wins = 0; reset();
+  };
+  document.getElementById('reset').onclick = () => reset();
+
+  const KEYS = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3, w: 0, d: 1, s: 2, a: 3, W: 0, D: 1, S: 2, A: 3 };
+  window.addEventListener('keydown', e => {
+    if (e.key in KEYS && !(e.target instanceof HTMLButtonElement && e.key.length === 1)) {
+      e.preventDefault(); steer(KEYS[e.key]);
+    }
+  });
+
+  // Swipe steers; a short tap toggles a 3× zoom on that spot.
+  let down = null;
+  view.addEventListener('pointerdown', e => { down = { x: e.clientX, y: e.clientY }; view.setPointerCapture(e.pointerId); });
+  view.addEventListener('pointerup', e => {
+    if (!down) return;
+    const dx = e.clientX - down.x, dy = e.clientY - down.y;
+    down = null;
+    if (Math.hypot(dx, dy) > 24) {
+      steer(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0));
+      return;
+    }
+    if (follow) { follow = false; followBtn.setAttribute('aria-pressed', 'false'); }
+    if (zoomed) { zoomed = false; return; }
+    const r = view.getBoundingClientRect();
+    // Map the tap through the current camera into board coordinates.
+    const half = 0.5 / cam.z;
+    const vx = Math.min(1 - half, Math.max(half, cam.x)) - half + (e.clientX - r.left) / r.width / cam.z;
+    const vy = Math.min(1 - half, Math.max(half, cam.y)) - half + (e.clientY - r.top) / r.height / cam.z;
+    camTarget = { x: vx, y: vy, z: 3 }; zoomed = true;
+  });
+  view.addEventListener('pointercancel', () => { down = null; });
+
+  window.addEventListener('resize', sizeBuffers);
+  sizeBuffers();
+  reset();
+  requestAnimationFrame(frame);
+
+  // Exposed for automated checks only.
+  window.__snake = { get body() { return body; }, get food() { return food; }, get N() { return N; }, get auto() { return auto; } };
+})();
+</script>
+</body>
+</html>
