@@ -37,3 +37,11 @@
 /demos/moon-rangers/       /demos/6/moon-rangers/  301
 /moon-rangers              /demos/6/moon-rangers/  301
 /moon-rangers/             /demos/6/moon-rangers/  301
+
+# Canonical demo path: /demos/8/snake-recursion/
+/demos/8                   /demos/8/snake-recursion/  301
+/demos/8/                  /demos/8/snake-recursion/  301
+/demos/snake-recursion     /demos/8/snake-recursion/  301
+/demos/snake-recursion/    /demos/8/snake-recursion/  301
+/snake-recursion           /demos/8/snake-recursion/  301
+/snake-recursion/          /demos/8/snake-recursion/  301
