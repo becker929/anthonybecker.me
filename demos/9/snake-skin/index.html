@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snake Skin — Anthony Becker</title>
+<meta name="description" content="The snake's field is its own skin: the whole board, unrolled, is the whole body, so the snake plays on itself, all the way down.">
+<meta name="theme-color" content="#0b0d10">
+<link rel="canonical" href="https://anthonybecker.me/demos/9/snake-skin/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230b0d10'/%3E%3Cpath d='M2 4h10a2 2 0 0 1 0 4H4a2 2 0 0 0 0 4h10' stroke='%239be37a' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #0b0d10; color: #c9ced8; }
+  body { font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
+  nav { font-size: 0.9rem; margin-bottom: 0.6rem; }
+  a { color: #e8ecf2; }
+  nav a { text-decoration: none; border-bottom: 1px solid currentColor; }
+  h1 { font: 700 1.35rem/1.2 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.06em; color: #f2efe6; margin: 0 0 0.75rem; }
+  #stage { position: relative; width: 100%; aspect-ratio: 1; background: #07080a; touch-action: none; user-select: none; -webkit-user-select: none; border-radius: 4px; overflow: hidden; }
+  #view { display: block; width: 100%; height: 100%; cursor: zoom-in; }
+  #hud { position: absolute; left: 8px; bottom: 6px; font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace; color: #e8ecf2; text-shadow: 0 1px 2px #000, 0 0 6px #000; pointer-events: none; white-space: pre; }
+  #nogl { display: none; position: absolute; inset: 0; padding: 24px; align-items: center; justify-content: center; text-align: center; }
+  .bar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .bar button { font: 13px/1 ui-monospace, Menlo, Consolas, monospace; color: #e8ecf2; background: #171a20; border: 1px solid #2b3039; border-radius: 4px; padding: 9px 11px; cursor: pointer; }
+  .bar button[aria-pressed="true"] { background: #2a3a26; border-color: #6fae55; color: #d9f5c9; }
+  .bar button:focus-visible { outline: 2px solid #80d0ff; outline-offset: 1px; }
+  p { margin: 0.9rem 0 0; max-width: 40rem; }
+  .small { font-size: 0.85rem; opacity: 0.7; }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/demos/">← demos</a></nav>
+  <h1>SNAKE SKIN</h1>
+  <div id="stage">
+    <canvas id="view" aria-label="A coiled snake whose skin is the field it plays on"></canvas>
+    <div id="hud"></div>
+    <div id="nogl">This one needs WebGL 2, which this browser didn't offer.</div>
+  </div>
+  <div class="bar">
+    <button id="auto" aria-pressed="true">autopilot</button>
+    <button id="follow" aria-pressed="false">follow head</button>
+    <button id="speed">speed: 1×</button>
+    <button id="width">skin: 4 wide</button>
+    <button id="reset">reset</button>
+  </div>
+  <p>The field is the snake's skin. Cut the body open along its length and lay
+  it flat: you get a long strip, one body long and one body wide. That strip is
+  the field. The snake moves on it, so its body is drawn on its own skin, and
+  that body's skin is the field again.</p>
+  <p>The big coiled shape is the snake itself, head at the top left. The field
+  scales down by the skin's width at each level. When the snake eats, it grows
+  one segment, and its field grows by one segment's worth of skin.</p>
+  <p class="small">It plays itself. Arrow keys, WASD or a swipe take over;
+  autopilot hands it back. Tap to zoom in (three times), tap again to come back
+  out, or follow the head. Version two of <a href="/demos/8/snake-recursion/">Snake
+  Recursion</a>, after a <a href="https://bsky.app/profile/words.bsky.social/post/3mxzrvsjvvk2z">post
+  by @words.bsky.social</a>.</p>
+</main>
+<script>
+(() => {
+  'use strict';
+
+  // ---- the mapping ----------------------------------------------------------
+  // The body is a ribbon one cell wide and L cells long. Give it coordinates
+  // (s, v): s runs from the head's front edge (0) to the tail's back edge (L),
+  // v runs across the body from 0 to 1. The field is a W×(W·L) grid of cells:
+  // x along, y across. The two are the same surface at a scale of W:
+  //
+  //     field (x, y) = (s · W, v · W)
+  //
+  // So the head's front edge is the field's x = 0 end and the tail is the far
+  // end; every segment of body carries a W×W square of field. Because the
+  // field is exactly the body's shape (a strip of aspect L:1), the map has
+  // no stretch: body and field correspond everywhere, at every level.
+  //
+  // The picture is the fixed point of that map, computed per pixel in a
+  // shader: a screen point is located on the outermost body (the big coil),
+  // turned into field coordinates, checked against the snake on that field,
+  // and if it lands on the body, mapped through again. Nothing is rendered to
+  // a texture and fed back, so every level is drawn at full resolution.
+
+  const LMAX = 60;            // the world resets once the body reaches this
+  let W = 4;                  // skin width in field cells
+  let XMAX = W * LMAX;        // fixed row stride so cell indices survive growth
+  let L = 3, body = [], prevTail = -1, grew = false, dir = 1, food = -1;
+  let auto = true, manualQueue = [];
+  const SPEEDS = [[240, '0.5×'], [120, '1×'], [60, '2×'], [28, '4×']];
+  let speedIx = 1, stepMs = SPEEDS[1][0];
+  let stepClock = 0, pauseUntil = 0, sinceFood = 0, best = 0, message = '';
+
+  const DX = [0, 1, 0, -1], DY = [-1, 0, 1, 0]; // up right down left
+  const gx = () => W * L;                        // field length in cells
+  const cx = i => i % XMAX, cy = i => (i / XMAX) | 0;
+  const at = (x, y) => y * XMAX + x;
+  function neighbour(i, d) {
+    const x = cx(i) + DX[d], y = cy(i) + DY[d];
+    return x < 0 || y < 0 || x >= gx() || y >= W ? -1 : at(x, y);
+  }
+  function dirTo(a, b) {
+    const dx = cx(b) - cx(a), dy = cy(b) - cy(a);
+    return dx === 1 ? 1 : dx === -1 ? 3 : dy === 1 ? 2 : 0;
+  }
+
+  function reset() {
+    L = 3;
+    const y = (W / 2) | 0;
+    body = [at(4, y), at(3, y), at(2, y)];
+    prevTail = at(1, y); grew = false;
+    dir = 1; manualQueue = []; sinceFood = 0; message = '';
+    placeFood();
+    upload();
+  }
+  function placeFood() {
+    const occ = new Set(body), free = [];
+    for (let y = 0; y < W; y++) for (let x = 0; x < gx(); x++) if (!occ.has(at(x, y))) free.push(at(x, y));
+    food = free.length ? free[(Math.random() * free.length) | 0] : -1;
+  }
+
+  // ---- autopilot ------------------------------------------------------------
+  // Shortest path to the food, taken only if the head could still reach its
+  // tail afterwards; otherwise follow the tail the long way round.
+  function bfs(from, to, blocked) {
+    const prev = new Map([[from, -1]]);
+    const q = [from];
+    for (let h = 0; h < q.length; h++) {
+      const c = q[h];
+      if (c === to) {
+        const path = [];
+        for (let p = c; p !== from; p = prev.get(p)) path.push(p);
+        return path.reverse();
+      }
+      for (let d = 0; d < 4; d++) {
+        const n = neighbour(c, d);
+        if (n < 0 || prev.has(n) || (blocked.has(n) && n !== to)) continue;
+        prev.set(n, c); q.push(n);
+      }
+    }
+    return null;
+  }
+  const canReachTail = s => s.length < 2 || bfs(s[0], s[s.length - 1], new Set(s.slice(1, -1))) !== null;
+  const moveVirtual = (s, cell, eats) => { const r = [cell, ...s]; if (!eats) r.pop(); return r; };
+
+  function chooseDir() {
+    const head = body[0];
+    if (food >= 0) {
+      const path = bfs(head, food, new Set(body.slice(0, -1)));
+      if (path) {
+        let v = body;
+        for (let k = 0; k < path.length; k++) v = moveVirtual(v, path[k], k === path.length - 1);
+        if (canReachTail(v) || sinceFood > gx() * W * 3) return dirTo(head, path[0]);
+      }
+    }
+    let bestD = -1, bestScore = -1;
+    for (let d = 0; d < 4; d++) {
+      const n = neighbour(head, d);
+      if (n < 0) continue;
+      const eats = n === food;
+      if (body.slice(0, eats ? body.length : -1).includes(n)) continue;
+      const v = moveVirtual(body, n, eats);
+      if (!canReachTail(v)) continue;
+      const p = bfs(n, v[v.length - 1], new Set(v.slice(1, -1)));
+      const score = (p ? p.length : 0) + Math.random() * 0.1;
+      if (score > bestScore) { bestScore = score; bestD = d; }
+    }
+    if (bestD >= 0) return bestD;
+    for (let d = 0; d < 4; d++) {
+      const n = neighbour(head, d);
+      if (n >= 0 && !body.slice(0, -1).includes(n)) return d;
+    }
+    return dir;
+  }
+
+  function step(now) {
+    if (now < pauseUntil) return;
+    if (message) reset();
+    if (auto) dir = chooseDir();
+    else if (manualQueue.length) {
+      const d = manualQueue.shift();
+      if (d !== (dir + 2) % 4) dir = d;
+    }
+    const n = neighbour(body[0], dir);
+    const eats = n === food;
+    if (n < 0 || body.slice(0, eats ? body.length : -1).includes(n)) {
+      message = 'crashed'; pauseUntil = now + 1000; return;
+    }
+    prevTail = body[body.length - 1];
+    body.unshift(n);
+    grew = eats;
+    if (eats) {
+      // One more segment of body is one more segment of skin: the field
+      // gains W columns at its tail end.
+      L = body.length; sinceFood = 0; placeFood();
+      best = Math.max(best, L);
+      if (L >= LMAX) { message = 'the skin is full'; pauseUntil = now + 2500; }
+    } else { body.pop(); sinceFood++; }
+    upload();
+  }
+
+  // ---- GPU side -------------------------------------------------------------
+  const view = document.getElementById('view');
+  const gl = view.getContext('webgl2', { antialias: false });
+  if (!gl) { document.getElementById('nogl').style.display = 'flex'; return; }
+
+  const VS = `#version 300 es
+  in vec2 a; void main(){ gl_Position = vec4(a, 0., 1.); }`;
+
+  const FS = `#version 300 es
+  precision highp float; precision highp int;
+  uniform sampler2D uData;     // per field cell: body index+1 (r,g), piece shape (b), food (a)
+  uniform vec2 uRes; uniform float uDpr;
+  uniform float uS;            // stage size in css px
+  uniform vec3 uCam;           // camera centre (css px) and zoom
+  uniform float uW, uL;        // skin width, body length
+  uniform float uSig0, uSig1;  // visible s-window on the inner body (sliding motion)
+  uniform float uLw, uGap, uA, uY0;  // coil layout: ribbon width, lane gap, straight run (in widths), top
+  uniform float uTime;
+  out vec4 o;
+  const float PI = 3.14159265;
+
+  vec2 dirv(int k){ return k==0?vec2(0,-1):k==1?vec2(1,0):k==2?vec2(0,1):vec2(-1,0); }
+  vec3 hue(float i){
+    float h = fract(0.27 + i / max(14.0, uL * 1.25));
+    return clamp(abs(mod(h*6.0 + vec3(0,4,2), 6.0) - 3.0) - 1.0, 0.0, 1.0) * 0.75 + 0.2;
+  }
+
+  // Outermost body: the screen square holds the snake coiled in lanes joined
+  // by half-turns. Lanes sit a gap apart so each half-turn has a hole in the
+  // middle; with no hole the inner edge of the skin would pinch to a point.
+  // Returns (s, v) on it, or s < 0 for background.
+  vec2 coil(vec2 q){
+    float w = uLw, g = uGap, A = uA, P = w + g;
+    float ri = 0.5 * g, ro = ri + w;
+    float xl = ro, xr = uS - ro;
+    float T = PI * (ri + 0.5 * w) / w;   // half-turn length, in body widths
+    float per = A + T;
+    if (q.x >= xl && q.x <= xr) {
+      float k = floor((q.y - uY0) / P);
+      float top = uY0 + k * P;
+      if (k < 0.0 || q.y - top > w) return vec2(-1);
+      bool even = mod(k, 2.0) < 0.5;
+      float s = k * per + (even ? (q.x - xl) : (xr - q.x)) / w;
+      float v = even ? (q.y - top) / w : (top + w - q.y) / w;
+      return s <= uL ? vec2(s, v) : vec2(-1);
+    }
+    bool right = q.x > xr;
+    // Turn m joins lane m to lane m+1: even m on the right, odd on the left.
+    float t = (q.y - (uY0 + w + 0.5 * g)) / P;
+    float m = right ? 2.0 * floor(t / 2.0 + 0.5) : 2.0 * floor((t - 1.0) / 2.0 + 0.5) + 1.0;
+    if (m < 0.0) return vec2(-1);
+    vec2 c = vec2(right ? xr : xl, uY0 + m * P + w + 0.5 * g);
+    vec2 d = q - c;
+    float r = length(d);
+    if (r > ro || r < ri) return vec2(-1);
+    float th = atan(right ? d.x : -d.x, -d.y) / PI;
+    float s = m * per + A + th * T;
+    float v = right ? (ro - r) / w : (r - ri) / w;
+    return s <= uL ? vec2(s, v) : vec2(-1);
+  }
+
+  vec3 fieldAt(vec2 f, float cellPx, float foodHere){
+    vec3 col = vec3(0.045, 0.052, 0.066);
+    vec2 g = abs(f - floor(f + 0.5)) * cellPx;
+    float line = smoothstep(1.2, 0.2, min(g.x, g.y)) * smoothstep(3.0, 8.0, cellPx);
+    col += line * 0.06;
+    if (foodHere > 0.5) {
+      float r = length(fract(f) - 0.5);
+      float pr = 0.3 + 0.03 * sin(uTime * 6.0);
+      col = mix(col, vec3(0.95, 0.78, 0.42), smoothstep(pr + 1.0/cellPx, pr - 1.0/cellPx, r));
+    }
+    return col;
+  }
+
+  void main(){
+    vec2 css = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y) / uDpr;
+    vec2 q = (css - uS * 0.5) / uCam.z + uCam.xy;
+    vec2 sv = coil(q);
+    if (sv.x < 0.0) { o = vec4(0.027, 0.031, 0.039, 1); return; }
+
+    float px = uLw * uCam.z * uDpr;   // device px per body width, this level
+    vec3 tint = vec3(1), lift = vec3(0);
+    vec3 col = vec3(0);
+    bool done = false;
+    for (int d = 0; d < 9; d++) {
+      float s = sv.x, v = sv.y;
+      float i = floor(s);
+      vec3 h = hue(i);
+      // Body decoration at this level: outline, segment seams, eyes.
+      float edge = min(v, 1.0 - v) * px;
+      if (edge < 1.1) { col = tint * h * 1.15; done = true; break; }
+      float seam = abs(s - floor(s + 0.5)) * px;
+      if (i == 0.0) {
+        for (int e = 0; e < 2; e++) {
+          vec2 ec = vec2(0.34, e == 0 ? 0.27 : 0.73);
+          float r = length(vec2(s, v) - ec);
+          if (r < 0.14) {
+            float rp = length(vec2(s, v) - (ec - vec2(0.05, 0)));
+            col = tint * (rp < 0.075 ? vec3(0.02) : vec3(0.96)); done = true;
+          }
+        }
+        if (done) break;
+      }
+      lift += tint * h * 0.07;
+      tint *= mix(vec3(1), h, 0.3) * 0.92;
+      if (seam < 0.8 && s > 0.5) tint *= 0.7;
+      if (px < 3.0) { col = tint * 0.35; done = true; break; }
+
+      // Into the field this body is made of.
+      vec2 f = vec2(s, v) * uW;
+      float cellPx = px / uW;
+      ivec2 c = ivec2(clamp(floor(f), vec2(0), vec2(uW * uL - 1.0, uW - 1.0)));
+      vec4 dat = texelFetch(uData, c, 0);
+      int idx = int(dat.r * 255.0 + 0.5) + 256 * int(dat.g * 255.0 + 0.5);
+      if (idx == 0) { col = tint * fieldAt(f, cellPx, dat.a); done = true; break; }
+
+      // A body cell: find (s, v) on that body. Straight cells are a plain
+      // projection; turning cells are a quarter annulus about the inner corner.
+      int sh = int(dat.b * 255.0 + 0.5);
+      int pd = sh / 4, qd = sh - pd * 4;
+      vec2 P = dirv(pd), Q = dirv(qd);
+      vec2 fr = f - vec2(c);
+      float along, nv;
+      if (qd == (pd + 2) - 4 * ((pd + 2) / 4)) {
+        vec2 T = Q;
+        along = dot(fr - 0.5, T) + 0.5;
+        nv = 0.5 + dot(fr - 0.5, vec2(-T.y, T.x));
+      } else {
+        vec2 C = 0.5 + 0.5 * P + 0.5 * Q;
+        vec2 wv = fr - C;
+        along = atan(dot(wv, -P), dot(wv, -Q)) / (PI * 0.5);
+        float r = length(wv);
+        vec2 T = -P;
+        nv = 0.5 + dot(vec2(-T.y, T.x), Q) * (0.5 - r);
+      }
+      float s2 = float(idx - 1) + along;
+      if (s2 < uSig0 || s2 > uSig1 || nv < 0.0 || nv > 1.0) {
+        col = tint * fieldAt(f, cellPx, dat.a); done = true; break;
+      }
+      sv = vec2(s2 - uSig0, nv);
+      px = cellPx;
+    }
+    if (!done) col = tint * 0.35;
+    o = vec4(pow(col + lift, vec3(0.95)), 1);
+  }`;
+
+  function shader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, shader(gl.VERTEX_SHADER, VS));
+  gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const aLoc = gl.getAttribLocation(prog, 'a');
+  gl.enableVertexAttribArray(aLoc);
+  gl.vertexAttribPointer(aLoc, 2, gl.FLOAT, false, 0, 0);
+  const U = {};
+  for (const n of ['uData', 'uRes', 'uDpr', 'uS', 'uCam', 'uW', 'uL', 'uSig0', 'uSig1', 'uLw', 'uGap', 'uA', 'uY0', 'uTime'])
+    U[n] = gl.getUniformLocation(prog, n);
+
+  const tex = gl.createTexture();
+  let data = null;
+  function makeTexture() {
+    XMAX = W * LMAX;
+    data = new Uint8Array(XMAX * W * 4);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, XMAX, W, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
+    for (const p of [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER]) gl.texParameteri(gl.TEXTURE_2D, p, gl.NEAREST);
+    for (const p of [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T]) gl.texParameteri(gl.TEXTURE_2D, p, gl.CLAMP_TO_EDGE);
+  }
+
+  // The drawn body is body[] plus, unless it just grew, the cell the tail
+  // just left, so the tail can slide out smoothly instead of popping.
+  let chain = [];
+  function upload() {
+    if (!data) return;
+    data.fill(0);
+    chain = body.slice();
+    if (!grew && prevTail >= 0 && !body.includes(prevTail)) chain.push(prevTail);
+    const n = chain.length;
+    for (let j = 0; j < n; j++) {
+      const q = j < n - 1 ? dirTo(chain[j], chain[j + 1]) : (dirTo(chain[j - 1], chain[j]));
+      const p = j > 0 ? dirTo(chain[j], chain[j - 1]) : (q + 2) % 4;
+      const k = chain[j] * 4, id = j + 1;
+      data[k] = id & 255; data[k + 1] = id >> 8; data[k + 2] = p * 4 + q;
+    }
+    if (food >= 0) data[food * 4 + 3] = 255;
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, XMAX, W, gl.RGBA, gl.UNSIGNED_BYTE, data);
+  }
+
+  // ---- coil layout ----------------------------------------------------------
+  // Lay a ribbon of length L widths into the square as lanes joined by
+  // half-turns, lanes a gap of GAP widths apart. Find the widest ribbon
+  // whose lanes still fit.
+  const GAP = 0.4;
+  let S = 400, lay = { w: 40, g: 16, A: 8, T: 2, y0: 0 };
+  function fit(w) {
+    const g = GAP * w, ro = g / 2 + w;
+    const A = (S - 2 * ro) / w, T = Math.PI * (g / 2 + w / 2) / w;
+    const K = Math.max(1, Math.ceil((L + T) / (A + T)));
+    return { w, g, A, T, K, ok: A > 0 && K * w + (K - 1) * g <= S };
+  }
+  function layout() {
+    let lo = 2, hi = S / 3;
+    for (let it = 0; it < 40; it++) { const m = (lo + hi) / 2; if (fit(m).ok) lo = m; else hi = m; }
+    const f = fit(lo);
+    return { ...f, y0: (S - f.K * f.w - (f.K - 1) * f.g) / 2 };
+  }
+  // Forward map from the outer body (s, v) to stage px, for the follow camera.
+  function coilPoint(s, v) {
+    const { w, g, A, T, y0 } = lay, P = w + g, ri = g / 2, ro = ri + w, per = A + T;
+    const k = Math.floor(s / per), r = s - k * per;
+    const even = k % 2 === 0;
+    if (r <= A) {
+      const x = even ? ro + r * w : S - ro - r * w;
+      return [x, y0 + k * P + (even ? v : 1 - v) * w];
+    }
+    const th = (r - A) / T * Math.PI;
+    const cxp = even ? S - ro : ro, cyp = y0 + k * P + w + g / 2;
+    const rad = even ? ro - v * w : ri + v * w;
+    return [cxp + (even ? 1 : -1) * Math.sin(th) * rad, cyp - Math.cos(th) * rad];
+  }
+
+  // ---- camera ---------------------------------------------------------------
+  let cam = { x: 200, y: 200, z: 1 }, camT = { x: 200, y: 200, z: 1 };
+  let follow = false, zoomSteps = 0;
+  function sizeCanvas() {
+    const r = view.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    S = r.width;
+    view.width = Math.round(r.width * dpr); view.height = Math.round(r.height * dpr);
+    gl.viewport(0, 0, view.width, view.height);
+    if (!zoomSteps && !follow) { cam = { x: S / 2, y: S / 2, z: 1 }; camT = { ...cam }; }
+  }
+
+  const hud = document.getElementById('hud');
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(100, now - last); last = now;
+    stepClock += dt;
+    let guard = 0;
+    while (stepClock >= stepMs && guard++ < 8) { stepClock -= stepMs; step(now); }
+    if (guard >= 8) stepClock = 0;
+    const t = now < pauseUntil ? 1 : Math.min(1, stepClock / stepMs);
+
+    lay = layout();
+    const sig0 = 1 - t;
+    const sig1 = Math.min(sig0 + L, chain.length);
+
+    if (follow) {
+      // Head of the inner snake, in field coords, lifted onto the outer coil.
+      const hx = cx(body[0]) + 0.5 - DX[dir] * (1 - t), hy = cy(body[0]) + 0.5 - DY[dir] * (1 - t);
+      const [px, py] = coilPoint(hx / W, hy / W);
+      camT = { x: px, y: py, z: Math.max(3, 34 / (lay.w / W)) };
+    } else if (!zoomSteps) camT = { x: S / 2, y: S / 2, z: 1 };
+    const k = 1 - Math.exp(-dt / 160);
+    cam.z *= Math.pow(camT.z / cam.z, k);
+    cam.x += (camT.x - cam.x) * k; cam.y += (camT.y - cam.y) * k;
+    const half = S / 2 / cam.z;
+    cam.x = Math.min(S - half, Math.max(half, cam.x));
+    cam.y = Math.min(S - half, Math.max(half, cam.y));
+
+    const dpr = view.width / S;
+    gl.uniform1i(U.uData, 0);
+    gl.uniform2f(U.uRes, view.width, view.height);
+    gl.uniform1f(U.uDpr, dpr);
+    gl.uniform1f(U.uS, S);
+    gl.uniform3f(U.uCam, cam.x, cam.y, cam.z);
+    gl.uniform1f(U.uW, W); gl.uniform1f(U.uL, L);
+    gl.uniform1f(U.uSig0, sig0); gl.uniform1f(U.uSig1, sig1);
+    gl.uniform1f(U.uLw, lay.w); gl.uniform1f(U.uGap, lay.g); gl.uniform1f(U.uA, lay.A); gl.uniform1f(U.uY0, lay.y0);
+    gl.uniform1f(U.uTime, now / 1000);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    hud.textContent = `length ${L}   field ${W}×${W * L}   best ${best}` +
+      (auto ? '' : '   manual') + (message ? `   ${message}` : '');
+    requestAnimationFrame(frame);
+  }
+
+  // ---- input ----------------------------------------------------------------
+  const autoBtn = document.getElementById('auto');
+  const followBtn = document.getElementById('follow');
+  function setAuto(v) { auto = v; manualQueue = []; autoBtn.setAttribute('aria-pressed', String(v)); }
+  function setFollow(v) { follow = v; zoomSteps = 0; followBtn.setAttribute('aria-pressed', String(v)); }
+  function steer(d) { if (auto) setAuto(false); if (manualQueue.length < 3) manualQueue.push(d); }
+  autoBtn.onclick = () => setAuto(!auto);
+  followBtn.onclick = () => setFollow(!follow);
+  document.getElementById('speed').onclick = e => {
+    speedIx = (speedIx + 1) % SPEEDS.length; stepMs = SPEEDS[speedIx][0];
+    e.currentTarget.textContent = 'speed: ' + SPEEDS[speedIx][1];
+  };
+  document.getElementById('width').onclick = e => {
+    W = W >= 6 ? 3 : W + 1;
+    e.currentTarget.textContent = `skin: ${W} wide`;
+    best = 0; makeTexture(); reset();
+  };
+  document.getElementById('reset').onclick = () => reset();
+
+  const KEYS = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3, w: 0, d: 1, s: 2, a: 3, W: 0, D: 1, S: 2, A: 3 };
+  window.addEventListener('keydown', e => {
+    if (e.key in KEYS && !(e.target instanceof HTMLButtonElement && e.key.length === 1)) { e.preventDefault(); steer(KEYS[e.key]); }
+  });
+
+  let down = null;
+  view.addEventListener('pointerdown', e => { down = { x: e.clientX, y: e.clientY }; view.setPointerCapture(e.pointerId); });
+  view.addEventListener('pointercancel', () => { down = null; });
+  view.addEventListener('pointerup', e => {
+    if (!down) return;
+    const dx = e.clientX - down.x, dy = e.clientY - down.y;
+    down = null;
+    if (Math.hypot(dx, dy) > 24) { steer(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0)); return; }
+    if (follow) setFollow(false);
+    if (zoomSteps >= 3) { zoomSteps = 0; return; }
+    const r = view.getBoundingClientRect();
+    const half = S / 2 / cam.z;
+    const x = cam.x - half + (e.clientX - r.left) / cam.z;
+    const y = cam.y - half + (e.clientY - r.top) / cam.z;
+    zoomSteps++;
+    camT = { x, y, z: Math.pow(W, zoomSteps) };
+  });
+
+  window.addEventListener('resize', sizeCanvas);
+  sizeCanvas();
+  makeTexture();
+  reset();
+  requestAnimationFrame(frame);
+
+  window.__snake = { get body() { return body; }, get L() { return L; }, get W() { return W; }, get auto() { return auto; } };
+})();
+</script>
+</body>
+</html>

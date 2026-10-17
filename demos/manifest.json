@@ -54,5 +54,12 @@
     "title": "Snake Recursion",
     "description": "A snake that plays on its own surface: every segment of its body is a screen showing the game it is playing, snake included, all the way down. It plays itself until you take the keys.",
     "path": "/demos/8/snake-recursion/"
+  },
+  {
+    "number": 9,
+    "slug": "snake-skin",
+    "title": "Snake Skin",
+    "description": "Snake Recursion, done properly: the field is the snake's own skin, cut open and laid flat, so the whole board corresponds to the whole body and the snake plays on itself at every level.",
+    "path": "/demos/9/snake-skin/"
   }
 ]

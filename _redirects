@@ -45,3 +45,11 @@
 /demos/snake-recursion/    /demos/8/snake-recursion/  301
 /snake-recursion           /demos/8/snake-recursion/  301
 /snake-recursion/          /demos/8/snake-recursion/  301
+
+# Canonical demo path: /demos/9/snake-skin/
+/demos/9                   /demos/9/snake-skin/  301
+/demos/9/                  /demos/9/snake-skin/  301
+/demos/snake-skin          /demos/9/snake-skin/  301
+/demos/snake-skin/         /demos/9/snake-skin/  301
+/snake-skin                /demos/9/snake-skin/  301
+/snake-skin/               /demos/9/snake-skin/  301
