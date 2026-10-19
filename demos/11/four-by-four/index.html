@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Four by Four — Anthony Becker</title>
+<meta name="description" content="Solo chess puzzles on a 4x4 board, in 3D. Every move is a capture; clear the board down to one piece.">
+<meta name="theme-color" content="#1a1530">
+<link rel="canonical" href="https://anthonybecker.me/demos/11/four-by-four/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Anthony Becker">
+<meta property="og:title" content="Four by Four">
+<meta property="og:description" content="Solo chess puzzles on a 4x4 board. Every move is a capture; leave one piece standing.">
+<meta property="og:url" content="https://anthonybecker.me/demos/11/four-by-four/">
+<meta property="og:image" content="https://anthonybecker.me/demos/11/four-by-four/card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://anthonybecker.me/demos/11/four-by-four/card.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231a1530'/%3E%3Cpath d='M2 2h3v3H2zM8 2h3v3H8zM5 5h3v3H5zM11 5h3v3h-3zM2 8h3v3H2zM8 8h3v3H8zM5 11h3v3H5zM11 11h3v3h-3z' fill='%23f7e6c4'/%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #1a1530; color: #d9d3ee; }
+  body { font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
+  nav { font-size: 0.9rem; margin-bottom: 0.6rem; }
+  a { color: #f2eeff; }
+  nav a { text-decoration: none; border-bottom: 1px solid currentColor; }
+  h1 { font: 800 1.5rem/1.2 ui-rounded, "SF Pro Rounded", system-ui, sans-serif; letter-spacing: 0.02em; color: #fff3d6; margin: 0 0 0.6rem; }
+  #stage { position: relative; width: 100%; aspect-ratio: 1; background: #1a1530; touch-action: manipulation; user-select: none; -webkit-user-select: none; border-radius: 14px; overflow: hidden; }
+  #view { display: block; width: 100%; height: 100%; }
+  #top { position: absolute; left: 12px; right: 12px; top: 10px; display: flex; justify-content: space-between; align-items: center; font: 700 14px/1 ui-rounded, system-ui, sans-serif; color: #fff3d6; text-shadow: 0 1px 3px #000a; pointer-events: none; }
+  #star { color: #ffd84a; }
+  #pops { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .pop { position: absolute; font: 900 26px/1 ui-rounded, system-ui, sans-serif; letter-spacing: 0.02em; -webkit-text-stroke: 1.5px #1a1530; paint-order: stroke fill; white-space: nowrap; }
+  #card { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); background: #fff3d6; color: #2a1d55; border-radius: 16px; padding: 14px 18px; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 230px; text-align: center; box-shadow: 0 10px 30px #0008; animation: rise 0.35s cubic-bezier(.2,1.6,.4,1); }
+  #card[hidden], #menu[hidden] { display: none; }
+  #card b { font: 900 24px/1.1 ui-rounded, system-ui, sans-serif; }
+  #card .row { display: flex; gap: 8px; }
+  @keyframes rise { from { transform: translate(-50%, 40px); opacity: 0; } }
+  button { font: 700 14px/1 ui-rounded, system-ui, sans-serif; border: 0; border-radius: 10px; padding: 10px 14px; background: #3b2a6b; color: #fff3d6; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  button.go { background: #ff4f7e; color: #fff; }
+  button:active { transform: translateY(1px); }
+  button svg { width: 16px; height: 16px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; justify-content: center; }
+  #menu { position: absolute; inset: 0; background: #1a1530ee; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; padding: 18px; align-content: center; }
+  #menu button { flex-direction: column; justify-content: center; padding: 10px 0; font-size: 17px; }
+  #menu small { font-size: 10px; opacity: 0.7; font-weight: 600; }
+  #menu .done { background: #4fd6a4; color: #1a1530; }
+  #menu .cur { outline: 3px solid #ffd84a; }
+  .rules { margin-top: 14px; color: #b6aed3; }
+  .rules b { color: #fff3d6; }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/demos/">← Demos</a></nav>
+  <h1>Four by Four</h1>
+  <div id="stage">
+    <canvas id="view"></canvas>
+    <div id="top"><span id="lvl"></span><span><span id="star" hidden>★ </span><span id="left"></span></span></div>
+    <div id="pops"></div>
+    <div id="card" hidden></div>
+    <div id="menu" hidden></div>
+  </div>
+  <div class="bar">
+    <button id="prev" aria-label="Previous puzzle"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 5 8l5 5"/></svg></button>
+    <button id="undo"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3 2 6l3 3"/><path d="M2 6h7a4 4 0 0 1 0 8H6"/></svg>Undo</button>
+    <button id="reset"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8a5 5 0 1 1-1.5-3.5"/><path d="M12 1.5V5H8.5"/></svg>Retry</button>
+    <button id="hint"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 11.5h5M6.5 14h3"/><path d="M8 1.5a4.5 4.5 0 0 0-2.5 8.2v1.8h5V9.7A4.5 4.5 0 0 0 8 1.5z"/></svg>Hint</button>
+    <button id="levels"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>Levels</button>
+    <button id="next" aria-label="Next puzzle"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 5 5-5 5"/></svg></button>
+  </div>
+  <p class="rules"><b>Every move must be a capture.</b> Pieces move like chess pieces and any piece can take any other; pawns take diagonally away from you. Each piece can capture <b>twice</b>, shown by the beads circling its base. Leave <b>one piece</b> standing to solve the puzzle. Tap a piece, then tap a glowing square.</p>
+  <p class="rules">Thirty puzzles, three to nine pieces. Every one was generated and then solved by brute force, so each has at least one way through; the later ones were picked for having very few.</p>
+</main>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

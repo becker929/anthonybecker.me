@@ -53,3 +53,11 @@
 /demos/snake-skin/         /demos/9/snake-skin/  301
 /snake-skin                /demos/9/snake-skin/  301
 /snake-skin/               /demos/9/snake-skin/  301
+
+# Canonical demo path: /demos/11/four-by-four/
+/demos/11                  /demos/11/four-by-four/  301
+/demos/11/                 /demos/11/four-by-four/  301
+/demos/four-by-four        /demos/11/four-by-four/  301
+/demos/four-by-four/       /demos/11/four-by-four/  301
+/four-by-four              /demos/11/four-by-four/  301
+/four-by-four/             /demos/11/four-by-four/  301

@@ -68,5 +68,12 @@
     "title": "Core Library",
     "description": "Sign in with Bluesky to drill a core out of your account. Each bed of rock is one week, from this week down to your first. Every core gets an accession number and a permanent page.",
     "path": "/demos/10/core-library/"
+  },
+  {
+    "number": 11,
+    "slug": "four-by-four",
+    "title": "Four by Four",
+    "description": "Solo chess puzzles on a 4x4 board, in 3D. Every move is a capture, each piece may capture twice, and you win by leaving one piece standing. Thirty puzzles, each proved solvable by brute force.",
+    "path": "/demos/11/four-by-four/"
   }
 ]
