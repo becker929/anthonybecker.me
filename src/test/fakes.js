@@ -192,3 +192,43 @@ export class FakeKV {
     return result;
   }
 }
+
+// Durable Object storage (the KV-style API: get/put/delete/list) and a
+// namespace whose stubs call straight into one object per name.
+export class FakeDOStorage {
+  constructor() {
+    this.map = new Map();
+  }
+  async get(k) {
+    const v = this.map.get(k);
+    return v === undefined ? undefined : structuredClone(v);
+  }
+  async put(k, v) {
+    this.map.set(k, structuredClone(v));
+  }
+  async delete(k) {
+    return this.map.delete(k);
+  }
+  async list({ prefix = "", reverse = false, limit = Infinity, start, end } = {}) {
+    let keys = [...this.map.keys()].filter((k) => k.startsWith(prefix)).sort();
+    if (start !== undefined) keys = keys.filter((k) => k >= start);
+    if (end !== undefined) keys = keys.filter((k) => k < end);
+    if (reverse) keys.reverse();
+    return new Map(keys.slice(0, limit).map((k) => [k, structuredClone(this.map.get(k))]));
+  }
+}
+
+export class FakeDONamespace {
+  constructor(Cls) {
+    this.Cls = Cls;
+    this.objects = new Map();
+  }
+  idFromName(name) {
+    return name;
+  }
+  get(id) {
+    if (!this.objects.has(id)) this.objects.set(id, new this.Cls({ storage: new FakeDOStorage() }));
+    const obj = this.objects.get(id);
+    return { fetch: (url, init) => obj.fetch(new Request(url, init)) };
+  }
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Core Library — Anthony Becker</title>
+<meta name="description" content="Drill a core out of a Bluesky account. One bed per week, from this week down to the first, on bedrock. Each core gets a number and a permanent page.">
+<meta name="theme-color" content="#1d1d1b">
+<link rel="canonical" href="https://anthonybecker.me/demos/10/core-library/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Anthony Becker">
+<meta property="og:title" content="Core Library">
+<meta property="og:description" content="Drill a core out of a Bluesky account. One bed per week, from this week down to the first.">
+<meta property="og:url" content="https://anthonybecker.me/demos/10/core-library/">
+<meta property="og:image" content="https://anthonybecker.me/demos/10/core-library/card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A wooden core box holding five rows of banded rock core, with a scale bar and a colour card above it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://anthonybecker.me/demos/10/core-library/card.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23966f4a'/%3E%3Crect x='1' y='3' width='14' height='4' fill='%238e3b2a'/%3E%3Crect x='1' y='9' width='9' height='4' fill='%23545a61'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="page.css">
+</head>
+<body>
+<main>
+  <nav class="crumbs"><a href="/demos/">← demos</a></nav>
+  <h1>Core Library</h1>
+  <p>This drills a core out of a Bluesky account. Each bed in the core is one
+  week. The top of the core is this week. The far end is the account's first
+  week, resting on bedrock. Every core gets an accession number and a
+  permanent page.</p>
+
+  <div id="error" class="notice" hidden></div>
+
+  <section id="start">
+    <form class="drill-form" id="drill-form" action="/api/core/login" method="get">
+      <label for="handle">Your Bluesky handle</label>
+      <input type="text" id="handle" name="handle" placeholder="name.bsky.social" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      <button type="submit">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v10M4.5 7.5 8 11l3.5-3.5M3 14h10" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        Drill
+      </button>
+    </form>
+    <p class="small">Drilling starts with a Bluesky sign-in, which proves the
+    account is yours. It asks for no other access and posts nothing. Your
+    repository then downloads from its own server into this browser. It is
+    counted here and thrown away. The library keeps the weekly counts, your
+    handle, your name and your avatar link.</p>
+    <p class="small">An account can be drilled once a day. Each drilling makes
+    a new core, and the older ones stay.</p>
+  </section>
+
+  <section id="drilling" hidden>
+    <h2>Drilling</h2>
+    <div class="log" id="log" role="status" aria-live="polite"></div>
+    <p class="actions" id="drill-retry" hidden><button type="button" id="retry">Try again</button></p>
+  </section>
+
+  <h2>The shelves</h2>
+  <ul class="shelf" id="shelf"><li class="small">Loading the shelves.</li></ul>
+  <p class="actions"><button type="button" id="more" hidden>Older cores</button></p>
+
+  <h2>Reading a core</h2>
+  <dl class="key">
+    <dt>Bed length</dt><dd>How busy the week was. Busier weeks lay down thicker beds.</dd>
+    <dt>Colour change</dt><dd>A new quarter of the year. Each quarter is its own formation.</dd>
+    <dt>Fine stripes</dt><dd>Replies. A week of mostly replies is darker and finely laminated.</dd>
+    <dt>Diagonal stripes</dt><dd>Reposts. They are cross-bedded sand, carried in from elsewhere.</dd>
+    <dt>Pebbles</dt><dd>Quote posts, with bits of other rock caught inside.</dd>
+    <dt>Coiled shells</dt><dd>Posts with images.</dd>
+    <dt>Stacked discs</dt><dd>Posts with video.</dd>
+    <dt>Gold cubes</dt><dd>Links.</dd>
+    <dt>White veins</dt><dd>Follows.</dd>
+    <dt>Glints</dt><dd>Likes.</dd>
+    <dt>Coarse grain</dt><dd>Long posts. Short posts make fine grain.</dd>
+    <dt>Crumbling top</dt><dd>This week, still being laid down.</dd>
+  </dl>
+
+  <h2>Glossary</h2>
+  <dl class="glossary">
+    <dt>Core</dt><dd>A cylinder of rock cut by a hollow drill bit.</dd>
+    <dt>Bed</dt><dd>One layer of rock. Here, one week.</dd>
+    <dt>Core box</dt><dd>A wooden tray that holds core in rows of one metre.</dd>
+    <dt>Core loss</dt><dd>Depth where the drill brought nothing up. Here, three or more silent weeks. The spacer block gives the count.</dd>
+    <dt>Hiatus</dt><dd>A thin dark line for one or two silent weeks.</dd>
+    <dt>Bedrock</dt><dd>The granite under the oldest bed.</dd>
+    <dt>District</dt><dd>The set of rock colours a core is drawn in. The account's DID picks it.</dd>
+    <dt>DID</dt><dd>The permanent ID under a Bluesky handle. Handles can change, and the DID stays.</dd>
+    <dt>Repository</dt><dd>Every post, like, repost and follow an account has made, kept on its server.</dd>
+    <dt>Accession number</dt><dd>The library's number for a core, given in drilling order.</dd>
+    <dt>Withdrawal</dt><dd>The account's owner can take a core off the shelves. Its number is never reused.</dd>
+  </dl>
+
+  <footer>Demo 10, by Claude (Opus 5.5) under Anthony Becker's supervision.
+  It follows Norvid's <a href="https://norvidstudies.substack.com/p/museum-ideas">museum ideas</a>
+  and the <a href="https://museum.bskyshelf.space/">Simcluster Museum</a>.</footer>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>

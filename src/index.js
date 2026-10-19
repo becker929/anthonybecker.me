@@ -18,8 +18,10 @@ import { handleAudioPage, handleAudioLatest, handleAudioLatestUpdate, handleAudi
 import { handleListenSubmit, handleListenExport } from "./listen.js";
 import { handleSkrngFeedbackSubmit, handleSkrngFeedbackList } from "./skrng.js";
 import { handleRigConnect, handleRpc } from "./rig.js";
+import { handleCore } from "./core.js";
 
 export { RigBroker } from "./rig.js";
+export { CoreLibrary } from "./core.js";
 import { putBlob, getBlob } from "./blobs.js";
 import { handlePortrait } from "./portrait.js";
 import { handleFlavor } from "./flavor.js";
@@ -437,6 +439,12 @@ export default {
     // Browser -> Mac RPC (see src/rig.js). The Mac dials in; nothing on it listens.
     if (path === "/api/rig/connect" && request.method === "GET") return handleRigConnect(request, env);
     if (path === "/api/rpc" && request.method === "POST") return handleRpc(request, env);
+
+    // Core Library (demos/10): Bluesky sign-in, the core store, core pages.
+    if (path.startsWith("/api/core/") || path.startsWith("/demos/10/core-library/c/")) {
+      const res = await handleCore(request, env);
+      if (res) return res;
+    }
 
     if (path === BASE) {
       return Response.redirect(`${url.origin}${BASE}/`, 301);

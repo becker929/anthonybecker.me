@@ -1,0 +1,12 @@
+{
+  "client_id": "https://anthonybecker.me/demos/10/core-library/client-metadata.json",
+  "client_name": "Core Library",
+  "client_uri": "https://anthonybecker.me/demos/10/core-library/",
+  "application_type": "web",
+  "grant_types": ["authorization_code"],
+  "response_types": ["code"],
+  "redirect_uris": ["https://anthonybecker.me/api/core/callback"],
+  "scope": "atproto",
+  "token_endpoint_auth_method": "none",
+  "dpop_bound_access_tokens": true
+}
