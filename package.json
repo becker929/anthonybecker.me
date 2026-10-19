@@ -11,6 +11,7 @@
     "e2e:server": "node e2e/server.mjs",
     "e2e": "node e2e/run.mjs",
     "e2e:skrng": "node e2e/skrng.mjs",
-    "e2e:play": "node e2e/skrng-play.mjs"
+    "e2e:play": "node e2e/skrng-play.mjs",
+    "e2e:core": "node e2e/core-library.mjs"
   }
 }

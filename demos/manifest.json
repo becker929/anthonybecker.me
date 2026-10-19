@@ -61,5 +61,12 @@
     "title": "Snake Skin",
     "description": "Snake Recursion, done properly: the field is the snake's own skin, cut open and laid flat, so the whole board corresponds to the whole body and the snake plays on itself at every level.",
     "path": "/demos/9/snake-skin/"
+  },
+  {
+    "number": 10,
+    "slug": "core-library",
+    "title": "Core Library",
+    "description": "Sign in with Bluesky to drill a core out of your account. Each bed of rock is one week, from this week down to your first. Every core gets an accession number and a permanent page.",
+    "path": "/demos/10/core-library/"
   }
 ]

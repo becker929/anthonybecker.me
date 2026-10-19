@@ -6,8 +6,8 @@ import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
-import worker from "../src/index.js";
-import { FakeKV, FakeR2, FakeD1 } from "../src/test/fakes.js";
+import worker, { CoreLibrary } from "../src/index.js";
+import { FakeKV, FakeR2, FakeD1, FakeDONamespace } from "../src/test/fakes.js";
 
 const ROOT = path.resolve(new URL(".", import.meta.url).pathname, "..");
 const PORT = Number(process.env.PORT || 8790);
@@ -29,7 +29,7 @@ const assets = {
   },
 };
 const SKRNG_TOKEN = process.env.SKRNG_TOKEN || "e2e-skrng-token";
-const env = { SKRNG_TOKEN, DEMO_PASSWORD: PASSWORD, AUDIO_KV: new FakeKV(), AUDIO_BUCKET: new FakeR2(), CARD_DB: new FakeD1(), CARD_BUCKET: new FakeR2(), ASSETS: assets };
+const env = { SKRNG_TOKEN, DEMO_PASSWORD: PASSWORD, AUDIO_KV: new FakeKV(), AUDIO_BUCKET: new FakeR2(), CARD_DB: new FakeD1(), CARD_BUCKET: new FakeR2(), CORES: new FakeDONamespace(CoreLibrary), ASSETS: assets };
 
 http.createServer(async (req, res) => {
   try {
@@ -38,6 +38,15 @@ http.createServer(async (req, res) => {
     for (const [k, v] of Object.entries(req.headers)) if (v) headers.set(k, Array.isArray(v) ? v.join(",") : v);
     const hasBody = !["GET", "HEAD"].includes(req.method);
     const request = new Request(url, { method: req.method, headers, body: hasBody ? Readable.toWeb(req) : undefined, duplex: "half" });
+    // Test-only: hand out a Core Library drill ticket without a Bluesky
+    // sign-in, so the drill itself can be driven in a browser.
+    if (new URL(url).pathname === "/__e2e/core-ticket") {
+      const q = new URL(url).searchParams;
+      const ticket = `e2e-${Date.now()}`;
+      await env.CORES.get(env.CORES.idFromName("library")).fetch("https://core-library/op", { method: "POST", body: JSON.stringify({ op: "tmpPut", args: { key: `ticket:${ticket}`, ttl: 600000, value: { did: q.get("did"), pds: q.get("pds"), handle: q.get("handle") } } }) });
+      res.end(ticket);
+      return;
+    }
     const response = await worker.fetch(request, env);
     res.statusCode = response.status;
     response.headers.forEach((v, k) => res.setHeader(k, v));
