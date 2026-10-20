@@ -30,6 +30,16 @@ for (const [name, engine] of [["chromium", chromium], ["webkit", webkit]]) {
   const idle = () => page.waitForFunction(() => !window.__4x4x4.state().busy, null, { timeout: 10000 });
   const tap = async (x, y, z) => { const [cx, cy] = await page.evaluate(([x, y, z]) => window.__4x4x4.screenOf(x, y, z), [x, y, z]); await page.mouse.click(cx, cy); };
   check((await st()).label === "I · i", `${name}: opens on I · i`);
+  const coachText = () => page.$eval("#coach", (e) => (e.hidden ? "" : e.textContent));
+  check(await coachText() === "Tap a piece.", `${name}: first puzzle says "Tap a piece."`);
+  {
+    await idle();
+    const m = await page.evaluate(() => window.__4x4x4.solution()[0]);
+    await tap(m[0], m[1], m[2]); await page.waitForTimeout(80);
+    check((await coachText()).startsWith("Now tap a glowing piece"), `${name}: then says to take a glowing piece`);
+    await tap(m[3], m[4], m[5]); await idle();
+    check((await coachText()).startsWith("Every move must take"), `${name}: then says the rule`);
+  }
 
   // Solve by tapping. A tap that the view sends somewhere else counts as a miss.
   const which = name === "chromium" ? [...Array(total).keys()] : [0, 4, 7, 10, 13, 17, 20, 24, 27, 30, 34, 37];
@@ -81,6 +91,20 @@ for (const [name, engine] of [["chromium", chromium], ["webkit", webkit]]) {
   await page.click("#menu .row button");
   await idle();
   check((await st()).label === "III · i", `${name}: menu loads III · i`);
+  await page.click('#icons [data-rule="grav"]');
+  // A long drag turns the tower past a half turn, with no stop.
+  {
+    const box = await page.locator("#view").boundingBox();
+    const y0 = box.y + box.height * 0.5;
+    const yawOf = () => page.evaluate(() => window.__4x4x4.yaw());
+    const before = await yawOf();
+    for (let k = 0; k < 3; k++) {
+      await page.mouse.move(box.x + box.width * 0.75, y0); await page.mouse.down();
+      await page.mouse.move(box.x + box.width * 0.1, y0, { steps: 12 }); await page.mouse.up();
+    }
+    const turned = Math.abs((await yawOf()) - before); check(turned > Math.PI * 1.5, `${name}: the tower turns all the way round (${turned.toFixed(1)} rad)`);
+  }
+  check(await coachText() === "A piece falls if nothing holds it up.", `${name}: tapping the gravity mark explains it`);
 
   await page.click("#undo"); await page.click("#hint"); await page.waitForTimeout(200);
   const played = await page.evaluate(() => window.__4x4x4.audio.n);
