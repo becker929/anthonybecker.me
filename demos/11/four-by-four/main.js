@@ -13,6 +13,48 @@ const store = {
 };
 let solved = new Set(store.get("solved", []));
 
+// ---------- sound ----------
+// Every sound is a file rendered in Ableton Live from wooden-toy foley and
+// acoustic samples (zpkt hands/scripts/juice_box, kit four-by-four), kept in
+// R2 and named in sounds.json. The page only starts them: decoded once, each
+// play a fresh buffer source straight to the output. Audio unlocks on the
+// first tap; sounds asked for before the files arrive are skipped.
+const audio = { ctx: null, buf: {}, on: store.get("sound", true), last: {}, n: {} };
+async function loadSounds() {
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return;
+  audio.ctx = new Ctx();
+  let files;
+  try { files = await (await fetch("./sounds.json")).json(); } catch { return; }
+  await Promise.all(Object.entries(files).map(async ([name, file]) => {
+    try {
+      const data = await (await fetch("/audio/demos/four-by-four/" + file)).arrayBuffer();
+      audio.buf[name] = await new Promise((ok, no) => audio.ctx.decodeAudioData(data, ok, no));
+    } catch {}
+  }));
+}
+function unlockAudio() { if (audio.ctx && audio.ctx.state !== "running") audio.ctx.resume().catch(() => {}); }
+// iOS Safari only unlocks audio on touchend or click.
+for (const ev of ["pointerdown", "touchend", "click"]) document.addEventListener(ev, unlockAudio, { passive: true });
+function play(name) {
+  if (!audio.on || !audio.ctx || !audio.buf[name]) return;
+  const src = audio.ctx.createBufferSource();
+  src.buffer = audio.buf[name];
+  src.connect(audio.ctx.destination);
+  src.start();
+  audio.n[name] = (audio.n[name] || 0) + 1;   // read by the e2e check
+}
+// Pieces dropping in at a level's start land 70 ms apart: walk the three drop
+// renders, at most one per 50 ms.
+function dropSound() {
+  const t = performance.now();
+  if (t - (audio.last.drop || 0) < 50) return;
+  audio.last.drop = t;
+  audio.drops = ((audio.drops || 0) % 3) + 1;
+  play(`drop-${audio.drops}`);
+}
+loadSounds();
+
 // ---------- scene ----------
 const stage = document.getElementById("stage");
 const canvas = document.getElementById("view");
@@ -212,7 +254,7 @@ function load(i) {
       const b = e < 0.7 ? ease(e / 0.7) : 1 - Math.sin(((e - 0.7) / 0.3) * Math.PI) * 0.08;
       g.position.y = 6 + k * 0.6 - (6 + k * 0.6) * Math.min(1, b);
       g.scale.setScalar(e > 0.7 ? 1 + Math.sin(((e - 0.7) / 0.3) * Math.PI) * 0.12 : 1);
-    }, () => { g.position.y = 0; g.scale.setScalar(1); if (k === pos.length - 1) busy = false; });
+    }, () => { g.position.y = 0; g.scale.setScalar(1); dropSound(); if (k === pos.length - 1) busy = false; });
   });
   refreshPips();
   paintTiles();
@@ -269,6 +311,7 @@ function capture(from, to) {
   const a = gm.position.clone(), b = world(to[0], to[1]);
   const dist = a.distanceTo(b);
   const knight = from.t === "N";
+  play(knight ? "hop-knight" : "hop");
   const h = knight ? 1.6 : 0.6 + dist * 0.25;
   tween(0.28 + dist * 0.05, (e) => {
     const k = ease(e);
@@ -283,6 +326,7 @@ function capture(from, to) {
     tween(0.22, (e) => { const s = Math.sin(e * Math.PI); gm.scale.set(1 + s * 0.25, 1 - s * 0.3, 1 + s * 0.25); }, () => gm.scale.setScalar(1));
     launch(gv, a, b);
     combo++;
+    play(`capture-${Math.min(combo, 6)}`);
     shake = Math.min(0.35, 0.12 + combo * 0.04);
     burst(b, COLORS[victim.t], 26 + combo * 6);
     pop(b, combo > 1 ? `x${combo}!` : "BONK", COLORS[victim.t]);
@@ -368,6 +412,7 @@ function win() {
     g.rotation.y = ease(e) * Math.PI * 4;
   }, () => { g.position.y = 0; });
   confetti();
+  play("solved");
   shake = 0.25;
   const last = level === LEVELS.length - 1;
   setTimeout(() => {
@@ -380,6 +425,7 @@ function win() {
 function stuck() {
   combo = 0;
   setTimeout(() => {
+    play("stuck");
     showCard(`<b>Stuck</b><span>${pos.length} pieces left, and nobody can take anybody.</span>
       <div class="row"><button data-act="undo">Undo</button><button data-act="reset" class="go">Retry</button></div>`);
   }, 450);
@@ -387,6 +433,7 @@ function stuck() {
 
 card.addEventListener("click", (e) => {
   const act = e.target.closest("button")?.dataset.act;
+  if (act) play("click");
   if (act === "next") load(level + 1);
   if (act === "undo") undo();
   if (act === "reset") load(level);
@@ -396,6 +443,7 @@ card.addEventListener("click", (e) => {
 // ---------- controls ----------
 function undo() {
   if (busy || !history.length) return;
+  play("undo");
   hideCard();
   won = false;
   combo = Math.max(0, combo - 1);
@@ -417,9 +465,11 @@ function hint() {
   if (busy || won) return;
   const sols = solve(pos, 1);
   if (!sols.length) {
+    play("nope");
     pop(new THREE.Vector3(0, 0.6, 0), "dead end: undo", "#ff8aa5");
     return;
   }
+  play("hint");
   const [fx, fy, tx, ty] = sols[0][0];
   selected = at(pos, fx, fy);
   paintTiles();
@@ -430,9 +480,17 @@ function hint() {
 document.getElementById("undo").onclick = undo;
 document.getElementById("reset").onclick = () => !busy && load(level);
 document.getElementById("hint").onclick = hint;
-document.getElementById("prev").onclick = () => !busy && level > 0 && load(level - 1);
-document.getElementById("next").onclick = () => !busy && level < LEVELS.length - 1 && load(level + 1);
-document.getElementById("levels").onclick = openMenu;
+document.getElementById("prev").onclick = () => !busy && level > 0 && (play("click"), load(level - 1));
+document.getElementById("next").onclick = () => !busy && level < LEVELS.length - 1 && (play("click"), load(level + 1));
+document.getElementById("levels").onclick = () => { play("click"); openMenu(); };
+const soundBtn = document.getElementById("sound");
+function paintSound() {
+  soundBtn.setAttribute("aria-pressed", String(audio.on));
+  soundBtn.querySelector(".waves").style.display = audio.on ? "" : "none";
+  soundBtn.querySelector(".mute").style.display = audio.on ? "none" : "";
+}
+soundBtn.onclick = () => { audio.on = !audio.on; store.set("sound", audio.on); paintSound(); play("click"); };
+paintSound();
 
 const menu = document.getElementById("menu");
 function openMenu() {
@@ -442,7 +500,7 @@ function openMenu() {
 }
 menu.addEventListener("click", (e) => {
   const b = e.target.closest("button");
-  if (b) load(+b.dataset.i);
+  if (b) { play("click"); load(+b.dataset.i); }
   menu.hidden = true;
 });
 
@@ -489,6 +547,7 @@ canvas.addEventListener("pointerup", (ev) => {
   }
   if (p && p !== selected) {
     selected = p;
+    play(targets(pos, p).length ? "pick" : "nope");
     if (!targets(pos, p).length) pop(world(p.x, p.y), p.c >= MAX_CAPTURES ? "tired" : "no takes", "#b8b0d8");
   } else selected = null;
   paintTiles();
@@ -598,4 +657,15 @@ window.fourByFour = {
   },
   level: () => level,
   pieces: () => pos.length,
+};
+
+// For the e2e check: where a square is on screen, the position, and a solution.
+window.__4x4 = {
+  audio,
+  state: () => ({ level, left: pos.length, busy, won }),
+  solution: () => solve(pos, 1)[0] || null,
+  screenOf(x, y) {
+    const v = world(x, y).project(camera), r = canvas.getBoundingClientRect();
+    return [r.left + ((v.x + 1) / 2) * r.width, r.top + ((1 - v.y) / 2) * r.height];
+  },
 };

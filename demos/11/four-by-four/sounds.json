@@ -1,0 +1,20 @@
+{
+ "pick": "pick-4ae585ec.m4a",
+ "nope": "nope-66133688.m4a",
+ "hop": "hop-8ffac59b.m4a",
+ "hop-knight": "hop-knight-c01f5615.m4a",
+ "capture-1": "capture-1-d06fb826.m4a",
+ "capture-2": "capture-2-e06c1386.m4a",
+ "capture-3": "capture-3-0c94568c.m4a",
+ "capture-4": "capture-4-8ef36e36.m4a",
+ "capture-5": "capture-5-f399f8c3.m4a",
+ "capture-6": "capture-6-4198339a.m4a",
+ "drop-1": "drop-1-fbdf6b11.m4a",
+ "drop-2": "drop-2-514c3509.m4a",
+ "drop-3": "drop-3-45780ae9.m4a",
+ "solved": "solved-73695dfd.m4a",
+ "stuck": "stuck-5722088c.m4a",
+ "undo": "undo-a256abc6.m4a",
+ "hint": "hint-8f1382f7.m4a",
+ "click": "click-23063ba9.m4a"
+}
