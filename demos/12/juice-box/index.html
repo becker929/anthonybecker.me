@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Juice Box — Anthony Becker</title>
+<meta name="description" content="A shelf of things to open: a button, a chest, a gift, a crate, an egg and a jar of fireflies. Every bit of game juice on them has a switch, so you can take it away and see what is left.">
+<meta name="theme-color" content="#1a1530">
+<link rel="canonical" href="https://anthonybecker.me/demos/12/juice-box/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Anthony Becker">
+<meta property="og:title" content="Juice Box">
+<meta property="og:description" content="A shelf of things to open, and a switch for every bit of game juice on them.">
+<meta property="og:url" content="https://anthonybecker.me/demos/12/juice-box/">
+<meta property="og:image" content="https://anthonybecker.me/demos/12/juice-box/card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://anthonybecker.me/demos/12/juice-box/card.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231a1530'/%3E%3Crect x='3' y='6' width='10' height='8' fill='%23ff4f7e'/%3E%3Crect x='2' y='4' width='12' height='3' fill='%23ffd84a'/%3E%3Cpath d='M8 4 5 1M8 4l3-3' stroke='%23ffd84a' fill='none'/%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #1a1530; color: #d9d3ee; }
+  body { font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
+  nav { font-size: 0.9rem; margin-bottom: 0.6rem; }
+  a { color: #f2eeff; }
+  nav a { text-decoration: none; border-bottom: 1px solid currentColor; }
+  h1 { font: 800 1.5rem/1.2 ui-rounded, "SF Pro Rounded", system-ui, sans-serif; letter-spacing: 0.02em; color: #fff3d6; margin: 0 0 0.6rem; }
+  #stage { position: relative; width: 100%; aspect-ratio: 600 / 640; background: #1a1530; touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; border-radius: 14px; overflow: hidden; }
+  #view { display: block; width: 100%; height: 100%; }
+  h2 { font: 800 1rem/1.2 ui-rounded, system-ui, sans-serif; color: #fff3d6; margin: 18px 0 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .masters { display: flex; gap: 6px; }
+  button { font: 700 14px/1 ui-rounded, system-ui, sans-serif; border: 0; border-radius: 10px; padding: 10px 14px; background: #3b2a6b; color: #fff3d6; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  button:active { transform: translateY(1px); }
+  button svg { width: 16px; height: 16px; flex: none; }
+  button.go { background: #ff4f7e; color: #fff; }
+  #juice { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 6px; }
+  #juice button { justify-content: flex-start; background: #241b45; color: #8f86b3; padding: 10px 12px; font-weight: 600; }
+  #juice button .box { width: 16px; height: 16px; border-radius: 5px; border: 2px solid currentColor; display: grid; place-items: center; }
+  #juice button .box svg { width: 12px; height: 12px; visibility: hidden; }
+  #juice button[aria-pressed="true"] { background: #3b2a6b; color: #fff3d6; }
+  #juice button[aria-pressed="true"] .box { background: #4fd6a4; border-color: #4fd6a4; color: #1a1530; }
+  #juice button[aria-pressed="true"] .box svg { visibility: visible; }
+  .rules { margin-top: 14px; color: #b6aed3; }
+  .rules b { color: #fff3d6; }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/demos/">← Demos</a></nav>
+  <h1>Juice Box</h1>
+  <div id="stage"><canvas id="view" aria-label="A shelf of things to open: a big button, a chest, a gift, a crate, an egg and a jar of fireflies"></canvas></div>
+  <h2>Juice
+    <span class="masters">
+      <button id="all-on" class="go"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5c2.6 3.2 4.5 5.6 4.5 8a4.5 4.5 0 0 1-9 0c0-2.4 1.9-4.8 4.5-8z"/></svg>Juice it</button>
+      <button id="all-off"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5c2.6 3.2 4.5 5.6 4.5 8a4.5 4.5 0 0 1-9 0c0-2.4 1.9-4.8 4.5-8z"/><path d="M2 2l12 12"/></svg>Lose it</button>
+    </span>
+  </h2>
+  <div id="juice"></div>
+  <p class="rules"><b>Tap anything on the shelves.</b> Press the button fast for a combo. The crate takes three hits and the egg three taps. Catch the fireflies after they get out. Open all five boxes for the finale. Each thing closes itself again after a few seconds.</p>
+  <p class="rules">"Juice" is the game-feel word for everything that makes an action feel good without changing what it does. Nothing on the shelves changes when you switch juice off: the button still counts, the chest still pays out, the crate still breaks. Turn all of it off with <b>Lose it</b>, open something, then switch the effects back on one at a time.</p>
+</main>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

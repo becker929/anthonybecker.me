@@ -75,5 +75,12 @@
     "title": "Four by Four",
     "description": "Solo chess puzzles on a 4x4 board, in 3D. Every move is a capture, each piece may capture twice, and you win by leaving one piece standing. Thirty puzzles, each proved solvable by brute force.",
     "path": "/demos/11/four-by-four/"
+  },
+  {
+    "number": 12,
+    "slug": "juice-box",
+    "title": "Juice Box",
+    "description": "A shelf of things to open: a big button, a chest, a gift, a crate, an egg and a jar of fireflies. Screen shake, hit stop, particles, squash and stretch and the rest of game juice are laid over them, each with its own switch, so you can turn it off and see what is left.",
+    "path": "/demos/12/juice-box/"
   }
 ]
