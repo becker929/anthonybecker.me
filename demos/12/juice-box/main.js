@@ -6,6 +6,11 @@
 // treasure either way. Switching off Particles is the one case that changes
 // how payment looks: coins that would have flown to the counter are added to
 // it directly.
+//
+// Sound is the same: every sound is a file rendered in Ableton Live from
+// layered foley and acoustic samples (zpkt hands/scripts/juice_box), kept in
+// R2 and named in sounds.json. The page only starts them; it never filters,
+// pitches or mixes them.
 
 const W = 600, H = 640;
 const FLOOR1 = 290, FLOOR2 = 560;
@@ -26,6 +31,7 @@ const JUICE = [
   ["split", "Color split"],
   ["slowmo", "Slow motion"],
   ["idle", "Idle & hover"],
+  ["sound", "Sound"],
 ];
 const on = {};
 const STORE = "juice-box:v1";
@@ -62,6 +68,46 @@ const flash = (a, color = "#fff") => { if (on.flash) { fx.flash = Math.max(fx.fl
 const punch = (a) => { if (on.punch) fx.zoom.v += a; };
 const split = (a) => { if (on.split) fx.split = Math.max(fx.split, a); };
 const slowmo = (s) => { if (on.slowmo) fx.slow = Math.max(fx.slow, s); };
+
+// ---------- sound
+
+// Decoded once, then each play is a fresh buffer source straight to the
+// output. The context starts on the first tap (browsers keep audio locked
+// until a gesture); sounds triggered before the files arrive are skipped.
+const audio = { ctx: null, buf: {}, lastCoin: 0, coin: 0, fly: 0, played: {} };
+const AUDIO_BASE = "/audio/demos/juice-box/";
+async function loadSounds() {
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return;
+  audio.ctx = new Ctx();
+  let files;
+  try { files = await (await fetch("./sounds.json")).json(); } catch { return; }
+  await Promise.all(Object.entries(files).map(async ([name, file]) => {
+    try {
+      const data = await (await fetch(AUDIO_BASE + file)).arrayBuffer();
+      audio.buf[name] = await new Promise((ok, no) => audio.ctx.decodeAudioData(data, ok, no));
+    } catch {}
+  }));
+}
+function unlockAudio() {
+  if (audio.ctx && audio.ctx.state !== "running") audio.ctx.resume().catch(() => {});
+}
+function play(name) {
+  if (!on.sound || !audio.ctx || !audio.buf[name]) return;
+  const src = audio.ctx.createBufferSource();
+  src.buffer = audio.buf[name];
+  src.connect(audio.ctx.destination);
+  src.start();
+  audio.played[name] = (audio.played[name] || 0) + 1;   // read by the e2e check
+}
+// A chest pays twenty coins in under a second: one coin sound per 45 ms at
+// most, walking up the four renders so a stream climbs instead of repeating.
+function coinSound() {
+  const now = performance.now();
+  if (now - audio.lastCoin < 45) return;
+  audio.lastCoin = now;
+  play(`coin-${(audio.coin++ % 4) + 1}`);
+}
 
 // ---------- treasure counter
 
@@ -107,7 +153,7 @@ function ring(x, y, r, color = "#fff3d6", life = 0.45) {
 // counter. Each one adds to the treasure when it lands there. Without
 // particles the same sum is paid at once.
 function coins(x, y, n, floor, spread = 1) {
-  if (!on.particles) { collect(n); return; }
+  if (!on.particles) { collect(n); coinSound(); return; }
   for (let i = 0; i < n; i++) {
     const a = -Math.PI / 2 + rnd(-0.7, 0.7) * spread;
     const s = rnd(300, 560);
@@ -173,6 +219,7 @@ function updateCoin(p, dt) {
   if (d < 16) {
     p.dead = true;
     collect(p.value);
+    coinSound();
     sparks(HUD_COIN.x, HUD_COIN.y, 2, "#ffd84a", 160);
   }
 }
@@ -188,6 +235,7 @@ function updateGem(p, dt) {
   if (d < 18) {
     p.dead = true;
     collect(p.value);
+    play("gem");
     sparks(HUD_COIN.x, HUD_COIN.y, 10, "#5fb8ff", 260);
     ring(HUD_COIN.x, HUD_COIN.y, 40, "#5fb8ff", 0.35);
     shake(0.15);
@@ -207,6 +255,7 @@ function updateFirefly(p, dt) {
 }
 
 function burst(p) {
+  play("firework");
   sparks(p.x, p.y, 40, p.color, 420);
   stars(p.x, p.y, 5, p.color);
   ring(p.x, p.y, 70, p.color, 0.5);
@@ -399,6 +448,7 @@ class Thing {
       this.appear = 1 - ease("inBack", this.leaveT / 0.3);
       if (this.leaveT >= 0.3) {
         this.leaveT = -1; this.reset(); this.appearT = 0;
+        play("respawn");
         dust(this.cx, this.floor, 6, this.w / 2);
         if (!on.easing) { this.appear = 1; this.appearT = -1; }
       }
@@ -437,6 +487,7 @@ class Button extends Thing {
     this.combo = fx.time - this.last < 0.6 ? this.combo + 1 : 1;
     this.last = fx.time;
     this.count++;
+    play(`button-${Math.min(this.combo, 8)}`);
     this.squash(-5);
     const y = this.floor - 40;
     ring(this.cx, y, 70 + this.combo * 4, "#ff4f7e", 0.35);
@@ -446,6 +497,7 @@ class Button extends Thing {
     coins(this.cx, y - 10, 1, this.floor);
     if (this.combo > 1) say(this.cx + rnd(-20, 20), y - 50, `x${this.combo}`, this.combo >= 10 ? "#ffd84a" : "#fff3d6", Math.min(20 + this.combo * 2, 48), 0.6);
     if (this.combo % 10 === 0) {
+      play("button-combo");
       hitstop(0.09); flash(0.5, "#ff4f7e"); split(1); shake(0.5); punch(-5);
       ring(this.cx, y, 200, "#ffd84a", 0.6); coins(this.cx, y - 10, 10, this.floor, 1.6);
       say(this.cx, y - 100, "COMBO!", "#ffd84a", 40, 1.1);
@@ -469,10 +521,11 @@ class Chest extends Thing {
   reset() { super.reset(); this.lid = 0; }
   tap() {
     if (this.state !== "closed") return;
-    if (on.anticipation) { this.state = "rattle"; this.t = 0; } else this.open();
+    if (on.anticipation) { this.state = "rattle"; this.t = 0; play("chest-rattle"); } else this.open();
   }
   open() {
     this.opened();
+    play("chest-open");
     const y = this.floor - 62;
     shake(0.35); punch(-3); flash(0.25, "#ffd84a");
     ring(this.cx, y, 120, "#ffd84a");
@@ -538,10 +591,11 @@ class Gift extends Thing {
   reset() { super.reset(); this.gem = 0; this.sent = false; }
   tap() {
     if (this.state !== "closed") return;
-    if (on.anticipation) { this.state = "charge"; this.t = 0; } else this.open();
+    if (on.anticipation) { this.state = "charge"; this.t = 0; play("gift-charge"); } else this.open();
   }
   open() {
     this.opened();
+    play("gift-pop");
     const y = this.floor - 88;
     this.squash(9);
     shake(0.4); punch(-3.5); flash(0.3);
@@ -564,7 +618,7 @@ class Gift extends Thing {
       if (this.t > 1.2 && !this.sent) {
         this.sent = true;
         const g = emit({ kind: "gem", x: this.cx, y: this.floor - 70 - 80 * this.gem, vx: 0, vy: -200, g: 0, drag: 0, life: 99, spin: fx.time * 4, trail: true, value: 25 });
-        if (!g) collect(25);
+        if (!g) { collect(25); play("gem"); }
         say(this.cx, this.floor - 170, "+25", "#8fd3ff", 26);
       }
     }
@@ -600,6 +654,7 @@ class Crate extends Thing {
   tap(x) {
     if (this.state !== "closed") return;
     this.hp--;
+    if (this.hp > 0) play(`crate-hit-${3 - this.hp}`);
     const side = x < this.cx ? 1 : -1;
     const y = this.floor - 54;
     if (this.hp > 0) {
@@ -612,6 +667,7 @@ class Crate extends Thing {
   }
   smash(side) {
     this.opened();
+    play("crate-smash");
     const y = this.floor - 54;
     hitstop(0.13); slowmo(0.45); shake(0.75); punch(-6); flash(0.55); split(1.2);
     ring(this.cx, y, 170, "#fff3d6", 0.5);
@@ -667,16 +723,18 @@ class Egg extends Thing {
   tap() {
     if (this.state !== "closed") return;
     this.taps++;
+    play(`egg-tap-${this.taps}`);
     this.wobble(pick([-1, 1]) * 4);
     this.squash(-2);
     stars(this.cx, this.floor - 60, 2);
     shake(0.08);
     if (this.taps < 3) say(this.cx + rnd(-30, 30), this.floor - 110, pick(["tap", "tok", "knock"]), "#fff3d6", 20, 0.6);
-    else if (on.anticipation) { this.state = "rumble"; this.t = 0; }
+    else if (on.anticipation) { this.state = "rumble"; this.t = 0; play("egg-rumble"); }
     else this.hatch();
   }
   hatch() {
     this.opened();
+    play("egg-hatch");
     const y = this.floor - 70;
     if (on.squash) { this.sq.x = -0.15; this.sq.v = 0; } this.squash(10);
     shake(0.3); punch(-3); flash(0.2, "#fff3d6");
@@ -738,7 +796,7 @@ class Jar extends Thing {
   reset() { super.reset(); this.jiggle = 0; }
   tap() {
     if (this.state !== "closed") return;
-    if (on.anticipation) { this.state = "jiggle"; this.t = 0; } else this.open();
+    if (on.anticipation) { this.state = "jiggle"; this.t = 0; play("jar-jiggle"); } else this.open();
   }
   flyPos(f) {
     const [a, s, b] = f;
@@ -746,6 +804,7 @@ class Jar extends Thing {
   }
   open() {
     this.opened();
+    play("jar-pop");
     const y = this.floor - 110;
     shake(0.2); this.squash(5);
     ring(this.cx, y, 70, "#d8ff7a", 0.35);
@@ -793,6 +852,7 @@ const opened = new Set();
 let finaleAt = -1;
 
 function finale() {
+  play("finale");
   slowmo(1.4); shake(0.5); flash(0.35, "#ffd84a"); punch(-4); split(0.8);
   say(W / 2, 200, "ALL OPEN!", "#ffd84a", 54, 2);
   collect(50);
@@ -815,11 +875,13 @@ function toLocal(e) {
 canvas.addEventListener("pointerdown", (e) => {
   const [x, y] = toLocal(e);
   tapped = true;
+  unlockAudio();
   // Free fireflies come first: they fly over the shelves.
   for (const p of P) {
     if (p.kind === "firefly" && !p.dead && Math.hypot(p.x - x, p.y - y) < 26) {
       p.dead = true;
       collect(3);
+      play(`firefly-${(audio.fly++ % 3) + 1}`);
       stars(p.x, p.y, 5, "#d8ff7a");
       ring(p.x, p.y, 36, "#d8ff7a", 0.3);
       say(p.x, p.y - 20, "+3", "#d8ff7a", 22, 0.6);
@@ -829,6 +891,8 @@ canvas.addEventListener("pointerdown", (e) => {
   const t = things.find((t) => t.appear > 0.5 && t.hit(x, y));
   if (t) t.tap(x, y);
 });
+// iOS Safari only unlocks audio on touchend or click, not on pointerdown.
+for (const ev of ["touchend", "click"]) document.addEventListener(ev, unlockAudio, { passive: true });
 canvas.addEventListener("pointermove", (e) => {
   if (e.pointerType !== "mouse") return;
   const [x, y] = toLocal(e);
@@ -1000,4 +1064,5 @@ function frame(now) {
 requestAnimationFrame(frame);
 
 // For the e2e check and the card render.
-window.__juice = { things, on, hud, P, opened };
+window.__juice = { things, on, hud, P, opened, audio };
+loadSounds();
