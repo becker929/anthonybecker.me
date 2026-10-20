@@ -89,6 +89,46 @@ const GRID = document.getElementById("levels").innerHTML;
 const UNDO = document.getElementById("undo").innerHTML;
 const RETRY = document.getElementById("reset").innerHTML;
 
+// ---------- coach: plain words on the board, each when it matters ----------
+// A short line at the foot of the board teaches as you play. Most show once;
+// tapping a rule's mark in the corner shows its line again.
+const RULE_WORDS = {
+  leap: "Every take must change floor.",
+  grav: "A piece falls if nothing holds it up.",
+  turn: "A piece turns into what it takes.",
+  goal: "The last piece must end on the light.",
+};
+// Lines for the first puzzle of a group, by group name.
+const GROUP_WORDS = {
+  Slants: "Bishops and knights can change floor too.",
+  Footsoldiers: "Pawns take one step forward. They can go up or down a floor as they do.",
+  Unicorn: "This is the unicorn. Each step goes sideways, forward and up or down, all at once.",
+  Leap: "New rule. " + RULE_WORDS.leap,
+  Fall: "New rule. " + RULE_WORDS.grav,
+  Beacon: "New rule. " + RULE_WORDS.goal,
+  Turncoat: "New rule. " + RULE_WORDS.turn,
+};
+const coachEl = document.getElementById("coach");
+const coachSeen = new Set(store.get("coach", []));
+let coachTimer = 0;
+function coach(text, secs = 0) {
+  clearTimeout(coachTimer);
+  if (!text) { coachEl.hidden = true; return; }
+  coachEl.textContent = text;
+  coachEl.hidden = true;
+  void coachEl.offsetWidth;   // restart the rise
+  coachEl.hidden = false;
+  if (secs) coachTimer = setTimeout(() => { coachEl.hidden = true; }, secs * 1000);
+}
+function coachOnce(id, text, secs = 0) {
+  if (coachSeen.has(id)) return false;
+  coachSeen.add(id);
+  store.set("coach", [...coachSeen]);
+  coach(text, secs);
+  return true;
+}
+let tut = 0;   // first puzzle: 1 waiting for a tap, 2 waiting for a take
+
 // ---------- scene ----------
 const stage = document.getElementById("stage");
 const canvas = document.getElementById("view");
@@ -405,6 +445,14 @@ function load(i) {
   hud();
   hideCard();
   if (lv.act !== shownAct) { shownAct = lv.act; showAct(lv.act); }
+  coach(null);
+  tut = 0;
+  const nth = inAct(level);
+  if (level === 0 && !coachSeen.has("tap")) { coachOnce("tap", "Tap a piece."); tut = 1; }
+  else if (lv.intro && GROUP_WORDS[lv.name]) coachOnce("g:" + lv.name, GROUP_WORDS[lv.name]);
+  else if (lv.act === 1 && nth === 2) coachOnce("drag", "Drag to turn the tower.", 5);
+  else if (lv.act === 1 && nth === 3) coachOnce("beads", "Each piece can take two times. The beads show how many are left.");
+  else if (lv.act === 2 && nth === 2) coachOnce("solo", "Tap a floor on the right to see it alone.", 6);
 }
 
 // The act's numeral, large, for a moment.
@@ -549,6 +597,8 @@ function capture(from, to) {
     meshes.delete(victim.i);
     combo++;
     play(`capture-${Math.min(combo, 6)}`);
+    if (tut === 2) { coach("Every move must take a piece. Leave just one standing."); tut = 3; }
+    else if (tut !== 3) coach(null);
     shake = Math.min(0.35, 0.12 + combo * 0.04);
     burst(b, COLORS[victim.t], 26 + combo * 6);
     pop(b, combo > 1 ? `x${combo}!` : "BONK", COLORS[victim.t]);
@@ -668,7 +718,7 @@ function pop(at, text, color) {
 
 // ---------- outcome cards ----------
 const card = document.getElementById("card");
-function showCard(html) { card.innerHTML = html; card.hidden = false; }
+function showCard(html) { coach(null); card.innerHTML = html; card.hidden = false; }
 function hideCard() { card.hidden = true; }
 
 function win() {
@@ -795,11 +845,17 @@ menu.addEventListener("click", (e) => {
 });
 
 function hud() {
-  const icons = [...lv.rules.filter((r) => ICONS[r]).map((r) => ICONS[r]), lv.goal ? ICONS.goal : ""].join("");
+  const marks = [...lv.rules.filter((r) => ICONS[r]), ...(lv.goal ? ["goal"] : [])];
+  const icons = marks.map((r) => `<span data-rule="${r}">${ICONS[r]}</span>`).join("");
   document.getElementById("lvl").innerHTML = `<span>${ROMAN[lv.act]}</span><span class="dot">·</span><span class="lo">${ROMAN[inAct(level)].toLowerCase()}</span><span id="icons">${icons}</span>`;
   document.getElementById("left").textContent = String(pos.length);
   document.getElementById("star").hidden = !solved.has(level);
 }
+
+document.getElementById("lvl").addEventListener("click", (e) => {
+  const r = e.target.closest("[data-rule]")?.dataset.rule;
+  if (r) { play("click"); coach(RULE_WORDS[r], 4); }
+});
 
 // ---------- picking ----------
 // Taps pass through empty glass: the first piece, glowing target or solid
@@ -857,6 +913,7 @@ function tap(ev) {
   if (p && p !== selected) {
     selected = p;
     const n = R.targets(pos, p).length;
+    if (tut === 1 && n) { coach("Now tap a glowing piece to take it."); tut = 2; }
     play(n ? "pick" : "nope");
     if (!n) pop(world(p.x, p.y, p.z), p.c >= MAX_CAPTURES ? "tired" : "no takes", "#b8b0d8");
   } else selected = null;
@@ -874,7 +931,7 @@ canvas.addEventListener("pointermove", (ev) => {
     const dx = ev.clientX - drag.x, dy = ev.clientY - drag.y;
     if (!drag.moved && Math.hypot(dx, dy) > 10) drag.moved = true;
     if (drag.moved) {
-      cam.yaw = Math.max(-1.25, Math.min(1.25, cam.yaw - dx * 0.008));
+      cam.yaw -= dx * 0.008;   // all the way round, no stops
       cam.pitch = Math.max(0.22, Math.min(1.35, cam.pitch + dy * 0.006));
       drag.x = ev.clientX; drag.y = ev.clientY;
     }
@@ -996,6 +1053,7 @@ window.__4x4x4 = {
   state: () => ({ level, left: pos.length, busy, won, label: label(level), solo, menu: !menu.hidden, sel: selected && [selected.x, selected.y, selected.z] }),
   solution: () => R.solve(pos, 1)[0] || null,
   load: (i) => load(i),
+  yaw: () => cam.yaw,
   screenOf(x, y, z) {
     const v = world(x, y, z).add(new THREE.Vector3(0, 0.25, 0)).project(camera), r = canvas.getBoundingClientRect();
     return [r.left + ((v.x + 1) / 2) * r.width, r.top + ((1 - v.y) / 2) * r.height];

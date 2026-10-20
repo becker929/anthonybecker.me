@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>4x4x4 — Anthony Becker</title>
-<meta name="description" content="Solo chess puzzles in a tower of 4x4 glass floors. Every move is a capture; leave one piece standing. Forty puzzles in four acts: new pieces, floors that forbid, floors that fall, a light to reach, and pieces that become what they take.">
+<meta name="description" content="The sequel to Four by Four. Solo chess in a tower of glass floors. Every move takes a piece. Leave one standing.">
 <meta name="theme-color" content="#1a1530">
 <link rel="canonical" href="https://anthonybecker.me/demos/13/4x4x4/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Anthony Becker">
 <meta property="og:title" content="4x4x4">
-<meta property="og:description" content="Solo chess in a tower of glass floors. Every move is a capture; leave one piece standing.">
+<meta property="og:description" content="Solo chess in a tower of glass floors. Every move takes a piece. Leave one standing.">
 <meta property="og:url" content="https://anthonybecker.me/demos/13/4x4x4/">
 <meta property="og:image" content="https://anthonybecker.me/demos/13/4x4x4/card.png">
 <meta property="og:image:width" content="1200">
@@ -64,8 +64,9 @@
   #menu .row button.locked { opacity: 0.45; }
   #menu .flip { background: transparent; padding: 8px; }
   #menu .flip:disabled { opacity: 0.2; }
-  .rules { margin-top: 14px; color: #b6aed3; }
-  .rules b { color: #fff3d6; }
+  #coach { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px); background: #fff3d6; color: #2a1d55; border-radius: 12px; padding: 9px 14px; font: 700 15px/1.35 ui-rounded, system-ui, sans-serif; text-align: center; box-shadow: 0 8px 24px #0007; pointer-events: none; animation: rise 0.3s cubic-bezier(.2,1.6,.4,1); }
+  #coach[hidden] { display: none; }
+  #icons { pointer-events: auto; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -78,6 +79,7 @@
     <div id="floors"></div>
     <div id="pops"></div>
     <div id="act"></div>
+    <div id="coach" hidden></div>
     <div id="card" hidden></div>
     <div id="menu" hidden></div>
   </div>
@@ -90,8 +92,6 @@
     <button id="sound" aria-label="Sound"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h2.5L8 3v10l-3.5-3H2z" fill="currentColor"/><path class="waves" d="M10.5 5.5a3.5 3.5 0 0 1 0 5M12.5 3.5a6.3 6.3 0 0 1 0 9"/><path class="mute" d="m10.5 6 4 4m0-4-4 4"/></svg></button>
     <button id="next" aria-label="Next puzzle"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 5 5-5 5"/></svg></button>
   </div>
-  <p class="rules"><b>Every move takes a piece. Leave one.</b> Each piece takes twice at most. Drag to turn the tower; tap a floor on the right to see it alone.</p>
-  <p class="rules">The sequel to <a href="/demos/11/four-by-four/">Four by Four</a>. Forty puzzles, each proved solvable by brute force and paced by simulated players calibrated on how far people got in the first game.</p>
 </main>
 <script type="module" src="./main.js"></script>
 </body>
