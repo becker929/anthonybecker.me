@@ -14,6 +14,7 @@
     "e2e:play": "node e2e/skrng-play.mjs",
     "e2e:core": "node e2e/core-library.mjs",
     "e2e:juice": "node e2e/juice-box.mjs",
-    "e2e:4x4": "node e2e/four-by-four.mjs"
+    "e2e:4x4": "node e2e/four-by-four.mjs",
+    "e2e:4x4x4": "node e2e/4x4x4.mjs"
   }
 }

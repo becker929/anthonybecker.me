@@ -69,3 +69,11 @@
 /demos/juice-box/          /demos/12/juice-box/  301
 /juice-box                 /demos/12/juice-box/  301
 /juice-box/                /demos/12/juice-box/  301
+
+# Canonical demo path: /demos/13/4x4x4/
+/demos/13                  /demos/13/4x4x4/  301
+/demos/13/                 /demos/13/4x4x4/  301
+/demos/4x4x4               /demos/13/4x4x4/  301
+/demos/4x4x4/              /demos/13/4x4x4/  301
+/4x4x4                     /demos/13/4x4x4/  301
+/4x4x4/                    /demos/13/4x4x4/  301

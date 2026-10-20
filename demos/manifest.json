@@ -82,5 +82,12 @@
     "title": "Juice Box",
     "description": "A shelf of things to open: a big button, a chest, a gift, a crate, an egg and a jar of fireflies. Screen shake, hit stop, particles, squash and stretch, layered foley sound and the rest of game juice are laid over them, each with its own switch, so you can turn it off and see what is left.",
     "path": "/demos/12/juice-box/"
+  },
+  {
+    "number": 13,
+    "slug": "4x4x4",
+    "title": "4x4x4",
+    "description": "The sequel to Four by Four: solo chess in a tower of 4x4 glass floors. Every move is a capture and you win by leaving one piece standing. Forty puzzles in four acts bring in a unicorn that moves through corners, floors you must leave to take, gravity, a light to finish on, and pieces that become what they take. Paced by simulated players calibrated on how far people got in the first game.",
+    "path": "/demos/13/4x4x4/"
   }
 ]

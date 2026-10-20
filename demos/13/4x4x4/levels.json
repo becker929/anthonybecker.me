@@ -1,0 +1,567 @@
+[
+ {
+  "p": "R000 B001 K031",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 1,
+  "trap": 0,
+  "eff": 2,
+  "intro": true,
+  "act": 1,
+  "group": 0,
+  "name": "Upstairs"
+ },
+ {
+  "p": "R010 R020 R310 K121",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 15,
+  "trap": 0.33,
+  "eff": 3,
+  "act": 1,
+  "group": 0,
+  "name": "Upstairs"
+ },
+ {
+  "p": "R020 R131 Q130 Q011 Q230",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 81,
+  "trap": 0,
+  "eff": 4,
+  "act": 1,
+  "group": 0,
+  "name": "Upstairs"
+ },
+ {
+  "p": "B320 R300 K231 K130",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 3,
+  "trap": 0.5,
+  "eff": 7,
+  "act": 1,
+  "group": 0,
+  "name": "Upstairs"
+ },
+ {
+  "p": "N030 B210 B111",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.67,
+  "eff": 2,
+  "intro": true,
+  "act": 1,
+  "group": 1,
+  "name": "Slants"
+ },
+ {
+  "p": "B201 R200 N300 R030",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.67,
+  "eff": 9,
+  "act": 1,
+  "group": 1,
+  "name": "Slants"
+ },
+ {
+  "p": "B130 R230 N031 N310 R010",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 12,
+  "trap": 0.57,
+  "eff": 12,
+  "act": 1,
+  "group": 1,
+  "name": "Slants"
+ },
+ {
+  "p": "P021 P111 P100",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.5,
+  "eff": 2,
+  "intro": true,
+  "act": 1,
+  "group": 2,
+  "name": "Footsoldiers"
+ },
+ {
+  "p": "N210 N331 N130 R010 P121",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 8,
+  "trap": 0.5,
+  "eff": 16,
+  "act": 1,
+  "group": 2,
+  "name": "Footsoldiers"
+ },
+ {
+  "p": "P010 N110 P211 P300 N100 B220",
+  "f": 2,
+  "rules": [],
+  "goal": null,
+  "sols": 3,
+  "trap": 0.6,
+  "eff": 21,
+  "act": 1,
+  "group": 2,
+  "name": "Footsoldiers"
+ },
+ {
+  "p": "U310 R221 B130",
+  "f": 3,
+  "rules": [],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.5,
+  "eff": 2,
+  "intro": true,
+  "act": 2,
+  "group": 3,
+  "name": "Unicorn"
+ },
+ {
+  "p": "B132 R101 N320 P001 U010 P121",
+  "f": 3,
+  "rules": [],
+  "goal": null,
+  "sols": 16,
+  "trap": 0.5,
+  "eff": 27,
+  "act": 2,
+  "group": 3,
+  "name": "Unicorn"
+ },
+ {
+  "p": "R220 U222 P000 U001 R221 N110",
+  "f": 3,
+  "rules": [],
+  "goal": null,
+  "sols": 12,
+  "trap": 0.5,
+  "eff": 35,
+  "act": 2,
+  "group": 3,
+  "name": "Unicorn"
+ },
+ {
+  "p": "Q110 Q221 B201",
+  "f": 3,
+  "rules": [
+   "leap"
+  ],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.67,
+  "eff": 2,
+  "intro": true,
+  "act": 2,
+  "group": 4,
+  "name": "Leap"
+ },
+ {
+  "p": "R120 P200 N010 B230 Q121 B211",
+  "f": 3,
+  "rules": [
+   "leap"
+  ],
+  "goal": null,
+  "sols": 3,
+  "trap": 0.71,
+  "eff": 37,
+  "act": 2,
+  "group": 4,
+  "name": "Leap"
+ },
+ {
+  "p": "Q200 R132 B112 P101 B110 Q031",
+  "f": 3,
+  "rules": [
+   "leap"
+  ],
+  "goal": null,
+  "sols": 20,
+  "trap": 0.57,
+  "eff": 37,
+  "act": 2,
+  "group": 4,
+  "name": "Leap"
+ },
+ {
+  "p": "N111 B100 R310 B210 R302 P201 N222",
+  "f": 3,
+  "rules": [
+   "leap"
+  ],
+  "goal": null,
+  "sols": 75,
+  "trap": 0.5,
+  "eff": 50,
+  "act": 2,
+  "group": 4,
+  "name": "Leap"
+ },
+ {
+  "p": "P321 R220 B221 R222 U332 B202",
+  "f": 3,
+  "rules": [
+   "leap"
+  ],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.8,
+  "eff": 55,
+  "act": 2,
+  "group": 5,
+  "name": "Spire"
+ },
+ {
+  "p": "R111 U031 U222 B220 B022 U202",
+  "f": 3,
+  "rules": [
+   "leap"
+  ],
+  "goal": null,
+  "sols": 2,
+  "trap": 0.67,
+  "eff": 59,
+  "act": 2,
+  "group": 5,
+  "name": "Spire"
+ },
+ {
+  "p": "U110 R101 B130 B112 U312 B201 N001",
+  "f": 3,
+  "rules": [
+   "leap"
+  ],
+  "goal": null,
+  "sols": 6,
+  "trap": 0.71,
+  "eff": 64,
+  "act": 2,
+  "group": 5,
+  "name": "Spire"
+ },
+ {
+  "p": "R020 B200 R201",
+  "f": 4,
+  "rules": [
+   "grav"
+  ],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.5,
+  "eff": 2,
+  "intro": true,
+  "act": 3,
+  "group": 6,
+  "name": "Fall"
+ },
+ {
+  "p": "N130 R030 U131 N330 P310 B020 B031",
+  "f": 4,
+  "rules": [
+   "grav"
+  ],
+  "goal": null,
+  "sols": 15,
+  "trap": 0.56,
+  "eff": 68,
+  "act": 3,
+  "group": 6,
+  "name": "Fall"
+ },
+ {
+  "p": "N220 U010 U221 N200 N222 B210",
+  "f": 4,
+  "rules": [
+   "grav"
+  ],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.8,
+  "eff": 69,
+  "act": 3,
+  "group": 6,
+  "name": "Fall"
+ },
+ {
+  "p": "P010 R320 B230 B120 P110 P121 B321",
+  "f": 4,
+  "rules": [
+   "grav"
+  ],
+  "goal": null,
+  "sols": 124,
+  "trap": 0.5,
+  "eff": 94,
+  "act": 3,
+  "group": 6,
+  "name": "Fall"
+ },
+ {
+  "p": "P310 N311 P300 B130 B210 B301",
+  "f": 4,
+  "rules": [
+   "grav"
+  ],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.83,
+  "eff": 95,
+  "act": 3,
+  "group": 7,
+  "name": "Rubble"
+ },
+ {
+  "p": "P310 N220 P210 U130 B120 B020 P311 N131",
+  "f": 4,
+  "rules": [
+   "grav"
+  ],
+  "goal": null,
+  "sols": 15,
+  "trap": 0.4,
+  "eff": 95,
+  "act": 3,
+  "group": 7,
+  "name": "Rubble"
+ },
+ {
+  "p": "N320 N330 N100 N210 N310 R120 P311 U312",
+  "f": 4,
+  "rules": [
+   "grav"
+  ],
+  "goal": null,
+  "sols": 178,
+  "trap": 0.25,
+  "eff": 105,
+  "act": 3,
+  "group": 7,
+  "name": "Rubble"
+ },
+ {
+  "p": "R321 R212 Q121",
+  "f": 4,
+  "rules": [],
+  "goal": [
+   2,
+   1,
+   2
+  ],
+  "sols": 1,
+  "trap": 0.67,
+  "eff": 6,
+  "intro": true,
+  "act": 3,
+  "group": 8,
+  "name": "Beacon"
+ },
+ {
+  "p": "P201 Q111 N032 Q000 N231 U322",
+  "f": 4,
+  "rules": [],
+  "goal": [
+   2,
+   0,
+   1
+  ],
+  "sols": 1,
+  "trap": 0.88,
+  "eff": 103,
+  "act": 3,
+  "group": 8,
+  "name": "Beacon"
+ },
+ {
+  "p": "B001 Q323 K112 Q212 B221",
+  "f": 4,
+  "rules": [],
+  "goal": [
+   1,
+   1,
+   2
+  ],
+  "sols": 1,
+  "trap": 0.9,
+  "eff": 132,
+  "act": 3,
+  "group": 8,
+  "name": "Beacon"
+ },
+ {
+  "p": "U001 B110 U220",
+  "f": 4,
+  "rules": [
+   "turn"
+  ],
+  "goal": null,
+  "sols": 1,
+  "trap": 0.5,
+  "eff": 2,
+  "intro": true,
+  "act": 4,
+  "group": 9,
+  "name": "Turncoat"
+ },
+ {
+  "p": "N211 R322 N222 Q212 U033 P012 U131 R132",
+  "f": 4,
+  "rules": [
+   "turn"
+  ],
+  "goal": null,
+  "sols": 320,
+  "trap": 0.45,
+  "eff": 147,
+  "act": 4,
+  "group": 9,
+  "name": "Turncoat"
+ },
+ {
+  "p": "N030 R202 B333 Q222 B311 U231 B012",
+  "f": 4,
+  "rules": [
+   "turn"
+  ],
+  "goal": null,
+  "sols": 16,
+  "trap": 0.8,
+  "eff": 154,
+  "act": 4,
+  "group": 9,
+  "name": "Turncoat"
+ },
+ {
+  "p": "Q213 U331 P221 P222 R013 N012 U132",
+  "f": 4,
+  "rules": [
+   "turn"
+  ],
+  "goal": null,
+  "sols": 28,
+  "trap": 0.73,
+  "eff": 178,
+  "act": 4,
+  "group": 9,
+  "name": "Turncoat"
+ },
+ {
+  "p": "B100 N310 R101 P300 N030 B210 B200",
+  "f": 4,
+  "rules": [
+   "turn",
+   "grav"
+  ],
+  "goal": null,
+  "sols": 2,
+  "trap": 0.78,
+  "eff": 178,
+  "act": 4,
+  "group": 10,
+  "name": "Masquerade"
+ },
+ {
+  "p": "B210 P110 N200 P220 B221 U310 P111 P211",
+  "f": 4,
+  "rules": [
+   "turn",
+   "grav"
+  ],
+  "goal": null,
+  "sols": 8,
+  "trap": 0.67,
+  "eff": 203,
+  "act": 4,
+  "group": 10,
+  "name": "Masquerade"
+ },
+ {
+  "p": "N310 U320 N100 P101 P010 R200 B110 R102",
+  "f": 4,
+  "rules": [
+   "turn",
+   "grav"
+  ],
+  "goal": null,
+  "sols": 10,
+  "trap": 0.75,
+  "eff": 229,
+  "act": 4,
+  "group": 10,
+  "name": "Masquerade"
+ },
+ {
+  "p": "B233 N300 B110 B211 N311 N101 B000",
+  "f": 4,
+  "rules": [
+   "leap",
+   "turn"
+  ],
+  "goal": [
+   3,
+   0,
+   0
+  ],
+  "sols": 1,
+  "trap": 0.89,
+  "eff": 252,
+  "act": 4,
+  "group": 11,
+  "name": "Last Light"
+ },
+ {
+  "p": "B010 B110 P111 N210 U011 R120 U330",
+  "f": 4,
+  "rules": [
+   "grav"
+  ],
+  "goal": [
+   1,
+   1,
+   0
+  ],
+  "sols": 4,
+  "trap": 0.78,
+  "eff": 276,
+  "act": 4,
+  "group": 11,
+  "name": "Last Light"
+ },
+ {
+  "p": "R230 N120 R130 P000 N110 U001 B030",
+  "f": 4,
+  "rules": [
+   "grav",
+   "turn"
+  ],
+  "goal": [
+   0,
+   3,
+   0
+  ],
+  "sols": 4,
+  "trap": 0.8,
+  "eff": 308,
+  "act": 4,
+  "group": 11,
+  "name": "Last Light"
+ }
+]
