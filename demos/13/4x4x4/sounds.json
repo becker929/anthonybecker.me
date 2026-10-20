@@ -17,8 +17,9 @@
  "undo": "four-by-four/undo-a256abc6.m4a",
  "hint": "four-by-four/hint-8f1382f7.m4a",
  "click": "four-by-four/click-23063ba9.m4a",
- "fall-1": "four-by-four/drop-1-fbdf6b11.m4a",
- "fall-2": "four-by-four/drop-2-514c3509.m4a",
- "fall-3": "four-by-four/drop-3-45780ae9.m4a",
- "morph": "four-by-four/hint-8f1382f7.m4a"
+ "fall-1": "4x4x4/fall-1-2bc8a8db.m4a",
+ "fall-2": "4x4x4/fall-2-04308cf4.m4a",
+ "fall-3": "4x4x4/fall-3-3e6785c5.m4a",
+ "morph": "4x4x4/morph-575aaebe.m4a",
+ "act": "4x4x4/act-7e49ea96.m4a"
 }

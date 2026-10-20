@@ -23,7 +23,8 @@ let solved = new Set(store.get("solved", []));
 // ---------- sound ----------
 // Every sound is a file rendered in Ableton Live from wooden-toy foley and
 // acoustic samples (zpkt hands/scripts/juice_box), kept in R2 under
-// /audio/demos/ and named in sounds.json. The page only starts them: decoded
+// /audio/demos/ and named in sounds.json: Four by Four's kit, plus this
+// game's falls, change of type and act bell (kit 4x4x4). The page only starts them: decoded
 // once, each play a fresh buffer source straight to the output.
 const audio = { ctx: null, buf: {}, on: store.get("sound", true), last: {}, n: {} };
 async function loadSounds() {
@@ -409,6 +410,7 @@ function load(i) {
 // The act's numeral, large, for a moment.
 function showAct(a) {
   actEl.textContent = ROMAN[a];
+  play("act");
   tween(1.8, (e) => {
     actEl.style.opacity = String(e < 0.25 ? e / 0.25 : e > 0.7 ? 1 - (e - 0.7) / 0.3 : 1);
     actEl.style.transform = `scale(${0.85 + ease(Math.min(1, e * 2)) * 0.15})`;

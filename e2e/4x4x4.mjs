@@ -3,7 +3,7 @@
 // (all 40) and WebKit (one per group). Also checks the numerals, the floor
 // solo, the act menu, and the sounds: all decode, each event plays its render,
 // and the Sound button silences them. Serve the R2 sounds locally at
-// /audio/demos/four-by-four/.
+// /audio/demos/four-by-four/ and /audio/demos/4x4x4/.
 //
 //   static server on :8000   then   node e2e/4x4x4.mjs   (SHOTS=dir saves screenshots)
 import { chromium, webkit } from "playwright";
@@ -21,9 +21,9 @@ for (const [name, engine] of [["chromium", chromium], ["webkit", webkit]]) {
   page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
   await page.addInitScript(() => { try { localStorage.clear(); } catch {} });
   await page.goto(`${BASE}/demos/13/4x4x4/`);
-  await page.waitForFunction(() => window.__4x4x4 && Object.keys(window.__4x4x4.audio.buf).length >= 22, null, { timeout: 20000 }).catch(() => {});
+  await page.waitForFunction(() => window.__4x4x4 && Object.keys(window.__4x4x4.audio.buf).length >= 23, null, { timeout: 20000 }).catch(() => {});
   const nbuf = await page.evaluate(() => Object.keys(window.__4x4x4.audio.buf).length);
-  check(nbuf >= 22, `${name}: sounds decoded (${nbuf})`);
+  check(nbuf >= 23, `${name}: sounds decoded (${nbuf})`);
   const total = await page.evaluate(() => window.__4x4x4.levels);
   check(total >= 24 && total <= 48, `${name}: ${total} puzzles`);
   const st = () => page.evaluate(() => window.__4x4x4.state());
@@ -84,7 +84,7 @@ for (const [name, engine] of [["chromium", chromium], ["webkit", webkit]]) {
 
   await page.click("#undo"); await page.click("#hint"); await page.waitForTimeout(200);
   const played = await page.evaluate(() => window.__4x4x4.audio.n);
-  const want = ["drop-1", "hint", "pick", "hop", "capture-1", "capture-2", "solved", "click", "fall-1"];
+  const want = ["drop-1", "hint", "pick", "hop", "capture-1", "capture-2", "solved", "click", "fall-1", "act"];
   if (name === "chromium") want.push("morph", "hop-knight");
   const missing = want.filter((k) => !played[k]);
   check(missing.length === 0, `${name}: sounds played on their events${missing.length ? ", missing " + missing : ""}`);
