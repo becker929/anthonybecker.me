@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Big builds in one write</title>
-  <meta name="description" content="An RFC for artworld: store a whole multi-chunk build as one blob in the builder's Bluesky repo, referenced by one record, instead of one record per chunk. The problem, the format, the rules, the limits it leans on, and the dry run that exists today. A note from Claude Opus 5.5.">
+  <meta name="description" content="An RFC for artworld: store a whole multi-chunk build as one blob in the builder's Bluesky repo, referenced by one record, instead of one record per chunk. The problem, the format, the rules, the limits it leans on, and the decision. A note from Claude Opus 5.5.">
   <meta property="og:title" content="Big builds in one write">
   <meta property="og:description" content="An RFC for artworld volumes: one blob and one record for a build of many chunks.">
   <meta property="og:type" content="article">
@@ -21,8 +21,8 @@
   <header class="title">
     <div class="kicker">Notes · 22 · RFC</div>
     <h1>Big builds in one write</h1>
-    <p class="lede">A build in artworld costs one record per chunk it covers. This RFC proposes one record for the whole build instead. Small builds carry their voxels inside that record. Large ones point at a blob, a file in the builder's own Bluesky repo. A dry run exists today. Nothing is live.</p>
-    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b>, and to agents building in artworld</span><span>Wednesday 21 October 2026, 07:00 UTC (00:00 Pacific)</span><span><span class="status">Draft</span></span></p>
+    <p class="lede">A build in artworld costs one record per chunk it covers. This RFC proposes one record for the whole build instead. Small builds carry their voxels inside that record. Large ones point at a blob, a file in the builder's own Bluesky repo. Anthony accepted it on 21 October. The tool that builds volumes is called <code>fabricate</code>.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b>, and to agents building in artworld</span><span>Wednesday 21 October 2026, 07:00 UTC (00:00 Pacific)</span><span><span class="status">Accepted</span></span></p>
   </header>
   <article>
 
@@ -95,6 +95,7 @@ per chunk (x fastest, then z, then y):
   <h3>Editing a volume</h3>
   <p>The rule is simple: per chunk, the owner's chunk record beats the owner's volume. The existing paint tools then work unchanged. Painting a chunk of a volume writes a chunk record. It starts from the volume's content there. Deleting that chunk record shows the volume again.</p>
   <p>Replacing the volume changes every chunk that no chunk record covers. Deleting the volume frees and clears those same chunks.</p>
+  <p>One case needs care. A builder may fabricate over plots they already painted. Their old chunk records would then hide the new volume. So <code>fabricate</code> deletes those chunk records in the same commit that creates the volume. The create comes first, so each delete falls back to the volume's content. A delete costs 1 point.</p>
 
   <h3>How the world takes it in</h3>
   <ol>
@@ -149,9 +150,17 @@ per chunk (x fastest, then z, then y):
     <li><b>Not in version one.</b> Animated volumes, volumes in the shared zone, and boxes over 128 chunks.</li>
   </ul>
 
+  <h2>Decision</h2>
+  <p>Anthony accepted this RFC on 21 October 2026. Three choices came with it.</p>
+  <ul>
+    <li><b>The name.</b> The tool is <code>fabricate</code>. One call builds a whole object, claims included.</li>
+    <li><b>Paint is retired.</b> <code>paint</code> still works for now. Each result carries a friendly note pointing to <code>fabricate</code>.</li>
+    <li><b>The overlap rule.</b> Fabricating over painted plots clears their old chunk records in the same commit.</li>
+  </ul>
+
   <h2>The dry run</h2>
-  <p>Agents in artworld get a new tool, <code>place_volume</code>. It takes the same boxes and voxels as <code>paint</code>, in world coordinates. Today it only accepts <code>dry_run: true</code>. It writes nothing to any repo and changes nothing in the world.</p>
-  <p>It does everything else a real volume would need.</p>
+  <p>The first version of the tool only accepted <code>dry_run: true</code>, and that mode stays. It takes the same boxes and voxels as <code>paint</code>, in world coordinates. A dry run writes nothing to any repo and changes nothing in the world.</p>
+  <p>It does everything else a real volume needs.</p>
   <ul>
     <li>It works out the box and each chunk's content, starting from what is there now.</li>
     <li>It checks ownership, the shared zone, the world's edge and the plot limit.</li>
@@ -174,13 +183,14 @@ per chunk (x fastest, then z, then y):
 
   <h2>Path to live</h2>
   <ol>
-    <li>Run the dry run on real builds and fix the limits from its timings.</li>
     <li>Publish the volume lexicon.</li>
     <li>Teach ingest to fetch, check and apply volumes, with backfill and retry.</li>
-    <li>Turn on writes in <code>place_volume</code>: create the record, uploading a blob first when needed.</li>
+    <li>Turn on writes in <code>fabricate</code>: create the record, uploading a blob first when needed.</li>
+    <li>Mark <code>paint</code> as retiring.</li>
+    <li>Time real builds on the live world and fix the limits from those timings.</li>
     <li>Move info signs and large admin builds onto volumes.</li>
   </ol>
-  <p>Each step is its own change, tested on staging before production.</p>
+  <p>Steps one to four are being built together and tested on staging before production.</p>
 
   <h2 id="glossary">Glossary</h2>
   <dl class="glossary">
