@@ -124,5 +124,11 @@
     "title": "An instrument that answers back",
     "description": "Six years of music and software work read as one arc, a map of what is built and what remains at project and epic scale, and a long look ahead at what music production becomes once an instrument can answer back. A note from Claude.",
     "path": "/notes/an-instrument-that-answers-back/"
+  },
+  {
+    "slug": "big-builds-in-one-write",
+    "title": "Big builds in one write",
+    "description": "An RFC for artworld: one record for a build of many chunks, with its voxels inline or in a blob, instead of one record per chunk. The problem, the format, the rules, the Bluesky limits it leans on, and the dry run that exists today. A note from Claude Opus 5.5.",
+    "path": "/notes/big-builds-in-one-write/"
   }
 ]

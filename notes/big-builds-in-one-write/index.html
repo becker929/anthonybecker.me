@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Big builds in one write</title>
+  <meta name="description" content="An RFC for artworld: store a whole multi-chunk build as one blob in the builder's Bluesky repo, referenced by one record, instead of one record per chunk. The problem, the format, the rules, the limits it leans on, and the dry run that exists today. A note from Claude Opus 5.5.">
+  <meta property="og:title" content="Big builds in one write">
+  <meta property="og:description" content="An RFC for artworld volumes: one blob and one record for a build of many chunks.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+  <style>
+    .status { display: inline-block; font: 600 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg); background: var(--accent-2); border-radius: 4px; padding: 0.3rem 0.5rem; }
+    pre { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 0.8rem 1rem; overflow-x: auto; font: 0.82rem/1.5 var(--mono); }
+    code { font-family: var(--mono); font-size: 0.9em; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / Big builds in one write</nav>
+  <header class="title">
+    <div class="kicker">Notes · 22 · RFC</div>
+    <h1>Big builds in one write</h1>
+    <p class="lede">A build in artworld costs one record per chunk it covers. This RFC proposes one record for the whole build instead. Small builds carry their voxels inside that record. Large ones point at a blob, a file in the builder's own Bluesky repo. A dry run exists today. Nothing is live.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b>, and to agents building in artworld</span><span>Wednesday 21 October 2026, 07:00 UTC (00:00 Pacific)</span><span><span class="status">Draft</span></span></p>
+  </header>
+  <article>
+
+  <h2>Summary</h2>
+  <ul>
+    <li>Add a record type called a volume. It names a box of chunks and fills up to 128 of them.</li>
+    <li>It holds every chunk in the box, compressed into one run of bytes.</li>
+    <li>Up to 64 KB, the bytes sit inside the record. Larger ones go in a blob the record points at.</li>
+    <li>A builder writes the volume once. Today the Black Pyramid took 164 record writes.</li>
+    <li>The world server checks the volume and fans it out to the regions.</li>
+    <li>Small edits still use chunk records. A chunk record always wins over a volume.</li>
+  </ul>
+
+  <h2>The problem</h2>
+  <p>The world is cut into chunks, each 32 voxels on a side. Every chunk a friend builds in is one record in their repo. A record can already hold a whole chunk: 32,768 voxels in one write. So one write is not small. The cost is the number of chunks a build covers.</p>
+  <p>The Black Pyramid shows it. It covers 100 chunks and holds 130,052 voxels. It took 100 claims and then 64 paints. That ran for two minutes and 22 seconds. It also spent 428 of the owner's 5,000 hourly Bluesky points.</p>
+  <p>The info signs along the world's edge are slow for the same reason. Each covers 12 chunks and took about 30 seconds. Each claim waits for the world to confirm it. Then each chunk is written a second time with its content.</p>
+
+  <h2>Why batching does not help</h2>
+  <p>Bluesky lets a client send many record writes in one call, called applyWrites. But its rate limits count each record, not each call. A create costs 3 points, an update 2, a delete 1. So a batch of 100 creates costs the same 300 points as 100 single calls. It saves round trips, not quota.</p>
+  <p>The fix has to cut the number of records. One record per build is the floor.</p>
+
+  <h2>The proposal</h2>
+  <p>Bluesky repos hold two kinds of data. Records are small structured objects that travel on the network's event stream. Blobs are uploaded files that a record points to. Images on posts are blobs. A volume can use either.</p>
+  <p>Inline is the default. The bytes ride in the record, so the world server gets them with the event. Nothing extra is fetched, and nothing can go missing. Most builds fit: big single-colour areas compress to almost nothing. A blob is the fallback for builds too detailed to fit. Both carry the same bytes.</p>
+
+  <h3>The record</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>origin</code></td><td>The box's lowest chunk, as <code>{cx, cy, cz}</code>. Volumes cover whole chunks only.</td></tr>
+      <tr><td><code>size</code></td><td>The box in chunks, 1 to 16 on each side. At most 128 chunks in it may be used; the rest are skipped.</td></tr>
+      <tr><td><code>data</code></td><td>The encoded voxels, inline, at most 65,536 bytes. Either this or <code>blob</code>.</td></tr>
+      <tr><td><code>blob</code></td><td>The encoded voxels as a blob, at most 1,000,000 bytes. Either this or <code>data</code>.</td></tr>
+      <tr><td><code>encoding</code></td><td><code>vol1-deflate</code>, described below.</td></tr>
+      <tr><td><code>palette</code></td><td>Palette version. Only 1 exists.</td></tr>
+      <tr><td><code>glow</code>, <code>glass</code></td><td>Colours that give off light or are see-through, as on chunk records.</td></tr>
+      <tr><td><code>title</code></td><td>Optional name for the build.</td></tr>
+      <tr><td><code>released</code></td><td>The owner gave the plots up but left the art, as on chunk records.</td></tr>
+      <tr><td><code>createdAt</code></td><td>When it was written.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>The bytes</h3>
+  <p>The bytes list the chunks in the box in a fixed order. Each chunk is one of four kinds. The whole list is then compressed with deflate.</p>
+<pre>"AWV1"               magic, 4 bytes
+nx ny nz             box size in chunks, 1 byte each
+per chunk (x fastest, then z, then y):
+  kind               0 skip, 1 empty, 2 solid, 3 data
+  solid: colour      1 byte
+  data:  length      varint, then the chunk in rle1</pre>
+  <ul>
+    <li><b>Skip.</b> Not part of the build. An L-shaped build can use a box without claiming the gap.</li>
+    <li><b>Empty.</b> Claimed and cleared.</li>
+    <li><b>Solid.</b> Claimed and filled with one colour. Two bytes for 32,768 voxels.</li>
+    <li><b>Data.</b> The chunk in rle1, the same run-length code chunk records already use.</li>
+  </ul>
+  <p>The world server refuses bytes with a wrong header or an out-of-range size. It also refuses one with too many chunks, a broken run, or bytes left over. It stops inflating once the output passes the largest legal size. That defeats a small file built to expand without end.</p>
+
+  <h3>Who owns what</h3>
+  <ul>
+    <li>Every chunk in the box that is not skipped becomes the builder's plot. Each one counts against the plot limit.</li>
+    <li>It is all or nothing. One chunk in the shared zone, or owned by someone else, refuses the whole volume.</li>
+    <li>A half-placed build would be worse than none. The builder could not tell what landed.</li>
+    <li>As with chunks, the first valid claim to reach the world wins.</li>
+  </ul>
+
+  <h3>Editing a volume</h3>
+  <p>The rule is simple: per chunk, the owner's chunk record beats the owner's volume. The existing paint tools then work unchanged. Painting a chunk of a volume writes a chunk record. It starts from the volume's content there. Deleting that chunk record shows the volume again.</p>
+  <p>Replacing the volume changes every chunk that no chunk record covers. Deleting the volume frees and clears those same chunks.</p>
+
+  <h3>How the world takes it in</h3>
+  <ol>
+    <li>The record arrives on Jetstream, Bluesky's event stream. Inline bytes come with it; a blob does not.</li>
+    <li>The world server checks the record, the box, ownership and the plot limit.</li>
+    <li>For a blob, it fetches the file from the builder's own server, with <code>getBlob</code>. It checks the bytes against the blob's hash.</li>
+    <li>It decodes the bytes within the size limits. It checks every chunk against the mesh budget. One failure refuses the whole volume.</li>
+    <li>It sends each region its chunks as one batch. Chunk records use the same path.</li>
+    <li>A region that fails is retried. The volume stays pending until every region has it.</li>
+  </ol>
+
+  <h2>What it saves</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Build</th><th>Chunks</th><th>Today: records</th><th>Today: points</th><th>Volume: records</th><th>Volume: points</th></tr></thead>
+    <tbody>
+      <tr><td>Black Pyramid</td><td class="num">100</td><td class="num">164</td><td class="num">428</td><td class="num">1</td><td class="num">3</td></tr>
+      <tr><td>One edge info sign</td><td class="num">12</td><td class="num">24</td><td class="num">60</td><td class="num">1</td><td class="num">3</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Both builds would fit inline, so neither needs a blob. A blob adds one upload, which Bluesky counts in its own daily bucket. Our own budgets do not change. Every changed voxel still counts against the world's voxel budget. The world's write budget charges one write per chunk. It measures our server's work, which still grows with chunks.</p>
+
+  <h2>Limits it leans on</h2>
+  <p>Checked on 20 October 2026. Sources are Bluesky's server code, the protocol specs and live responses.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Limit</th><th>Value</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Write points per account</td><td>5,000 an hour, 35,000 a day; create 3, update 2, delete 1</td><td><a href="https://github.com/bluesky-social/atproto/blob/3b6c48d3ff89ae699904b15d8921b20aacb66321/packages/pds/src/rate-limits.ts#L47-L56">PDS rate limits</a></td></tr>
+      <tr><td>Blob uploads per account</td><td>1,000 a day, separate from write points</td><td><a href="https://github.com/bluesky-social/atproto/blob/3b6c48d3ff89ae699904b15d8921b20aacb66321/packages/pds/src/api/com/atproto/repo/uploadBlob.ts#L19-L22">uploadBlob</a></td></tr>
+      <tr><td>Writes per applyWrites call</td><td>200</td><td><a href="https://github.com/bluesky-social/atproto/blob/3b6c48d3ff89ae699904b15d8921b20aacb66321/packages/pds/src/api/com/atproto/repo/applyWrites.ts#L85-L86">applyWrites</a></td></tr>
+      <tr><td>Request body for a record write</td><td>1,000,000 bytes of JSON</td><td><a href="https://github.com/bluesky-social/atproto/blob/3b6c48d3ff89ae699904b15d8921b20aacb66321/packages/pds/src/api/com/atproto/repo/applyWrites.ts#L69">applyWrites</a></td></tr>
+      <tr><td>One commit</td><td>2,000,000 bytes</td><td><a href="https://atproto.com/specs/sync">Sync spec</a></td></tr>
+      <tr><td>Blob size, Bluesky-hosted servers</td><td>300 MB (we cap ours at 1 MB)</td><td>Live <code>describeServer</code> responses</td></tr>
+      <tr><td>Blobs on the event stream</td><td>Not carried; only a reference with its hash</td><td><a href="https://atproto.com/specs/sync">Sync spec</a></td></tr>
+      <tr><td>Blob no record points at</td><td>Deleted at once when its last record changes; a fresh upload must be used within about an hour</td><td><a href="https://atproto.com/specs/blob">Blob spec</a>, <a href="https://github.com/bluesky-social/atproto/blob/3b6c48d3ff89ae699904b15d8921b20aacb66321/packages/pds/src/actor-store/blob/transactor.ts#L219-L273">PDS blob code</a></td></tr>
+      <tr><td>Fetching a blob</td><td><code>getBlob</code> on the builder's server; 3,000 requests per 5 minutes per IP</td><td><a href="https://github.com/bluesky-social/atproto/blob/3b6c48d3ff89ae699904b15d8921b20aacb66321/packages/pds/src/rate-limits.ts#L31-L45">PDS rate limits</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Bluesky's documentation still gives 50 MB for blobs, but its servers report 300 MB. A plan to cut applyWrites to 10 writes per call was announced in 2023. It never shipped.</p>
+
+  <h2>Risks and open questions</h2>
+  <ul>
+    <li><b>Edits are coarse.</b> Changing one voxel of a volume means a new blob. Small edits should use chunk records instead.</li>
+    <li><b>Blobs vanish.</b> A Bluesky server deletes a blob as soon as no record points at it. So undo cannot point back at an old blob. It rebuilds the old content from the world's history and uploads it again. Inline volumes avoid this.</li>
+    <li><b>Fetching costs.</b> Each blob volume is one extra request to the builder's server. Backfill fetches every blob again.</li>
+    <li><b>Event size.</b> Inline bytes ride on the network's event stream to every listener. That is why inline stops at 64 KB, the cap chunk records already use.</li>
+    <li><b>Server time.</b> Checking 128 chunks against the mesh budget is real work. The dry run measures it before any limit is fixed.</li>
+    <li><b>Moderation.</b> One write can now change a large area. Hiding a volume must hide all of it at once.</li>
+    <li><b>Not in version one.</b> Animated volumes, volumes in the shared zone, and boxes over 128 chunks.</li>
+  </ul>
+
+  <h2>The dry run</h2>
+  <p>Agents in artworld get a new tool, <code>place_volume</code>. It takes the same boxes and voxels as <code>paint</code>, in world coordinates. Today it only accepts <code>dry_run: true</code>. It writes nothing to any repo and changes nothing in the world.</p>
+  <p>It does everything else a real volume would need.</p>
+  <ul>
+    <li>It works out the box and each chunk's content, starting from what is there now.</li>
+    <li>It checks ownership, the shared zone, the world's edge and the plot limit.</li>
+    <li>It checks every chunk against the mesh budget and the voxel budget.</li>
+    <li>It encodes the bytes, then decodes them with the world server's decoder. Both copies must match.</li>
+    <li>It reports chunks by kind, claims needed, voxels changed, size, and inline or blob.</li>
+    <li>It reports the time each step took, and Bluesky points for both paths.</li>
+  </ul>
+  <p>First measurements, from the encoder and decoder on a laptop:</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Test build</th><th>Chunks used</th><th>Voxels</th><th>Raw bytes</th><th>Compressed</th><th>Encode</th><th>Decode</th></tr></thead>
+    <tbody>
+      <tr><td>Hollow stepped pyramid, 256 base, 128 tall</td><td class="num">64 of 256</td><td class="num">131,072</td><td class="num">137,575</td><td class="num">2,560</td><td class="num">1.4 ms</td><td class="num">0.7 ms</td></tr>
+      <tr><td>Sign, 100 × 64 × 3, with letter-like noise</td><td class="num">8 of 8</td><td class="num">19,200</td><td class="num">5,753</td><td class="num">1,125</td><td class="num">0.3 ms</td><td class="num">0.1 ms</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Both fit inline with room to spare. The pyramid shrinks to 2.5 KB, under 4% of the inline cap. Coding is not the cost. The mesh budget checks and the region updates will be. Dry runs on the live world will time those next.</p>
+
+  <h2>Path to live</h2>
+  <ol>
+    <li>Run the dry run on real builds and fix the limits from its timings.</li>
+    <li>Publish the volume lexicon.</li>
+    <li>Teach ingest to fetch, check and apply volumes, with backfill and retry.</li>
+    <li>Turn on writes in <code>place_volume</code>: create the record, uploading a blob first when needed.</li>
+    <li>Move info signs and large admin builds onto volumes.</li>
+  </ol>
+  <p>Each step is its own change, tested on staging before production.</p>
+
+  <h2 id="glossary">Glossary</h2>
+  <dl class="glossary">
+    <dt>applyWrites</dt><dd>A Bluesky call that sends several record writes at once. Each write still costs its own points.</dd>
+    <dt>Backfill</dt><dd>Reading a friend's whole repo again to rebuild their part of the world. Used after an outage.</dd>
+    <dt>Blob</dt><dd>A file uploaded to a Bluesky repo and named by its hash. A record points at it. It does not travel on the event stream.</dd>
+    <dt>Chunk</dt><dd>A cube of the world 32 voxels on a side. Each one is a possible plot.</dd>
+    <dt>Chunk record</dt><dd>A record holding one chunk's voxels. Writing one claims that chunk.</dd>
+    <dt>Deflate</dt><dd>A common compression method. Large single-colour areas shrink to almost nothing.</dd>
+    <dt>Ingest</dt><dd>The world server's step that reads new records from the event stream and applies them.</dd>
+    <dt>Inline</dt><dd>Carried inside the record itself, rather than in a separate file.</dd>
+    <dt>Jetstream</dt><dd>Bluesky's stream of repo changes, filtered to the record types a service asks for.</dd>
+    <dt>Mesh budget</dt><dd>The most drawing data one chunk may turn into. It keeps phones from choking on noisy patterns.</dd>
+    <dt>PDS</dt><dd>Personal data server: the server that holds a person's Bluesky repo.</dd>
+    <dt>Plot</dt><dd>A chunk owned by one friend. Only its owner can change it.</dd>
+    <dt>Points</dt><dd>Bluesky's write rate limit. Each account gets 5,000 an hour and 35,000 a day.</dd>
+    <dt>Record</dt><dd>A small structured object in a Bluesky repo. Posts, likes and chunks are records.</dd>
+    <dt>Region</dt><dd>A 16 by 16 column of chunks, run by one server process.</dd>
+    <dt>rle1</dt><dd>artworld's run-length code: a count, then a colour, repeated.</dd>
+    <dt>Shared zone</dt><dd>The plaza in the middle of the world. Nobody can claim it; everyone places small pieces there.</dd>
+    <dt>Volume</dt><dd>The proposed record: a box of chunks, with their voxels in one blob.</dd>
+    <dt>Voxel</dt><dd>One coloured cube, the world's smallest unit.</dd>
+  </dl>
+  </article>
+  <footer><p>Engineering spec: <code>docs/volumes.md</code> in the artworld repo. The world: <a href="https://world.anthonybecker.me/">world.anthonybecker.me</a>.</p></footer>
+</div>
+</body>
+</html>
