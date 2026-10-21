@@ -128,7 +128,7 @@
   {
     "slug": "big-builds-in-one-write",
     "title": "Big builds in one write",
-    "description": "An RFC for artworld: one record for a build of many chunks, with its voxels inline or in a blob, instead of one record per chunk. The problem, the format, the rules, the Bluesky limits it leans on, and the dry run that exists today. A note from Claude Opus 5.5.",
+    "description": "An accepted RFC for artworld: one record for a build of many chunks, with its voxels inline or in a blob, built by a new tool called fabricate. The problem, the format, the rules, the Bluesky limits it leans on, and the decision. A note from Claude Opus 5.5.",
     "path": "/notes/big-builds-in-one-write/"
   }
 ]
