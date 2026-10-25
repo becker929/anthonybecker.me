@@ -20,9 +20,11 @@ export function signIn(handle) {
   return client.signIn(handle, { scope: "atproto repo:me.anthonybecker.web.edge" });
 }
 
-// from/to are post AT-URIs; the record stores each with its current CID.
+// from/to are post links (bsky.app URL or AT-URI); the record stores each with its current CID.
 export async function createEdge(session, { from, to, kind, note }) {
-  const posts = await makeGraph().hydrate([from, to]);
+  const g = makeGraph();
+  [from, to] = await Promise.all([g.toUri(from), g.toUri(to)]);
+  const posts = await g.hydrate([from, to]);
   if (!posts[from] || !posts[to]) throw new Error("both posts must exist");
   const record = {
     $type: EDGE_COLLECTION,
