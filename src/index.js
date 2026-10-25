@@ -387,10 +387,21 @@ async function handleUnarchiveSkill(env, id) {
   return jsonOk(skill);
 }
 
+const WEB_HOST = "web.anthonybecker.me";
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
+
+    // web.anthonybecker.me is its own app, kept in web/. Only "/" is
+    // rewritten (it is the one path run_worker_first sends here); the
+    // apex site's own "/" must not show on this host.
+    if (url.hostname === WEB_HOST && path === "/") {
+      const assetUrl = new URL(request.url);
+      assetUrl.pathname = "/web/";
+      return env.ASSETS.fetch(new Request(assetUrl.toString(), request));
+    }
 
     // Never let the underlying asset directory be reached directly — only
     // the authenticated passthrough below (via env.ASSETS.fetch) may serve it.
