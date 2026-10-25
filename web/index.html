@@ -4,18 +4,75 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>web.anthonybecker.me</title>
-  <meta name="description" content="An AT Protocol app for connected Bluesky posts. Under construction.">
-  <style>
-    body { font: 16px/1.5 system-ui, sans-serif; margin: 0; padding: 0 16px; color: #111; background: #fff; }
-    main { max-width: 36rem; margin: 4rem auto; }
-    @media (prefers-color-scheme: dark) { body { color: #eee; background: #111; } a { color: #8ab4ff; } }
-  </style>
+  <meta name="description" content="An AT Protocol app for connecting Bluesky posts into a graph. Prototype.">
 </head>
 <body>
-  <main>
-    <h1>web</h1>
-    <p>An AT Protocol app for connecting Bluesky posts into a richer graph, explored in 2D and 3D.</p>
-    <p>Under construction. <a href="https://anthonybecker.me/">anthonybecker.me</a></p>
-  </main>
+  <h1>web</h1>
+  <p>Prototype: post graph and typed links between posts. <a href="https://anthonybecker.me/">anthonybecker.me</a></p>
+
+  <h2>Explore</h2>
+  <form id="explore">
+    <input id="post" size="60" placeholder="https://bsky.app/profile/…/post/… or at://…" required>
+    <button>Explore</button>
+  </form>
+  <pre id="out"></pre>
+
+  <h2>Link two posts</h2>
+  <p id="who">Not signed in.</p>
+  <form id="login">
+    <input id="handle" placeholder="handle.bsky.social" required>
+    <button>Sign in with Bluesky</button>
+  </form>
+  <form id="link" hidden>
+    <input id="from" size="60" placeholder="from post (at:// URI)" required><br>
+    <input id="to" size="60" placeholder="to post (at:// URI)" required><br>
+    <input id="kind" placeholder="kind (supports, refutes, continues…)" required>
+    <input id="note" placeholder="note (optional)">
+    <button>Create link</button>
+  </form>
+  <pre id="log"></pre>
+
+  <script type="module">
+    import { makeGraph } from "/web/graph.js";
+    const $ = (id) => document.getElementById(id);
+    const g = makeGraph();
+    const log = (x) => { $("log").textContent = typeof x === "string" ? x : JSON.stringify(x, null, 2); };
+
+    $("explore").onsubmit = async (e) => {
+      e.preventDefault();
+      $("out").textContent = "Loading…";
+      try {
+        const r = await g.explore($("post").value);
+        const name = Object.fromEntries(r.nodes.map((n) => [n.uri, n]));
+        const label = (u) => (name[u] ? `@${name[u].author}: ${name[u].text.slice(0, 60).replace(/\s+/g, " ")}` : u);
+        $("out").textContent = `${r.nodes.length} posts, ${r.edges.length} links\n` +
+          r.edges.map((x) => `${x.kind}${x.by ? " (custom)" : ""}: ${label(x.from)}  ->  ${label(x.to)}`).join("\n");
+        $("from").value = r.root;
+      } catch (err) { $("out").textContent = String(err.message || err); }
+    };
+
+    // Sign-in is loaded on demand so reading works even if the OAuth
+    // library fails to load.
+    let auth, session;
+    async function boot() {
+      try {
+        auth = await import("/web/auth.js");
+        session = await auth.restore();
+        if (session) { $("who").textContent = `Signed in as ${session.did}`; $("link").hidden = false; }
+      } catch (err) { log(`Sign-in unavailable: ${err.message || err}`); }
+    }
+    boot();
+
+    $("login").onsubmit = async (e) => {
+      e.preventDefault();
+      try { await auth.signIn($("handle").value.trim()); } catch (err) { log(String(err.message || err)); }
+    };
+    $("link").onsubmit = async (e) => {
+      e.preventDefault();
+      try {
+        log(await auth.createEdge(session, { from: $("from").value.trim(), to: $("to").value.trim(), kind: $("kind").value.trim(), note: $("note").value.trim() }));
+      } catch (err) { log(String(err.message || err)); }
+    };
+  </script>
 </body>
 </html>

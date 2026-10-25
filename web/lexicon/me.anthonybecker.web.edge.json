@@ -1,0 +1,22 @@
+{
+  "lexicon": 1,
+  "id": "me.anthonybecker.web.edge",
+  "description": "A typed link between two posts, written by whoever sees the connection. Neither post has to be the author's own.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["from", "to", "kind", "createdAt"],
+        "properties": {
+          "from": { "type": "ref", "ref": "com.atproto.repo.strongRef" },
+          "to": { "type": "ref", "ref": "com.atproto.repo.strongRef" },
+          "kind": { "type": "string", "maxLength": 64, "maxGraphemes": 32, "description": "Free-form label, e.g. supports, refutes, continues." },
+          "note": { "type": "string", "maxLength": 3000, "maxGraphemes": 300 },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

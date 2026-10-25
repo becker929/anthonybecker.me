@@ -1,0 +1,12 @@
+{
+  "client_id": "https://web.anthonybecker.me/web/client-metadata.json",
+  "client_name": "web.anthonybecker.me",
+  "client_uri": "https://web.anthonybecker.me/",
+  "redirect_uris": ["https://web.anthonybecker.me/"],
+  "scope": "atproto repo:me.anthonybecker.web.edge",
+  "grant_types": ["authorization_code", "refresh_token"],
+  "response_types": ["code"],
+  "token_endpoint_auth_method": "none",
+  "application_type": "web",
+  "dpop_bound_access_tokens": true
+}
