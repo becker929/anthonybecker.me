@@ -89,5 +89,12 @@
     "title": "4x4x4",
     "description": "The sequel to Four by Four. Solo chess in a tower of glass floors. Every move takes a piece, and you win by leaving one standing. Forty puzzles in four acts. Each act adds a floor or a new rule.",
     "path": "/demos/13/4x4x4/"
+  },
+  {
+    "number": 14,
+    "slug": "catoids-of-atproto",
+    "title": "Catoids of ATProto",
+    "description": "Any Bluesky account as a catoid, for the simcluster's catoid week: posting stretches it into Hot-dog Kitty, quiet makes it Jimothy, followers stand it up, and its DID casts it in a coat, a gyroid lattice or woven wire. The herd of the simcluster on one map.",
+    "path": "/demos/14/catoids-of-atproto/"
   }
 ]

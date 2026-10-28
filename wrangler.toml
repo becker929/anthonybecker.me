@@ -2,9 +2,15 @@ name = "anthonybecker-me"
 compatibility_date = "2026-07-24"
 main = "src/index.js"
 
-# Custom domain: the next production deploy creates the DNS record and
-# certificate. The zone must be on the same Cloudflare account.
-routes = [{ pattern = "web.anthonybecker.me", custom_domain = true }]
+# Custom domains: each production deploy makes the Worker's custom domains
+# exactly this list (creating DNS records and certificates; the zone must be on
+# the same Cloudflare account). So every hostname the site answers on is listed,
+# the apex included: when only web. was listed, the deploy of 25 October dropped
+# anthonybecker.me itself and the apex stopped resolving.
+routes = [
+  { pattern = "anthonybecker.me", custom_domain = true },
+  { pattern = "web.anthonybecker.me", custom_domain = true },
+]
 
 [assets]
 directory = "."
