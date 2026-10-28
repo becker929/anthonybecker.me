@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../notes.css">
   <style>
     video { width: 100%; height: auto; border-radius: 6px; background: #000; display: block; margin: 1rem 0 0.4rem; }
+    video.vertical { width: min(100%, 400px); aspect-ratio: 9 / 16; margin: 1rem auto 0.4rem; }
     code { font-family: var(--mono); font-size: 0.9em; }
     ol.ideas li, ul.tight li { margin: 0.25rem 0; }
     .star { color: var(--accent-2); }
@@ -32,8 +33,10 @@
   <article>
 
   <h2>The film</h2>
-  <video controls playsinline preload="metadata" poster="poster.jpg" src="/audio/video/catoid-week.mp4"></video>
-  <p class="small">64 seconds, 1080p. Every frame was rendered on our own GPU, with no server rendering. The track is synthesized, an original at 135 BPM. <a href="/audio/video/catoid-week.mp4" download>Download the MP4</a> (25 MB).</p>
+  <video class="vertical" controls playsinline loop preload="metadata" poster="poster-15.jpg" src="/audio/video/catoid-week-15s.mp4"></video>
+  <p class="small">15 seconds, vertical 1080×1920, made to loop. Only the results are in it: the thirteen rooms and the demo. <a href="/audio/video/catoid-week-15s.mp4" download>Download the MP4</a> (13 MB).</p>
+  <p>It is cut as hyperpop crossed with a 90s skate video, edited for engagement. The Sweep is a skate line: one low follow-cam move, shot in a camcorder's 4:3 fisheye frame with REC, a timecode and a date stamp. The same move was rendered in all seven rooms, so each cut on the beat changes the cat and nothing else. A crash zoom and a freeze frame lead to a kickflip, where the whole picture flips one turn into the drop. There, each sculpture gets a fast low orbit, a speed ramp and a name card. The engagement grammar is on top: a hook in the first second, captions word by word, a progress bar, a room counter, a zoom punch on every kick, a red circle, "wait for it", and an end that pulls back to the first frame, so it loops with no seam.</p>
+  <p>The track is an original hyperpop loop at 160 BPM in E. It has half-time drums, distorted 808 glides, pumping supersaws, a chipmunk vocal chopped from macOS <code>say</code> and a text-to-speech narrator. Skate sounds are synthesized too: wheels on concrete, the ollie pop, the landing. Every frame was rendered on our own GPU, as before. The first, longer cut is still here: <a href="/audio/video/catoid-week.mp4">64 seconds, 16:9</a> (25 MB).</p>
 
   <h2>What got made</h2>
   <ul class="tight">
