@@ -21,7 +21,7 @@
     <div class="kicker">Notes · 24 · Plan</div>
     <h1>Beauty in the world, not the tokens</h1>
     <p class="lede">Room World can draw more than the room bot designs. Today the model writes every room from scratch. Its light, colour and noise are new each time, and often weak. This plan moves that beauty into fixed parts the model picks from. It comes in eleven small chunks, and Anthony judges each one.</p>
-    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b></span><span>Tuesday 3 November 2026, 02:50 UTC (Monday 18:50 Pacific)</span><span><span class="status">Proposed</span></span></p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b></span><span>Tuesday 3 November 2026, 02:50 UTC (Monday 18:50 Pacific)</span><span>Updated Tuesday 3 November 2026, 07:00 UTC</span><span><span class="status">Phase one shipped</span></span></p>
   </header>
   <article>
 
@@ -35,14 +35,60 @@
     <li>Total: about 60 agent-hours, two agents at most, and about $50 of test rooms.</li>
   </ul>
 
-  <h2>Update, 3 November</h2>
-  <p>Anthony approved chunks 1 and 4 and added a third track. Chunk 1 is live: up to three builds run at once. Chunk 4 is in its first round. Along the way the bot learned to restore an earlier version of a room exactly.</p>
-  <p>The music had a bug too. A room heard its neighbours' loops over its own. Now a neighbour's music fades in only at its doorway. A room asked to be silent gets no music. Asking for different music changes the music, not the look.</p>
+  <h2>Where it stands, 3 November</h2>
+  <p>The plan's first day is done. Every speed chunk is live. Anthony's four favourite rooms are rebuilt, and live. Two look chunks are built. Each one split its round, so neither is on yet.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>#</th><th>Chunk</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Parallel builds</td><td>Live. Up to three rooms build at once.</td></tr>
+      <tr><td class="num">2</td><td>Phone cost check</td><td>Live. A room phones would blur goes back once to be made cheaper.</td></tr>
+      <tr><td class="num">3</td><td>Smooth edges in videos</td><td>Live. Four samples a pixel in every capture.</td></tr>
+      <tr><td class="num">4</td><td>Favourites as examples</td><td>Live, with the rebuilt favourites.</td></tr>
+      <tr><td class="num">5</td><td>Shader library</td><td>Built, off. Round 4 split one each.</td></tr>
+      <tr><td class="num">6</td><td>Small touches</td><td>Built into the library.</td></tr>
+      <tr><td class="num">7&ndash;11</td><td>Light, materials, finishing, composition, critique</td><td>Not started.</td></tr>
+      <tr><td></td><td>Examples track</td><td>Version 1 of all four favourites, live. Anthony: "gorgeous".</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Also shipped</h3>
+  <ul>
+    <li><b>Link previews.</b> A room's link now shows its photo. The front page shows the newest one.</li>
+    <li><b>Music.</b> Rooms no longer play their neighbours' loops on top of their own. A silent room stays silent. Asking for new music changes the music. The booth has 51 instruments, not 11.</li>
+    <li><b>Revert.</b> The bot can put back any earlier version of a room exactly.</li>
+    <li><b>Memory of its own work.</b> The bot knows its music and its posts are its own.</li>
+    <li><b>Two room-breaking bugs.</b> Some code blanks rooms in browsers. Room World now refuses it: gl names, and equal smoothstep edges.</li>
+    <li><b>Two rooms that crashed phone GPUs.</b> Bird Bicycles and Ember Ring now draw about twice as cheaply. They look the same.</li>
+    <li><b>A design skill.</b> Agents can load Anthony's taste as dated evidence, with tested code.</li>
+  </ul>
+
+  <h3>What the rounds taught</h3>
+  <ul>
+    <li>Anthony picks fine detail where the eye goes. He picks glow against a dark ground, deep haze and a detailed floor.</li>
+    <li>Flat and matte loses, even with a good centrepiece.</li>
+    <li>The hand-made favourites drew the strongest verdict: "gorgeous". Generated rooms split.</li>
+    <li>One design per arm is too noisy. A design's own luck outweighs the change being tested. Next rounds show two designs each.</li>
+    <li>Phones and the Mac disagree. A room cheap here can crawl on a phone. The fit is rough, within about two times.</li>
+  </ul>
+
+  <h3>What it cost</h3>
+  <p>About a day of agent time: the main session and nine helper agents. Test rooms cost about $7. Anthony judged four rounds and the favourites.</p>
+
+  <h3>Next</h3>
+  <ul>
+    <li>Rerun the library with two designs per brief. First fix its finish, which may lift the darks.</li>
+    <li>Chunk 7: light moods, drawn from the favourites' new lighting.</li>
+    <li>Chunk 8: materials, drawn from the lessons file.</li>
+    <li>Chunk 9: finishing inside Room World itself.</li>
+    <li>Cheaper code for rooms phones struggle with. The new check rates Engine Heart heavy.</li>
+  </ul>
 
   <h2>The examples track</h2>
-  <p>This track runs beside the other two. It makes the ultimate version of each of Anthony's four favourite rooms. They are Engine Heart, the Castle, the Photosphere and the Antimemetics Lab.</p>
-  <p>The work is by hand, in small rounds Anthony judges. Each finished room replaces its plain version as a design example. Each trick that lifts a room is written down. The best become parts for the designer: library code, light moods, materials, finishing.</p>
-  <p>So the two tracks feed each other. Better parts make better examples. Better examples show which parts matter.</p>
+  <p>This track ran beside the other two. It made a better version of each of Anthony's four favourite rooms, by hand. They are Engine Heart, the Castle, the Photosphere and the Antimemetics Lab.</p>
+  <p>Each version kept its room's idea. It added fine detail, glow against dark, haze and small motion. Each costs at most about a sixth more to draw. All four are live, and the designer now learns from them.</p>
+  <p>Each trick is written down. The best will become parts: library code, light moods, materials, finishing.</p>
 
   <h2>Why change anything</h2>
   <p>Three things stand out from the bot's builds on 2 November.</p>
