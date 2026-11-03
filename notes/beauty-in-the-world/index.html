@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beauty in the world, not the tokens</title>
+  <meta name="description" content="A plan for better rooms from the Room World room bot: move beauty out of the code the model writes and into fixed parts it composes against. Eleven small chunks, each judged by Anthony, with the cost in time, agents and spend. A note from Claude Opus 5.5.">
+  <meta property="og:title" content="Beauty in the world, not the tokens">
+  <meta property="og:description" content="A plan in eleven small chunks for better rooms from the Room World room bot.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+  <style>
+    .status { display: inline-block; font: 600 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg); background: var(--accent-2); border-radius: 4px; padding: 0.3rem 0.5rem; }
+    code { font-family: var(--mono); font-size: 0.9em; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / Beauty in the world, not the tokens</nav>
+  <header class="title">
+    <div class="kicker">Notes · 24 · Plan</div>
+    <h1>Beauty in the world, not the tokens</h1>
+    <p class="lede">Room World can draw more than the room bot designs. Today the model writes every room from scratch. Its light, colour and noise are new each time, and often weak. This plan moves that beauty into fixed parts the model picks from. It comes in eleven small chunks, and Anthony judges each one.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b></span><span>Tuesday 3 November 2026, 02:50 UTC (Monday 18:50 Pacific)</span><span><span class="status">Proposed</span></span></p>
+  </header>
+  <article>
+
+  <h2>Summary</h2>
+  <ul>
+    <li>Build parts once and well: light, colour, materials, noise and finishing.</li>
+    <li>The model spends its words on choices, not on boilerplate.</li>
+    <li>Two tracks run side by side. One makes the bot faster. One makes rooms better.</li>
+    <li>Every look change is a small round: four rooms, then your verdict.</li>
+    <li>A change stays only if you prefer it.</li>
+    <li>Total: about 60 agent-hours, two agents at most, and about $50 of test rooms.</li>
+  </ul>
+
+  <h2>Why change anything</h2>
+  <p>Three things stand out from the bot's builds on 2 November.</p>
+  <p>First, the examples set the ceiling. The designer copies the rooms its prompt shows it. Today those are two templates and two system rooms. One of them costs three times Room World's target to draw.</p>
+  <p>Second, phones pay for clumsy code. Five of the fourteen bot rooms with phone reports draw below full resolution there. Bird Bicycles drops to 35%, at half the frame rate. Yet three of your four favourites draw at or near full resolution. Beauty does not need heavy code.</p>
+  <p>Third, the bot is slow for the wrong reason. A build takes six to nine minutes, nearly all of it waiting on the model. Drawing and checking take about 20 seconds. Builds run one at a time, so a busy hour queues up.</p>
+
+  <h2>Principles</h2>
+  <ul>
+    <li><b>Your taste is the target.</b> A model judge ranked the orrery rooms in reverse of you. So you judge every look change.</li>
+    <li><b>Small rounds.</b> Two briefs, old against new, four rooms. You pick, and say why.</li>
+    <li><b>Nobody else's room changes.</b> Room World is shared. New parts are opt-in. Bot rooms opt in by default.</li>
+    <li><b>Phones are the screen.</b> Every part is costed on a phone before it ships.</li>
+    <li><b>Foundations before cleverness.</b> The critique loop and the scene language come last. They build on the parts.</li>
+  </ul>
+
+  <h2>One change to your list</h2>
+  <p>You asked for finishing that is always on. It should be on for every bot room, and opt-in for everyone else. Most rooms already finish their own colour. A second pass over them would wash them out.</p>
+  <p>One more catch. Rooms hand over finished colour, clipped to the screen's range. Real tonemapping and bloom need the light before that clip. So chunk 9 changes how rooms hand over their pixels.</p>
+
+  <h2>The speed track</h2>
+  <p>No taste call is needed here. Each chunk ships when its tests pass. You notice shorter waits.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>#</th><th>Chunk</th><th>You judge</th><th>Agent time</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Up to three builds at once. The reply posts without holding up the next build.</td><td>Nothing</td><td class="num">3 h</td></tr>
+      <tr><td class="num">2</td><td>A cost check calibrated to phones, not to the Mac's video render.</td><td>Nothing</td><td class="num">3 h</td></tr>
+      <tr><td class="num">3</td><td>Smooth edges in videos: four samples per pixel, averaged.</td><td>One before and after pair</td><td class="num">2 h</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>The look track</h2>
+  <p>Each chunk ends in a round. You see four rooms and pick. Your notes shape the next chunk.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>#</th><th>Chunk</th><th>You judge</th><th>Agent time</th></tr></thead>
+    <tbody>
+      <tr><td class="num">4</td><td>Your four favourites become the examples: Engine Heart, Castle of Fourteen Spires, Standing on the Photosphere, Antimemetics Lab.</td><td>A round</td><td class="num">1 h</td></tr>
+      <tr><td class="num">5</td><td>A shader library rooms include, not write: shapes, noise, shadows, occlusion, repetition.</td><td>A round</td><td class="num">6 h</td></tr>
+      <tr><td class="num">6</td><td>Small touches with big returns: surface wobble, hue jitter, wind sway, shimmer, flicker.</td><td>A round</td><td class="num">2 h</td></tr>
+      <tr><td class="num">7</td><td>Named light moods and colour as twelve numbers.</td><td>A round</td><td class="num">4 h</td></tr>
+      <tr><td class="num">8</td><td>About twenty named materials, from wet stone to frosted glass.</td><td>A round</td><td class="num">4 h</td></tr>
+      <tr><td class="num">9</td><td>Finishing after the room draws: tonemapping, bloom, fog, vignette, grain, colour fringe.</td><td>A round, on your phone</td><td class="num">12 h</td></tr>
+      <tr><td class="num">10</td><td>Composition: fewer things, one focal point, three depth layers, framed by the camera.</td><td>A round</td><td class="num">2 h</td></tr>
+      <tr><td class="num">11</td><td>The critique loop, tried again on the new base. Then a scene language, only if 5 to 9 hold up.</td><td>Two or three rounds</td><td class="num">23 h</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Chunk 4 goes first. It costs an hour and uses your own picks. It also shows quickly whether examples move the needle.</p>
+  <p>The critique loop lost to the plain designer once already. It may win once the parts are good. If it loses again, it goes.</p>
+
+  <h2>What it costs</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Item</th><th>Estimate</th></tr></thead>
+    <tbody>
+      <tr><td>Agent time</td><td>About 60 hours: 8 for speed, 54 for look</td></tr>
+      <tr><td>Agents</td><td>Two at most, one per track. A reviewer agent checks chunks 5, 9 and 11.</td></tr>
+      <tr><td>Test rooms</td><td>About ten rounds of four rooms, near $1.20 each: about $50</td></tr>
+      <tr><td>Your time</td><td>About ten minutes a round, under two hours in all</td></tr>
+      <tr><td>Calendar</td><td>About two weeks at one round a day. Faster if you answer faster.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>The hours are guesses from similar work in this repo. Chunks 9 and 11 are the least certain. They change how Room World draws, and could take twice as long.</p>
+
+  <h2>What I need from you</h2>
+  <ul>
+    <li>A yes to start chunks 1 and 4 together.</li>
+    <li>Ten minutes for each round, on your phone.</li>
+    <li>Your words on what you liked, not just a pick. Those notes steer the next chunk.</li>
+  </ul>
+
+  <h2 id="glossary">Glossary</h2>
+  <dl class="glossary">
+    <dt>Agent-hour</dt><dd>An hour of one AI agent working. Rounds where it waits on you are not counted.</dd>
+    <dt>Bloom</dt><dd>A soft glow that spills around bright light.</dd>
+    <dt>Brief</dt><dd>The bot's description of the room someone asked for. The designer works from it.</dd>
+    <dt>Critique loop</dt><dd>The model looks at pictures of its own room, then fixes one thing.</dd>
+    <dt>Designer</dt><dd>The part of the bot that turns a brief into a room's code.</dd>
+    <dt>Finishing</dt><dd>Steps that run over the whole picture after the room is drawn.</dd>
+    <dt>Occlusion</dt><dd>Darkening in creases and corners, where less light reaches.</dd>
+    <dt>Round</dt><dd>Two briefs drawn the old and the new way, shown side by side.</dd>
+    <dt>Scene language</dt><dd>A short description of a room that the bot expands into code.</dd>
+    <dt>Shader</dt><dd>The code that draws a room, run for every pixel.</dd>
+    <dt>Tonemapping</dt><dd>Turning bright light into screen colour without losing contrast.</dd>
+    <dt>Vignette</dt><dd>Gentle darkening at the edges of the picture.</dd>
+  </dl>
+  </article>
+  <footer><p>The world: <a href="https://world2.anthonybecker.me/">world2.anthonybecker.me</a>. The bot: <a href="https://bsky.app/profile/rooms.anthonybecker.me">@rooms.anthonybecker.me</a>.</p></footer>
+</div>
+</body>
+</html>
