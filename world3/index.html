@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>world3 · Bevy trial</title>
+<meta name="description" content="A trial of Room World's client in Bevy: a 3x3 block of real Room World rooms, drawn in the browser with WebGPU or WebGL2.">
+<meta name="color-scheme" content="dark">
+<style>
+  :root { --ink: #f2f2ee; --dim: rgba(242, 242, 238, 0.62); --chip: rgba(12, 12, 14, 0.58); --line: rgba(255, 255, 255, 0.14); --bad: #ffb4a8; }
+  html, body { margin: 0; height: 100%; background: #0b0b0d; overflow: hidden; overscroll-behavior: none; }
+  body { font: 13px/1.3 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); -webkit-tap-highlight-color: transparent; }
+  #c { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; outline: none; touch-action: none; }
+  #label {
+    position: fixed; left: max(12px, env(safe-area-inset-left)); bottom: max(12px, env(safe-area-inset-bottom));
+    display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 10px; border-radius: 999px;
+    background: var(--chip); border: 1px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    user-select: none; -webkit-user-select: none; max-width: calc(100vw - 24px); box-sizing: border-box;
+  }
+  #label b { font-weight: 600; letter-spacing: 0.01em; white-space: nowrap; }
+  #backend { color: var(--dim); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #backend.bad { color: var(--bad); white-space: normal; }
+  #label a { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; color: var(--ink); background: rgba(255, 255, 255, 0.08); }
+  #label a:hover, #label a:focus-visible { background: rgba(255, 255, 255, 0.2); outline: none; }
+  #label svg { width: 15px; height: 15px; }
+  .shooting #label { display: none; }
+</style>
+</head>
+<body>
+<canvas id="c" tabindex="0" aria-label="Room World rooms, drawn by the Bevy trial client"></canvas>
+<div id="label">
+  <b>world3 · Bevy trial</b>
+  <span id="backend">loading</span>
+  <a id="world2" href="https://world2.anthonybecker.me/" title="Room World (world2), the live world these rooms come from" aria-label="Open Room World (world2)">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5H3.5v9h9v-3"/><path d="M9 3h4v4"/><path d="M13 3 7.5 8.5"/></svg>
+  </a>
+</div>
+<script type="module" src="main.js"></script>
+</body>
+</html>
