@@ -21,7 +21,7 @@
     <div class="kicker">Notes · 24 · Plan</div>
     <h1>Beauty in the world, not the tokens</h1>
     <p class="lede">Room World can draw more than the room bot designs. Today the model writes every room from scratch. Its light, colour and noise are new each time, and often weak. This plan moves that beauty into fixed parts the model picks from. It comes in eleven small chunks, and Anthony judges each one.</p>
-    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b></span><span>Tuesday 3 November 2026, 02:50 UTC (Monday 18:50 Pacific)</span><span>Updated Tuesday 3 November 2026, 07:00 UTC</span><span><span class="status">Phase one shipped</span></span></p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b></span><span>Tuesday 3 November 2026, 02:50 UTC (Monday 18:50 Pacific)</span><span>Updated Wednesday 4 November 2026, 02:15 UTC (Tuesday 18:15 Pacific)</span><span><span class="status">All chunks built</span></span></p>
   </header>
   <article>
 
@@ -34,6 +34,43 @@
     <li>A change stays only if you prefer it.</li>
     <li>Total: about 60 agent-hours, two agents at most, and about $50 of test rooms.</li>
   </ul>
+
+  <h2>Where it stands, 3 November, evening</h2>
+    <p>All eleven chunks are now built. Six are live in production. The other five each got a blind round. Each round had two briefs, and two designs for each side. Anthony judged every room.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>#</th><th>Chunk</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1&ndash;3</td><td>Speed</td><td>Live.</td></tr>
+        <tr><td class="num">4</td><td>Favourites as examples</td><td>Live.</td></tr>
+        <tr><td class="num">5&ndash;6</td><td>Room library</td><td>Live.</td></tr>
+        <tr><td class="num">7</td><td>Light moods</td><td>Off. Round 6 split by brief. Won the fog cathedral, lost the aurora.</td></tr>
+        <tr><td class="num">8</td><td>Twenty named materials</td><td>Off. Round 8 lost. The library alone had the best room both times.</td></tr>
+        <tr><td class="num">9</td><td>Room World's finish: tonemap, bloom, grain</td><td>Off for the bot. Second both times in round 10. Any room can opt in with <code>set_finish</code>.</td></tr>
+        <tr><td class="num">10</td><td>Composition</td><td>Off. Round 11 split. It had the worst room both times.</td></tr>
+        <tr><td class="num">11</td><td>Critique loop</td><td>Off. Round 9 split. Round 7 was wasted. A cost check under GPU load refused every revision.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>All five stay behind switches, turned off. None beat the library alone. So the scene language is not started. The plan saved it for when chunks 5 to 9 held up.</p>
+
+    <h3>What the rounds show</h3>
+    <ul>
+      <li>Each brief showed only four rooms. At that size, a design's own luck is as big as most effects.</li>
+      <li>One thing shows clearly: the ceiling. The favourites and the library set it.</li>
+    </ul>
+
+    <h3>Also shipped today</h3>
+    <ul>
+      <li><b>Engine Heart.</b> It draws the same picture for about a third of the GPU work. A first version took 65 seconds to compile in software WebGL2. It was rolled back, then fixed.</li>
+      <li><b>The bot sees more.</b> It reads images, video, links and quoted posts. It can also search Bluesky.</li>
+      <li><b>Pictures in rooms.</b> A room can show up to four pictures.</li>
+      <li><b>Shared audio.</b> Audio people share can go into a room's music. It becomes real samples in Ableton. All three ways of playing them were checked in Live.</li>
+      <li><b>Steadier builds.</b> A cut-off stream now retries. Designs may write 128K tokens.</li>
+    </ul>
+
+    <h3>What it cost</h3>
+    <p>Test rooms for rounds 3 to 11 cost about $60. The plan estimated about $50.</p>
 
   <h2>Where it stands, 3 November</h2>
   <p>The plan's first day is done. Every speed chunk is live. Anthony's four favourite rooms are rebuilt, and live. Two look chunks are built. Each one split its round, so neither is on yet.</p>
@@ -167,6 +204,7 @@
   <h2 id="glossary">Glossary</h2>
   <dl class="glossary">
     <dt>Agent-hour</dt><dd>An hour of one AI agent working. Rounds where it waits on you are not counted.</dd>
+    <dt>Blind</dt><dd>Anthony picks before he knows which room is which.</dd>
     <dt>Bloom</dt><dd>A soft glow that spills around bright light.</dd>
     <dt>Brief</dt><dd>The bot's description of the room someone asked for. The designer works from it.</dd>
     <dt>Critique loop</dt><dd>The model looks at pictures of its own room, then fixes one thing.</dd>
@@ -176,7 +214,9 @@
     <dt>Round</dt><dd>Two briefs drawn the old and the new way, shown side by side.</dd>
     <dt>Scene language</dt><dd>A short description of a room that the bot expands into code.</dd>
     <dt>Shader</dt><dd>The code that draws a room, run for every pixel.</dd>
+    <dt>Software WebGL2</dt><dd>Browser 3D drawing done on the processor, as in the test browser.</dd>
     <dt>Tonemapping</dt><dd>Turning bright light into screen colour without losing contrast.</dd>
+    <dt>Token</dt><dd>A piece of a word. Models read and write in tokens.</dd>
     <dt>Vignette</dt><dd>Gentle darkening at the edges of the picture.</dd>
   </dl>
   </article>
