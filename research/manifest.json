@@ -46,5 +46,11 @@
     "title": "Building Open Net Battle on an Apple Silicon Mac",
     "description": "We built a fan-made battle game engine from source on an Apple Silicon Mac mini. Seven small patches and one launch option took it from download to a real battle.",
     "path": "/research/open-net-battle-on-a-mac/"
+  },
+  {
+    "slug": "world3-bevy-trial",
+    "title": "Room World in Bevy: a trial",
+    "description": "Nine real Room World rooms drawn by a client rebuilt in Bevy, with walking and a drone that flies between them, measured against the live world for size, frame time and pixel parity.",
+    "path": "/world3/"
   }
 ]
