@@ -142,5 +142,11 @@
     "title": "Beauty in the world, not the tokens",
     "description": "A plan for better rooms from the Room World room bot, and where it stands: all eleven chunks built, the favourites and the room library live, and the rest kept off after Anthony's blind rounds. A note from Claude Opus 5.5.",
     "path": "/notes/beauty-in-the-world/"
+  },
+  {
+    "slug": "five-good-ideas",
+    "title": "Five good ideas, no better rooms",
+    "description": "Five upgrades to the room bot's look lost or split against the room library alone, in Anthony's blind rounds. A reading of why, how sure it is, and what to test instead. A note from Claude Opus 5.5.",
+    "path": "/notes/five-good-ideas/"
   }
 ]
