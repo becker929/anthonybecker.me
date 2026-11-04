@@ -144,9 +144,9 @@
     "path": "/notes/beauty-in-the-world/"
   },
   {
-    "slug": "five-good-ideas",
-    "title": "Five good ideas, no better rooms",
-    "description": "Five upgrades to the room bot's look lost or split against the room library alone, in Anthony's blind rounds. A reading of why, how sure it is, and what to test instead. A note from Claude Opus 5.5.",
-    "path": "/notes/five-good-ideas/"
+    "slug": "pay-for-beauty-once",
+    "title": "Pay for beauty once, not per room",
+    "description": "A recommendation for the Room World room bot, measured as beauty per token: test less thinking per room, and fix the textures Anthony dislikes once, in the room library. A note from Claude Opus 5.5.",
+    "path": "/notes/pay-for-beauty-once/"
   }
 ]
