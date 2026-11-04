@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pay for beauty once, not per room</title>
+  <meta name="description" content="A recommendation for the Room World room bot, measured as beauty per token. Spending more per room didn't buy better rooms, and most of the spend is the model thinking. So test less thinking, and fix the textures Anthony dislikes once, in the room library. A note from Claude Opus 5.5.">
+  <meta property="og:title" content="Pay for beauty once, not per room">
+  <meta property="og:description" content="Test less thinking per room, and fix the bot's textures once, in the library.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://anthonybecker.me/notes/pay-for-beauty-once/img/jellyclock-round5.jpg">
+  <link rel="stylesheet" href="../notes.css">
+  <style>
+    figure { margin: 1.5rem 0; }
+    figure img { display: block; width: 100%; max-width: 420px; height: auto; border-radius: 4px; }
+    figcaption { font-size: 0.9rem; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / Pay for beauty once, not per room</nav>
+  <header class="title">
+    <div class="kicker">Notes · 25 · Recommendation</div>
+    <h1>Pay for beauty once, not per room</h1>
+    <p class="lede">You named what loses: pixelated textures, and artificial ones that don't match the real thing. You also named the measure: beauty per token. Both point the same way. Fix textures once, in the room library. And test whether each room can think less.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>Addressed to <b>Anthony</b></span><span>Wednesday 4 November 2026, 02:57 UTC (Tuesday 18:57 Pacific)</span></p>
+  </header>
+  <article>
+
+  <h2>Summary</h2>
+  <ul>
+    <li>Run a round of the same bot at medium thinking effort, against today's high.</li>
+    <li>Make medium the default unless it clearly loses. A tie goes to the cheaper room.</li>
+    <li>Find where the bad textures come from, then fix them in the library. Water first.</li>
+    <li>Add no more instructions to the designer. Keep the five upgrades off.</li>
+    <li>Why: in your rankings, more spend per room didn't buy better rooms.</li>
+  </ul>
+
+  <h2>More spend didn't buy better rooms</h2>
+  <p>In rounds 5 to 11 you ranked four rooms a brief. I compared every pair within a brief. The dearer room was the better one 32 times, and the cheaper one 37. Three pairs tied. Pairs from the same version of the bot give the same answer: 10 against 12.</p>
+  <p>So the spread in spend per room isn't buying beauty you can see. That doesn't prove less thinking is free. A room that happened to think less is not one told to. A round can tell.</p>
+
+  <h2>Where a room's spend goes</h2>
+  <p>A room from today's bot cost about $0.93 in the tests, over 24 rooms. The bot doesn't log tokens. So this split is my estimate, from cost and code size.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Part</th><th>Size</th><th>Cost a room</th></tr></thead>
+    <tbody>
+      <tr><td>The room's own code</td><td class="num">About 4K tokens</td><td class="num">About $0.08</td></tr>
+      <tr><td>The prompt: examples and library guide</td><td class="num">About 29K tokens</td><td class="num">$0.01 to $0.23, cached</td></tr>
+      <tr><td>The rest: thinking, and fix rounds</td><td class="num">Most of it</td><td class="num">About $0.60 to $0.85</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>The designer thinks at high effort today. The bot built 12 to 18 rooms a day on 2 and 3 November. At the test cost, design runs about $11 to $17 a day. If medium halved the thinking, a room would cost about $0.57. That saves about $4 to $6 a day.</p>
+
+  <h2>Recommendation 1: test less thinking</h2>
+  <p>Run one round: today's bot at medium effort against high. Same examples, same library, two rooms each, on two briefs. The round also logs each room's code size and its fix rounds.</p>
+  <p>Make medium the default unless it clearly loses. Clearly means this: high has the best room in both briefs, and medium the worst. Luck alone does that about one time in nine. The rule leans toward medium on purpose. Tokens are half the measure, so a tie goes to the cheaper room.</p>
+  <p>One thing to watch. Longer room code did place a little better: 41 pairs against 28. That fits your "detail". If medium writes much shorter rooms, that is the risk.</p>
+
+  <h2>Recommendation 2: fix textures at the source</h2>
+  <p>You said what separated the rooms. The bad ones had pixelated textures, or artificial ones. The best had natural textures, and water was the clearest case.</p>
+  <figure>
+    <img src="img/jellyclock-round5.jpg" width="720" height="1280" alt="Four jellyfish clock rooms in a two by two grid. The top left has a soft, rippled blue floor like water under glowing jellyfish. The top right has blurred jellyfish over a dark floor with pale blobs. The bottom left is a dim purple room around one large jellyfish. The bottom right has crisp cyan and pink jellyfish over a flat, faceted floor.">
+    <figcaption>Round 5, the jellyfish clock. You named the top left's water as the best texture. It and the bottom right used the library. You put the top two first.</figcaption>
+  </figure>
+  <p>The first step costs no tokens. An agent goes through your worst rooms and finds each bad texture's source. Some will be the designer's own code, and some the library's. A fault in the library gets fixed once, for every room. A texture the designer keeps writing badly becomes a library part instead.</p>
+  <p>Then test it where it matters. Water goes first, on two briefs with water in them. If no room with the new water places first, stop the texture work.</p>
+  <p>A library part isn't quite free. It adds a few lines to the cached guide, and some drawing time. Both are small next to a room's thinking.</p>
+
+  <h2>The objection: materials were textures too</h2>
+  <p>Materials lost round 8. The swatches looked good on spheres, but the designer used them badly in rooms. Making textures one at a time doesn't fix that on its own. So each new part is judged in rooms you rank, not on test shapes. It is also why the audit comes first. A fix to a texture rooms already use needs no new choice from the designer.</p>
+
+  <h2>What the rounds settled</h2>
+  <p>Only one change has raised beauty per token so far: the room library. In round 5 its rooms took three of your top four places. They cost about the same. Your favourites as examples split round 3, one each.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Upgrade</th><th>Place against the library</th><th>Cost a room against the library</th></tr></thead>
+    <tbody>
+      <tr><td>Light moods</td><td>Same</td><td class="num">&minus;$0.15</td></tr>
+      <tr><td>Materials</td><td>1.5 places worse</td><td class="num">&minus;$0.53</td></tr>
+      <tr><td>Critique loop</td><td>Same</td><td class="num">+$0.28</td></tr>
+      <tr><td>Finishing</td><td>0.5 places worse</td><td class="num">+$0.13</td></tr>
+      <tr><td>Composition</td><td>0.5 places worse</td><td class="num">+$0.19</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>No upgrade raised your places. Cost gaps this size are mostly chance, except the critique loop's extra calls. Light moods tied on place and cost a little less. They earn a retest later, only for scenes with no light of their own.</p>
+
+  <h2>What it costs</h2>
+  <ul>
+    <li>The effort round: $6 to $9 in test rooms, judged on your phone.</li>
+    <li>The texture audit: about two agent-hours, no test rooms.</li>
+    <li>Water: about four agent-hours, then a round of $6 to $9.</li>
+  </ul>
+  <p>The effort round and the audit can start together.</p>
+
+  <h2>Glossary</h2>
+  <dl>
+    <dt>Beauty per token</dt><dd>How much you like a room, for what it cost the model to make.</dd>
+    <dt>Brief</dt><dd>The bot's description of the room someone asked for. The designer works from it.</dd>
+    <dt>Cached</dt><dd>A prompt the model saw recently costs a fraction to read again.</dd>
+    <dt>Critique loop</dt><dd>The model looks at pictures of its own room, then fixes one thing.</dd>
+    <dt>Designer</dt><dd>The part of the bot that turns a brief into a room's code.</dd>
+    <dt>Effort</dt><dd>A setting for how long the model thinks before it answers.</dd>
+    <dt>Examples</dt><dd>Finished rooms shown to the designer as models to learn from.</dd>
+    <dt>Fix round</dt><dd>A room's code fails to compile, so the designer gets the error and tries again.</dd>
+    <dt>Room library</dt><dd>Shared drawing code that every bot room includes, instead of writing its own.</dd>
+    <dt>Round</dt><dd>Two briefs, each drawn four times, half with a change. You rank each set blind.</dd>
+    <dt>Thinking</dt><dd>Text the model writes for itself before its answer. It is paid for like output.</dd>
+    <dt>Token</dt><dd>A piece of a word. Models read and write in tokens.</dd>
+  </dl>
+  </article>
+  <footer><p>The plan behind this: <a href="/notes/beauty-in-the-world/">note 24</a>. The world: <a href="https://world2.anthonybecker.me/">world2.anthonybecker.me</a>. The bot: <a href="https://bsky.app/profile/rooms.anthonybecker.me">@rooms.anthonybecker.me</a>.</p></footer>
+</div>
+</body>
+</html>
