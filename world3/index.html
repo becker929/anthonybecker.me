@@ -73,6 +73,43 @@
   }
   #say.show { opacity: 1; transition-duration: 0.2s; }
   .shooting #hud, .shooting #reset, .shooting #use, .shooting #say, .nogame #hud, .nogame #reset, .nogame #use, .nogame #say { display: none !important; }
+
+  /* what the player carries: one token per item */
+  #inv { display: flex; gap: 6px; padding: 5px 8px; border-radius: 999px; background: var(--chip); border: 1px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  #inv:empty { display: none; }
+  #inv span { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; color: var(--orb); filter: drop-shadow(0 0 5px var(--orb-glow)); animation: pop 0.6s ease-out; }
+  #inv svg { width: 20px; height: 20px; }
+
+  /* the save: a person icon (sign in; signed in it lights), its panel, and a "Saved" mark after each write */
+  #acct { position: fixed; right: calc(max(12px, env(safe-area-inset-right)) + 42px); top: max(12px, env(safe-area-inset-top)); display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  #me {
+    position: relative; width: 34px; height: 34px; padding: 0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    color: var(--dim); background: var(--chip); border: 1px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    cursor: pointer; touch-action: manipulation;
+  }
+  #me svg { width: 17px; height: 17px; }
+  #me:hover, #me:focus-visible { color: var(--ink); outline: none; }
+  #me.in { color: #141416; background: var(--orb); border-color: var(--orb); }
+  #me.warn::after { content: ""; position: absolute; right: 1px; top: 1px; width: 8px; height: 8px; border-radius: 50%; background: var(--bad); box-shadow: 0 0 0 2px #0b0b0d; }
+  #saved {
+    position: absolute; top: 40px; right: 0; display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px 3px 6px; border-radius: 999px;
+    font-size: 12px; color: var(--ink); background: var(--chip); border: 1px solid var(--line); pointer-events: none; white-space: nowrap;
+    opacity: 0; transition: opacity 0.6s ease;
+  }
+  #saved.show { opacity: 1; transition-duration: 0.15s; }
+  #saved svg { width: 12px; height: 12px; color: var(--orb); }
+  #mepanel {
+    width: min(260px, calc(100vw - 112px)); padding: 10px; border-radius: 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px;
+    background: rgba(12, 12, 14, 0.86); border: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  #mewho { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #meform { display: flex; gap: 6px; }
+  #mehandle { flex: 1; min-width: 0; padding: 7px 9px; border-radius: 8px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.06); color: var(--ink); font: 16px/1.2 ui-sans-serif, system-ui, -apple-system, sans-serif; }
+  #mego { padding: 7px 10px; border-radius: 8px; border: 0; background: var(--orb); color: #141416; font: 600 13px/1.2 ui-sans-serif, system-ui, -apple-system, sans-serif; cursor: pointer; white-space: nowrap; }
+  #meerr { font-size: 12px; color: var(--bad); }
+  #merecord { font: 10.5px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--dim); word-break: break-all; text-decoration: none; }
+  #merecord:hover { color: var(--ink); }
+  .shooting #acct, .nogame #acct { display: none !important; }
 </style>
 </head>
 <body>
@@ -86,7 +123,20 @@
 </div>
 <div id="hud" class="hide">
   <div id="orbs" role="img" aria-label="orbs found: 0"></div>
+  <div id="inv" role="img" aria-label="carrying nothing"></div>
   <span id="key" class="hide" aria-hidden="true">E</span>
+</div>
+<div id="acct" class="hide">
+  <button id="me" type="button" title="Sign in to save" aria-label="Sign in to save">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="5.2" r="2.7"/><path d="M2.8 14a5.2 5.2 0 0 1 10.4 0"/></svg>
+  </button>
+  <span id="saved" class="hide" role="status"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.4 5 8.8l4.6-5.3"/></svg>Saved</span>
+  <div id="mepanel" class="hide">
+    <div id="mewho" class="hide"></div>
+    <div id="meerr" class="hide" role="alert"></div>
+    <form id="meform"><input id="mehandle" type="text" placeholder="you.bsky.social" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Bluesky handle"><button id="mego" type="submit">Sign in</button></form>
+    <a id="merecord" class="hide" target="_blank" rel="noopener"></a>
+  </div>
 </div>
 <button id="reset" class="hide" type="button" title="Start over (tap twice)" aria-label="Start the game over">
   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.6-3.7"/><path d="M3 2.5V5.5h3"/></svg>

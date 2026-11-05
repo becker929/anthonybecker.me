@@ -50,7 +50,7 @@
   {
     "slug": "world3-bevy-trial",
     "title": "Room World in Bevy: a trial",
-    "description": "Room World rebuilt in Bevy: nine real rooms, and a first game in them. Find five orbs with the drone and open the way to the capybara.",
+    "description": "Room World rebuilt in Bevy: nine real rooms, and a first game in them. Find five orbs with the drone and open the way to the capybara. A second, ?game=keys, saves to your own Bluesky repo.",
     "path": "/world3/"
   }
 ]
