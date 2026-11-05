@@ -11,6 +11,9 @@
 // - Writes: 3 s after a milestone (the client's `saved` event says so), within 60 s otherwise, at most one per 5 s,
 //   and on pagehide / hidden with keepalive. Each write carries the CID last seen (swapRecord): a 409 answers the
 //   current record, and the newer one wins (theirs is loaded; ours is written again on their CID).
+// - The record is `{$type, game: {uri, sha256}, data, updatedAt}`: `data` is the game script's save(), without floats.
+//   A record of the older shape (before game scripts: world2 answers `legacy: true`) is never loaded; the next write
+//   replaces it on its CID.
 // - w3.reset_game() (the client's `reset` event) deletes the remote save too.
 // - After each write: window `w3game` {type: 'saved', where: 'bluesky', at}. window.w3page.save records what happened
 //   (tools/play-keys.mjs reads it); flush() writes now.
@@ -29,6 +32,8 @@ const store = {
 };
 const parse = (t) => { try { const v = JSON.parse(t); return v && typeof v === 'object' ? v : null; } catch { return null; } };
 const time = (r) => { const t = Date.parse(r?.updatedAt || ''); return Number.isFinite(t) ? t : -Infinity; };
+/** A save record of this client's shape: {game, data, updatedAt}, data an object. */
+const shaped = (r) => !!(r && typeof r === 'object' && r.data && typeof r.data === 'object' && !Array.isArray(r.data) && typeof r.updatedAt === 'string');
 
 /** An origin the page may send the player's cookie to, or null. */
 export function allowedOrigin(u) {
@@ -43,7 +48,7 @@ export function allowedOrigin(u) {
 export function remoteSave({ name, params, page }) {
   const KEY = `w3.game.${name}`;
   // the local copy as the page opened, before this session played (the load rule compares this one)
-  const atLoad = parse(store.get(KEY));
+  const atLoad = shaped(parse(store.get(KEY))) ? parse(store.get(KEY)) : null;
   const rec = (page.save = { base: null, id: null, signedIn: false, handle: null, did: null, scope: null, cid: null, synced: null, requests: [], adopted: 0, conflicts: 0, wrote: 0, state: 'off', error: null });
   let file = null, sha = null, timer = 0, due = Infinity, last = 0, busy = false, again = false, stopped = false, me = null;
   let fileReady, clientReady;
@@ -175,7 +180,7 @@ export function remoteSave({ name, params, page }) {
       } else if (res.status === 409) {
         rec.conflicts++;
         const theirs = res.data?.record;
-        if (theirs && time(theirs) > time(r)) adopt(theirs, res.data.cid ?? null);
+        if (!res.data?.legacy && shaped(theirs) && time(theirs) > time(r)) adopt(theirs, res.data.cid ?? null);
         else { rec.cid = theirs ? res.data.cid ?? null : null; again = true; }
       } else if (res.status === 429) {
         schedule(Math.max(GAP_MS, (Number(res.data?.retry_in_s) || 5) * 1000));
@@ -243,7 +248,11 @@ export function remoteSave({ name, params, page }) {
     ui.show();
     const g = await call('GET', `/api/game/save?id=${encodeURIComponent(rec.id)}`);
     const mine = local() || atLoad;
-    if (g.status === 200 && g.data?.record) {
+    if (g.status === 200 && g.data?.record && (g.data.legacy || !shaped(g.data.record))) {
+      // a save of the older shape (before game scripts; world2 flags it legacy): not loaded; ours replaces it on its CID
+      rec.cid = g.data.cid ?? null;
+      if (mine) schedule(0);
+    } else if (g.status === 200 && g.data?.record) {
       rec.cid = g.data.cid ?? null;
       const theirs = g.data.record;
       if (!mine || time(theirs) > time(mine)) adopt(theirs, rec.cid);
