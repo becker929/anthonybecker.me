@@ -50,7 +50,7 @@
   {
     "slug": "world3-bevy-trial",
     "title": "Room World in Bevy: a trial",
-    "description": "Nine real Room World rooms drawn by a client rebuilt in Bevy, with walking and a drone that flies between them, measured against the live world for size, frame time and pixel parity.",
+    "description": "Room World rebuilt in Bevy: nine real rooms, and a first game in them. Find five orbs with the drone and open the way to the capybara.",
     "path": "/world3/"
   }
 ]

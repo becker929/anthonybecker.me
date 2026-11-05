@@ -1,0 +1,24 @@
+{
+  "name": "orbs",
+  "state": { "orbs": 0 },
+  "entities": [
+    { "id": "orb_moai", "kind": "orb", "cell": [5, 7], "pos": [-5.15, 0.9, -4.2] },
+    { "id": "orb_altar", "kind": "orb", "cell": [4, 7], "pos": [0.52, 1.8, 0.18] },
+    { "id": "orb_door", "kind": "orb", "cell": [4, 8], "pos": [-1.85, 1.0, -5.5] },
+    { "id": "orb_far", "kind": "orb", "cell": [4, 6], "pos": [-2.6, 0.7, -2.4] },
+    { "id": "orb_corner", "kind": "orb", "cell": [6, 6], "pos": [5.3, 0.4, -5.3] },
+    { "id": "gate", "kind": "barrier", "cell": [6, 7], "door": "S" },
+    { "id": "gate_w", "kind": "barrier", "cell": [5, 8], "door": "E" },
+    { "id": "drone", "kind": "drone" }
+  ],
+  "rules": [
+    { "when": { "use": "orb_moai" }, "do": [ { "take": "orb_moai" }, { "add": ["orbs", 1] }, { "sound": "pickup" } ] },
+    { "when": { "use": "orb_altar" }, "do": [ { "take": "orb_altar" }, { "add": ["orbs", 1] }, { "sound": "pickup" } ] },
+    { "when": { "use": "orb_door" }, "do": [ { "take": "orb_door" }, { "add": ["orbs", 1] }, { "sound": "pickup" } ] },
+    { "when": { "use": "orb_far" }, "do": [ { "take": "orb_far" }, { "add": ["orbs", 1] }, { "sound": "pickup" } ] },
+    { "when": { "use": "orb_corner" }, "do": [ { "take": "orb_corner" }, { "add": ["orbs", 1] }, { "sound": "pickup" } ] },
+    { "when": { "state": ["orbs", ">=", 1] }, "once": true, "do": [ { "drone": "seek:orb" }, { "sound": "wake" } ] },
+    { "when": { "state": ["orbs", ">=", 5] }, "once": true, "do": [ { "open": "gate" }, { "open": "gate_w" }, { "drone": "follow" }, { "sound": "open" }, { "say": "The way is open." } ] },
+    { "when": { "enter": { "cell": [6, 8] } }, "once": true, "do": [ { "say": "The capybara was waiting for you." } ] }
+  ]
+}

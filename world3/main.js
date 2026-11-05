@@ -8,6 +8,12 @@
 // set_capture(on), shoot({width, height}) -> Promise<PNG data URL>, frame_ms(), backend(), set_entities(on) (the game
 // entity, on by default), entities() -> [{x, y, z}]. The tools in ../tools use them.
 // window.w3page.error is set when the client failed to start (the tools read it).
+//
+// The game (web/game/FORMAT.md): the client runs game/<name>.json (?game=<name>, default orbs; ?game=none for none) and
+// tells the page through window `w3game` events: state (the counter of orbs), sound (a name: sounds/<name>.m4a, foley
+// renders from the Juice Box demo, trimmed), say (a short line that fades) and usable (the nearest thing in reach:
+// the use button on touch, the E keycap on desktop). The reset control calls w3.reset_game() after a second tap.
+// window.w3page.game records what the page showed and played, for tools/play.mjs.
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('c');
@@ -57,6 +63,7 @@ async function boot() {
     if (cell && typeof window.w3.spawn === 'function') window.w3.spawn(cell[0], cell[1]);
     const be = String(window.w3.backend?.() ?? 'unknown');
     show(/webgpu/i.test(be) ? 'WebGPU' : /webgl/i.test(be) ? 'WebGL2' : be);
+    game.ready();
     canvas.focus({ preventScroll: true });
   } catch (e) { failed(e); }
 }
@@ -65,4 +72,145 @@ async function boot() {
 function isControlFlow(e) { return /exceptions for control flow/i.test(String((e && e.message) || e)); }
 
 addEventListener('error', (e) => { if (!page.started && !isControlFlow(e.error || e.message)) failed(e.error || e.message); });
+// ---- the game's side of the page
+
+const gameName = (() => {
+  const g = params.get('game');
+  if (g === 'none') return null;
+  return g && /^[a-z0-9_-]{1,40}$/i.test(g) ? g : 'orbs';
+})();
+
+const game = (() => {
+  const hud = $('hud'), dots = $('orbs'), key = $('key'), use = $('use'), reset = $('reset'), say = $('say');
+  // what the page showed and played, read by tools/play.mjs
+  const rec = (page.game = { name: gameName, total: 0, count: 0, usable: null, said: [], played: {}, events: [] });
+  let total = 0, count = 0, usable = null, live = false, touch = matchMedia('(pointer: coarse)').matches, sayTimer = 0, armTimer = 0;
+
+  if (!gameName) { document.body.classList.add('nogame'); return { ready() {} }; }
+
+  // the counter: one dot per orb in the game file
+  function build(n) {
+    total = rec.total = n;
+    dots.replaceChildren(...Array.from({ length: n }, () => document.createElement('i')));
+    hud.classList.toggle('hide', n === 0 || !live);
+    paint(false);
+  }
+  function paint(pop) {
+    const all = [...dots.children];
+    all.forEach((d, i) => {
+      const was = d.classList.contains('on');
+      d.classList.toggle('on', i < count);
+      if (pop && !was && i < count) { d.classList.remove('pop'); void d.offsetWidth; d.classList.add('pop'); }
+    });
+    dots.classList.toggle('all', total > 0 && count >= total);
+    dots.setAttribute('aria-label', `orbs found: ${count} of ${total}`);
+  }
+  function setCount(n) {
+    n = Math.max(0, Math.round(Number(n) || 0));
+    if (n === count) return;
+    const up = n > count;
+    count = rec.count = n;
+    paint(up);
+  }
+  fetch(`game/${gameName}.json`).then((r) => (r.ok ? r.json() : null)).then((g) => {
+    if (g && Array.isArray(g.entities)) build(g.entities.filter((e) => e.kind === 'orb').length);
+  }).catch(() => {});
+
+  // the hint: the use button on touch, the E keycap on desktop, only while something is in reach
+  function hint() {
+    document.body.classList.toggle('touch', touch);
+    use.classList.toggle('hide', !(touch && usable));
+    key.classList.toggle('hide', touch || !usable);
+  }
+  addEventListener('touchstart', () => { if (!touch) { touch = true; hint(); } }, { capture: true, passive: true });
+  use.addEventListener('pointerdown', (e) => {
+    e.preventDefault(); e.stopPropagation();
+    sound.unlock();
+    window.w3?.use?.();
+  });
+  use.addEventListener('click', (e) => e.preventDefault());
+
+  // the say line: shown, then faded a few seconds later (longer lines stay longer)
+  function sayLine(text) {
+    text = String(text || '').trim();
+    if (!text) return;
+    rec.said.push(text);
+    say.textContent = text;
+    say.classList.add('show');
+    clearTimeout(sayTimer);
+    sayTimer = setTimeout(() => say.classList.remove('show'), 2600 + 45 * text.length);
+  }
+
+  // reset: the first tap arms it (it turns and lights), a second within three seconds starts the game over
+  reset.addEventListener('click', (e) => {
+    e.preventDefault();
+    sound.unlock();
+    if (!reset.classList.contains('armed')) {
+      reset.classList.add('armed');
+      clearTimeout(armTimer);
+      armTimer = setTimeout(() => reset.classList.remove('armed'), 3000);
+      return;
+    }
+    clearTimeout(armTimer);
+    reset.classList.remove('armed');
+    window.w3?.reset_game?.();
+    sound.play('reset');
+    canvas.focus({ preventScroll: true });
+  });
+
+  addEventListener('w3game', (e) => {
+    const d = e.detail || {};
+    rec.events.push(d.type);
+    if (d.type === 'state') setCount(d.state?.orbs);
+    else if (d.type === 'sound') sound.play(d.name);
+    else if (d.type === 'say') sayLine(d.text);
+    else if (d.type === 'usable') { usable = rec.usable = d.id || null; hint(); }
+  });
+
+  return {
+    ready() {
+      const w3 = window.w3;
+      if (typeof w3?.game !== 'function') return; // a client without the game: no controls
+      live = true;
+      reset.classList.remove('hide');
+      hud.classList.toggle('hide', total === 0);
+      try {
+        const g = w3.game();
+        if (g?.state) setCount(g.state.orbs);
+        usable = rec.usable = g?.usable?.id ?? g?.usable ?? null;
+      } catch {}
+      hint();
+    },
+  };
+})();
+
+// ---- sounds: sample files decoded once, each play a fresh buffer source straight to the output (no synthesis, no
+// mixing: the files carry their own level). The context unlocks on the first gesture; a sound before then is skipped.
+const sound = (() => {
+  const NAMES = ['pickup', 'open', 'wake', 'reset'];
+  const rec = (page.sound = { loaded: [], played: {}, skipped: {} });
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  const ctx = Ctx && gameName ? new Ctx() : null;
+  const buf = {};
+  if (ctx) for (const n of NAMES) {
+    fetch(`sounds/${n}.m4a`).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(r.status))))
+      .then((data) => new Promise((ok, no) => ctx.decodeAudioData(data, ok, no)))
+      .then((b) => { buf[n] = b; rec.loaded.push(n); })
+      .catch(() => {});
+  }
+  const unlock = () => { if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {}); };
+  for (const ev of ['pointerdown', 'keydown', 'touchend']) addEventListener(ev, unlock, { capture: true, passive: true });
+  return {
+    unlock,
+    play(name) {
+      if (!ctx || !buf[name] || ctx.state !== 'running') { rec.skipped[name] = (rec.skipped[name] || 0) + 1; return; }
+      const src = ctx.createBufferSource();
+      src.buffer = buf[name];
+      src.connect(ctx.destination);
+      src.start();
+      rec.played[name] = (rec.played[name] || 0) + 1;
+    },
+  };
+})();
+
 boot();
