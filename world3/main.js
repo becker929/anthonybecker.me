@@ -14,6 +14,10 @@
 // renders from the Juice Box demo, trimmed), say (a short line that fades) and usable (the nearest thing in reach:
 // the use button on touch, the E keycap on desktop). The reset control calls w3.reset_game() after a second tap.
 // window.w3page.game records what the page showed and played, for tools/play.mjs.
+// Rung 2 (docs/rung2.md): carrying (the inventory strip, one inline-SVG token per item) and, for a game with an id,
+// the remote save in the player's Bluesky repo through world2 (save.js: the person icon, its panel, the Saved mark).
+
+import { remoteSave } from './save.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('c');
@@ -81,18 +85,39 @@ const gameName = (() => {
 })();
 
 const game = (() => {
-  const hud = $('hud'), dots = $('orbs'), key = $('key'), use = $('use'), reset = $('reset'), say = $('say');
+  const hud = $('hud'), dots = $('orbs'), key = $('key'), use = $('use'), reset = $('reset'), say = $('say'), inv = $('inv');
   // what the page showed and played, read by tools/play.mjs
-  const rec = (page.game = { name: gameName, total: 0, count: 0, usable: null, said: [], played: {}, events: [] });
+  const rec = (page.game = { name: gameName, total: 0, count: 0, usable: null, said: [], played: {}, events: [], carrying: [] });
   let total = 0, count = 0, usable = null, live = false, touch = matchMedia('(pointer: coarse)').matches, sayTimer = 0, armTimer = 0;
 
   if (!gameName) { document.body.classList.add('nogame'); return { ready() {} }; }
+  const sync = remoteSave({ name: gameName, params, page });
+  const showHud = () => hud.classList.toggle('hide', !live || (total === 0 && rec.carrying.length === 0));
+
+  // the inventory: a token per item carried (a key's shape for keys, a coin otherwise)
+  const KEY_SVG = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.2" cy="10" r="3.4"/><path d="M9.6 10h8M15 10v3M17.6 10v2.2"/></svg>';
+  const COIN_SVG = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><circle cx="10" cy="10" r="2.6"/></svg>';
+  function carry(items) {
+    items = Array.isArray(items) ? items : [];
+    const had = new Set(rec.carrying.map((i) => i.id));
+    rec.carrying = items.map((i) => ({ id: String(i.id), name: String(i.name || i.id) }));
+    inv.replaceChildren(...rec.carrying.map((i) => {
+      const t = document.createElement('span');
+      t.innerHTML = /key/i.test(`${i.id} ${i.name}`) ? KEY_SVG : COIN_SVG;
+      t.title = i.name;
+      if (had.has(i.id)) t.style.animation = 'none';
+      return t;
+    }));
+    inv.setAttribute('aria-label', rec.carrying.length ? `carrying ${rec.carrying.map((i) => i.name).join(', ')}` : 'carrying nothing');
+    showHud();
+  }
 
   // the counter: one dot per orb in the game file
   function build(n) {
     total = rec.total = n;
     dots.replaceChildren(...Array.from({ length: n }, () => document.createElement('i')));
-    hud.classList.toggle('hide', n === 0 || !live);
+    dots.classList.toggle('hide', n === 0);
+    showHud();
     paint(false);
   }
   function paint(pop) {
@@ -112,9 +137,11 @@ const game = (() => {
     count = rec.count = n;
     paint(up);
   }
-  fetch(`game/${gameName}.json`).then((r) => (r.ok ? r.json() : null)).then((g) => {
+  fetch(`game/${gameName}.json`).then((r) => (r.ok ? r.arrayBuffer() : null)).then((bytes) => {
+    const g = bytes ? JSON.parse(new TextDecoder().decode(bytes)) : null;
     if (g && Array.isArray(g.entities)) build(g.entities.filter((e) => e.kind === 'orb').length);
-  }).catch(() => {});
+    sync.file(g, bytes);
+  }).catch(() => sync.file(null));
 
   // the hint: the use button on touch, the E keycap on desktop, only while something is in reach
   function hint() {
@@ -165,6 +192,7 @@ const game = (() => {
     else if (d.type === 'sound') sound.play(d.name);
     else if (d.type === 'say') sayLine(d.text);
     else if (d.type === 'usable') { usable = rec.usable = d.id || null; hint(); }
+    else if (d.type === 'carrying') carry(d.items);
   });
 
   return {
@@ -173,13 +201,20 @@ const game = (() => {
       if (typeof w3?.game !== 'function') return; // a client without the game: no controls
       live = true;
       reset.classList.remove('hide');
-      hud.classList.toggle('hide', total === 0);
       try {
         const g = w3.game();
         if (g?.state) setCount(g.state.orbs);
+        if (g?.carrying) carry(g.carrying);
         usable = rec.usable = g?.usable?.id ?? g?.usable ?? null;
       } catch {}
+      showHud();
       hint();
+      // the remote save starts once the client has its game (the file fetched and any local save restored)
+      (async () => {
+        const t0 = performance.now();
+        while (!w3.game()?.loaded && performance.now() - t0 < 15000) await new Promise((r) => setTimeout(r, 100));
+        sync.ready();
+      })();
     },
   };
 })();
