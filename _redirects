@@ -77,3 +77,8 @@
 /demos/4x4x4/              /demos/13/4x4x4/  301
 /4x4x4                     /demos/13/4x4x4/  301
 /4x4x4/                    /demos/13/4x4x4/  301
+
+# world3 (the Bevy trial of Room World's client) moved to Room World itself on 2026-11-04: world2 serves it at
+# /world3/ (same origin as its saves and sign-in). Paths and query strings carry over (?game=keys, ?cell=x,y).
+/world3                    https://world2.anthonybecker.me/world3/  301
+/world3/*                  https://world2.anthonybecker.me/world3/:splat  301
