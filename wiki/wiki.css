@@ -1,11 +1,50 @@
-/* Wiki pages: the notes reading style, plus a glossary and a source list. */
-@import url("/notes/notes.css");
-article ul { max-width: 68ch; padding-left: 1.2rem; }
-article li { margin-bottom: 0.5rem; }
-dl { max-width: 68ch; }
-dt { font-weight: 600; margin-top: 0.8rem; }
-dd { margin: 0.1rem 0 0; }
+/* Wiki pages: one narrow column, generous space and no rules.
+   Standalone on purpose, so changes to the notes style cannot reach the wiki. */
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap");
+
+:root {
+  --bg: #fbfbfa;
+  --fg: #17181a;
+  --dim: #6a6d73;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111214; --fg: #ececea; --dim: #989ba1; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 17px/1.65 "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 56px max(20px, env(safe-area-inset-right, 0px)) 96px max(20px, env(safe-area-inset-left, 0px));
+}
+a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--dim); text-decoration-thickness: 1px; }
+
+.crumbs { color: var(--dim); font-size: 14px; margin-bottom: 64px; }
+.crumbs a { color: inherit; text-decoration: none; }
+.crumbs a:hover { color: var(--fg); }
+
+h1, h2 { margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(2.1rem, 7vw, 3rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.08; }
+h2 { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.015em; margin-top: 44px; }
+
+.lede { color: var(--dim); font-size: 1.2rem; line-height: 1.4; margin: 16px 0 0; }
+.byline { display: flex; flex-wrap: wrap; gap: 2px 14px; color: var(--dim); font-size: 14px; margin: 20px 0 0; }
+.byline b { font-weight: inherit; }
+
+article { display: grid; gap: 20px; margin-top: 64px; }
+article > * { min-width: 0; }
+article p, article ul, article dl { margin: 0; }
+article b { font-weight: 600; }
+article ul { display: grid; gap: 12px; padding: 0; list-style: none; }
+dt { font-weight: 500; margin-top: 14px; }
+dd { color: var(--dim); margin: 0; }
 .sources li { overflow-wrap: anywhere; }
-.wiki-list { list-style: none; padding: 0; }
-.wiki-list li { margin-bottom: 1rem; }
-.wiki-list p { margin: 0.2rem 0 0; color: var(--ink-dim); }
+
+.wiki-list p { color: var(--dim); margin-top: 2px; }
