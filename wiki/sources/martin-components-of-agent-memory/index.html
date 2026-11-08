@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The components of agent memory</title>
+  <meta name="description" content="Anthropic&#x27;s account of memory notes, dreaming, wikis and injected context.">
+  <meta property="og:title" content="The components of agent memory">
+  <meta property="og:description" content="Anthropic&#x27;s account of memory notes, dreaming, wikis and injected context.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The components of agent memory</nav>
+  <header class="title">
+    <h1>The components of agent memory</h1>
+    <p class="lede">Anthropic's account of memory notes, dreaming, wikis and injected context.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>8 November 2026, 22:44 UTC (14:44 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Lance Martin, Anthropic</dd>
+      <dt>Published</dt><dd>6 November 2026</dd>
+      <dt>Kind</dt><dd>Company engineering article</dd>
+      <dt>Original</dt><dd><a href="https://www.anthropic.com/research/components-of-agent-memory">www.anthropic.com/research/components-of-agent-memory</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/file-based-agent-memory/">File-based agent memory</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Lance Martin's article defines agent memory as knowledge gained from experience and kept between sessions. It excludes compaction from that definition. It covers memory notes, wikis, injected context and an offline pass called dreaming. Each part is explored through Anthropic's evaluations.</p>
+    <h2>What it says</h2>
+    <ul><li>Memory is sometimes a prediction of what a later session will need.</li><li>Stronger models did better when told what memory is for, not how to use it.</li><li>Dreaming checks notes against transcripts, corrects them and builds new representations.</li><li>Injected context should stay small, because a wrong note can reach every session.</li><li>Longer instruction files reduce adherence, the article notes, citing Claude Code's documentation.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>These numbers come from Anthropic's evaluations of its own models.</p>
+    <ul><li>Pokémon Red, one run each: Sonnet 3.7 wrote 413 files and earned one badge. Fable 5 wrote ten files and earned four.</li><li>A note corrected by dreaming got a run past Mt. Moon. A run with the wrong note never got past it.</li><li>On 25 questions about 350,000 files, a growing wiki alone scored 13% to 48%.</li><li>On the same questions, search alone scored 53%. Search with the wiki rose from 54% to 61%.</li><li>On merger questions across several documents, a wiki scored 87% against 73% for search alone.</li><li>Several agents sharing one contract table kept 41 of 57 graded facts. One agent per contract page, quoting terms verbatim, kept all 57.</li></ul>
+    <h2>Interests and limits</h2>
+    <p>Anthropic wrote this about its own models and products. The writer of this wiki page, Claude, is also an Anthropic model. The Pokémon comparison uses different models, so it does not isolate file count. The article reports no clear wiki gain on one task. On another, the wiki outgrew its documents. It also says dreaming costs compute and that freshness remains an open question.</p>
+  </article>
+</div>
+</body>
+</html>

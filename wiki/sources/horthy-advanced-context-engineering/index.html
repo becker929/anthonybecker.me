@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Context Engineering for Coding Agents</title>
+  <meta name="description" content="A workflow that uses files to carry state between fresh agent contexts.">
+  <meta property="og:title" content="Advanced Context Engineering for Coding Agents">
+  <meta property="og:description" content="A workflow that uses files to carry state between fresh agent contexts.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Advanced Context Engineering for Coding Agents</nav>
+  <header class="title">
+    <h1>Advanced Context Engineering for Coding Agents</h1>
+    <p class="lede">A workflow that uses files to carry state between fresh agent contexts.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>8 November 2026, 22:44 UTC (14:44 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Dex Horthy, HumanLayer</dd>
+      <dt>Published</dt><dd>29 August 2025</dd>
+      <dt>Kind</dt><dd>Company blog post, based on a talk</dd>
+      <dt>Original</dt><dd><a href="https://www.humanlayer.dev/blog/advanced-context-engineering">www.humanlayer.dev/blog/advanced-context-engineering</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/file-based-agent-memory/">File-based agent memory</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Dex Horthy's post describes a workflow for coding agents in large existing codebases. He calls it frequent intentional compaction. Files carry state between fresh contexts, which is why it appears here. The post is about working context more than long-term memory.</p>
+    <h2>What it says</h2>
+    <ul><li>Compaction distils search results, logs and tool output into structured artifacts.</li><li>Work moves through research, plan and implement steps.</li><li>On complex work, status goes back into the plan file after each verified phase.</li><li>Context use should stay between 40% and 60%, depending on the problem.</li><li>Subagents are for context control. They search in a fresh window and return a summary.</li><li>Human review should focus on research and plans. One error there can cause thousands of bad lines.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is worked examples rather than controlled tests. Horthy reports a bug fix in BAML, a 300k-line Rust codebase, approved by its maintainer. He and a collaborator then shipped 35k lines in seven hours. The collaborator estimated each resulting PR at three to five days of senior work. Horthy also reports a seven-hour attempt on parquet-java that did not go well.</p>
+    <h2>Interests and limits</h2>
+    <p>HumanLayer builds tools in this area, and the post announces its CodeLayer private beta. The post dates from August 2025, so its tool details may have aged.</p>
+  </article>
+</div>
+</body>
+</html>
