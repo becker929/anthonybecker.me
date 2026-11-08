@@ -40,5 +40,117 @@
     "author": "Lance Martin, Anthropic",
     "date": "6 November 2026",
     "path": "/wiki/sources/martin-components-of-agent-memory/"
+  },
+  {
+    "slug": "gonzalez-sufficiently-detailed-spec",
+    "title": "A sufficiently detailed spec is code",
+    "author": "Gabriella Gonzalez",
+    "date": "17 March 2026",
+    "path": "/wiki/sources/gonzalez-sufficiently-detailed-spec/"
+  },
+  {
+    "slug": "feng-sergey-pbt-for-specs",
+    "title": "On the Unreasonable Effectiveness of Property-Based Testing for Validating Formal Specifications",
+    "author": "Yueyang Feng and Ilya Sergey",
+    "date": "18 May 2026",
+    "path": "/wiki/sources/feng-sergey-pbt-for-specs/"
+  },
+  {
+    "slug": "brown-plt-human-judgment",
+    "title": "Human Judgment as a Specification",
+    "author": "Brown PLT blog",
+    "date": "9 June 2026",
+    "path": "/wiki/sources/brown-plt-human-judgment/"
+  },
+  {
+    "slug": "joshi-dsls-and-llms",
+    "title": "DSLs Enable Reliable Use of LLMs",
+    "author": "Unmesh Joshi, on martinfowler.com",
+    "date": "14 July 2026",
+    "path": "/wiki/sources/joshi-dsls-and-llms/"
+  },
+  {
+    "slug": "lewis-spec-the-agent-can-run",
+    "title": "A spec the agent can't run isn't a spec yet",
+    "author": "Adam Lewis",
+    "date": "Updated 4 September 2026",
+    "path": "/wiki/sources/lewis-spec-the-agent-can-run/"
+  },
+  {
+    "slug": "stam-earth-in-webgl",
+    "title": "Visualizing 100,000 Years of Earth in WebGL",
+    "author": "Bouke Stam, TechniStuff",
+    "date": "19 May 2025",
+    "path": "/wiki/sources/stam-earth-in-webgl/"
+  },
+  {
+    "slug": "tomar-strange-attractors",
+    "title": "Strange Attractors",
+    "author": "Shashank Tomar",
+    "date": "5 September 2025",
+    "path": "/wiki/sources/tomar-strange-attractors/"
+  },
+  {
+    "slug": "spivack-lace",
+    "title": "Introducing LACE",
+    "author": "Nova Spivack",
+    "date": "15 October 2025",
+    "path": "/wiki/sources/spivack-lace/"
+  },
+  {
+    "slug": "overmyer-heraldry-and-mon",
+    "title": "What Heraldry and Japanese Mon Can Teach Us About Building Visual-Identity Generators",
+    "author": "Ben Overmyer",
+    "date": "28 September 2026",
+    "path": "/wiki/sources/overmyer-heraldry-and-mon/"
+  },
+  {
+    "slug": "de-chardon-alternate-clocks",
+    "title": "Alternate Clock Designs & Time Systems",
+    "author": "Cyrille Médard de Chardon",
+    "date": "Undated, with code from about 2012",
+    "path": "/wiki/sources/de-chardon-alternate-clocks/"
+  },
+  {
+    "slug": "hollander-coltrane-tone-circle",
+    "title": "John Coltrane's Tone Circle",
+    "author": "Roelant Hollander",
+    "date": "22 January 2016",
+    "path": "/wiki/sources/hollander-coltrane-tone-circle/"
+  },
+  {
+    "slug": "wilkerson-harmony-explained",
+    "title": "Harmony Explained",
+    "author": "Daniel Shawcross Wilkerson",
+    "date": "February 2012, revised June 2014",
+    "path": "/wiki/sources/wilkerson-harmony-explained/"
+  },
+  {
+    "slug": "hn-harmony-explained",
+    "title": "Harmony Explained on Hacker News",
+    "author": "Posted by surprisetalk, with a reply from the paper's author",
+    "date": "28 July 2026",
+    "path": "/wiki/sources/hn-harmony-explained/"
+  },
+  {
+    "slug": "haas-music-theory-for-programmers",
+    "title": "Music theory for programmers",
+    "author": "Luke Haas, RunJS",
+    "date": "17 August 2026",
+    "path": "/wiki/sources/haas-music-theory-for-programmers/"
+  },
+  {
+    "slug": "hn-music-theory-for-programmers",
+    "title": "Music Theory for Programmers on Hacker News",
+    "author": "Posted by birdculture, with replies from many commenters",
+    "date": "2 September 2026",
+    "path": "/wiki/sources/hn-music-theory-for-programmers/"
+  },
+  {
+    "slug": "xenharmlib-docs",
+    "title": "xenharmlib documentation",
+    "author": "xenharmlib project",
+    "date": "Current as of version 0.4.0",
+    "path": "/wiki/sources/xenharmlib-docs/"
   }
 ]

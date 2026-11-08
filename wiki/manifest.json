@@ -4,5 +4,23 @@
     "title": "File-based agent memory",
     "description": "Six sources on keeping a coding agent's knowledge in plain files.",
     "path": "/wiki/file-based-agent-memory/"
+  },
+  {
+    "slug": "checkable-specs",
+    "title": "Checkable specs for coding agents",
+    "description": "Five sources on what it takes to check an agent's work against a spec.",
+    "path": "/wiki/checkable-specs/"
+  },
+  {
+    "slug": "images-made-by-rules",
+    "title": "Images made by rules",
+    "description": "Five sources where a picture follows from a small set of rules.",
+    "path": "/wiki/images-made-by-rules/"
+  },
+  {
+    "slug": "consonance-and-tuning",
+    "title": "Consonance and tuning",
+    "description": "Six sources on why some notes seem to fit, and how scales get divided.",
+    "path": "/wiki/consonance-and-tuning/"
   }
 ]
