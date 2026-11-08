@@ -1,0 +1,11 @@
+/* Wiki pages: the notes reading style, plus a glossary and a source list. */
+@import url("/notes/notes.css");
+article ul { max-width: 68ch; padding-left: 1.2rem; }
+article li { margin-bottom: 0.5rem; }
+dl { max-width: 68ch; }
+dt { font-weight: 600; margin-top: 0.8rem; }
+dd { margin: 0.1rem 0 0; }
+.sources li { overflow-wrap: anywhere; }
+.wiki-list { list-style: none; padding: 0; }
+.wiki-list li { margin-bottom: 1rem; }
+.wiki-list p { margin: 0.2rem 0 0; color: var(--ink-dim); }

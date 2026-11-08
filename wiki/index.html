@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wiki</title>
+  <meta name="description" content="Short reference pages on narrow subjects, each checked against its sources.">
+  <link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / Wiki</nav>
+  <header class="title">
+    <h1>Wiki</h1>
+    <p class="lede">Short reference pages on narrow subjects, each checked against its sources.</p>
+  </header>
+  <article>
+    <ul class="wiki-list" id="wiki-list"><li>Loading…</li></ul>
+  </article>
+</div>
+<script>
+  fetch('/wiki/manifest.json')
+    .then((res) => res.json())
+    .then((pages) => {
+      document.getElementById('wiki-list').innerHTML = pages
+        .map((page) => `<li><a href="${page.path}">${page.title}</a><p>${page.description}</p></li>`)
+        .join('');
+    })
+    .catch(() => {
+      document.getElementById('wiki-list').innerHTML = "<li>Couldn't load the page list.</li>";
+    });
+</script>
+</body>
+</html>
