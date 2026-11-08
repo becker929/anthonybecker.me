@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSLs Enable Reliable Use of LLMs</title>
+  <meta name="description" content="An argument that small languages give generated code firm boundaries.">
+  <meta property="og:title" content="DSLs Enable Reliable Use of LLMs">
+  <meta property="og:description" content="An argument that small languages give generated code firm boundaries.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / DSLs Enable Reliable Use of LLMs</nav>
+  <header class="title">
+    <h1>DSLs Enable Reliable Use of LLMs</h1>
+    <p class="lede">An argument that small languages give generated code firm boundaries.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>8 November 2026, 23:03 UTC (15:03 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Unmesh Joshi, on martinfowler.com</dd>
+      <dt>Published</dt><dd>14 July 2026</dd>
+      <dt>Kind</dt><dd>Practitioner article, with worked examples</dd>
+      <dt>Original</dt><dd><a href="https://martinfowler.com/articles/llm-and-dsls.html">martinfowler.com/articles/llm-and-dsls.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/checkable-specs/">Checkable specs for coding agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Unmesh Joshi argues that abstractions and domain-specific languages give LLMs clear boundaries. The main example is Tickloom, Joshi's framework for testing distributed systems. It describes two phases: designing the language with an LLM, then using it as interface.</p>
+    <h2>What it says</h2>
+    <ul><li>A first spec is a hypothesis, because design is discovered during implementation.</li><li>DSLs strip away variation, so a few in-context examples are often enough.</li><li>A DSL's parser, schema or compiler lets an agent generate, check and repair alone.</li><li>Errors arrive in domain terms, not as stack traces from generated code.</li><li>Progressive interfaces make illegal sequences fail to compile, such as an action before a client.</li><li>The durable asset is the DSL and its semantic model, not the prompt.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is worked examples, including a step-marked PlantUML tool and Tickloom scenarios. Joshi describes the reliability benefit as an observation. The article reports no measurements.</p>
+    <h2>Interests and limits</h2>
+    <p>Joshi notes that a DSL has real design and maintenance costs. The advantage only holds while the language stays small. Joshi also says frontier models already know languages like PlantUML, so novel DSLs remain untested.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/overmyer-heraldry-and-mon/">What Heraldry and Japanese Mon Can Teach Us About Building Visual-Identity Generators</a>. In heraldry, choosing the field limits what may follow. Joshi's interfaces do the same, allowing no action before a client. Blazon and a small DSL both make wrong output hard to say.</li></ul>
+  </article>
+</div>
+</body>
+</html>
