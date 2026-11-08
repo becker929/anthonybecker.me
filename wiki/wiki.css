@@ -48,3 +48,12 @@ dd { color: var(--dim); margin: 0; }
 .sources li { overflow-wrap: anywhere; }
 
 .wiki-list p { color: var(--dim); margin-top: 2px; }
+
+/* Source pages open with a compact table of facts. On the subject page, each
+   source is a section, so its meta line can sit close under the heading. */
+article section { display: grid; gap: 8px; margin-top: 24px; }
+article section h2 { margin-top: 0; }
+.meta { color: var(--dim); font-size: 14px; line-height: 1.45; }
+.facts { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 6px 16px; }
+.facts dt { font-weight: 400; color: var(--dim); margin: 0; }
+.facts dd { color: var(--fg); overflow-wrap: anywhere; }

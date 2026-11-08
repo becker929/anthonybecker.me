@@ -2,7 +2,7 @@
   {
     "slug": "file-based-agent-memory",
     "title": "File-based agent memory",
-    "description": "Keeping a coding agent's knowledge in plain files it can read and rewrite.",
+    "description": "Six sources on keeping a coding agent's knowledge in plain files.",
     "path": "/wiki/file-based-agent-memory/"
   }
 ]

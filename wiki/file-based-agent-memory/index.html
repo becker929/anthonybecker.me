@@ -4,72 +4,54 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>File-based agent memory</title>
-  <meta name="description" content="Keeping a coding agent's knowledge in plain files it can read and rewrite.">
+  <meta name="description" content="Six sources on keeping a coding agent&#x27;s knowledge in plain files.">
   <meta property="og:title" content="File-based agent memory">
-  <meta property="og:description" content="Keeping a coding agent's knowledge in plain files it can read and rewrite.">
+  <meta property="og:description" content="Six sources on keeping a coding agent&#x27;s knowledge in plain files.">
   <meta property="og:type" content="article">
-  <link rel="stylesheet" href="../wiki.css">
+  <link rel="stylesheet" href="/wiki/wiki.css">
 </head>
 <body>
 <div class="wrap">
   <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / File-based agent memory</nav>
   <header class="title">
     <h1>File-based agent memory</h1>
-    <p class="lede">Keeping a coding agent's knowledge in plain files it can read and rewrite.</p>
-    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>8 November 2026, 21:50 UTC (13:50 Pacific)</span></p>
+    <p class="lede">Six sources on keeping a coding agent's knowledge in plain files.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>8 November 2026, 22:44 UTC (14:44 Pacific)</span></p>
   </header>
   <article>
-  <p>File-based agent memory stores what an agent learns in ordinary text files. The files outlast any single session, so a later session can read them. Most designs use Markdown. A person can open, edit, review and version them with normal tools. The main alternative keeps memories in a database and injects matching snippets into prompts.</p>
-
-  <h2>Four designs</h2>
-  <p><b>Memoryfields.</b> Cal Paterson proposes a zip of Markdown pages with optional YAML frontmatter. Each page has a soft limit near 8 KB, about 2,000 tokens. An optional SQLite vector index supports semantic search. He calls that index "a deletable cache, not the system". He claims recall takes two tool calls at most: one search, then one parallel read.</p>
-  <p><b>Documentation as memory.</b> Kevin Liao argues agents need documentation rather than recall. A short catalog loads at session start, and the agent opens only what it needs. The working agent updates documents while its context is fresh. Documents record what code cannot show, such as decisions and constraints. Liao builds a tool on this design, Operator Memory, so his case is not neutral.</p>
-  <p><b>Compaction into files.</b> Dex Horthy treats files as a way to reset context. Work moves through research, planning and implementation. On complex work, status goes back into the plan file after each verified phase. Work then continues in a fresh context. He targets 40% to 60% context use, depending on the problem.</p>
-  <p><b>Notes plus dreaming.</b> Lance Martin's Anthropic article splits memory into parts. Transcripts log events, and notes hold what the agent chose to keep. Injected context loads into every session. An offline pass called dreaming then corrects and reorganizes the notes. The article says injected context should stay small, because a wrong note reaches every session.</p>
-
-  <h2>Evidence</h2>
-  <p>Little of this has independent testing. The numbers below come from Anthropic's benchmarks, run on its own models.</p>
-  <ul>
-    <li>Memory raised mean reward on a database task for all six models tested. Opus 5.5 went from 0.655 to 0.838.</li>
-    <li>Sonnet 3.7 wrote 413 files in Pokémon Red and earned one badge. Fable 5 wrote about ten and earned four. The models differ, so this does not isolate file count.</li>
-    <li>One wrong note sent a Pokémon run back to the same ledge three times. After dreaming corrected it, the run reached Cerulean City.</li>
-    <li>In a contract test, a shared table kept 41 of 57 graded facts. Per-contract pages quoting terms verbatim kept all 57.</li>
-  </ul>
-  <p>Liao's figure of about 80k tokens to rebuild intent is his estimate, not a measurement.</p>
-
-  <h2>Disagreements</h2>
-  <ul>
-    <li><b>Whether you need it at all.</b> Commenters on the Recall thread split. One keeps files under 30 lines and adds entries only after a mistake. Another says CLAUDE.md already covers this. Several asked for benchmarks.</li>
-    <li><b>Data or process.</b> Paterson wants memory to be a format, without a pipeline. Anthropic's article adds an offline process on top of its notes.</li>
-    <li><b>Search or links.</b> Paterson says agents miss relevant pages when they follow links. Anthropic's best result on one large corpus combined both. A wiki plus search reached 61% of graded criteria, against 53% for search alone.</li>
-  </ul>
-
-  <h2>Stale notes</h2>
-  <p>Staleness is the shared weak point. Liao says retrieval ranks by similarity, so outdated snippets keep surfacing. Recall's author said the tool has no way to handle stale memory yet. One commenter stores the last commit hash in each file, then diffs from it. Another tells agents to update design docs in every task. Anthropic's answer is dreaming, and the article notes its compute cost.</p>
-
-  <h2>Related idea</h2>
-  <p>Tim Kellogg describes Letta's memory layers as lossy compression. Each layer compresses the one before it, much like CPU caches. Its archive often uses a vector database, but the frame still applies to files.</p>
-
-  <h2>Glossary</h2>
-  <dl>
-    <dt>Compaction</dt><dd>Replacing a long session history with a shorter written summary.</dd>
-    <dt>Context window</dt><dd>The text a model can see at once.</dd>
-    <dt>Dreaming</dt><dd>An offline pass that reviews transcripts and notes, then corrects them.</dd>
-    <dt>Frontmatter</dt><dd>A small block of fields at the top of a Markdown file.</dd>
-    <dt>Injected context</dt><dd>Text loaded into every session at the start.</dd>
-    <dt>Semantic search</dt><dd>Finding text by meaning, using numeric embeddings of that text.</dd>
-    <dt>Vector index</dt><dd>A store of those embeddings, built for fast lookup.</dd>
-  </dl>
-
-  <h2>Sources</h2>
-  <ul class="sources">
-    <li>Cal Paterson, <a href="https://calpaterson.com/memoryfields.html">Agent memory as a file format</a>, August 2026.</li>
-    <li>Kevin Liao, <a href="https://liao.gg/blog/agents-dont-need-memory">Agents Don't Need Memory. They Need Documentation.</a>, 3 October 2026.</li>
-    <li>Dex Horthy, <a href="https://www.humanlayer.dev/blog/advanced-context-engineering">Advanced Context Engineering for Coding Agents</a>, 29 August 2025.</li>
-    <li>Lance Martin, <a href="https://www.anthropic.com/research/components-of-agent-memory">The components of agent memory</a>, 6 November 2026.</li>
-    <li>Hacker News, <a href="https://news.ycombinator.com/item?id=48622590">Show HN: Recall</a>, thread read 8 November 2026.</li>
-    <li>Tim Kellogg, <a href="https://timkellogg.me/blog/2025/06/15/compression">Layers of Memory, Layers of Compression</a>, 15 June 2025.</li>
-  </ul>
+    <p>File-based agent memory stores what a coding agent learns in ordinary text files. This page lists six sources on it, oldest first. Each has its own page, which links to the original.</p>
+    <section>
+      <h2><a href="/wiki/sources/kellogg-layers-of-memory/">Layers of Memory, Layers of Compression</a></h2>
+      <p class="meta">Tim Kellogg. 15 June 2025. Blog post, largely AI-written by the author's account.</p>
+      <p>Compares Letta's layered memory with Anthropic's multi-agent research system and Cognition's single-agent advice. It is included for its frame, because Letta's archive is often a vector database. Kellogg says the text is largely AI-written.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/horthy-advanced-context-engineering/">Advanced Context Engineering for Coding Agents</a></h2>
+      <p class="meta">Dex Horthy, HumanLayer. 29 August 2025. Company blog post, based on a talk.</p>
+      <p>Describes a workflow called frequent intentional compaction. Research, plan and status files carry state between fresh contexts. It covers working context more than long-term memory. The evidence is worked examples, and HumanLayer sells tools in this area.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/recall-show-hn/">Show HN: Recall</a></h2>
+      <p class="meta">Posted by mateenah, with replies from many commenters. 21 June 2026. Hacker News thread.</p>
+      <p>A thread of about 85 comments on a local project memory tool. Commenters describe their own practices and question whether such tools are needed. This is the only source here made of personal reports.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/paterson-memoryfields/">Agent memory as a file format</a></h2>
+      <p class="meta">Cal Paterson. August 2026. Personal blog post, with a spec and tools.</p>
+      <p>Proposes memoryfield, an open format of Markdown pages with an optional SQLite vector index. It argues that memory should be data rather than a process. The case is design reasoning, from the format's author, with no benchmark results.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/liao-agents-need-documentation/">Agents Don't Need Memory. They Need Documentation.</a></h2>
+      <p class="meta">Kevin Liao. 3 October 2026, updated 5 October. Personal blog post, introducing the author's tool.</p>
+      <p>Argues that agents should read and maintain documents rather than use memory plugins. It introduces the author's own tool, Operator Memory. Its figures are illustrations, not measurements.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/martin-components-of-agent-memory/">The components of agent memory</a></h2>
+      <p class="meta">Lance Martin, Anthropic. 6 November 2026. Company engineering article.</p>
+      <p>Describes memory notes, wikis, injected context and an offline pass called dreaming. It reports evaluations of each. It has the most numbers of the six. They come from Anthropic testing its own models.</p>
+    </section>
+    <h2>Glossary</h2>
+    <dl><dt>Compaction</dt><dd>Replacing a long session history with a shorter written summary.</dd><dt>Context window</dt><dd>The text a model can see at once.</dd><dt>Dreaming</dt><dd>An offline pass that reviews transcripts and notes, then corrects them.</dd><dt>Frontmatter</dt><dd>A small block of fields at the top of a Markdown file.</dd><dt>Injected context</dt><dd>Text loaded into every session at the start.</dd><dt>RAG</dt><dd>Retrieval-augmented generation: finding stored text and adding it to a prompt.</dd><dt>Semantic search</dt><dd>Finding text by meaning, using numeric embeddings of that text.</dd><dt>Vector index</dt><dd>A store of those embeddings, built for fast lookup.</dd></dl>
   </article>
 </div>
 </body>

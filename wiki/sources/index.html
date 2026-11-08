@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wiki sources</title>
+  <meta name="description" content="Every source cited in the wiki, each with its own page.">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Sources</nav>
+  <header class="title">
+    <h1>Sources</h1>
+    <p class="lede">Every source cited in the wiki, each with its own page.</p>
+  </header>
+  <article>
+    <ul class="wiki-list" id="source-list"><li>Loading…</li></ul>
+  </article>
+</div>
+<script>
+  fetch('/wiki/sources/manifest.json')
+    .then((res) => res.json())
+    .then((sources) => {
+      document.getElementById('source-list').innerHTML = sources
+        .map((s) => `<li><a href="${s.path}">${s.title}</a><p>${s.author}. ${s.date}.</p></li>`)
+        .join('');
+    })
+    .catch(() => {
+      document.getElementById('source-list').innerHTML = "<li>Couldn't load the source list.</li>";
+    });
+</script>
+</body>
+</html>

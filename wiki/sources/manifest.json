@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "kellogg-layers-of-memory",
+    "title": "Layers of Memory, Layers of Compression",
+    "author": "Tim Kellogg",
+    "date": "15 June 2025",
+    "path": "/wiki/sources/kellogg-layers-of-memory/"
+  },
+  {
+    "slug": "horthy-advanced-context-engineering",
+    "title": "Advanced Context Engineering for Coding Agents",
+    "author": "Dex Horthy, HumanLayer",
+    "date": "29 August 2025",
+    "path": "/wiki/sources/horthy-advanced-context-engineering/"
+  },
+  {
+    "slug": "recall-show-hn",
+    "title": "Show HN: Recall",
+    "author": "Posted by mateenah, with replies from many commenters",
+    "date": "21 June 2026",
+    "path": "/wiki/sources/recall-show-hn/"
+  },
+  {
+    "slug": "paterson-memoryfields",
+    "title": "Agent memory as a file format",
+    "author": "Cal Paterson",
+    "date": "August 2026",
+    "path": "/wiki/sources/paterson-memoryfields/"
+  },
+  {
+    "slug": "liao-agents-need-documentation",
+    "title": "Agents Don't Need Memory. They Need Documentation.",
+    "author": "Kevin Liao",
+    "date": "3 October 2026, updated 5 October",
+    "path": "/wiki/sources/liao-agents-need-documentation/"
+  },
+  {
+    "slug": "martin-components-of-agent-memory",
+    "title": "The components of agent memory",
+    "author": "Lance Martin, Anthropic",
+    "date": "6 November 2026",
+    "path": "/wiki/sources/martin-components-of-agent-memory/"
+  }
+]
