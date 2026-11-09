@@ -15,6 +15,11 @@
     <p class="lede">Narrow subjects, described through their sources.</p>
   </header>
   <article>
+    <h2>Themes</h2>
+    <p id="uniting"></p>
+    <p>Twenty themes cut across the subjects, in five groups. A source can carry several. <a href="/wiki/themes/">All themes</a></p>
+    <ul class="wiki-list" id="theme-list"><li>Loading…</li></ul>
+    <h2>Subjects</h2>
     <ul class="wiki-list" id="wiki-list"><li>Loading…</li></ul>
     <p><a href="/wiki/sources/">All sources</a></p>
   </article>
@@ -29,6 +34,17 @@
     })
     .catch(() => {
       document.getElementById('wiki-list').innerHTML = "<li>Couldn't load the page list.</li>";
+    });
+  fetch('/wiki/themes/manifest.json')
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById('uniting').textContent = data.uniting + '.';
+      document.getElementById('theme-list').innerHTML = data.groups
+        .map((group) => `<li><a href="/wiki/themes/#${group.slug}">${group.title}</a><p>${group.description}</p><p>${group.themes.map((theme) => `<a href="${theme.path}">${theme.title}</a>`).join(', ')}</p></li>`)
+        .join('');
+    })
+    .catch(() => {
+      document.getElementById('theme-list').innerHTML = "<li>Couldn't load the theme list.</li>";
     });
 </script>
 </body>

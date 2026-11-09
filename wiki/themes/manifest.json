@@ -1,0 +1,200 @@
+{
+  "uniting": "What can be written down, and what escapes",
+  "groups": [
+    {
+      "slug": "emergence",
+      "title": "Emergence",
+      "description": "What is written down produces more than it states.",
+      "themes": [
+        {
+          "slug": "rules-that-generate",
+          "title": "Rules that generate",
+          "description": "Small rule systems that produce far more than they state.",
+          "path": "/wiki/themes/rules-that-generate/",
+          "sources": 14,
+          "subjects": 8
+        },
+        {
+          "slug": "art-through-code",
+          "title": "Art through code",
+          "description": "Music, images and motion made by writing programs.",
+          "path": "/wiki/themes/art-through-code/",
+          "sources": 25,
+          "subjects": 8
+        },
+        {
+          "slug": "invented-worlds",
+          "title": "Invented worlds",
+          "description": "Building a place that does not exist, and getting people into it.",
+          "path": "/wiki/themes/invented-worlds/",
+          "sources": 16,
+          "subjects": 7
+        }
+      ]
+    },
+    {
+      "slug": "fixities",
+      "title": "Fixities",
+      "description": "Staying accurate, and surviving over time.",
+      "themes": [
+        {
+          "slug": "checking-the-work",
+          "title": "Checking the work",
+          "description": "How anyone comes to know that a thing is right.",
+          "path": "/wiki/themes/checking-the-work/",
+          "sources": 26,
+          "subjects": 8
+        },
+        {
+          "slug": "saying-it-exactly",
+          "title": "Saying it exactly",
+          "description": "Notations, languages and specs, and the limits of precision.",
+          "path": "/wiki/themes/saying-it-exactly/",
+          "sources": 19,
+          "subjects": 12
+        },
+        {
+          "slug": "how-things-break",
+          "title": "How things break",
+          "description": "Bugs, corruption and decay, examined up close.",
+          "path": "/wiki/themes/how-things-break/",
+          "sources": 11,
+          "subjects": 7
+        },
+        {
+          "slug": "what-lasts",
+          "title": "What lasts",
+          "description": "Memory, records and loss, in agents, cells, texts and places.",
+          "path": "/wiki/themes/what-lasts/",
+          "sources": 21,
+          "subjects": 9
+        }
+      ]
+    },
+    {
+      "slug": "automation",
+      "title": "Automation",
+      "description": "What machines do with what we write.",
+      "themes": [
+        {
+          "slug": "handing-over-control",
+          "title": "Handing over control",
+          "description": "What to delegate to an agent, and how to bound it.",
+          "path": "/wiki/themes/handing-over-control/",
+          "sources": 33,
+          "subjects": 6
+        },
+        {
+          "slug": "skill-under-automation",
+          "title": "Skill under automation",
+          "description": "What happens to expertise when machines do the work.",
+          "path": "/wiki/themes/skill-under-automation/",
+          "sources": 13,
+          "subjects": 3
+        },
+        {
+          "slug": "feedback-loops",
+          "title": "Feedback loops",
+          "description": "Systems whose output changes what they do next.",
+          "path": "/wiki/themes/feedback-loops/",
+          "sources": 8,
+          "subjects": 4
+        },
+        {
+          "slug": "close-to-the-machine",
+          "title": "Close to the machine",
+          "description": "Getting results by knowing what the hardware really does.",
+          "path": "/wiki/themes/close-to-the-machine/",
+          "sources": 21,
+          "subjects": 4
+        }
+      ]
+    },
+    {
+      "slug": "the-tacit",
+      "title": "The Tacit",
+      "description": "What people know that resists being written down.",
+      "themes": [
+        {
+          "slug": "getting-good",
+          "title": "Getting good",
+          "description": "Learning hard things, and explaining them so others can.",
+          "path": "/wiki/themes/getting-good/",
+          "sources": 35,
+          "subjects": 13
+        },
+        {
+          "slug": "taste-and-judgment",
+          "title": "Taste and judgment",
+          "description": "What good means, and how a person learns to see it.",
+          "path": "/wiki/themes/taste-and-judgment/",
+          "sources": 13,
+          "subjects": 11
+        },
+        {
+          "slug": "what-the-senses-do",
+          "title": "What the senses do",
+          "description": "Where physics stops and perception starts.",
+          "path": "/wiki/themes/what-the-senses-do/",
+          "sources": 12,
+          "subjects": 5
+        },
+        {
+          "slug": "belief-at-work",
+          "title": "Belief at work",
+          "description": "What ideas do for people, whether or not they are true.",
+          "path": "/wiki/themes/belief-at-work/",
+          "sources": 11,
+          "subjects": 3
+        }
+      ]
+    },
+    {
+      "slug": "society",
+      "title": "Society",
+      "description": "Who gets to write it down, who it reaches, and who counts.",
+      "themes": [
+        {
+          "slug": "small-means",
+          "title": "Small means",
+          "description": "What one person or a tiny budget can do.",
+          "path": "/wiki/themes/small-means/",
+          "sources": 16,
+          "subjects": 8
+        },
+        {
+          "slug": "given-away",
+          "title": "Given away",
+          "description": "Free tools, open data and teaching offered to anyone.",
+          "path": "/wiki/themes/given-away/",
+          "sources": 20,
+          "subjects": 14
+        },
+        {
+          "slug": "who-holds-power",
+          "title": "Who holds the power",
+          "description": "Platforms, institutions and who gains from a new tool.",
+          "path": "/wiki/themes/who-holds-power/",
+          "sources": 11,
+          "subjects": 6
+        },
+        {
+          "slug": "how-forms-evolve",
+          "title": "How forms evolve",
+          "description": "Where a genre, a practice or a language came from.",
+          "path": "/wiki/themes/how-forms-evolve/",
+          "sources": 14,
+          "subjects": 9
+        },
+        {
+          "slug": "what-counts-as-a-mind",
+          "title": "What counts as a mind",
+          "description": "When a mechanism starts to seem like someone.",
+          "path": "/wiki/themes/what-counts-as-a-mind/",
+          "sources": 6,
+          "subjects": 6
+        }
+      ]
+    }
+  ]
+}
