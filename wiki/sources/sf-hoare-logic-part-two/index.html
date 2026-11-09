@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hoare2: Hoare Logic, Part II</title>
+  <meta name="description" content="This chapter shows how to write Hoare logic proofs as decorated programs.">
+  <meta property="og:title" content="Hoare2: Hoare Logic, Part II">
+  <meta property="og:description" content="This chapter shows how to write Hoare logic proofs as decorated programs.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Hoare2: Hoare Logic, Part II</nav>
+  <header class="title">
+    <h1>Hoare2: Hoare Logic, Part II</h1>
+    <p class="lede">This chapter shows how to write Hoare logic proofs as decorated programs.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Textbook chapter with exercises, from Software Foundations Volume 2</dd>
+      <dt>Original</dt><dd><a href="https://softwarefoundations.cis.upenn.edu/plf-current/Hoare2.html">softwarefoundations.cis.upenn.edu/plf-current/Hoare2.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/formal-methods-and-proof/">Formal methods and proof</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The page is a chapter of an online course text on programming language foundations. It sets out to make Hoare logic proofs compact and mostly automatic. It ends with an optional section on weakest preconditions.</p>
+    <h2>What it says</h2>
+    <ul><li>The chapter says Hoare logic is syntax directed. Proof structure follows program structure exactly.</li><li>A decorated program places assertions around each command. The chapter calls it a compact form of a Hoare logic proof.</li><li>Assertions can be derived mechanically by working backward from the postcondition. The chapter says finding loop invariants is the only creative part.</li><li>A loop invariant must hold on entry and imply the postcondition on exit. It must also survive one pass of the loop body.</li><li>A worked example guesses True and then the postcondition as invariants, and both fail. The invariant that the gap between Y and X stays constant succeeds.</li><li>A variable the loop only reads must be recorded as unchanged in the invariant.</li><li>The chapter defines decorated programs formally and builds a generator of verification conditions. It then proves that generator correct.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The chapter works through example programs, including swapping, division, subtraction and parity. It proves in Rocq that its verification condition generator is correct. Many exercises ask for decorations and proofs, such as factorial and Fibonacci.</p>
+    <h2>Interests and limits</h2>
+    <p>Only the prose was read closely; code, formal proofs and most exercises were skimmed. The examples are small programs in a toy language. The chapter does not test its methods on real software.</p>
+  </article>
+</div>
+</body>
+</html>

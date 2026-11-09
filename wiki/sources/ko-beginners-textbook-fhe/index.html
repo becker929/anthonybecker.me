@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Beginner's Textbook for Fully Homomorphic Encryption</title>
+  <meta name="description" content="A long open textbook that explains how fully homomorphic encryption works at the mathematical level.">
+  <meta property="og:title" content="The Beginner&#x27;s Textbook for Fully Homomorphic Encryption">
+  <meta property="og:description" content="A long open textbook that explains how fully homomorphic encryption works at the mathematical level.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The Beginner's Textbook for Fully Homomorphic Encryption</nav>
+  <header class="title">
+    <h1>The Beginner's Textbook for Fully Homomorphic Encryption</h1>
+    <p class="lede">A long open textbook that explains how fully homomorphic encryption works at the mathematical level.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Ronny Ko, LG Electronics Inc.</dd>
+      <dt>Published</dt><dd>2 June 2026 (version 26)</dd>
+      <dt>Kind</dt><dd>Open textbook on arXiv, with worked examples and a demo code library</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/abs/2503.05136">arxiv.org/abs/2503.05136</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/security/">Security</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Ronny Ko of LG Electronics writes a four-part textbook. It covers basic math, lattice cryptography, generic techniques and four named schemes.</p>
+    <h2>What it says</h2>
+    <ul><li>The book defines FHE as computing directly on encrypted data.</li><li>Part IV covers four schemes, TFHE, BFV, CKKS and BGV, and their RNS variants.</li><li>Lattice cryptography hides a plaintext by adding a secret-key term and small random noise.</li><li>Without bootstrapping, a table lets CKKS and BGV multiply as many times as chain length.</li><li>TFHE bootstrapping rotates an encrypted lookup polynomial without revealing the rotation.</li><li>In BGV, modulus switching resets noise and bootstrapping resets the modulus chain.</li><li>The author supplies a Python library of the four schemes for educational purposes.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The book gives proofs, step-by-step derivations, small worked examples with concrete numbers and summary tables. A separate Python library is offered for the schemes.</p>
+    <h2>Interests and limits</h2>
+    <p>Only the preface, contents and samples of the chapters were read. The book is a draft with many versions, and its preface invites error reports. The author works at LG Electronics, though the book promotes no product. The Python library was not run. The correctness of the derivations was not checked.</p>
+  </article>
+</div>
+</body>
+</html>

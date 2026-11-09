@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AeneasVerif/aeneas: A verification toolchain for Rust programs</title>
+  <meta name="description" content="The README of a toolchain that translates Rust programs into models for proof assistants.">
+  <meta property="og:title" content="AeneasVerif/aeneas: A verification toolchain for Rust programs">
+  <meta property="og:description" content="The README of a toolchain that translates Rust programs into models for proof assistants.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / AeneasVerif/aeneas: A verification toolchain for Rust programs</nav>
+  <header class="title">
+    <h1>AeneasVerif/aeneas: A verification toolchain for Rust programs</h1>
+    <p class="lede">The README of a toolchain that translates Rust programs into models for proof assistants.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated; the AeneasVerif GitHub organization</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Open-source project README</dd>
+      <dt>Original</dt><dd><a href="https://github.com/AeneasVerif/aeneas">github.com/AeneasVerif/aeneas</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/formal-methods-and-proof/">Formal methods and proof</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The README is published by the AeneasVerif GitHub organization, with no named authors. It explains what the tool does and how to build and run it. It also invites outside contributors through a chat forum.</p>
+    <h2>What it says</h2>
+    <ul><li>Aeneas translates Rust's MIR into a pure lambda calculus, and works with the tool Charon.</li><li>It has backends for F*, Coq, HOL4 and Lean.</li><li>The README calls Lean and HOL4 the most mature backends.</li><li>Aeneas handles a subset of safe Rust, with gaps in loops and references.</li><li>Unsafe code and concurrency are to be supported later through work on separation logic.</li><li>Missing standard library definitions need hand-written models, which the tool can templatise.</li><li>The README cites an ICFP 2022 paper formalising the translation.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The README gives commands, a project layout and a list of limitations. It points to a tutorial, generated tests and two papers. It does not include benchmarks or case studies.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors describe their own project. The README was read in full, but the linked papers, tutorial and tests were not. It admits unsupported features. How far the tool scales on real programs is not shown here.</p>
+  </article>
+</div>
+</body>
+</html>

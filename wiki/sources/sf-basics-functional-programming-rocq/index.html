@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Basics: Functional Programming in Rocq</title>
+  <meta name="description" content="This chapter teaches functional programming and basic proofs in the Rocq proof assistant.">
+  <meta property="og:title" content="Basics: Functional Programming in Rocq">
+  <meta property="og:description" content="This chapter teaches functional programming and basic proofs in the Rocq proof assistant.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Basics: Functional Programming in Rocq</nav>
+  <header class="title">
+    <h1>Basics: Functional Programming in Rocq</h1>
+    <p class="lede">This chapter teaches functional programming and basic proofs in the Rocq proof assistant.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated (the page foot shows a 2026-08-24 timestamp)</dd>
+      <dt>Kind</dt><dd>Textbook chapter with exercises, from Software Foundations Volume 1</dd>
+      <dt>Original</dt><dd><a href="https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html">softwarefoundations.cis.upenn.edu/lf-current/Basics.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/formal-methods-and-proof/">Formal methods and proof</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The page is a chapter of an online course text, rendered from Rocq source. It sets out to teach Rocq's small functional language, called Gallina. The second half introduces tactics for proving properties of Gallina programs.</p>
+    <h2>What it says</h2>
+    <ul><li>The chapter says a side-effect-free procedure can be treated as a mathematical function. That link, it says, supports formal proofs and informal reasoning.</li><li>The chapter says Rocq has very few built-in features. It builds days, booleans and numbers from scratch.</li><li>Natural numbers are written with two constructors, O and S. The chapter says these names carry no meaning until functions use them.</li><li>The chapter shows three ways to check examples. One of them extracts a program in OCaml, Scheme or Haskell.</li><li>Unknown values block simplification, so proofs must consider the possible forms of a number. The destruct tactic splits a proof into those cases.</li><li>An exercise formalizes a course late-day grading policy as functions. The chapter says the formalization exposes corner cases in the policy.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The chapter offers worked code, checked examples and proofs, and starred exercises with hints. Each chapter comes with test scripts that grade the exercises. The late-policy exercise applies the tools to a small, concrete rule set.</p>
+    <h2>Interests and limits</h2>
+    <p>Only the prose was read closely; code listings and some exercise text were skimmed. The page is a teaching text, so it makes few claims that could be tested. It teaches one tool, and its remarks on the wider field are brief.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Show HN: Forge - Guardrails take an 8B model from 53% to 99% on agentic tasks</title>
+  <meta name="description" content="A 687-point Show HN thread where Antoine Zambelli presents Forge, a tool-calling reliability layer.">
+  <meta property="og:title" content="Show HN: Forge - Guardrails take an 8B model from 53% to 99% on agentic tasks">
+  <meta property="og:description" content="A 687-point Show HN thread where Antoine Zambelli presents Forge, a tool-calling reliability layer.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Show HN: Forge - Guardrails take an 8B model from 53% to 99% on agentic tasks</nav>
+  <header class="title">
+    <h1>Show HN: Forge - Guardrails take an 8B model from 53% to 99% on agentic tasks</h1>
+    <p class="lede">A 687-point Show HN thread where Antoine Zambelli presents Forge, a tool-calling reliability layer.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by zambelli (Antoine Zambelli, AI Director at Texas Instruments), with replies from many commenters</dd>
+      <dt>Published</dt><dd>19 May 2026</dd>
+      <dt>Kind</dt><dd>Show HN thread where the author presents an open-source tool and answers questions</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=48192383">news.ycombinator.com/item?id=48192383</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Antoine Zambelli posted Forge as an open-source layer around self-hosted models. It retries and nudges models when tool calls fail. The post cites a peer-reviewed paper, a repo, a dashboard and a demo video.</p>
+    <h2>What it says</h2>
+    <ul><li>Zambelli claims Forge lifts an 8B model from about 53% to 99% on multi-step tasks.</li><li>The post says the paper covers 97 configurations, 18 scenarios and 50 runs each.</li><li>An ablation in the post finds retry nudges and error recovery carry the most weight.</li><li>Zambelli reports one Mistral-Nemo 12B model scored 7% on one backend and 83% on another.</li><li>The post proposes a ToolResolutionError, to separate returning data from finding nothing.</li><li>Asked about overfitting, Zambelli concedes one person wrote both guardrails and evals.</li><li>Commenter simonw notes that "guardrails" has several meanings and here means validating tool calls.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The main evidence is the author's own paper, eval harness and dashboard. The post says the harness and dashboard let readers reproduce every number. Commenters add informal reports of trying Forge with Qwen, DeepSeek and small Bonsai models. One commenter posts a table of counts from a test run.</p>
+    <h2>Interests and limits</h2>
+    <p>The author wrote both the guardrails and the eval suite, and says so. The post says paper numbers predate version 0.6.0. The paper, repo and dashboard were not read. Commenter results are anecdotes. The author says the evals stress-test error recovery, not end-to-end agent quality.</p>
+  </article>
+</div>
+</body>
+</html>

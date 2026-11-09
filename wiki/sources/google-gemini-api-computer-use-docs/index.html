@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Computer use - Gemini API | Google AI Studio</title>
+  <meta name="description" content="Google&#x27;s documentation for the Gemini API tool that lets a model act on screenshots.">
+  <meta property="og:title" content="Computer use - Gemini API | Google AI Studio">
+  <meta property="og:description" content="Google&#x27;s documentation for the Gemini API tool that lets a model act on screenshots.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Computer use - Gemini API | Google AI Studio</nav>
+  <header class="title">
+    <h1>Computer use - Gemini API | Google AI Studio</h1>
+    <p class="lede">Google's documentation for the Gemini API tool that lets a model act on screenshots.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (Google AI Studio documentation)</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Vendor API documentation page</dd>
+      <dt>Original</dt><dd><a href="https://ai.google.dev/gemini-api/docs/computer-use">ai.google.dev/gemini-api/docs/computer-use</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Google publishes this page as reference documentation for developers. It teaches how to build agents that control a browser, phone or desktop. It sets out the loop, the actions and the safety features.</p>
+    <h2>What it says</h2>
+    <ul><li>The tool lets a model see screenshots and act through clicks and keystrokes.</li><li>The developer's code must run the loop and send back a new screenshot each step.</li><li>The model returns coordinates on a normalized grid, which the client scales to the screen.</li><li>Browser, mobile and desktop environments are supported, each with its own action list.</li><li>Built-in safety policies include blocking agents from accepting legal terms on their own.</li><li>A response can require confirmation, and the client must then ask the user.</li><li>Prompt injection detection on screenshots is opt-in and off by default.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The page offers code samples, tables of actions and descriptions of fields. It gives no benchmark results or error rates. The samples use a browser driven by Playwright.</p>
+    <h2>Interests and limits</h2>
+    <p>This is a vendor page for its own product. It shows few weaknesses beyond a general warning. The page says the tool may contain errors and security vulnerabilities. Model names and versions reflect the page at the time it was fetched. None of the code was run. The code samples in several languages were skimmed, not read line by line.</p>
+  </article>
+</div>
+</body>
+</html>

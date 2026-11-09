@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HelloSilicon</title>
+  <meta name="description" content="A README listing what changes when an ARM64 assembly book is followed on Apple silicon.">
+  <meta property="og:title" content="HelloSilicon">
+  <meta property="og:description" content="A README listing what changes when an ARM64 assembly book is followed on Apple silicon.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / HelloSilicon</nav>
+  <header class="title">
+    <h1>HelloSilicon</h1>
+    <p class="lede">A README listing what changes when an ARM64 assembly book is followed on Apple silicon.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>GitHub README acting as a chapter-by-chapter porting guide</dd>
+      <dt>Original</dt><dd><a href="https://github.com/below/HelloSilicon">github.com/below/HelloSilicon</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The README is a companion to the book Programming with 64-Bit ARM Assembly Language. The writer codes along with the book and adjusts the samples for Apple silicon Macs. The document follows the book's chapter headings.</p>
+    <h2>What it says</h2>
+    <ul><li>The README says it follows a 64-bit ARM assembly book, adapted to Apple silicon.</li><li>It says Darwin differs from Linux in syscall number, number register and interrupt call.</li><li>It says the Clang assembler needs different syntax from the GNU assembler.</li><li>It says Darwin rejects absolute addressing, so ADRP with @PAGE and @PAGEOFF is used.</li><li>It says variadic functions like printf take their arguments on the stack on Darwin.</li><li>It says lldb replaces gdb on macOS and links a command map.</li><li>It says several chapters need no change, and the Chapter 16 exploit cannot be reproduced.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The README shows command output, error messages and short assembly listings. It quotes Apple documentation, the LLVM source and a reply from the book's author. It cites the author's own working sample files.</p>
+    <h2>Interests and limits</h2>
+    <p>The page is a personal guide, not official Apple material. It lists Xcode 12.2 or later and macOS Big Sur as prerequisites. Later changes may differ. Only the README was read, not the sample files it links. Darwin syscall numbers are called private and subject to change.</p>
+  </article>
+</div>
+</body>
+</html>

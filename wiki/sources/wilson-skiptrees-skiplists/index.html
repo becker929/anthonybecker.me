@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What are skiplists good for?</title>
+  <meta name="description" content="A company blog post explaining skiplists and a tree variant its engineers used in SQL.">
+  <meta property="og:title" content="What are skiplists good for?">
+  <meta property="og:description" content="A company blog post explaining skiplists and a tree variant its engineers used in SQL.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / What are skiplists good for?</nav>
+  <header class="title">
+    <h1>What are skiplists good for?</h1>
+    <p class="lede">A company blog post explaining skiplists and a tree variant its engineers used in SQL.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Will Wilson, Co-founder &amp; CEO, Antithesis</dd>
+      <dt>Published</dt><dd>16 April 2026</dd>
+      <dt>Kind</dt><dd>Company blog post, with one engineering anecdote</dd>
+      <dt>Original</dt><dd><a href="https://antithesis.com/blog/2026/skiptrees/">antithesis.com/blog/2026/skiptrees/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Will Wilson is co-founder and CEO of Antithesis, a company that tests software. The post says skiplists came up in a book club. It recounts a data problem the company hit and how a skiplist idea solved it.</p>
+    <h2>What it says</h2>
+    <ul><li>Wilson describes skiplists as roughly linked lists plus express lanes.</li><li>Antithesis kept fuzzer timelines in BigQuery, where walking parent pointers meant many full scans.</li><li>A skiptree is described as a bunch of skiplists sharing structure, one per root-to-leaf path.</li><li>Each level gets a SQL table with a next-level ancestor and the nodes between.</li><li>Ancestor queries then become one non-recursive SQL query with about 40 joins.</li><li>Each query cost about twice a normal scan, since BigQuery billed by data scanned.</li><li>A JavaScript compiler generated the SQL, which served most test properties for six years.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the author's account of the company's own system. The post shows small example tables and a worked ancestor lookup. It gives no benchmarks. The cost claim is stated without measurements.</p>
+    <h2>Interests and limits</h2>
+    <p>Wilson leads the company and the post appears on its blog. Nothing was independently tested. The saving applied to BigQuery billing at the time. The post jokes that it cost Google more. The skiptree suited BigQuery as it worked then. The company has since built its own database.</p>
+  </article>
+</div>
+</body>
+</html>

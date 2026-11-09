@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Error Model</title>
+  <meta name="description" content="A retrospective on the error model of Midori, an experimental operating system and language.">
+  <meta property="og:title" content="The Error Model">
+  <meta property="og:description" content="A retrospective on the error model of Midori, an experimental operating system and language.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The Error Model</nav>
+  <header class="title">
+    <h1>The Error Model</h1>
+    <p class="lede">A retrospective on the error model of Midori, an experimental operating system and language.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Joe Duffy</dd>
+      <dt>Published</dt><dd>February 7, 2016</dd>
+      <dt>Kind</dt><dd>Long personal blog post, a design retrospective with code samples</dd>
+      <dt>Original</dt><dd><a href="https://joeduffyblog.com/2016/02/07/the-error-model/">joeduffyblog.com/2016/02/07/the-error-model/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Joe Duffy describes the error model of Midori, an operating system using a C# variant. The post is the first in a planned series on that language. It recounts years of design changes.</p>
+    <h2>What it says</h2>
+    <ul><li>The post argues a language should separate bugs from recoverable errors.</li><li>Midori handled bugs by abandonment, a fail-fast teardown that ran no user code.</li><li>Recoverable errors used checked exceptions. A method could throw only if marked throws, and each call site said try.</li><li>Preconditions written with requires replaced most argument-checking exceptions seen in .NET and Java.</li><li>In a dual-mode test, exceptions were 7% smaller and 4% faster than return codes.</li><li>Treating unintended overflow as a bug helped avoid a bug 9 times in 10.</li><li>The post says reliability comes from isolated processes that can fail and be restarted.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers code samples and its own experience over several years. It reports a few ratios, such as bug abandonment outnumbering recoverable errors by about 10:1. It tells one anecdote of a port where 80% of zh-tw requests failed.</p>
+    <h2>Interests and limits</h2>
+    <p>The blog header names Duffy as Founder/CEO of Pulumi. The post says Midori never shipped. Its figures come from internal work and cannot be checked here. An earlier post holds the full benchmark results.</p>
+  </article>
+</div>
+</body>
+</html>

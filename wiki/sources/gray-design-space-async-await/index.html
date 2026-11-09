@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Design Space Exploration of Async/Await</title>
+  <meta name="description" content="A blog post summarizing a paper that maps how async/await behaves differently across seven runtimes.">
+  <meta property="og:title" content="A Design Space Exploration of Async/Await">
+  <meta property="og:description" content="A blog post summarizing a paper that maps how async/await behaves differently across seven runtimes.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / A Design Space Exploration of Async/Await</nav>
+  <header class="title">
+    <h1>A Design Space Exploration of Async/Await</h1>
+    <p class="lede">A blog post summarizing a paper that maps how async/await behaves differently across seven runtimes.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Gavin Gray, Cognitive Engineering Lab</dd>
+      <dt>Published</dt><dd>8 September 2026</dd>
+      <dt>Kind</dt><dd>Research group blog post summarizing a paper</dd>
+      <dt>Original</dt><dd><a href="https://cel.cs.brown.edu/blog/design-space-async-await/">cel.cs.brown.edu/blog/design-space-async-await/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Gavin Gray posts for the Cognitive Engineering Lab. The post introduces a paper on straight-line asynchrony, meaning async/await code. It asks how similar async/await really is between languages.</p>
+    <h2>What it says</h2>
+    <ul><li>The post shows a short program whose output differs across seven async runtimes.</li><li>The runtimes give four different outputs, and no two match on three variations.</li><li>The paper finds nine design dimensions, grouped by task lifetime.</li><li>Eagerness is one dimension: hot calls run at once, cold calls wait to be awaited.</li><li>Swift prints AC and Trio prints ABC, because they differ in how tasks are destroyed.</li><li>The authors give a formal semantics that explains divergences by tracing execution.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post reports the output of one pseudocode program on seven runtimes. It tabulates nine design dimensions by language. It shows a trace figure from the formal model. Full results sit in the paper.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors wrote both the post and the paper. The output table and figure were missing, and the paper was not read. Only one small program is shown in the post. The post does not say how the runtimes were run.</p>
+  </article>
+</div>
+</body>
+</html>

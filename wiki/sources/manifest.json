@@ -7,11 +7,32 @@
     "path": "/wiki/sources/mccarthy-recursive-functions-lisp/"
   },
   {
+    "slug": "dijkstra-discipline-of-programming-archive",
+    "title": "A discipline of programming",
+    "author": "Edsger Wybe Dijkstra",
+    "date": "1976",
+    "path": "/wiki/sources/dijkstra-discipline-of-programming-archive/"
+  },
+  {
     "slug": "arvind-dataflow-architectures",
     "title": "Dataflow Architectures",
     "author": "Arvind and David E. Culler, MIT Laboratory for Computer Science",
     "date": "12 February 1986",
     "path": "/wiki/sources/arvind-dataflow-architectures/"
+  },
+  {
+    "slug": "brooks-no-silver-bullet",
+    "title": "No Silver Bullet: Essence and Accidents of Software Engineering",
+    "author": "Frederick P. Brooks, Jr., University of North Carolina at Chapel Hill",
+    "date": "September 1986",
+    "path": "/wiki/sources/brooks-no-silver-bullet/"
+  },
+  {
+    "slug": "morgan-refinement-calculus-prg70",
+    "title": "On the Refinement Calculus",
+    "author": "Carroll Morgan, Ken Robinson and Paul Gardiner, Oxford University Computing Laboratory",
+    "date": "October 1988",
+    "path": "/wiki/sources/morgan-refinement-calculus-prg70/"
   },
   {
     "slug": "wadler-theorems-for-free-timeline",
@@ -21,11 +42,74 @@
     "path": "/wiki/sources/wadler-theorems-for-free-timeline/"
   },
   {
+    "slug": "stewart-early-history-svd",
+    "title": "On the Early History of the Singular Value Decomposition",
+    "author": "G. W. Stewart",
+    "date": "December 1993",
+    "path": "/wiki/sources/stewart-early-history-svd/"
+  },
+  {
+    "slug": "mortimer-key-of-it-all",
+    "title": "The Key of It All (AL=L)",
+    "author": "George T. Mortimer",
+    "date": "1996, with a foreword added in 2016",
+    "path": "/wiki/sources/mortimer-key-of-it-all/"
+  },
+  {
+    "slug": "butler-refinement-calculus-tutorial",
+    "title": "Refinement Calculus Tutorial",
+    "author": "Michael Butler",
+    "date": "16 January 1996",
+    "path": "/wiki/sources/butler-refinement-calculus-tutorial/"
+  },
+  {
+    "slug": "zephyros-commentaries-liber-al",
+    "title": "Commentaries to Liber AL vel Legis",
+    "author": "Aleister Crowley et al., compiled by Frater Zephyros",
+    "date": "Compiled 1998; page last updated 02-02-2026",
+    "path": "/wiki/sources/zephyros-commentaries-liber-al/"
+  },
+  {
+    "slug": "bagwell-fast-functional-lists",
+    "title": "Fast Functional Lists, Hash-Lists, Deques and Variable Length Arrays",
+    "author": "Phil Bagwell",
+    "date": "2002",
+    "path": "/wiki/sources/bagwell-fast-functional-lists/"
+  },
+  {
     "slug": "starchild-crescent-moon-lit-bottom",
     "title": "Why is the crescent Moon sometimes lit on the bottom?",
     "author": "The StarChild Team, NASA Goddard Space Flight Center",
     "date": "March 2002",
     "path": "/wiki/sources/starchild-crescent-moon-lit-bottom/"
+  },
+  {
+    "slug": "armstrong-erlang-thesis",
+    "title": "Making reliable distributed systems in the presence of software errors",
+    "author": "Joe Armstrong, Royal Institute of Technology, Stockholm",
+    "date": "December 2003",
+    "path": "/wiki/sources/armstrong-erlang-thesis/"
+  },
+  {
+    "slug": "skinner-complete-magicians-tables",
+    "title": "The Complete Magician's Tables",
+    "author": "Stephen Skinner",
+    "date": "2006",
+    "path": "/wiki/sources/skinner-complete-magicians-tables/"
+  },
+  {
+    "slug": "papadimoulis-inner-platform-effect",
+    "title": "The Inner-Platform Effect",
+    "author": "Alex Papadimoulis, founder of The Daily WTF",
+    "date": "21 April 2006",
+    "path": "/wiki/sources/papadimoulis-inner-platform-effect/"
+  },
+  {
+    "slug": "okasaki-ten-years-pfds",
+    "title": "Ten Years of Purely Functional Data Structures",
+    "author": "Chris Okasaki",
+    "date": "8 February 2008",
+    "path": "/wiki/sources/okasaki-ten-years-pfds/"
   },
   {
     "slug": "shelley-concept-of-the-aesthetic",
@@ -42,11 +126,53 @@
     "path": "/wiki/sources/suda-welcome-the-entire-land/"
   },
   {
+    "slug": "he-spontaneous-emergence-hierarchy",
+    "title": "Spontaneous Emergence of Hierarchy in Biological Systems",
+    "author": "Jiankui He, Rice University",
+    "date": "November 2010",
+    "path": "/wiki/sources/he-spontaneous-emergence-hierarchy/"
+  },
+  {
     "slug": "wilkerson-harmony-explained",
     "title": "Harmony Explained",
     "author": "Daniel Shawcross Wilkerson",
     "date": "February 2012, revised June 2014",
     "path": "/wiki/sources/wilkerson-harmony-explained/"
+  },
+  {
+    "slug": "allspaw-devils-in-details",
+    "title": "The Devil’s In The Details",
+    "author": "allspaw, on the Kitchen Soap blog",
+    "date": "30 March 2012",
+    "path": "/wiki/sources/allspaw-devils-in-details/"
+  },
+  {
+    "slug": "eshelman-liber-q-tarot",
+    "title": "Liber Q: Tarot Symbolism & Divination",
+    "author": "Revised and expanded by GH Fra. P.; introduction signed James A. Eshelman; College of Thelema",
+    "date": "Fourth revised edition, June 2012",
+    "path": "/wiki/sources/eshelman-liber-q-tarot/"
+  },
+  {
+    "slug": "kim-three-ways-devops",
+    "title": "The Three Ways: The Principles Underpinning DevOps",
+    "author": "Gene Kim, IT Revolution",
+    "date": "22 August 2012",
+    "path": "/wiki/sources/kim-three-ways-devops/"
+  },
+  {
+    "slug": "victor-learnable-programming",
+    "title": "Learnable Programming",
+    "author": "Bret Victor",
+    "date": "September 2012",
+    "path": "/wiki/sources/victor-learnable-programming/"
+  },
+  {
+    "slug": "limoncelli-senior-sysadmin",
+    "title": "What makes a sysadmin a \"senior sysadmin\"?",
+    "author": "Tom Limoncelli",
+    "date": "26 September 2012",
+    "path": "/wiki/sources/limoncelli-senior-sysadmin/"
   },
   {
     "slug": "tao-formalising-dimensional-analysis",
@@ -56,11 +182,46 @@
     "path": "/wiki/sources/tao-formalising-dimensional-analysis/"
   },
   {
+    "slug": "takada-distributed-systems-fun-profit",
+    "title": "Distributed systems for fun and profit",
+    "author": "Mikito Takada",
+    "date": "2013",
+    "path": "/wiki/sources/takada-distributed-systems-fun-profit/"
+  },
+  {
+    "slug": "hodges-notes-distributed-systems-young-bloods",
+    "title": "Notes on Distributed Systems for Young Bloods",
+    "author": "Jeff Hodges",
+    "date": "14 January 2013",
+    "path": "/wiki/sources/hodges-notes-distributed-systems-young-bloods/"
+  },
+  {
+    "slug": "mahoney-data-compression-explained",
+    "title": "Data Compression Explained",
+    "author": "Matt Mahoney, copyright Dell, Inc.",
+    "date": "Last updated 15 April 2013",
+    "path": "/wiki/sources/mahoney-data-compression-explained/"
+  },
+  {
+    "slug": "wozniak-orms-just-learn-sql",
+    "title": "What ORMs have taught me: just learn SQL",
+    "author": "Not stated (the site is wozniak.ca)",
+    "date": "3 August 2014",
+    "path": "/wiki/sources/wozniak-orms-just-learn-sql/"
+  },
+  {
     "slug": "savage-hello-world-mach-o",
     "title": "The Nitty Gritty of “Hello World” on macOS",
     "author": "Joe Savage",
     "date": "8 November 2014",
     "path": "/wiki/sources/savage-hello-world-mach-o/"
+  },
+  {
+    "slug": "metz-wrong-abstraction",
+    "title": "The Wrong Abstraction",
+    "author": "Sandi Metz",
+    "date": "20 January 2016",
+    "path": "/wiki/sources/metz-wrong-abstraction/"
   },
   {
     "slug": "hollander-coltrane-tone-circle",
@@ -75,6 +236,27 @@
     "author": "Sean O'Mara (Zimmerit)",
     "date": "25 January 2016",
     "path": "/wiki/sources/omara-live-action-mecha/"
+  },
+  {
+    "slug": "duffy-midori-error-model",
+    "title": "The Error Model",
+    "author": "Joe Duffy",
+    "date": "February 7, 2016",
+    "path": "/wiki/sources/duffy-midori-error-model/"
+  },
+  {
+    "slug": "acolyer-parnas-decomposing-modules",
+    "title": "On the criteria to be used in decomposing systems into modules",
+    "author": "Adrian Colyer, The Morning Paper",
+    "date": "5 September 2016",
+    "path": "/wiki/sources/acolyer-parnas-decomposing-modules/"
+  },
+  {
+    "slug": "hashemi-template-matching-review",
+    "title": "Template Matching Advances and Applications in Image Analysis",
+    "author": "Nazanin Sadat Hashemi and three co-authors, Islamic Azad University",
+    "date": "23 October 2016",
+    "path": "/wiki/sources/hashemi-template-matching-review/"
   },
   {
     "slug": "stanovsky-bay-area-alternative-press",
@@ -98,11 +280,67 @@
     "path": "/wiki/sources/chisnall-c-not-low-level/"
   },
   {
+    "slug": "crichton-what-is-systems-programming",
+    "title": "What is Systems Programming, Really?",
+    "author": "Will Crichton",
+    "date": "9 September 2018",
+    "path": "/wiki/sources/crichton-what-is-systems-programming/"
+  },
+  {
+    "slug": "seemann-yes-silver-bullet",
+    "title": "Yes silver bullet",
+    "author": "Mark Seemann",
+    "date": "1 July 2019",
+    "path": "/wiki/sources/seemann-yes-silver-bullet/"
+  },
+  {
+    "slug": "kazemi-run-small-social-network",
+    "title": "How to run a small social network site for your friends",
+    "author": "Darius Kazemi",
+    "date": "8 July 2019 (updated 12 November 2024)",
+    "path": "/wiki/sources/kazemi-run-small-social-network/"
+  },
+  {
+    "slug": "foster-developers-dont-understand-cors",
+    "title": "Developers don't understand CORS",
+    "author": "Chris Foster",
+    "date": "10 July 2019",
+    "path": "/wiki/sources/foster-developers-dont-understand-cors/"
+  },
+  {
+    "slug": "fowler-software-architecture-guide",
+    "title": "Software Architecture Guide",
+    "author": "Martin Fowler (Thoughtworks)",
+    "date": "1 Aug 2019",
+    "path": "/wiki/sources/fowler-software-architecture-guide/"
+  },
+  {
+    "slug": "jenson-games-ux-lenses",
+    "title": "How Video Games Inspire Great UX",
+    "author": "Scott Jenson",
+    "date": "1 September 2019",
+    "path": "/wiki/sources/jenson-games-ux-lenses/"
+  },
+  {
+    "slug": "letters-software-about-people",
+    "title": "Software is about people, not code",
+    "author": "Dan, publishing as mooreds on Letters To A New Developer",
+    "date": "27 January 2020",
+    "path": "/wiki/sources/letters-software-about-people/"
+  },
+  {
     "slug": "fraterp-hru-and-hua-egregore",
     "title": "Hru and Hua: A Secret Egregore of the A.A. and H.O.G.D.?",
     "author": "FraterP (Frater Praemonstro), Order of the Thelemic Golden Dawn",
     "date": "10 April 2020 (updated 15 April 2020)",
     "path": "/wiki/sources/fraterp-hru-and-hua-egregore/"
+  },
+  {
+    "slug": "lague-coding-adventure-solar-system",
+    "title": "Coding Adventure: Solar System",
+    "author": "Sebastian Lague",
+    "date": "17 April 2020",
+    "path": "/wiki/sources/lague-coding-adventure-solar-system/"
   },
   {
     "slug": "ra-kishotenketsu",
@@ -131,6 +369,20 @@
     "author": "Emily Temple (Literary Hub)",
     "date": "August 19, 2020",
     "path": "/wiki/sources/temple-iconic-short-stories/"
+  },
+  {
+    "slug": "marco-dishcraft-dishwashing-robot",
+    "title": "Dishwashing Robot for Restaurants",
+    "author": "Marco, Personal Robots",
+    "date": "February 21, 2021",
+    "path": "/wiki/sources/marco-dishcraft-dishwashing-robot/"
+  },
+  {
+    "slug": "grimm-sep-understanding",
+    "title": "Understanding (Stanford Encyclopedia of Philosophy)",
+    "author": "Stephen Grimm",
+    "date": "6 May 2021",
+    "path": "/wiki/sources/grimm-sep-understanding/"
   },
   {
     "slug": "chachra-care-at-scale",
@@ -175,11 +427,32 @@
     "path": "/wiki/sources/vson8-wizard-speed-time-video/"
   },
   {
+    "slug": "primozic-binary-addition-network",
+    "title": "Reverse Engineering a Neural Network's Clever Solution to Binary Addition",
+    "author": "Casey Primozic",
+    "date": "15 January 2023",
+    "path": "/wiki/sources/primozic-binary-addition-network/"
+  },
+  {
     "slug": "gauer-forth-writes-itself",
     "title": "Forth: The programming language that writes itself: The Web Page",
     "author": "Dave Gauer (ratfactor.com)",
     "date": "Created 2023-02-02, updated 2026-07-09",
     "path": "/wiki/sources/gauer-forth-writes-itself/"
+  },
+  {
+    "slug": "tomispev-coffin-texts-spell-714",
+    "title": "User:Tomispev/Coffin Texts Spell 714",
+    "author": "Wiktionary user Tomispev",
+    "date": "Last edited 11 February 2023",
+    "path": "/wiki/sources/tomispev-coffin-texts-spell-714/"
+  },
+  {
+    "slug": "noaa-ten-basic-clouds",
+    "title": "Ten Basic Clouds",
+    "author": "National Oceanic and Atmospheric Administration (NOAA), JetStream educational site",
+    "date": "Last updated 28 March 2023",
+    "path": "/wiki/sources/noaa-ten-basic-clouds/"
   },
   {
     "slug": "kimimi-the-firemen-review",
@@ -203,11 +476,67 @@
     "path": "/wiki/sources/karlsson-state-of-mind-new-ideas/"
   },
   {
+    "slug": "sonpatki-sre-story-alex-hidalgo",
+    "title": "SRE Story with Alex Hidalgo",
+    "author": "Prathamesh Sonpatki, interviewing Alex Hidalgo",
+    "date": "21 August 2023",
+    "path": "/wiki/sources/sonpatki-sre-story-alex-hidalgo/"
+  },
+  {
+    "slug": "hn-cursorless-alien-magic",
+    "title": "Cursorless is alien magic from the future",
+    "author": "Posted by todsacerdoti, with replies from many commenters",
+    "date": "10 November 2023",
+    "path": "/wiki/sources/hn-cursorless-alien-magic/"
+  },
+  {
+    "slug": "durnell-building-community-strangers",
+    "title": "Building community out of strangers",
+    "author": "Tracy Durnell",
+    "date": "30 November 2023",
+    "path": "/wiki/sources/durnell-building-community-strangers/"
+  },
+  {
+    "slug": "webb-vectorize-search",
+    "title": "Using Vectorize to build an unreasonably good search engine in 160 lines of code",
+    "author": "Matt Webb, on the PartyKit blog",
+    "date": "9 Jan 2024",
+    "path": "/wiki/sources/webb-vectorize-search/"
+  },
+  {
     "slug": "rose-bloom-filters",
     "title": "Bloom Filters",
     "author": "Sam Rose",
     "date": "19 February 2024, updated 25 October 2026",
     "path": "/wiki/sources/rose-bloom-filters/"
+  },
+  {
+    "slug": "eaton-runaway-to-the-stars-page-5",
+    "title": "Runaway to the Stars: Page 5",
+    "author": "Jay Eaton",
+    "date": "13 April 2024",
+    "path": "/wiki/sources/eaton-runaway-to-the-stars-page-5/"
+  },
+  {
+    "slug": "londe-early-years-brkga",
+    "title": "Early years of Biased Random-Key Genetic Algorithms: A systematic review",
+    "author": "Mariana A. Londe, Luciana S. Pessoa, Carlos E. Andrade and Mauricio G.C. Resende",
+    "date": "2 May 2024",
+    "path": "/wiki/sources/londe-early-years-brkga/"
+  },
+  {
+    "slug": "mahajan-primer-molecular-dynamics",
+    "title": "A primer on molecular dynamics",
+    "author": "Abhishaike Mahajan, Owl Posting",
+    "date": "May 20, 2024",
+    "path": "/wiki/sources/mahajan-primer-molecular-dynamics/"
+  },
+  {
+    "slug": "jaeger-naturalizing-relevance-realization",
+    "title": "Naturalizing relevance realization: why agency and cognition are fundamentally not computational",
+    "author": "Johannes Jaeger, Anna Riedl, Alex Djedovic, John Vervaeke and Denis Walsh, in Frontiers in Psychology",
+    "date": "25 June 2024",
+    "path": "/wiki/sources/jaeger-naturalizing-relevance-realization/"
   },
   {
     "slug": "pezzi-jungle-music-90s-games",
@@ -252,6 +581,34 @@
     "path": "/wiki/sources/silin-all-asteroids-visualized/"
   },
   {
+    "slug": "hochstein-carefulness-knob",
+    "title": "The carefulness knob",
+    "author": "Lorin Hochstein, on the Surfing Complexity blog",
+    "date": "29 October 2024",
+    "path": "/wiki/sources/hochstein-carefulness-knob/"
+  },
+  {
+    "slug": "huhnken-dual-nature-events-eda",
+    "title": "The Dual Nature of Events in Event-Driven Architecture",
+    "author": "Lutz Hühnken",
+    "date": "31 October 2024",
+    "path": "/wiki/sources/huhnken-dual-nature-events-eda/"
+  },
+  {
+    "slug": "taylor-bsky-distilled-capability",
+    "title": "Post introducing the essay Distilled Capability",
+    "author": "Posted by dorian (doriantaylor.com), with replies from two commenters",
+    "date": "1 November 2024",
+    "path": "/wiki/sources/taylor-bsky-distilled-capability/"
+  },
+  {
+    "slug": "goedecke-how-to-ship",
+    "title": "How I ship projects at big tech companies",
+    "author": "Sean Goedecke",
+    "date": "9 November 2024",
+    "path": "/wiki/sources/goedecke-how-to-ship/"
+  },
+  {
     "slug": "hinte-adipose-epigenetic-memory",
     "title": "Adipose tissue retains an epigenetic memory of obesity after weight loss",
     "author": "Laura C. Hinte, Daniel Castellano-Castillo and colleagues, ending with Ferdinand von Meyenn, ETH Zurich",
@@ -264,6 +621,20 @@
     "author": "Grace Kind",
     "date": "23 November 2024",
     "path": "/wiki/sources/kind-ideonomy-intro/"
+  },
+  {
+    "slug": "sewell-windsurf-vs-cursor",
+    "title": "Windsurf vs Cursor: which is the better AI code editor?",
+    "author": "Steve Sewell (Builder.io blog)",
+    "date": "17 December 2024",
+    "path": "/wiki/sources/sewell-windsurf-vs-cursor/"
+  },
+  {
+    "slug": "varietyz-disciplined-methodology",
+    "title": "Disciplined Methodology: Constraints, checks and skepticism for building software with LLMs",
+    "author": "Jay Baleine (GitHub user Varietyz)",
+    "date": "2025",
+    "path": "/wiki/sources/varietyz-disciplined-methodology/"
   },
   {
     "slug": "green-toni-morrison-lost-play",
@@ -287,6 +658,48 @@
     "path": "/wiki/sources/haykebyr-morpho-reference-books/"
   },
   {
+    "slug": "kraft-lightweight-durable-execution",
+    "title": "Why Durable Execution Should Be Lightweight",
+    "author": "Peter Kraft and Qian Li, DBOS",
+    "date": "12 January 2025",
+    "path": "/wiki/sources/kraft-lightweight-durable-execution/"
+  },
+  {
+    "slug": "rosslyn-modes-thread",
+    "title": "Thread on modes and scales (Bluesky)",
+    "author": "Posted by rosslynratioed (rosslyn.ratioed.click), replying to freya.bsky.social",
+    "date": "15 January 2025",
+    "path": "/wiki/sources/rosslyn-modes-thread/"
+  },
+  {
+    "slug": "spence-speeding-up-zsh",
+    "title": "Speeding Up My ZSH Shell",
+    "author": "Scott Spence",
+    "date": "February 1, 2025",
+    "path": "/wiki/sources/spence-speeding-up-zsh/"
+  },
+  {
+    "slug": "north-best-simple-system",
+    "title": "Best Simple System for Now",
+    "author": "Dan North, Dan North & Associates Limited",
+    "date": "3 February 2025",
+    "path": "/wiki/sources/north-best-simple-system/"
+  },
+  {
+    "slug": "qntm-developer-philosophy",
+    "title": "Developer philosophy",
+    "author": "qntm",
+    "date": "2025-02-03",
+    "path": "/wiki/sources/qntm-developer-philosophy/"
+  },
+  {
+    "slug": "creston-wasm-will-replace-containers",
+    "title": "WASM will replace containers",
+    "author": "Creston",
+    "date": "10 Feb 2025",
+    "path": "/wiki/sources/creston-wasm-will-replace-containers/"
+  },
+  {
     "slug": "curiositry-troubleshooting-skill",
     "title": "Troubleshooting: a skill that never goes obsolete",
     "author": "Curiositry (The Autodidacts)",
@@ -294,11 +707,32 @@
     "path": "/wiki/sources/curiositry-troubleshooting-skill/"
   },
   {
+    "slug": "spavel-ramayana-sf-course",
+    "title": "Post on science fiction courses and ancient texts",
+    "author": "Pavel (@spavel.bsky.social) on Bluesky",
+    "date": "2 March 2025",
+    "path": "/wiki/sources/spavel-ramayana-sf-course/"
+  },
+  {
+    "slug": "mmdev-decapitating-macbook",
+    "title": "Decapitating Macbook: An Odyssey",
+    "author": "Not stated",
+    "date": "6 March 2025, updated 28 August 2025",
+    "path": "/wiki/sources/mmdev-decapitating-macbook/"
+  },
+  {
     "slug": "hon-odysseus-collective-ambition",
     "title": "The Collective Ambition Behind Odysseus, a Game-changing Sci-fi Larp",
     "author": "Adrian Hon, interviewing Laura Kröger",
     "date": "19 March 2025",
     "path": "/wiki/sources/hon-odysseus-collective-ambition/"
+  },
+  {
+    "slug": "multiversal-hell-cats-from-venus",
+    "title": "Post about Hell-Cats from Venus (1955)",
+    "author": "Posted by multiversalplus.bsky.social, with replies from other users",
+    "date": "20 March 2025",
+    "path": "/wiki/sources/multiversal-hell-cats-from-venus/"
   },
   {
     "slug": "geller-indiana-jones-post",
@@ -329,11 +763,67 @@
     "path": "/wiki/sources/bryant-cultural-evolution-distortion/"
   },
   {
+    "slug": "hollick-making-software-hn-thread",
+    "title": "Making Software",
+    "author": "Posted by calme_toi, with replies from many commenters",
+    "date": "14 April 2025",
+    "path": "/wiki/sources/hollick-making-software-hn-thread/"
+  },
+  {
+    "slug": "wayne-halting-problem-np-harder",
+    "title": "The Halting Problem is a terrible example of NP-Harder",
+    "author": "Hillel Wayne",
+    "date": "16 April 2025",
+    "path": "/wiki/sources/wayne-halting-problem-np-harder/"
+  },
+  {
+    "slug": "dallariva-chords-680k-songs",
+    "title": "I Analyzed Chord Progressions in 680k Songs",
+    "author": "Chris Dalla Riva",
+    "date": "17 April 2025",
+    "path": "/wiki/sources/dallariva-chords-680k-songs/"
+  },
+  {
+    "slug": "gmays-uk-womb-transplant-thread",
+    "title": "First baby born in UK to woman with transplanted womb",
+    "author": "Posted by gmays, with replies from many commenters",
+    "date": "17 April 2025",
+    "path": "/wiki/sources/gmays-uk-womb-transplant-thread/"
+  },
+  {
+    "slug": "bossemeyer-pieces-ocr-code",
+    "title": "How we made our optical character recognition (OCR) code more accurate",
+    "author": "Leonie Bossemeyer, Pieces",
+    "date": "April 23, 2025",
+    "path": "/wiki/sources/bossemeyer-pieces-ocr-code/"
+  },
+  {
     "slug": "humbledrone-hn-anukari-physics-synth",
     "title": "Show HN: I built a synthesizer based on 3D physics",
     "author": "Posted by humbledrone, with replies from many commenters",
     "date": "2 May 2025",
     "path": "/wiki/sources/humbledrone-hn-anukari-physics-synth/"
+  },
+  {
+    "slug": "troupo-hn-high-density-uis",
+    "title": "Ask HN: What are good high-information density UIs (screenshots, apps, sites)?",
+    "author": "Posted by troupo, with replies from many commenters",
+    "date": "8 May 2025",
+    "path": "/wiki/sources/troupo-hn-high-density-uis/"
+  },
+  {
+    "slug": "bhatt-penetrability-transmisogyny-part-four",
+    "title": "Understanding Transmisogyny, Part Four: Penetrability",
+    "author": "Talia Bhatt",
+    "date": "15 May 2025",
+    "path": "/wiki/sources/bhatt-penetrability-transmisogyny-part-four/"
+  },
+  {
+    "slug": "fisher-sublight-starship-simulator",
+    "title": "Post wishing for a physically accurate sublight starship simulator",
+    "author": "Dr. Tessa Fisher (tessafisher.bsky.social), with replies from several commenters",
+    "date": "18 May 2025",
+    "path": "/wiki/sources/fisher-sublight-starship-simulator/"
   },
   {
     "slug": "sandrog-constructor-theory-simulator",
@@ -350,11 +840,32 @@
     "path": "/wiki/sources/stam-earth-in-webgl/"
   },
   {
+    "slug": "mirza-chembench-llm-chemistry",
+    "title": "A framework for evaluating the chemical knowledge and reasoning abilities of large language models against the expertise of chemists",
+    "author": "Adrian Mirza, Nawaf Alampara, Sreekanth Kunchapu, Martiño Ríos-García and many co-authors, Nature Chemistry",
+    "date": "20 May 2025",
+    "path": "/wiki/sources/mirza-chembench-llm-chemistry/"
+  },
+  {
     "slug": "hn-show-hn-clipjs",
     "title": "Show HN: ClipJS – Edit your videos from a PC or phone",
     "author": "Posted by mohyware, with replies from many commenters",
     "date": "21 May 2025",
     "path": "/wiki/sources/hn-show-hn-clipjs/"
+  },
+  {
+    "slug": "motherjones-space-settling-post",
+    "title": "Mother Jones post on the flaws of tech visions of the future",
+    "author": "Mother Jones (motherjones.com), with replies from many commenters",
+    "date": "21 May 2025",
+    "path": "/wiki/sources/motherjones-space-settling-post/"
+  },
+  {
+    "slug": "misbahsy-video-audio-mcp-show-hn",
+    "title": "Show HN: I built an MCP to help build Cursor for Video Editing",
+    "author": "Posted by misbahsy",
+    "date": "26 May 2025",
+    "path": "/wiki/sources/misbahsy-video-audio-mcp-show-hn/"
   },
   {
     "slug": "hall-not-actually-trying",
@@ -364,6 +875,13 @@
     "path": "/wiki/sources/hall-not-actually-trying/"
   },
   {
+    "slug": "esham-curate-shell-history",
+    "title": "Curate your shell history",
+    "author": "Benjamin Esham",
+    "date": "30 May 2025 (last updated October 24, 2026)",
+    "path": "/wiki/sources/esham-curate-shell-history/"
+  },
+  {
     "slug": "worik-hn-photos-inside-instruments",
     "title": "Photos taken inside musical instruments",
     "author": "Posted by worik, with replies from many commenters",
@@ -371,11 +889,25 @@
     "path": "/wiki/sources/worik-hn-photos-inside-instruments/"
   },
   {
+    "slug": "litt-malleable-software",
+    "title": "Malleable software: Restoring user agency in a world of locked-down apps",
+    "author": "Geoffrey Litt, Josh Horowitz, Peter van Hardenberg and Todd Matthews (Ink & Switch)",
+    "date": "June 2025",
+    "path": "/wiki/sources/litt-malleable-software/"
+  },
+  {
     "slug": "zechner-prompts-are-code",
     "title": "Prompts are code, .json/.md files are state",
     "author": "Mario Zechner",
     "date": "2025-06-02",
     "path": "/wiki/sources/zechner-prompts-are-code/"
+  },
+  {
+    "slug": "belanger-go-agents",
+    "title": "Why Go is a good fit for agents",
+    "author": "Alexander Belanger, Co-Founder and CEO, Hatchet",
+    "date": "3 June 2025",
+    "path": "/wiki/sources/belanger-go-agents/"
   },
   {
     "slug": "256dpi-air-lab-show-hn",
@@ -392,6 +924,41 @@
     "path": "/wiki/sources/achtaitaipai-hn-odyc-js/"
   },
   {
+    "slug": "paavohtl-hn-radiant-ai-thread",
+    "title": "What was Radiant AI, anyway?",
+    "author": "Posted by paavohtl, with replies from many commenters",
+    "date": "7 June 2025",
+    "path": "/wiki/sources/paavohtl-hn-radiant-ai-thread/"
+  },
+  {
+    "slug": "pacheco-developing-for-debugging",
+    "title": "Developing for Debugging",
+    "author": "David Pacheco (posting as dap), Dave Pacheco's Blog",
+    "date": "9 June 2025",
+    "path": "/wiki/sources/pacheco-developing-for-debugging/"
+  },
+  {
+    "slug": "charleszyong-vassar-robotics-arm-hn-launch",
+    "title": "Launch HN: Vassar Robotics (YC X25) – $219 robot arm that learns new skills",
+    "author": "Posted by charleszyong, with replies from many commenters",
+    "date": "10 June 2025",
+    "path": "/wiki/sources/charleszyong-vassar-robotics-arm-hn-launch/"
+  },
+  {
+    "slug": "bui-signals-python",
+    "title": "The Missing Manual for Signals: State Management for Python Developers",
+    "author": "Tuan Anh Bui",
+    "date": "13 June 2025",
+    "path": "/wiki/sources/bui-signals-python/"
+  },
+  {
+    "slug": "james-solar-data-center-farm",
+    "title": "We built a solar data center on a farm",
+    "author": "Ben James",
+    "date": "13 June 2025",
+    "path": "/wiki/sources/james-solar-data-center-farm/"
+  },
+  {
     "slug": "kellogg-layers-of-memory",
     "title": "Layers of Memory, Layers of Compression",
     "author": "Tim Kellogg",
@@ -406,11 +973,32 @@
     "path": "/wiki/sources/lee-reinforcement-learning-explained/"
   },
   {
+    "slug": "xvw-guarded-methods-ocaml",
+    "title": "xvw.lol - Guarded methods in OCaml",
+    "author": "Not stated (site: xvw.lol)",
+    "date": "2025-06-29",
+    "path": "/wiki/sources/xvw-guarded-methods-ocaml/"
+  },
+  {
     "slug": "jimenez-hymn-to-babylon-rediscovered",
     "title": "Hymn to Babylon, missing for a millennium, has been discovered",
     "author": "Ludwig Maximilian University of Munich (press material), edited by Stephanie Baum, on Phys.org",
     "date": "1 July 2025",
     "path": "/wiki/sources/jimenez-hymn-to-babylon-rediscovered/"
+  },
+  {
+    "slug": "vaughan-bidirectional-editing-lsp",
+    "title": "Code⇄GUI bidirectional editing via LSP",
+    "author": "James Vaughan",
+    "date": "1 July 2025",
+    "path": "/wiki/sources/vaughan-bidirectional-editing-lsp/"
+  },
+  {
+    "slug": "ronacher-tools-code-is-all-you-need",
+    "title": "Tools: Code Is All You Need",
+    "author": "Armin Ronacher",
+    "date": "3 July 2025",
+    "path": "/wiki/sources/ronacher-tools-code-is-all-you-need/"
   },
   {
     "slug": "kashifr-hn-smollm3",
@@ -425,6 +1013,27 @@
     "author": "Posted by ofalkaed, with replies from many commenters",
     "date": "8 July 2025",
     "path": "/wiki/sources/ofalkaed-hn-radium-music-editor/"
+  },
+  {
+    "slug": "hn-flix-effect-oriented-thread",
+    "title": "Flix – A powerful effect-oriented programming language",
+    "author": "Posted by freilanzer, with replies from many commenters",
+    "date": "10 July 2025",
+    "path": "/wiki/sources/hn-flix-effect-oriented-thread/"
+  },
+  {
+    "slug": "goedecke-metr-ai-productivity-study",
+    "title": "METR's AI productivity study is really good",
+    "author": "Sean Goedecke",
+    "date": "11 July 2025",
+    "path": "/wiki/sources/goedecke-metr-ai-productivity-study/"
+  },
+  {
+    "slug": "jyn-you-are-in-a-box",
+    "title": "you are in a box",
+    "author": "jyn",
+    "date": "14 July 2025",
+    "path": "/wiki/sources/jyn-you-are-in-a-box/"
   },
   {
     "slug": "schmidt-vibe-coding-fatigue",
@@ -448,6 +1057,34 @@
     "path": "/wiki/sources/yang-wildfx-daw-effects/"
   },
   {
+    "slug": "loudpenitent-lovecraft-dreamlands",
+    "title": "Bluesky post on Lovecraft's Dreamlands stories",
+    "author": "Posted by loudpenitent.bsky.social, with replies from several commenters",
+    "date": "18 July 2025",
+    "path": "/wiki/sources/loudpenitent-lovecraft-dreamlands/"
+  },
+  {
+    "slug": "ryan-rethinking-cli-for-ai",
+    "title": "Rethinking CLI interfaces for AI",
+    "author": "ryan (blog \"U+237B NOT CHECKMARK\")",
+    "date": "19 July 2025",
+    "path": "/wiki/sources/ryan-rethinking-cli-for-ai/"
+  },
+  {
+    "slug": "kaifosh-generic-neuromotor-interface",
+    "title": "A generic non-invasive neuromotor interface for human-computer interaction",
+    "author": "Patrick Kaifosh, Thomas R. Reardon and CTRL-labs at Reality Labs",
+    "date": "23 July 2025",
+    "path": "/wiki/sources/kaifosh-generic-neuromotor-interface/"
+  },
+  {
+    "slug": "sondhi-reverse-engineering-actions-cache",
+    "title": "Reverse engineering GitHub Actions cache to make it fast",
+    "author": "Aaditya Sondhi, Founding Engineer, Blacksmith",
+    "date": "23 July 2025",
+    "path": "/wiki/sources/sondhi-reverse-engineering-actions-cache/"
+  },
+  {
     "slug": "loy-context-engineering",
     "title": "Context engineering",
     "author": "Chris Loy",
@@ -469,6 +1106,13 @@
     "path": "/wiki/sources/asuquo-women-of-afrofuturism/"
   },
   {
+    "slug": "hn-attention-new-big-o-thread",
+    "title": "Attention Is the New Big-O: A Systems Design Approach to Prompt Engineering (Hacker News thread)",
+    "author": "Posted by AlexC04, with replies from many commenters",
+    "date": "19 August 2025",
+    "path": "/wiki/sources/hn-attention-new-big-o-thread/"
+  },
+  {
     "slug": "mahdid-muon-toddler",
     "title": "muon optimizer explained to a toddler",
     "author": "Yacine Mahdid",
@@ -483,6 +1127,20 @@
     "path": "/wiki/sources/nielsen-amberspire-micro-macro-history/"
   },
   {
+    "slug": "quinn-aws-2025-outdated-knowledge",
+    "title": "AWS in 2025: The Stuff You Think You Know That's Now Wrong",
+    "author": "Corey Quinn, Chief Cloud Economist at Duckbill (Last Week in AWS blog)",
+    "date": "20 August 2025",
+    "path": "/wiki/sources/quinn-aws-2025-outdated-knowledge/"
+  },
+  {
+    "slug": "hn-breathwork-music-altered-states",
+    "title": "Altered states of consciousness induced by breathwork accompanied by music",
+    "author": "Posted by gnabgib, with replies from many commenters",
+    "date": "28 August 2025",
+    "path": "/wiki/sources/hn-breathwork-music-altered-states/"
+  },
+  {
     "slug": "horthy-advanced-context-engineering",
     "title": "Advanced Context Engineering for Coding Agents",
     "author": "Dex Horthy, HumanLayer",
@@ -490,11 +1148,39 @@
     "path": "/wiki/sources/horthy-advanced-context-engineering/"
   },
   {
+    "slug": "hn-ai-models-need-a-virtual-machine",
+    "title": "AI models need a virtual machine",
+    "author": "Posted by azhenley, with replies from many commenters",
+    "date": "30 August 2025",
+    "path": "/wiki/sources/hn-ai-models-need-a-virtual-machine/"
+  },
+  {
+    "slug": "clark-revisit-xp-age-of-ai",
+    "title": "Should we revisit Extreme Programming in the age of AI?",
+    "author": "Jacob Clark, Engineering Director at Hyperact",
+    "date": "1 September 2025",
+    "path": "/wiki/sources/clark-revisit-xp-age-of-ai/"
+  },
+  {
+    "slug": "griffith-strange-new-angels",
+    "title": "Software Development in the Time of Strange New Angels",
+    "author": "Dave Griffith (Dancing with Robots Substack)",
+    "date": "1 September 2025",
+    "path": "/wiki/sources/griffith-strange-new-angels/"
+  },
+  {
     "slug": "overreacted-lean-syntax-primer",
     "title": "A Lean Syntax Primer",
     "author": "Not stated (published on the overreacted blog)",
     "date": "2 September 2025",
     "path": "/wiki/sources/overreacted-lean-syntax-primer/"
+  },
+  {
+    "slug": "grace-kind-browser-sensorium",
+    "title": "The Browser Sensorium",
+    "author": "Grace Kind",
+    "date": "3 September 2025",
+    "path": "/wiki/sources/grace-kind-browser-sensorium/"
   },
   {
     "slug": "karlsson-sustained-attention-bloom",
@@ -518,11 +1204,60 @@
     "path": "/wiki/sources/litwintschik-global-building-atlas/"
   },
   {
+    "slug": "hn-formatting-unnecessary-thread",
+    "title": "Formatting code should be unnecessary",
+    "author": "Posted by MaxLeiter, with replies from many commenters",
+    "date": "7 September 2025",
+    "path": "/wiki/sources/hn-formatting-unnecessary-thread/"
+  },
+  {
+    "slug": "hn-death-to-type-classes",
+    "title": "Death to type classes",
+    "author": "Posted by zeepthee, with replies from many commenters",
+    "date": "12 September 2025",
+    "path": "/wiki/sources/hn-death-to-type-classes/"
+  },
+  {
     "slug": "raykar-ai-unit-of-work",
     "title": "The quality of AI-assisted software depends on unit of work management",
     "author": "Atharva Raykar (nilenso)",
     "date": "15 September 2025",
     "path": "/wiki/sources/raykar-ai-unit-of-work/"
+  },
+  {
+    "slug": "hn-compiling-with-continuations",
+    "title": "Compiling with Continuations",
+    "author": "Posted by swatson741, with replies from many commenters",
+    "date": "17 September 2025",
+    "path": "/wiki/sources/hn-compiling-with-continuations/"
+  },
+  {
+    "slug": "uri-21-facts-good-parties",
+    "title": "21 Facts About Throwing Good Parties",
+    "author": "Uri (Atoms vs Bits blog)",
+    "date": "22 September 2025",
+    "path": "/wiki/sources/uri-21-facts-good-parties/"
+  },
+  {
+    "slug": "duran-borsook-warned-silicon-valley",
+    "title": "She Warned About Silicon Valley 25 Years Ago. We Ignored Her.",
+    "author": "Gil Duran (The Nerd Reich)",
+    "date": "25 September 2025",
+    "path": "/wiki/sources/duran-borsook-warned-silicon-valley/"
+  },
+  {
+    "slug": "litt-code-like-a-surgeon",
+    "title": "Code like a surgeon",
+    "author": "Geoffrey Litt",
+    "date": "October 2025",
+    "path": "/wiki/sources/litt-code-like-a-surgeon/"
+  },
+  {
+    "slug": "allen-practice-surface-area",
+    "title": "Increasing your practice surface area",
+    "author": "Channing Allen",
+    "date": "1 October 2025",
+    "path": "/wiki/sources/allen-practice-surface-area/"
   },
   {
     "slug": "willison-parallel-coding-agents",
@@ -532,11 +1267,32 @@
     "path": "/wiki/sources/willison-parallel-coding-agents/"
   },
   {
+    "slug": "hn-global-village-construction-set",
+    "title": "Global Village Construction Set | Hacker News",
+    "author": "Posted by jacquesm, with replies from many commenters",
+    "date": "6 October 2025",
+    "path": "/wiki/sources/hn-global-village-construction-set/"
+  },
+  {
     "slug": "willison-vibe-engineering",
     "title": "Vibe engineering",
     "author": "Simon Willison",
     "date": "7th October 2025",
     "path": "/wiki/sources/willison-vibe-engineering/"
+  },
+  {
+    "slug": "webb-cyborgs-vs-rooms",
+    "title": "Cyborgs vs rooms, two visions for the future of computing",
+    "author": "Matt Webb",
+    "date": "13 October 2025",
+    "path": "/wiki/sources/webb-cyborgs-vs-rooms/"
+  },
+  {
+    "slug": "hn-smolbsd-minimal-bsd",
+    "title": "SmolBSD – build your own minimal BSD system",
+    "author": "Posted by birdculture, with replies from many commenters",
+    "date": "14 October 2025",
+    "path": "/wiki/sources/hn-smolbsd-minimal-bsd/"
   },
   {
     "slug": "leone-shadow-of-the-colossus-oral-history",
@@ -560,6 +1316,13 @@
     "path": "/wiki/sources/bockeler-spec-driven-development-tools/"
   },
   {
+    "slug": "emixam-hn-hyperflask-flask-htmx",
+    "title": "Hyperflask – Full stack Flask and Htmx framework",
+    "author": "Posted by emixam, with replies from many commenters",
+    "date": "16 October 2025",
+    "path": "/wiki/sources/emixam-hn-hyperflask-flask-htmx/"
+  },
+  {
     "slug": "willison-claude-skills-mcp",
     "title": "Claude Skills are awesome, maybe a bigger deal than MCP",
     "author": "Simon Willison",
@@ -579,6 +1342,27 @@
     "author": "Posted by karimf, with replies from many commenters",
     "date": "21 October 2025",
     "path": "/wiki/sources/karimf-hn-neural-audio-codecs/"
+  },
+  {
+    "slug": "overreacted-how-to-fix-any-bug",
+    "title": "How to Fix Any Bug",
+    "author": "Not stated (published on the overreacted blog)",
+    "date": "21 October 2025",
+    "path": "/wiki/sources/overreacted-how-to-fix-any-bug/"
+  },
+  {
+    "slug": "wayne-modal-editing-historical-contingency",
+    "title": "Modal editing is a weird historical contingency we have through sheer happenstance",
+    "author": "Computer Things newsletter, posted under the account hillelwayne",
+    "date": "21 October 2025",
+    "path": "/wiki/sources/wayne-modal-editing-historical-contingency/"
+  },
+  {
+    "slug": "hn-programming-languages-zoo",
+    "title": "The Programming Languages Zoo",
+    "author": "Posted by alabhyajindal, with replies from many commenters",
+    "date": "23 October 2025",
+    "path": "/wiki/sources/hn-programming-languages-zoo/"
   },
   {
     "slug": "bookbinder-defense-philosophical-intuitions",
@@ -630,6 +1414,13 @@
     "path": "/wiki/sources/cognition-windsurf-codemaps/"
   },
   {
+    "slug": "banks-fafo-looking-forward",
+    "title": "Looking Forward with Tim Banks",
+    "author": "Podcast episode with guest Tim Banks; hosts not named on the page",
+    "date": "5 November 2025",
+    "path": "/wiki/sources/banks-fafo-looking-forward/"
+  },
+  {
     "slug": "pavlenko-hn-rawl-chord-flags",
     "title": "Show HN: See chords as flags – Visual harmony of top composers on musescore",
     "author": "Posted by vitaly-pavlenko, with replies from many commenters",
@@ -637,11 +1428,46 @@
     "path": "/wiki/sources/pavlenko-hn-rawl-chord-flags/"
   },
   {
+    "slug": "wong-seance-video-post",
+    "title": "New art video just dropped! The 7 Trillion Dollar Seance",
+    "author": "Şerife Wong",
+    "date": "5 November 2025",
+    "path": "/wiki/sources/wong-seance-video-post/"
+  },
+  {
+    "slug": "manish-llm-anti-patterns",
+    "title": "Anti-patterns while working with LLMs",
+    "author": "Manish (InstaVM blog)",
+    "date": "10 November 2025",
+    "path": "/wiki/sources/manish-llm-anti-patterns/"
+  },
+  {
     "slug": "bernsteinbear-compiler-effects",
     "title": "A catalog of side effects",
     "author": "Max Bernstein",
     "date": "November 11, 2025",
     "path": "/wiki/sources/bernsteinbear-compiler-effects/"
+  },
+  {
+    "slug": "jyn-terminal-of-the-future",
+    "title": "the terminal of the future",
+    "author": "jyn",
+    "date": "11 November 2025",
+    "path": "/wiki/sources/jyn-terminal-of-the-future/"
+  },
+  {
+    "slug": "torres-scariest-people-in-the-world",
+    "title": "The Scariest People in the World: Maniacs, Misanthropes, and Silicon Valley Pro-Extinctionists",
+    "author": "Émile P. Torres, Realtime Techpocalypse Newsletter",
+    "date": "12 November 2025",
+    "path": "/wiki/sources/torres-scariest-people-in-the-world/"
+  },
+  {
+    "slug": "minimaxir-nano-banana-prompts-hn",
+    "title": "Nano Banana can be prompt engineered for nuanced AI image generation",
+    "author": "Posted by minimaxir, with replies from many commenters",
+    "date": "13 November 2025",
+    "path": "/wiki/sources/minimaxir-nano-banana-prompts-hn/"
   },
   {
     "slug": "resonant-computing-manifesto",
@@ -658,11 +1484,25 @@
     "path": "/wiki/sources/ellich-agentic-software-development/"
   },
   {
+    "slug": "hn-interactive-lambda-reduction",
+    "title": "Interactive λ-Reduction",
+    "author": "Posted by jy14898, with replies from many commenters",
+    "date": "24 November 2025",
+    "path": "/wiki/sources/hn-interactive-lambda-reduction/"
+  },
+  {
     "slug": "bugbearstew-fabula-pixel-maps",
     "title": "Reply about tools used for pixel art maps",
     "author": "Kyle Bugbearstew (bugbearstew.bsky.social)",
     "date": "25 November 2025",
     "path": "/wiki/sources/bugbearstew-fabula-pixel-maps/"
+  },
+  {
+    "slug": "hackernj-brain-five-eras-thread",
+    "title": "Brain has five 'eras' with adult mode not starting until early 30s",
+    "author": "Posted by hackernj, with replies from many commenters",
+    "date": "25 November 2025",
+    "path": "/wiki/sources/hackernj-brain-five-eras-thread/"
   },
   {
     "slug": "young-effective-harnesses",
@@ -677,6 +1517,13 @@
     "author": "Posted by birdculture, with replies from many commenters",
     "date": "30 November 2025",
     "path": "/wiki/sources/birdculture-langjam-gamejam-thread/"
+  },
+  {
+    "slug": "lemonlime227-hn-better-at-ai-programming",
+    "title": "Ask HN: How can I get better at using AI for programming?",
+    "author": "Posted by lemonlime227, with replies from many commenters",
+    "date": "13 December 2025",
+    "path": "/wiki/sources/lemonlime227-hn-better-at-ai-programming/"
   },
   {
     "slug": "surprisetalk-orbital-simulation-video",
@@ -700,11 +1547,123 @@
     "path": "/wiki/sources/bau-vibe-coding/"
   },
   {
+    "slug": "megaman821-hn-sam-audio",
+    "title": "Meta Segment Anything Model Audio",
+    "author": "Posted by megaman821, with replies from many commenters",
+    "date": "16 December 2025",
+    "path": "/wiki/sources/megaman821-hn-sam-audio/"
+  },
+  {
+    "slug": "loker-ai-vs-human-code-report",
+    "title": "AI vs Human Code Generation Report",
+    "author": "David Loker, CodeRabbit",
+    "date": "17 December 2025",
+    "path": "/wiki/sources/loker-ai-vs-human-code-report/"
+  },
+  {
+    "slug": "willison-code-proven-to-work",
+    "title": "Your job is to deliver code you have proven to work",
+    "author": "Simon Willison",
+    "date": "18 December 2025",
+    "path": "/wiki/sources/willison-code-proven-to-work/"
+  },
+  {
     "slug": "a1k0n-tiny-tapeout-demo",
     "title": "Pure Silicon Demo Coding: No CPU, No Memory, Just 4k Gates",
     "author": "Not stated",
     "date": "19 December 2025",
     "path": "/wiki/sources/a1k0n-tiny-tapeout-demo/"
+  },
+  {
+    "slug": "nishilpatel-hn-engineering-blogs",
+    "title": "Ask HN: What are the best engineering blogs with real-world depth?",
+    "author": "Posted by nishilpatel, with replies from many commenters",
+    "date": "23 December 2025",
+    "path": "/wiki/sources/nishilpatel-hn-engineering-blogs/"
+  },
+  {
+    "slug": "tachikoma-right-to-make-mistakes",
+    "title": "A Bluesky post on a cultural right to make mistakes",
+    "author": "Posted by tachikoma, with replies from several commenters",
+    "date": "24 December 2025",
+    "path": "/wiki/sources/tachikoma-right-to-make-mistakes/"
+  },
+  {
+    "slug": "dima-build-users",
+    "title": "Build Software. Build Users",
+    "author": "Not stated",
+    "date": "27 December 2025",
+    "path": "/wiki/sources/dima-build-users/"
+  },
+  {
+    "slug": "gorman-hn-future-software-developers",
+    "title": "The Future of Software Development is Software Developers",
+    "author": "Posted by cdrnsf, with replies from many commenters",
+    "date": "29 December 2025",
+    "path": "/wiki/sources/gorman-hn-future-software-developers/"
+  },
+  {
+    "slug": "fowler-phoenix-immutable-code",
+    "title": "Immutable Infrastructure, Immutable Code",
+    "author": "Chad Fowler",
+    "date": "December 30, 2025",
+    "path": "/wiki/sources/fowler-phoenix-immutable-code/"
+  },
+  {
+    "slug": "hn-professional-developers-control-thread",
+    "title": "Professional software developers don't vibe, they control",
+    "author": "Posted by dpflan, with replies from many commenters",
+    "date": "30 December 2025",
+    "path": "/wiki/sources/hn-professional-developers-control-thread/"
+  },
+  {
+    "slug": "frazee-atmospheric-computing",
+    "title": "Atmospheric Computing",
+    "author": "Paul Frazee",
+    "date": "31 December 2025",
+    "path": "/wiki/sources/frazee-atmospheric-computing/"
+  },
+  {
+    "slug": "degroff-porrima-agent-system",
+    "title": "Porrima — agent system",
+    "author": "Asa DeGroff",
+    "date": "2026",
+    "path": "/wiki/sources/degroff-porrima-agent-system/"
+  },
+  {
+    "slug": "omp-landing-coding-agent",
+    "title": "omp — a coding agent with the IDE wired in",
+    "author": "Stencil Labs, Inc.",
+    "date": "2026",
+    "path": "/wiki/sources/omp-landing-coding-agent/"
+  },
+  {
+    "slug": "primeintellect-recursive-language-models",
+    "title": "Recursive Language Models: the paradigm of 2026",
+    "author": "Sebastian, Prime Intellect",
+    "date": "JAN 1ST, 2026",
+    "path": "/wiki/sources/primeintellect-recursive-language-models/"
+  },
+  {
+    "slug": "rangerdonald-metal-heroes-rescue-trilogy",
+    "title": "Try the Metal Heroes. The Rescue Trilogy to be exact.",
+    "author": "Posted by rangerdonald.bsky.social",
+    "date": "1 January 2026",
+    "path": "/wiki/sources/rangerdonald-metal-heroes-rescue-trilogy/"
+  },
+  {
+    "slug": "danielsdk-flux-imessage-agents-show-hn",
+    "title": "Show HN: I built a tool to create AI agents that live in iMessage",
+    "author": "Posted by danielsdk, with replies from many commenters",
+    "date": "4 January 2026",
+    "path": "/wiki/sources/danielsdk-flux-imessage-agents-show-hn/"
+  },
+  {
+    "slug": "osmani-next-two-years",
+    "title": "The Next Two Years of Software Engineering",
+    "author": "Addy Osmani (Member of Technical Staff at Anthropic, per the page)",
+    "date": "January 5, 2026",
+    "path": "/wiki/sources/osmani-next-two-years/"
   },
   {
     "slug": "sakana-digital-red-queen",
@@ -721,6 +1680,76 @@
     "path": "/wiki/sources/kellogg-viable-systems/"
   },
   {
+    "slug": "websku-cli-agents-self-hosting-thread",
+    "title": "CLI agents make self-hosting on a home server easier and fun",
+    "author": "Posted by websku, with replies from many commenters",
+    "date": "11 January 2026",
+    "path": "/wiki/sources/websku-cli-agents-self-hosting-thread/"
+  },
+  {
+    "slug": "burgos-autonomous-flying-umbrella",
+    "title": "autonomous flying umbrella follows and shields users from rain and sunlight",
+    "author": "Matthew Burgos, designboom",
+    "date": "13 January 2026",
+    "path": "/wiki/sources/burgos-autonomous-flying-umbrella/"
+  },
+  {
+    "slug": "hn-1000-blank-white-cards-thread",
+    "title": "1000 Blank White Cards",
+    "author": "Posted by eieio, with replies from many commenters",
+    "date": "14 January 2026",
+    "path": "/wiki/sources/hn-1000-blank-white-cards-thread/"
+  },
+  {
+    "slug": "tobr-hn-high-level-is-the-goal",
+    "title": "High-Level Is the Goal",
+    "author": "Posted by tobr, with replies from many commenters",
+    "date": "15 January 2026",
+    "path": "/wiki/sources/tobr-hn-high-level-is-the-goal/"
+  },
+  {
+    "slug": "hn-the-code-only-agent-thread",
+    "title": "The Code-Only Agent",
+    "author": "Posted by emersonmacro, with replies from many commenters",
+    "date": "19 January 2026",
+    "path": "/wiki/sources/hn-the-code-only-agent-thread/"
+  },
+  {
+    "slug": "willison-cursor-scaling-autonomous-coding",
+    "title": "Scaling long-running autonomous coding",
+    "author": "Simon Willison, quoting Wilson Lin of Cursor",
+    "date": "19th January 2026",
+    "path": "/wiki/sources/willison-cursor-scaling-autonomous-coding/"
+  },
+  {
+    "slug": "salim-tokenomics-agentic-se",
+    "title": "Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering",
+    "author": "Mohamad Salim and three co-authors, Concordia University",
+    "date": "20 January 2026",
+    "path": "/wiki/sources/salim-tokenomics-agentic-se/"
+  },
+  {
+    "slug": "mollick-claude-code-adventure-game",
+    "title": "Post by @emollick.bsky.social on a Claude Code adventure game",
+    "author": "Posted by emollick.bsky.social",
+    "date": "27 January 2026",
+    "path": "/wiki/sources/mollick-claude-code-adventure-game/"
+  },
+  {
+    "slug": "catblanketflower-realm-hex-game",
+    "title": "Post announcing a rough hexagon map game",
+    "author": "Posted by catblanketflower.yuwakisa.com (display name Singularity's Bounty e/CC)",
+    "date": "31 January 2026",
+    "path": "/wiki/sources/catblanketflower-realm-hex-game/"
+  },
+  {
+    "slug": "n1sni-netviews-show-hn",
+    "title": "Show HN: I built a macOS tool for network engineers – it's called NetViews",
+    "author": "Posted by n1sni, with replies from many commenters",
+    "date": "10 February 2026",
+    "path": "/wiki/sources/n1sni-netviews-show-hn/"
+  },
+  {
     "slug": "lopopolo-harness-engineering",
     "title": "Harness engineering: leveraging Codex in an agent-first world",
     "author": "Ryan Lopopolo, Member of the Technical Staff, OpenAI",
@@ -735,6 +1764,13 @@
     "path": "/wiki/sources/safeguard-bun-runtime-security/"
   },
   {
+    "slug": "wichary-molly-guard-in-reverse",
+    "title": "Molly guard in reverse",
+    "author": "Marcin Wichary",
+    "date": "12 February 2026",
+    "path": "/wiki/sources/wichary-molly-guard-in-reverse/"
+  },
+  {
     "slug": "hisamafahri-hn-ooh-directory",
     "title": "Ooh.directory: a place to find good blogs that interest you",
     "author": "Posted by hisamafahri, with replies from many commenters",
@@ -742,11 +1778,53 @@
     "path": "/wiki/sources/hisamafahri-hn-ooh-directory/"
   },
   {
+    "slug": "olano-dangerously-skip-reading-code",
+    "title": "--dangerously-skip-reading-code",
+    "author": "Facundo Olano",
+    "date": "16 February 2026",
+    "path": "/wiki/sources/olano-dangerously-skip-reading-code/"
+  },
+  {
+    "slug": "hn-vision-for-2010",
+    "title": "How close are we to a vision for 2010?",
+    "author": "Posted by ColinWright, with replies from many commenters",
+    "date": "23 February 2026",
+    "path": "/wiki/sources/hn-vision-for-2010/"
+  },
+  {
     "slug": "breen-secret-history-knocking-on-wood",
     "title": "The Secret History of Knocking on Wood",
     "author": "Benjamin Breen",
     "date": "24 February 2026",
     "path": "/wiki/sources/breen-secret-history-knocking-on-wood/"
+  },
+  {
+    "slug": "kashitsyn-third-hard-problem",
+    "title": "The third hard problem",
+    "author": "Roman Kashitsyn (mmap(blog))",
+    "date": "2026-02-28 (a second date, 2026-06-04, is also shown)",
+    "path": "/wiki/sources/kashitsyn-third-hard-problem/"
+  },
+  {
+    "slug": "luzzardi-frontier-model-lower-costs",
+    "title": "We Upgraded to a Frontier Model and Our Costs Went Down",
+    "author": "Andrea Luzzardi, Mendral",
+    "date": "6 March 2026",
+    "path": "/wiki/sources/luzzardi-frontier-model-lower-costs/"
+  },
+  {
+    "slug": "jake-conscious-mind-reply",
+    "title": "Reply adding Chalmers' The Conscious Mind to a thread on philosophy",
+    "author": "jake (yetanotheruseless.com), replying in a thread started by Macil",
+    "date": "8 March 2026",
+    "path": "/wiki/sources/jake-conscious-mind-reply/"
+  },
+  {
+    "slug": "samsonov-checking-llm-work-systemic",
+    "title": "Checking an LLM's work is a systemic, not an individual, problem.",
+    "author": "Pavel Samsonov",
+    "date": "8 March 2026",
+    "path": "/wiki/sources/samsonov-checking-llm-work-systemic/"
   },
   {
     "slug": "skiplabs-codegen-as-compiler",
@@ -798,11 +1876,25 @@
     "path": "/wiki/sources/lambdaclass-reading-lean4-theorems/"
   },
   {
+    "slug": "sifu-interoception-paper-post",
+    "title": "Bluesky post by sifu.tweety.fish on an interoception paper",
+    "author": "Posted by sifu.tweety.fish, quoting a post by Ed Gibney (edgibney.bsky.social)",
+    "date": "17 March 2026",
+    "path": "/wiki/sources/sifu-interoception-paper-post/"
+  },
+  {
     "slug": "cabral-two-compiler-optimisation-studies",
     "title": "Two studies in compiler optimisations",
     "author": "Henrique Cabral",
     "date": "20 March 2026",
     "path": "/wiki/sources/cabral-two-compiler-optimisation-studies/"
+  },
+  {
+    "slug": "brush-reliability-in-chaos-srecon26",
+    "title": "Taming the Unpredictable: Reliability in Chaos",
+    "author": "Michelle Brush, Google Inc.",
+    "date": "24 March 2026",
+    "path": "/wiki/sources/brush-reliability-in-chaos-srecon26/"
   },
   {
     "slug": "aagentah-nw-wrld-dpcube",
@@ -812,11 +1904,39 @@
     "path": "/wiki/sources/aagentah-nw-wrld-dpcube/"
   },
   {
+    "slug": "eveleth-17776-iconic-quote-post",
+    "title": "I will never, ever forget this. Iconic. (quote-post about 17776)",
+    "author": "Reo Eveleth, quoting a post by Whitney",
+    "date": "27 March 2026",
+    "path": "/wiki/sources/eveleth-17776-iconic-quote-post/"
+  },
+  {
+    "slug": "ellich-betting-on-atproto",
+    "title": "Why I'm betting on ATProto (and why you should, too)",
+    "author": "Brittany Ellich",
+    "date": "30 March 2026",
+    "path": "/wiki/sources/ellich-betting-on-atproto/"
+  },
+  {
+    "slug": "rudi-hardware-vfx-post",
+    "title": "Post about the film Hardware (1990)",
+    "author": "Posted by oleivarrudi.bsky.social, with replies from other users",
+    "date": "31 March 2026",
+    "path": "/wiki/sources/rudi-hardware-vfx-post/"
+  },
+  {
     "slug": "faye-agentic-coding-trap",
     "title": "Agentic Coding is a Trap",
     "author": "Lars Faye",
     "date": "Apr 2026",
     "path": "/wiki/sources/faye-agentic-coding-trap/"
+  },
+  {
+    "slug": "bernstein-value-numbering",
+    "title": "Value numbering",
+    "author": "Max Bernstein",
+    "date": "4 April 2026",
+    "path": "/wiki/sources/bernstein-value-numbering/"
   },
   {
     "slug": "g0xa52a2a-tail-call-interpreter-rust-thread",
@@ -833,11 +1953,39 @@
     "path": "/wiki/sources/hn-comfortable-drift-not-understanding/"
   },
   {
+    "slug": "moor-tree-house",
+    "title": "The Tree House",
+    "author": "Robert Moor",
+    "date": "13 April 2026",
+    "path": "/wiki/sources/moor-tree-house/"
+  },
+  {
     "slug": "sqlite-how-to-corrupt",
     "title": "How To Corrupt An SQLite Database File",
     "author": "Not stated (SQLite project documentation)",
     "date": "Last updated 13 April 2026",
     "path": "/wiki/sources/sqlite-how-to-corrupt/"
+  },
+  {
+    "slug": "wilson-skiptrees-skiplists",
+    "title": "What are skiplists good for?",
+    "author": "Will Wilson, Co-founder & CEO, Antithesis",
+    "date": "16 April 2026",
+    "path": "/wiki/sources/wilson-skiptrees-skiplists/"
+  },
+  {
+    "slug": "willison-opus-4-7-system-prompt-diff",
+    "title": "Changes in the system prompt between Claude Opus 4.6 and 4.7",
+    "author": "Simon Willison",
+    "date": "18th April 2026",
+    "path": "/wiki/sources/willison-opus-4-7-system-prompt-diff/"
+  },
+  {
+    "slug": "nottingham-agents-collective-bargains",
+    "title": "What's Missing in the ‘Agentic’ Story",
+    "author": "Mark Nottingham",
+    "date": "24 April 2026",
+    "path": "/wiki/sources/nottingham-agents-collective-bargains/"
   },
   {
     "slug": "omer-structured-cot-grammar",
@@ -847,11 +1995,32 @@
     "path": "/wiki/sources/omer-structured-cot-grammar/"
   },
   {
+    "slug": "hn-fda-gene-therapy-hearing-loss",
+    "title": "FDA approves first gene therapy for treatment of genetic hearing loss",
+    "author": "Posted by JeanKage, with replies from many commenters",
+    "date": "27 April 2026",
+    "path": "/wiki/sources/hn-fda-gene-therapy-hearing-loss/"
+  },
+  {
     "slug": "hon-strandfall-solarpunk-larp",
     "title": "I'm Making Strandfall, a Solarpunk Orienteering Larp",
     "author": "Adrian Hon",
     "date": "29 April 2026",
     "path": "/wiki/sources/hon-strandfall-solarpunk-larp/"
+  },
+  {
+    "slug": "pmig-hn-docker-compose-production",
+    "title": "Should I run plain Docker Compose in production in 2026?",
+    "author": "Posted by pmig, with replies from many commenters",
+    "date": "30 April 2026",
+    "path": "/wiki/sources/pmig-hn-docker-compose-production/"
+  },
+  {
+    "slug": "mandarapu-knowledge-graphs-industrial-asset-ops",
+    "title": "Knowledge Graphs as the Missing Data Layer for LLM-Based Industrial Asset Operations",
+    "author": "Madhulatha Mandarapu and Sandeep Kunkunuru, VaidhyaMegha Private Limited, India",
+    "date": "May 2026",
+    "path": "/wiki/sources/mandarapu-knowledge-graphs-industrial-asset-ops/"
   },
   {
     "slug": "osmani-agent-skills",
@@ -868,6 +2037,41 @@
     "path": "/wiki/sources/cheung-duckdb-internals-part-1/"
   },
   {
+    "slug": "huang-slow-ai",
+    "title": "slow ai: ai that matches a human's pace",
+    "author": "Jenny Y. Huang",
+    "date": "4 May 2026",
+    "path": "/wiki/sources/huang-slow-ai/"
+  },
+  {
+    "slug": "breunig-hn-lessons-agentic-coding",
+    "title": "Lessons for Agentic Coding: What should we do when code is cheap?",
+    "author": "Posted by ingve, with replies from many commenters",
+    "date": "5 May 2026",
+    "path": "/wiki/sources/breunig-hn-lessons-agentic-coding/"
+  },
+  {
+    "slug": "eliaz-meta-harness-simulation",
+    "title": "Meta-harness on Islo: Deterministic Simulation",
+    "author": "Yossi Eliaz (Incredibuild, Islo)",
+    "date": "5 May 2026, revised 22 October 2026",
+    "path": "/wiki/sources/eliaz-meta-harness-simulation/"
+  },
+  {
+    "slug": "osaka-sf-wishlist-aliens-robots",
+    "title": "All I want in SF is aliens, giant robots and themes that plug into a ontological view",
+    "author": "Osaka (@osaka.zone on Bluesky), with two replies",
+    "date": "6 May 2026",
+    "path": "/wiki/sources/osaka-sf-wishlist-aliens-robots/"
+  },
+  {
+    "slug": "willison-hn-vibe-coding-agentic-converging",
+    "title": "Vibe coding and agentic engineering are getting closer than I'd like",
+    "author": "Posted by e12e, with replies from many commenters",
+    "date": "6 May 2026",
+    "path": "/wiki/sources/willison-hn-vibe-coding-agentic-converging/"
+  },
+  {
     "slug": "brian-agents-control-flow",
     "title": "agents need control flow, not more prompts",
     "author": "brian",
@@ -875,11 +2079,53 @@
     "path": "/wiki/sources/brian-agents-control-flow/"
   },
   {
+    "slug": "demirbas-two-abstractions-hide-or-reduce",
+    "title": "The Two Abstractions of System Design: Hide or Reduce",
+    "author": "Murat Demirbas (principal research scientist at MongoDB Research)",
+    "date": "8 May 2026",
+    "path": "/wiki/sources/demirbas-two-abstractions-hide-or-reduce/"
+  },
+  {
+    "slug": "kaufman-ai-breaking-vulnerability-cultures",
+    "title": "AI is Breaking Two Vulnerability Cultures",
+    "author": "Jeff Kaufman",
+    "date": "8 May 2026",
+    "path": "/wiki/sources/kaufman-ai-breaking-vulnerability-cultures/"
+  },
+  {
     "slug": "broadwell-amberspire-review",
     "title": "Amberspire review: a sci-fi city-builder that knows when enough is enough",
     "author": "Josh Broadwell, Polygon",
     "date": "9 May 2026",
     "path": "/wiki/sources/broadwell-amberspire-review/"
+  },
+  {
+    "slug": "baranes-ai-pointer",
+    "title": "Reimagining the mouse pointer for the AI era",
+    "author": "Adrien Baranes and Rob Marchant, Google DeepMind",
+    "date": "12 May 2026",
+    "path": "/wiki/sources/baranes-ai-pointer/"
+  },
+  {
+    "slug": "matklad-learning-software-architecture",
+    "title": "Learning Software Architecture",
+    "author": "matklad",
+    "date": "May 12, 2026",
+    "path": "/wiki/sources/matklad-learning-software-architecture/"
+  },
+  {
+    "slug": "walter-interpolatable-archives",
+    "title": "On Interpolatable Archives (Clean)",
+    "author": "René Walter",
+    "date": "14 May 2026",
+    "path": "/wiki/sources/walter-interpolatable-archives/"
+  },
+  {
+    "slug": "hn-good-lemma-thousand-theorems",
+    "title": "A Good Lemma Is Worth a Thousand Theorems (2007)",
+    "author": "Posted by susam, with replies from many commenters",
+    "date": "16 May 2026",
+    "path": "/wiki/sources/hn-good-lemma-thousand-theorems/"
   },
   {
     "slug": "feng-sergey-pbt-for-specs",
@@ -894,6 +2140,34 @@
     "author": "reuben brooks",
     "date": "May 18, 2026",
     "path": "/wiki/sources/brooks-structural-backpressure/"
+  },
+  {
+    "slug": "hn-show-hn-forge-guardrails-8b-model",
+    "title": "Show HN: Forge - Guardrails take an 8B model from 53% to 99% on agentic tasks",
+    "author": "Posted by zambelli (Antoine Zambelli, AI Director at Texas Instruments), with replies from many commenters",
+    "date": "19 May 2026",
+    "path": "/wiki/sources/hn-show-hn-forge-guardrails-8b-model/"
+  },
+  {
+    "slug": "hn-virtual-os-museum",
+    "title": "I’ve built a virtual museum with nearly every operating system you can think of",
+    "author": "Posted by andreww591, with replies from many commenters",
+    "date": "19 May 2026",
+    "path": "/wiki/sources/hn-virtual-os-museum/"
+  },
+  {
+    "slug": "hn-constraint-decay-backend-agents-thread",
+    "title": "Constraint Decay: The Fragility of LLM Agents in Back End Code Generation",
+    "author": "Posted by wek, with replies from many commenters",
+    "date": "24 May 2026",
+    "path": "/wiki/sources/hn-constraint-decay-backend-agents-thread/"
+  },
+  {
+    "slug": "lawson-ai-better-code-slower",
+    "title": "Using AI to write better code more slowly",
+    "author": "Nolan Lawson",
+    "date": "25 May 2026",
+    "path": "/wiki/sources/lawson-ai-better-code-slower/"
   },
   {
     "slug": "cowie-mechanosynthesis-carbon-silicon",
@@ -917,11 +2191,67 @@
     "path": "/wiki/sources/stagas-hn-hallucinate-rave/"
   },
   {
+    "slug": "boykis-hn-more-tired-than-model",
+    "title": "We should be more tired than the model",
+    "author": "Posted by tosh, with replies from many commenters",
+    "date": "29 May 2026",
+    "path": "/wiki/sources/boykis-hn-more-tired-than-model/"
+  },
+  {
+    "slug": "massicotte-stateless-actors",
+    "title": "Stateless Actors",
+    "author": "Matt Massicotte",
+    "date": "May 29, 2026",
+    "path": "/wiki/sources/massicotte-stateless-actors/"
+  },
+  {
+    "slug": "cecile-prototyping-speed",
+    "title": "The Speed of Prototyping in the Age of AI",
+    "author": "Daryl Cecile",
+    "date": "31 May 2026",
+    "path": "/wiki/sources/cecile-prototyping-speed/"
+  },
+  {
+    "slug": "samsonov-future-ux-velocity",
+    "title": "The future of UX design is not a higher-velocity version of its present",
+    "author": "Pavel Samsonov",
+    "date": "31 May 2026",
+    "path": "/wiki/sources/samsonov-future-ux-velocity/"
+  },
+  {
+    "slug": "zakirullin-cognitive-load",
+    "title": "Cognitive load is what matters",
+    "author": "Artem Zakirullin",
+    "date": "June 2026 (last update of a living document)",
+    "path": "/wiki/sources/zakirullin-cognitive-load/"
+  },
+  {
+    "slug": "ko-beginners-textbook-fhe",
+    "title": "The Beginner's Textbook for Fully Homomorphic Encryption",
+    "author": "Ronny Ko, LG Electronics Inc.",
+    "date": "2 June 2026 (version 26)",
+    "path": "/wiki/sources/ko-beginners-textbook-fhe/"
+  },
+  {
+    "slug": "stuij-slow-terminal",
+    "title": "Life is too short for a slow terminal",
+    "author": "Mijndert Stuij",
+    "date": "6 June 2026",
+    "path": "/wiki/sources/stuij-slow-terminal/"
+  },
+  {
     "slug": "minsky-formal-methods-future",
     "title": "Formal methods and the future of programming",
     "author": "Yaron Minsky, Jane Street",
     "date": "7 June 2026",
     "path": "/wiki/sources/minsky-formal-methods-future/"
+  },
+  {
+    "slug": "giovanni-thinnernet-parallel-internet",
+    "title": "I'm building a parallel internet, and it's called The Thinnernet",
+    "author": "Giovanni",
+    "date": "8 June 2026",
+    "path": "/wiki/sources/giovanni-thinnernet-parallel-internet/"
   },
   {
     "slug": "lin-full-system-timing-simulation",
@@ -938,6 +2268,27 @@
     "path": "/wiki/sources/brown-plt-human-judgment/"
   },
   {
+    "slug": "agentlanguages-thermite",
+    "title": "Thermite",
+    "author": "dollspace-gay and maxinelevesque (language authors); catalogue maintained by Alasdair Allan",
+    "date": "First seen June 2026; catalogue page last updated 9 November 2026",
+    "path": "/wiki/sources/agentlanguages-thermite/"
+  },
+  {
+    "slug": "gordon-mit-fractal-kernel",
+    "title": "To study how chips really work, MIT researchers built their own operating system",
+    "author": "Rachel Gordon, MIT CSAIL",
+    "date": "10 June 2026",
+    "path": "/wiki/sources/gordon-mit-fractal-kernel/"
+  },
+  {
+    "slug": "ries-hn-incorruptible-ama",
+    "title": "I'm Eric Ries, author of \"The Lean Startup\" and new book \"Incorruptible\" – AMA",
+    "author": "Posted by eries (Eric Ries), with replies from many commenters",
+    "date": "10 June 2026",
+    "path": "/wiki/sources/ries-hn-incorruptible-ama/"
+  },
+  {
     "slug": "maimon-benchmarks-to-skills",
     "title": "From Benchmarks to Skills: Low-Rank Factors for LLM Evaluation",
     "author": "Aviya Maimon and four co-authors",
@@ -945,11 +2296,39 @@
     "path": "/wiki/sources/maimon-benchmarks-to-skills/"
   },
   {
+    "slug": "orlenko-bun-rust-rewrite-prisma-compute",
+    "title": "We put Bun's Rust rewrite in production on Prisma Compute",
+    "author": "Alexey Orlenko, senior engineer at Prisma",
+    "date": "11 June 2026",
+    "path": "/wiki/sources/orlenko-bun-rust-rewrite-prisma-compute/"
+  },
+  {
     "slug": "becker-reply-temple-maker-64",
     "title": "Reply about Temple Maker 64",
     "author": "Anthony Becker (anthonybecker.bsky.social)",
     "date": "12 June 2026",
     "path": "/wiki/sources/becker-reply-temple-maker-64/"
+  },
+  {
+    "slug": "hn-rust-vs-c-memory-safety-cves-thread",
+    "title": "How memory safety CVEs differ between Rust and C/C++ (Hacker News thread)",
+    "author": "Posted by nicoburns, with replies from many commenters",
+    "date": "15 June 2026",
+    "path": "/wiki/sources/hn-rust-vs-c-memory-safety-cves-thread/"
+  },
+  {
+    "slug": "majors-ai-engineering-discipline",
+    "title": "AI demands more engineering discipline. Not less",
+    "author": "Charity Majors",
+    "date": "Jun 15, 2026",
+    "path": "/wiki/sources/majors-ai-engineering-discipline/"
+  },
+  {
+    "slug": "rsgm-homelab-ai-dev-platform",
+    "title": "My Homelab AI Dev Platform",
+    "author": "Posted by rsgm, with replies from many commenters",
+    "date": "15 June 2026",
+    "path": "/wiki/sources/rsgm-homelab-ai-dev-platform/"
   },
   {
     "slug": "wolchover-how-many-particles",
@@ -973,6 +2352,27 @@
     "path": "/wiki/sources/kulkarni-reliable-agentic-bayer/"
   },
   {
+    "slug": "mrshu-bash-dev-tcp-hn",
+    "title": "TIL: You can make HTTP requests without curl using Bash /dev/TCP",
+    "author": "Posted by mrshu, with replies from many commenters",
+    "date": "16 June 2026",
+    "path": "/wiki/sources/mrshu-bash-dev-tcp-hn/"
+  },
+  {
+    "slug": "wikipedia-object-code",
+    "title": "Object code",
+    "author": "Not stated",
+    "date": "Last edited 16 June 2026",
+    "path": "/wiki/sources/wikipedia-object-code/"
+  },
+  {
+    "slug": "autenrieb-robust-safety-filters-adaptive",
+    "title": "Robust Safety Filters for Lipschitz-Bounded Adaptive Closed-Loop Systems with Structured Uncertainties",
+    "author": "Johannes Autenrieb (German Aerospace Center, DLR), Peter A. Fisher and Anuradha Annaswamy (MIT)",
+    "date": "18 June 2026",
+    "path": "/wiki/sources/autenrieb-robust-safety-filters-adaptive/"
+  },
+  {
     "slug": "jones-build-your-own-vulnerability-harness",
     "title": "Build your own vulnerability harness",
     "author": "Dan Jones, Alexandra Godoi and Grant Bourzikas, Cloudflare",
@@ -980,11 +2380,25 @@
     "path": "/wiki/sources/jones-build-your-own-vulnerability-harness/"
   },
   {
+    "slug": "nikitadvd-pulse-claude-code-dashboard",
+    "title": "Show HN: Pulse – Dashboard for Claude Code, approve tool calls from your phone",
+    "author": "Posted by nikitadvd, with replies from many commenters",
+    "date": "20 June 2026",
+    "path": "/wiki/sources/nikitadvd-pulse-claude-code-dashboard/"
+  },
+  {
     "slug": "recall-show-hn",
     "title": "Show HN: Recall",
     "author": "Posted by mateenah, with replies from many commenters",
     "date": "21 June 2026",
     "path": "/wiki/sources/recall-show-hn/"
+  },
+  {
+    "slug": "hn-show-pure-effect",
+    "title": "Show HN: Pure Effect – Reproduce production bugs on your laptop without a DB",
+    "author": "Posted by tie-in, with replies from many commenters",
+    "date": "21 June 2026",
+    "path": "/wiki/sources/hn-show-pure-effect/"
   },
   {
     "slug": "lambert-glm-52-open-agents",
@@ -1001,11 +2415,39 @@
     "path": "/wiki/sources/tryggvason-unit-test-taste/"
   },
   {
+    "slug": "gonzalez-record-type-inference",
+    "title": "Record type inference for dummies",
+    "author": "Gabriella Gonzalez",
+    "date": "23 June 2026",
+    "path": "/wiki/sources/gonzalez-record-type-inference/"
+  },
+  {
+    "slug": "ledger-haskell-koan-nonempty-text",
+    "title": "Haskell koan: Type-checked non-empty strings",
+    "author": "Mike Ledger, Bellroy",
+    "date": "23 June 2026",
+    "path": "/wiki/sources/ledger-haskell-koan-nonempty-text/"
+  },
+  {
     "slug": "ronacher-the-coming-loop",
     "title": "The Coming Loop",
     "author": "Armin Ronacher",
     "date": "June 23, 2026",
     "path": "/wiki/sources/ronacher-the-coming-loop/"
+  },
+  {
+    "slug": "hn-haystack-agent-framework-thread",
+    "title": "Haystack: Open-Source AI Framework for Production Ready Agents, RAG",
+    "author": "Posted by doener, with replies from many commenters",
+    "date": "24 June 2026",
+    "path": "/wiki/sources/hn-haystack-agent-framework-thread/"
+  },
+  {
+    "slug": "hn-rrb-trees-immutable-vectors",
+    "title": "RRB-Trees: Efficient Immutable Vectors (2012) [pdf]",
+    "author": "Posted by azhenley, with replies from a few commenters",
+    "date": "24 June 2026",
+    "path": "/wiki/sources/hn-rrb-trees-immutable-vectors/"
   },
   {
     "slug": "nielsen-blogging-obvious",
@@ -1036,11 +2478,88 @@
     "path": "/wiki/sources/manino-sqlite-wal-bug-tla/"
   },
   {
+    "slug": "hn-strix-halo-rdma-cluster",
+    "title": "AMD Strix Halo RDMA Cluster Setup Guide",
+    "author": "Posted by jakogut, with replies from many commenters",
+    "date": "28 June 2026",
+    "path": "/wiki/sources/hn-strix-halo-rdma-cluster/"
+  },
+  {
+    "slug": "ovadia-ante-borrow-rc",
+    "title": "Ante: A New Way to Blend Borrow Checking and Reference Counting",
+    "author": "Evan Ovadia",
+    "date": "June 28, 2026",
+    "path": "/wiki/sources/ovadia-ante-borrow-rc/"
+  },
+  {
+    "slug": "eatonphil-software-guarantees-hn-thread",
+    "title": "What can you confidently guarantee about your software?",
+    "author": "Posted by eatonphil, with replies from many commenters",
+    "date": "29 June 2026",
+    "path": "/wiki/sources/eatonphil-software-guarantees-hn-thread/"
+  },
+  {
+    "slug": "hn-micro-agent-inside-model-api-thread",
+    "title": "Micro-Agent: Beat Frontier Models with Collaboration Inside Model API",
+    "author": "Posted by matt_d, with replies from many commenters",
+    "date": "29 June 2026",
+    "path": "/wiki/sources/hn-micro-agent-inside-model-api-thread/"
+  },
+  {
+    "slug": "milewski-actegories",
+    "title": "Actegories",
+    "author": "Bartosz Milewski",
+    "date": "30 June 2026",
+    "path": "/wiki/sources/milewski-actegories/"
+  },
+  {
+    "slug": "alejandre-hashimoto-interview",
+    "title": "Interview With Mitchell Hashimoto",
+    "author": "Alex Alejandre, interviewing Mitchell Hashimoto",
+    "date": "July 2026",
+    "path": "/wiki/sources/alejandre-hashimoto-interview/"
+  },
+  {
+    "slug": "lastnpc-hard-sf-transmissions",
+    "title": "hard SF transmissions from A.N. Alex",
+    "author": "A.N. Alex, as named in the site title",
+    "date": "Feed last built 1 July 2026",
+    "path": "/wiki/sources/lastnpc-hard-sf-transmissions/"
+  },
+  {
+    "slug": "dominus-hn-code-review-purpose",
+    "title": "The primary purpose of code review is to find code that will be hard to maintain",
+    "author": "Posted by ColinWright, with replies from many commenters",
+    "date": "2 July 2026",
+    "path": "/wiki/sources/dominus-hn-code-review-purpose/"
+  },
+  {
     "slug": "weng-harness-self-improvement",
     "title": "Harness Engineering for Self-Improvement",
     "author": "Lilian Weng",
     "date": "July 4, 2026",
     "path": "/wiki/sources/weng-harness-self-improvement/"
+  },
+  {
+    "slug": "martinez-almeida-noiselang",
+    "title": "NoiseLang: Where N = 5 is a Dirac delta",
+    "author": "Manu Martínez-Almeida (Principal Engineer at Builder.io)",
+    "date": "July 6, 2026",
+    "path": "/wiki/sources/martinez-almeida-noiselang/"
+  },
+  {
+    "slug": "buf-protobuf-py-launch",
+    "title": "protobuf-py: Protobuf for Python, without compromises",
+    "author": "Team Buf, Buf Technologies, Inc.",
+    "date": "July 7, 2026",
+    "path": "/wiki/sources/buf-protobuf-py-launch/"
+  },
+  {
+    "slug": "nateb2022-satteri-markdown-hn",
+    "title": "Satteri: A Markdown pipeline forged in Rust for the JavaScript world",
+    "author": "Posted by nateb2022, with replies from several commenters",
+    "date": "7 July 2026",
+    "path": "/wiki/sources/nateb2022-satteri-markdown-hn/"
   },
   {
     "slug": "park-automation-without-understanding",
@@ -1050,11 +2569,25 @@
     "path": "/wiki/sources/park-automation-without-understanding/"
   },
   {
+    "slug": "kurkiewicz-glm-52-vat-benchmark",
+    "title": "GLM 5.2 is (nearly) as accurate as a human book-keeper at less than 1% of the cost",
+    "author": "Adam Kurkiewicz, Vineyard Finance",
+    "date": "8 July 2026",
+    "path": "/wiki/sources/kurkiewicz-glm-52-vat-benchmark/"
+  },
+  {
     "slug": "weirdguy-hn-kastor-agent-specs",
     "title": "Show HN: Kastor – Terraform-style specs for AI agents",
     "author": "Posted by weirdguy, with replies from several commenters",
     "date": "8 July 2026",
     "path": "/wiki/sources/weirdguy-hn-kastor-agent-specs/"
+  },
+  {
+    "slug": "wikipedia-software-assurance",
+    "title": "Software assurance - Wikipedia",
+    "author": "Not stated",
+    "date": "Last edited 8 July 2026",
+    "path": "/wiki/sources/wikipedia-software-assurance/"
   },
   {
     "slug": "nahla-bounded-mpmc-queue",
@@ -1078,6 +2611,13 @@
     "path": "/wiki/sources/turnertrauring-branchless-binary-search/"
   },
   {
+    "slug": "cosmtrek-mindwalk-session-replay",
+    "title": "Show HN: Mindwalk – Replay coding-agent sessions on a 3D map of your codebase",
+    "author": "Posted by cosmtrek, with replies from many commenters",
+    "date": "12 July 2026",
+    "path": "/wiki/sources/cosmtrek-mindwalk-session-replay/"
+  },
+  {
     "slug": "julesrms-hn-juggler-coding-agent",
     "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
     "author": "Posted by julesrms, with replies from many commenters",
@@ -1085,11 +2625,32 @@
     "path": "/wiki/sources/julesrms-hn-juggler-coding-agent/"
   },
   {
+    "slug": "boluk-prewalk-frontier-one-edit",
+    "title": "You only need the frontier model for one single edit",
+    "author": "Can Bölük, Stencil Labs",
+    "date": "13 July 2026",
+    "path": "/wiki/sources/boluk-prewalk-frontier-one-edit/"
+  },
+  {
+    "slug": "maganti-git-history-command",
+    "title": "The git history command deserves more attention",
+    "author": "Lalit Maganti",
+    "date": "13 July 2026",
+    "path": "/wiki/sources/maganti-git-history-command/"
+  },
+  {
     "slug": "joshi-dsls-and-llms",
     "title": "DSLs Enable Reliable Use of LLMs",
     "author": "Unmesh Joshi, on martinfowler.com",
     "date": "14 July 2026",
     "path": "/wiki/sources/joshi-dsls-and-llms/"
+  },
+  {
+    "slug": "larsson-stop-claude-load-bearing",
+    "title": "How to stop Claude from saying load-bearing",
+    "author": "Johanna Larsson",
+    "date": "14 July 2026",
+    "path": "/wiki/sources/larsson-stop-claude-load-bearing/"
   },
   {
     "slug": "elena-intro-formal-verification-lean",
@@ -1113,11 +2674,32 @@
     "path": "/wiki/sources/goncalves-advanced-agentic-harness/"
   },
   {
+    "slug": "hn-schema-harness-arc-agi-3-thread",
+    "title": "Schema Harness Achieves ~99% on Arc-AGI-3 Public",
+    "author": "Posted by jasondavies, with replies from many commenters",
+    "date": "16 July 2026",
+    "path": "/wiki/sources/hn-schema-harness-arc-agi-3-thread/"
+  },
+  {
+    "slug": "lmstudio-bionic-launch",
+    "title": "Introducing LM Studio Bionic: the AI agent for open models",
+    "author": "LM Studio Team (LM Studio)",
+    "date": "16 July 2026",
+    "path": "/wiki/sources/lmstudio-bionic-launch/"
+  },
+  {
     "slug": "zhinit-kick-drum-diffusion",
     "title": "How To Train a Generative Kick Drum Model on Your Old Linux Desktop With 6GB of VRAM",
     "author": "Not stated (published on the personal site zhinit.dev, GitHub user zhinit)",
     "date": "16 July 2026",
     "path": "/wiki/sources/zhinit-kick-drum-diffusion/"
+  },
+  {
+    "slug": "manshin-swiftui-mediocrity",
+    "title": "SwiftUI After 7 Years: A Story of Mediocrity: Will it ever stop feeling like a beta?",
+    "author": "Yakov Manshin",
+    "date": "20 July 2026",
+    "path": "/wiki/sources/manshin-swiftui-mediocrity/"
   },
   {
     "slug": "agonora-ethics-skill",
@@ -1134,11 +2716,46 @@
     "path": "/wiki/sources/bowneanderson-stop-overengineering-harness/"
   },
   {
+    "slug": "wolfram-theory-of-bugs",
+    "title": "Towards a Theory of Bugs: The Ruliology of the Unexpected",
+    "author": "Stephen Wolfram",
+    "date": "21 July 2026",
+    "path": "/wiki/sources/wolfram-theory-of-bugs/"
+  },
+  {
+    "slug": "velichko-ssh-tunnels",
+    "title": "A Practical Guide to SSH Tunnels: Local and Remote Port Forwarding",
+    "author": "Ivan Velichko (iximiuz Labs)",
+    "date": "Last updated 23 July 2026",
+    "path": "/wiki/sources/velichko-ssh-tunnels/"
+  },
+  {
+    "slug": "janiczek-systems-and-delays",
+    "title": "Systems and Delays",
+    "author": "Martin Janiczek",
+    "date": "24 July 2026",
+    "path": "/wiki/sources/janiczek-systems-and-delays/"
+  },
+  {
     "slug": "max-type-checker-may-be-wrong",
     "title": "Your type checker may be wrong - an introduction to formal proof verification and the Curry-Howard Correspondence",
     "author": "Max (Max's blog)",
     "date": "25 July 2026",
     "path": "/wiki/sources/max-type-checker-may-be-wrong/"
+  },
+  {
+    "slug": "wikipedia-tablet-of-destinies",
+    "title": "Tablet of Destinies",
+    "author": "Not stated (Wikipedia, edited by many contributors)",
+    "date": "Last edited 25 July 2026",
+    "path": "/wiki/sources/wikipedia-tablet-of-destinies/"
+  },
+  {
+    "slug": "fenollosa-hmtp-email-borrowed-parts",
+    "title": "Modern email can be built from borrowed parts",
+    "author": "Andros Fenollosa",
+    "date": "27 July 2026",
+    "path": "/wiki/sources/fenollosa-hmtp-email-borrowed-parts/"
   },
   {
     "slug": "yoon-agent-autonomy-levels",
@@ -1155,6 +2772,20 @@
     "path": "/wiki/sources/hn-harmony-explained/"
   },
   {
+    "slug": "gauer-small-programs-languages",
+    "title": "Small Programs and Languages",
+    "author": "Dave Gauer (ratfactor)",
+    "date": "28 July 2026",
+    "path": "/wiki/sources/gauer-small-programs-languages/"
+  },
+  {
+    "slug": "ellich-ai-mental-load",
+    "title": "AI as a Tool for the Mental Load",
+    "author": "Brittany Ellich",
+    "date": "30 July 2026",
+    "path": "/wiki/sources/ellich-ai-mental-load/"
+  },
+  {
     "slug": "sephton-beltrunner-postmortem",
     "title": "BELTRUNNER: game design postmortem",
     "author": "Matt Sephton (gingerbeardman)",
@@ -1169,11 +2800,25 @@
     "path": "/wiki/sources/paterson-memoryfields/"
   },
   {
+    "slug": "yegge-shape-of-things-continuous-thunderdome",
+    "title": "The Shape of Things to Come, Part 1: The Continuous Thunderdome",
+    "author": "Steve Yegge (yegge.ai)",
+    "date": "August 2026",
+    "path": "/wiki/sources/yegge-shape-of-things-continuous-thunderdome/"
+  },
+  {
     "slug": "wikipedia-charakteres",
     "title": "Charaktêres",
     "author": "Not stated (Wikipedia, written by volunteer editors)",
     "date": "Last edited 1 August 2026",
     "path": "/wiki/sources/wikipedia-charakteres/"
+  },
+  {
+    "slug": "hotrollhottakes-nagarjuna-lean-post",
+    "title": "Bluesky post on the machine-checked logic of Nagarjuna, with replies",
+    "author": "Posted by hotrollhottakes.bsky.social, with replies from many commenters",
+    "date": "3 August 2026",
+    "path": "/wiki/sources/hotrollhottakes-nagarjuna-lean-post/"
   },
   {
     "slug": "weiher-hn-retyping-llm-code",
@@ -1183,6 +2828,20 @@
     "path": "/wiki/sources/weiher-hn-retyping-llm-code/"
   },
   {
+    "slug": "pastebin-ai-assistant-standing-instructions",
+    "title": "Untitled (paste beginning \"# Always\")",
+    "author": "Anonymous (posted as \"a guest\")",
+    "date": "4 August 2026",
+    "path": "/wiki/sources/pastebin-ai-assistant-standing-instructions/"
+  },
+  {
+    "slug": "doobidoo-mcp-memory-service-codeberg",
+    "title": "doobidoo/mcp-memory-service: MOVED to github.com/doobidoo/mcp-memory-service - archive only, no further development",
+    "author": "Heinrich Krupp (doobidoo), maintainer; commit shown under the name Henry Krupp",
+    "date": "5 September 2026 (move notice); latest release v11.10.0, 28 August 2026",
+    "path": "/wiki/sources/doobidoo-mcp-memory-service-codeberg/"
+  },
+  {
     "slug": "smtm-meeseeks-alignment",
     "title": "A Stupid Idea for AI Alignment We Came up with by Looking at the List of Specification Gaming Behaviours",
     "author": "SLIME MOLD TIME MOLD (posted by slimemoldtimemold)",
@@ -1190,11 +2849,46 @@
     "path": "/wiki/sources/smtm-meeseeks-alignment/"
   },
   {
+    "slug": "kellogg-prime-agent-watershed-post",
+    "title": "i think Prime Agent is likely a watershed moment...",
+    "author": "Posted by mr. TIM (timkellogg.me), with replies from several users",
+    "date": "6 August 2026",
+    "path": "/wiki/sources/kellogg-prime-agent-watershed-post/"
+  },
+  {
     "slug": "martinho-kitesurf-agent-browser",
     "title": "Introducing Kitesurf: The agent-first browser that runs in V8 isolates on Cloudflare Workers",
     "author": "Celso Martinho, Ruskin Constant, Rui Figueira and Luís Duarte, Cloudflare",
     "date": "August 6, 2026",
     "path": "/wiki/sources/martinho-kitesurf-agent-browser/"
+  },
+  {
+    "slug": "hn-show-wyzer-language",
+    "title": "Show HN: Wyzer Programming Language",
+    "author": "Posted by v0id_isgood, with replies from many commenters",
+    "date": "7 August 2026",
+    "path": "/wiki/sources/hn-show-wyzer-language/"
+  },
+  {
+    "slug": "kind-openai-hugging-face-talk-thread",
+    "title": "There are too many crazy parts of this video to pick something to highlight",
+    "author": "Posted by @gracekind.net, with replies from many commenters",
+    "date": "7 August 2026",
+    "path": "/wiki/sources/kind-openai-hugging-face-talk-thread/"
+  },
+  {
+    "slug": "leandra-solarpunk-pastoral-art-thread",
+    "title": "Every piece of \"solarpunk\" art I see is just reactionary pastoralist fantasy with solar panels added",
+    "author": "Posted by Doc Vivi Leandra, with replies from many commenters",
+    "date": "8 August 2026",
+    "path": "/wiki/sources/leandra-solarpunk-pastoral-art-thread/"
+  },
+  {
+    "slug": "moulton-colors-screen-cannot-show-post",
+    "title": "Post by @moultano.bsky.social on an article about colors screens cannot show",
+    "author": "Ryan Moulton (@moultano.bsky.social)",
+    "date": "11 August 2026",
+    "path": "/wiki/sources/moulton-colors-screen-cannot-show-post/"
   },
   {
     "slug": "chan-sqlite-wal-reset-bug",
@@ -1211,11 +2905,25 @@
     "path": "/wiki/sources/wikipedia-assessors-of-maat/"
   },
   {
+    "slug": "wikipedia-viable-system-model",
+    "title": "Viable system model",
+    "author": "Not stated (Wikipedia contributors)",
+    "date": "Last edited 13 August 2026",
+    "path": "/wiki/sources/wikipedia-viable-system-model/"
+  },
+  {
     "slug": "gavran-case-against-verification",
     "title": "The Case Against Formal Verification, 50 Years Later",
     "author": "Ivan Gavran",
     "date": "15 August 2026",
     "path": "/wiki/sources/gavran-case-against-verification/"
+  },
+  {
+    "slug": "mara-nagata-nanotech-tv",
+    "title": "Linda Nagata's Nanotech succession",
+    "author": "mara (@mara.x0f.nl on Bluesky)",
+    "date": "15 August 2026",
+    "path": "/wiki/sources/mara-nagata-nanotech-tv/"
   },
   {
     "slug": "haas-music-theory-for-programmers",
@@ -1225,11 +2933,53 @@
     "path": "/wiki/sources/haas-music-theory-for-programmers/"
   },
   {
+    "slug": "all-paperclips-fluoddity-sonification",
+    "title": "github.com/aphid91/Fluo... (post on new Fluoddity sonification code)",
+    "author": "Oops! All Paperclips (@all-paperclips.bsky.social)",
+    "date": "17 August 2026",
+    "path": "/wiki/sources/all-paperclips-fluoddity-sonification/"
+  },
+  {
+    "slug": "andersun-exit-the-cave",
+    "title": "Exit the Cave",
+    "author": "Justin Andersun",
+    "date": "19 August 2026",
+    "path": "/wiki/sources/andersun-exit-the-cave/"
+  },
+  {
+    "slug": "sporks-modern-relational-query-language",
+    "title": "Things I want in a modern relational query language",
+    "author": "cb (posting on the sporks space community blog)",
+    "date": "19 August 2026",
+    "path": "/wiki/sources/sporks-modern-relational-query-language/"
+  },
+  {
     "slug": "gingerbill-odin-inline-asm",
     "title": "Everyone Says Assembly Is Untyped—Everyone Is Wrong",
     "author": "gingerBill (Ginger Bill)",
     "date": "2026-08-20",
     "path": "/wiki/sources/gingerbill-odin-inline-asm/"
+  },
+  {
+    "slug": "ptacek-stop-making-tuis",
+    "title": "Stop Making TUIs",
+    "author": "Thomas & Erin Ptacek, per the site's copyright line; no byline",
+    "date": "20 August 2026",
+    "path": "/wiki/sources/ptacek-stop-making-tuis/"
+  },
+  {
+    "slug": "zhang-self-harness-improves-itself",
+    "title": "Self-Harness: Harnesses That Improve Themselves",
+    "author": "Hangfan Zhang and seven co-authors, Shanghai Artificial Intelligence Laboratory",
+    "date": "20 August 2026 (version 3)",
+    "path": "/wiki/sources/zhang-self-harness-improves-itself/"
+  },
+  {
+    "slug": "farkas-file-menu-misnamed",
+    "title": "Your \"File\" Menu Isn't About Files",
+    "author": "Adam Farkas",
+    "date": "22 August 2026",
+    "path": "/wiki/sources/farkas-file-menu-misnamed/"
   },
   {
     "slug": "allspaw-code-review-detection",
@@ -1267,11 +3017,39 @@
     "path": "/wiki/sources/wikipedia-hauntology/"
   },
   {
+    "slug": "holmgren-reintroducing-spaces",
+    "title": "Reintroducing Spaces",
+    "author": "Daniel Holmgren",
+    "date": "27 August 2026",
+    "path": "/wiki/sources/holmgren-reintroducing-spaces/"
+  },
+  {
+    "slug": "jxmorris12-hn-twelve-factor-app",
+    "title": "The Twelve-Factor App (2025)",
+    "author": "Posted by jxmorris12, with replies from many commenters",
+    "date": "27 August 2026",
+    "path": "/wiki/sources/jxmorris12-hn-twelve-factor-app/"
+  },
+  {
+    "slug": "jyn-simple-not-small",
+    "title": "simple is not small",
+    "author": "jyn",
+    "date": "27 August 2026",
+    "path": "/wiki/sources/jyn-simple-not-small/"
+  },
+  {
     "slug": "wikipedia-john-murray-spear",
     "title": "John Murray Spear",
     "author": "Not stated (Wikipedia contributors)",
     "date": "Last edited 27 August 2026",
     "path": "/wiki/sources/wikipedia-john-murray-spear/"
+  },
+  {
+    "slug": "birdculture-easyeffects-laptop-speakers-hn",
+    "title": "EasyEffects can improve laptop speaker sound quality",
+    "author": "Posted by birdculture, with replies from many commenters",
+    "date": "28 August 2026",
+    "path": "/wiki/sources/birdculture-easyeffects-laptop-speakers-hn/"
   },
   {
     "slug": "hn-llm-memory-program-analysis",
@@ -1281,11 +3059,60 @@
     "path": "/wiki/sources/hn-llm-memory-program-analysis/"
   },
   {
+    "slug": "wichary-artfultype-anachronism",
+    "title": "“We want it to really confuse people, but also really make people happy.”",
+    "author": "Marcin Wichary (Unsung blog)",
+    "date": "28 August 2026",
+    "path": "/wiki/sources/wichary-artfultype-anachronism/"
+  },
+  {
+    "slug": "barredspirals-lastchat-fonts",
+    "title": "Bluesky reply naming the lastchat app and its fonts",
+    "author": "barredspirals.comint.su",
+    "date": "30 August 2026",
+    "path": "/wiki/sources/barredspirals-lastchat-fonts/"
+  },
+  {
     "slug": "galilei-barlaam-josaphat-buddha",
     "title": "The two Christian saints who are secretly the Buddha",
     "author": "Signore Galilei",
     "date": "30 August 2026",
     "path": "/wiki/sources/galilei-barlaam-josaphat-buddha/"
+  },
+  {
+    "slug": "underwood-calvino-cybernetics-ghosts",
+    "title": "Post on Calvino's \"Cybernetics and Ghosts\"",
+    "author": "Ted Underwood (@tedunderwood.com) on Bluesky",
+    "date": "30 August 2026",
+    "path": "/wiki/sources/underwood-calvino-cybernetics-ghosts/"
+  },
+  {
+    "slug": "hn-imhex-file-formats",
+    "title": "Reverse Engineering Unknown File Formats with ImHex",
+    "author": "Posted by carlos-menezes, with replies from many commenters",
+    "date": "31 August 2026",
+    "path": "/wiki/sources/hn-imhex-file-formats/"
+  },
+  {
+    "slug": "oddgoo-hugo-riemann-post",
+    "title": "Post on Hugo Riemann and geometric music theory (Bluesky)",
+    "author": "Posted by oddgoo (viriditax.bsky.social)",
+    "date": "31 August 2026",
+    "path": "/wiki/sources/oddgoo-hugo-riemann-post/"
+  },
+  {
+    "slug": "smotherman-microprogramming-history",
+    "title": "A Brief History of Microprogramming",
+    "author": "Mark Smotherman",
+    "date": "September 2026",
+    "path": "/wiki/sources/smotherman-microprogramming-history/"
+  },
+  {
+    "slug": "muir-tiny-awards-shortlist-2026",
+    "title": "We have whittled down all the nominations to our shortlist for the 2026 Tiny Awards!",
+    "author": "Matt Muir",
+    "date": "1 September 2026",
+    "path": "/wiki/sources/muir-tiny-awards-shortlist-2026/"
   },
   {
     "slug": "hn-music-theory-for-programmers",
@@ -1309,11 +3136,25 @@
     "path": "/wiki/sources/lewis-spec-the-agent-can-run/"
   },
   {
+    "slug": "fjerome-review-load-bluesky",
+    "title": "My company now has like 6 developers all developing like 2-3 substantial features at a time",
+    "author": "fjerome.bsky.social",
+    "date": "5 September 2026",
+    "path": "/wiki/sources/fjerome-review-load-bluesky/"
+  },
+  {
     "slug": "martin-zx-spectrum-1-bit-sound",
     "title": "ZX Spectrum: Experimenting With 1-Bit Sound",
     "author": "Michael Martin",
     "date": "5 September 2026",
     "path": "/wiki/sources/martin-zx-spectrum-1-bit-sound/"
+  },
+  {
+    "slug": "pliutau-gitignore-everything",
+    "title": ".gitignore everything by default",
+    "author": "Alex Pliutau",
+    "date": "Sep 05, 2026",
+    "path": "/wiki/sources/pliutau-gitignore-everything/"
   },
   {
     "slug": "wikipedia-vorticism",
@@ -1330,6 +3171,27 @@
     "path": "/wiki/sources/rustywasm-hn-la-buildings-map/"
   },
   {
+    "slug": "gray-design-space-async-await",
+    "title": "A Design Space Exploration of Async/Await",
+    "author": "Gavin Gray, Cognitive Engineering Lab",
+    "date": "8 September 2026",
+    "path": "/wiki/sources/gray-design-space-async-await/"
+  },
+  {
+    "slug": "sneptech-technology-tree-post",
+    "title": "this technology tree is not fictional, we have a Rube Goldberg example in what we call life",
+    "author": "sneptech.bsky.social",
+    "date": "8 September 2026",
+    "path": "/wiki/sources/sneptech-technology-tree-post/"
+  },
+  {
+    "slug": "uyeno-alphagenome-atlas",
+    "title": "Google DeepMind Maps 9 Billion Possible DNA Variants",
+    "author": "Greg Uyeno, freelance science journalist, in IEEE Spectrum",
+    "date": "8 September 2026",
+    "path": "/wiki/sources/uyeno-alphagenome-atlas/"
+  },
+  {
     "slug": "postrel-invention-of-the-mmo",
     "title": "The invention of the MMO",
     "author": "Virginia Postrel and Works in Progress",
@@ -1344,11 +3206,67 @@
     "path": "/wiki/sources/aanet-hn-music-theory-21st-century-classroom/"
   },
   {
+    "slug": "grep-it-hn-distributed-systems-classics",
+    "title": "Distributed Systems Classics (2017)",
+    "author": "Posted by grep_it, with replies from many commenters",
+    "date": "14 September 2026",
+    "path": "/wiki/sources/grep-it-hn-distributed-systems-classics/"
+  },
+  {
+    "slug": "hn-most-people-prefer-traditional-architecture",
+    "title": "Most people prefer traditional architecture (Hacker News discussion)",
+    "author": "Posted by alihm, with replies from many commenters",
+    "date": "14 September 2026",
+    "path": "/wiki/sources/hn-most-people-prefer-traditional-architecture/"
+  },
+  {
+    "slug": "signa11-small-programming-tricks-hn",
+    "title": "Small programming tricks",
+    "author": "Posted by signa11, with replies from many commenters",
+    "date": "16 September 2026",
+    "path": "/wiki/sources/signa11-small-programming-tricks-hn/"
+  },
+  {
+    "slug": "larson-software-factory-experiment",
+    "title": "Trying the Software Factory pattern.",
+    "author": "Will Larson",
+    "date": "20 September 2026",
+    "path": "/wiki/sources/larson-software-factory-experiment/"
+  },
+  {
     "slug": "unreallabs-unreal-agent",
     "title": "Unreal Agent",
     "author": "Unreal Labs (Alex Baranov, Gleb Logunov, Maksim Grankin, Fillip Sinitsin, Artem Ivanov)",
     "date": "22 September 2026",
     "path": "/wiki/sources/unreallabs-unreal-agent/"
+  },
+  {
+    "slug": "brown-love-letter-sdf",
+    "title": "A Love Letter to the Super Dimension Fortress",
+    "author": "Brennan Kenneth Brown",
+    "date": "24 September 2026",
+    "path": "/wiki/sources/brown-love-letter-sdf/"
+  },
+  {
+    "slug": "valim-evolving-languages-ai",
+    "title": "Evolving programming languages in the AI era",
+    "author": "José Valim (Dashbit Blog)",
+    "date": "24 September 2026",
+    "path": "/wiki/sources/valim-evolving-languages-ai/"
+  },
+  {
+    "slug": "ptacek-what-is-an-os-now",
+    "title": "What Even Is An OS Now?",
+    "author": "Thomas & Erin Ptacek, per the site's copyright line; no byline",
+    "date": "25 September 2026",
+    "path": "/wiki/sources/ptacek-what-is-an-os-now/"
+  },
+  {
+    "slug": "ewerlof-coding-not-solved",
+    "title": "Coding is NOT solved",
+    "author": "Alex Ewerlöf",
+    "date": "Sep 26, 2026",
+    "path": "/wiki/sources/ewerlof-coding-not-solved/"
   },
   {
     "slug": "overmyer-heraldry-and-mon",
@@ -1372,6 +3290,34 @@
     "path": "/wiki/sources/martsinovich-four-horsemen-agentic-coding/"
   },
   {
+    "slug": "sumner-sol-ascendans-blog",
+    "title": "Sol Ascendans - The Website of Alex Sumner",
+    "author": "Alex Sumner",
+    "date": "Newest post 29 September 2026",
+    "path": "/wiki/sources/sumner-sol-ascendans-blog/"
+  },
+  {
+    "slug": "wikipedia-thunder-perfect-mind",
+    "title": "The Thunder, Perfect Mind",
+    "author": "Not stated",
+    "date": "Last edited 29 September 2026",
+    "path": "/wiki/sources/wikipedia-thunder-perfect-mind/"
+  },
+  {
+    "slug": "hn-context-language-models-thread",
+    "title": "Context Language Models",
+    "author": "Posted by emersonmacro, with replies from many commenters",
+    "date": "1 October 2026",
+    "path": "/wiki/sources/hn-context-language-models-thread/"
+  },
+  {
+    "slug": "cloudflare-web-search-api-changelog",
+    "title": "Introducing Web Search API",
+    "author": "Cloudflare (changelog post, no individual named)",
+    "date": "2 October 2026",
+    "path": "/wiki/sources/cloudflare-web-search-api-changelog/"
+  },
+  {
     "slug": "liao-agents-need-documentation",
     "title": "Agents Don't Need Memory. They Need Documentation.",
     "author": "Kevin Liao",
@@ -1379,11 +3325,53 @@
     "path": "/wiki/sources/liao-agents-need-documentation/"
   },
   {
+    "slug": "cohen-slow-formation-durable-software",
+    "title": "The Slow Formation of Durable Software",
+    "author": "Dan Cohen (Humane Ingenuity newsletter)",
+    "date": "October 6, 2026",
+    "path": "/wiki/sources/cohen-slow-formation-durable-software/"
+  },
+  {
     "slug": "dua-embeddinggemma-2",
     "title": "EmbeddingGemma 2: an open, lightweight multimodal embedding model",
     "author": "Sahil Dua and Henrique Schechter Vera, Research Engineers, Google DeepMind",
     "date": "6 October 2026",
     "path": "/wiki/sources/dua-embeddinggemma-2/"
+  },
+  {
+    "slug": "jbaudanza-hangul-ink-hn",
+    "title": "Show HN: Happy Hangul Day! An RNN for Generating Korean Handwriting Strokes",
+    "author": "Posted by jbaudanza, with replies from many commenters",
+    "date": "9 October 2026",
+    "path": "/wiki/sources/jbaudanza-hangul-ink-hn/"
+  },
+  {
+    "slug": "atarity-diy-synths-database",
+    "title": "DIY synths database",
+    "author": "Atarity",
+    "date": "Updated 11 October 2026",
+    "path": "/wiki/sources/atarity-diy-synths-database/"
+  },
+  {
+    "slug": "epestr-hn-spatial-audio-reverse-engineering",
+    "title": "How I reverse engineered a commercial spatial audio effect",
+    "author": "Posted by epestr, with replies from many commenters",
+    "date": "11 October 2026",
+    "path": "/wiki/sources/epestr-hn-spatial-audio-reverse-engineering/"
+  },
+  {
+    "slug": "hn-just-ask-claude-skill",
+    "title": "\"Just Ask Claude\" Is a Rare and Valuable Skill",
+    "author": "Posted by surprisetalk, with replies from many commenters; the linked essay is by Justis Mills",
+    "date": "12 October 2026",
+    "path": "/wiki/sources/hn-just-ask-claude-skill/"
+  },
+  {
+    "slug": "rust-lang-core-crate-docs",
+    "title": "core - Rust (Crate core)",
+    "author": "Not stated",
+    "date": "13 October 2026 (documentation build, core 1.99.1)",
+    "path": "/wiki/sources/rust-lang-core-crate-docs/"
   },
   {
     "slug": "maevyn-decoherence-trap",
@@ -1414,11 +3402,60 @@
     "path": "/wiki/sources/congdon-agentic-monitoring/"
   },
   {
+    "slug": "wikipedia-satisfiability-modulo-theories",
+    "title": "Satisfiability modulo theories - Wikipedia",
+    "author": "Not stated",
+    "date": "Last edited 30 October 2026",
+    "path": "/wiki/sources/wikipedia-satisfiability-modulo-theories/"
+  },
+  {
+    "slug": "wikipedia-olaf-stapledon",
+    "title": "Olaf Stapledon",
+    "author": "Not stated (Wikipedia article, written by many editors)",
+    "date": "Page last edited 31 October 2026",
+    "path": "/wiki/sources/wikipedia-olaf-stapledon/"
+  },
+  {
+    "slug": "levvazure-low-mood-vtuber-post",
+    "title": "Maybe doing this in a kinda depresso mood isn't the best idea... well here goes anyway",
+    "author": "LevvAzure (@levvazurevt.bsky.social)",
+    "date": "1 November 2026",
+    "path": "/wiki/sources/levvazure-low-mood-vtuber-post/"
+  },
+  {
+    "slug": "wikipedia-comefrom",
+    "title": "COMEFROM",
+    "author": "Not stated (Wikipedia, many editors)",
+    "date": "Last edited 1 November 2026",
+    "path": "/wiki/sources/wikipedia-comefrom/"
+  },
+  {
+    "slug": "wikipedia-kingdom-of-loango",
+    "title": "Kingdom of Loango",
+    "author": "Not stated",
+    "date": "Last edited 1 November 2026",
+    "path": "/wiki/sources/wikipedia-kingdom-of-loango/"
+  },
+  {
     "slug": "wikipedia-upaya",
     "title": "Upaya",
     "author": "Not stated (Wikipedia contributors)",
     "date": "Last edited 1 November 2026",
     "path": "/wiki/sources/wikipedia-upaya/"
+  },
+  {
+    "slug": "wikipedia-nomic-game",
+    "title": "Nomic",
+    "author": "Not stated (Wikipedia, the free encyclopedia)",
+    "date": "Last edited 2 November 2026",
+    "path": "/wiki/sources/wikipedia-nomic-game/"
+  },
+  {
+    "slug": "wikipedia-picts",
+    "title": "Picts",
+    "author": "Not stated",
+    "date": "Last edited 3 November 2026",
+    "path": "/wiki/sources/wikipedia-picts/"
   },
   {
     "slug": "wikipedia-udo-kier",
@@ -1435,6 +3472,20 @@
     "path": "/wiki/sources/wikipedia-descent-of-inanna/"
   },
   {
+    "slug": "wikipedia-tony-hoare",
+    "title": "Tony Hoare - Wikipedia",
+    "author": "Not stated",
+    "date": "Last edited 4 November 2026",
+    "path": "/wiki/sources/wikipedia-tony-hoare/"
+  },
+  {
+    "slug": "wellons-line-buffered-output",
+    "title": "We can do better than line-buffered output",
+    "author": "Chris Wellons",
+    "date": "5 November 2026",
+    "path": "/wiki/sources/wellons-line-buffered-output/"
+  },
+  {
     "slug": "wikipedia-hangul",
     "title": "Hangul",
     "author": "Not stated",
@@ -1447,6 +3498,20 @@
     "author": "Lance Martin, Anthropic",
     "date": "6 November 2026",
     "path": "/wiki/sources/martin-components-of-agent-memory/"
+  },
+  {
+    "slug": "wikipedia-denotational-semantics",
+    "title": "Denotational semantics - Wikipedia",
+    "author": "Not stated",
+    "date": "Last edited 6 November 2026",
+    "path": "/wiki/sources/wikipedia-denotational-semantics/"
+  },
+  {
+    "slug": "fluxusars-hn-nfsu2-browser",
+    "title": "Need for Speed Underground 2 online in the browser",
+    "author": "Posted by fluxusars, with replies from many commenters",
+    "date": "7 November 2026",
+    "path": "/wiki/sources/fluxusars-hn-nfsu2-browser/"
   },
   {
     "slug": "wikipedia-angkor-wat",
@@ -1463,11 +3528,39 @@
     "path": "/wiki/sources/wikipedia-foucaults-pendulum/"
   },
   {
+    "slug": "wikipedia-reality-dysfunction",
+    "title": "The Reality Dysfunction",
+    "author": "Not stated (Wikipedia article, written by many editors)",
+    "date": "Page last edited 7 November 2026",
+    "path": "/wiki/sources/wikipedia-reality-dysfunction/"
+  },
+  {
+    "slug": "wikipedia-schismatrix",
+    "title": "Schismatrix",
+    "author": "Not stated",
+    "date": "Last edited 7 November 2026",
+    "path": "/wiki/sources/wikipedia-schismatrix/"
+  },
+  {
+    "slug": "wikipedia-the-decameron",
+    "title": "The Decameron",
+    "author": "Not stated",
+    "date": "Last edited 7 November 2026",
+    "path": "/wiki/sources/wikipedia-the-decameron/"
+  },
+  {
     "slug": "wikipedia-mary-wollstonecraft",
     "title": "Mary Wollstonecraft",
     "author": "Not stated",
     "date": "Last edited 8 November 2026",
     "path": "/wiki/sources/wikipedia-mary-wollstonecraft/"
+  },
+  {
+    "slug": "oaklandreviewofbooks-homepage",
+    "title": "Oakland Review of Books",
+    "author": "Oakland Review of Books (publication; individual pieces have separate bylines)",
+    "date": "2026 (homepage copyright; snapshot read 9 November 2026)",
+    "path": "/wiki/sources/oaklandreviewofbooks-homepage/"
   },
   {
     "slug": "de-chardon-alternate-clocks",
@@ -1491,11 +3584,214 @@
     "path": "/wiki/sources/19hz-bay-area-event-listings/"
   },
   {
+    "slug": "a2ui-generative-ui-protocol-site",
+    "title": "A2UI",
+    "author": "Not stated; the site credits Google, with contributions from CopilotKit and the open source community",
+    "date": "Undated",
+    "path": "/wiki/sources/a2ui-generative-ui-protocol-site/"
+  },
+  {
+    "slug": "aeneasverif-aeneas-readme",
+    "title": "AeneasVerif/aeneas: A verification toolchain for Rust programs",
+    "author": "Not stated; the AeneasVerif GitHub organization",
+    "date": "Undated",
+    "path": "/wiki/sources/aeneasverif-aeneas-readme/"
+  },
+  {
+    "slug": "aeneasverif-charon-readme",
+    "title": "AeneasVerif/charon: Analyze Rust crates without touching compiler internals",
+    "author": "Not stated; the AeneasVerif GitHub organization",
+    "date": "Undated",
+    "path": "/wiki/sources/aeneasverif-charon-readme/"
+  },
+  {
+    "slug": "aldrich-hoare-logic-lecture-notes",
+    "title": "Lecture Notes: Hoare Logic",
+    "author": "Jonathan Aldrich",
+    "date": "Undated",
+    "path": "/wiki/sources/aldrich-hoare-logic-lecture-notes/"
+  },
+  {
+    "slug": "anastasio-alloy-temper-orm",
+    "title": "Alloy",
+    "author": "Not stated (GitHub user notactuallytreyanastasio)",
+    "date": "Undated",
+    "path": "/wiki/sources/anastasio-alloy-temper-orm/"
+  },
+  {
+    "slug": "ancientjames-scanwheel-mechanical-tv",
+    "title": "Scanwheel",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/ancientjames-scanwheel-mechanical-tv/"
+  },
+  {
+    "slug": "anon-distributed-systems-reading-list",
+    "title": "A Distributed Systems Reading List",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/anon-distributed-systems-reading-list/"
+  },
+  {
+    "slug": "anordin-asyncio-conceptual-overview",
+    "title": "A conceptual overview of the ideas and objects which power asyncio",
+    "author": "Not stated (GitHub user anordin95)",
+    "date": "Undated",
+    "path": "/wiki/sources/anordin-asyncio-conceptual-overview/"
+  },
+  {
+    "slug": "antirez-control-ideas-not-code",
+    "title": "Control the ideas, not the code",
+    "author": "antirez",
+    "date": "Undated (the page says 119 days ago)",
+    "path": "/wiki/sources/antirez-control-ideas-not-code/"
+  },
+  {
+    "slug": "antirez-new-era-software-testing",
+    "title": "A new era for software testing",
+    "author": "antirez",
+    "date": "Undated (the page says 155 days ago)",
+    "path": "/wiki/sources/antirez-new-era-software-testing/"
+  },
+  {
+    "slug": "ashraf-eigendrum-drum-shape",
+    "title": "Eigendrum - draw a shape and hear it as a real drum",
+    "author": "Basel Ashraf",
+    "date": "Undated",
+    "path": "/wiki/sources/ashraf-eigendrum-drum-shape/"
+  },
+  {
+    "slug": "asterinas-rust-framekernel-homepage",
+    "title": "Asterinas",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/asterinas-rust-framekernel-homepage/"
+  },
+  {
+    "slug": "atlasof-space",
+    "title": "Atlas of Space",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/atlasof-space/"
+  },
+  {
+    "slug": "atuin-magical-shell-history-readme",
+    "title": "atuinsh/atuin: magical shell history",
+    "author": "Not stated (repository owner atuinsh)",
+    "date": "Undated",
+    "path": "/wiki/sources/atuin-magical-shell-history-readme/"
+  },
+  {
     "slug": "barker-in-the-hills-the-cities",
     "title": "In the Hills, the Cities",
     "author": "Not stated",
     "date": "Undated",
     "path": "/wiki/sources/barker-in-the-hills-the-cities/"
+  },
+  {
+    "slug": "beales-neckbeard-infra-plugin",
+    "title": "neckbeard",
+    "author": "Not stated (repository owned by bealesh)",
+    "date": "Undated; prices dated 26 October 2026",
+    "path": "/wiki/sources/beales-neckbeard-infra-plugin/"
+  },
+  {
+    "slug": "below-hellosilicon-arm64-assembly",
+    "title": "HelloSilicon",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/below-hellosilicon-arm64-assembly/"
+  },
+  {
+    "slug": "benbridle-bedrock-8-bit-virtual-computer",
+    "title": "Bedrock",
+    "author": "Not stated (hosted on benbridle.com)",
+    "date": "Undated",
+    "path": "/wiki/sources/benbridle-bedrock-8-bit-virtual-computer/"
+  },
+  {
+    "slug": "bevy-engine-homepage",
+    "title": "Bevy Engine",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/bevy-engine-homepage/"
+  },
+  {
+    "slug": "bfi-everything-i-know-fuller-lectures",
+    "title": "Everything I Know",
+    "author": "Buckminster Fuller Institute (lectures by R. Buckminster Fuller)",
+    "date": "Undated (lectures given January 1975; first edition copyright 1997)",
+    "path": "/wiki/sources/bfi-everything-i-know-fuller-lectures/"
+  },
+  {
+    "slug": "bmson-jelly-ui-web-components",
+    "title": "Jelly UI — Soft Web Components",
+    "author": "bmson.com (named on the page)",
+    "date": "Undated",
+    "path": "/wiki/sources/bmson-jelly-ui-web-components/"
+  },
+  {
+    "slug": "boardgameio-documentation",
+    "title": "boardgame.io documentation",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/boardgameio-documentation/"
+  },
+  {
+    "slug": "bookfox-nine-character-techniques",
+    "title": "Pro Writers Swear by these 9 Character Building Techniques",
+    "author": "Bookfox",
+    "date": "Undated",
+    "path": "/wiki/sources/bookfox-nine-character-techniques/"
+  },
+  {
+    "slug": "brault-youre-the-os-game",
+    "title": "You're the OS!",
+    "author": "Pier-Luc Brault",
+    "date": "Undated",
+    "path": "/wiki/sources/brault-youre-the-os-game/"
+  },
+  {
+    "slug": "brooker-economics-load-balanced-systems",
+    "title": "Surprising Economics of Load-Balanced Systems",
+    "author": "Marc Brooker, an Amazon Web Services engineer",
+    "date": "Undated",
+    "path": "/wiki/sources/brooker-economics-load-balanced-systems/"
+  },
+  {
+    "slug": "brooker-two-random-choices",
+    "title": "The power of two random choices",
+    "author": "Marc Brooker, an Amazon Web Services engineer",
+    "date": "Undated",
+    "path": "/wiki/sources/brooker-two-random-choices/"
+  },
+  {
+    "slug": "carpio-outcomeops-context-engineering",
+    "title": "Context Engineering",
+    "author": "Brian Carpio, OutcomeOps",
+    "date": "Undated",
+    "path": "/wiki/sources/carpio-outcomeops-context-engineering/"
+  },
+  {
+    "slug": "condo-outbursts-of-everett-true-index",
+    "title": "Outbursts of Everett True",
+    "author": "Strip by A.D. Condo; page text by Barnacle Press",
+    "date": "Undated",
+    "path": "/wiki/sources/condo-outbursts-of-everett-true-index/"
+  },
+  {
+    "slug": "cosmograph-org-github-profile",
+    "title": "Cosmograph · GitHub",
+    "author": "cosmograph-org (GitHub organization)",
+    "date": "Undated",
+    "path": "/wiki/sources/cosmograph-org-github-profile/"
+  },
+  {
+    "slug": "cppiceberg-cpp-oddities-list",
+    "title": "The C++ Iceberg",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/cppiceberg-cpp-oddities-list/"
   },
   {
     "slug": "criterion-closet-fan-site",
@@ -1505,11 +3801,46 @@
     "path": "/wiki/sources/criterion-closet-fan-site/"
   },
   {
+    "slug": "crow-cli-compaction-code",
+    "title": "Compaction - summarize conversation history to reduce context window.",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/crow-cli-compaction-code/"
+  },
+  {
+    "slug": "darkholme-ast-grep-homepage",
+    "title": "ast-grep | structural search/rewrite tool for many languages",
+    "author": "Herrington Darkholme",
+    "date": "Undated",
+    "path": "/wiki/sources/darkholme-ast-grep-homepage/"
+  },
+  {
+    "slug": "dex-12-factor-agents-readme",
+    "title": "12-Factor Agents - Principles for building reliable LLM applications",
+    "author": "Dex, at HumanLayer, as the README signs it",
+    "date": "Undated",
+    "path": "/wiki/sources/dex-12-factor-agents-readme/"
+  },
+  {
+    "slug": "diana-tinycity-readme",
+    "title": "TinyCity",
+    "author": "Not stated (the repository owner is chrisdiana)",
+    "date": "Undated",
+    "path": "/wiki/sources/diana-tinycity-readme/"
+  },
+  {
     "slug": "dijkstra-natural-language-programming",
     "title": "On the foolishness of \"natural language programming\" (EWD 667)",
     "author": "Edsger W. Dijkstra, transcribed by Tristram Brelstaff",
     "date": "Undated; the transcription was revised 19 November 2010",
     "path": "/wiki/sources/dijkstra-natural-language-programming/"
+  },
+  {
+    "slug": "donut-rocket-simulator-online",
+    "title": "Rocket Simulator Online - Free Rocket Launch Simulation",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/donut-rocket-simulator-online/"
   },
   {
     "slug": "dor-real-time-strategy-history",
@@ -1519,11 +3850,53 @@
     "path": "/wiki/sources/dor-real-time-strategy-history/"
   },
   {
+    "slug": "driscoll-trollbridge-agent-proxy",
+    "title": "trollbridge — let your agents run amok",
+    "author": "Not stated (the page names Dan Driscoll as maintainer)",
+    "date": "Undated",
+    "path": "/wiki/sources/driscoll-trollbridge-agent-proxy/"
+  },
+  {
+    "slug": "dupras-tumble-forth",
+    "title": "Tumble Forth",
+    "author": "Virgil Dupras",
+    "date": "Undated",
+    "path": "/wiki/sources/dupras-tumble-forth/"
+  },
+  {
     "slug": "eichhorn-lox-astrodynamics",
     "title": "Lox – Oxidized Astrodynamics",
     "author": "Helge Eichhorn and Angus Morrison (copyright holders named in the README)",
     "date": "Undated",
     "path": "/wiki/sources/eichhorn-lox-astrodynamics/"
+  },
+  {
+    "slug": "elevenlabs-music-finetunes-docs",
+    "title": "Music Finetunes | ElevenLabs Documentation",
+    "author": "ElevenLabs documentation",
+    "date": "Undated",
+    "path": "/wiki/sources/elevenlabs-music-finetunes-docs/"
+  },
+  {
+    "slug": "faz-ai-music-video-skill",
+    "title": "ai-music-video (repository skill-generative-video-editing)",
+    "author": "faz.ms (repository owner on Tangled)",
+    "date": "Undated",
+    "path": "/wiki/sources/faz-ai-music-video-skill/"
+  },
+  {
+    "slug": "fil-c-memory-safe-context-switching",
+    "title": "Memory Safe Context Switching",
+    "author": "Not stated (a Fil-C documentation page, written in the first person)",
+    "date": "Undated",
+    "path": "/wiki/sources/fil-c-memory-safe-context-switching/"
+  },
+  {
+    "slug": "floooh-tiny-emulators-preview",
+    "title": "Tiny Emulators",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/floooh-tiny-emulators-preview/"
   },
   {
     "slug": "francois-resonate",
@@ -1561,11 +3934,123 @@
     "path": "/wiki/sources/gilmer-hairstyles-math-patterns/"
   },
   {
+    "slug": "giovanini-vgen-commission-profile",
+    "title": "Calli Giovanini (@calligiovanini) | VGen",
+    "author": "Calli Giovanini",
+    "date": "Undated",
+    "path": "/wiki/sources/giovanini-vgen-commission-profile/"
+  },
+  {
+    "slug": "google-gemini-api-computer-use-docs",
+    "title": "Computer use - Gemini API | Google AI Studio",
+    "author": "Not stated (Google AI Studio documentation)",
+    "date": "Undated",
+    "path": "/wiki/sources/google-gemini-api-computer-use-docs/"
+  },
+  {
+    "slug": "granule-project-home",
+    "title": "The Granule Project: A Research Project Studying the Next Generation of Functional Programming Languages",
+    "author": "The Granule Project (research group, University of Kent and collaborators)",
+    "date": "Undated (news items run to August 2026)",
+    "path": "/wiki/sources/granule-project-home/"
+  },
+  {
+    "slug": "h3nock-remux-ios-tmux-client",
+    "title": "h3nock/remux: A native iOS client for remote tmux workspaces",
+    "author": "Not stated (repository owner h3nock)",
+    "date": "Undated",
+    "path": "/wiki/sources/h3nock-remux-ios-tmux-client/"
+  },
+  {
+    "slug": "herault-receipt-printer-procrastination",
+    "title": "A receipt printer cured my procrastination",
+    "author": "Laurie Hérault",
+    "date": "Undated; update note dated 16 September 2025",
+    "path": "/wiki/sources/herault-receipt-printer-procrastination/"
+  },
+  {
+    "slug": "humanlayer-getting-ai-working-complex-codebases",
+    "title": "Getting AI to Work in Complex Codebases",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/humanlayer-getting-ai-working-complex-codebases/"
+  },
+  {
+    "slug": "hyuchia-monogatari-docs-welcome",
+    "title": "Documentation | Monogatari",
+    "author": "Hyuchia (credited in the page footer)",
+    "date": "Undated",
+    "path": "/wiki/sources/hyuchia-monogatari-docs-welcome/"
+  },
+  {
+    "slug": "idris-community-multiplicities",
+    "title": "Multiplicities",
+    "author": "The Idris Community",
+    "date": "Undated; copyright 2020-2023",
+    "path": "/wiki/sources/idris-community-multiplicities/"
+  },
+  {
+    "slug": "idris-community-typedd-updates",
+    "title": "Type Driven Development with Idris: Updates Required",
+    "author": "The Idris Community",
+    "date": "Undated; copyright 2020-2023",
+    "path": "/wiki/sources/idris-community-typedd-updates/"
+  },
+  {
+    "slug": "imiron-specforge-tour",
+    "title": "A Whirlwind Tour - SpecForge User Guide",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/imiron-specforge-tour/"
+  },
+  {
     "slug": "intel-iot-sample-videos",
     "title": "Sample Videos",
     "author": "Not stated (Intel IoT DevKit repository, intel-iot-devkit)",
     "date": "Undated",
     "path": "/wiki/sources/intel-iot-sample-videos/"
+  },
+  {
+    "slug": "intfiction-forum-home",
+    "title": "The Interactive Fiction Community Forum",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/intfiction-forum-home/"
+  },
+  {
+    "slug": "jameson-foldkit-effect-framework",
+    "title": "Foldkit | TypeScript Frontend Framework Built on Effect",
+    "author": "Devin Jameson (copyright holder named in the page footer)",
+    "date": "Undated",
+    "path": "/wiki/sources/jameson-foldkit-effect-framework/"
+  },
+  {
+    "slug": "jdx-mise-dev-tools-readme",
+    "title": "jdx/mise: dev tools, env vars, task runner",
+    "author": "Not stated (repository owner jdx)",
+    "date": "Undated",
+    "path": "/wiki/sources/jdx-mise-dev-tools-readme/"
+  },
+  {
+    "slug": "jones-garbage-collection-handbook",
+    "title": "The Garbage Collection Handbook",
+    "author": "Richard Jones, Antony Hosking, Eliot Moss (CRC Press)",
+    "date": "Undated",
+    "path": "/wiki/sources/jones-garbage-collection-handbook/"
+  },
+  {
+    "slug": "karlex-graphicle-code-graph-memory",
+    "title": "Graphicle",
+    "author": "KarLex AI, Inc.",
+    "date": "Undated; benchmarks dated October 2026",
+    "path": "/wiki/sources/karlex-graphicle-code-graph-memory/"
+  },
+  {
+    "slug": "kolon-required-reading",
+    "title": "Carl's Required Reading",
+    "author": "Carl Kolon",
+    "date": "Undated",
+    "path": "/wiki/sources/kolon-required-reading/"
   },
   {
     "slug": "kowalski-developing-taste",
@@ -1575,6 +4060,34 @@
     "path": "/wiki/sources/kowalski-developing-taste/"
   },
   {
+    "slug": "kqr-root-cause-analysis-doing-it-wrong",
+    "title": "Root Cause Analysis? You're Doing It Wrong",
+    "author": "kqr, on the Entropic Thoughts blog",
+    "date": "Undated",
+    "path": "/wiki/sources/kqr-root-cause-analysis-doing-it-wrong/"
+  },
+  {
+    "slug": "leolabs-ableton-js-readme",
+    "title": "GitHub - leolabs/ableton-js: Control Ableton Live with Node.js",
+    "author": "Not stated in the README text (repository owner leolabs)",
+    "date": "Undated",
+    "path": "/wiki/sources/leolabs-ableton-js-readme/"
+  },
+  {
+    "slug": "leroy-control-structures-book",
+    "title": "Control structures for programming languages: from goto to algebraic effects",
+    "author": "Xavier Leroy",
+    "date": "Undated",
+    "path": "/wiki/sources/leroy-control-structures-book/"
+  },
+  {
+    "slug": "letta-homepage-machines-that-learn",
+    "title": "Letta | Machines that learn",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/letta-homepage-machines-that-learn/"
+  },
+  {
     "slug": "letterboxd-mars-express",
     "title": "Mars Express (2023) directed by Jérémie Périn • Reviews, film + cast • Letterboxd",
     "author": "Not stated (hosted by Letterboxd Limited, film data from TMDB)",
@@ -1582,11 +4095,74 @@
     "path": "/wiki/sources/letterboxd-mars-express/"
   },
   {
+    "slug": "leveldesignbook-home",
+    "title": "The Level Design Book",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/leveldesignbook-home/"
+  },
+  {
+    "slug": "lispcookbook-error-handling",
+    "title": "Error and exception handling",
+    "author": "The Common Lisp Cookbook Project, based on an article by z0ltan",
+    "date": "Undated",
+    "path": "/wiki/sources/lispcookbook-error-handling/"
+  },
+  {
+    "slug": "lmf-learn-programming-ocaml",
+    "title": "Learn Programming with OCaml",
+    "author": "Sylvain Conchon and Jean-Christophe Filliâtre, translated by Urmila Nair",
+    "date": "Undated",
+    "path": "/wiki/sources/lmf-learn-programming-ocaml/"
+  },
+  {
+    "slug": "loom-orchestration-explainer",
+    "title": "What Does the Loom Do? — Conceptual & Operational Overview",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/loom-orchestration-explainer/"
+  },
+  {
     "slug": "maheshwari-synthetic-cell-factory",
     "title": "We accidentally built a synthetic cell factory",
     "author": "Akshay Maheshwari, CEO, b.next",
     "date": "Undated",
     "path": "/wiki/sources/maheshwari-synthetic-cell-factory/"
+  },
+  {
+    "slug": "markwhen-homepage",
+    "title": "Markwhen",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/markwhen-homepage/"
+  },
+  {
+    "slug": "masson-visual-story-writing-repo",
+    "title": "Visual Story-Writing: Writing by Manipulating Visual Representations",
+    "author": "Not stated (repository owner is m-damien)",
+    "date": "Undated",
+    "path": "/wiki/sources/masson-visual-story-writing-repo/"
+  },
+  {
+    "slug": "mayer-kamen-rider-evol-black-hole-board",
+    "title": "Kamen Rider Evol Black Hole form",
+    "author": "Pat Mayer",
+    "date": "Undated",
+    "path": "/wiki/sources/mayer-kamen-rider-evol-black-hole-board/"
+  },
+  {
+    "slug": "medialab-xan-csv-magician",
+    "title": "medialab/xan: The CSV magician",
+    "author": "Not stated (citation names Guillaume Plique and six others; médialab project)",
+    "date": "Undated",
+    "path": "/wiki/sources/medialab-xan-csv-magician/"
+  },
+  {
+    "slug": "memon-gui-ripping-reverse-engineering",
+    "title": "GUI Ripping: Reverse Engineering of Graphical User Interfaces for Testing",
+    "author": "Atif Memon, Ishan Banerjee and Adithya Nagarajan, University of Maryland",
+    "date": "Undated",
+    "path": "/wiki/sources/memon-gui-ripping-reverse-engineering/"
   },
   {
     "slug": "microsoft-flint-visualization-language",
@@ -1603,11 +4179,32 @@
     "path": "/wiki/sources/monglong-logic-pro-mcp/"
   },
   {
+    "slug": "mordvintsev-growing-graphs",
+    "title": "Growing graphs",
+    "author": "Alex Mordvintsev",
+    "date": "Undated",
+    "path": "/wiki/sources/mordvintsev-growing-graphs/"
+  },
+  {
     "slug": "muehlhauser-modern-classical-music-guide",
     "title": "A beginner's guide to modern classical music",
     "author": "Luke Muehlhauser",
     "date": "Undated",
     "path": "/wiki/sources/muehlhauser-modern-classical-music-guide/"
+  },
+  {
+    "slug": "nanonets-structured-llm-outputs",
+    "title": "Structured LLM outputs",
+    "author": "Nanonets (maintainers of Nanonets-OCR and docstrange)",
+    "date": "Undated",
+    "path": "/wiki/sources/nanonets-structured-llm-outputs/"
+  },
+  {
+    "slug": "napier-townsquare-presence",
+    "title": "TownSquare, a tiny presence layer for websites",
+    "author": "Cauê Napier",
+    "date": "Undated",
+    "path": "/wiki/sources/napier-townsquare-presence/"
   },
   {
     "slug": "nasa-emtg-trajectory-generator",
@@ -1617,11 +4214,60 @@
     "path": "/wiki/sources/nasa-emtg-trajectory-generator/"
   },
   {
+    "slug": "neurosnap-zmx-session-persistence",
+    "title": "zmx: session attach/detach for the terminal",
+    "author": "Not stated (repository owner neurosnap)",
+    "date": "Undated",
+    "path": "/wiki/sources/neurosnap-zmx-session-persistence/"
+  },
+  {
+    "slug": "nixos-contributors-nix-homepage",
+    "title": "Nix & NixOS | Reproducible builds and deployments",
+    "author": "NixOS contributors",
+    "date": "Undated",
+    "path": "/wiki/sources/nixos-contributors-nix-homepage/"
+  },
+  {
     "slug": "noble-forth-finite-state-machines",
     "title": "Finite State Machines in Forth",
     "author": "J.V. Noble, Institute for Nuclear and Particle Physics, University of Virginia",
     "date": "Undated (the page notes it was formatted 11 June 1994 and 17 April 1995)",
     "path": "/wiki/sources/noble-forth-finite-state-machines/"
+  },
+  {
+    "slug": "nous-hermes-agent-readme",
+    "title": "Hermes Agent",
+    "author": "Nous Research",
+    "date": "Undated",
+    "path": "/wiki/sources/nous-hermes-agent-readme/"
+  },
+  {
+    "slug": "obra-youtube2webpage",
+    "title": "Youtube-to-Webpage",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/obra-youtube2webpage/"
+  },
+  {
+    "slug": "onlook-readme-visual-editor",
+    "title": "GitHub - onlook-dev/onlook: The Cursor for Designers • An Open-Source Visual Vibecoding Editor",
+    "author": "onlook-dev (the Onlook team)",
+    "date": "Undated",
+    "path": "/wiki/sources/onlook-readme-visual-editor/"
+  },
+  {
+    "slug": "openclaw-project-readme",
+    "title": "OpenClaw 🦞 — Your assistant, on your devices, in your chats",
+    "author": "OpenClaw project, developed by the OpenClaw Foundation",
+    "date": "Undated",
+    "path": "/wiki/sources/openclaw-project-readme/"
+  },
+  {
+    "slug": "ossia-score-readme",
+    "title": "ossia/score: ossia score, an interactive sequencer for the intermedia arts",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/ossia-score-readme/"
   },
   {
     "slug": "ouyang-fast-kernels",
@@ -1631,11 +4277,60 @@
     "path": "/wiki/sources/ouyang-fast-kernels/"
   },
   {
+    "slug": "palmier-pro-video-editor",
+    "title": "palmier-io/palmier-pro: macOS video editor built for AI",
+    "author": "Palmier, Inc.",
+    "date": "Undated",
+    "path": "/wiki/sources/palmier-pro-video-editor/"
+  },
+  {
+    "slug": "pckt-blog-landing-page",
+    "title": "pckt: a blog in your pocket",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/pckt-blog-landing-page/"
+  },
+  {
+    "slug": "permissionless-bitchat-project-page",
+    "title": "bitchat",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/permissionless-bitchat-project-page/"
+  },
+  {
+    "slug": "philocalyst-infat",
+    "title": "Welcome to Infat",
+    "author": "Not stated (repository owner philocalyst)",
+    "date": "Undated",
+    "path": "/wiki/sources/philocalyst-infat/"
+  },
+  {
     "slug": "phiresky-sqlite-performance-tuning",
     "title": "SQLite performance tuning",
     "author": "Not stated in the text; the gist URL names phiresky",
     "date": "Undated",
     "path": "/wiki/sources/phiresky-sqlite-performance-tuning/"
+  },
+  {
+    "slug": "phloem-git-slime-mold",
+    "title": "Phloem: watch a git history grow like a slime mold",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/phloem-git-slime-mold/"
+  },
+  {
+    "slug": "plum-music-language-list",
+    "title": "PLUM Language List",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/plum-music-language-list/"
+  },
+  {
+    "slug": "polytoken-changelog-docs",
+    "title": "Changelog | Polytoken",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/polytoken-changelog-docs/"
   },
   {
     "slug": "qntm-antimemetics-division-page",
@@ -1645,11 +4340,144 @@
     "path": "/wiki/sources/qntm-antimemetics-division-page/"
   },
   {
+    "slug": "quercus-rpg-in-a-box-homepage",
+    "title": "Home | RPG in a Box",
+    "author": "Quercus Quag Software",
+    "date": "Undated",
+    "path": "/wiki/sources/quercus-rpg-in-a-box-homepage/"
+  },
+  {
+    "slug": "rafalqa-slopo-code-duplication",
+    "title": "Slopo",
+    "author": "Not stated (repository owner is rafal-qa)",
+    "date": "Undated",
+    "path": "/wiki/sources/rafalqa-slopo-code-duplication/"
+  },
+  {
+    "slug": "razetime-thinking-in-k-matmul",
+    "title": "Thinking in an array language (ngn-k-tutorial, chapter 12)",
+    "author": "Not stated (razetime ngn-k-tutorial repository)",
+    "date": "Undated",
+    "path": "/wiki/sources/razetime-thinking-in-k-matmul/"
+  },
+  {
+    "slug": "rein-rebound-docs",
+    "title": "Welcome to REBOUND",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/rein-rebound-docs/"
+  },
+  {
+    "slug": "remeda-typescript-utility-library",
+    "title": "Remeda",
+    "author": "Not stated (the Remeda project's documentation site)",
+    "date": "Undated",
+    "path": "/wiki/sources/remeda-typescript-utility-library/"
+  },
+  {
+    "slug": "robbins-linux-by-example-code",
+    "title": "LinuxByExample-2e",
+    "author": "Arnold Robbins",
+    "date": "Undated",
+    "path": "/wiki/sources/robbins-linux-by-example-code/"
+  },
+  {
     "slug": "robotson-ten-vectorpunk-theses",
     "title": "10 VECTORPUNK THESES",
     "author": "Not stated",
     "date": "Undated",
     "path": "/wiki/sources/robotson-ten-vectorpunk-theses/"
+  },
+  {
+    "slug": "roughgarden-ergo-computation-course",
+    "title": "Computation as a Universal and Fundamental Concept",
+    "author": "Tim Roughgarden, as instructor, on Ergo",
+    "date": "Undated",
+    "path": "/wiki/sources/roughgarden-ergo-computation-course/"
+  },
+  {
+    "slug": "rowlands-wavedigger",
+    "title": "WaveDigger",
+    "author": "christianrowlands (GitHub repository)",
+    "date": "Undated",
+    "path": "/wiki/sources/rowlands-wavedigger/"
+  },
+  {
+    "slug": "rust-lang-book-introduction",
+    "title": "Introduction - The Rust Programming Language",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/rust-lang-book-introduction/"
+  },
+  {
+    "slug": "rxi-microui-immediate-mode-ui",
+    "title": "GitHub - rxi/microui: A tiny immediate-mode UI library",
+    "author": "Not stated in the README (repository owner is rxi)",
+    "date": "Undated",
+    "path": "/wiki/sources/rxi-microui-immediate-mode-ui/"
+  },
+  {
+    "slug": "salwan-binary-samples-macho-ios",
+    "title": "binary-samples",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/salwan-binary-samples-macho-ios/"
+  },
+  {
+    "slug": "sampson-cs6120-self-guided",
+    "title": "CS 6120: The Self-Guided Course",
+    "author": "Adrian Sampson, Cornell University",
+    "date": "Undated",
+    "path": "/wiki/sources/sampson-cs6120-self-guided/"
+  },
+  {
+    "slug": "samsonov-product-picnic-home",
+    "title": "The Product Picnic",
+    "author": "Pavel Samsonov",
+    "date": "Undated",
+    "path": "/wiki/sources/samsonov-product-picnic-home/"
+  },
+  {
+    "slug": "santifer-career-ops-job-agent",
+    "title": "career-ops: The open-source AI job search agent",
+    "author": "Santiago Fernández de Valderrama Aparicio (santifer)",
+    "date": "Undated",
+    "path": "/wiki/sources/santifer-career-ops-job-agent/"
+  },
+  {
+    "slug": "sf-basics-functional-programming-rocq",
+    "title": "Basics: Functional Programming in Rocq",
+    "author": "Not stated",
+    "date": "Undated (the page foot shows a 2026-08-24 timestamp)",
+    "path": "/wiki/sources/sf-basics-functional-programming-rocq/"
+  },
+  {
+    "slug": "sf-hoare-logic-part-one",
+    "title": "Hoare: Hoare Logic, Part I",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/sf-hoare-logic-part-one/"
+  },
+  {
+    "slug": "sf-hoare-logic-part-two",
+    "title": "Hoare2: Hoare Logic, Part II",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/sf-hoare-logic-part-two/"
+  },
+  {
+    "slug": "sfwa-nebula-seasons-glass-iron",
+    "title": "Seasons of Glass and Iron - The Nebula Awards",
+    "author": "Science Fiction and Fantasy Writers of America (SFWA)",
+    "date": "Undated",
+    "path": "/wiki/sources/sfwa-nebula-seasons-glass-iron/"
+  },
+  {
+    "slug": "srcl-terminal-style-react-components",
+    "title": "srcl",
+    "author": "Not stated (the page invites visitors to hire its studio)",
+    "date": "Undated",
+    "path": "/wiki/sources/srcl-terminal-style-react-components/"
   },
   {
     "slug": "strudel-getting-started",
@@ -1659,11 +4487,60 @@
     "path": "/wiki/sources/strudel-getting-started/"
   },
   {
+    "slug": "tamnd-kage",
+    "title": "kage",
+    "author": "Not stated (repository owner tamnd)",
+    "date": "Undated",
+    "path": "/wiki/sources/tamnd-kage/"
+  },
+  {
+    "slug": "tasci-ambiance-unix-harness",
+    "title": "Towards a Harness That Can Do Anything",
+    "author": "Arda Tasci",
+    "date": "Undated",
+    "path": "/wiki/sources/tasci-ambiance-unix-harness/"
+  },
+  {
+    "slug": "taylor-specificity-gradient",
+    "title": "The Specificity Gradient, and Other Things",
+    "author": "Not stated in the page text (site metadata names Dorian Taylor)",
+    "date": "Undated",
+    "path": "/wiki/sources/taylor-specificity-gradient/"
+  },
+  {
+    "slug": "terriblesoftware-seven-papers",
+    "title": "The 7 Most Influential Papers in Computer Science History",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/terriblesoftware-seven-papers/"
+  },
+  {
     "slug": "tian-audiox",
     "title": "AudioX: A Unified Framework for Anything-to-Audio Generation",
     "author": "Zeyue Tian, Zhaoyang Liu, Yizhu Jin and others, HKUST",
     "date": "Undated (accepted to ICLR 2026)",
     "path": "/wiki/sources/tian-audiox/"
+  },
+  {
+    "slug": "trivedi-dirac-coding-agent",
+    "title": "Dirac, an Open-source AI coding agent for efficiently doing complex work",
+    "author": "Max Trivedi, Dirac Delta Labs",
+    "date": "Undated",
+    "path": "/wiki/sources/trivedi-dirac-coding-agent/"
+  },
+  {
+    "slug": "trycua-cua-computer-use-tools",
+    "title": "Cua (README of the trycua/cua repository)",
+    "author": "Cua AI, Inc.",
+    "date": "Undated",
+    "path": "/wiki/sources/trycua-cua-computer-use-tools/"
+  },
+  {
+    "slug": "unison-computing-language-home",
+    "title": "The Unison language",
+    "author": "Unison Computing, a public benefit corp, and contributors",
+    "date": "Undated",
+    "path": "/wiki/sources/unison-computing-language-home/"
   },
   {
     "slug": "vallon-xenharmlib-0-4-0-release-notes",
@@ -1673,11 +4550,32 @@
     "path": "/wiki/sources/vallon-xenharmlib-0-4-0-release-notes/"
   },
   {
+    "slug": "verma-animals-talking",
+    "title": "Animals could easily be talking to us if we tried",
+    "author": "Evan's Weekly Newsletter (full name not given in the text)",
+    "date": "Undated",
+    "path": "/wiki/sources/verma-animals-talking/"
+  },
+  {
+    "slug": "vibium-browser-verification",
+    "title": "Vibium",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/vibium-browser-verification/"
+  },
+  {
     "slug": "vinyard-sparse-audio-codec",
     "title": "Toward a Sparse Interpretable Audio Codec",
     "author": "John Vinyard",
     "date": "Undated (the citation block gives the year 2025)",
     "path": "/wiki/sources/vinyard-sparse-audio-codec/"
+  },
+  {
+    "slug": "walkinglabs-learn-harness-engineering",
+    "title": "Welcome to Learn Harness Engineering",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/walkinglabs-learn-harness-engineering/"
   },
   {
     "slug": "watts-rifters-crawl-blog",
@@ -1687,11 +4585,67 @@
     "path": "/wiki/sources/watts-rifters-crawl-blog/"
   },
   {
+    "slug": "weakly-scaling-innovation",
+    "title": "Scaling Innovation: Building Ecosystems",
+    "author": "Hazel Weakly",
+    "date": "Undated (the post says it was a quarter done as of October 2025)",
+    "path": "/wiki/sources/weakly-scaling-innovation/"
+  },
+  {
+    "slug": "whyrusleeping-better-directions",
+    "title": "Whyrusleeping, Protocol Labs Better Directions for Using Information",
+    "author": "Whyrusleeping of Protocol Labs, published by Foresight Institute",
+    "date": "Undated",
+    "path": "/wiki/sources/whyrusleeping-better-directions/"
+  },
+  {
+    "slug": "wikipedia-exteel-game",
+    "title": "Exteel",
+    "author": "Not stated (Wikipedia article)",
+    "date": "Undated",
+    "path": "/wiki/sources/wikipedia-exteel-game/"
+  },
+  {
     "slug": "wikipedia-laetitia-ky",
     "title": "Laetitia Ky",
     "author": "Not stated",
     "date": "Undated",
     "path": "/wiki/sources/wikipedia-laetitia-ky/"
+  },
+  {
+    "slug": "wikipedia-sarah-biblical-matriarch",
+    "title": "Sarah",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/wikipedia-sarah-biblical-matriarch/"
+  },
+  {
+    "slug": "worktrunk-git-worktrees-for-agents",
+    "title": "Worktrunk — Git worktree management for parallel AI agent workflows",
+    "author": "Not stated",
+    "date": "Undated",
+    "path": "/wiki/sources/worktrunk-git-worktrees-for-agents/"
+  },
+  {
+    "slug": "worth-pixelspace-solar-system",
+    "title": "If the Moon Were Only 1 Pixel - A tediously accurate map of the solar system",
+    "author": "JoshWorth.com",
+    "date": "Undated",
+    "path": "/wiki/sources/worth-pixelspace-solar-system/"
+  },
+  {
+    "slug": "yablonski-laws-of-ux-home",
+    "title": "Laws of UX",
+    "author": "Jon Yablonski",
+    "date": "Undated",
+    "path": "/wiki/sources/yablonski-laws-of-ux-home/"
+  },
+  {
+    "slug": "ycsoftware-qm-agent-harness",
+    "title": "QM: A multiplayer agent harness for work",
+    "author": "Not stated (published under the yc-software GitHub organization)",
+    "date": "Undated",
+    "path": "/wiki/sources/ycsoftware-qm-agent-harness/"
   },
   {
     "slug": "yiming-ourpaint",
@@ -1701,10 +4655,24 @@
     "path": "/wiki/sources/yiming-ourpaint/"
   },
   {
+    "slug": "ykdojo-spare-mac-claude-code",
+    "title": "How to set up your spare Mac for Claude Code to fully control - a step-by-step guide",
+    "author": "Not stated (site and repo named ykdojo)",
+    "date": "Undated",
+    "path": "/wiki/sources/ykdojo-spare-mac-claude-code/"
+  },
+  {
     "slug": "zef-fast-dynamic-interpreter",
     "title": "How To Make a Fast Dynamic Language Interpreter",
     "author": "Not stated",
     "date": "Undated",
     "path": "/wiki/sources/zef-fast-dynamic-interpreter/"
+  },
+  {
+    "slug": "znamerovszkij-consciousness-atlas",
+    "title": "Map of 450+ Theories of Consciousness | Consciousness Atlas",
+    "author": "Danilo Znamerovszkij, based on a paper by Robert Lawrence Kuhn",
+    "date": "Undated",
+    "path": "/wiki/sources/znamerovszkij-consciousness-atlas/"
   }
 ]

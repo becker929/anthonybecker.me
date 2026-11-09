@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RRB-Trees: Efficient Immutable Vectors (2012) [pdf]</title>
+  <meta name="description" content="A short Hacker News thread on a 2012 PDF about RRB-trees.">
+  <meta property="og:title" content="RRB-Trees: Efficient Immutable Vectors (2012) [pdf]">
+  <meta property="og:description" content="A short Hacker News thread on a 2012 PDF about RRB-trees.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / RRB-Trees: Efficient Immutable Vectors (2012) [pdf]</nav>
+  <header class="title">
+    <h1>RRB-Trees: Efficient Immutable Vectors (2012) [pdf]</h1>
+    <p class="lede">A short Hacker News thread on a 2012 PDF about RRB-trees.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by azhenley, with replies from a few commenters</dd>
+      <dt>Published</dt><dd>24 June 2026</dd>
+      <dt>Kind</dt><dd>Hacker News discussion thread</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=48654540">news.ycombinator.com/item?id=48654540</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Azhenley posted the link to the paper, and a few users replied. The thread names libraries and discusses a flaw reported by an implementer. It is a short exchange rather than a review.</p>
+    <h2>What it says</h2>
+    <ul><li>Commenter inhumantsar says the im Rust crate provides an RRB-based immutable vector.</li><li>Commenter erichocean points to Bifurcan, a Java library with RRB-trees.</li><li>Commenter ashton314 says RRB-trees are the native vector type of Rhombus.</li><li>Commenter xeubie says many slices and concats leave RRB-trees with gaps and too deep.</li><li>Xeubie says the Clojure rrb-vector maintainer reached the same conclusion and switched to B-trees.</li><li>Commenter bjoli says many implementations skip strict rebalancing to speed up concatenation.</li><li>Bjoli proposes a radix tree that degrades to a b+tree and says work has started.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The thread offers first-hand implementation experience and links. It has no measurements or code.</p>
+    <h2>Interests and limits</h2>
+    <p>The linked PDF was not opened for this page, so the thread is described alone. The flaw report comes from one implementer and was not checked. The thread is small.</p>
+  </article>
+</div>
+</body>
+</html>

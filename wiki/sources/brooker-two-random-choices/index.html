@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The power of two random choices</title>
+  <meta name="description" content="A short post arguing that picking the better of two random hosts balances load well.">
+  <meta property="og:title" content="The power of two random choices">
+  <meta property="og:description" content="A short post arguing that picking the better of two random hosts balances load well.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The power of two random choices</nav>
+  <header class="title">
+    <h1>The power of two random choices</h1>
+    <p class="lede">A short post arguing that picking the better of two random hosts balances load well.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Marc Brooker, an Amazon Web Services engineer</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Personal blog post, with one small simulation</dd>
+      <dt>Original</dt><dd><a href="https://brooker.co.za/blog/2012/01/17/two-random.html">brooker.co.za/blog/2012/01/17/two-random.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Marc Brooker is an engineer at AWS and writes this on a personal blog. The post summarizes a survey of research by Mitzenmacher and others. It adds a toy simulation of ten servers.</p>
+    <h2>What it says</h2>
+    <ul><li>Brooker says stale cached load data makes requests herd toward a previously quiet host.</li><li>The surveyed approach picks two hosts and uses the one with less load.</li><li>The simulation has 10 servers, one request per second, and cached queue lengths.</li><li>In the simulation, picking the best host does worst once the data is old.</li><li>Best of two led for refresh intervals from 10 to 70.</li><li>Brooker says best of two combines real load information with resistance to herding.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers one simulation of a very simplistic system, described in prose. It points to the Mitzenmacher survey for the mathematical argument. No code or data is shown.</p>
+    <h2>Interests and limits</h2>
+    <p>The author works at AWS, though the post says all opinions are their own. The simulation is the author's own and uses a few simple parameters. It tests four rules against one queue model. The survey paper was not read.</p>
+  </article>
+</div>
+</body>
+</html>

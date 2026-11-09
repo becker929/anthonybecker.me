@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stateless Actors</title>
+  <meta name="description" content="A blog post asking whether a Swift actor with no state has any purpose.">
+  <meta property="og:title" content="Stateless Actors">
+  <meta property="og:description" content="A blog post asking whether a Swift actor with no state has any purpose.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Stateless Actors</nav>
+  <header class="title">
+    <h1>Stateless Actors</h1>
+    <p class="lede">A blog post asking whether a Swift actor with no state has any purpose.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Matt Massicotte</dd>
+      <dt>Published</dt><dd>May 29, 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post of opinion with code examples</dd>
+      <dt>Original</dt><dd><a href="https://www.massicotte.org/stateless-actors/">www.massicotte.org/stateless-actors/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Matt Massicotte, who offers Swift concurrency consulting, answers a reader's question about stateless actors. The post covers network clients, background actors, custom executors and file system access.</p>
+    <h2>What it says</h2>
+    <ul><li>Massicotte first thought an actor with nothing to isolate seemed a strange thing.</li><li>A stateless network client actor is Sendable and keeps JSON decoding off the main thread.</li><li>Actors run work serially, so a client actor decodes one JSON response at a time.</li><li>A custom background actor also runs work serially and can spread through the type system.</li><li>Actors that adapt Swift concurrency to an existing queue system through custom executors are important.</li><li>An actor guarding the file system can make sense, as the compiler cannot see it.</li><li>The post concludes a stateless actor is strange but can make sense with purpose.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives short Swift code samples and reasoning about how actors behave. It reports no benchmarks and no tests.</p>
+    <h2>Interests and limits</h2>
+    <p>The post is the author's opinion and experience. Massicotte offers paid help with Swift concurrency, and says so at the end. Nothing was measured. The advice applies to Swift's actor model only.</p>
+  </article>
+</div>
+</body>
+</html>

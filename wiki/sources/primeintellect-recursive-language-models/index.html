@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recursive Language Models: the paradigm of 2026</title>
+  <meta name="description" content="A research post testing a scaffold for long inputs.">
+  <meta property="og:title" content="Recursive Language Models: the paradigm of 2026">
+  <meta property="og:description" content="A research post testing a scaffold for long inputs.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Recursive Language Models: the paradigm of 2026</nav>
+  <header class="title">
+    <h1>Recursive Language Models: the paradigm of 2026</h1>
+    <p class="lede">A research post testing a scaffold for long inputs.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Sebastian, Prime Intellect</dd>
+      <dt>Published</dt><dd>JAN 1ST, 2026</dd>
+      <dt>Kind</dt><dd>Company research blog post, with small ablation experiments</dd>
+      <dt>Original</dt><dd><a href="https://www.primeintellect.ai/blog/rlm">www.primeintellect.ai/blog/rlm</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Sebastian writes for Prime Intellect, a company that trains and hosts models. The post explains the scaffold and reports early ablations.</p>
+    <h2>What it says</h2>
+    <ul><li>Long inputs hurt models, so the scaffold delegates input to Python and sub-LLMs.</li><li>Only sub-LLMs get tools, and the answer must go in a variable.</li><li>With GPT-5-mini the scaffold tended to raise reward, but not on math-python.</li><li>On DeepDive it was worse unless told to split questions among sub-LLMs.</li><li>On real Oolong data the scaffold beat the plain model by a large margin.</li><li>Open models varied: GLM 4.6 nearly doubled on DeepDive, but tips hurt it.</li><li>The authors expect training with the scaffold to unlock larger gains.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post reports charts over 50 samples per setting, with reproduction commands. Results cover four environments and four models. The authors say they did not tune any settings.</p>
+    <h2>Interests and limits</h2>
+    <p>Prime Intellect sells training products and calls this scaffold a major research focus. Samples are small, at 50 per setting, and the authors call some patterns likely random. The charts and images were not viewed, only the text. The authors say absolute scores are not the point. On Oolong, the plain model's API rejected long inputs, and those scored zero.</p>
+  </article>
+</div>
+</body>
+</html>

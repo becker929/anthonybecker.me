@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>the terminal of the future</title>
+  <meta name="description" content="A blog post sketching a redesigned terminal built on notebooks, shell integration and sandboxing.">
+  <meta property="og:title" content="the terminal of the future">
+  <meta property="og:description" content="A blog post sketching a redesigned terminal built on notebooks, shell integration and sandboxing.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / the terminal of the future</nav>
+  <header class="title">
+    <h1>the terminal of the future</h1>
+    <p class="lede">A blog post sketching a redesigned terminal built on notebooks, shell integration and sandboxing.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>jyn</dd>
+      <dt>Published</dt><dd>11 November 2025</dd>
+      <dt>Kind</dt><dd>Personal blog post, a design proposal with no built system</dd>
+      <dt>Original</dt><dd><a href="https://jyn.dev/the-terminal-of-the-future">jyn.dev/the-terminal-of-the-future</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/future-of-computing/">Future of computing</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>jyn writes a personal site on computing. The post imagines what a better terminal could look like. It then proposes four build stages that each improve on current tools.</p>
+    <h2>What it says</h2>
+    <ul><li>jyn says a terminal has four parts: emulator, pseudo-terminal, shell and spawned programs.</li><li>jyn names Jupyter as the closest analogue. For shells it has problems with completion, long-lived processes and reruns.</li><li>jyn says shell integration, as in Warp, marks where commands start and stop.</li><li>jyn says tmux and Mosh add an extra renderer, with the bugs that brings. Lighter tools like alden only handle detach.</li><li>jyn proposes rerun and undo through dataflow tracking. Sandboxed processes would act as pure functions of their inputs.</li><li>jyn lists features, including searching commands by output and running many LLMs in sandboxes.</li><li>jyn proposes four stages, ending with a Jupyter-like frontend. The author expects the work to take about a decade.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers argument and a design sketch. It points to working tools for single pieces, such as Warp, iTerm2 and Pluto.jl. It reports no prototype or tests of the full design.</p>
+    <h2>Interests and limits</h2>
+    <p>The proposal is untested and the author says it would take about a decade. Sandboxed tracing of every process is asserted as feasible, not shown. The post skips details of alternate-screen mode.</p>
+  </article>
+</div>
+</body>
+</html>

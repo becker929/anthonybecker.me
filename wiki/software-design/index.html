@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Software design</title>
+  <meta name="description" content="26 sources of advice on structuring and debugging software.">
+  <meta property="og:title" content="Software design">
+  <meta property="og:description" content="26 sources of advice on structuring and debugging software.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Software design</nav>
+  <header class="title">
+    <h1>Software design</h1>
+    <p class="lede">26 sources of advice on structuring and debugging software.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <p>These sources give advice on how to structure and debug software. Most are essays drawn from experience. This page lists 26 sources, oldest first where dated.</p>
+    <section>
+      <h2><a href="/wiki/sources/brooks-no-silver-bullet/">No Silver Bullet: Essence and Accidents of Software Engineering</a></h2>
+      <p class="meta">Frederick P. Brooks, Jr., University of North Carolina at Chapel Hill. September 1986. Technical report version of a landmark essay.</p>
+      <p>Frederick Brooks divides software difficulty into essential and accidental parts. The report reviews the proposed fixes of the time and judges each too small. It ends with promising attacks on the essence: buying, prototyping, growing software and cultivating designers. The evidence is reasoned argument and the author's experience.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/papadimoulis-inner-platform-effect/">The Inner-Platform Effect</a></h2>
+      <p class="meta">Alex Papadimoulis, founder of The Daily WTF. 21 April 2006. Short blog article naming an antipattern, with one code example.</p>
+      <p>This is a brief article from The Daily WTF. It defines an antipattern and shows it with code from one reader's story. It offers a name and a single example, with no wider survey.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/allspaw-devils-in-details/">The Devil’s In The Details</a></h2>
+      <p class="meta">allspaw, on the Kitchen Soap blog. 30 March 2012. Short blog post introducing a research chapter, with reader comments.</p>
+      <p>This is a brief Kitchen Soap post that quotes a chapter on joint activity. It adds a few paragraphs of framing about engineering teams. The post mostly points to the chapter.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/victor-learnable-programming/">Learnable Programming</a></h2>
+      <p class="meta">Bret Victor. September 2012. Long design essay with interactive demonstrations.</p>
+      <p>Bret Victor responds to a Khan Academy live-coding environment that cited the author's work. The essay lists five principles for environments and four for languages. Its evidence is mock-up demonstrations, thought experiments and past systems such as Logo and Smalltalk.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/metz-wrong-abstraction/">The Wrong Abstraction</a></h2>
+      <p class="meta">Sandi Metz. 20 January 2016. Personal blog essay, republished from a newsletter.</p>
+      <p>Sandi Metz describes how a shared abstraction fills with parameters and conditionals. Soon nobody can follow it. The post offers a way back. Inline the code into each caller and trim it. Its evidence is a stylized sequence plus the author's own observations.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/acolyer-parnas-decomposing-modules/">On the criteria to be used in decomposing systems into modules</a></h2>
+      <p class="meta">Adrian Colyer, The Morning Paper. 5 September 2016. Blog summary of a 1971 research paper.</p>
+      <p>Adrian Colyer revisits a classic paper and reads it through modern microservices. The post retells Parnas's KWIC index example with two competing decompositions. Its evidence is that worked example and Parnas's own judgement.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/seemann-yes-silver-bullet/">Yes silver bullet</a></h2>
+      <p class="meta">Mark Seemann. 1 July 2019. Personal blog post, argued from experience.</p>
+      <p>Mark Seemann rereads Fred Brooks's No Silver Bullet and disputes one assumption. The evidence is the author's own career anecdotes, which the post calls anecdotal. It ends with a conjecture about statically typed functional programming.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/fowler-software-architecture-guide/">Software Architecture Guide</a></h2>
+      <p class="meta">Martin Fowler (Thoughtworks). 1 Aug 2019. Curated guide page, with short essays and links to articles.</p>
+      <p>This is a hub page, not a single argument. Fowler states a short view of architecture. Then the page lists linked articles on application, enterprise and other topics. Several linked pieces are by other authors. The evidence is Fowler's experience and reported developer opinion.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/letters-software-about-people/">Software is about people, not code</a></h2>
+      <p class="meta">Dan, publishing as mooreds on Letters To A New Developer. 27 January 2020. Short advice letter on a personal blog.</p>
+      <p>The letter is a few paragraphs long and offers advice, not data. The author describes a shift from focusing on code to focusing on people. The source is short and makes three plain points.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/taylor-bsky-distilled-capability/">Post introducing the essay Distilled Capability</a></h2>
+      <p class="meta">Posted by dorian (doriantaylor.com), with replies from two commenters. 1 November 2024. Short social post linking to an essay.</p>
+      <p>This is a very short post with a link card and two replies. It says the essay was written to give a conceptual basis for the author's software. The post itself makes no argument.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/goedecke-how-to-ship/">How I ship projects at big tech companies</a></h2>
+      <p class="meta">Sean Goedecke. 9 November 2024. Personal blog post of advice from experience.</p>
+      <p>Sean Goedecke defines shipping as a social outcome: leaders accept that the project is done. The post then lists habits for the project lead. These cover communication, early deploys and fallback plans. Its evidence is the author's own career experience.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/north-best-simple-system/">Best Simple System for Now</a></h2>
+      <p class="meta">Dan North, Dan North &amp; Associates Limited. 3 February 2025. Personal blog essay, with two worked examples.</p>
+      <p>Dan North names a middle path between quick hacks and perfectionism. The essay answers three objections and gives two Java examples. Its evidence is the author's experience, anecdotes and cited writers, not measurement.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/qntm-developer-philosophy/">Developer philosophy</a></h2>
+      <p class="meta">qntm. 2025-02-03. Personal blog post, a list of opinions, with reader comments.</p>
+      <p>The post is a loose list of rules, written after a talk for juniors. Each rule is a short argument from experience. It has no data. A comment thread of 14 replies adds some pushback and extra rules.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/nishilpatel-hn-engineering-blogs/">Ask HN: What are the best engineering blogs with real-world depth?</a></h2>
+      <p class="meta">Posted by nishilpatel, with replies from many commenters. 23 December 2025. Hacker News Ask thread, with many link recommendations.</p>
+      <p>The poster asks for blogs that show real implementation detail and trade-offs. Replies mostly list company and personal blogs, plus aggregators, books and RSS feeds. A long side thread debates whether an LLM wrote the question, and what engineering means. The thread had 474 points.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/tobr-hn-high-level-is-the-goal/">High-Level Is the Goal</a></h2>
+      <p class="meta">Posted by tobr, with replies from many commenters. 15 January 2026. Hacker News discussion thread of an essay.</p>
+      <p>The 276-point thread discusses an essay commenters call a push for better tooling. Commenters mostly argue about web frameworks, UI toolkits and why software feels slow. The essay's author replies in several places. The thread offers opinion and anecdote, with some code-level claims.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kashitsyn-third-hard-problem/">The third hard problem</a></h2>
+      <p class="meta">Roman Kashitsyn (mmap(blog)). 2026-02-28 (a second date, 2026-06-04, is also shown). Personal blog essay, with examples from several fields.</p>
+      <p>The essay coins the term tree mapping. It means squeezing a graph of ideas into a hierarchy. It gives examples from file systems, writing, city design and biology. The evidence is a set of illustrative cases and quotations. It offers no measurements.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/demirbas-two-abstractions-hide-or-reduce/">The Two Abstractions of System Design: Hide or Reduce</a></h2>
+      <p class="meta">Murat Demirbas (principal research scientist at MongoDB Research). 8 May 2026. Personal blog post, argument with examples.</p>
+      <p>Murat Demirbas separates modularity abstraction, which hides internals, from modeling abstraction. Modeling abstraction reduces a system to what matters. The evidence is a list of well-known distributed systems designs. The post is a conceptual argument without data.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/matklad-learning-software-architecture/">Learning Software Architecture</a></h2>
+      <p class="meta">matklad. May 12, 2026. Personal blog post, a reply to an emailed question.</p>
+      <p>The post is a reply to a researcher who asked how to learn design. The author answers from experience leading the rust-analyzer project. It stresses incentives and team structure over technique, and ends with a reading list. The evidence is the author's own career anecdotes.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/zakirullin-cognitive-load/">Cognitive load is what matters</a></h2>
+      <p class="meta">Artem Zakirullin. June 2026 (last update of a living document). Living GitHub README essay, with code examples and anecdotes.</p>
+      <p>Artem Zakirullin treats cognitive load as a human limit and applies it to design habits. Sections cover conditionals, inheritance, small modules, microservices, layers and domain-driven design. Evidence is code snippets, personal anecdotes and quoted endorsements.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/alejandre-hashimoto-interview/">Interview With Mitchell Hashimoto</a></h2>
+      <p class="meta">Alex Alejandre, interviewing Mitchell Hashimoto. July 2026. Written question-and-answer interview.</p>
+      <p>Alex Alejandre interviews Mitchell Hashimoto, who built HashiCorp tools and now builds Ghostty and Vouch. Hashimoto gives first-person views on terminal design, maintainer obligations, AI use and learning C. The evidence is personal experience, and Hashimoto leads the projects discussed.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/wolfram-theory-of-bugs/">Towards a Theory of Bugs: The Ruliology of the Unexpected</a></h2>
+      <p class="meta">Stephen Wolfram. 21 July 2026. Long essay with computational experiments.</p>
+      <p>Stephen Wolfram uses tiny Turing machines and cellular automata to show bugs that appear late. The essay ties bugs to computational irreducibility. It also discusses proofs, testing and AI-written code. The evidence is enumerated toy systems plus a few number theory cases.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/janiczek-systems-and-delays/">Systems and Delays</a></h2>
+      <p class="meta">Martin Janiczek. 24 July 2026. Personal blog post, with simulated examples.</p>
+      <p>The post retells one chapter of Thinking in Systems using a car dealership stock model. It reports simulation runs with three settings of a response delay. The author found the result counterintuitive: shortening a delay made oscillations worse. Evidence is a toy simulation the author wrote.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/jyn-simple-not-small/">simple is not small</a></h2>
+      <p class="meta">jyn. 27 August 2026. Personal blog essay, with code comparisons.</p>
+      <p>jyn starts from a talk about a coverage bug and asks about simplicity. The essay compares a Unix word-count pipeline with Clojure, then Rust with Clojure. Evidence is code samples and argument.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/cohen-slow-formation-durable-software/">The Slow Formation of Durable Software</a></h2>
+      <p class="meta">Dan Cohen (Humane Ingenuity newsletter). October 6, 2026. Personal newsletter essay, a first-person history.</p>
+      <p>Dan Cohen recounts Zotero's pre-history from early web tools through the 2006 release. The post uses dated emails, a grant abstract and screenshots. It draws a lesson about slow collaborative thinking versus instant AI coding. The account is from one participant's view.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kolon-required-reading/">Carl's Required Reading</a></h2>
+      <p class="meta">Carl Kolon. Undated. Annotated reading list of articles and books.</p>
+      <p>Carl Kolon keeps a topic-grouped reading list with a short note per entry. Four favourites carry a star. The notes state opinions openly, such as dislike of ORMs.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/terriblesoftware-seven-papers/">The 7 Most Influential Papers in Computer Science History</a></h2>
+      <p class="meta">Not stated. Undated. Personal blog listicle with short summaries and links.</p>
+      <p>A short list post on the Terrible Software blog. Each of seven papers gets a summary, a note on why it matters, and links. Five more papers appear as honorable mentions. The evidence is the author's taste, stated as such.</p>
+    </section>
+    <h2>Glossary</h2>
+    <dl><dt>Abstract data type (ADT)</dt><dd>A type defined by its operations while its internal representation stays hidden.</dd><dt>Abstraction</dt><dd>A named piece of code, such as a method or class, that replaces repeated logic.</dd><dt>Accidental complexity</dt><dd>Difficulty added by tools and methods, not by the problem.</dd><dt>Ada</dt><dd>A programming language of the 1980s designed for large, structured systems.</dd><dt>Aggregator</dt><dd>A site that gathers links from many other sites.</dd><dt>Antipattern</dt><dd>A common solution to a problem that tends to cause worse problems.</dd><dt>Basic Compact</dt><dd>A mostly unspoken agreement to take part in joint activity and coordinate.</dd><dt>Cache invalidation</dt><dd>Deciding when stored copies of data are out of date and must be refreshed.</dd><dt>Caller</dt><dd>The code that uses a shared method or class.</dd><dt>Catch_unwind</dt><dd>A Rust feature that catches a crash inside a section of code.</dd><dt>Cellular automaton</dt><dd>A grid of cells that update by a fixed local rule.</dd><dt>Circular shift</dt><dd>Moving the first word of a line to the end.</dd><dt>Cladistics</dt><dd>A biological method that groups organisms by shared ancestry.</dd><dt>Clojure</dt><dd>A programming language from the Lisp family.</dd><dt>Codebase</dt><dd>The full set of source code for a project.</dd><dt>Coding agent</dt><dd>An AI tool that writes and edits code.</dd><dt>Cognitive load</dt><dd>How much a person must hold in mind to do a task.</dd><dt>Cognitive systems engineering</dt><dd>A field that studies how people and machines think and work together.</dd><dt>Computational irreducibility</dt><dd>The idea that some processes can only be predicted by running them step by step.</dd><dt>Conditional</dt><dd>A branch in code that behaves differently depending on a value.</dd><dt>Conway's law</dt><dd>The idea that software structure ends up mirroring the structure of the organization building it.</dd><dt>Cost of delay</dt><dd>Value lost for each period a solution is not yet with customers.</dd><dt>Coupling</dt><dd>When parts of a program depend on each other so they cannot change separately.</dd><dt>Cruft</dt><dd>Messy or outdated code that makes software harder to understand.</dd><dt>CUPID</dt><dd>North's five traits of joyful code: composable, Unix-like, predictable, idiomatic, domain-based.</dd><dt>Customizable</dt><dd>Able to be changed by users without editing the program.</dd><dt>Dear Imgui</dt><dd>A C++ library that draws interface elements each frame.</dd><dt>Decomposition</dt><dd>Breaking a problem into smaller parts that can be understood separately.</dd><dt>Deep module</dt><dd>A module with a simple interface that hides much functionality.</dd><dt>Distributed monolith</dt><dd>Many services that must still change together.</dd><dt>DRI</dt><dd>Directly responsible individual, the single person accountable for a project.</dd><dt>DRY</dt><dd>A rule not to repeat the same code or knowledge.</dd><dt>Enterprise architecture</dt><dd>Coordinating the design of software across a whole large organization.</dd><dt>Essence and accident</dt><dd>Essence is difficulty inherent in the problem; accident is difficulty from the tools used.</dd><dt>Essential complexity</dt><dd>Difficulty that comes from the problem itself and cannot be removed.</dd><dt>Expert system</dt><dd>A program that uses a rule base and inference engine to give advice.</dd><dt>Feature flag</dt><dd>A switch that turns a feature on or off without redeploying code.</dd><dt>Feedback loop</dt><dd>A cycle in which a system's output changes the input that drives it.</dd><dt>Fork</dt><dd>A personal copy of a project's code that can be changed independently.</dd><dt>Gall's law</dt><dd>A rule of thumb that working complex systems grow from working simple ones.</dd><dt>Ground-up rewrite</dt><dd>Throwing away a codebase and building its replacement from scratch.</dd><dt>Handmade community</dt><dd>A group of programmers who favor writing software from low-level parts.</dd><dt>HATEOAS</dt><dd>A web design style where server responses carry the available next actions.</dd><dt>Hidden state</dt><dd>Settings, such as a current fill color, that change behavior without being visible.</dd><dt>HyperCard</dt><dd>An older Apple tool for building programs from cards and objects.</dd><dt>Information hiding</dt><dd>Designing each module to conceal one design decision from the others.</dd><dt>Information theory</dt><dd>The mathematical study of measuring, compressing and sending information.</dd><dt>Inlining</dt><dd>Copying a function's body into the places that call it and removing the function.</dd><dt>Interleaving</dt><dd>One possible ordering of steps from concurrent activities.</dd><dt>Internal quality</dt><dd>How clean and understandable the code is, as opposed to what users see.</dd><dt>Invariant</dt><dd>A property that must hold at every step of a system's run.</dd><dt>Joint activity</dt><dd>Work that two or more parties carry out together.</dd><dt>JQuery</dt><dd>An older JavaScript library that smoothed over differences between browsers.</dd><dt>KWIC index</dt><dd>A listing of every circular shift of each input line, in alphabetical order.</dd><dt>Linearizability</dt><dd>A consistency rule making concurrent operations appear to happen one at a time.</dd><dt>Live coding</dt><dd>An editor where the program's output updates as the code is typed.</dd><dt>LLM</dt><dd>A large language model, the kind of system behind chatbots.</dd><dt>Loan-origination system</dt><dd>Software that handles applications for loans.</dd><dt>Logo turtle</dt><dd>An on-screen character that a learner steers to draw shapes.</dd><dt>Memcached</dt><dd>A system that stores data in memory to speed up reads.</dd><dt>Microservices</dt><dd>A system built as many small, separately deployed services.</dd><dt>Monte Carlo simulator</dt><dd>A program that runs a model many times, often with random inputs.</dd><dt>NP-complete</dt><dd>Describes problems among the hardest in a class whose answers are easy to check.</dd><dt>OPML</dt><dd>A file format used to share a list of feeds.</dd><dt>Optimistic merging</dt><dd>Accepting contributions quickly and fixing problems afterward.</dd><dt>Order of magnitude</dt><dd>A factor of ten.</dd><dt>ORM</dt><dd>A library that maps database rows to objects in a program.</dd><dt>Oscillation</dt><dd>Repeated swings up and down instead of settling.</dd><dt>PageRank</dt><dd>Google's early method of ranking pages by the links that point to them.</dd><dt>Platform</dt><dd>The underlying system, such as a database or language, that software is built on.</dd><dt>Principle of Computational Equivalence</dt><dd>Wolfram's claim that most non-trivial systems are equally sophisticated computationally.</dd><dt>Processing</dt><dd>A language and library for drawing and animation, used in teaching.</dd><dt>Program verification</dt><dd>Proving mathematically that a program meets its specification.</dd><dt>PTY</dt><dd>A pseudo-terminal, the channel carrying bytes between a terminal and a program.</dd><dt>Pure function</dt><dd>A function that only computes a result and has no side effects.</dd><dt>Rapid prototyping</dt><dd>Building a quick working version to learn what the client really needs.</dd><dt>RAROC</dt><dd>Risk-adjusted return on capital, which weighs profit against money at risk.</dd><dt>Ratchet</dt><dd>A check that allows existing problems but blocks any new ones.</dd><dt>Redux</dt><dd>A library for keeping an app's state in one store.</dd><dt>Regression</dt><dd>A bug in behaviour that used to work.</dd><dt>Relational model</dt><dd>A way to store data in tables that can be queried with logic.</dd><dt>REPL</dt><dd>A tool that runs typed code and shows the result at once.</dd><dt>RSS</dt><dd>A feed format that lets readers follow new posts from a site.</dd><dt>Ruliology</dt><dd>Wolfram's name for studying what simple rules do when run.</dd><dt>Rust-analyzer</dt><dd>A tool that helps editors understand Rust code, written as a compiler front end.</dd><dt>Scribe</dt><dd>A FileMaker program for notes and citations, built at the center.</dd><dt>Semilattice</dt><dd>A structure where groups can overlap, unlike a tree where each item has one parent.</dd><dt>Shallow module</dt><dd>A module whose interface is complex compared with what it does.</dd><dt>Sharp end and blunt end</dt><dd>Practitioners who do the work, and the managers who shape its conditions.</dd><dt>Silver bullet</dt><dd>In folklore, a single cure for a monster; here, one fix for software problems.</dd><dt>Staging environment</dt><dd>A copy of production used to test changes before release.</dd><dt>Stock and flow</dt><dd>A stock is an amount held, such as parked cars. A flow changes it.</dd><dt>Struct</dt><dd>A fixed group of named fields in a program.</dd><dt>Sum type</dt><dd>A type whose values are one of several named cases.</dd><dt>Sunk cost fallacy</dt><dd>Keeping something because of effort already spent on it, not because it is still useful.</dd><dt>Taxonomy</dt><dd>A system for classifying things into groups.</dd><dt>Technical debt</dt><dd>Shortcuts in code that make later changes slower and harder.</dd><dt>Terminal emulator</dt><dd>A program that shows a text window where command-line programs run.</dd><dt>TLA+</dt><dd>A language for writing precise models of systems so their behavior can be checked.</dd><dt>TUI</dt><dd>A text-based user interface drawn with characters in a terminal.</dd><dt>Turing Machine</dt><dd>A simple theoretical computer made of a tape and a few states.</dd><dt>Unix pipeline</dt><dd>A chain of command-line programs, each feeding its output to the next.</dd><dt>Web Scrapbook</dt><dd>An early web app from the center for saving items from web pages.</dd><dt>Working memory</dt><dd>The small store of facts a person can hold in mind at once.</dd><dt>XUL</dt><dd>XML User Interface Language, which Firefox used to build and extend its interface.</dd><dt>YAGNI</dt><dd>A rule not to build features until they are needed.</dd><dt>Zig</dt><dd>A systems programming language known for fast compile times and frequent changes.</dd><dt>Zotero</dt><dd>A free tool for collecting, organizing, annotating and citing research.</dd></dl>
+  </article>
+</div>
+</body>
+</html>

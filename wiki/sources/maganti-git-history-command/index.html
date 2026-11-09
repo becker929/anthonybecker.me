@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The git history command deserves more attention</title>
+  <meta name="description" content="A blog post arguing that git&#x27;s experimental history command offers some benefits attributed to jj.">
+  <meta property="og:title" content="The git history command deserves more attention">
+  <meta property="og:description" content="A blog post arguing that git&#x27;s experimental history command offers some benefits attributed to jj.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The git history command deserves more attention</nav>
+  <header class="title">
+    <h1>The git history command deserves more attention</h1>
+    <p class="lede">A blog post arguing that git's experimental history command offers some benefits attributed to jj.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Lalit Maganti</dd>
+      <dt>Published</dt><dd>13 July 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post about a git feature</dd>
+      <dt>Original</dt><dd><a href="https://lalitm.com/post/git-history/">lalitm.com/post/git-history/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-tools-and-craft/">Software tools and craft</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Lalit Maganti describes git history, an experimental command in recent git releases. The post covers fixup, reword and split, and where they fall short of jj.</p>
+    <h2>What it says</h2>
+    <ul><li>The command arrived in two releases: reword and split in git 2.54, fixup in 2.55.</li><li>Fixup folds staged changes into an old commit and moves every descendant local branch.</li><li>Fixup does not work with merge commits, which the post says may be a dealbreaker.</li><li>All three commands are atomic because they refuse any operation that could produce a conflict.</li><li>Reword and split never touch the index or working tree.</li><li>The post concedes the command is strictly less powerful than jj.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the author's own use and descriptions of each command. The before and after commit graphs did not come through in the text. No tests or timings appear.</p>
+    <h2>Interests and limits</h2>
+    <p>The author is a personal blogger with no stated stake. The post tests no edge cases of its own. It notes that fixup fails with merge commits and that conflicts are refused.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering</title>
+  <meta name="description" content="A short preprint that measures where tokens go in a multi-agent software tool.">
+  <meta property="og:title" content="Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering">
+  <meta property="og:description" content="A short preprint that measures where tokens go in a multi-agent software tool.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering</nav>
+  <header class="title">
+    <h1>Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering</h1>
+    <p class="lede">A short preprint that measures where tokens go in a multi-agent software tool.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Mohamad Salim and three co-authors, Concordia University</dd>
+      <dt>Published</dt><dd>20 January 2026</dd>
+      <dt>Kind</dt><dd>Short work-in-progress empirical preprint</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/abs/2601.14470">arxiv.org/abs/2601.14470</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/evidence-on-agents-and-cost/">Evidence on agents and cost</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Four researchers at Concordia University wrote this work-in-progress preprint. It asks where the tokens go when AI agents build software together. The authors name this field of study tokenomics.</p>
+    <h2>What it says</h2>
+    <ul><li>Code review took an average of 59.4% of tokens across 30 tasks.</li><li>Input tokens averaged 53.9% of use, about twice the share of output.</li><li>Initial coding took 8.6% of tokens and design 2.4%.</li><li>The authors read the high input share as a communication tax between agents.</li><li>Coding was the exception, with 58% output tokens against 6.9% input.</li><li>The authors suggest a human checkpoint before code review to prevent costly loops.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The data are execution traces from ChatDev runs on 30 tasks. The tasks came from an existing dataset called ProgramDev. The authors logged every model call with its input, output and reasoning token counts. Python scripts then summed the counts by development stage. The paper gives per-stage percentages in a table and a chart.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors call this preliminary, work-in-progress research. It covers one agent system, ChatDev, and one model, GPT-5. The 30 tasks may not represent other software work. Code Completion ran in only 6 tasks and Testing in 12. The mapping of ChatDev phases to stages is one of several possible. The paper counts tokens, not money, energy or code quality.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reverse engineering GitHub Actions cache to make it fast</title>
+  <meta name="description" content="A company engineer explains how Blacksmith redirects GitHub Actions cache traffic.">
+  <meta property="og:title" content="Reverse engineering GitHub Actions cache to make it fast">
+  <meta property="og:description" content="A company engineer explains how Blacksmith redirects GitHub Actions cache traffic.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Reverse engineering GitHub Actions cache to make it fast</nav>
+  <header class="title">
+    <h1>Reverse engineering GitHub Actions cache to make it fast</h1>
+    <p class="lede">A company engineer explains how Blacksmith redirects GitHub Actions cache traffic.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Aaditya Sondhi, Founding Engineer, Blacksmith</dd>
+      <dt>Published</dt><dd>23 July 2025</dd>
+      <dt>Kind</dt><dd>Company engineering blog post</dd>
+      <dt>Original</dt><dd><a href="https://www.blacksmith.sh/blog/cache">www.blacksmith.sh/blog/cache</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Aaditya Sondhi describes how Blacksmith sends job cache requests to its own cache. Customers change no workflow files.</p>
+    <h2>What it says</h2>
+    <ul><li>Sondhi says Blacksmith reroutes Actions cache requests to its own cache.</li><li>The post says maintaining forked cache actions became too costly.</li><li>Sondhi says an LLM helped derive a proto definition from captured requests.</li><li>The post says each VM's NGINX proxy forwards cache requests to a host proxy.</li><li>Sondhi says the toolkit skips optimizations for non-Azure hostnames, so Blacksmith built Azure-like URLs.</li><li>The post says iptables rules became flaky, so Blacksmith moved to nftables.</li><li>Sondhi claims up to 10x faster cache speeds, with one log showing 327.5 MBs/sec.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a technical walkthrough of the design. It shows one before-and-after log for a cache of about 114 MB. It gives no wider benchmark or method for the 10x figure.</p>
+    <h2>Interests and limits</h2>
+    <p>Blacksmith sells the service the post promotes, and the post includes sign-up links. The speed claim is "up to 10x" for some customers. Only one log sample is shown. No third party tested the result.</p>
+  </article>
+</div>
+</body>
+</html>

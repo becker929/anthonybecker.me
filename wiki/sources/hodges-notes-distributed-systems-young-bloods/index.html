@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes on Distributed Systems for Young Bloods</title>
+  <meta name="description" content="A distributed systems engineer lists lessons that new engineers in the field should be told.">
+  <meta property="og:title" content="Notes on Distributed Systems for Young Bloods">
+  <meta property="og:description" content="A distributed systems engineer lists lessons that new engineers in the field should be told.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Notes on Distributed Systems for Young Bloods</nav>
+  <header class="title">
+    <h1>Notes on Distributed Systems for Young Bloods</h1>
+    <p class="lede">A distributed systems engineer lists lessons that new engineers in the field should be told.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Jeff Hodges</dd>
+      <dt>Published</dt><dd>14 January 2013</dd>
+      <dt>Kind</dt><dd>Personal blog post, a list of lessons from experience</dd>
+      <dt>Original</dt><dd><a href="https://www.somethingsimilar.com/2013/01/14/notes-on-distributed-systems-for-young-bloods/">www.somethingsimilar.com/2013/01/14/notes-on-distributed-systems-for-young-bloods/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Jeff Hodges wrote the post as a guide for new distributed systems engineers. The author says much instruction comes from mistakes made in production. The post lists lessons that are subtle or surprising but not controversial.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says distributed systems differ because of frequent and partial failure, not latency.</li><li>The post says coordination is very hard, and independence is the trick of scaling out.</li><li>The post says "it's slow" is the hardest problem you will ever debug.</li><li>The post says to build in backpressure, bounding resource use during overload and failure.</li><li>The post says to use percentiles, not averages, as few metrics follow a bell curve.</li><li>The post says feature flags let teams roll out infrastructure in steps, not one cutover.</li><li>The post says the CAP theorem helps critique a design, not build one.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the author's experience and worked examples. Examples include sizing tweet ids, a search time limit and a staged database migration. The post names reviewers and cites no studies or measurements.</p>
+    <h2>Interests and limits</h2>
+    <p>The post dates from 2013, and its hardware figures reflect the end of 2012. The author says it leaves out social problems, which can be the hardest part. The advice rests on one engineer's experience, with no tests. A 2016 update only added permalinks and edited some sections.</p>
+  </article>
+</div>
+</body>
+</html>

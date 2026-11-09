@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Value numbering</title>
+  <meta name="description" content="A compiler tutorial on local and global value numbering, using Maxine VM code.">
+  <meta property="og:title" content="Value numbering">
+  <meta property="og:description" content="A compiler tutorial on local and global value numbering, using Maxine VM code.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Value numbering</nav>
+  <header class="title">
+    <h1>Value numbering</h1>
+    <p class="lede">A compiler tutorial on local and global value numbering, using Maxine VM code.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Max Bernstein</dd>
+      <dt>Published</dt><dd>4 April 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post, compiler tutorial with Java excerpts</dd>
+      <dt>Original</dt><dd><a href="https://bernsteinbear.com/blog/value-numbering/">bernsteinbear.com/blog/value-numbering/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Max Bernstein writes a blog about compilers. This post explains value numbering after a short primer on SSA. It builds the idea in steps, from straight-line code to dominator-based global numbering.</p>
+    <h2>What it says</h2>
+    <ul><li>Value numbering finds SSA instructions that always compute the same value.</li><li>Compilers usually find them by hashing each instruction and comparing hash-equal ones.</li><li>Local value numbering needs only a hash map and a union-find, as real compilers do.</li><li>Global value numbering visits blocks in reverse post order, copying the dominator's value map.</li><li>Siblings and join blocks cannot share maps, because the path taken is unknown.</li><li>Impure instructions such as field loads can join if the pass tracks killing writes.</li><li>The post sketches variants: unified hash tables, value partitioning, worklist dataflow, and scoped hash maps.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post shows pseudocode and short edited excerpts from the Maxine VM. It uses small IR examples and a Java bytecode listing. It quotes a paper by Briggs on phi functions. It runs no benchmarks.</p>
+    <h2>Interests and limits</h2>
+    <p>The post is a tutorial from one author's reading of a few implementations. It admits not understanding some approaches yet. The final section is a list of unfinished notes and links. Nothing was measured.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NoiseLang: Where N = 5 is a Dirac delta</title>
+  <meta name="description" content="A blog post introducing NoiseLang, a small language where every value is a probability distribution.">
+  <meta property="og:title" content="NoiseLang: Where N = 5 is a Dirac delta">
+  <meta property="og:description" content="A blog post introducing NoiseLang, a small language where every value is a probability distribution.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / NoiseLang: Where N = 5 is a Dirac delta</nav>
+  <header class="title">
+    <h1>NoiseLang: Where N = 5 is a Dirac delta</h1>
+    <p class="lede">A blog post introducing NoiseLang, a small language where every value is a probability distribution.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Manu Martínez-Almeida (Principal Engineer at Builder.io)</dd>
+      <dt>Published</dt><dd>July 6, 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post introducing a toy language, with timings and interactive demos</dd>
+      <dt>Original</dt><dd><a href="https://manualmeida.dev/articles/noiselang/">manualmeida.dev/articles/noiselang/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Manu Martínez-Almeida describes NoiseLang, a language for Monte Carlo probability work. The post covers the idea, the compiler design, speed tests and demos. It also says an AI agent helped build the runtime.</p>
+    <h2>What it says</h2>
+    <ul><li>Every NoiseLang value is a probability distribution, and a plain number is a Dirac spike.</li><li>Nothing runs until a query such as P asks for a result. Monte Carlo sampling then returns an estimate with a standard error.</li><li>One graph feeds three code paths: an interpreter, a GPU shader and a WASM kernel.</li><li>A GPU backend ran the example corpus 4.17 times faster than the interpreter. The author then deleted the JIT backend.</li><li>On a 14-core M4 Pro, the author reports about 5.8 billion samples per second.</li><li>Conditioning uses rejection, which suits a few discrete observations but not ten thousand continuous ones.</li><li>A one-screen demo shows FM about 5 times cleaner than AM, though it models phase.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a timing table of four backends on one laptop. It reports that its random number stream passed a randomness test suite. It includes runnable demos, and it credits Hacker News readers for corrections.</p>
+    <h2>Interests and limits</h2>
+    <p>The author wrote and promotes the language, and calls it a toy. All timings come from one machine and were not independently repeated. The text was read in full, but the interactive figures were not run. The post says loops are not handled.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modern email can be built from borrowed parts</title>
+  <meta name="description" content="A design for HMTP, a mail system over HTTP built from existing standards.">
+  <meta property="og:title" content="Modern email can be built from borrowed parts">
+  <meta property="og:description" content="A design for HMTP, a mail system over HTTP built from existing standards.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Modern email can be built from borrowed parts</nav>
+  <header class="title">
+    <h1>Modern email can be built from borrowed parts</h1>
+    <p class="lede">A design for HMTP, a mail system over HTTP built from existing standards.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Andros Fenollosa</dd>
+      <dt>Published</dt><dd>27 July 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post proposing a design, with a prototype</dd>
+      <dt>Original</dt><dd><a href="https://en.andros.dev/blog/d7ed8b07/modern-email-can-be-built-from-borrowed-parts/">en.andros.dev/blog/d7ed8b07/modern-email-can-be-built-from-borrowed-parts/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/future-of-computing/">Future of computing</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Andros Fenollosa wrote this blog post, tagged web, activitypub, python and email. The post is a design experiment, not a plan to replace email. It keeps only the address shape and rebuilds everything else.</p>
+    <h2>What it says</h2>
+    <ul><li>Fenollosa proposes HMTP, a mail system over HTTP that keeps only the user@domain address form.</li><li>Fenollosa says every part already exists, so the only new thing is the assembly.</li><li>Delivery is found through a document at .well-known, replacing MX records.</li><li>Fenollosa has each message signed, with subject and body sealed end to end using HPKE.</li><li>Senders are verified by fetching the key from the sender's own domain, not by DKIM.</li><li>Fenollosa proposes spam defence in layers, including a requests box for first contact.</li><li>Fenollosa built a one-file Python prototype but left out several pieces.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers a design argument and a table of existing technologies. It links a working Python prototype for the main transport steps. No tests or measurements are reported.</p>
+    <h2>Interests and limits</h2>
+    <p>The author calls the prototype a design experiment with unaudited cryptography. It cannot exchange mail with existing providers. It leaves out key chains, postage, attachments by reference and JMAP reading. The post was revised after a Hacker News discussion. The post admits first-contact consent does not eliminate spam.</p>
+  </article>
+</div>
+</body>
+</html>

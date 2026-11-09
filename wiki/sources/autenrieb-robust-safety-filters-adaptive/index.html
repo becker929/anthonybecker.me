@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Robust Safety Filters for Lipschitz-Bounded Adaptive Closed-Loop Systems with Structured Uncertainties</title>
+  <meta name="description" content="A control theory preprint on keeping adaptive controllers inside safe state limits while they learn.">
+  <meta property="og:title" content="Robust Safety Filters for Lipschitz-Bounded Adaptive Closed-Loop Systems with Structured Uncertainties">
+  <meta property="og:description" content="A control theory preprint on keeping adaptive controllers inside safe state limits while they learn.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Robust Safety Filters for Lipschitz-Bounded Adaptive Closed-Loop Systems with Structured Uncertainties</nav>
+  <header class="title">
+    <h1>Robust Safety Filters for Lipschitz-Bounded Adaptive Closed-Loop Systems with Structured Uncertainties</h1>
+    <p class="lede">A control theory preprint on keeping adaptive controllers inside safe state limits while they learn.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Johannes Autenrieb (German Aerospace Center, DLR), Peter A. Fisher and Anuradha Annaswamy (MIT)</dd>
+      <dt>Published</dt><dd>18 June 2026</dd>
+      <dt>Kind</dt><dd>Control theory preprint, with proofs and one simulation</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/abs/2603.14403">arxiv.org/abs/2603.14403</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/mathematics-and-optimization/">Mathematics and optimization</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Autenrieb, Fisher and Annaswamy extend earlier work on reference-based safe adaptive control. They treat plants where both the dynamics and the actuator effectiveness are uncertain. The aim is to keep the plant in a safe set during adaptation.</p>
+    <h2>What it says</h2>
+    <ul><li>The paper says adaptive control gives stable tracking but not safety during adaptation.</li><li>The authors place a barrier-function safety filter on the reference signal, not on the plant.</li><li>They use Lipschitz bounds to derive a condition that depends on tracking error.</li><li>The condition becomes a convex second-order cone program for the safety filter.</li><li>The paper says the constraints loosen as the plant-reference tracking error shrinks.</li><li>In a quadrotor obstacle test, plain plant-level and reference-level filters collided with the obstacle.</li><li>The two adaptive-CBF filters stayed safe but were more oscillatory than the proposed filter.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The paper gives a stability theorem and a safety theorem, each with a proof. It then reports one MATLAB simulation of a quadrotor avoiding a spherical obstacle. Five filters are compared by plotted trajectories, with no numeric table. The authors report that their filter stayed safe and gave smoother paths.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors work on adaptive control and acknowledge Boeing support for one author. The paper's claim of smoother paths and less conservatism rests on plotted trajectories alone. The test is a single simulation with static model errors. No hardware flight is reported. The theory needs assumed known bounds on parameter errors and Lipschitz constants.</p>
+  </article>
+</div>
+</body>
+</html>

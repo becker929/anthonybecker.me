@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why Durable Execution Should Be Lightweight</title>
+  <meta name="description" content="A company blog post arguing durable execution should be a library.">
+  <meta property="og:title" content="Why Durable Execution Should Be Lightweight">
+  <meta property="og:description" content="A company blog post arguing durable execution should be a library.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Why Durable Execution Should Be Lightweight</nav>
+  <header class="title">
+    <h1>Why Durable Execution Should Be Lightweight</h1>
+    <p class="lede">A company blog post arguing durable execution should be a library.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Peter Kraft and Qian Li, DBOS</dd>
+      <dt>Published</dt><dd>12 January 2025</dd>
+      <dt>Kind</dt><dd>Company blog post explaining the design of its own open-source library</dd>
+      <dt>Original</dt><dd><a href="https://www.dbos.dev/blog/what-is-lightweight-durable-execution">www.dbos.dev/blog/what-is-lightweight-durable-execution</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Two DBOS authors explain durable execution, which saves program state to survive crashes. They introduce their library as a lighter alternative to orchestrator-based systems.</p>
+    <h2>What it says</h2>
+    <ul><li>The authors say Step Functions and Temporal use an external orchestrator and workers.</li><li>The authors call external orchestration heavyweight, needing orchestrator and worker servers.</li><li>They propose a library, so workflows and steps are ordinary functions.</li><li>They say DBOS Transact stores workflow status, inputs and step outputs in Postgres tables.</li><li>They say recovery reruns pending workflows, replaying recorded step outputs.</li><li>They say workflows must be deterministic, with non-deterministic work placed in steps.</li><li>They say a library can add durable sleep, messaging and queues, all backed by Postgres.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers a design description and a "Hello, world" example. It explains recovery step by step. It gives no benchmarks, user studies or comparisons run against other systems.</p>
+    <h2>Interests and limits</h2>
+    <p>DBOS sells products built on this library and the post promotes it. Code listings in the post were missing from the text, so only prose was read. The comparison with Step Functions and Temporal is argued, not measured.</p>
+  </article>
+</div>
+</body>
+</html>

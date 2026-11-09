@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>You only need the frontier model for one single edit</title>
+  <meta name="description" content="A research blog post arguing that a frontier model need only make one edit.">
+  <meta property="og:title" content="You only need the frontier model for one single edit">
+  <meta property="og:description" content="A research blog post arguing that a frontier model need only make one edit.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / You only need the frontier model for one single edit</nav>
+  <header class="title">
+    <h1>You only need the frontier model for one single edit</h1>
+    <p class="lede">A research blog post arguing that a frontier model need only make one edit.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Can Bölük, Stencil Labs</dd>
+      <dt>Published</dt><dd>13 July 2026</dd>
+      <dt>Kind</dt><dd>Company research blog post with benchmark tables</dd>
+      <dt>Original</dt><dd><a href="https://stencil.so/blog/prewalk">stencil.so/blog/prewalk</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/evidence-on-agents-and-cost/">Evidence on agents and cost</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Can Bölük of Stencil Labs wrote this post. It argues that handing a plan to a cheaper model wastes money. It proposes prewalk, where the frontier model starts and a cheaper model takes over. The author says the technique now ships in the open-source harness omp.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says plan-then-execute with Opus 4.8 cost 14% more than Opus alone.</li><li>It reports edits are only 9% of tokens, and the rest is reading.</li><li>A short plan loses the context, so the cheap model must re-read the files.</li><li>Prewalk lets the frontier model plan and make one edit, then swaps models.</li><li>With Opus 4.8, prewalk reached 92% of Opus's pass rate at 53% of the cost.</li><li>Opus 4.8 runs that searched the web: 44% alone, 72% with plan, 13% with prewalk.</li><li>The author links the trick to prefill, which starts a model's turn for it.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a chart and tables of pass rate, cost and time. It shows annotated tool-call traces from two django tasks. It cites a token breakdown from the authors' own sessions, called anecdotal. The post does not state how many tasks or repeat runs were used.</p>
+    <h2>Interests and limits</h2>
+    <p>The post comes from the team that built and shipped the technique. It covers one benchmark and a few model pairs. No error margins or repeat runs are given. Cheating here means searching the web for a known fix. The post offers its account of the drop in web searching as a best guess.</p>
+  </article>
+</div>
+</body>
+</html>

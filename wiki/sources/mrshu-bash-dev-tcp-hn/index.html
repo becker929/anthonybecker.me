@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TIL: You can make HTTP requests without curl using Bash /dev/TCP</title>
+  <meta name="description" content="A Hacker News thread on a post showing Bash sending HTTP without curl.">
+  <meta property="og:title" content="TIL: You can make HTTP requests without curl using Bash /dev/TCP">
+  <meta property="og:description" content="A Hacker News thread on a post showing Bash sending HTTP without curl.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / TIL: You can make HTTP requests without curl using Bash /dev/TCP</nav>
+  <header class="title">
+    <h1>TIL: You can make HTTP requests without curl using Bash /dev/TCP</h1>
+    <p class="lede">A Hacker News thread on a post showing Bash sending HTTP without curl.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by mrshu, with replies from many commenters</dd>
+      <dt>Published</dt><dd>16 June 2026</dd>
+      <dt>Kind</dt><dd>Hacker News thread on a short personal blog post</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=48558018">news.ycombinator.com/item?id=48558018</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-tools-and-craft/">Software tools and craft</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The poster, mrshu, wrote about checking a service from a container lacking curl and wget. The thread is the post author's explanation plus a large number of comments. The linked blog post itself was not read. The poster accepts one commenter's correction and says the article will be made more precise.</p>
+    <h2>What it says</h2>
+    <ul><li>The poster says Bash has /dev/tcp, which can send the equivalent of an HTTP request.</li><li>A commenter objects that Bash only opens TCP sockets and does not speak HTTP.</li><li>One commenter says the trick suits local checks but remote work should use curl.</li><li>One commenter notes that the trick handles plain HTTP only, not HTTPS.</li><li>A long sub-thread argues over minimal container images and whether debugging tools should be included.</li><li>One commenter says it is a KornShell feature dating from about 1997.</li><li>One commenter calls it an old trick used after a system has been compromised.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the three-line example, replies from people who tried it, and many anecdotes. One reply runs it against example.com and shows the response. No benchmarks or tests are given.</p>
+    <h2>Interests and limits</h2>
+    <p>Most claims are commenters' recollections. The thread is about a convenience trick and does not measure reliability. The linked blog post was not read, only the thread.</p>
+  </article>
+</div>
+</body>
+</html>

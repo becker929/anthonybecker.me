@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knowledge Graphs as the Missing Data Layer for LLM-Based Industrial Asset Operations</title>
+  <meta name="description" content="A preprint arguing that a typed knowledge graph lifts LLM agents on industrial maintenance questions.">
+  <meta property="og:title" content="Knowledge Graphs as the Missing Data Layer for LLM-Based Industrial Asset Operations">
+  <meta property="og:description" content="A preprint arguing that a typed knowledge graph lifts LLM agents on industrial maintenance questions.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Knowledge Graphs as the Missing Data Layer for LLM-Based Industrial Asset Operations</nav>
+  <header class="title">
+    <h1>Knowledge Graphs as the Missing Data Layer for LLM-Based Industrial Asset Operations</h1>
+    <p class="lede">A preprint arguing that a typed knowledge graph lifts LLM agents on industrial maintenance questions.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Madhulatha Mandarapu and Sandeep Kunkunuru, VaidhyaMegha Private Limited, India</dd>
+      <dt>Published</dt><dd>May 2026</dd>
+      <dt>Kind</dt><dd>arXiv preprint with benchmark experiments</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/abs/2605.26874">arxiv.org/abs/2605.26874</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Two authors from an Indian company wrote the preprint. It builds on the AssetOpsBench benchmark of maintenance questions. It asks how much the data model behind the tools matters.</p>
+    <h2>What it says</h2>
+    <ul><li>The paper says GPT-4 agents over document stores reach 65% on 139 maintenance scenarios.</li><li>LLM-written Cypher queries over the graph lift the same model from 65% to 82-83%.</li><li>Hand-coded handlers with no LLM score 99% on graph-answerable scenarios.</li><li>Of 139 handler answers, 86 came from graph queries and 53 did not.</li><li>For equipment missing from the graph, an LLM adds tagged facts, answering 81.8% of 88.</li><li>Correcting the schema prompt alone raised one scenario type to 93%, the paper says.</li><li>The authors say the 99% is a ceiling because they wrote the answers.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The paper gives tables of pass rates on a 139-scenario snapshot and a 467-scenario release. It adds 40 new scenarios the authors wrote and a test on 88 failure-mode scenarios. Code and result files are said to be on GitHub.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors' email domain and code repositories belong to samyama.ai. That site makes the graph database tested. Results come from a single run at temperature 0. The comparison changes more than storage, and the judge differs from the published score. The 467-scenario result tests only the hand-coded handlers. Real sites have messier data, and this is a preprint.</p>
+  </article>
+</div>
+</body>
+</html>

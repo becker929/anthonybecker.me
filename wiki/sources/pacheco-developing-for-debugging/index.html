@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Developing for Debugging</title>
+  <meta name="description" content="A blog post using the Oxide DNS propagation to argue for building in debuggability.">
+  <meta property="og:title" content="Developing for Debugging">
+  <meta property="og:description" content="A blog post using the Oxide DNS propagation to argue for building in debuggability.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Developing for Debugging</nav>
+  <header class="title">
+    <h1>Developing for Debugging</h1>
+    <p class="lede">A blog post using the Oxide DNS propagation to argue for building in debuggability.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>David Pacheco (posting as dap), Dave Pacheco's Blog</dd>
+      <dt>Published</dt><dd>9 June 2025</dd>
+      <dt>Kind</dt><dd>Personal blog post with one worked example</dd>
+      <dt>Original</dt><dd><a href="https://www.davepacheco.net/blog/2025/developing-for-debugging-dns-propagation/">www.davepacheco.net/blog/2025/developing-for-debugging-dns-propagation/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Pacheco describes how Oxide's control plane pushes DNS data from a database to DNS servers. The post uses that flow to explain why the team built a debugger.</p>
+    <h2>What it says</h2>
+    <ul><li>Pacheco describes DNS changes flowing from the database through Nexus tasks to servers.</li><li>The post lists failure modes, including wrong data, wrong server lists and stuck tasks.</li><li>Pacheco says this problem was the catalyst for building the omdb debugger.</li><li>The post names the practice developing for debugging: plan what to collect before failures.</li><li>Pacheco argues software should exonerate itself with affirmative evidence, not zero problems.</li><li>The post claims the approach aids testing, teaching and support calls.</li><li>Pacheco admits a gut feeling of fewer runtime problems, with no data.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives one worked example with command output from the omdb tool. It lists failure modes the team considered. It offers no measurements of how often the tool helps.</p>
+    <h2>Interests and limits</h2>
+    <p>The post is about the author's own team and system. A footnote says the account is simplified. The author has no data for the gut feeling of fewer runtime problems.</p>
+  </article>
+</div>
+</body>
+</html>

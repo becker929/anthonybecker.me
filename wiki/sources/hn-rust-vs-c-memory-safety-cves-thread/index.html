@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How memory safety CVEs differ between Rust and C/C++ (Hacker News thread)</title>
+  <meta name="description" content="A Hacker News thread debating how Rust and C/C++ report memory-safety CVEs.">
+  <meta property="og:title" content="How memory safety CVEs differ between Rust and C/C++ (Hacker News thread)">
+  <meta property="og:description" content="A Hacker News thread debating how Rust and C/C++ report memory-safety CVEs.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / How memory safety CVEs differ between Rust and C/C++ (Hacker News thread)</nav>
+  <header class="title">
+    <h1>How memory safety CVEs differ between Rust and C/C++ (Hacker News thread)</h1>
+    <p class="lede">A Hacker News thread debating how Rust and C/C++ report memory-safety CVEs.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by nicoburns, with replies from many commenters</dd>
+      <dt>Published</dt><dd>15 June 2026</dd>
+      <dt>Kind</dt><dd>Hacker News discussion thread about a personal blog post</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=48543392">news.ycombinator.com/item?id=48543392</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/security/">Security</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>This is a thread under a link to Kobzol's blog post, dated 15 June 2026. The post argues that raw CVE counts mislead when comparing Rust with C and C++. Commenters add disagreement, corrections and side debates.</p>
+    <h2>What it says</h2>
+    <ul><li>Commenter afdbcreid says Rust libraries file CVEs for UB that C++ libraries ignore. Commenter fweimer doubts this.</li><li>Commenter chilljinx says Rust UB can arise without unsafe, for example through dependencies.</li><li>Commenter jurschreuder says only 1% of vulnerabilities are memory related. Commenter khuey cites Google's 75% of exploited zero days.</li><li>Commenters argue over whether curl_getenv should assert on NULL or whether that is boilerplate.</li><li>A side thread debates modern C++. Commenter josephg cites a 1000x drop in Android memory safety vulnerability density.</li><li>Another side thread disputes whether Rust trades memory safety for supply chain risk.</li><li>Commenters dispute whether compliance makes CVE counts matter. Commenter john_strinlai calls them useless.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The thread offers argument, personal experience and links. Some commenters cite figures. Others challenge those figures or ask for sources. No commenter runs a new measurement.</p>
+    <h2>Interests and limits</h2>
+    <p>Commenters are self-selected and often argue from loyalty to a language. Figures such as 1% and 75% are stated without agreed sources. This is a record of a debate, not a finding. Deeper replies in the last part were only skimmed. Read status: partial, the first two thirds in full, the rest skimmed.</p>
+  </article>
+</div>
+</body>
+</html>

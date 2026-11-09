@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A framework for evaluating the chemical knowledge and reasoning abilities of large language models against the expertise of chemists</title>
+  <meta name="description" content="A Nature Chemistry paper introduces ChemBench, a chemistry test for language models.">
+  <meta property="og:title" content="A framework for evaluating the chemical knowledge and reasoning abilities of large language models against the expertise of chemists">
+  <meta property="og:description" content="A Nature Chemistry paper introduces ChemBench, a chemistry test for language models.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / A framework for evaluating the chemical knowledge and reasoning abilities of large language models against the expertise of chemists</nav>
+  <header class="title">
+    <h1>A framework for evaluating the chemical knowledge and reasoning abilities of large language models against the expertise of chemists</h1>
+    <p class="lede">A Nature Chemistry paper introduces ChemBench, a chemistry test for language models.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Adrian Mirza, Nawaf Alampara, Sreekanth Kunchapu, Martiño Ríos-García and many co-authors, Nature Chemistry</dd>
+      <dt>Published</dt><dd>20 May 2025</dd>
+      <dt>Kind</dt><dd>Peer-reviewed open-access paper introducing a benchmark, with a human expert baseline</dd>
+      <dt>Original</dt><dd><a href="https://www.nature.com/articles/s41557-025-01815-x">www.nature.com/articles/s41557-025-01815-x</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/ai-put-to-use/">AI put to use</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>A large author team led by Kevin Maik Jablonka's group presents ChemBench. It is an automated framework for testing chemical knowledge and reasoning in language models. The paper describes the question corpus, the evaluation method and a survey of expert chemists. It aims to measure ability and expose safety-relevant weaknesses.</p>
+    <h2>What it says</h2>
+    <ul><li>The authors built ChemBench: 2,788 questions, 1,039 written by hand and 1,749 semi-automatic.</li><li>On ChemBench-Mini, o1-preview beat the best human by almost a factor of two.</li><li>Models struggled on some tasks, such as predicting NMR signal counts, where o1-preview got 22%.</li><li>Models were often no better than random at picking which of two molecules chemists prefer.</li><li>Verbalized confidence was poorly calibrated, such as GPT-4 rating six wrong safety answers at 4.0.</li><li>Retrieval over papers, as in PaperQA2, did not close the knowledge gaps in chemistry facts.</li><li>The authors conclude teaching and exams need rethinking, since models beat the average human.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The paper offers scores for many models on 2,788 questions. Each was reviewed by at least two scientists. A smaller 236 question subset was answered by volunteers, with tool use allowed on part. It reports per-topic results, a preference test on 1,000 questions and a confidence analysis. Data and code are public.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors made the benchmark and run its leaderboard. One author has been a paid contractor for OpenAI and others worked for Stability.AI. Only 19 experts took part. Of 16 who gave a background, 13 held master's degrees and were doing PhDs. Scoring was strict, and API refusals may have lowered some scores. Supplementary notes and figure images were not read.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>We can do better than line-buffered output</title>
+  <meta name="description" content="A blog post arguing that terminal output can be batched and still appear promptly.">
+  <meta property="og:title" content="We can do better than line-buffered output">
+  <meta property="og:description" content="A blog post arguing that terminal output can be batched and still appear promptly.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / We can do better than line-buffered output</nav>
+  <header class="title">
+    <h1>We can do better than line-buffered output</h1>
+    <p class="lede">A blog post arguing that terminal output can be batched and still appear promptly.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Chris Wellons</dd>
+      <dt>Published</dt><dd>5 November 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post, with C code sketches</dd>
+      <dt>Original</dt><dd><a href="https://nullprogram.com/blog/2026/11/05/">nullprogram.com/blog/2026/11/05/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Chris Wellons writes the nullprogram blog. This post is about output buffering in C programs. It sets out to show that prompt terminal output and fully buffered speed can coexist.</p>
+    <h2>What it says</h2>
+    <ul><li>The post calls line buffering a common bottleneck. People redirect output to files to avoid it.</li><li>The post shows glibc splitting writes at each newline, even inside one string.</li><li>The post says CPython flushes when its buffer holds a newline. Partial lines may be written.</li><li>The proposed fix borrows Nagle's algorithm: flush the buffer after a short idle time.</li><li>The deadline would be near 100ms, checked between bursts of work with no extra threads.</li><li>In the author's tugz unzip, the file listing looks the same but costs little.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post prints strace-style write traces for glibc and CPython. It gives a small C buffer with a deadline-based flush. It describes the unzip case from the author's own experience. It reports no benchmark numbers.</p>
+    <h2>Interests and limits</h2>
+    <p>The author is describing the author's own tool, tugz. No timings are shown for the speed claim. The code is a sketch, and other platforms and edge cases are not tested. The post is short and makes a narrow case.</p>
+  </article>
+</div>
+</body>
+</html>

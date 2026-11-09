@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Fix Any Bug</title>
+  <meta name="description" content="A debugging walkthrough using a scrolling bug in a vibe-coded React app.">
+  <meta property="og:title" content="How to Fix Any Bug">
+  <meta property="og:description" content="A debugging walkthrough using a scrolling bug in a vibe-coded React app.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / How to Fix Any Bug</nav>
+  <header class="title">
+    <h1>How to Fix Any Bug</h1>
+    <p class="lede">A debugging walkthrough using a scrolling bug in a vibe-coded React app.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (published on the overreacted blog)</dd>
+      <dt>Published</dt><dd>21 October 2025</dd>
+      <dt>Kind</dt><dd>Personal blog post, one worked debugging case</dd>
+      <dt>Original</dt><dd><a href="https://overreacted.io/how-to-fix-any-bug/">overreacted.io/how-to-fix-any-bug/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/coding-with-agents/">Coding with agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The post is a first-person account on the overreacted blog. The author was building a small app with Claude. A server call broke scrolling. The post records the fix attempts and turns them into a general process.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says Claude kept declaring the bug fixed without a repro it could check.</li><li>The author says a repro can be swapped for a simpler one tracking the bug.</li><li>A narrowed repro needs a check: a known fix for the bug should pass it.</li><li>The author describes removing code and rerunning the repro, committing only while the bug persists.</li><li>The post says Claude drifted into testing theories and built repros lacking the bug.</li><li>The root cause was an old React Router bug that ran ScrollRestoration on every revalidation.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is one worked case. It includes the author's instructions, Claude's own summary output, and the final root cause. The author also cites a week spent deleting half of Facebook's React tree. The final repro there was about 50 lines. There are no measurements across many bugs.</p>
+    <h2>Interests and limits</h2>
+    <p>The author does not name themselves on the page. The case is a single front-end bug and a single Claude session. Claude did not find the root cause; the author did after Claude narrowed the code. The post says the method is effective but does not test it against other methods.</p>
+  </article>
+</div>
+</body>
+</html>

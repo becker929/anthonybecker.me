@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reverse Engineering a Neural Network's Clever Solution to Binary Addition</title>
+  <meta name="description" content="A blog post dissecting a tiny neural network that learned to add two 8-bit numbers.">
+  <meta property="og:title" content="Reverse Engineering a Neural Network&#x27;s Clever Solution to Binary Addition">
+  <meta property="og:description" content="A blog post dissecting a tiny neural network that learned to add two 8-bit numbers.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Reverse Engineering a Neural Network's Clever Solution to Binary Addition</nav>
+  <header class="title">
+    <h1>Reverse Engineering a Neural Network's Clever Solution to Binary Addition</h1>
+    <p class="lede">A blog post dissecting a tiny neural network that learned to add two 8-bit numbers.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Casey Primozic</dd>
+      <dt>Published</dt><dd>15 January 2023</dd>
+      <dt>Kind</dt><dd>Personal blog post with a hands-on experiment</dd>
+      <dt>Original</dt><dd><a href="https://cprimozic.net/blog/reverse-engineering-a-small-neural-network/">cprimozic.net/blog/reverse-engineering-a-small-neural-network/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/language-models-and-training/">Language models and training</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Casey Primozic writes a personal homepage blog on small neural networks. The post describes training and then reverse engineering a network for addition. It aims to explain how the network computes the sum.</p>
+    <h2>What it says</h2>
+    <ul><li>Primozic trained small networks to add two 8-bit numbers, reaching a version with 422 parameters.</li><li>The first layer used a custom activation called Ameo and later layers used tanh.</li><li>Rounded weights doubled along each input, like a digital-to-analog converter.</li><li>Neuron outputs were sine-like, with periods matching how binary digits switch while counting.</li><li>Later layers pushed signals toward square waves near the targets of -1 and 1.</li><li>Swapping the first activation for sin(x) worked in much the same way.</li><li>The author allows that the result may be a fluke of this architecture.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post shows the network layout, the rounded weights and plots of neuron outputs. The author validated accuracy on all input combinations during training. Larger networks reached near-perfect results in almost every run. At 422 parameters, perfect solutions became less common. No code is given in the post.</p>
+    <h2>Interests and limits</h2>
+    <p>The author uses a custom activation function from earlier work and trains small networks. The findings come from one setup. The author says the solution may be a fluke of the architecture. The post makes no test on larger models. The closing idea about big models is speculation. The author tempers it by citing The Bitter Lesson.</p>
+  </article>
+</div>
+</body>
+</html>

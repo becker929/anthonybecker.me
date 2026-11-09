@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>core - Rust (Crate core)</title>
+  <meta name="description" content="The top-level documentation page for Rust&#x27;s core library, the base layer of the standard library.">
+  <meta property="og:title" content="core - Rust (Crate core)">
+  <meta property="og:description" content="The top-level documentation page for Rust&#x27;s core library, the base layer of the standard library.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / core - Rust (Crate core)</nav>
+  <header class="title">
+    <h1>core - Rust (Crate core)</h1>
+    <p class="lede">The top-level documentation page for Rust's core library, the base layer of the standard library.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>13 October 2026 (documentation build, core 1.99.1)</dd>
+      <dt>Kind</dt><dd>API reference page for a standard library crate</dd>
+      <dt>Original</dt><dd><a href="https://doc.rust-lang.org/stable/core/index.html">doc.rust-lang.org/stable/core/index.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The Rust project generates this page from the source of the core crate. It describes core as dependency-free and minimal. It then indexes everything the crate offers.</p>
+    <h2>What it says</h2>
+    <ul><li>The page calls core the dependency-free foundation of the standard library.</li><li>Core links to no upstream libraries, no system libraries and no libc.</li><li>Core has no knowledge of heap allocation, concurrency or I/O, because those need platform integration.</li><li>Core assumes memcpy, memmove, memset, memcmp, bcmp and strlen exist, from libc or compiler-builtins.</li><li>Consumers must define a panic handler that never returns, marked with #[panic_handler].</li><li>The page warns these requirements are not currently stable.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>It is reference documentation: a short overview and long lists of one-line descriptions. It has no benchmarks or examples.</p>
+    <h2>Interests and limits</h2>
+    <p>The page says the listed requirements are not currently considered stable. Item entries are one-line summaries, and the linked item pages were not read.</p>
+  </article>
+</div>
+</body>
+</html>

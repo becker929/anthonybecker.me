@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tools: Code Is All You Need</title>
+  <meta name="description" content="A blog post arguing that agents should write and run code, not call MCP tools.">
+  <meta property="og:title" content="Tools: Code Is All You Need">
+  <meta property="og:description" content="A blog post arguing that agents should write and run code, not call MCP tools.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Tools: Code Is All You Need</nav>
+  <header class="title">
+    <h1>Tools: Code Is All You Need</h1>
+    <p class="lede">A blog post arguing that agents should write and run code, not call MCP tools.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Armin Ronacher</dd>
+      <dt>Published</dt><dd>3 July 2025</dd>
+      <dt>Kind</dt><dd>Personal blog post, with one worked example</dd>
+      <dt>Original</dt><dd><a href="https://lucumr.pocoo.org/2025/7/3/tools/">lucumr.pocoo.org/2025/7/3/tools/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/coding-with-agents/">Coding with agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Armin Ronacher is a software developer who writes a personal blog. The post explains why Ronacher dislikes the Model Context Protocol (MCP) as it works today. It argues that code generation composes better and uses context more efficiently. It ends with ideas for what might replace MCP.</p>
+    <h2>What it says</h2>
+    <ul><li>Ronacher says MCP is not truly composable, because most composition happens through inference.</li><li>The post says MCP needs much upfront context. Each call costs more context than running code.</li><li>Ronacher says code suits repeated tasks, because people can review a formula, not results.</li><li>Ronacher converted a blog to Markdown. An LLM wrote conversion, diff and analysis scripts, then looped.</li><li>The post says that loop's cost tracks iterations and sample size, not document count.</li><li>The post says a generated Playwright script can run 100 to 300 times without inference.</li><li>Ronacher muses that better sandboxes and APIs could let agents fan out inference.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is one detailed anecdote, the blog conversion, plus a Playwright example. The post suggests readers try one GitHub task with the MCP, then with gh. It reports no measurements, token counts or benchmarks.</p>
+    <h2>Interests and limits</h2>
+    <p>This is one developer's experience, mostly in agentic coding. Critics say MCP may suit end-user apps. The post answers with argument, not a test. The author does not report a test of the future tool-filtering approaches. Results from one blog conversion may not carry over to other tasks. The author says the Playwright approach works only where the page is already known.</p>
+  </article>
+</div>
+</body>
+</html>

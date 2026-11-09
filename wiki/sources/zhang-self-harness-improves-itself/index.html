@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-Harness: Harnesses That Improve Themselves</title>
+  <meta name="description" content="A preprint where an agent edits its own harness and tests each edit.">
+  <meta property="og:title" content="Self-Harness: Harnesses That Improve Themselves">
+  <meta property="og:description" content="A preprint where an agent edits its own harness and tests each edit.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Self-Harness: Harnesses That Improve Themselves</nav>
+  <header class="title">
+    <h1>Self-Harness: Harnesses That Improve Themselves</h1>
+    <p class="lede">A preprint where an agent edits its own harness and tests each edit.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Hangfan Zhang and seven co-authors, Shanghai Artificial Intelligence Laboratory</dd>
+      <dt>Published</dt><dd>20 August 2026 (version 3)</dd>
+      <dt>Kind</dt><dd>arXiv preprint with benchmark experiments</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/abs/2606.09498">arxiv.org/abs/2606.09498</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>A team at a Shanghai research lab wrote the preprint. It argues that agent harnesses are hand-built and scale poorly across models. It proposes letting the model propose bounded edits to its own harness, then testing them.</p>
+    <h2>What it says</h2>
+    <ul><li>Self-Harness lets an agent improve its own harness without human engineers or a stronger agent.</li><li>The loop mines failure patterns, proposes minimal edits, and validates them with regression tests.</li><li>An edit is accepted only if it improves one task split without hurting the other.</li><li>Across nine model and benchmark pairs, every final harness beat the initial one.</li><li>The largest absolute gain was GLM-5 on AppWorld, from 44.4% to 85.0%.</li><li>For MiniMax M2.5, kept edits create output files earlier and stop unproductive tool loops.</li><li>The authors list limits: bounded edits, possible benchmark-specific fixes, and reliance on verifier quality.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>Table 1 gives held-in, held-out and overall pass rates for three models on three benchmarks. The paper adds evolution charts, code diffs of kept edits and before-and-after trace cases. Each candidate was evaluated with two repeated attempts.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors are researchers who built and tested their own method. They use small fixed subsets, such as 64 Terminal-Bench-2.0 tasks and 100 SWE-bench cases. The held-out split is hidden from the proposer but is used by the promotion gate. The starting harness is minimal, so gains begin from a low base. The results do not compare against human-built harnesses. Only three models were tested.</p>
+  </article>
+</div>
+</body>
+</html>

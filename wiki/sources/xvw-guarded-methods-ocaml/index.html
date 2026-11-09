@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>xvw.lol - Guarded methods in OCaml</title>
+  <meta name="description" content="A technical note on encoding guarded methods in OCaml with a type equality witness.">
+  <meta property="og:title" content="xvw.lol - Guarded methods in OCaml">
+  <meta property="og:description" content="A technical note on encoding guarded methods in OCaml with a type equality witness.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / xvw.lol - Guarded methods in OCaml</nav>
+  <header class="title">
+    <h1>xvw.lol - Guarded methods in OCaml</h1>
+    <p class="lede">A technical note on encoding guarded methods in OCaml with a type equality witness.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (site: xvw.lol)</dd>
+      <dt>Published</dt><dd>2025-06-29</dd>
+      <dt>Kind</dt><dd>Personal technical note, translated from French, with working code</dd>
+      <dt>Original</dt><dd><a href="https://xvw.lol/en/articles/oop-refl.html">xvw.lol/en/articles/oop-refl.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The page names no author and is a translation of a note in French. It starts from slides by Gabriel Scherer on object-oriented and functional symmetry.</p>
+    <h2>What it says</h2>
+    <ul><li>Guarded methods put constraints on the receiver for single methods, callable only when they hold.</li><li>OCaml has no syntax for guarded methods, but a type equality witness can encode them.</li><li>The witness is a type eq with one constructor, Refl, buildable only for equal types.</li><li>A flatten method takes a witness that the element type is a list.</li><li>A sum method takes a witness that the element type is int.</li><li>Calling sum on a list of lists fails to compile with a type error.</li><li>Static methods and Kotlin-style extension methods are alternatives, but both are defined outside the class.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The note gives OCaml code for an object list class with flatten and sum methods. It shows assertions and the compiler error for a wrong call. It reports no wider tests.</p>
+    <h2>Interests and limits</h2>
+    <p>This is a personal note on one example. The author says OOP is rarely encouraged in OCaml, so this is probably not useful. The code was not run for this page. The author is not named.</p>
+  </article>
+</div>
+</body>
+</html>

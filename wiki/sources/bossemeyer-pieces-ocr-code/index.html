@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How we made our optical character recognition (OCR) code more accurate</title>
+  <meta name="description" content="A company engineering post on tuning the Tesseract OCR engine to read code screenshots.">
+  <meta property="og:title" content="How we made our optical character recognition (OCR) code more accurate">
+  <meta property="og:description" content="A company engineering post on tuning the Tesseract OCR engine to read code screenshots.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / How we made our optical character recognition (OCR) code more accurate</nav>
+  <header class="title">
+    <h1>How we made our optical character recognition (OCR) code more accurate</h1>
+    <p class="lede">A company engineering post on tuning the Tesseract OCR engine to read code screenshots.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Leonie Bossemeyer, Pieces</dd>
+      <dt>Published</dt><dd>April 23, 2025</dd>
+      <dt>Kind</dt><dd>Company engineering blog post</dd>
+      <dt>Original</dt><dd><a href="https://pieces.app/blog/how-we-made-our-optical-character-recognition-ocr-code-more-accurate">pieces.app/blog/how-we-made-our-optical-character-recognition-ocr-code-more-accurate</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/ai-put-to-use/">AI put to use</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Leonie Bossemeyer writes for the Pieces blog. The post explains how the team adapted Tesseract for screenshots of code. It covers dark mode, noisy backgrounds, small images and lost indentation.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says Tesseract is the base engine, with layout analysis before LSTM prediction.</li><li>It says dark-mode images are detected by average brightness and then inverted.</li><li>It says noisy or gradient backgrounds are removed by subtracting a blurred, dilated copy.</li><li>It says indentation is inferred from line bounding boxes and rounded to even spaces.</li><li>It says super-resolution upsampling did not beat bicubic, so bicubic was kept.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post describes an evaluation on hand-made and generated image-text pairs. Scores use Levenshtein distance against the true text. No numbers, tables or example outputs are given.</p>
+    <h2>Interests and limits</h2>
+    <p>Pieces sells a desktop app and APIs. The post ends by inviting readers to try the app. No accuracy figures are reported, so the gain cannot be judged. Only one comparison, of upsampling methods, is described in detail. No datasets or code are linked.</p>
+  </article>
+</div>
+</body>
+</html>

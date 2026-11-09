@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Life is too short for a slow terminal</title>
+  <meta name="description" content="A blog post describing how the author keeps a zsh shell fast to start.">
+  <meta property="og:title" content="Life is too short for a slow terminal">
+  <meta property="og:description" content="A blog post describing how the author keeps a zsh shell fast to start.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Life is too short for a slow terminal</nav>
+  <header class="title">
+    <h1>Life is too short for a slow terminal</h1>
+    <p class="lede">A blog post describing how the author keeps a zsh shell fast to start.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Mijndert Stuij</dd>
+      <dt>Published</dt><dd>6 June 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post with config snippets</dd>
+      <dt>Original</dt><dd><a href="https://mijndertstuij.nl/posts/life-is-too-short-for-a-slow-terminal/">mijndertstuij.nl/posts/life-is-too-short-for-a-slow-terminal/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-tools-and-craft/">Software tools and craft</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Mijndert Stuij describes the setup behind a zsh shell that starts in about 30 milliseconds. The post also explains how readers can measure their own shell.</p>
+    <h2>What it says</h2>
+    <ul><li>The author's shell starts in about 30 milliseconds with completions, highlighting, autosuggestions, fzf and direnv.</li><li>The author uses no framework and sources exactly three plugins directly from .zshrc.</li><li>Completions are cached, so the full compinit run happens only after 24 hours.</li><li>Slow tools such as nvm are wrapped in functions that load them on first use.</li><li>The prompt is pure, which is async, so git status does not delay each Enter.</li><li>The author rates startup under 100ms as fine and under 50ms as great.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post shows a timing loop of five runs on the author's own machine. It gives code for each technique and points to a dotfiles repository. It compares no other setups.</p>
+    <h2>Interests and limits</h2>
+    <p>The numbers come from one machine and one user's habits. An update at the top says a reader challenged the measuring and some advice. That follow-up post was not read.</p>
+  </article>
+</div>
+</body>
+</html>

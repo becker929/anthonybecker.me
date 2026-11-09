@@ -14,7 +14,7 @@
   {
     "slug": "images-made-by-rules",
     "title": "Images made by rules",
-    "description": "Eight sources where a picture follows from a small set of rules.",
+    "description": "Ten sources where a picture follows from a small set of rules.",
     "path": "/wiki/images-made-by-rules/"
   },
   {
@@ -26,7 +26,7 @@
   {
     "slug": "harnesses-and-agent-loops",
     "title": "Harnesses and agent loops",
-    "description": "37 sources on the software that surrounds a coding agent.",
+    "description": "73 sources on the software that surrounds a coding agent.",
     "path": "/wiki/harnesses-and-agent-loops/"
   },
   {
@@ -50,7 +50,7 @@
   {
     "slug": "systems-and-hardware",
     "title": "Systems and hardware",
-    "description": "Thirteen sources on what lies beneath ordinary code.",
+    "description": "37 sources on what lies beneath ordinary code.",
     "path": "/wiki/systems-and-hardware/"
   },
   {
@@ -68,79 +68,79 @@
   {
     "slug": "occult-myth-and-religion",
     "title": "Occult, myth and religion",
-    "description": "Ten sources on magical traditions, ancient myth and religious ideas.",
+    "description": "18 sources on magical traditions, ancient myth and religious ideas.",
     "path": "/wiki/occult-myth-and-religion/"
   },
   {
     "slug": "fiction-and-literature",
     "title": "Fiction and literature",
-    "description": "Seven sources on stories and how they get told.",
+    "description": "22 sources on stories and how they get told.",
     "path": "/wiki/fiction-and-literature/"
   },
   {
     "slug": "games-and-game-design",
     "title": "Games and game design",
-    "description": "Eleven sources on how games work and get made.",
+    "description": "25 sources on how games work and get made.",
     "path": "/wiki/games-and-game-design/"
   },
   {
     "slug": "space-and-orbital-simulation",
     "title": "Space and orbital simulation",
-    "description": "Six sources on orbits and the software that computes them.",
+    "description": "Thirteen sources on orbits and the software that computes them.",
     "path": "/wiki/space-and-orbital-simulation/"
   },
   {
     "slug": "science-and-medicine",
     "title": "Science and medicine",
-    "description": "Six sources from research papers and science writing.",
+    "description": "Fourteen sources from research papers and science writing.",
     "path": "/wiki/science-and-medicine/"
   },
   {
     "slug": "mathematics-and-optimization",
     "title": "Mathematics and optimization",
-    "description": "Four sources explaining mathematical ideas.",
+    "description": "Eight sources explaining mathematical ideas.",
     "path": "/wiki/mathematics-and-optimization/"
   },
   {
     "slug": "writing-and-the-small-web",
     "title": "Writing and the small web",
-    "description": "Three sources on blogs and who still reads them.",
+    "description": "Five sources on blogs and who still reads them.",
     "path": "/wiki/writing-and-the-small-web/"
   },
   {
     "slug": "society-and-technology",
     "title": "Society and technology",
-    "description": "Five sources on what technology and institutions owe people.",
+    "description": "Fifteen sources on what technology and institutions owe people.",
     "path": "/wiki/society-and-technology/"
   },
   {
     "slug": "mind-attention-and-practice",
     "title": "Mind, attention and practice",
-    "description": "Six sources on how people think, focus and improve.",
+    "description": "Twelve sources on how people think, focus and improve.",
     "path": "/wiki/mind-attention-and-practice/"
   },
   {
     "slug": "history-and-places",
     "title": "History and places",
-    "description": "Four sources on particular people, scripts and places.",
+    "description": "Five sources on particular people, scripts and places.",
     "path": "/wiki/history-and-places/"
   },
   {
     "slug": "music-listening-and-scenes",
     "title": "Music listening and scenes",
-    "description": "Four sources on events, news, history and instruments.",
+    "description": "Five sources on events, news, history and instruments.",
     "path": "/wiki/music-listening-and-scenes/"
   },
   {
     "slug": "language-models-and-training",
     "title": "Language models and training",
-    "description": "Nine sources that explain, test or announce language models.",
+    "description": "Ten sources that explain, test or announce language models.",
     "path": "/wiki/language-models-and-training/"
   },
   {
     "slug": "software-tools-and-craft",
     "title": "Software tools and craft",
-    "description": "Four sources on the ordinary work of shipping software.",
+    "description": "30 sources on the ordinary work of shipping software.",
     "path": "/wiki/software-tools-and-craft/"
   },
   {
@@ -152,19 +152,19 @@
   {
     "slug": "film-animation-and-video",
     "title": "Film, animation and video",
-    "description": "Five sources on moving pictures and the tools behind them.",
+    "description": "Ten sources on moving pictures and the tools behind them.",
     "path": "/wiki/film-animation-and-video/"
   },
   {
     "slug": "illustration-and-concept-art",
     "title": "Illustration and concept art",
-    "description": "Four sources on drawing, painting and working as an artist.",
+    "description": "Six sources on drawing, painting and working as an artist.",
     "path": "/wiki/illustration-and-concept-art/"
   },
   {
     "slug": "saved-posts",
     "title": "Saved posts",
-    "description": "Seven short posts saved for their own sake.",
+    "description": "Ten short posts saved for their own sake.",
     "path": "/wiki/saved-posts/"
   },
   {
@@ -172,5 +172,101 @@
     "title": "Making visual worlds",
     "description": "Two sources on how invented worlds reached a screen.",
     "path": "/wiki/making-visual-worlds/"
+  },
+  {
+    "slug": "coding-with-agents",
+    "title": "Coding with agents",
+    "description": "32 sources on how programming changes when agents write code.",
+    "path": "/wiki/coding-with-agents/"
+  },
+  {
+    "slug": "agent-tools-and-setups",
+    "title": "Agent tools and setups",
+    "description": "24 tools and setups built around coding agents.",
+    "path": "/wiki/agent-tools-and-setups/"
+  },
+  {
+    "slug": "evidence-on-agents-and-cost",
+    "title": "Evidence on agents and cost",
+    "description": "Seven sources that try to measure what coding agents deliver.",
+    "path": "/wiki/evidence-on-agents-and-cost/"
+  },
+  {
+    "slug": "ai-put-to-use",
+    "title": "AI put to use",
+    "description": "Eleven sources applying machine learning to a particular job.",
+    "path": "/wiki/ai-put-to-use/"
+  },
+  {
+    "slug": "programming-languages-and-types",
+    "title": "Programming languages and types",
+    "description": "38 sources on language design and type systems.",
+    "path": "/wiki/programming-languages-and-types/"
+  },
+  {
+    "slug": "formal-methods-and-proof",
+    "title": "Formal methods and proof",
+    "description": "18 sources on proving programs correct.",
+    "path": "/wiki/formal-methods-and-proof/"
+  },
+  {
+    "slug": "distributed-systems-and-reliability",
+    "title": "Distributed systems and reliability",
+    "description": "30 sources on systems spread over many machines.",
+    "path": "/wiki/distributed-systems-and-reliability/"
+  },
+  {
+    "slug": "software-design",
+    "title": "Software design",
+    "description": "26 sources of advice on structuring and debugging software.",
+    "path": "/wiki/software-design/"
+  },
+  {
+    "slug": "front-end-and-ui-libraries",
+    "title": "Front-end and UI libraries",
+    "description": "Eight libraries and frameworks for building interfaces.",
+    "path": "/wiki/front-end-and-ui-libraries/"
+  },
+  {
+    "slug": "future-of-computing",
+    "title": "Future of computing",
+    "description": "22 sources imagining other ways computing could work.",
+    "path": "/wiki/future-of-computing/"
+  },
+  {
+    "slug": "security",
+    "title": "Security",
+    "description": "Five sources on attacks and defenses.",
+    "path": "/wiki/security/"
+  },
+  {
+    "slug": "music-tools-and-instruments",
+    "title": "Music tools and instruments",
+    "description": "Seven instruments, apps and courses for making music.",
+    "path": "/wiki/music-tools-and-instruments/"
+  },
+  {
+    "slug": "music-theory-and-data",
+    "title": "Music theory and data",
+    "description": "Four sources treating music as analyzable structure.",
+    "path": "/wiki/music-theory-and-data/"
+  },
+  {
+    "slug": "interface-and-ux",
+    "title": "Interface and UX",
+    "description": "Eight sources on how people use interfaces.",
+    "path": "/wiki/interface-and-ux/"
+  },
+  {
+    "slug": "art-and-images",
+    "title": "Art and images",
+    "description": "Six sources on artworks and pictures.",
+    "path": "/wiki/art-and-images/"
+  },
+  {
+    "slug": "architecture-and-built-things",
+    "title": "Architecture and built things",
+    "description": "Three sources on buildings and made objects.",
+    "path": "/wiki/architecture-and-built-things/"
   }
 ]

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Homelab AI Dev Platform</title>
+  <meta name="description" content="A Hacker News thread on a blog post about a home coding-agent server.">
+  <meta property="og:title" content="My Homelab AI Dev Platform">
+  <meta property="og:description" content="A Hacker News thread on a blog post about a home coding-agent server.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / My Homelab AI Dev Platform</nav>
+  <header class="title">
+    <h1>My Homelab AI Dev Platform</h1>
+    <p class="lede">A Hacker News thread on a blog post about a home coding-agent server.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by rsgm, with replies from many commenters</dd>
+      <dt>Published</dt><dd>15 June 2026</dd>
+      <dt>Kind</dt><dd>Hacker News thread on a short personal blog post</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=48542433">news.ycombinator.com/item?id=48542433</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/agent-tools-and-setups/">Agent tools and setups</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The poster, rsgm, wrote a short post on running OpenCode's web server at home. Changes go through Git, a pull request and automatic deployment. Commenters discuss tools, models and similar setups.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says OpenCode runs as a web server on a VM, started by systemd.</li><li>The agent gets its own Git user, which cannot push to the deploy branch.</li><li>The author reviews and merges each pull request, and GitOps tooling then deploys it.</li><li>The post says AI release-note summaries cut update checks from hours to minutes.</li><li>The post names missing CI job logs in Forgejo as the main gap.</li><li>Commenters shared similar setups using Forgejo runners, systemd timers, Argo workflows and kanban boards.</li><li>Commenters expected local GPU content. The author said local models need big spending for agent use.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post is one person's description of a personal setup. Time savings are stated as estimates. The thread adds many commenters' own setups and tips.</p>
+    <h2>Interests and limits</h2>
+    <p>The author reports own experience with no measurements or comparison with other agents. Several commenters promote their own projects. The post is short and promises a later write-up of the full setup.</p>
+  </article>
+</div>
+</body>
+</html>

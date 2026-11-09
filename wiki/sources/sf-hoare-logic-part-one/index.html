@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hoare: Hoare Logic, Part I</title>
+  <meta name="description" content="This chapter introduces Hoare logic and proves its rules sound for the small language Imp.">
+  <meta property="og:title" content="Hoare: Hoare Logic, Part I">
+  <meta property="og:description" content="This chapter introduces Hoare logic and proves its rules sound for the small language Imp.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Hoare: Hoare Logic, Part I</nav>
+  <header class="title">
+    <h1>Hoare: Hoare Logic, Part I</h1>
+    <p class="lede">This chapter introduces Hoare logic and proves its rules sound for the small language Imp.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Textbook chapter with exercises, from Software Foundations Volume 2</dd>
+      <dt>Original</dt><dd><a href="https://softwarefoundations.cis.upenn.edu/plf-current/Hoare.html">softwarefoundations.cis.upenn.edu/plf-current/Hoare.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/formal-methods-and-proof/">Formal methods and proof</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The page is a chapter of an online course text on programming language foundations. It sets out to give tools for verifying that programs meet specifications. It covers assertions, triples and rules for skip, sequencing, assignment, conditionals and loops.</p>
+    <h2>What it says</h2>
+    <ul><li>The chapter aims to prove formally that particular Imp programs meet their specifications. It uses Floyd-Hoare logic.</li><li>A Hoare triple says a command that starts meeting P and terminates ends meeting Q.</li><li>The assignment rule works backward from the postcondition. The chapter says many people find this backwards at first.</li><li>The rules of consequence let a proof strengthen preconditions and weaken postconditions.</li><li>The while rule rests on the idea of a command invariant.</li><li>The triples describe partial correctness only. A loop that never terminates satisfies any postcondition.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The chapter proves each rule valid in Rocq. It applies the rules to small example programs. It also adds automation tactics so that routine assertion checks run by themselves. Exercises ask readers to prove rules and triples, and to extend the logic.</p>
+    <h2>Interests and limits</h2>
+    <p>Only the prose was read closely; code, proofs and later exercises were skimmed. The chapter treats small examples and a toy language. It gives total correctness only a short mention.</p>
+  </article>
+</div>
+</body>
+</html>
