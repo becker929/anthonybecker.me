@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Coming Loop</title>
+  <meta name="description" content="A blog post on harness-level loops around coding agents and the unease they cause.">
+  <meta property="og:title" content="The Coming Loop">
+  <meta property="og:description" content="A blog post on harness-level loops around coding agents and the unease they cause.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The Coming Loop</nav>
+  <header class="title">
+    <h1>The Coming Loop</h1>
+    <p class="lede">A blog post on harness-level loops around coding agents and the unease they cause.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Armin Ronacher</dd>
+      <dt>Published</dt><dd>June 23, 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post, opinion based on the author's own use</dd>
+      <dt>Original</dt><dd><a href="https://lucumr.pocoo.org/2026/6/23/the-coming-loop/">lucumr.pocoo.org/2026/6/23/the-coming-loop/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Armin Ronacher describes a pattern spreading among people using coding agents. The post sets out where loops work, where they fail, and what follows.</p>
+    <h2>What it says</h2>
+    <ul><li>The post describes a harness loop outside the agent loop. The harness decides if work is done.</li><li>Ronacher reports little success with loops for code Ronacher cares deeply about.</li><li>Models add local defenses instead of making bad states impossible, and loops amplify that habit.</li><li>Loops work well for porting, performance exploration, security scanning and research.</li><li>The harness only needs a useful signal to continue, not an objective or binary one.</li><li>Opting out may be impossible, because others will run loops against your software.</li><li>The author fears codebases that assume machine participation in their upkeep.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers personal experience and argument. It names outside examples, such as a reported Bun port from Zig to Rust. It names a port of MiniJinja to Go. It offers no benchmarks or measurements.</p>
+    <h2>Interests and limits</h2>
+    <p>The view is a personal taste judgment about code quality. The post says the author wants to understand all shipped code. It discusses Pi, a harness, and the author's changing view of its role. No test compares loop code with hand-steered code.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/brooks-structural-backpressure/">Structural Backpressure Beats Smarter Agents</a>. Ronacher sees models adding local defenses instead of making bad states impossible. Brooks offers types that refuse such states at compile time. But Ronacher's loop needs only a useful signal, while Brooks wants a hard gate. How much signal does a loop need?</li></ul>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Everyone Says Assembly Is Untyped—Everyone Is Wrong</title>
+  <meta name="description" content="A design rationale for the typed inline assembly system in the Odin programming language.">
+  <meta property="og:title" content="Everyone Says Assembly Is Untyped—Everyone Is Wrong">
+  <meta property="og:description" content="A design rationale for the typed inline assembly system in the Odin programming language.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Everyone Says Assembly Is Untyped—Everyone Is Wrong</nav>
+  <header class="title">
+    <h1>Everyone Says Assembly Is Untyped—Everyone Is Wrong</h1>
+    <p class="lede">A design rationale for the typed inline assembly system in the Odin programming language.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>gingerBill (Ginger Bill)</dd>
+      <dt>Published</dt><dd>2026-08-20</dd>
+      <dt>Kind</dt><dd>Language designer's blog post, a design rationale with code examples</dd>
+      <dt>Original</dt><dd><a href="https://www.gingerbill.org/article/2026/08/20/designing-odins-inline-asm/">www.gingerbill.org/article/2026/08/20/designing-odins-inline-asm/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/compilers-and-interpreters/">Compilers and interpreters</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>gingerBill is the creator of Odin and writes about its design. This post is in a series on syntax. It sets out Odin's asm templates. It argues they are the best in any language.</p>
+    <h2>What it says</h2>
+    <ul><li>gingerBill says GCC and Clang treat assembly as strings. The compiler understands almost nothing in them.</li><li>The post argues assembly is not untyped. Each instruction has valid operand forms, widths and clobbers.</li><li>Odin uses one syntax for all instruction sets, with destination first like most ISAs.</li><li>Odin has multiple return values. Instructions such as cpuid and div map onto asm templates directly.</li><li>The compiler checks each instruction against rexcode tables. Errors appear at the offending token.</li><li>The post says most clobbers are inferred. It says the feature took about 7 days to build.</li><li>gingerBill says asm templates are restricted hygienic macros, and will replace some platform-specific intrinsics.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives code samples in GCC, MSVC, Turbo Pascal and Odin syntax. It describes the rexcode tables as round-tripped against llvm-mc and other tools. It reports no benchmarks, and no other language was tested.</p>
+    <h2>Interests and limits</h2>
+    <p>The author designed Odin and is judging the design. The claim of best in any language is stated as belief. It was not tested. The rexcode library covers many architectures, but inline assembly needs only those Odin targets.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/brooks-structural-backpressure/">Structural Backpressure Beats Smarter Agents</a>. GCC passes inline assembly along as a string it barely understands. Brooks says prompt rules have similar standing: followed often, not reliably. gingerBill checks instructions against tables, and Brooks generates guard types. Both move a promise into something a machine can refuse.</li></ul>
+  </article>
+</div>
+</body>
+</html>

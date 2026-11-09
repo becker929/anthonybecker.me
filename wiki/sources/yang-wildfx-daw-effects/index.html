@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WildFX: A DAW-Powered Pipeline for In-the-Wild Audio FX Graph Modeling</title>
+  <meta name="description" content="A preprint presenting a tool that renders multitrack effect-chain datasets using a real DAW.">
+  <meta property="og:title" content="WildFX: A DAW-Powered Pipeline for In-the-Wild Audio FX Graph Modeling">
+  <meta property="og:description" content="A preprint presenting a tool that renders multitrack effect-chain datasets using a real DAW.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / WildFX: A DAW-Powered Pipeline for In-the-Wild Audio FX Graph Modeling</nav>
+  <header class="title">
+    <h1>WildFX: A DAW-Powered Pipeline for In-the-Wild Audio FX Graph Modeling</h1>
+    <p class="lede">A preprint presenting a tool that renders multitrack effect-chain datasets using a real DAW.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Qihui Yang, Taylor Berg-Kirkpatrick, Julian McAuley and Zachary Novack, UC San Diego</dd>
+      <dt>Published</dt><dd>17 July 2025</dd>
+      <dt>Kind</dt><dd>arXiv preprint presenting a dataset-generation tool with one experiment</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/html/2507.10534">arxiv.org/html/2507.10534</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/audio-models-and-analysis/">Audio models and analysis</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The authors are researchers at UC San Diego. The paper presents WildFX, which generates mixing projects with commercial plugins, sidechains and splitters. The aim is to connect neural audio effect research to professional tools.</p>
+    <h2>What it says</h2>
+    <ul><li>The paper says WildFX runs REAPER in Docker, with Wine and yabridge for Windows plugins.</li><li>The paper says projects are acyclic graphs of effect chains defined in YAML and JSON.</li><li>The paper says a layer-by-layer scheme, based on topological sorting, renders many projects in parallel.</li><li>The paper says two datasets of 5,000 training projects each were built from Slakh2100.</li><li>The paper reports 3.5 and 5 seconds average processing with an ALSA server.</li><li>The paper says its results trail the original work. It blames real plugins and a training set about 100 times smaller.</li><li>The paper reports edge error rates of 0.070 to 0.094. Node error rates run from 0.568 to 0.690.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The paper gives a pipeline design, open code and one experiment. The experiment trains an existing graph-estimation method on two generated datasets. Results appear in one table of four settings, with no comparison to other pipelines. No listening or user test appears.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors are academics presenting their own tool. Only five plugins are used, and one estimation method is tested. The authors say the results trail the earlier work. Headless REAPER offers no error reporting, so steps were checked manually. The paper claims to be the first such pipeline, to the authors' knowledge.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZX Spectrum: Experimenting With 1-Bit Sound</title>
+  <meta name="description" content="A blog post recording attempts to play samples and chords through the ZX Spectrum beeper.">
+  <meta property="og:title" content="ZX Spectrum: Experimenting With 1-Bit Sound">
+  <meta property="og:description" content="A blog post recording attempts to play samples and chords through the ZX Spectrum beeper.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / ZX Spectrum: Experimenting With 1-Bit Sound</nav>
+  <header class="title">
+    <h1>ZX Spectrum: Experimenting With 1-Bit Sound</h1>
+    <p class="lede">A blog post recording attempts to play samples and chords through the ZX Spectrum beeper.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Michael Martin</dd>
+      <dt>Published</dt><dd>5 September 2026</dd>
+      <dt>Kind</dt><dd>Personal lab-notebook blog post with assembly code and listening tests</dd>
+      <dt>Original</dt><dd><a href="https://bumbershootsoft.wordpress.com/2026/09/05/zx-spectrum-experimenting-with-1-bit-sound/">bumbershootsoft.wordpress.com/2026/09/05/zx-spectrum-experimenting-with-1-bit-sound/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Michael Martin runs Bumbershoot Software, a site of retro programming experiments. This post is part of a ZX Spectrum tour. The author says it records failures as well as successes.</p>
+    <h2>What it says</h2>
+    <ul><li>The author planned to copy advanced PC speaker techniques but ended up with other results.</li><li>Playing 1-bit PCM at 16kHz leaves 219 cycles between writes, and sounds awful.</li><li>Arpeggiated chords, with notes switched fast, sound scratchy but clearly like a chord.</li><li>Summing the top bit of three counters gives a richer chord. Each loop takes 338 cycles.</li><li>Shuffling channels one sample at a time, as on the Apple IIgs, beats pulse arpeggios.</li><li>The attempt at pulse width modulation failed, giving only a high-pitched squeal.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives Z80 assembly code with cycle counts for the playback and chord routines. Judgments of sound quality are the author's own listening. The code and an audio file are said to be in the author's GitHub repo.</p>
+    <h2>Interests and limits</h2>
+    <p>The author is the only listener, and tests ran in the Fuse emulator. The post says real hardware may sound near-inaudible without an amplifier. The author admits not knowing whether bad sounds came from bugs or from the technique. Pulse width modulation is left unresolved.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/a1k0n-tiny-tapeout-demo/">Pure Silicon Demo Coding: No CPU, No Memory, Just 4k Gates</a>. Both ask what music costs at the very bottom. In one, the song is a chain of logic from a counter. In the other, three voices take turns on a single bit. Neither stores a recording of what you hear.</li></ul>
+  </article>
+</div>
+</body>
+</html>

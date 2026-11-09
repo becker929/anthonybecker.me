@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prefer STRICT tables in SQLite</title>
+  <meta name="description" content="A short opinion post arguing for adding STRICT to SQLite table definitions.">
+  <meta property="og:title" content="Prefer STRICT tables in SQLite">
+  <meta property="og:description" content="A short opinion post arguing for adding STRICT to SQLite table definitions.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Prefer STRICT tables in SQLite</nav>
+  <header class="title">
+    <h1>Prefer STRICT tables in SQLite</h1>
+    <p class="lede">A short opinion post arguing for adding STRICT to SQLite table definitions.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Evan Hahn</dd>
+      <dt>Published</dt><dd>11 July 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post, with one informal performance test</dd>
+      <dt>Original</dt><dd><a href="https://evanhahn.com/prefer-strict-tables-in-sqlite/">evanhahn.com/prefer-strict-tables-in-sqlite/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/databases-and-storage/">Databases and storage</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Evan Hahn recommends strict tables for new SQLite work. The post sets out what STRICT does and where it falls short.</p>
+    <h2>What it says</h2>
+    <ul><li>Strict tables reject values such as text in an integer column that normal tables accept.</li><li>Lossless conversions, such as the string 123 into an integer, are still accepted.</li><li>Strict tables reject invalid column types, allowing only INT, INTEGER, REAL, TEXT, BLOB and ANY.</li><li>An existing table cannot be made strict, so data must be copied.</li><li>Strict tables need SQLite 3.37.0, and older versions cannot read databases that contain them.</li><li>The SQLite developers favor flexible typing. The author mostly disagrees.</li><li>The author saw no obvious speed or size difference inserting millions of rows.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives short SQL examples of accepted and rejected inserts. Its one measurement is an informal script that inserted millions of rows. The author says it was not tested thoroughly.</p>
+    <h2>Interests and limits</h2>
+    <p>This is one developer's preference, with no stated commercial stake. The speed test was informal and not thorough. The post does not test large real applications or migrations.</p>
+  </article>
+</div>
+</body>
+</html>

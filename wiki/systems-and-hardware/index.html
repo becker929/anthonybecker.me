@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Systems and hardware</title>
+  <meta name="description" content="Six sources on what lies beneath ordinary code.">
+  <meta property="og:title" content="Systems and hardware">
+  <meta property="og:description" content="Six sources on what lies beneath ordinary code.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Systems and hardware</nav>
+  <header class="title">
+    <h1>Systems and hardware</h1>
+    <p class="lede">Six sources on what lies beneath ordinary code.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <p>These sources look at what lies under ordinary code. They cover memory, binary files, processors and very small chips. This page lists six sources, oldest first where dated.</p>
+    <section>
+      <h2><a href="/wiki/sources/savage-hello-world-mach-o/">The Nitty Gritty of “Hello World” on macOS</a></h2>
+      <p class="meta">Joe Savage. 8 November 2014. Personal blog walkthrough, based on hands-on inspection of one binary.</p>
+      <p>The post opens a tiny macOS executable and explains its header, load commands and segments. It then outlines how the system loads and runs it. Evidence is output from otool and a byte visualisation of one binary.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/chisnall-c-not-low-level/">C Is Not a Low-level Language</a></h2>
+      <p class="meta">David Chisnall. 30 April 2018. Opinion essay in ACM Queue, with no new experiments.</p>
+      <p>Chisnall argues that processors and compilers hide modern hardware behind a C-shaped model. The essay ties Spectre and Meltdown to that effort. It rests on argument, cited figures and one published survey. It closes with sketches of processors not designed around C.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kato-linux-process-memory/">A Friendly Tour of Process Memory on Linux</a></h2>
+      <p class="meta">0xkato. 1 November 2025. Personal blog explainer, with shell commands and no measurements.</p>
+      <p>The post explains Linux process memory in short steps. A small definition follows each new term. It covers mmap, page faults, copy on write, huge pages and Meltdown defences. It offers explanation and commands to run, not benchmarks. It targets Linux on x86-64.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/a1k0n-tiny-tapeout-demo/">Pure Silicon Demo Coding: No CPU, No Memory, Just 4k Gates</a></h2>
+      <p class="meta">Not stated. 19 December 2025. Personal technical write-up of two hardware demos, with Verilog and Python code.</p>
+      <p>The post describes a demoscene intro and a Nyan Cat demo. Each is a tiny custom chip. It walks through the graphics, music and data tricks needed to fit about 4000 gates. Evidence is the author's own code listings and photos of the working chips.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/turnertrauring-branchless-binary-search/">8× faster binary search: from compiled code to mechanical sympathy</a></h2>
+      <p class="meta">Itamar Turner-Trauring. 11 July 2026 (last updated 18 July 2026). Company blog post with a worked, benchmarked Rust example.</p>
+      <p>The post rewrites a binary search from scikit-learn in Rust, step by step. Each version is timed with CPU hardware counters on one million values. It reports fewer branch mispredictions and higher instruction throughput. The author also promotes a book on Python performance.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/martin-zx-spectrum-1-bit-sound/">ZX Spectrum: Experimenting With 1-Bit Sound</a></h2>
+      <p class="meta">Michael Martin. 5 September 2026. Personal lab-notebook blog post with assembly code and listening tests.</p>
+      <p>The author tries 1-bit sample playback, arpeggios and channel summing on a Z80 machine. Z80 assembly listings and cycle counts accompany each method. Results come from the author's listening, partly in an emulator. The author also reports one technique that did not work.</p>
+    </section>
+    <h2>Connections to other subjects</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/a1k0n-tiny-tapeout-demo/">Pure Silicon Demo Coding: No CPU, No Memory, Just 4k Gates</a> and <a href="/wiki/sources/leone-shadow-of-the-colossus-oral-history/">Shadow of the Colossus: An oral history</a>, from <a href="/wiki/making-visual-worlds/">Making visual worlds</a>. Both records are shaped by what got removed. Ueda's plan fell from 48 colossi to 16. The chip intro was trimmed to 293 flip-flops. Here the limit is not an obstacle to the design, but part of its history.</li></ul>
+    <h2>Glossary</h2>
+    <dl><dt>1-bit sound</dt><dd>Audio where the speaker is only ever fully on or fully off.</dd><dt>Abstract machine</dt><dd>The simplified computer model that a language's rules describe.</dd><dt>Arpeggio</dt><dd>Playing the notes of a chord one after another, very fast.</dd><dt>ASIC</dt><dd>A chip made for one purpose, rather than a general processor.</dd><dt>Binary search</dt><dd>Finding a value in sorted data by repeatedly halving the range.</dd><dt>Bounds check</dt><dd>A test that an array index is in range before the access.</dd><dt>Branch misprediction</dt><dd>A wrong CPU guess about which way an if or loop goes, wasting work.</dd><dt>Copy on write</dt><dd>Sharing a page until one side writes, then giving that side a private copy.</dd><dt>Cycle counting</dt><dd>Timing code by the exact clock cycles each instruction takes.</dd><dt>Dyld</dt><dd>The dynamic linker that loads shared libraries when a program starts.</dd><dt>Flip-flop</dt><dd>A circuit cell that stores one bit of state.</dd><dt>Instruction-level parallelism</dt><dd>A processor running several instructions from one thread at the same time.</dd><dt>IPC</dt><dd>Instructions per cycle, a measure of how much work a core does each tick.</dd><dt>Lazy binding</dt><dd>Resolving a library function only when it is first called.</dd><dt>LFSR</dt><dd>A shift register that makes a repeatable stream of pseudo-random bits.</dd><dt>Load command</dt><dd>A header record telling the loader how to lay out or link the file.</dd><dt>Mach-O</dt><dd>The executable file format used on macOS and iOS.</dd><dt>Mechanical sympathy</dt><dd>Writing code with an understanding of how the hardware runs it.</dd><dt>Otool</dt><dd>A command-line tool that prints information about Mach-O files.</dd><dt>Page fault</dt><dd>A signal from the CPU that an address has no usable mapping yet.</dd><dt>Page table isolation</dt><dd>A Linux defence that hides kernel memory from user mode.</dd><dt>PCM</dt><dd>A way to store sound as a series of sampled amplitude values.</dd><dt>PDP-11</dt><dd>A 1970s minicomputer whose design shaped the C language.</dd><dt>Pointer provenance</dt><dd>The idea that a pointer remembers which object it came from.</dd><dt>PWM</dt><dd>Encoding a level as the length of an on pulse.</dd><dt>Segment</dt><dd>A block of the file mapped into memory with set permissions.</dd><dt>Sigma-delta</dt><dd>A way to turn digital numbers into a stream of 1-bit pulses for audio.</dd><dt>Spectre and Meltdown</dt><dd>Two 2018 attacks that read protected data by exploiting speculative execution.</dd><dt>Tiny Tapeout</dt><dd>A service that puts many small student and hobby chip designs on one shared chip.</dd><dt>TLB</dt><dd>A small CPU cache of recent address translations.</dd><dt>Transparent huge pages</dt><dd>Linux's automatic use of large 2 MiB pages to cut translation overhead.</dd><dt>Undefined behavior</dt><dd>Code the language standard gives no meaning, so anything may happen.</dd><dt>Vectorization</dt><dd>Turning a loop into instructions that handle many values at once.</dd><dt>Verilog</dt><dd>A language for describing digital hardware.</dd><dt>VMA</dt><dd>A kernel record of one address range with shared permissions and backing.</dd><dt>W^X</dt><dd>A policy that no page is both writable and executable.</dd><dt>Yosys</dt><dd>Open-source software that turns hardware descriptions into gate-level designs.</dd><dt>Z80</dt><dd>The 8-bit processor in the ZX Spectrum.</dd></dl>
+  </article>
+</div>
+</body>
+</html>

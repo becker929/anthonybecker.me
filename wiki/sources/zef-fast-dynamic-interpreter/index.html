@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How To Make a Fast Dynamic Language Interpreter</title>
+  <meta name="description" content="A write-up of 21 optimizations that sped up a simple interpreter for the Zef language.">
+  <meta property="og:title" content="How To Make a Fast Dynamic Language Interpreter">
+  <meta property="og:description" content="A write-up of 21 optimizations that sped up a simple interpreter for the Zef language.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / How To Make a Fast Dynamic Language Interpreter</nav>
+  <header class="title">
+    <h1>How To Make a Fast Dynamic Language Interpreter</h1>
+    <p class="lede">A write-up of 21 optimizations that sped up a simple interpreter for the Zef language.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Technical write-up with step-by-step benchmark results</dd>
+      <dt>Original</dt><dd><a href="https://zef-lang.dev/implementation">zef-lang.dev/implementation</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/compilers-and-interpreters/">Compilers and interpreters</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The author is not named on the page. The author built Zef for fun, compiled with Fil-C++. The post targets people starting a language implementation from scratch. It says techniques here need no bytecode, JIT or machine code.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says five techniques give a 16x speed-up. They include inline caching and watchpoints.</li><li>The original interpreter was 35x slower than CPython 3.10. It was 80x slower than Lua 5.4.7.</li><li>The largest step was a new object model with inline caches, at 4.55x faster.</li><li>Replacing strings with hash-consed Symbol objects gave an 18% speed-up.</li><li>Some gains worked around Fil-C++ costs. In Fil-C++, stack values and std::optional are heap allocated.</li><li>Compiling with plain C++ gave about a 4x further speed-up. The post calls that port unsound.</li><li>Two changes, deduplicating code and disabling asserts, gave no speed-up despite the author's hopes.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post reports timings for four ported benchmarks: Richards, DeltaBlue, N-Body and Splay. Each result is an average of 30 randomly interleaved runs on one Intel machine. A table shows the cumulative effect of every change, and raw seconds are given.</p>
+    <h2>Interests and limits</h2>
+    <p>The author chose the benchmarks. Some Python and Lua ports of Splay were written with Claude. All runs used one machine. Most comparisons set Fil-C++ builds against other interpreters built with ordinary compilers. The language is the author's own, so results may not carry to other designs.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/xnacly-fast-lexer-strategies/">Strategies for very fast Lexers</a>. Both lexer and interpreter gain by replacing strings with something cheap to compare. Atoms become hashed numbers in one, and Symbol objects in the other. The trick carries because a name's identity matters more than its spelling.</li></ul>
+  </article>
+</div>
+</body>
+</html>

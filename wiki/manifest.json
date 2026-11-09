@@ -2,25 +2,73 @@
   {
     "slug": "file-based-agent-memory",
     "title": "File-based agent memory",
-    "description": "Six sources on keeping a coding agent's knowledge in plain files.",
+    "description": "Eight sources on keeping a coding agent's knowledge in plain files.",
     "path": "/wiki/file-based-agent-memory/"
   },
   {
     "slug": "checkable-specs",
     "title": "Checkable specs for coding agents",
-    "description": "Five sources on what it takes to check an agent's work against a spec.",
+    "description": "Ten sources on what it takes to check an agent's work against a spec.",
     "path": "/wiki/checkable-specs/"
   },
   {
     "slug": "images-made-by-rules",
     "title": "Images made by rules",
-    "description": "Five sources where a picture follows from a small set of rules.",
+    "description": "Six sources where a picture follows from a small set of rules.",
     "path": "/wiki/images-made-by-rules/"
   },
   {
     "slug": "consonance-and-tuning",
     "title": "Consonance and tuning",
-    "description": "Six sources on why some notes seem to fit, and how scales get divided.",
+    "description": "Eight sources on why some notes seem to fit, and how scales get divided.",
     "path": "/wiki/consonance-and-tuning/"
+  },
+  {
+    "slug": "harnesses-and-agent-loops",
+    "title": "Harnesses and agent loops",
+    "description": "Eight sources on the software that surrounds a coding agent.",
+    "path": "/wiki/harnesses-and-agent-loops/"
+  },
+  {
+    "slug": "review-taste-expertise",
+    "title": "Review, taste and expertise",
+    "description": "Seven sources on what people still add when agents write code.",
+    "path": "/wiki/review-taste-expertise/"
+  },
+  {
+    "slug": "compilers-and-interpreters",
+    "title": "Compilers and interpreters",
+    "description": "Seven sources on making language tools fast and checkable.",
+    "path": "/wiki/compilers-and-interpreters/"
+  },
+  {
+    "slug": "databases-and-storage",
+    "title": "Databases and storage",
+    "description": "Six sources on keeping data correct and finding it quickly.",
+    "path": "/wiki/databases-and-storage/"
+  },
+  {
+    "slug": "systems-and-hardware",
+    "title": "Systems and hardware",
+    "description": "Six sources on what lies beneath ordinary code.",
+    "path": "/wiki/systems-and-hardware/"
+  },
+  {
+    "slug": "audio-models-and-analysis",
+    "title": "Audio models and analysis",
+    "description": "Seven sources on analyzing, compressing and generating sound.",
+    "path": "/wiki/audio-models-and-analysis/"
+  },
+  {
+    "slug": "art-movements-and-theory",
+    "title": "Art movements and theory",
+    "description": "Three reference sources on movements and ideas in art.",
+    "path": "/wiki/art-movements-and-theory/"
+  },
+  {
+    "slug": "making-visual-worlds",
+    "title": "Making visual worlds",
+    "description": "Two sources on how invented worlds reached a screen.",
+    "path": "/wiki/making-visual-worlds/"
   }
 ]

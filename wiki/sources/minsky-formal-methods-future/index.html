@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formal methods and the future of programming</title>
+  <meta name="description" content="A Jane Street post explaining why the firm now wants a formal methods team.">
+  <meta property="og:title" content="Formal methods and the future of programming">
+  <meta property="og:description" content="A Jane Street post explaining why the firm now wants a formal methods team.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Formal methods and the future of programming</nav>
+  <header class="title">
+    <h1>Formal methods and the future of programming</h1>
+    <p class="lede">A Jane Street post explaining why the firm now wants a formal methods team.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Yaron Minsky, Jane Street</dd>
+      <dt>Published</dt><dd>7 June 2026</dd>
+      <dt>Kind</dt><dd>Company blog post announcing a new team and hiring</dd>
+      <dt>Original</dt><dd><a href="https://blog.janestreet.com/formal-methods-at-jane-street-index/">blog.janestreet.com/formal-methods-at-jane-street-index/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/checkable-specs/">Checkable specs for coding agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Yaron Minsky has been at Jane Street since 2002. The post announces a new formal methods team. It explains the change of heart and why Jane Street can do this work.</p>
+    <h2>What it says</h2>
+    <ul><li>Minsky says Jane Street judged formal methods too costly. Hardware synthesis was a special case.</li><li>The post uses seL4 as its cost example. Verifying 8,700 lines of C took 25 person-years.</li><li>Minsky argues agentic coding lowers the cost. Models help more people use these tools, but cannot build hard proofs alone.</li><li>The post says agent-written code tends toward slop. Verification is the bottleneck, and formal methods could ease review.</li><li>Minsky argues agents thrive on feedback. Tests cannot cover the state space the way types can.</li><li>The post claims Jane Street controls its language, OxCaml. It also says users there are eager for new type-system features.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers argument and the seL4 cost figures. Minsky mentions experience with agents in OxCaml but gives no measurements. No benchmark or case study is presented.</p>
+    <h2>Interests and limits</h2>
+    <p>Jane Street is hiring for this team. The post also serves as a job notice. The claims about agents and verification are the author's judgment, not tested results. The seL4 numbers are quoted without a citation. The scope is one firm and its own language.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/brooks-structural-backpressure/">Structural Backpressure Beats Smarter Agents</a>. Minsky's cost example is seL4, at 25 person-years for 8,700 lines. Brooks claims much less, covering only invariants someone specified. The two mark ends of one scale. How much guarantee does each hour of specification buy?</li></ul>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Friendly Tour of Process Memory on Linux</title>
+  <meta name="description" content="A guided tour of how Linux gives a program memory.">
+  <meta property="og:title" content="A Friendly Tour of Process Memory on Linux">
+  <meta property="og:description" content="A guided tour of how Linux gives a program memory.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / A Friendly Tour of Process Memory on Linux</nav>
+  <header class="title">
+    <h1>A Friendly Tour of Process Memory on Linux</h1>
+    <p class="lede">A guided tour of how Linux gives a program memory.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>0xkato</dd>
+      <dt>Published</dt><dd>1 November 2025</dd>
+      <dt>Kind</dt><dd>Personal blog explainer, with shell commands and no measurements</dd>
+      <dt>Original</dt><dd><a href="https://www.0xkato.xyz/linux-process-memory/">www.0xkato.xyz/linux-process-memory/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>A blog author who goes by 0xkato wrote this tour. It aims to make virtual memory understandable to a general programmer. It uses a floor-plan picture of the address space.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says a process owns a map of regions with set rights.</li><li>It says mmap only records a promise. Pages arrive at first touch, through a page fault.</li><li>It says fork copies no pages. A page is copied on the first write.</li><li>It says mprotect forces a TLB invalidation, which is the pause a JIT feels.</li><li>It says Linux can use one 2 MiB page in place of 512 small ones.</li><li>It says Linux counters Meltdown with page table isolation, which keeps two views of memory.</li><li>It lists error symptoms and causes, such as EINVAL from a misaligned file offset.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers explanation only. It points readers to /proc files, such as maps and smaps, to check the claims. It reports no benchmarks, kernel version or test results.</p>
+    <h2>Interests and limits</h2>
+    <p>The post is an independent explainer with no stated review. The author says it targets Linux on x86-64, and other architectures differ in details. Kernel versions are not given, so some features may not apply to older kernels. A link to a note on how the posts get written was not followed.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/chisnall-c-not-low-level/">C Is Not a Low-level Language</a>. Chisnall says C's flat memory is a fiction kept up by hidden caches. Kato describes another fiction nearby: mapped memory is only a promise until first touch. Each layer works by not telling the one above.</li></ul>
+  </article>
+</div>
+</body>
+</html>

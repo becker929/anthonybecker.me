@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>8× faster binary search: from compiled code to mechanical sympathy</title>
+  <meta name="description" content="A post showing how to speed up binary search by working with the CPU.">
+  <meta property="og:title" content="8× faster binary search: from compiled code to mechanical sympathy">
+  <meta property="og:description" content="A post showing how to speed up binary search by working with the CPU.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / 8× faster binary search: from compiled code to mechanical sympathy</nav>
+  <header class="title">
+    <h1>8× faster binary search: from compiled code to mechanical sympathy</h1>
+    <p class="lede">A post showing how to speed up binary search by working with the CPU.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Itamar Turner-Trauring</dd>
+      <dt>Published</dt><dd>11 July 2026 (last updated 18 July 2026)</dd>
+      <dt>Kind</dt><dd>Company blog post with a worked, benchmarked Rust example</dd>
+      <dt>Original</dt><dd><a href="https://pythonspeed.com/articles/branchless-binary-search/">pythonspeed.com/articles/branchless-binary-search/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Itamar Turner-Trauring wrote this for the Python Speed site. The post comes from work done at Quansight on scikit-learn. It teaches mechanical sympathy, meaning code written to suit how the CPU runs it.</p>
+    <h2>What it says</h2>
+    <ul><li>The post takes one step of scikit-learn's histogram boosting, which maps floats into 255 buckets.</li><li>Using hardware counters, the classic binary search mispredicts 16.6% of its branches.</li><li>A branchless search with a fixed loop count cuts the time to 9,849.3 microseconds.</li><li>Removing bounds checks and precomputing halves reaches 7,278.5 microseconds.</li><li>Handling 16 values at once lifts instructions per cycle to 4.9, at 5,453.4 microseconds.</li><li>The title promises an 8 times speedup, while the intro says 6 times.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives full Rust code for four versions. Tables list time, instructions, branches, misprediction rate and instructions per cycle. All numbers come from one test of 1,000,000 random values and 254 evenly spaced boundaries.</p>
+    <h2>Interests and limits</h2>
+    <p>The author sells a Python performance book and consulting through the site. The tests use one synthetic data set and the post names no CPU. The final code is a simplified Rust example, not the scikit-learn change itself. The post admits it only briefly introduces low-level topics.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/chisnall-c-not-low-level/">C Is Not a Low-level Language</a>. Chisnall traces speculation to chips built to keep sequential code fast. Turner-Trauring's search gets faster by no longer depending on that prediction. Handling 16 values at once then makes the essay's case on one small loop.</li></ul>
+  </article>
+</div>
+</body>
+</html>

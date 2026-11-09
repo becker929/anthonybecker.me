@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill Issue: Harness Engineering for Coding Agents</title>
+  <meta name="description" content="A company blog post on configuring coding agents through skills, sub-agents, hooks and tests.">
+  <meta property="og:title" content="Skill Issue: Harness Engineering for Coding Agents">
+  <meta property="og:description" content="A company blog post on configuring coding agents through skills, sub-agents, hooks and tests.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Skill Issue: Harness Engineering for Coding Agents</nav>
+  <header class="title">
+    <h1>Skill Issue: Harness Engineering for Coding Agents</h1>
+    <p class="lede">A company blog post on configuring coding agents through skills, sub-agents, hooks and tests.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Kyle, HumanLayer</dd>
+      <dt>Published</dt><dd>March 12, 2026</dd>
+      <dt>Kind</dt><dd>Company blog post of practical advice from team experience</dd>
+      <dt>Original</dt><dd><a href="https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents">www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Kyle writes for HumanLayer about lessons from dozens of projects. The post lists the harness settings that mattered most.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says coding agent failures are a configuration problem, not a model problem.</li><li>It defines a coding agent as an AI model plus a harness.</li><li>Sub-agents work for context control, not for roles like frontend engineer or backend engineer.</li><li>Too many MCP tools fill the context. The team swapped a Linear MCP server for a CLI.</li><li>An ETH Zurich study of 138 agentfiles found that LLM-generated ones hurt performance.</li><li>Hooks that stay silent on success and surface only errors give the agent back-pressure.</li><li>The post cites Opus 4.6 ranking 33 in Claude Code, but 5 in another harness.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The main evidence is the team's experience across dozens of projects and hundreds of sessions. The post includes a full example hook script and a Linear CLI snippet. It cites outside work: an ETH Zurich study and Chroma research. It runs no controlled tests of its own.</p>
+    <h2>Interests and limits</h2>
+    <p>HumanLayer publishes the post on its company blog. The post does not describe its products. It admits it may misread the OpenAI post on harnesses. Advice comes from the team's codebases, mostly with Claude Code. The Chroma tests were needle-in-a-haystack tasks, which the post says differ from coding.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/dijkstra-natural-language-programming/">On the foolishness of "natural language programming" (EWD 667)</a>. Dijkstra prefers narrow interfaces, since a wider one can raise work on both sides. HumanLayer's team found this by swapping a Linear MCP server for a small CLI. The old argument now gets paid in tokens.</li></ul>
+  </article>
+</div>
+</body>
+</html>

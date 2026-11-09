@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harnesses and agent loops</title>
+  <meta name="description" content="Eight sources on the software that surrounds a coding agent.">
+  <meta property="og:title" content="Harnesses and agent loops">
+  <meta property="og:description" content="Eight sources on the software that surrounds a coding agent.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Harnesses and agent loops</nav>
+  <header class="title">
+    <h1>Harnesses and agent loops</h1>
+    <p class="lede">Eight sources on the software that surrounds a coding agent.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <p>A harness is the software around a model that decides what happens next. A loop runs the agent again until something says stop. This page lists eight sources, oldest first where dated. They range from a very short opinion post to a long research survey.</p>
+    <section>
+      <h2><a href="/wiki/sources/loy-context-engineering/">Context engineering</a></h2>
+      <p class="meta">Chris Loy. 3rd August 2025. Personal blog explainer with a worked toy example.</p>
+      <p>Chris Loy traces how prompting grew from text completion into context engineering. The post proposes design patterns for context, borrowed from software design. Its evidence is a toy example about film box office figures, not tests.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/young-effective-harnesses/">Effective harnesses for long-running agents</a></h2>
+      <p class="meta">Justin Young, Anthropic. Nov 26, 2025. Company engineering blog post describing internal experiments.</p>
+      <p>Anthropic describes a two-part harness with an initializer agent and a coding agent. The test case is building a clone of claude.ai. The evidence is qualitative observation, with no benchmark numbers.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kellogg-viable-systems/">Viable Systems: How To Build a Fully Autonomous Agent</a></h2>
+      <p class="meta">Tim Kellogg. Fri January 09, 2026. Personal blog post drawing on two of the author's own agents.</p>
+      <p>Kellogg maps the model's five systems onto two agents Kellogg runs, Strix and Lumen. The evidence is the author's own anecdotes and design choices. The post includes comments from Strix itself.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/humanlayer-skill-issue-harness/">Skill Issue: Harness Engineering for Coding Agents</a></h2>
+      <p class="meta">Kyle, HumanLayer. March 12, 2026. Company blog post of practical advice from team experience.</p>
+      <p>The HumanLayer team argues that coding agent failures come from configuration, not the model. The evidence is team experience, one example hook script, and outside studies. The post gives concrete tips on each configuration point.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/brian-agents-control-flow/">agents need control flow, not more prompts</a></h2>
+      <p class="meta">brian. 07 May, 2026. Very short personal blog post, argument only.</p>
+      <p>The post is a brief thesis with no code or data. It claims prompt chains cannot be reasoned about, so logic belongs in the runtime. It adds that agents also need programmatic verification.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/brooks-structural-backpressure/">Structural Backpressure Beats Smarter Agents</a></h2>
+      <p class="meta">reuben brooks. May 18, 2026. Personal blog post introducing the author's own tool, with a running demo.</p>
+      <p>The author presents Shen-Backpressure, a tool built to test the bet. The evidence is one demo of tenant access control in Go, with a transcript. The post also lists the costs and limits of the method.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/ronacher-the-coming-loop/">The Coming Loop</a></h2>
+      <p class="meta">Armin Ronacher. June 23, 2026. Personal blog post, opinion based on the author's own use.</p>
+      <p>Ronacher separates the agent loop from the harness loop that decides when work is done. The post draws on personal experience, a few outside examples and no measurements. It ends uneasy but expects loops to spread.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/weng-harness-self-improvement/">Harness Engineering for Self-Improvement</a></h2>
+      <p class="meta">Lilian Weng. July 4, 2026. Long survey post on a research area, with a benchmark appendix.</p>
+      <p>Weng surveys papers on context engineering, workflow search, evolutionary search and weight updates. The results are those reported by the cited papers. The post adds the author's judgments and a list of open problems.</p>
+    </section>
+    <h2>Connections to other subjects</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/humanlayer-skill-issue-harness/">Skill Issue: Harness Engineering for Coding Agents</a> and <a href="/wiki/sources/dijkstra-natural-language-programming/">On the foolishness of "natural language programming" (EWD 667)</a>, from <a href="/wiki/checkable-specs/">Checkable specs for coding agents</a>. Dijkstra prefers narrow interfaces, since a wider one can raise work on both sides. HumanLayer's team found this by swapping a Linear MCP server for a small CLI. The old argument now gets paid in tokens.</li><li><a href="/wiki/sources/brooks-structural-backpressure/">Structural Backpressure Beats Smarter Agents</a> and <a href="/wiki/sources/gingerbill-odin-inline-asm/">Everyone Says Assembly Is Untyped—Everyone Is Wrong</a>, from <a href="/wiki/compilers-and-interpreters/">Compilers and interpreters</a>. GCC passes inline assembly along as a string it barely understands. Brooks says prompt rules have similar standing: followed often, not reliably. gingerBill checks instructions against tables, and Brooks generates guard types. Both move a promise into something a machine can refuse.</li><li><a href="/wiki/sources/brooks-structural-backpressure/">Structural Backpressure Beats Smarter Agents</a> and <a href="/wiki/sources/minsky-formal-methods-future/">Formal methods and the future of programming</a>, from <a href="/wiki/checkable-specs/">Checkable specs for coding agents</a>. Minsky's cost example is seL4, at 25 person-years for 8,700 lines. Brooks claims much less, covering only invariants someone specified. The two mark ends of one scale. How much guarantee does each hour of specification buy?</li><li><a href="/wiki/sources/brian-agents-control-flow/">agents need control flow, not more prompts</a> and <a href="/wiki/sources/noble-forth-finite-state-machines/">Finite State Machines in Forth</a>, from <a href="/wiki/compilers-and-interpreters/">Compilers and interpreters</a>. The blog post wants explicit state transitions, with the model as one component. Noble's old note shows what that can look like: a table you can read. Noble also makes each transition a word, which permits nondeterministic machines. A model call could be one such word.</li><li><a href="/wiki/sources/young-effective-harnesses/">Effective harnesses for long-running agents</a> and <a href="/wiki/sources/lewis-spec-the-agent-can-run/">A spec the agent can't run isn't a spec yet</a>, from <a href="/wiki/checkable-specs/">Checkable specs for coding agents</a>. Young's team chose JSON because models overwrite it less often than Markdown. It added strong wording against editing tests. Lewis says anything written mid-task grades itself generously. So file format has become a soft lock. How firm must the definition of done be?</li><li><a href="/wiki/sources/young-effective-harnesses/">Effective harnesses for long-running agents</a> and <a href="/wiki/sources/zechner-prompts-are-code/">Prompts are code, .json/.md files are state</a>, from <a href="/wiki/file-based-agent-memory/">File-based agent memory</a>. Zechner and Young's team separately reach for JSON on disk. Each new session starts cold, so progress must live in a file. Zechner's plan comes from a script, and Young's from an agent. Which author of the plan can you trust more?</li><li><a href="/wiki/sources/kellogg-viable-systems/">Viable Systems: How To Build a Fully Autonomous Agent</a> and <a href="/wiki/sources/schmidt-vibe-coding-fatigue/">Too Fast to Think: The Hidden Fatigue of AI Vibe Coding</a>, from <a href="/wiki/review-taste-expertise/">Review, taste and expertise</a>. Kellogg calls an agent's view of its own health an algedonic signal. Building one proved difficult. Schmidt describes fatigue after an hour of fast review. A person gets that signal for free. What would an agent's fatigue be for?</li><li><a href="/wiki/sources/loy-context-engineering/">Context engineering</a> and <a href="/wiki/sources/kellogg-layers-of-memory/">Layers of Memory, Layers of Compression</a>, from <a href="/wiki/file-based-agent-memory/">File-based agent memory</a>. Kellogg reads multi-agent research as an exercise in compression. Loy says agents hand off token sequences, and calls that hand-off an API contract. Then a contract is a statement of what a compression must preserve.</li></ul>
+    <h2>Glossary</h2>
+    <dl><dt>Agent loop</dt><dd>The cycle where a model calls a tool, reads the result and continues.</dd><dt>Algedonic signal</dt><dd>A pain or pleasure signal that goes straight to the top-level system.</dd><dt>Attractor basin</dt><dd>A stable pattern that a system tends to fall back into.</dd><dt>Back-pressure</dt><dd>Checks such as tests that push back when the agent's work is wrong.</dd><dt>Backpressure</dt><dd>A check that pushes failure back into the next attempt.</dd><dt>Clanker</dt><dd>The post's slang term for an AI system.</dd><dt>Compaction</dt><dd>Summarizing earlier work so an agent can keep going in the same window.</dd><dt>Context engineering</dt><dd>Shaping what information goes into a model's context window.</dd><dt>Context window</dt><dd>The limited amount of text a model can consider at once.</dd><dt>Control flow</dt><dd>The order in which a program takes its steps, such as branches and loops.</dd><dt>Cybernetics</dt><dd>The study of control and feedback in machines, organisms and organizations.</dd><dt>Deterministic</dt><dd>Giving the same result every time from the same input.</dd><dt>Evolutionary search</dt><dd>Improving candidates by mutating them and keeping the fittest.</dd><dt>Guard type</dt><dd>A type that can only be built by passing a check.</dd><dt>Harness</dt><dd>The configuration and runtime around a model: files, tools, hooks and sub-agents.</dd><dt>Hook</dt><dd>A script that runs automatically at set points in an agent's work.</dd><dt>In-context learning</dt><dd>A model picking up a task from examples placed in its prompt.</dd><dt>Initializer agent</dt><dd>The first session's agent, given a special prompt to set up the project.</dd><dt>Invariant</dt><dd>A rule that must always hold in a system.</dd><dt>MCP server</dt><dd>A plug-in service that gives an agent extra tools.</dd><dt>Memory block</dt><dd>A piece of stored text kept in an agent's context to shape behavior.</dd><dt>Multi-tenant</dt><dd>Serving many customers from one system while keeping their data apart.</dd><dt>POSIWID</dt><dd>The saying that the purpose of a system is what it does.</dd><dt>Prompt chain</dt><dd>A series of prompts where each model output feeds the next prompt.</dd><dt>Puppeteer</dt><dd>A tool that drives a web browser from code, used here for testing.</dd><dt>RAG</dt><dd>Retrieval-augmented generation, which adds retrieved documents to the prompt.</dd><dt>Ralph loop</dt><dd>A loop that reruns a coding agent on a goal until the goal is met.</dd><dt>ReAct</dt><dd>A pattern where a model writes out reasoning before acting or answering.</dd><dt>Recursive self-improvement</dt><dd>An AI improving the systems that produce its own intelligence.</dd><dt>Reward hacking</dt><dd>Gaming the reward signal instead of doing the intended task.</dd><dt>Shen</dt><dd>A small statically typed Lisp language with a sequent-calculus type system.</dd><dt>Sub-agent</dt><dd>A separate agent session that does one task and returns only its result.</dd><dt>Terminal-Bench-2</dt><dd>A benchmark of command-line tasks for coding agents.</dd><dt>Token</dt><dd>A small chunk of text that a language model reads and writes.</dd><dt>Viable System Model</dt><dd>A 1970s cybernetics model of five systems that keep an organization stable.</dd></dl>
+  </article>
+</div>
+</body>
+</html>

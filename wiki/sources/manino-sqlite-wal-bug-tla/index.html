@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hunting a 16-year-old SQLite bug with TLA+: is dqlite affected?</title>
+  <meta name="description" content="A Canonical post that models a SQLite bug in TLA+ to test dqlite.">
+  <meta property="og:title" content="Hunting a 16-year-old SQLite bug with TLA+: is dqlite affected?">
+  <meta property="og:description" content="A Canonical post that models a SQLite bug in TLA+ to test dqlite.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Hunting a 16-year-old SQLite bug with TLA+: is dqlite affected?</nav>
+  <header class="title">
+    <h1>Hunting a 16-year-old SQLite bug with TLA+: is dqlite affected?</h1>
+    <p class="lede">A Canonical post that models a SQLite bug in TLA+ to test dqlite.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Marco Manino and Alberto Carretero, dqlite team at Canonical</dd>
+      <dt>Published</dt><dd>25 June 2026</dd>
+      <dt>Kind</dt><dd>Company engineering blog post with a worked model-checking example</dd>
+      <dt>Original</dt><dd><a href="https://ubuntu.com/blog/hunting-a-16-year-old-sqlite-bug-with-tla-is-dqlite-affected">ubuntu.com/blog/hunting-a-16-year-old-sqlite-bug-with-tla-is-dqlite-affected</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/checkable-specs/">Checkable specs for coding agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Marco Manino and Alberto Carretero are on the dqlite team at Canonical. The post explains a SQLite checkpoint bug. It then builds two TLA+ models, one for SQLite and one for dqlite.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says the SQLite bug dates from 2010. It lasted 16 years with low real-world impact.</li><li>The authors model two actions, appending and checkpointing. One invariant flags a missing page.</li><li>The model-checker found a counterexample in only 20 states. It resembles SQLite's own report of the bug.</li><li>A second model adds the write lock during checkpoints, as dqlite does. It finds no violation.</li><li>The post says dqlite is not affected. Appending and checkpointing cannot run at the same time.</li><li>SQLite fixed the bug with a single extra check. The same model-checking run then finds no error.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is a TLA+ model with a model-checker run. The run found a counterexample for SQLite and none for dqlite. The post shows C code excerpts and spec fragments. The full specification is linked in a gist.</p>
+    <h2>Interests and limits</h2>
+    <p>Canonical makes dqlite, so the team has an interest in the answer. The model is a simplified abstraction without readers. The conclusion covers one bug and two models. The long C code and TLA+ fragments were skimmed, not read line by line.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/chan-sqlite-wal-reset-bug/">How we tracked down a 16-year-old SQLite bug</a>. These describe one bug from two sides. Tailscale needed six months and 19 incidents to find it through telemetry. The model checker reached a counterexample in 20 states, once people knew what to model. Finding and confirming turn out to be different jobs.</li></ul>
+  </article>
+</div>
+</body>
+</html>

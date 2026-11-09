@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toward a Sparse Interpretable Audio Codec</title>
+  <meta name="description" content="A proof-of-concept write-up of an audio codec that encodes sound as sparse events.">
+  <meta property="og:title" content="Toward a Sparse Interpretable Audio Codec">
+  <meta property="og:description" content="A proof-of-concept write-up of an audio codec that encodes sound as sparse events.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Toward a Sparse Interpretable Audio Codec</nav>
+  <header class="title">
+    <h1>Toward a Sparse Interpretable Audio Codec</h1>
+    <p class="lede">A proof-of-concept write-up of an audio codec that encodes sound as sparse events.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>John Vinyard</dd>
+      <dt>Published</dt><dd>Undated (the citation block gives the year 2025)</dd>
+      <dt>Kind</dt><dd>Research-style blog write-up of a proof-of-concept model, with audio examples</dd>
+      <dt>Original</dt><dd><a href="https://blog.cochlea.xyz/sparse-interpretable-audio-codec-paper.html">blog.cochlea.xyz/sparse-interpretable-audio-codec-paper.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/audio-models-and-analysis/">Audio models and analysis</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The page is a research-style article by John Vinyard. It introduces a small model that splits audio into timed events. The stated goal is a representation people can interpret and compose in.</p>
+    <h2>What it says</h2>
+    <ul><li>The page says common codecs code fixed overlapping frames, which gives no readable representation.</li><li>The page says the encoder removes energy step by step, producing events.</li><li>The page says a 32-dimensional vector selects each event's attack, resonance and room.</li><li>The page says masking half the input lets the model handle audio of any length.</li><li>The page says the model was trained for about 76 hours on MusicNet.</li><li>The page says the model has about 14M parameters, about 80 MB on disk.</li><li>The page says reconstruction quality is not good enough for a lossy codec. It also says many events overlap.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The page offers five audio examples, each with the original and a reconstruction. It shows event scatterplots, intermediate decoder steps and randomized variants. No listening test or numeric quality score appears. Training code is linked.</p>
+    <h2>Interests and limits</h2>
+    <p>This is a proof of concept from one named author. The page itself says quality falls short of a usable codec. No comparison with other codecs is reported. Claims about future music models are speculation, which the page calls the authors' intuition.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/szablewski-pl-synth/">Synthesizing Music from JSON</a>. Szablewski's songs are notes passed to instruments, usually fitting in 1200 URL characters. Vinyard's model tries to recover something similar from recordings: events with attack, resonance and room. One writes the score by hand. The other needs about 80 MB to guess it.</li></ul>
+  </article>
+</div>
+</body>
+</html>
