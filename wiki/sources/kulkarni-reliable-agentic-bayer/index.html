@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building Reliable Agentic AI Systems</title>
+  <meta name="description" content="A case study of a Bayer research assistant built with agents, retrieval and SQL generation.">
+  <meta property="og:title" content="Building Reliable Agentic AI Systems">
+  <meta property="og:description" content="A case study of a Bayer research assistant built with agents, retrieval and SQL generation.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Building Reliable Agentic AI Systems</nav>
+  <header class="title">
+    <h1>Building Reliable Agentic AI Systems</h1>
+    <p class="lede">A case study of a Bayer research assistant built with agents, retrieval and SQL generation.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Sarang Sanjay Kulkarni, Thoughtworks</dd>
+      <dt>Published</dt><dd>16 June 2026</dd>
+      <dt>Kind</dt><dd>Industry case study published on Martin Fowler's site</dd>
+      <dt>Original</dt><dd><a href="https://martinfowler.com/articles/reliable-llm-bayer.html">martinfowler.com/articles/reliable-llm-bayer.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Sarang Kulkarni is a Principal Consultant at Thoughtworks. The post explains how PRINCE was designed and what engineering choices kept it reliable.</p>
+    <h2>What it says</h2>
+    <ul><li>PRINCE grew from a search tool into a question-answering tool and then a multi-agent assistant.</li><li>A LangGraph workflow runs clarify, plan, research, reflect and write steps with pause points.</li><li>Each stage gets its own tailored context, which eases debugging, the post says.</li><li>A planning step gave a dramatic gain in tool selection, the post says.</li><li>Retrieval expands each query into five variants, then reranks about 20 chunks down to 7.</li><li>State is saved after each step, so a failed run resumes at the failed node.</li><li>An LLM review step for generated SQL was dropped after it wrongly flagged valid queries.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is a detailed description of one production system. It includes a worked example query, a 0.7 and 0.3 search weighting, and named metrics. It reports no scores. It says only that results are promising.</p>
+    <h2>Interests and limits</h2>
+    <p>The author works for Thoughtworks, which built the system with Bayer. The post says the design predates the terms context engineering and harness engineering. The post says AI tools helped draft it. Gains such as better tool selection are stated without numbers. Some parts, like domain sub-agents, are described as planned. A disclaimer says it makes no claims about regulatory decisions or product performance.</p>
+  </article>
+</div>
+</body>
+</html>

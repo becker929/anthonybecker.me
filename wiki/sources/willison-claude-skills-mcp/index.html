@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Skills are awesome, maybe a bigger deal than MCP</title>
+  <meta name="description" content="A blog post arguing that Claude Skills, folders of Markdown instructions, matter more than MCP.">
+  <meta property="og:title" content="Claude Skills are awesome, maybe a bigger deal than MCP">
+  <meta property="og:description" content="A blog post arguing that Claude Skills, folders of Markdown instructions, matter more than MCP.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Claude Skills are awesome, maybe a bigger deal than MCP</nav>
+  <header class="title">
+    <h1>Claude Skills are awesome, maybe a bigger deal than MCP</h1>
+    <p class="lede">A blog post arguing that Claude Skills, folders of Markdown instructions, matter more than MCP.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Simon Willison</dd>
+      <dt>Published</dt><dd>16 October 2025</dd>
+      <dt>Kind</dt><dd>Personal blog post, with one hands-on trial</dd>
+      <dt>Original</dt><dd><a href="https://simonwillison.net/2025/Oct/16/claude-skills/">simonwillison.net/2025/Oct/16/claude-skills/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/file-based-agent-memory/">File-based agent memory</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Simon Willison writes a personal weblog about AI tools. This post reacts to Anthropic's launch of Claude Skills. It explains the design and argues for it over MCP.</p>
+    <h2>What it says</h2>
+    <ul><li>Willison says a skill is a Markdown file of instructions, with optional scripts.</li><li>Harnesses read a short description of each skill at session start. Each costs only a few dozen tokens.</li><li>The post says skills need a filesystem and command execution. That is their biggest difference from earlier attempts such as MCP.</li><li>Willison argues MCP uses many tokens, citing GitHub's MCP. A CLI tool or skill can replace most uses.</li><li>The post says skills work with other models. Willison says Codex CLI or Gemini CLI can be pointed at a skill folder.</li><li>Willison says the simplicity of skills is the point, compared with MCP's full protocol specification.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>Willison tried Anthropic's slack-gif-creator skill once, in the Claude mobile web app. Willison calls the resulting GIF terrible. The post shows the script Claude wrote, which calls the skill's size check. The rest is argument and comparison from experience.</p>
+    <h2>Interests and limits</h2>
+    <p>This is one author's opinion written on launch day. The trial was a single prompt. The post gives no measurements of token use. Willison also admits an earlier wrong prediction about agents. The page shows a sponsor line, but the post itself does not promote a product.</p>
+  </article>
+</div>
+</body>
+</html>

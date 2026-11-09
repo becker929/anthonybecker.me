@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>An Empirical Study: AI Agent Rules Need Context and Layered Enforcement</title>
+  <meta name="description" content="A blog post summarizing the ActPlane study of agent rules and kernel-level enforcement.">
+  <meta property="og:title" content="An Empirical Study: AI Agent Rules Need Context and Layered Enforcement">
+  <meta property="og:description" content="A blog post summarizing the ActPlane study of agent rules and kernel-level enforcement.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / An Empirical Study: AI Agent Rules Need Context and Layered Enforcement</nav>
+  <header class="title">
+    <h1>An Empirical Study: AI Agent Rules Need Context and Layered Enforcement</h1>
+    <p class="lede">A blog post summarizing the ActPlane study of agent rules and kernel-level enforcement.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Eunomia blog (contributors yuxi4096, LinuxDev9002, 云微)</dd>
+      <dt>Published</dt><dd>15 July 2026</dd>
+      <dt>Kind</dt><dd>Company blog post summarizing a research paper and benchmarks</dd>
+      <dt>Original</dt><dd><a href="https://eunomia.dev/blog/2026/07/15/ebpf-ai-agent-policy-enforcement/">eunomia.dev/blog/2026/07/15/ebpf-ai-agent-policy-enforcement/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/checkable-specs/">Checkable specs for coding agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The Eunomia blog wrote this post. Eunomia says it is an open-source systems community. It draws on its own ActPlane paper. The post asks which agent rules a system can actually check.</p>
+    <h2>What it says</h2>
+    <ul><li>Of 2,116 statements in agent instruction files, 64% are policies and 36% are descriptive context.</li><li>Only 45% of policies can be enforced at the OS level.</li><li>Of system-observable policies, 64.2% need project context before they become concrete rules.</li><li>In the main setting, ActPlane scores 75.8% decision compliance, against 45.3% to 48.9% for baselines.</li><li>Recovery after a block is 97.7% with explanatory feedback and 31.4% without.</li><li>At 32 rules, overhead was 1.9% on an agent trace, 6.5% on a build.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post reports a statement-level study of 64 repositories. It reports a benchmark of 190 traces and a safety test on 361 tasks. A sample of 100 labels went through human review. The post also reports overhead measurements. It links to source code.</p>
+    <h2>Interests and limits</h2>
+    <p>Eunomia Labs supports the project, and the post promotes it. Benchmark traces came from one agent, Codex CLI. The main setting used one open model, Qwen3.6-27B. A second model gave a similar ranking, and another model translated the rules. Study labels came from LLM agents, with human review of 100. The post lists gaps: chat harm, file content, service-side effects, and kernel compromise.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/brooks-structural-backpressure/">Structural Backpressure Beats Smarter Agents</a>. Brooks separates behavioral gates from structural ones. The ActPlane study gives a rough measure of that line. Only 45% of policies can be enforced at the OS level. Recovery after a block also depended on explanation, at 97.7% against 31.4%.</li></ul>
+  </article>
+</div>
+</body>
+</html>

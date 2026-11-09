@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Language models and training</title>
+  <meta name="description" content="Nine sources that explain, test or announce language models.">
+  <meta property="og:title" content="Language models and training">
+  <meta property="og:description" content="Nine sources that explain, test or announce language models.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Language models and training</nav>
+  <header class="title">
+    <h1>Language models and training</h1>
+    <p class="lede">Nine sources that explain, test or announce language models.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <p>These sources explain, test or announce language models. Several come from the companies that build them. This page lists nine sources, oldest first where dated.</p>
+    <section>
+      <h2><a href="/wiki/sources/lee-rlaif-vs-rlhf/">RLAIF vs. RLHF: Scaling Reinforcement Learning from Human Feedback with AI Feedback</a></h2>
+      <p class="meta">Harrison Lee, Samrat Phatale, Hassan Mansoor and others, Google DeepMind and Google. 3 September 2024 (version 3). Industry research paper with human evaluation.</p>
+      <p>A Google paper that compares RLHF with RLAIF on three text tasks. Its evidence is human ratings of model outputs, with significance tests and length checks. It also tests same-size labelers and a direct scoring variant.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/lee-reinforcement-learning-explained/">Reinforcement learning, explained with a minimum of math and jargon</a></h2>
+      <p class="meta">Timothy B. Lee, Understanding AI. 23 June 2025. Newsletter explainer drawing on cited papers and one interview.</p>
+      <p>A newsletter explainer on imitation learning, its compounding errors and the turn to reinforcement learning. It leans on one driving-game experiment, cited papers and an interview with its researcher. It is the first of a series on agents.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kashifr-hn-smollm3/">Smollm3: Smol, multilingual, long-context reasoner LLM</a></h2>
+      <p class="meta">Posted by kashifr, with replies from many commenters. 8 July 2025. Hacker News discussion thread.</p>
+      <p>A Hacker News thread about a small open language model. Commenters share hands-on tests, cost estimates and tooling problems. The evidence is anecdote and napkin math, with one benchmark cross-check. The thread drifts to fine-tuning advice and jokes about model size.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/mahdid-muon-toddler/">muon optimizer explained to a toddler</a></h2>
+      <p class="meta">Yacine Mahdid. 19 August 2025. Short Substack post in terse note form.</p>
+      <p>A very short post in terse lowercase notes. It walks from AdamW to Muon in a chain of one-line steps. It offers argument and analogy only. It points to a video and reading links for detail.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/abdellatif-production-rag/">Production RAG: what I learned from processing 5M+ documents</a></h2>
+      <p class="meta">Not stated. 20 October 2025. Short personal blog post of practitioner lessons.</p>
+      <p>A brief practitioner post on what improved a retrieval pipeline over eight months. It ranks fixes by return and lists the final stack. It offers no measurements.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/maimon-benchmarks-to-skills/">From Benchmarks to Skills: Low-Rank Factors for LLM Evaluation</a></h2>
+      <p class="meta">Aviya Maimon and four co-authors. 11 June 2026 (version 2). Academic preprint with a benchmark analysis and released code.</p>
+      <p>A preprint that applies factor analysis to scores of 60 LLMs on 44 benchmarks. Its evidence is robustness tests, a comparison with Chatbot Arena and held-out prediction tasks. It proposes tools for spotting redundant benchmarks and profiling new models.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/dua-embeddinggemma-2/">EmbeddingGemma 2: an open, lightweight multimodal embedding model</a></h2>
+      <p class="meta">Sahil Dua and Henrique Schechter Vera, Research Engineers, Google DeepMind. 6 October 2026. Company announcement post with feature list and links.</p>
+      <p>A vendor announcement from the makers of the model. It lists sizes, memory use and one benchmark gain. It links demo apps and tools, while full results sit in a separate model card.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/wang-associative-memory/">You could have invented transformers from memory</a></h2>
+      <p class="meta">Alex Wang. 15 October 2026. Personal blog post with derivations, simulations and interactive widgets.</p>
+      <p>A blog post that rebuilds transformer layers as better and better memory stores. It supports its claims with algebra and simulations on random vectors. It also links code, slides and an interactive app.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/ouyang-fast-kernels/">Surprisingly Fast AI-Generated Kernels We Didn’t Mean to Publish (Yet)</a></h2>
+      <p class="meta">Anne Ouyang, Azalia Mirhoseini and Percy Liang, Stanford CRFM. Undated (the page URL contains 2025/05/28). Research group blog post with benchmark timings and code.</p>
+      <p>A research blog post that reports AI-written CUDA kernels timed against PyTorch on one GPU. It describes a branching, idea-first search method and walks through one Conv2D run. The authors call it an early result and list weaker cases.</p>
+    </section>
+    <h2>Connections to other subjects</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/lee-reinforcement-learning-explained/">Reinforcement learning, explained with a minimum of math and jargon</a> and <a href="/wiki/sources/raykar-ai-unit-of-work/">The quality of AI-assisted software depends on unit of work management</a>, from <a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a>. Raykar computes it: a 5% error rate over 10 turns gives about 59.9% success. Lee traces the same worry to a 2011 paper on imitation learning. There, correcting the model while it drove worked much better. Is a review loop a kind of DAgger?</li></ul>
+    <h2>Glossary</h2>
+    <dl><dt>Chain-of-thought</dt><dd>Prompting a model to write out its reasoning before it answers.</dd><dt>Chatbot Arena</dt><dd>A site ranking models by human votes in head-to-head chats.</dd><dt>Chunking</dt><dd>Splitting documents into pieces for indexing and retrieval.</dd><dt>Cronbach's alpha</dt><dd>A measure of how consistently a set of items measures one thing.</dd><dt>CUDA kernel</dt><dd>A function that runs in parallel on an Nvidia GPU.</dd><dt>DAgger</dt><dd>An imitation method where an expert corrects the model's own mistakes.</dd><dt>Elo</dt><dd>A rating system updated by win and loss results.</dd><dt>Embedding</dt><dd>A list of numbers that represents the meaning of a piece of content.</dd><dt>Factor analysis</dt><dd>A statistical method that explains many scores with a few hidden factors.</dd><dt>Fine-tuning</dt><dd>Further training a model on new data for a specific job.</dd><dt>FP32</dt><dd>32-bit floating point, a common numeric format.</dd><dt>Imitation learning</dt><dd>Training a model to copy examples of expert behavior.</dd><dt>Interference</dt><dd>Unwanted contribution from other stored memories during recall.</dd><dt>KernelBench</dt><dd>A benchmark where models write faster kernels to replace PyTorch operators.</dd><dt>Key-value memory</dt><dd>A store where a key retrieves a stored value.</dd><dt>KV cache</dt><dd>Memory a model uses to remember earlier tokens in a conversation.</dd><dt>Latent skill</dt><dd>A hidden ability inferred from patterns across test scores.</dd><dt>Llama.cpp</dt><dd>An open program for running language models on ordinary computers.</dd><dt>Loading</dt><dd>How strongly a task is tied to a factor.</dd><dt>Low-rank</dt><dd>Made of only a few independent directions, so mostly repeated information.</dd><dt>Matryoshka Representation Learning</dt><dd>A training method that lets developers cut vectors to shorter lengths.</dd><dt>MLP</dt><dd>The feedforward layer in a transformer block.</dd><dt>Momentum</dt><dd>A way of keeping a running average of past updates to smooth the next one.</dd><dt>Multimodal</dt><dd>Able to handle more than one kind of input, such as text and audio.</dd><dt>Newton-Schulz iteration</dt><dd>A repeated calculation that approximates a matrix operation without a full SVD.</dd><dt>Non-parametric</dt><dd>Having a store that grows with the data, not fixed weights.</dd><dt>Optimizer</dt><dd>The rule a training run uses to update a model's weights after each step.</dd><dt>Out of distribution</dt><dd>Unlike the examples a model was trained on.</dd><dt>Outer product</dt><dd>A way to add a key-value pair into one matrix.</dd><dt>Parameters</dt><dd>The learned numbers inside a model; more of them usually means a larger model.</dd><dt>PCA</dt><dd>Principal component analysis, which finds directions of largest variance.</dd><dt>Post-training</dt><dd>Training steps that come after pretraining.</dd><dt>Pretraining</dt><dd>The first training stage, predicting the next word in documents.</dd><dt>Quantization</dt><dd>Storing model weights with fewer bits to save memory.</dd><dt>Query routing</dt><dd>Sending a question to the right handler instead of full retrieval.</dd><dt>RAG</dt><dd>Retrieval-augmented generation: fetching documents and giving them to a model before it answers.</dd><dt>Reinforcement learning</dt><dd>Training a model by trial and error, using rewards.</dd><dt>ReLU</dt><dd>An activation that zeroes negative inputs and passes positive ones.</dd><dt>Reranker</dt><dd>A model that reorders retrieved chunks by relevance to the query.</dd><dt>Reward model</dt><dd>A model that scores outputs to guide reinforcement learning.</dd><dt>RLAIF</dt><dd>The same method, but an AI model supplies the preference labels.</dd><dt>RLHF</dt><dd>Reinforcement learning from human feedback.</dd><dt>Sequential revision</dt><dd>Editing one candidate repeatedly, one step after another.</dd><dt>SFT</dt><dd>Supervised fine-tuning: further training a model on labeled examples.</dd><dt>Singular value</dt><dd>A number that measures how strongly a matrix stretches data along one direction.</dd><dt>Softmax</dt><dd>A function that turns scores into weights that sum to one.</dd><dt>SVD</dt><dd>Singular value decomposition: splitting a matrix into rotations and stretch amounts.</dd><dt>Tensor Core</dt><dd>GPU hardware built for fast matrix multiplication.</dd><dt>Test-time compute</dt><dd>Computing spent searching or reasoning while answering, not while training.</dd><dt>Vector database</dt><dd>A database that finds items by similarity of their embeddings.</dd><dt>VRAM</dt><dd>The memory on a graphics card that holds a model while it runs.</dd><dt>Win rate</dt><dd>How often raters pick one system's output over another's.</dd></dl>
+  </article>
+</div>
+</body>
+</html>

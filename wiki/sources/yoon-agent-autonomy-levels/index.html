@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How much can you delegate to agents?</title>
+  <meta name="description" content="A newsletter post offering four levels for deciding how much to delegate to agents.">
+  <meta property="og:title" content="How much can you delegate to agents?">
+  <meta property="og:description" content="A newsletter post offering four levels for deciding how much to delegate to agents.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / How much can you delegate to agents?</nav>
+  <header class="title">
+    <h1>How much can you delegate to agents?</h1>
+    <p class="lede">A newsletter post offering four levels for deciding how much to delegate to agents.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Jina Yoon, PostHog newsletter</dd>
+      <dt>Published</dt><dd>Jul 27, 2026</dd>
+      <dt>Kind</dt><dd>Company newsletter post proposing a decision framework</dd>
+      <dt>Original</dt><dd><a href="https://newsletter.posthog.com/p/agent-autonomy">newsletter.posthog.com/p/agent-autonomy</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Jina Yoon writes the PostHog newsletter. The post gives a simple guide for choosing how much autonomy an agent should have.</p>
+    <h2>What it says</h2>
+    <ul><li>Trust in agents should depend on the task, not on how good the model is.</li><li>Two questions set the ceiling. Is the work easy to check, and cheap to undo?</li><li>The post defines four levels, from agent as assistant up to self-driving mode.</li><li>Examples include a feature flag engine migration at Level 0. A Rust SQL parser rewrite sits at Level 2.</li><li>To raise autonomy, it suggests smaller tasks, LLM judges and guardrails in code.</li><li>Self-driving tasks are still few, such as dependency bumps, lint fixes and added test coverage.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is a handful of PostHog anecdotes, tied to Levels 0, 1 and 2. The post gives no data, benchmarks or failure rates. The framework itself is offered as an argument.</p>
+    <h2>Interests and limits</h2>
+    <p>PostHog sells software and the post promotes its agents, models and job openings. The framework was not tested against other cases. A footnote says scale is not a factor in the levels. The levels cover mainly code tasks.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/lewis-spec-the-agent-can-run/">A spec the agent can't run isn't a spec yet</a>. Yoon sets an agent's ceiling with two questions. Is the work easy to check, and cheap to undo? A spec the agent can run changes the first answer. So Lewis's check is also a way of buying autonomy.</li></ul>
+  </article>
+</div>
+</body>
+</html>

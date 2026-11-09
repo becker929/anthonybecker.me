@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harness engineering: leveraging Codex in an agent-first world</title>
+  <meta name="description" content="An OpenAI engineering post on building a product with Codex and no hand-written code.">
+  <meta property="og:title" content="Harness engineering: leveraging Codex in an agent-first world">
+  <meta property="og:description" content="An OpenAI engineering post on building a product with Codex and no hand-written code.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Harness engineering: leveraging Codex in an agent-first world</nav>
+  <header class="title">
+    <h1>Harness engineering: leveraging Codex in an agent-first world</h1>
+    <p class="lede">An OpenAI engineering post on building a product with Codex and no hand-written code.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Ryan Lopopolo, Member of the Technical Staff, OpenAI</dd>
+      <dt>Published</dt><dd>February 11, 2026</dd>
+      <dt>Kind</dt><dd>Company engineering blog post reporting one internal project</dd>
+      <dt>Original</dt><dd><a href="https://openai.com/index/harness-engineering/">openai.com/index/harness-engineering/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Ryan Lopopolo writes for OpenAI about a five-month experiment. The post sets out what the team learned about designing environments for agents.</p>
+    <h2>What it says</h2>
+    <ul><li>A team built an internal product with no manually written code. Codex wrote it all.</li><li>The post reports a million lines and roughly 1,500 merged pull requests.</li><li>A short AGENTS.md serves as a table of contents pointing to a structured docs folder.</li><li>Architecture is enforced mechanically, with fixed layers, one-way dependencies and custom linters.</li><li>Merge gates are minimal because agent output far exceeds human attention.</li><li>Agents copy existing patterns, so background tasks scan for drift and open cleanups.</li><li>The post says its end-to-end feature behavior should not be assumed to generalize.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the team's first-hand account of one project. Figures such as pull request counts and a one-tenth time estimate come from the team. The post includes a docs layout and a layer diagram. It offers no outside measurement.</p>
+    <h2>Interests and limits</h2>
+    <p>OpenAI wrote the post and makes Codex. The time saving is an estimate, and there was no comparison build. The product was internal, with alpha testers. The post says it does not know how coherence holds up over years. The direct page load was blocked by a JavaScript check. This record uses a public Internet Archive copy of the page.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/maevyn-decoherence-trap/">The Decoherence Trap: When AI slop drowns out the signal in an endless sea of noise</a>. Lopopolo's team runs background tasks that scan for drift and open cleanups. Maevyn says decoherence grows with change and compounds. A million generated lines make a good test of both claims. Can drift be cleaned faster than it accumulates?</li></ul>
+  </article>
+</div>
+</body>
+</html>

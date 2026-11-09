@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Draw: An agent draws while you talk, built on TLDraw</title>
+  <meta name="description" content="A tutorial on building a tool that draws on a canvas from speech.">
+  <meta property="og:title" content="Agent Draw: An agent draws while you talk, built on TLDraw">
+  <meta property="og:description" content="A tutorial on building a tool that draws on a canvas from speech.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Agent Draw: An agent draws while you talk, built on TLDraw</nav>
+  <header class="title">
+    <h1>Agent Draw: An agent draws while you talk, built on TLDraw</h1>
+    <p class="lede">A tutorial on building a tool that draws on a canvas from speech.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>James Daniel Whitford, software engineer and technical writer at Ritza (Tech Stackups)</dd>
+      <dt>Published</dt><dd>24 June 2026</dd>
+      <dt>Kind</dt><dd>Company blog tutorial with code excerpts and a live demo</dd>
+      <dt>Original</dt><dd><a href="https://techstackups.com/articles/tldraw-agent-draw/">techstackups.com/articles/tldraw-agent-draw/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>James Daniel Whitford is an engineer at Ritza and writes for Tech Stackups. The post explains how the team built Agent Draw on tldraw. It sets out to show how an agent can read and draw on a canvas.</p>
+    <h2>What it says</h2>
+    <ul><li>A user drags a rectangle and speaks, and the agent draws inside it.</li><li>It builds on tldraw's official agent starter kit, which runs on a Cloudflare Worker.</li><li>Recorded audio goes to a Worker route that forwards it to Mistral's Voxtral model.</li><li>Captures join a first-in first-out queue, and one consumer draws them in turn.</li><li>Removing two actions, review and setMyView, roughly halved the model calls per capture.</li><li>A custom prompt section tells the model to draw labelled diagrams, not paste the transcript.</li><li>Opus 4.8 sketched cricket with the pen tool, while Haiku 4.5 used plain shapes.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post shows code excerpts from a public repo and links a live demo. It reports a small model comparison using two requests per model. It reports that two removed actions roughly halved model calls, without giving timings.</p>
+    <h2>Interests and limits</h2>
+    <p>The author works at Ritza, and the post promotes the team's own demo and repo. The model comparison uses two requests with no scoring, so it is anecdotal. Screenshots and the demo were not viewed. The tldraw SDK needs a licence key for public use.</p>
+  </article>
+</div>
+</body>
+</html>

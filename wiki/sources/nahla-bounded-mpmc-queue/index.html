@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Girls Just Wanna Have Fast MPMC Queues with bounded waiting</title>
+  <meta name="description" content="A design write-up of a bounded multi-producer multi-consumer queue in Rust, with benchmarks.">
+  <meta property="og:title" content="Girls Just Wanna Have Fast MPMC Queues with bounded waiting">
+  <meta property="og:description" content="A design write-up of a bounded multi-producer multi-consumer queue in Rust, with benchmarks.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Girls Just Wanna Have Fast MPMC Queues with bounded waiting</nav>
+  <header class="title">
+    <h1>Girls Just Wanna Have Fast MPMC Queues with bounded waiting</h1>
+    <p class="lede">A design write-up of a bounded multi-producer multi-consumer queue in Rust, with benchmarks.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Nahla</dd>
+      <dt>Published</dt><dd>10 July 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post with a Rust design and throughput benchmarks</dd>
+      <dt>Original</dt><dd><a href="https://nahla.dev/blog/waitfree_queue/">nahla.dev/blog/waitfree_queue/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Nahla built a queue to test their intuition about lock-free programming. The author claims no breakthrough and asks experts for feedback.</p>
+    <h2>What it says</h2>
+    <ul><li>A correction states that the queue is not wait-free after all.</li><li>Producers and consumers take tickets from atomic counters and wait their turn on a slot.</li><li>Each state entry packs a 63-bit reservation number and one turn bit.</li><li>The design has no CAS loops, so waiting threads only read a shared slot.</li><li>Dropping a drivable operation drives it to completion, or the slot stays disabled.</li><li>The author says the queue lags in the one producer, one consumer case.</li><li>The author reports an odd pattern where the equal-thread test peaks at N = 4.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives throughput tables from a Criterion benchmark on one Ryzen 7 7800x3D machine. Each run moves 2^24 items. Source code and unit tests are in a linked repo. Results for other queues are not printed in the post.</p>
+    <h2>Interests and limits</h2>
+    <p>The author has no stated commercial interest. The post says an earlier version wrongly called the queue wait-free. The tests are synthetic and run on a single machine. Comparisons with other queues are not shown, and the author did not examine their internals. The post names a rare undefined behaviour risk at huge item counts. The waiting bound holds only while producers and consumers both keep running.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/hochstein-linearizability-refinement-prophecy/">Linearizability! Refinement! Prophecy!</a>. Nahla's post carries a correction: the queue is not wait-free after all. Hochstein walks through what proving a related property takes, on a small queue. Would a model have caught the slip sooner?</li></ul>
+  </article>
+</div>
+</body>
+</html>

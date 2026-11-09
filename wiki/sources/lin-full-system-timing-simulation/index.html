@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Return of Rigorous Full-System Timing Simulation</title>
+  <meta name="description" content="A blog post arguing that computer architects should measure full systems with statistically sound sampling.">
+  <meta property="og:title" content="The Return of Rigorous Full-System Timing Simulation">
+  <meta property="og:description" content="A blog post arguing that computer architects should measure full systems with statistically sound sampling.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The Return of Rigorous Full-System Timing Simulation</nav>
+  <header class="title">
+    <h1>The Return of Rigorous Full-System Timing Simulation</h1>
+    <p class="lede">A blog post arguing that computer architects should measure full systems with statistically sound sampling.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Shanqing Lin, Mohammad Alian and Babak Falsafi, on the ACM SIGARCH blog</dd>
+      <dt>Published</dt><dd>8 June 2026</dd>
+      <dt>Kind</dt><dd>Opinion blog post by researchers, with a results table and figures</dd>
+      <dt>Original</dt><dd><a href="https://www.sigarch.org/the-return-of-rigorous-full-system-timing-simulation/">www.sigarch.org/the-return-of-rigorous-full-system-timing-simulation/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Three university researchers write for the Computer Architecture Today blog. The post asks what to measure, how long, and with which metric. It ends with a list of open problems.</p>
+    <h2>What it says</h2>
+    <ul><li>Detailed timing simulation is so slow that it can take months to simulate seconds.</li><li>Full-system simulation matters because the OS, interrupts, I/O and devices shape real performance.</li><li>Capturing performance variability for one core needs five to 120 seconds of target execution.</li><li>Total IPC can mislead on multicore workloads, so U-IPC is often a better proxy.</li><li>A single window of 100 million to one billion instructions may give wrong conclusions.</li><li>Statistical sampling bounds the error in estimates and gives quantified confidence.</li><li>Sampling shifts the bottleneck to the functional simulator, which runs at about 6 MIPS.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post reports its own experiments on a simulated ARM Neoverse N1 core. A table of speeds and a figure of sampling errors are described in the text. It cites earlier sampling work such as SMARTS and SimPoint.</p>
+    <h2>Interests and limits</h2>
+    <p>The text was read in full, but the table and figures were not available. The authors favor the sampling approach. Lin is the principal developer of QFlex v3.0. The post presents QFlex as the state-of-the-art framework. The post is an opinion piece with a disclaimer that views are personal. Results cover server workloads on one ARM core design.</p>
+  </article>
+</div>
+</body>
+</html>

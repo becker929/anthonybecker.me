@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Surprisingly Fast AI-Generated Kernels We Didn’t Mean to Publish (Yet)</title>
+  <meta name="description" content="A Stanford CRFM post reporting fast GPU kernels written by language models.">
+  <meta property="og:title" content="Surprisingly Fast AI-Generated Kernels We Didn’t Mean to Publish (Yet)">
+  <meta property="og:description" content="A Stanford CRFM post reporting fast GPU kernels written by language models.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Surprisingly Fast AI-Generated Kernels We Didn’t Mean to Publish (Yet)</nav>
+  <header class="title">
+    <h1>Surprisingly Fast AI-Generated Kernels We Didn’t Mean to Publish (Yet)</h1>
+    <p class="lede">A Stanford CRFM post reporting fast GPU kernels written by language models.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Anne Ouyang, Azalia Mirhoseini and Percy Liang, Stanford CRFM</dd>
+      <dt>Published</dt><dd>Undated (the page URL contains 2025/05/28)</dd>
+      <dt>Kind</dt><dd>Research group blog post with benchmark timings and code</dd>
+      <dt>Original</dt><dd><a href="https://crfm.stanford.edu/2025/05/28/fast-kernels.html">crfm.stanford.edu/2025/05/28/fast-kernels.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/language-models-and-training/">Language models and training</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Anne Ouyang, Azalia Mirhoseini and Percy Liang report an early result. They set out to make synthetic data for training kernel models. Test-time search alone produced fast kernels, so they published early.</p>
+    <h2>What it says</h2>
+    <ul><li>AI-generated CUDA-C kernels matched or beat PyTorch's expert-tuned kernels on some tasks.</li><li>Reported speeds on FP32 problems ranged from 101.3% for matmul to 484.4% for LayerNorm.</li><li>Each round writes optimization ideas in plain language. Each idea spawns several kernel variants, and the best seed the next round.</li><li>The post says sequential revision loops often stall on the same kinds of change.</li><li>In the Conv2D example, speed rose from 20.1% of PyTorch to 179.9% over 13 rounds.</li><li>Most best kernels appeared late, in round 4 or 5 of 5 rounds.</li><li>Weaker results: FP16 matmul reached 52% and FP16 Flash Attention 9% of PyTorch.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives timings for five kernels on one L40S GPU. It adds one step-by-step Conv2D trajectory. Correctness is checked on many random inputs within a 1e-02 tolerance. The full Conv2D code is in the appendix.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors are Stanford researchers, supported by Standard Kernel Company and Prime Intellect. Results come from 10 KernelBench level 1 problems on one GPU, with modified sizes. The post says FP32 is less optimized, which may explain the wins. Gains hold for specific problem sizes. The setup allows lower-precision kernels within the 1e-02 tolerance. The authors call the search budget quite limited.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exploring Mach-O, Part 1</title>
+  <meta name="description" content="Part one of a series that builds a tiny ARM64 program and reads its header.">
+  <meta property="og:title" content="Exploring Mach-O, Part 1">
+  <meta property="og:description" content="Part one of a series that builds a tiny ARM64 program and reads its header.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Exploring Mach-O, Part 1</nav>
+  <header class="title">
+    <h1>Exploring Mach-O, Part 1</h1>
+    <p class="lede">Part one of a series that builds a tiny ARM64 program and reads its header.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Gregory Anders</dd>
+      <dt>Published</dt><dd>16 January 2022</dd>
+      <dt>Kind</dt><dd>Personal blog post, part 1 of a series, with hands-on shell commands</dd>
+      <dt>Original</dt><dd><a href="https://gpanders.com/blog/exploring-mach-o-part-1/">gpanders.com/blog/exploring-mach-o-part-1/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Gregory Anders writes a learning log about the Mach-O file format used by macOS. This is part 1 of 4. The author says they knew almost nothing about the format beforehand.</p>
+    <h2>What it says</h2>
+    <ul><li>The smallest program only calls the exit syscall, which the author writes in ARM64 assembly.</li><li>The exit syscall number is 1, found by disassembly and confirmed in an SDK header.</li><li>Linking failed until the author added a global symbol, alignment and a libSystem path.</li><li>The finished program exits with code 42, and objdump shows the same three instructions.</li><li>The author says the 64-bit Mach-O header is a simple 32-byte structure.</li><li>The magic number is 0xfeedface for 32-bit files and 0xfeedfacf for 64-bit files.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post shows shell transcripts of assembling, linking, disassembling and running a three-line program. It also quotes an SDK header and an archived Apple reference. All output comes from one machine.</p>
+    <h2>Interests and limits</h2>
+    <p>This is a personal learning post, not a reference. It stops before any parsing, which is left to part 2. Only one tiny ARM64 binary is examined. The post says the Apple reference is old and partly wrong.</p>
+  </article>
+</div>
+</body>
+</html>

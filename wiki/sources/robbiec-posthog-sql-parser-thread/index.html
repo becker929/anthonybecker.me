@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I rewrote PostHog's SQL parser, 70x faster, while barely looking at the code</title>
+  <meta name="description" content="A Hacker News thread about a PostHog blog post on an AI-written, faster SQL parser.">
+  <meta property="og:title" content="I rewrote PostHog&#x27;s SQL parser, 70x faster, while barely looking at the code">
+  <meta property="og:description" content="A Hacker News thread about a PostHog blog post on an AI-written, faster SQL parser.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / I rewrote PostHog's SQL parser, 70x faster, while barely looking at the code</nav>
+  <header class="title">
+    <h1>I rewrote PostHog's SQL parser, 70x faster, while barely looking at the code</h1>
+    <p class="lede">A Hacker News thread about a PostHog blog post on an AI-written, faster SQL parser.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by robbie-c, with replies from many commenters</dd>
+      <dt>Published</dt><dd>24 June 2026</dd>
+      <dt>Kind</dt><dd>Hacker News discussion thread of about 70 comments</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=48663544">news.ycombinator.com/item?id=48663544</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/compilers-and-interpreters/">Compilers and interpreters</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>robbie-c posted the PostHog blog post and replied to many comments. The thread earned 155 points. Some comments are about the website design, which is not covered here. The article itself was not fetched for this record.</p>
+    <h2>What it says</h2>
+    <ul><li>Robbie-c says the 70x figure came from a small test corpus. In production, on longer uncached SQL, mean parse time fell 454x.</li><li>Robbie-c says PostHog SQL started from ClickHouse SQL. The team needed its own parser to add language features.</li><li>Robbie-c says a proof of concept took about 2 days. A shippable version took about a week.</li><li>Robbie-c says the old C++ parser will stay as a checking oracle.</li><li>Cespare argues hand-written parsers are easier to write and maintain than commonly claimed.</li><li>Keeda says expertise shifts toward building validation around code that an AI wrote.</li><li>Duendefm worries that heavy AI use will slow the advance of human knowledge. Others disagree.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The thread offers the poster's own production figures and answers. The 70x is described as a geometric mean. Other comments are opinions and personal anecdotes. No one in the thread reruns the benchmarks.</p>
+    <h2>Interests and limits</h2>
+    <p>Robbie-c speaks for the team that wrote the parser, and its figures are unchecked. Claims about the linked post are secondhand, because that post was not read. Commenter views on AI are opinions. The thread gives no code.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/xnacly-fast-lexer-strategies/">Strategies for very fast Lexers</a>. The 70x parser figure came from a small test corpus, and production looked different. xnacly's numbers also rest on the author's own synthetic input. A speed claim needs a stated workload. Both sources let you see theirs, which is the useful habit.</li></ul>
+  </article>
+</div>
+</body>
+</html>

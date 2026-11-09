@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building an Advanced Agentic Harness</title>
+  <meta name="description" content="A tutorial that upgrades a basic agent loop into a planned, parallel, checked system.">
+  <meta property="og:title" content="Building an Advanced Agentic Harness">
+  <meta property="og:description" content="A tutorial that upgrades a basic agent loop into a planned, parallel, checked system.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Building an Advanced Agentic Harness</nav>
+  <header class="title">
+    <h1>Building an Advanced Agentic Harness</h1>
+    <p class="lede">A tutorial that upgrades a basic agent loop into a planned, parallel, checked system.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Bruno Gonçalves, Data For Science, Inc.</dd>
+      <dt>Published</dt><dd>15 July 2026</dd>
+      <dt>Kind</dt><dd>Technical tutorial blog post with companion code</dd>
+      <dt>Original</dt><dd><a href="https://data4sci.com/blog/building-an-advanced-agentic-harness">data4sci.com/blog/building-an-advanced-agentic-harness</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Bruno Gonçalves writes for Data For Science. The post is a tutorial that upgrades a basic agent loop from an earlier post. It aims to show the main parts of a custom harness.</p>
+    <h2>What it says</h2>
+    <ul><li>The post adds seven production-shaped parts to a basic agent loop.</li><li>The author types each tool's arguments so bad calls fail before running.</li><li>The planner emits a task graph, and independent steps run in parallel.</li><li>The post describes memory in three tiers under a hard size budget.</li><li>The post runs cheap checks first and calls an LLM judge only on survivors.</li><li>Budget pressure above 0.9 makes the harness skip the LLM judge.</li><li>The post admits one demo shows the harness can work, not that it works.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers Python code snippets and a companion notebook repository. The example is a small city-comparison task using a mocked fact dictionary. No benchmark or eval results are given.</p>
+    <h2>Interests and limits</h2>
+    <p>Data For Science sells consulting and training on LLM systems. The demo uses mock data and can run on a mock model. The post lists its own caveats, such as in-process memory and trusted tool outputs. Eval results are promised for a future post.</p>
+  </article>
+</div>
+</body>
+</html>

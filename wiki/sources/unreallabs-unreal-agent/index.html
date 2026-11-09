@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unreal Agent</title>
+  <meta name="description" content="A company post announcing an agent harness that runs tool calls asynchronously.">
+  <meta property="og:title" content="Unreal Agent">
+  <meta property="og:description" content="A company post announcing an agent harness that runs tool calls asynchronously.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Unreal Agent</nav>
+  <header class="title">
+    <h1>Unreal Agent</h1>
+    <p class="lede">A company post announcing an agent harness that runs tool calls asynchronously.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Unreal Labs (Alex Baranov, Gleb Logunov, Maksim Grankin, Fillip Sinitsin, Artem Ivanov)</dd>
+      <dt>Published</dt><dd>22 September 2026</dd>
+      <dt>Kind</dt><dd>Company blog post announcing an agent harness, with benchmark tables</dd>
+      <dt>Original</dt><dd><a href="https://unreallabs.ai/blog/unreal-agent/">unreallabs.ai/blog/unreal-agent/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Unreal Labs, a startup, wrote this post to announce Unreal Agent. It explains why the team built its own harness and how tool calls work. It then reports results against Codex and Pi.</p>
+    <h2>What it says</h2>
+    <ul><li>Unreal Agent runs tool calls asynchronously, so the model need not manage waits.</li><li>The post claims up to 40% savings against Codex and up to 20% against Pi.</li><li>Each tool call logs an in-progress record at once, and the result is added later.</li><li>Users can steer the agent without waiting for tool calls to finish.</li><li>The authors say CLI-oriented SDKs carry assumptions that fit production poorly.</li><li>The authors prefer sandbox and environment limits to hook-based security approvals.</li><li>On Terminal-Bench 4.0 both agents passed 57.9%, at dollar totals of 1428 and 2350.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives four benchmark tables with pass rate, cost, tokens and turns. Most runs link to Harbor records. The tests use one model and mostly coding benchmarks. The post calls pass-rate differences marginal and credits them to benchmark variance.</p>
+    <h2>Interests and limits</h2>
+    <p>Unreal Labs sells agent services and asks readers to contact the company. Only one model was tested, GPT-6 Astra xhigh. The Codex Terminal-Bench figure comes from a leaderboard, not a matched run. The animation was not viewed.</p>
+  </article>
+</div>
+</body>
+</html>

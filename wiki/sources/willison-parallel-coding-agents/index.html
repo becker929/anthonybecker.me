@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Embracing the parallel coding agent lifestyle</title>
+  <meta name="description" content="A blog post on when running several coding agents at once is worth doing.">
+  <meta property="og:title" content="Embracing the parallel coding agent lifestyle">
+  <meta property="og:description" content="A blog post on when running several coding agents at once is worth doing.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Embracing the parallel coding agent lifestyle</nav>
+  <header class="title">
+    <h1>Embracing the parallel coding agent lifestyle</h1>
+    <p class="lede">A blog post on when running several coding agents at once is worth doing.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Simon Willison</dd>
+      <dt>Published</dt><dd>5th October 2025</dd>
+      <dt>Kind</dt><dd>Personal blog post from a working developer</dd>
+      <dt>Original</dt><dd><a href="https://simonwillison.net/2025/Oct/5/parallel-coding-agents/">simonwillison.net/2025/Oct/5/parallel-coding-agents/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Simon Willison writes a long-running weblog on AI tools. The post shares patterns for running multiple coding agents and links to other practitioners.</p>
+    <h2>What it says</h2>
+    <ul><li>The author moved from skepticism to regularly running several coding agents at once.</li><li>Review is the bottleneck, so parallel tasks must add little review load.</li><li>Research tasks, such as proof of concept builds and codebase questions, suit parallel agents.</li><li>Small maintenance jobs, such as fixing deprecation warnings, can be handed to a bot.</li><li>Code built from the author's own detailed specification is far easier to review.</li><li>The author runs agents without approvals when confident malicious instructions cannot reach the context.</li><li>Riskier tasks go to cloud-based asynchronous agents, so the worst case is leaked source code.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the author's personal experience over a few weeks. The post gives no measurements or comparisons. It links to other practitioners' write-ups as further reading.</p>
+    <h2>Interests and limits</h2>
+    <p>The post reflects one developer, mostly on open source work. The author says the patterns are still settling and expects them to change. No claim about speed or quality was tested. The author notes local agents should run in containers, and has not yet done so.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/bernhardsson-load-factor-queueing/">Waiting time, load factor, and queueing theory: why you need to cut your systems a bit of slack</a>. Willison calls review the bottleneck when agents run in parallel. Bernhardsson's queue shows what that costs. Latency climbs fast past about 80% load. So a fully busy reviewer may be the slowest part. Perhaps reviewers should stay half idle on purpose.</li></ul>
+  </article>
+</div>
+</body>
+</html>

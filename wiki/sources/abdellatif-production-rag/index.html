@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Production RAG: what I learned from processing 5M+ documents</title>
+  <meta name="description" content="A short blog post of lessons from building retrieval-augmented generation for two projects.">
+  <meta property="og:title" content="Production RAG: what I learned from processing 5M+ documents">
+  <meta property="og:description" content="A short blog post of lessons from building retrieval-augmented generation for two projects.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Production RAG: what I learned from processing 5M+ documents</nav>
+  <header class="title">
+    <h1>Production RAG: what I learned from processing 5M+ documents</h1>
+    <p class="lede">A short blog post of lessons from building retrieval-augmented generation for two projects.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>20 October 2025</dd>
+      <dt>Kind</dt><dd>Short personal blog post of practitioner lessons</dd>
+      <dt>Original</dt><dd><a href="https://blog.abdellatif.io/production-rag-processing-5m-documents">blog.abdellatif.io/production-rag-processing-5m-documents</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/language-models-and-training/">Language models and training</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The author describes eight months of work on retrieval-augmented generation. The two projects held 9M and 4M pages. The post lists what helped and what the stack ended up being.</p>
+    <h2>What it says</h2>
+    <ul><li>The author's team built RAG for two projects, with 9M and 4M pages.</li><li>A prototype that worked on 100 documents gave subpar results at production scale.</li><li>The author ranks five fixes by return, starting with query generation and reranking.</li><li>The best reranker setup was 50 chunks in and 15 out.</li><li>The vector database moved from Azure to Pinecone to Turbopuffer.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post is the author's account of two projects. It gives no benchmarks, figures or code beyond a stack list.</p>
+    <h2>Interests and limits</h2>
+    <p>The post is short and gives no named author on the page. It links the author's startup and an open-source project built from these lessons. Results are anecdotes from two deployments, with no metrics. The post does not say how rankings were measured.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I accidentally turned LLM memory into program analysis</title>
+  <meta name="description" content="A Hacker News thread discussing a blog post that gives LLM agents a Datalog memory.">
+  <meta property="og:title" content="I accidentally turned LLM memory into program analysis">
+  <meta property="og:description" content="A Hacker News thread discussing a blog post that gives LLM agents a Datalog memory.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / I accidentally turned LLM memory into program analysis</nav>
+  <header class="title">
+    <h1>I accidentally turned LLM memory into program analysis</h1>
+    <p class="lede">A Hacker News thread discussing a blog post that gives LLM agents a Datalog memory.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by matt_d, with replies from many commenters</dd>
+      <dt>Published</dt><dd>28 August 2026</dd>
+      <dt>Kind</dt><dd>Hacker News discussion thread</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=49485416">news.ycombinator.com/item?id=49485416</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/file-based-agent-memory/">File-based agent memory</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>matt_d submitted the post, and commenters replied. The article itself is not in the source text. Commenters describe it as storing facts with provenance and retractions in Datalog. The thread is the source here, not the post.</p>
+    <h2>What it says</h2>
+    <ul><li>Several commenters report the same failure: the model keeps using conclusions that were already disproved.</li><li>Commenters suggest decision logs, provenance metadata and answer set programming as fixes.</li><li>Commenter sim04ful argues the LLM belongs only at the request and answer ends.</li><li>Some commenters compare the idea to CodeQL, Graph RAG, Cyc and earlier symbolic AI.</li><li>Commenters describe simpler setups. Examples are a SQLite text index and a one-fact-per-line Markdown file.</li><li>Some doubt it helps beyond grounding, and others note that LLM-built structures can drift.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The thread offers personal anecdotes, links to tools and papers, and argument. One commenter pastes a project plan graph as an example. No commenter reports a controlled test of the approach.</p>
+    <h2>Interests and limits</h2>
+    <p>Commenters are self-selected and mostly unverified. Many describe their own projects, and some link tools they wrote. Claims are not checked. The linked article was not read, so this page describes the thread only. Each claim is a commenter's view.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/rose-bloom-filters/">Bloom Filters</a>. Commenters report models that keep using conclusions already disproved. A standard Bloom filter has a similar difficulty: items cannot be deleted. Counting variants allow it, but give up the promise of no false negatives. Forgetting may be the expensive operation in any memory.</li></ul>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Waiting time, load factor, and queueing theory: why you need to cut your systems a bit of slack</title>
+  <meta name="description" content="A blog post explaining why waiting time climbs sharply as a system gets busier.">
+  <meta property="og:title" content="Waiting time, load factor, and queueing theory: why you need to cut your systems a bit of slack">
+  <meta property="og:description" content="A blog post explaining why waiting time climbs sharply as a system gets busier.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Waiting time, load factor, and queueing theory: why you need to cut your systems a bit of slack</nav>
+  <header class="title">
+    <h1>Waiting time, load factor, and queueing theory: why you need to cut your systems a bit of slack</h1>
+    <p class="lede">A blog post explaining why waiting time climbs sharply as a system gets busier.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Erik Bernhardsson (at the mortgage startup Better when writing)</dd>
+      <dt>Published</dt><dd>27 March 2018</dd>
+      <dt>Kind</dt><dd>Personal blog post, with a short simulation and a plotted result</dd>
+      <dt>Original</dt><dd><a href="https://erikbern.com/2018/03/27/waiting-time-load-factor-and-queueing-theory.html">erikbern.com/2018/03/27/waiting-time-load-factor-and-queueing-theory.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/mathematics-and-optimization/">Mathematics and optimization</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Erik Bernhardsson writes about operations research. The interest began at a mortgage startup. The post asks how load affects cycle time. It lists examples such as database latency, email replies and meeting booking.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says running a system at lower throughput can cut waiting time dramatically.</li><li>It says variability explains this, because random bursts of arrivals form a queue.</li><li>It says a simulated queue has twice the latency at 50% utilization as at 0%.</li><li>It says latency climbs fast past about 80% load, and higher percentiles suffer more.</li><li>It gives 1 / (1 - f) as the M/M/1 mean, with f the load.</li><li>The author proposes delegating or automating urgent work until its load is below 50%.</li><li>It says one machine twice as fast beats two slower machines with separate queues.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a short Python simulation of a queue. It plots latency against load. It shows the exact M/M/1 formula matching a simulation. The email example is described as anecdotal. No data from real systems appears.</p>
+    <h2>Interests and limits</h2>
+    <p>The author worked at a mortgage startup and gives personal opinion on workload. The simulation uses chosen distributions, and the author says the exact choice is not important. Real systems were not measured. The advice on delegating is a personal strategy, not tested.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/willison-parallel-coding-agents/">Embracing the parallel coding agent lifestyle</a>. Willison calls review the bottleneck when agents run in parallel. Bernhardsson's queue shows what that costs. Latency climbs fast past about 80% load. So a fully busy reviewer may be the slowest part. Perhaps reviewers should stay half idle on purpose.</li></ul>
+  </article>
+</div>
+</body>
+</html>
