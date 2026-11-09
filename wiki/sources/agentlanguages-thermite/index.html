@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thermite</title>
+  <meta name="description" content="A catalogue entry describing Thermite, a contract-first language checked by a tool called Forge.">
+  <meta property="og:title" content="Thermite">
+  <meta property="og:description" content="A catalogue entry describing Thermite, a contract-first language checked by a tool called Forge.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Thermite</nav>
+  <header class="title">
+    <h1>Thermite</h1>
+    <p class="lede">A catalogue entry describing Thermite, a contract-first language checked by a tool called Forge.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>dollspace-gay and maxinelevesque (language authors); catalogue maintained by Alasdair Allan</dd>
+      <dt>Published</dt><dd>First seen June 2026; catalogue page last updated 9 November 2026</dd>
+      <dt>Kind</dt><dd>Catalogue entry describing a verification-oriented programming language</dd>
+      <dt>Original</dt><dd><a href="https://agentlanguages.dev/languages/thermite/">agentlanguages.dev/languages/thermite/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The agentlanguages.dev catalogue lists languages made for coding agents. This entry covers Thermite, written in Rust and Lean 4. It names design relatives and a short timeline.</p>
+    <h2>What it says</h2>
+    <ul><li>Thermite requires every function to carry req, ens and fx clauses.</li><li>Its checker Forge rates each obligation on an assurance ladder from L0 to L4.</li><li>A counterexample counts as a failure, never as a downgrade.</li><li>The project-level assurance is the minimum across functions, so a runtime-only boundary shows.</li><li>Forge checks that declared effects hold up the call graph and derives a seccomp allowlist.</li><li>Agents can write a contract around a typed hole, then fill it with forge commands.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The entry is descriptive. It names tools, commands and repository contents, such as conformance programs and an audit command. It shows one short code example. It gives no benchmarks.</p>
+    <h2>Interests and limits</h2>
+    <p>The entry summarizes the project's own claims, and the language is experimental. The entry says the complete path is tested on x86-64 Linux. It says the effect allowlist limits syscalls, not resources. It also says a machine check cannot prove that a contract matches intent. Nothing was run.</p>
+  </article>
+</div>
+</body>
+</html>

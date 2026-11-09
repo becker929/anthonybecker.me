@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speeding Up My ZSH Shell</title>
+  <meta name="description" content="A blog post on profiling a slow zsh startup and speeding it up.">
+  <meta property="og:title" content="Speeding Up My ZSH Shell">
+  <meta property="og:description" content="A blog post on profiling a slow zsh startup and speeding it up.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Speeding Up My ZSH Shell</nav>
+  <header class="title">
+    <h1>Speeding Up My ZSH Shell</h1>
+    <p class="lede">A blog post on profiling a slow zsh startup and speeding it up.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Scott Spence</dd>
+      <dt>Published</dt><dd>February 1, 2025</dd>
+      <dt>Kind</dt><dd>Personal blog post, with before and after config</dd>
+      <dt>Original</dt><dd><a href="https://scottspence.com/posts/speeding-up-my-zsh-shell">scottspence.com/posts/speeding-up-my-zsh-shell</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-tools-and-craft/">Software tools and craft</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Scott Spence writes a personal blog. This post describes speeding up a zsh shell that took over five seconds to open. The page says it was updated after the original date.</p>
+    <h2>What it says</h2>
+    <ul><li>Spence says zsh took more than five seconds to open a new terminal.</li><li>The post says zsh's built-in zprof tool profiles startup.</li><li>The profile blamed Oh-My-Zsh for over half of startup time.</li><li>Spence rebuilds the completion cache only once a day instead of every startup.</li><li>The post reports startup fell from about 5s to about 0.5s, a tenfold gain.</li><li>Spence advises trying fixes one at a time and keeping a fast-enough setup.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives profiler percentages, config snippets, and full before and after files. A table lists approximate totals. It does not show how the totals were timed.</p>
+    <h2>Interests and limits</h2>
+    <p>It reflects one machine and one setup with Oh-My-Zsh and the Spaceship prompt. The totals are approximate. Other setups may gain less. The linked posts and sources were not read.</p>
+  </article>
+</div>
+</body>
+</html>

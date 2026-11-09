@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>We Upgraded to a Frontier Model and Our Costs Went Down</title>
+  <meta name="description" content="A post saying a Haiku triager let Opus 4.6 cost less than Sonnet 4.0.">
+  <meta property="og:title" content="We Upgraded to a Frontier Model and Our Costs Went Down">
+  <meta property="og:description" content="A post saying a Haiku triager let Opus 4.6 cost less than Sonnet 4.0.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / We Upgraded to a Frontier Model and Our Costs Went Down</nav>
+  <header class="title">
+    <h1>We Upgraded to a Frontier Model and Our Costs Went Down</h1>
+    <p class="lede">A post saying a Haiku triager let Opus 4.6 cost less than Sonnet 4.0.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Andrea Luzzardi, Mendral</dd>
+      <dt>Published</dt><dd>6 March 2026</dd>
+      <dt>Kind</dt><dd>Company engineering blog post, architecture write-up with one case</dd>
+      <dt>Original</dt><dd><a href="https://www.mendral.com/blog/frontier-model-lower-costs">www.mendral.com/blog/frontier-model-lower-costs</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/coding-with-agents/">Coding with agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Andrea Luzzardi writes on the blog of Mendral, which sells an AI DevOps engineer. The post follows an earlier piece on feeding CI logs to an LLM. It answers questions about models, coordination and cost.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says running Opus 4.6 now costs less than running everything on Sonnet 4.0.</li><li>The post says 3,187 of roughly 4,000 CI failures in a week were repeats.</li><li>A Haiku triager checks if a failure is already tracked, else escalates to Opus.</li><li>The post says 4 of 5 failures never reach Opus; triage costs around 25x less.</li><li>Agents get a SQL interface to ClickHouse and pull log context themselves.</li><li>Opus forms hypotheses and spawns Haiku sub-agents, capped at one level deep.</li><li>The post says Haiku handles about 65% of input tokens but 36% of spend.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the company's own usage figures from one week. It also gives one worked incident of three failing Storybook jobs. The failure rate rose from 0.2% to 8.0% and make was missing. No cost table or baseline is shown.</p>
+    <h2>Interests and limits</h2>
+    <p>Mendral sells the product described, so the cost claim serves its marketing. The headline cost comparison is stated, but full numbers are not given. The post says it is still tuning where the sub-agent boundary sits. The results come from CI logs. The post says the pattern generalizes, but this was not tested.</p>
+  </article>
+</div>
+</body>
+</html>

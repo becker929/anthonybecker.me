@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>We put Bun's Rust rewrite in production on Prisma Compute</title>
+  <meta name="description" content="A Prisma engineer explains why its hosting product launched on a canary Bun build.">
+  <meta property="og:title" content="We put Bun&#x27;s Rust rewrite in production on Prisma Compute">
+  <meta property="og:description" content="A Prisma engineer explains why its hosting product launched on a canary Bun build.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / We put Bun's Rust rewrite in production on Prisma Compute</nav>
+  <header class="title">
+    <h1>We put Bun's Rust rewrite in production on Prisma Compute</h1>
+    <p class="lede">A Prisma engineer explains why its hosting product launched on a canary Bun build.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Alexey Orlenko, senior engineer at Prisma</dd>
+      <dt>Published</dt><dd>11 June 2026</dd>
+      <dt>Kind</dt><dd>Company engineering blog post, with test results</dd>
+      <dt>Original</dt><dd><a href="https://www.prisma.io/blog/bun-rust-rewrite-prisma-compute">www.prisma.io/blog/bun-rust-rewrite-prisma-compute</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Alexey Orlenko writes for the Prisma blog, part two of a series on Prisma Compute. The post explains why Compute runs on the Rust rewrite of Bun. It sets out what Compute demands of a runtime and what broke on stable Bun.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says Compute launched its beta on the Rust rewrite, expected as Bun 1.4.</li><li>On stable Bun 1.3.14, a repeated S3 read test crossed 900 MiB around iteration 96.</li><li>On canary, the same test stayed flat over 4096 iterations, near 118 MiB.</li><li>Earlier Bun versions deadlocked the SQL pool after restores. The post reports the pool recovered on the Rust rewrite.</li><li>The post rejects a private patched fork of Bun as a foundation for the platform.</li><li>The post credits Rust's ownership model with removing a class of manual cleanup mistakes.</li><li>The post concludes modestly that, under Compute's conditions, the rewrite behaved better than stable Bun.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post cites a public Bun issue, number 29083. Its small repro reads an S3 object repeatedly. It reports memory figures for both builds. The pool result rests on Prisma's own testing, with no numbers given.</p>
+    <h2>Interests and limits</h2>
+    <p>Prisma sells Compute, so the company has an interest in the choice looking sound. The post says it is not claiming every pool failure is fixed. It tests one workload and gives no independent replication. A later note says Compute became generally available in August 2026. The post says the translated code still needs review and its unsafe code needs auditing.</p>
+  </article>
+</div>
+</body>
+</html>

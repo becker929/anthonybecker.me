@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Should I run plain Docker Compose in production in 2026?</title>
+  <meta name="description" content="A Hacker News thread discusses a Distr blog post on running Docker Compose in production.">
+  <meta property="og:title" content="Should I run plain Docker Compose in production in 2026?">
+  <meta property="og:description" content="A Hacker News thread discusses a Distr blog post on running Docker Compose in production.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Should I run plain Docker Compose in production in 2026?</nav>
+  <header class="title">
+    <h1>Should I run plain Docker Compose in production in 2026?</h1>
+    <p class="lede">A Hacker News thread discusses a Distr blog post on running Docker Compose in production.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by pmig, with replies from many commenters</dd>
+      <dt>Published</dt><dd>30 April 2026</dd>
+      <dt>Kind</dt><dd>Hacker News discussion thread about a company blog post</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=47962032">news.ycombinator.com/item?id=47962032</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The thread follows a blog post from Distr on running Docker Compose in production. Commenters quote its advice on cleanup, healing, image pinning, socket security and updates. They share setups, challenge the premise and trade product tips.</p>
+    <h2>What it says</h2>
+    <ul><li>The linked post says plain Compose can run production if its operational gaps are closed.</li><li>Some suggest Podman with systemd quadlets; others say quadlets spread an app across many files.</li><li>One commenter says podman-compose now works interchangeably with docker-compose; another says not yet.</li><li>A subthread argues over whether a title that asks the question is worth anything.</li><li>On firewalls, one commenter binds ports to the loopback address and proxies through Caddy.</li><li>Distr's pmig calls Kubernetes the simplest feasible abstraction for diverse needs; another says use it.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>Commenters offer anecdotes, config tips and links to their own tools. A few give figures from their own systems. No commenter reports a controlled comparison.</p>
+    <h2>Interests and limits</h2>
+    <p>The linked post was not fetched. Its content here comes from commenter quotes. The poster pmig speaks for Distr, which helps companies distribute apps to customers. Some commenters call the post AI-written or an ad for Distr. Comments are unverified personal experience, and long stretches argue about Podman and systemd.</p>
+  </article>
+</div>
+</body>
+</html>

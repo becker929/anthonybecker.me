@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>protobuf-py: Protobuf for Python, without compromises</title>
+  <meta name="description" content="Buf announces protobuf-py, a Protocol Buffers runtime for Python written from scratch.">
+  <meta property="og:title" content="protobuf-py: Protobuf for Python, without compromises">
+  <meta property="og:description" content="Buf announces protobuf-py, a Protocol Buffers runtime for Python written from scratch.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / protobuf-py: Protobuf for Python, without compromises</nav>
+  <header class="title">
+    <h1>protobuf-py: Protobuf for Python, without compromises</h1>
+    <p class="lede">Buf announces protobuf-py, a Protocol Buffers runtime for Python written from scratch.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Team Buf, Buf Technologies, Inc.</dd>
+      <dt>Published</dt><dd>July 7, 2026</dd>
+      <dt>Kind</dt><dd>Company launch post for an open source library, with one benchmark</dd>
+      <dt>Original</dt><dd><a href="https://buf.build/blog/protobuf-py">buf.build/blog/protobuf-py</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Buf publishes tools around Protocol Buffers and wrote this launch post. It describes protobuf-py, which keeps messages as plain Python objects. An optional Rust accelerator speeds parsing. The post ends with install steps using uv.</p>
+    <h2>What it says</h2>
+    <ul><li>Buf says protobuf-py passes every binary and JSON case in the conformance suite.</li><li>Buf says Google's Python package carries an API shaped by C++ and Java.</li><li>Messages in protobuf-py are plain Python objects with __slots__, per the post.</li><li>The post says betterproto is proto3-only, with no proto2, editions, extensions or custom options.</li><li>In Buf's benchmark, an end-to-end home page build ran at 1.06x the speed of upb.</li><li>Buf says the library has no runtime dependencies and runs on pure Python 3.10+.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a throughput table against upb on one workload. In isolation, parse ran at 0.22x and serialize at 0.60x of upb. It says an empty failure list is checked into the repository. The benchmark harness is public.</p>
+    <h2>Interests and limits</h2>
+    <p>Buf wrote the library and sells related products, including a schema registry. The benchmark is one text-heavy social-media workload chosen by Buf. Claims about Google's package and betterproto are unverified here. The repository, harness and conformance results were not opened or run.</p>
+  </article>
+</div>
+</body>
+</html>

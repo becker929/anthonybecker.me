@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Using AI to write better code more slowly</title>
+  <meta name="description" content="A blog post describing a multi-model AI code review workflow aimed at quality.">
+  <meta property="og:title" content="Using AI to write better code more slowly">
+  <meta property="og:description" content="A blog post describing a multi-model AI code review workflow aimed at quality.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Using AI to write better code more slowly</nav>
+  <header class="title">
+    <h1>Using AI to write better code more slowly</h1>
+    <p class="lede">A blog post describing a multi-model AI code review workflow aimed at quality.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Nolan Lawson</dd>
+      <dt>Published</dt><dd>25 May 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post, with a reader comment thread</dd>
+      <dt>Original</dt><dd><a href="https://nolanlawson.com/2026/05/25/using-ai-to-write-better-code-more-slowly/">nolanlawson.com/2026/05/25/using-ai-to-write-better-code-more-slowly/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/coding-with-agents/">Coding with agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Nolan Lawson is a programmer who works at Socket and writes a personal blog. The post argues against the idea that AI coding means fast, low-quality output. It gives a review workflow and urges careless AI coders to slow down. Lawson later shared the skill file in a comment.</p>
+    <h2>What it says</h2>
+    <ul><li>Lawson argues LLMs can also write high-quality code, more slowly.</li><li>The post says current public models find plenty of bugs in unscrutinized code.</li><li>Lawson's skill runs a Claude sub-agent, Codex and Cursor Bugbot on a PR. The main agent then rules out false positives.</li><li>Lawson reports that this skill finds many bugs with a near-zero false positive rate.</li><li>The workflow fixes criticals and highs. It skips costly edge cases and abandons PRs with too many criticals.</li><li>Lawson says velocity has not necessarily risen, since review finds older bugs and side quests.</li><li>In comments, Lawson agrees clearing context helps. Lawson leans toward valuing higher-level understanding over line-level checks.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the author's own experience, with no counts or benchmarks. The skill text is paraphrased in the post and linked in a comment. Commenters give similar experiences and a few objections.</p>
+    <h2>Interests and limits</h2>
+    <p>The author works at Socket, per the blog's about box. The false positive claim is not measured. One commenter says the near-zero rate may hold only for experienced developers. Lawson calls this a good point. Lawson also says the tool sometimes flags unlikely or impossible issues.</p>
+  </article>
+</div>
+</body>
+</html>

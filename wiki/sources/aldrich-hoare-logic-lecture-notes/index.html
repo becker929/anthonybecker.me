@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lecture Notes: Hoare Logic</title>
+  <meta name="description" content="These lecture notes introduce Hoare logic as a way to reason about program correctness.">
+  <meta property="og:title" content="Lecture Notes: Hoare Logic">
+  <meta property="og:description" content="These lecture notes introduce Hoare logic as a way to reason about program correctness.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Lecture Notes: Hoare Logic</nav>
+  <header class="title">
+    <h1>Lecture Notes: Hoare Logic</h1>
+    <p class="lede">These lecture notes introduce Hoare logic as a way to reason about program correctness.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Jonathan Aldrich</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>University lecture notes, with one worked proof</dd>
+      <dt>Original</dt><dd><a href="https://www.cs.cmu.edu/~aldrich/courses/654-sp09/notes/3-hoare-notes.pdf">www.cs.cmu.edu/~aldrich/courses/654-sp09/notes/3-hoare-notes.pdf</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/formal-methods-and-proof/">Formal methods and proof</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Jonathan Aldrich wrote the notes for course 17-654/17-754. They introduce partial and total correctness, weakest preconditions and loop invariants. The aim is to let students prove small programs correct by hand.</p>
+    <h2>What it says</h2>
+    <ul><li>The notes treat a specification as a contract between a function and its clients. The precondition binds the client, and the postcondition binds the function.</li><li>Total correctness is partial correctness plus termination.</li><li>If a client breaks the precondition, the function may behave in any way. A function meant to survive bad input should include it in the precondition.</li><li>A triple can be correct yet weak. For x := x*2 from x = 5, the strongest postcondition is x = 10.</li><li>Proving a loop correct needs an invariant. Proving that it terminates also needs an integer variant function.</li><li>A worked power program gets its invariant by replacing m with i in the postcondition. The notes then add bounds until the proof works.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The notes give definitions and one worked example. The example is a loop that computes a power. The notes list each proof obligation and prove it with short justified steps. They offer no experiments.</p>
+    <h2>Interests and limits</h2>
+    <p>The notes are short and written for students. They omit the strongest postcondition function and call it beyond their scope. The proof covers one small program in a toy language. The notes do not say how well the method scales.</p>
+  </article>
+</div>
+</body>
+</html>

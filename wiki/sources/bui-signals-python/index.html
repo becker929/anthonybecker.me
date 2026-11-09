@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Missing Manual for Signals: State Management for Python Developers</title>
+  <meta name="description" content="A long guide that explains signals as a model of reactive state for Python developers.">
+  <meta property="og:title" content="The Missing Manual for Signals: State Management for Python Developers">
+  <meta property="og:description" content="A long guide that explains signals as a model of reactive state for Python developers.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The Missing Manual for Signals: State Management for Python Developers</nav>
+  <header class="title">
+    <h1>The Missing Manual for Signals: State Management for Python Developers</h1>
+    <p class="lede">A long guide that explains signals as a model of reactive state for Python developers.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Tuan Anh Bui</dd>
+      <dt>Published</dt><dd>13 June 2025</dd>
+      <dt>Kind</dt><dd>Personal blog post, long guide with code and diagrams</dd>
+      <dt>Original</dt><dd><a href="https://bui.app/the-missing-manual-for-signals-state-management-for-python-developers/">bui.app/the-missing-manual-for-signals-state-management-for-python-developers/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Tuan Anh Bui maintains reaktiv, a signals library for Python. The guide opens with a typical Python demo objection. It then sets out a mental model and rules of use.</p>
+    <h2>What it says</h2>
+    <ul><li>Bui argues signals remove the bug of forgetting to update derived state when data changes.</li><li>Signals invert control: the system tracks dependencies and updates dependents, not the programmer.</li><li>Three primitives are Signal, Computed and Effect, compared to spreadsheet cells and macros.</li><li>Computed values must be pure; side effects belong in Effects.</li><li>Signals update synchronously, so debouncing and throttling should happen before data enters the graph.</li><li>Signals are overkill for simple linear steps, one-shot calculations and request-response code.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The guide offers argument, code and many flow diagrams. It contrasts an order service written by hand with a signals version. It describes three scenarios in code. It reports no benchmarks or user results.</p>
+    <h2>Interests and limits</h2>
+    <p>The author maintains the library the guide teaches, so has a stake. The scenario code is illustrative and was not run. The performance claims are stated without measurement. The diagrams are text source.</p>
+  </article>
+</div>
+</body>
+</html>

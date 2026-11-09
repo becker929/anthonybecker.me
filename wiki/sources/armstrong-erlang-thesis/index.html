@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Making reliable distributed systems in the presence of software errors</title>
+  <meta name="description" content="A 2003 doctoral thesis by Joe Armstrong on building reliable systems from faulty software.">
+  <meta property="og:title" content="Making reliable distributed systems in the presence of software errors">
+  <meta property="og:description" content="A 2003 doctoral thesis by Joe Armstrong on building reliable systems from faulty software.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Making reliable distributed systems in the presence of software errors</nav>
+  <header class="title">
+    <h1>Making reliable distributed systems in the presence of software errors</h1>
+    <p class="lede">A 2003 doctoral thesis by Joe Armstrong on building reliable systems from faulty software.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Joe Armstrong, Royal Institute of Technology, Stockholm</dd>
+      <dt>Published</dt><dd>December 2003</dd>
+      <dt>Kind</dt><dd>Doctoral dissertation, with industrial case studies</dd>
+      <dt>Original</dt><dd><a href="https://erlang.org/download/armstrong_thesis_2003.pdf">erlang.org/download/armstrong_thesis_2003.pdf</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Joe Armstrong wrote the thesis at the Royal Institute of Technology in Stockholm. It reports a research program that began in 1981 at Ericsson. The program produced the Erlang language, a design method and the OTP libraries. The thesis asks how to build reliable systems when programs contain errors.</p>
+    <h2>What it says</h2>
+    <ul><li>Armstrong says fault tolerance needs processes that share no data and communicate only by messages.</li><li>The thesis splits work between worker processes and supervisor processes that correct their errors.</li><li>Armstrong says a program should crash when the programmer does not know what to do.</li><li>The thesis calls defensive coding unnecessary because the compiler adds debugging information to crashes.</li><li>Armstrong proposes a hierarchy of tasks, falling back to simpler tasks when a goal fails.</li><li>The thesis reports that the AXD301 switch had over 1.7 million lines of Erlang code.</li><li>A December 2001 snapshot of the AXD301 had 4090 dirty functions in 1.13 million lines.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The thesis offers case studies of the AXD301 switch and two smaller products. It analyses a snapshot of the AXD301 code and quotes two trouble reports. The author says irrelevant detail was removed from the quoted reports. The author notes a 99.9999999% reliability figure for one customer had no documented origin. For the smaller products, the author found no hard evidence of long reliable runs. In the sections read, there is no controlled comparison with another language.</p>
+    <h2>Interests and limits</h2>
+    <p>Armstrong designed Erlang and was among the founders of Bluetail, a case study company. The evidence comes from Ericsson and Nortel products, not independent tests. Only parts of the thesis were read, from text extracted from the PDF. They were the abstract, contents and chapter 1. Sections of chapters 2, 4, 5, 8 and 10 were also read.</p>
+  </article>
+</div>
+</body>
+</html>

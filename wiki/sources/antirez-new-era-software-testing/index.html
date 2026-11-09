@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A new era for software testing</title>
+  <meta name="description" content="A short blog post proposing a markdown-driven LLM agent as a manual QA layer.">
+  <meta property="og:title" content="A new era for software testing">
+  <meta property="og:description" content="A short blog post proposing a markdown-driven LLM agent as a manual QA layer.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / A new era for software testing</nav>
+  <header class="title">
+    <h1>A new era for software testing</h1>
+    <p class="lede">A short blog post proposing a markdown-driven LLM agent as a manual QA layer.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>antirez</dd>
+      <dt>Published</dt><dd>Undated (the page says 155 days ago)</dd>
+      <dt>Kind</dt><dd>Personal blog post describing the author's own QA practice</dd>
+      <dt>Original</dt><dd><a href="https://antirez.com/news/168">antirez.com/news/168</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/coding-with-agents/">Coding with agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>antirez wrote this post about using LLM agents for software testing. The author works on Redis and on DwarfStar, an inference engine for open weights models. The post sets out a method added on top of normal test suites.</p>
+    <h2>What it says</h2>
+    <ul><li>antirez says AI code trails the best hand-written code but often beats decent code.</li><li>The proposal is a markdown file telling an agent to act as a QA engineer.</li><li>For DwarfStar, the agent checks new commits, then tests distributed inference and speed regressions.</li><li>The agent need not be told the previous speed, since that target keeps moving.</li><li>For Redis Arrays, the agent built a large app and simulated days of use.</li><li>The agent can also flag features that look surprising, undocumented or sloppy.</li><li>antirez expects automatic QA to raise release quality and offset fast-written code.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the author's own practice on two projects. The post describes what the agent is told to do. It reports no bugs caught and no comparison with manual QA. The closing claim is a feeling, in the author's words.</p>
+    <h2>Interests and limits</h2>
+    <p>antirez builds the projects used as examples. The post gives no date. The page only shows an age of 155 days. Nothing was measured. The effect on release quality is expected, not shown.</p>
+  </article>
+</div>
+</body>
+</html>

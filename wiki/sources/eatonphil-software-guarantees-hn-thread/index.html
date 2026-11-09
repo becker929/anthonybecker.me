@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What can you confidently guarantee about your software?</title>
+  <meta name="description" content="A Hacker News thread debates what formal verification can guarantee for everyday application software.">
+  <meta property="og:title" content="What can you confidently guarantee about your software?">
+  <meta property="og:description" content="A Hacker News thread debates what formal verification can guarantee for everyday application software.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / What can you confidently guarantee about your software?</nav>
+  <header class="title">
+    <h1>What can you confidently guarantee about your software?</h1>
+    <p class="lede">A Hacker News thread debates what formal verification can guarantee for everyday application software.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by eatonphil, with replies from many commenters</dd>
+      <dt>Published</dt><dd>29 June 2026</dd>
+      <dt>Kind</dt><dd>Hacker News discussion thread</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=48719521">news.ycombinator.com/item?id=48719521</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/formal-methods-and-proof/">Formal methods and proof</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Posted by eatonphil, the thread links an ACM Queue article about what developers can guarantee. Commenters quote the article saying a verified core leaves the database and interface outside. The thread is a discussion, not a study.</p>
+    <h2>What it says</h2>
+    <ul><li>The commenter dfabulich says formal verification suits few app developers. E-commerce code, the comment argues, is mostly input and output.</li><li>The commenter dfabulich calls verification a speed-up for property-based testing. Testing fuzzes a rule; verification proves it always holds.</li><li>The commenter gf000 says a model can treat a database call as succeeding or failing. The rest of the code can then be verified against that assumption.</li><li>The commenter jongjong argues that a spec must be as detailed as the code. Writing it down correctly is as hard as writing the code.</li><li>The commenter pron doubts that using AI makes proofs cheaper. Any cost multiplier for humans may stay the same for a model.</li><li>The commenter derdi says verifiers demand proofs of termination and safe access without any spec. The commenter agentultra suggests model checking instead of full proofs.</li><li>The commenter tikhonj reports that property-based testing found bugs in database-heavy apps. The same commenter used properties to agree on metrics with a planning team.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The thread offers opinion and anecdote from commenters. One recalls a college project on Lamport's bakery algorithm. Another describes a supply chain simulation at Target. Another cites a paper on testing Spotify and YouTube web APIs. No commenter gives measurements of verification cost.</p>
+    <h2>Interests and limits</h2>
+    <p>The ACM Queue article was blocked by a Cloudflare check; only the thread was read. The article's claims here come only from what commenters quote. Commenters are unverified. Some promote their own tools, such as a metaparsing project and a verified web frontend.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>simple is not small</title>
+  <meta name="description" content="An essay arguing that simplicity means low coupling rather than small size.">
+  <meta property="og:title" content="simple is not small">
+  <meta property="og:description" content="An essay arguing that simplicity means low coupling rather than small size.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / simple is not small</nav>
+  <header class="title">
+    <h1>simple is not small</h1>
+    <p class="lede">An essay arguing that simplicity means low coupling rather than small size.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>jyn</dd>
+      <dt>Published</dt><dd>27 August 2026</dd>
+      <dt>Kind</dt><dd>Personal blog essay, with code comparisons</dd>
+      <dt>Original</dt><dd><a href="https://jyn.dev/simple-is-not-the-same-as-small/">jyn.dev/simple-is-not-the-same-as-small/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-design/">Software design</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>jyn writes a personal website about programming and tools. The essay takes Rich Hickey's meaning of simple as having one braid. It argues that small Unix tools are often coupled.</p>
+    <h2>What it says</h2>
+    <ul><li>jyn was not satisfied with answering a debugging story with a call for simplicity.</li><li>The essay defines simple as uncoupled, following Rich Hickey's one-braid meaning.</li><li>jyn argues the word-frequency pipeline is small but coupled, since uniq needs sorted input.</li><li>The essay says the Unix idea of doing one thing is really about size.</li><li>jyn says Google Drive for Desktop is large yet feels simple to the user.</li><li>jyn says Clojure decouples data representation from type checking, unlike a Rust struct.</li><li>jyn answers that a program should be simple always.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The essay offers code comparisons, not measurements. It compares a Unix pipeline with Clojure, then a Rust struct with a Clojure map. It cites the author's own coverage pipeline, which grew larger but simpler after a fix.</p>
+    <h2>Interests and limits</h2>
+    <p>The essay is one author's argument resting on code examples. It does not test whether decoupling yields fewer bugs. The author says good taste is something not yet known how to teach. Later posts are promised but were not read.</p>
+  </article>
+</div>
+</body>
+</html>

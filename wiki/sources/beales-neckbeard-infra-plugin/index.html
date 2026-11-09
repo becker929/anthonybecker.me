@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>neckbeard</title>
+  <meta name="description" content="The README of neckbeard, a coding-agent plugin that renders reviewable cloud infrastructure with costs.">
+  <meta property="og:title" content="neckbeard">
+  <meta property="og:description" content="The README of neckbeard, a coding-agent plugin that renders reviewable cloud infrastructure with costs.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / neckbeard</nav>
+  <header class="title">
+    <h1>neckbeard</h1>
+    <p class="lede">The README of neckbeard, a coding-agent plugin that renders reviewable cloud infrastructure with costs.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (repository owned by bealesh)</dd>
+      <dt>Published</dt><dd>Undated; prices dated 26 October 2026</dd>
+      <dt>Kind</dt><dd>GitHub repository README for a pre-alpha plugin, with a benchmark summary</dd>
+      <dt>Original</dt><dd><a href="https://github.com/bealesh/neckbeard">github.com/bealesh/neckbeard</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/agent-tools-and-setups/">Agent tools and setups</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The repository owner bealesh publishes the README. The plugin reads an app repo and asks questions. It renders OpenTofu infrastructure from a catalog of tested modules.</p>
+    <h2>What it says</h2>
+    <ul><li>The README says coding agents write plausible infrastructure code. It says they have never seen the invoice.</li><li>It says humans maintain a tested OpenTofu module catalog. The agent only maps answers onto it.</li><li>The README says a deterministic planner and renderer produce the files. Regeneration refuses to overwrite touched files.</li><li>It reports three check levels: V0 static, V1 plan, V2 deployment. The last two are not exercised.</li><li>It lists reference costs per lane. One AWS Fargate environment runs $149.35 idle and $155.91 expected per month.</li><li>It calls itself pre-alpha, with live deploys passed only on AWS and Azure serverless containers.</li><li>It reports 36 runs on three apps with and without the plugin. With it, V0 passed 9 of 9, against 0 of 9.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The README gives a cost table priced on 26 October 2026. It adds a status table of what has been exercised. It cites a benchmark of 36 runs and a findings ledger. The README says an earlier cost table was withdrawn after undercounts. It adds the plugin gave no help on two tasks outside its scope.</p>
+    <h2>Interests and limits</h2>
+    <p>The author built and promotes the plugin, so the benchmark is a self-test. The cost figures are usage scenarios, not measured bills. The README says they are not equal-capacity benchmarks. Linked benchmark and findings pages were not read. The README is unsigned.</p>
+  </article>
+</div>
+</body>
+</html>

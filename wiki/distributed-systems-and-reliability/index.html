@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Distributed systems and reliability</title>
+  <meta name="description" content="30 sources on systems spread over many machines.">
+  <meta property="og:title" content="Distributed systems and reliability">
+  <meta property="og:description" content="30 sources on systems spread over many machines.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Distributed systems and reliability</nav>
+  <header class="title">
+    <h1>Distributed systems and reliability</h1>
+    <p class="lede">30 sources on systems spread over many machines.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <p>These sources are about systems spread over many machines, and keeping them running. This page lists 30 sources, oldest first where dated.</p>
+    <section>
+      <h2><a href="/wiki/sources/armstrong-erlang-thesis/">Making reliable distributed systems in the presence of software errors</a></h2>
+      <p class="meta">Joe Armstrong, Royal Institute of Technology, Stockholm. December 2003. Doctoral dissertation, with industrial case studies.</p>
+      <p>Armstrong's dissertation describes the research behind Erlang and its OTP libraries. It argues that isolated processes, supervisors and a let-it-crash style give fault tolerance. Its evidence is case studies of Ericsson and Nortel products, mainly the AXD301 switch.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kim-three-ways-devops/">The Three Ways: The Principles Underpinning DevOps</a></h2>
+      <p class="meta">Gene Kim, IT Revolution. 22 August 2012. Short explainer post on a publisher's site.</p>
+      <p>Kim describes three principles: flow and systems thinking, amplified feedback, and experimentation and learning. The post only defines each way and lists outcomes. It says patterns derived from each way will come in a later post.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/limoncelli-senior-sysadmin/">What makes a sysadmin a "senior sysadmin"?</a></h2>
+      <p class="meta">Tom Limoncelli. 26 September 2012. Short personal blog post, with six reader comments.</p>
+      <p>Limoncelli gives four marks of a senior sysadmin: understanding, experience, automation and leadership. The post says leadership matters most. Documentation is how a senior person multiplies effort. It is one person's definition with no data. Six reader comments follow.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/takada-distributed-systems-fun-profit/">Distributed systems for fun and profit</a></h2>
+      <p class="meta">Mikito Takada. 2013. Free online book in five chapters.</p>
+      <p>Mikito Takada aims for a narrative that gives the gist without bogging down in detail. The book covers abstractions, time and order, and replication that prevents or accepts divergence. Its evidence is explanation, small code sketches and citations to papers.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/hodges-notes-distributed-systems-young-bloods/">Notes on Distributed Systems for Young Bloods</a></h2>
+      <p class="meta">Jeff Hodges. 14 January 2013. Personal blog post, a list of lessons from experience.</p>
+      <p>The post is a practical list of short lessons, each a short section. It draws on the author's experience and uses examples such as Twitter ids and search. It states that it is incomplete and covers technical problems more than social ones.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/mahoney-data-compression-explained/">Data Compression Explained</a></h2>
+      <p class="meta">Matt Mahoney, copyright Dell, Inc.. Last updated 15 April 2013. Free online book, with code and benchmark tables.</p>
+      <p>Mahoney's book covers information theory, benchmarks, coding, modeling, transforms and lossy compression. It mixes proofs and counting arguments with code sketches and benchmark tables. The author frames compression as an artificial intelligence problem. The book may be copied unmodified and free of charge.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/wozniak-orms-just-learn-sql/">What ORMs have taught me: just learn SQL</a></h2>
+      <p class="meta">Not stated (the site is wozniak.ca). 3 August 2014. Personal blog post drawing on about 30 months of work.</p>
+      <p>The author draws on 30 months of work with Postgres, SQLAlchemy and Hibernate. The post goes through problems with wide tables, joins, schemas, identities and transactions. It reports a few concrete numbers from that work. The author says the advice fits one use case only.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/sonpatki-sre-story-alex-hidalgo/">SRE Story with Alex Hidalgo</a></h2>
+      <p class="meta">Prathamesh Sonpatki, interviewing Alex Hidalgo. 21 August 2023. Newsletter interview, recorded 14 April 2023.</p>
+      <p>The interview is conversational and personal. Hidalgo covers career steps, daily work, Google's SRE books and how ideas arrive. Its evidence is Hidalgo's own recollection and opinion.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/webb-vectorize-search/">Using Vectorize to build an unreasonably good search engine in 160 lines of code</a></h2>
+      <p class="meta">Matt Webb, on the PartyKit blog. 9 Jan 2024. Vendor blog tutorial with working code.</p>
+      <p>Matt Webb builds search for Braggoscope with PartyKit, Cloudflare Vectorize and an embedding model. The post shows the indexing and query code in full. Its evidence is the code and one example query, not a measured comparison.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/hochstein-carefulness-knob/">The carefulness knob</a></h2>
+      <p class="meta">Lorin Hochstein, on the Surfing Complexity blog. 29 October 2024. Personal blog post, a short play with a coda.</p>
+      <p>The post is a one-act play followed by a brief commentary. A tech lead and an engineering manager discuss setting a "carefulness knob". The coda ties the play to the efficiency-thoroughness trade-off. The only evidence is the dialogue itself.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/huhnken-dual-nature-events-eda/">The Dual Nature of Events in Event-Driven Architecture</a></h2>
+      <p class="meta">Lutz Hühnken. 31 October 2024. Personal blog post, argument only.</p>
+      <p>The post sets two professional views of event design side by side. It then gives the author's own rule of thumb for what an event should hold. It offers argument and a small example, with no measurements.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kraft-lightweight-durable-execution/">Why Durable Execution Should Be Lightweight</a></h2>
+      <p class="meta">Peter Kraft and Qian Li, DBOS. 12 January 2025. Company blog post explaining the design of its own open-source library.</p>
+      <p>The post contrasts external orchestrators with a library that stores state in Postgres. It explains how the DBOS Transact library records and replays workflow steps. It rests on a design explanation and has no benchmarks. DBOS sells products built on this approach.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/creston-wasm-will-replace-containers/">WASM will replace containers</a></h2>
+      <p class="meta">Creston. 10 Feb 2025. Short opinion blog post.</p>
+      <p>Creston bets that WebAssembly will displace containers because of portability and cheap calls between services. The post concedes that system interfaces are still missing. It offers argument and one example, Cloudflare Workers, but no tests.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/mmdev-decapitating-macbook/">Decapitating Macbook: An Odyssey</a></h2>
+      <p class="meta">Not stated. 6 March 2025, updated 28 August 2025. Personal blog series in 11 parts, with shell scripts.</p>
+      <p>An 11 part account of buying a cheap M1 MacBook Air and removing the display. The author works mostly on Linux and uses the Mac for Apple builds. It gives troubleshooting steps and shell scripts, but it is one person's setup.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/pacheco-developing-for-debugging/">Developing for Debugging</a></h2>
+      <p class="meta">David Pacheco (posting as dap), Dave Pacheco's Blog. 9 June 2025. Personal blog post with one worked example.</p>
+      <p>The post walks through one subsystem and the debugger built around it. It names the practice "developing for debugging". It also argues that software should show positive evidence that it works. The evidence is one example with real tool output.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/sondhi-reverse-engineering-actions-cache/">Reverse engineering GitHub Actions cache to make it fast</a></h2>
+      <p class="meta">Aaditya Sondhi, Founding Engineer, Blacksmith. 23 July 2025. Company engineering blog post.</p>
+      <p>The post comes from Blacksmith, which sells a CI cloud for GitHub Actions. It describes proxying, kernel network rules and a custom storage bridge. The evidence is one before-and-after log and a claim of up to 10x speedup. The post is also a product pitch.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/quinn-aws-2025-outdated-knowledge/">AWS in 2025: The Stuff You Think You Know That's Now Wrong</a></h2>
+      <p class="meta">Corey Quinn, Chief Cloud Economist at Duckbill (Last Week in AWS blog). 20 August 2025. Company blog post, a list of changed AWS facts.</p>
+      <p>The post is a checklist grouped by service, from EC2 and S3 to billing. It is aimed at readers whose AWS knowledge may be years old. It offers the author's assertions and reader tips, with no tests.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/banks-fafo-looking-forward/">Looking Forward with Tim Banks</a></h2>
+      <p class="meta">Podcast episode with guest Tim Banks; hosts not named on the page. 5 November 2025. Podcast episode page with a machine-made transcript.</p>
+      <p>The page holds a short description and a transcript of a wide-ranging chat. Guest Tim Banks describes a systems career and discusses failure, community and unions. Speakers also give opinions on AI and the tech industry. The evidence is spoken opinion and anecdote.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/brush-reliability-in-chaos-srecon26/">Taming the Unpredictable: Reliability in Chaos</a></h2>
+      <p class="meta">Michelle Brush, Google Inc.. 24 March 2026. Conference talk page, abstract only.</p>
+      <p>The page is short. It holds an abstract, a speaker biography and a link to a video. The abstract names four strategies for coping with unpredictable systems. The talk itself is not described beyond that.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/wilson-skiptrees-skiplists/">What are skiplists good for?</a></h2>
+      <p class="meta">Will Wilson, Co-founder &amp; CEO, Antithesis. 16 April 2026. Company blog post, with one engineering anecdote.</p>
+      <p>The post explains skiplists briefly. It then tells how Antithesis built a skiptree for BigQuery. Its evidence is the author's own account of one production system. It gives table layouts but no benchmarks beyond a cost remark.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/pmig-hn-docker-compose-production/">Should I run plain Docker Compose in production in 2026?</a></h2>
+      <p class="meta">Posted by pmig, with replies from many commenters. 30 April 2026. Hacker News discussion thread about a company blog post.</p>
+      <p>A Hacker News thread with 413 points about a Distr post. The poster says Distr helps companies distribute software to customers. Commenters quote the post, then argue about alternatives such as Podman, Kubernetes and Swarm. Evidence is personal experience.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/orlenko-bun-rust-rewrite-prisma-compute/">We put Bun's Rust rewrite in production on Prisma Compute</a></h2>
+      <p class="meta">Alexey Orlenko, senior engineer at Prisma. 11 June 2026. Company engineering blog post, with test results.</p>
+      <p>The post is a company report on a runtime choice. It compares stable Bun and a canary build. The two failures are memory growth and a stuck database pool. Its evidence is Prisma's own testing plus one public bug report.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/buf-protobuf-py-launch/">protobuf-py: Protobuf for Python, without compromises</a></h2>
+      <p class="meta">Team Buf, Buf Technologies, Inc.. July 7, 2026. Company launch post for an open source library, with one benchmark.</p>
+      <p>Buf says protobuf-py is complete, readable and as fast as Google's C engine in production. The post explains why Google's Python package feels awkward. Its evidence is a conformance claim and a single end-to-end benchmark table.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/sporks-modern-relational-query-language/">Things I want in a modern relational query language</a></h2>
+      <p class="meta">cb (posting on the sporks space community blog). 19 August 2026. Personal blog post, a design wish list with invented pseudocode.</p>
+      <p>The post is a wish list, not a proposal with a working tool. It draws on the author's experience with MySQL and Db2. Its examples use made-up syntax with sum types and pattern matching. Reader comments point to existing projects with similar aims.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/jxmorris12-hn-twelve-factor-app/">The Twelve-Factor App (2025)</a></h2>
+      <p class="meta">Posted by jxmorris12, with replies from many commenters. 27 August 2026. Hacker News discussion thread about a methodology page.</p>
+      <p>A Hacker News thread with 317 points about the twelve-factor page. Replies drift to multi-factor logins, Heroku nostalgia and what the factors replaced. The longest argument is whether config and secrets belong in environment variables. Evidence is mostly experience and argument.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/grep-it-hn-distributed-systems-classics/">Distributed Systems Classics (2017)</a></h2>
+      <p class="meta">Posted by grep_it, with replies from many commenters. 14 September 2026. Hacker News discussion thread about a reading list.</p>
+      <p>A Hacker News thread with 351 points about Nicolae Vartolomei's list of ten papers. Commenters add favourites and argue about CAP, event ordering and physics. Evidence is expert opinion and anecdote.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/anon-distributed-systems-reading-list/">A Distributed Systems Reading List</a></h2>
+      <p class="meta">Not stated. Undated. Annotated reading list of links.</p>
+      <p>The page is a reading list, not an argument. It groups links into thirteen topics. These include latency, Google, consistency, Paxos, gossip and peer-to-peer. Many entries carry a one-line note. The list suggests a reading order for the Paxos papers.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/brooker-economics-load-balanced-systems/">Surprising Economics of Load-Balanced Systems</a></h2>
+      <p class="meta">Marc Brooker, an Amazon Web Services engineer. Undated. Personal blog post using queueing theory and a simulation.</p>
+      <p>Marc Brooker poses a puzzle about servers behind a load balancer. Brooker answers with the Erlang C formula and a Monte Carlo simulation. The post concludes that larger systems get better latency at the same utilization.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/brooker-two-random-choices/">The power of two random choices</a></h2>
+      <p class="meta">Marc Brooker, an Amazon Web Services engineer. Undated. Personal blog post, with one small simulation.</p>
+      <p>Marc Brooker explains why load balancers using cached load data cause herding. Brooker then simulates four host-picking rules. Best of two random choices leads the others for refresh intervals from 10 to 70.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kqr-root-cause-analysis-doing-it-wrong/">Root Cause Analysis? You're Doing It Wrong</a></h2>
+      <p class="meta">kqr, on the Entropic Thoughts blog. Undated. Personal blog draft, marked by the author as an unedited early draft.</p>
+      <p>kqr argues that root cause analysis reduces a complex accident to one convenient cause. The draft outlines the CAST method from Leveson's handbook. It works one software outage through the method. The author warns that the draft is rough and points to better articles.</p>
+    </section>
+    <h2>Glossary</h2>
+    <dl><dt>Apple Silicon</dt><dd>Apple's own ARM-based processors used in recent Macs.</dd><dt>Arithmetic coding</dt><dd>A method that turns probabilities into a compact stream of bits.</dd><dt>AS 400</dt><dd>An older IBM business computer system.</dd><dt>AWS</dt><dd>Amazon Web Services, Amazon's cloud computing platform.</dd><dt>AXD301</dt><dd>An Ericsson ATM switch with a very large Erlang code base.</dd><dt>Background task</dt><dd>A periodic or event-triggered job inside Nexus that reports status.</dd><dt>Backpressure</dt><dd>Signals that tell a sender to slow down when a receiver is overloaded.</dd><dt>Best of two</dt><dd>Pick two servers at random, then send the request to the less busy one.</dd><dt>Betterproto</dt><dd>A Python Protobuf library that supports only proto3.</dd><dt>BigQuery</dt><dd>Google's cloud database built for scanning very large tables.</dd><dt>Brazilian jiu-jitsu</dt><dd>A grappling martial art with ranked belts.</dd><dt>Bun</dt><dd>A JavaScript and TypeScript runtime, an alternative to Node.js.</dd><dt>Byzantine fault</dt><dd>A failure in which a machine sends wrong or conflicting information.</dd><dt>Cache</dt><dd>Saved files, such as dependencies, reused to speed up later runs.</dd><dt>Calgary corpus</dt><dd>A set of 14 files long used to benchmark compressors.</dd><dt>Canary build</dt><dd>An early test release that is built from the newest code.</dd><dt>CAP theorem</dt><dd>A result about the trade-off between consistency and availability during a network split.</dd><dt>CAST</dt><dd>Causal Analysis based on Systems Theory, a method for investigating accidents.</dd><dt>Chain replication</dt><dd>A way to copy data through a line of servers.</dd><dt>CI</dt><dd>Continuous integration, the automated build and test runs triggered by code changes.</dd><dt>Circuit breaker</dt><dd>Code that stops retrying a failing call so the failure cannot spread.</dd><dt>CockroachDB</dt><dd>A distributed database that provides strong consistency.</dd><dt>Codemagic</dt><dd>A cloud service that builds and publishes apps, including for Apple platforms.</dd><dt>Conformance suite</dt><dd>A set of tests that checks a library follows the specification.</dd><dt>Connection pool</dt><dd>A set of open database connections that a program reuses.</dd><dt>Container</dt><dd>A packaged app plus its dependencies, run in isolation on a shared operating system.</dd><dt>Control plane</dt><dd>The software that manages and configures a larger system.</dd><dt>CRDT</dt><dd>A data type that merges edits from different machines without conflicts.</dd><dt>CRE</dt><dd>Customer Reliability Engineering, a Google team helping cloud customers run reliable services.</dd><dt>Deterministic</dt><dd>Giving the same results and calls whenever it is run with the same inputs.</dd><dt>DevOps</dt><dd>A way of working that joins software development and IT operations.</dd><dt>Dirty function</dt><dd>The thesis's term for a function that sends messages or calls certain risky built-ins.</dd><dt>DNS</dt><dd>The system that turns names into network addresses.</dd><dt>Docker Compose</dt><dd>A tool that starts several containers from one YAML file.</dd><dt>Domain</dt><dd>A user-defined data type with its own rules, as in the relational model.</dd><dt>Dotenv</dt><dd>A tool that loads settings from a .env file into the environment.</dd><dt>Durable execution</dt><dd>Saving a program's progress so it can resume after a crash.</dd><dt>EBS</dt><dd>Block storage volumes that attach to EC2 servers.</dd><dt>EC2</dt><dd>AWS service for renting virtual servers.</dd><dt>Embedding</dt><dd>A list of numbers that stands for the meaning of a piece of text.</dd><dt>Entropy</dt><dd>A measure of the average information in each symbol of a source.</dd><dt>Environment variable</dt><dd>A named setting that a program receives from its surroundings.</dd><dt>Erlang</dt><dd>A programming language built at Ericsson for telephone systems.</dd><dt>Erlang C formula</dt><dd>A formula giving the chance an arriving request has to wait in the queue.</dd><dt>Error budget</dt><dd>The amount of failure a service may have while still meeting its SLO.</dd><dt>ETTO principle</dt><dd>The idea that people trade thoroughness against efficiency in their work.</dd><dt>Event storming</dt><dd>A workshop method for mapping a business process as events.</dd><dt>Event-driven architecture</dt><dd>A design where services communicate by publishing and reacting to events.</dd><dt>Eventual consistency</dt><dd>A guarantee that replicas agree if updates stop, after some unspecified time.</dd><dt>Fault tolerance</dt><dd>The ability of a system to keep working despite errors.</dd><dt>Feature flag</dt><dd>A switch that turns a code path on or off without a new deploy.</dd><dt>Feedback loop</dt><dd>A path by which results are passed back so that corrections can be made.</dd><dt>Firecracker VM</dt><dd>A lightweight virtual machine used to isolate each job.</dd><dt>Flutter</dt><dd>A toolkit for building apps for many platforms from one code base.</dd><dt>Foreign key</dt><dd>A column that points at a row in another table.</dd><dt>Fork Around and Find Out</dt><dd>The name of the podcast, a play on a common saying.</dd><dt>Fuzzer</dt><dd>A tool that tests software with many random or varied inputs.</dd><dt>Generic mitigation</dt><dd>A fix that reduces harm from many kinds of failure, without needing the cause.</dd><dt>GitHub Actions</dt><dd>GitHub's built-in system for running automated workflows.</dd><dt>Gossip protocol</dt><dd>A method where nodes pass information to random peers, like spreading a rumor.</dd><dt>Hall sensor</dt><dd>A part that detects a magnet, used to sense when a laptop lid closes.</dd><dt>Hallway track</dt><dd>The informal conversations between sessions at a conference.</dd><dt>Hazard</dt><dd>A system state that makes an accident possible but does not guarantee one.</dd><dt>Headless</dt><dd>Running a computer without a screen, keyboard or mouse attached.</dd><dt>Herd behavior</dt><dd>Many clients acting on the same old information and piling onto one server.</dd><dt>Heroku</dt><dd>A cloud platform whose founders wrote the twelve factors.</dd><dt>Hibernate</dt><dd>A Java ORM library.</dd><dt>Hindsight bias</dt><dd>The habit of seeing past events as more predictable than they were.</dd><dt>Horizontal scalability</dt><dd>Handling more load by adding machines rather than a bigger machine.</dd><dt>IAM</dt><dd>AWS system for controlling who can do what.</dd><dt>Incident</dt><dd>An unplanned failure or outage in a software system.</dd><dt>Incident review</dt><dd>A meeting held after an outage to discuss what happened.</dd><dt>JVM</dt><dd>The Java Virtual Machine, which runs compiled Java bytecode.</dd><dt>Kafka</dt><dd>A widely used platform for streaming events between systems.</dd><dt>Kolmogorov complexity</dt><dd>The length of the shortest program that produces a given string.</dd><dt>Kubernetes</dt><dd>A system for running containers across many machines.</dd><dt>Lambda</dt><dd>AWS service that runs code without managing servers.</dd><dt>Load balancer</dt><dd>A component that spreads incoming requests across several servers.</dd><dt>Local optimization</dt><dd>Improving one team's step in a way that may hurt the whole flow.</dd><dt>Lossless compression</dt><dd>Compression after which the original data can be restored exactly.</dd><dt>Lossy compression</dt><dd>Compression that throws away detail people are unlikely to notice.</dd><dt>LZ77</dt><dd>A scheme that replaces repeated strings with pointers to earlier copies.</dd><dt>M/M/c queue</dt><dd>A queueing model with random arrivals, random service times and c servers.</dd><dt>MFA</dt><dd>Multi-factor authentication, which asks for more than a password.</dd><dt>Microservices</dt><dd>A design that splits an application into small services talking over a network.</dd><dt>Migration</dt><dd>A change to a database schema that must be applied to existing data.</dd><dt>MinIO</dt><dd>A self-hosted object store that speaks the S3 protocol.</dd><dt>Monitoring system</dt><dd>Software that watches servers and raises alarms when something fails.</dd><dt>Monte Carlo simulation</dt><dd>A method that estimates results by running many random trials.</dd><dt>Nexus</dt><dd>The core component of the Oxide control plane.</dd><dt>Nftables</dt><dd>The newer Linux packet filtering framework.</dd><dt>NoMachine</dt><dd>Software for controlling a computer's desktop over a network.</dd><dt>Nondeterministic</dt><dd>Not always giving the same result from the same input.</dd><dt>NoSQL</dt><dd>A family of databases that do not use the relational table model.</dd><dt>Omdb</dt><dd>The Omicron debugger, a command-line tool for inspecting the control plane.</dd><dt>OpenTelemetry</dt><dd>An open standard for collecting traces and metrics from software.</dd><dt>Orchestrator</dt><dd>A server that runs workflow code and dispatches steps to workers.</dd><dt>ORM</dt><dd>An object-relational mapper, a library that maps database rows to program objects.</dd><dt>Orphan container</dt><dd>A container still running after its service was removed from the Compose file.</dd><dt>OTP</dt><dd>The Open Telecom Platform, the library set that ships with Erlang.</dd><dt>Partial failure</dt><dd>A fault where some parts of a system work while others do not.</dd><dt>Partial order</dt><dd>An ordering in which some pairs of events have no defined order.</dd><dt>Pattern matching</dt><dd>Choosing code or rows by the shape of a value.</dd><dt>Paxos</dt><dd>A family of algorithms for getting nodes to agree on a value.</dd><dt>Percentile</dt><dd>The value below which a given share of measurements fall.</dd><dt>Percentile latency</dt><dd>The time below which a given share of requests finish, such as p99.</dd><dt>Podman</dt><dd>A container tool that runs without a central background daemon.</dd><dt>Point lookup</dt><dd>Fetching one row directly by its ID.</dd><dt>Postgres</dt><dd>An open-source relational database.</dd><dt>Projection</dt><dd>Choosing only some columns of a table in a query.</dd><dt>Protobuf</dt><dd>A compact format for structured data, defined in proto files.</dd><dt>Protocol Buffers</dt><dd>A format and toolset for defining and serializing structured data across languages.</dd><dt>Proxy</dt><dd>A server that forwards requests on behalf of another.</dd><dt>Quadlet</dt><dd>A Podman feature that turns container files into systemd services.</dd><dt>Query planner</dt><dd>The database part that decides how to run a query.</dd><dt>Quorum</dt><dd>The number of nodes that must respond for a read or write to count.</dd><dt>Raft</dt><dd>A consensus algorithm designed to be easier to teach than Paxos.</dd><dt>RAG</dt><dd>Retrieval-augmented generation: a chatbot first looks up relevant documents, then answers.</dd><dt>RAII</dt><dd>A Rust and C++ pattern that frees resources when an object goes out of scope.</dd><dt>RDBMS</dt><dd>A relational database management system, such as MySQL or Postgres.</dd><dt>Reproducibility</dt><dd>The ability to recreate a problem so it can be studied.</dd><dt>Root cause analysis</dt><dd>Tracing an incident back to one underlying cause and fixing it.</dd><dt>Rote memorization</dt><dd>Learning steps by heart without knowing why they work.</dd><dt>RSS</dt><dd>Resident set size, the memory a process holds in RAM.</dd><dt>S3</dt><dd>AWS service for storing files as objects.</dd><dt>Savings Plans</dt><dd>A pricing option that trades a spending commitment for discounts.</dd><dt>Scale to zero</dt><dd>Shutting an app down when idle and starting it on demand.</dd><dt>Schema registry</dt><dd>A service that stores and checks the data formats of events.</dd><dt>Secrets store</dt><dd>A service that keeps passwords and keys apart from code.</dd><dt>Semantic search</dt><dd>Search that matches meaning, not just the words typed.</dd><dt>Skiplist</dt><dd>A randomized sorted list with extra express lanes that make search fast.</dd><dt>SLO</dt><dd>Service level objective, a target for how well a service should perform.</dd><dt>SQL</dt><dd>The long-standing language for querying relational databases.</dd><dt>SQLAlchemy</dt><dd>A Python ORM and SQL toolkit.</dd><dt>SRE</dt><dd>Site reliability engineer, a person who keeps online services running.</dd><dt>SREcon</dt><dd>A USENIX conference for site reliability engineers.</dd><dt>Stale data</dt><dd>Information that was correct when collected but may have changed since.</dd><dt>Stored procedure</dt><dd>Code saved and run inside the database itself.</dd><dt>Sum type</dt><dd>A type whose values are exactly one of several named variants.</dd><dt>Supervisor</dt><dd>A process that watches worker processes and restarts them after errors.</dd><dt>Sysadmin</dt><dd>A person who runs and maintains computer systems.</dd><dt>Systemd</dt><dd>The service manager used by most Linux distributions.</dd><dt>Table-stream duality</dt><dd>The idea that a stream and a table can describe the same data.</dd><dt>Tech lead</dt><dd>The engineer who guides the technical decisions of a team.</dd><dt>Temporal</dt><dd>An external orchestration system for durable workflows.</dd><dt>Throughput</dt><dd>How many operations a program completes per second.</dd><dt>Twelve-factor app</dt><dd>A set of twelve practices for building apps that run as online services.</dd><dt>Two-phase commit</dt><dd>A protocol where all nodes vote before a transaction becomes permanent.</dd><dt>Upb</dt><dd>The C engine that Google's Python protobuf package uses underneath.</dd><dt>Upsert</dt><dd>A database write that inserts a record or replaces it if it exists.</dd><dt>V8</dt><dd>The JavaScript and WebAssembly engine used in Chrome and Cloudflare Workers.</dd><dt>Value stream</dt><dd>The path work takes from a request to delivery to a customer.</dd><dt>Vector clock</dt><dd>A set of counters, one per node, that tracks which events could have caused which.</dd><dt>Vector database</dt><dd>A database that finds stored vectors closest to a query vector.</dd><dt>Vibe coding</dt><dd>Building software by prompting an AI model without careful review.</dd><dt>WebAssembly</dt><dd>A compact code format that runs in browsers and other sandboxed runtimes.</dd><dt>Wide event</dt><dd>An event that carries most or all of an entity's data.</dd><dt>Window function</dt><dd>A SQL feature that computes values across related rows without collapsing them.</dd><dt>Workflow</dt><dd>A sequence of steps run as one durable unit.</dd></dl>
+  </article>
+</div>
+</body>
+</html>

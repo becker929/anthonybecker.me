@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidence on agents and cost</title>
+  <meta name="description" content="Seven sources that try to measure what coding agents deliver.">
+  <meta property="og:title" content="Evidence on agents and cost">
+  <meta property="og:description" content="Seven sources that try to measure what coding agents deliver.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Evidence on agents and cost</nav>
+  <header class="title">
+    <h1>Evidence on agents and cost</h1>
+    <p class="lede">Seven sources that try to measure what coding agents deliver.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <p>These sources try to measure what coding agents deliver and what they cost. Some are studies and some are single tests. This page lists seven sources, oldest first where dated.</p>
+    <section>
+      <h2><a href="/wiki/sources/goedecke-metr-ai-productivity-study/">METR's AI productivity study is really good</a></h2>
+      <p class="meta">Sean Goedecke. 11 July 2025. Personal blog post reviewing one study.</p>
+      <p>The post reviews METR's study of experienced open-source developers using AI tools. It highlights the finding that developers were 19% slower while believing they were faster. The author offers guesses about why. The evidence is a reading of the study plus the author's experience.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/hn-professional-developers-control-thread/">Professional software developers don't vibe, they control</a></h2>
+      <p class="meta">Posted by dpflan, with replies from many commenters. 30 December 2025. Hacker News discussion thread about an arXiv paper.</p>
+      <p>The thread has replies from many commenters under a link to the paper. Early comments argue over whether 13 observed developers and 99 survey answers are enough. Later comments turn to mental fatigue, large codebases and jobs. The evidence is opinion and personal anecdote.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/salim-tokenomics-agentic-se/">Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering</a></h2>
+      <p class="meta">Mohamad Salim and three co-authors, Concordia University. 20 January 2026. Short work-in-progress empirical preprint.</p>
+      <p>The paper traces token use in ChatDev runs on 30 tasks with a GPT-5 model. It reports that code review used most tokens, and that input tokens outweighed output. The authors call it preliminary and cover one system and one model.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/hn-constraint-decay-backend-agents-thread/">Constraint Decay: The Fragility of LLM Agents in Back End Code Generation</a></h2>
+      <p class="meta">Posted by wek, with replies from many commenters. 24 May 2026. Hacker News discussion thread about an arXiv paper.</p>
+      <p>The thread has replies from many commenters under a link to the paper. Commenters quote its abstract and argue about its models and setup. Others share their own experience with agents, linters and example files. The evidence is opinion and anecdote.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kurkiewicz-glm-52-vat-benchmark/">GLM 5.2 is (nearly) as accurate as a human book-keeper at less than 1% of the cost</a></h2>
+      <p class="meta">Adam Kurkiewicz, Vineyard Finance. 8 July 2026. Company blog post reporting a single benchmark run.</p>
+      <p>The post tests GLM 5.2 on 59 transactions from one company's first quarter of 2026. It scores each transaction on six criteria against books that humans prepared. The model's net VAT figure was off by 7 pence. The post comes from a firm that sells bookkeeping software.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/boluk-prewalk-frontier-one-edit/">You only need the frontier model for one single edit</a></h2>
+      <p class="meta">Can Bölük, Stencil Labs. 13 July 2026. Company research blog post with benchmark tables.</p>
+      <p>The post tests a technique called prewalk on SWE-Bench Pro with seven model arms. Prewalk costs less than the frontier model alone, at some loss in pass rate. It also reports fewer runs that searched the web for the answer. The evidence is benchmark tables and annotated traces from the authors' own runs.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/hn-just-ask-claude-skill/">"Just Ask Claude" Is a Rare and Valuable Skill</a></h2>
+      <p class="meta">Posted by surprisetalk, with replies from many commenters; the linked essay is by Justis Mills. 12 October 2026. Hacker News discussion thread about a short humorous essay.</p>
+      <p>The thread has many replies under a link to a Substack essay by Justis Mills. The essay jokes that asking an AI on a friend's behalf is a useful skill. Commenters debate pasted AI answers and AI accuracy. A large share drifts into YouTube ads.</p>
+    </section>
+    <h2>Glossary</h2>
+    <dl><dt>Ad blocker</dt><dd>A browser extension that hides or blocks advertisements.</dd><dt>Agentic coding tools</dt><dd>AI tools that edit code and run commands on their own.</dd><dt>Agentic tools</dt><dd>AI tools that act on code directly in an editor or terminal, not just chat.</dd><dt>ChatDev</dt><dd>An open-source framework where role-playing AI agents act as a small software company.</dd><dt>Communication tax</dt><dd>The extra token cost of agents passing large context back and forth.</dd><dt>Constraint decay</dt><dd>The paper's term for agent performance falling as structural rules pile up.</dd><dt>Context rot</dt><dd>The decline in a model's answers as its working context grows long.</dd><dt>Cursor</dt><dd>An AI-assisted code editor.</dd><dt>Frontier model</dt><dd>One of the most capable and most expensive AI models available.</dd><dt>Harness</dt><dd>The program around a model that gives it tools and runs its loop.</dd><dt>Linter</dt><dd>A tool that checks code against style or structure rules automatically.</dd><dt>LLM-MA system</dt><dd>A setup where several language-model agents with set roles work on one task.</dd><dt>LMGTFY</dt><dd>Short for Let Me Google That For You, a joke search link.</dd><dt>METR</dt><dd>A research group that evaluates AI systems.</dd><dt>Oneshot</dt><dd>One model does the whole task with no handoff.</dd><dt>Open-weights model</dt><dd>An AI model whose trained parameters are published for anyone to run.</dd><dt>Prefill</dt><dd>Starting a model's reply with text so it continues in that vein.</dd><dt>Premium subscription</dt><dd>A paid plan of a service that removes ads or adds better features.</dd><dt>Pure software</dt><dd>The author's phrase for libraries and compilers with a high quality bar.</dd><dt>Qualitative research</dt><dd>Research that studies people's accounts and behavior in depth instead of counting.</dd><dt>Reasoning tokens</dt><dd>Tokens a model spends thinking before it gives its answer.</dd><dt>Reverse-charge VAT</dt><dd>A rule where the buyer, not the seller, accounts for the VAT.</dd><dt>SponsorBlock</dt><dd>A browser extension that skips sponsor segments in YouTube videos.</dd><dt>SWE-Bench</dt><dd>A benchmark of real software bugs that AI agents try to fix.</dd><dt>Thematic saturation</dt><dd>The point where new answers stop revealing new themes.</dd><dt>Token</dt><dd>A small chunk of text that a language model reads or writes.</dd><dt>VAT</dt><dd>Value-added tax, a sales tax that UK businesses collect and report each quarter.</dd><dt>Vibe coding</dt><dd>Having an AI write code with little checking of what it produces.</dd><dt>Zero-rated versus exempt</dt><dd>Two VAT categories that both involve no VAT payment but differ in tax rules.</dd></dl>
+  </article>
+</div>
+</body>
+</html>

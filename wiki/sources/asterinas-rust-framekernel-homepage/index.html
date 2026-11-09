@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asterinas</title>
+  <meta name="description" content="The homepage of an open-source project writing Rust operating system kernels.">
+  <meta property="og:title" content="Asterinas">
+  <meta property="og:description" content="The homepage of an open-source project writing Rust operating system kernels.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Asterinas</nav>
+  <header class="title">
+    <h1>Asterinas</h1>
+    <p class="lede">The homepage of an open-source project writing Rust operating system kernels.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Project homepage</dd>
+      <dt>Original</dt><dd><a href="https://asterinas.github.io/">asterinas.github.io/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The page introduces the Asterinas community and its Rust kernel. It also introduces OSDK, a kit for building Rust kernels.</p>
+    <h2>What it says</h2>
+    <ul><li>The page calls Asterinas an open-source community building Rust kernels with a framekernel design.</li><li>A framekernel keeps the OS in one address space, split into Framework and Services.</li><li>Only the Framework may use unsafe Rust, so kernel memory safety reduces to the Framework's.</li><li>The page claims all unsafe Rust is confined to ostd, and drivers are safe Rust.</li><li>The page shows OSDK creating, running and testing a kernel with cargo osdk commands.</li><li>The page claims Asterinas runs Linux applications without any modification.</li><li>The page says Asterinas uses the Mozilla Public License.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The page gives an architecture diagram, command examples and a unit test snippet. It offers no benchmark numbers. It points to a separate book for technical detail.</p>
+    <h2>Interests and limits</h2>
+    <p>The project wrote the page and promotes itself. The performance and security claims are not backed by data here. Nothing was built or run. The linked docs and book were not read.</p>
+  </article>
+</div>
+</body>
+</html>

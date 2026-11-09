@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Twelve-Factor App (2025)</title>
+  <meta name="description" content="A Hacker News thread discusses the Twelve-Factor App methodology page.">
+  <meta property="og:title" content="The Twelve-Factor App (2025)">
+  <meta property="og:description" content="A Hacker News thread discusses the Twelve-Factor App methodology page.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The Twelve-Factor App (2025)</nav>
+  <header class="title">
+    <h1>The Twelve-Factor App (2025)</h1>
+    <p class="lede">A Hacker News thread discusses the Twelve-Factor App methodology page.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by jxmorris12, with replies from many commenters</dd>
+      <dt>Published</dt><dd>27 August 2026</dd>
+      <dt>Kind</dt><dd>Hacker News discussion thread about a methodology page</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=49472216">news.ycombinator.com/item?id=49472216</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The thread follows the twelve-factor page, written by Adam Wiggins and drawn from Heroku experience. The page lists twelve practices for apps run as services. Commenters recall what the factors answered and test them against current practice.</p>
+    <h2>What it says</h2>
+    <ul><li>The top comment jokes the title is a multi-factor login demo; replies vent about MFA.</li><li>Commenters explain that port binding answered older practice of deploying apps into containers like Tomcat.</li><li>One commenter calls the environment a poor place for secrets, as subprocesses can leak it.</li><li>Another replies that the environment is an IPC mechanism on which secret stores are built.</li><li>A commenter says unsetenv leaves secrets readable in /proc/self/environ, though the risk is modest.</li><li>The creator of Node dotenv says to encrypt .env and keep the key apart.</li><li>One commenter says the model punted on state by defining it out of scope.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>Commenters give anecdotes, named tools and short technical arguments. Only one gives a figure, a sub 1ms response time for a secrets cache. One commenter lists earlier Hacker News threads on the same page.</p>
+    <h2>Interests and limits</h2>
+    <p>The linked page comes from authors tied to Heroku, now part of Salesforce. The title says 2025, but the page says last updated 2017. Comments are unverified, and the opening exchange is about an unrelated topic.</p>
+  </article>
+</div>
+</body>
+</html>

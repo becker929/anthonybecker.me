@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>On the criteria to be used in decomposing systems into modules</title>
+  <meta name="description" content="A blog post that summarises David Parnas&#x27;s 1971 paper on dividing systems into modules.">
+  <meta property="og:title" content="On the criteria to be used in decomposing systems into modules">
+  <meta property="og:description" content="A blog post that summarises David Parnas&#x27;s 1971 paper on dividing systems into modules.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / On the criteria to be used in decomposing systems into modules</nav>
+  <header class="title">
+    <h1>On the criteria to be used in decomposing systems into modules</h1>
+    <p class="lede">A blog post that summarises David Parnas's 1971 paper on dividing systems into modules.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Adrian Colyer, The Morning Paper</dd>
+      <dt>Published</dt><dd>5 September 2016</dd>
+      <dt>Kind</dt><dd>Blog summary of a 1971 research paper</dd>
+      <dt>Original</dt><dd><a href="https://blog.acolyer.org/2016/09/05/on-the-criteria-to-be-used-in-decomposing-systems-into-modules/">blog.acolyer.org/2016/09/05/on-the-criteria-to-be-used-in-decomposing-systems-into-modules/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-design/">Software design</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Adrian Colyer writes The Morning Paper, a blog about computer science research. This post summarises a paper by David Parnas from 1971. It asks whether the lessons apply to services today.</p>
+    <h2>What it says</h2>
+    <ul><li>Colyer says a modularization's success depends on the criteria used to divide the system.</li><li>The post says Parnas hoped modules would cut development time, add flexibility and aid comprehension.</li><li>The first design makes each processing step a module, with shared data.</li><li>The second design follows information hiding, so each module hides one design decision.</li><li>The post says many changes force edits in every module of the first design.</li><li>The post quotes Parnas warning the second design may be much less efficient.</li><li>Parnas concludes that starting from a flowchart is almost always incorrect.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers one worked example, a small index generator treated as a large project. It relies on Parnas's subjective judgement about comprehensibility. It reports no measurements.</p>
+    <h2>Interests and limits</h2>
+    <p>The post summarises a paper and does not test its claims. Colyer applies the ideas to microservices as an analogy, with no data. Parnas calls the example somewhat of a toy.</p>
+  </article>
+</div>
+</body>
+</html>

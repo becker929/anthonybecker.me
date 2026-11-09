@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scaling long-running autonomous coding</title>
+  <meta name="description" content="A short blog post on Cursor&#x27;s test of hundreds of agents building a browser.">
+  <meta property="og:title" content="Scaling long-running autonomous coding">
+  <meta property="og:description" content="A short blog post on Cursor&#x27;s test of hundreds of agents building a browser.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Scaling long-running autonomous coding</nav>
+  <header class="title">
+    <h1>Scaling long-running autonomous coding</h1>
+    <p class="lede">A short blog post on Cursor's test of hundreds of agents building a browser.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Simon Willison, quoting Wilson Lin of Cursor</dd>
+      <dt>Published</dt><dd>19th January 2026</dd>
+      <dt>Kind</dt><dd>Short link-blog post about a vendor's agent experiment, with a hands-on build</dd>
+      <dt>Original</dt><dd><a href="https://simonwillison.net/2026/Jan/19/scaling-long-running-autonomous-coding/">simonwillison.net/2026/Jan/19/scaling-long-running-autonomous-coding/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Simon Willison runs a weblog on AI tools. This link post quotes Cursor's report and adds the author's own test of the repository.</p>
+    <h2>What it says</h2>
+    <ul><li>Cursor ran hundreds of concurrent agents on one project, writing over a million lines.</li><li>Planners and sub-planners made tasks, workers did them, and a judge agent ended each cycle.</li><li>Cursor chose a from-scratch web browser, and the agents ran close to a week.</li><li>The first announcement drew skepticism because CI failed and build instructions were missing.</li><li>The author built it on macOS and got a working window with obvious rendering glitches.</li><li>The author found the quality surprising but does not expect competition with Chrome soon.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The author built and ran the repository and shows screenshots of two pages. The agent figures come from Cursor's own report, which the post quotes. No test results are given.</p>
+    <h2>Interests and limits</h2>
+    <p>Cursor sells coding tools, so the report has an interest in the result. The author only tried two pages and did not run conformance tests. The post is short and links to Cursor for detail. A later update points to a video interview that was not read.</p>
+  </article>
+</div>
+</body>
+</html>

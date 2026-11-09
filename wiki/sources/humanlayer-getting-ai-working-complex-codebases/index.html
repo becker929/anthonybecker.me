@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting AI to Work in Complex Codebases</title>
+  <meta name="description" content="A post arguing that coding agents can handle large codebases with managed context.">
+  <meta property="og:title" content="Getting AI to Work in Complex Codebases">
+  <meta property="og:description" content="A post arguing that coding agents can handle large codebases with managed context.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Getting AI to Work in Complex Codebases</nav>
+  <header class="title">
+    <h1>Getting AI to Work in Complex Codebases</h1>
+    <p class="lede">A post arguing that coding agents can handle large codebases with managed context.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Long markdown post from a company repo, with anecdotes and a product pitch</dd>
+      <dt>Original</dt><dd><a href="https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md">github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/ace-fca.md</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The first-person author works on tooling for coding agents. The post is based on a talk given at Y Combinator. It explains the workflow and the reasoning behind it.</p>
+    <h2>What it says</h2>
+    <ul><li>The post claims coding agents can work in large codebases with context engineering. It calls the method frequent intentional compaction.</li><li>The method keeps context use in a 40%-60% range across research, plan and implement steps.</li><li>The post says the context window is the only lever on output quality. It ranks incorrect information as the worst problem.</li><li>Subagents are for context control, not for playing roles.</li><li>Human review is most useful on research and plans. A bad plan line can cause hundreds of bad code lines.</li><li>The author reports shipping 35k lines to BAML in 7 hours, with a colleague. One pull request was still open.</li><li>The post reports a failed attempt on parquet-java. Its research steps missed deep dependencies.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is anecdote. The author describes a bug fix on a Rust project that a maintainer approved. The author also describes a large feature pair and one failure. No controlled comparison is given.</p>
+    <h2>Interests and limits</h2>
+    <p>The author's company sells a tool announced at the post's end. It has a stake. The results are self-reported. The 3-5 day estimate came from a colleague. The post's images and videos were not viewed. The post is undated and names no author.</p>
+  </article>
+</div>
+</body>
+</html>

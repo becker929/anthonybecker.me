@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub - leolabs/ableton-js: Control Ableton Live with Node.js</title>
+  <meta name="description" content="A README for a TypeScript library that controls Ableton Live over a WebSocket.">
+  <meta property="og:title" content="GitHub - leolabs/ableton-js: Control Ableton Live with Node.js">
+  <meta property="og:description" content="A README for a TypeScript library that controls Ableton Live over a WebSocket.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / GitHub - leolabs/ableton-js: Control Ableton Live with Node.js</nav>
+  <header class="title">
+    <h1>GitHub - leolabs/ableton-js: Control Ableton Live with Node.js</h1>
+    <p class="lede">A README for a TypeScript library that controls Ableton Live over a WebSocket.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated in the README text (repository owner leolabs)</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Open source project README</dd>
+      <dt>Original</dt><dd><a href="https://github.com/leolabs/ableton-js">github.com/leolabs/ableton-js</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/music-tools-and-instruments/">Music tools and instruments</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The README describes ableton-js, a library that talks to a script inside Ableton Live. The goal, as stated, is to expose Live's MIDI Remote Script functions to TypeScript.</p>
+    <h2>What it says</h2>
+    <ul><li>Ableton.js lets Node.js, Deno or a browser control Ableton Live 11 or later.</li><li>Setup means copying the midi-script folder into Live's Remote Scripts folder and renaming it AbletonJS.</li><li>The script runs a WebSocket server on 127.0.0.1:39031 by default. An optional password uses HMAC-SHA256, but the connection stays unencrypted.</li><li>Commands started in the same JavaScript tick are combined into one WebSocket round-trip.</li><li>Property listeners send events, sometimes 20-30 times per second.</li><li>The author notes output_meter_level listeners seem to hang and clip slot playing_status never fires.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The README gives setup steps, example code, sample messages and two noted bugs. It reports no benchmarks and no tests of the library itself.</p>
+    <h2>Interests and limits</h2>
+    <p>The author advertises AbleSet, a setlist manager built with this library. The README says the package is a work in progress. No code was installed or run, and Live was not controlled.</p>
+  </article>
+</div>
+</body>
+</html>

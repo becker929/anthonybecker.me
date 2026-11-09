@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What ORMs have taught me: just learn SQL</title>
+  <meta name="description" content="A blog post arguing that ORMs should supplement SQL, not replace it.">
+  <meta property="og:title" content="What ORMs have taught me: just learn SQL">
+  <meta property="og:description" content="A blog post arguing that ORMs should supplement SQL, not replace it.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / What ORMs have taught me: just learn SQL</nav>
+  <header class="title">
+    <h1>What ORMs have taught me: just learn SQL</h1>
+    <p class="lede">A blog post arguing that ORMs should supplement SQL, not replace it.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (the site is wozniak.ca)</dd>
+      <dt>Published</dt><dd>3 August 2014</dd>
+      <dt>Kind</dt><dd>Personal blog post drawing on about 30 months of work</dd>
+      <dt>Original</dt><dd><a href="https://wozniak.ca/blog/2014/08/03/1/index.html">wozniak.ca/blog/2014/08/03/1/index.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/distributed-systems-and-reliability/">Distributed systems and reliability</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>An unnamed author who builds report-heavy software on event data wrote this. The post explains why the author came to prefer plain SQL over object-relational mappers.</p>
+    <h2>What it says</h2>
+    <ul><li>The author concludes that, for the author, ORMs are more detriment than benefit.</li><li>Wide tables make ORM queries fetch every attribute; a projection cut one query to seconds.</li><li>The author reports a table with over 600 attributes and 14 joins per object.</li><li>The author says fast ORM queries are often more obscure than SQL itself.</li><li>The author says schemas end up in two places, and ORMs do not help migrations.</li><li>The author describes tables in the ORM but writes queries with a templating system.</li><li>The author describes treating queries as the API to the database.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers personal experience and a few specific figures from past projects. Examples include a query sped up from minutes to seconds. It also cites an essay by Neward on the object/relational mismatch.</p>
+    <h2>Interests and limits</h2>
+    <p>The author says the advice fits event timelines and reports, not every application. The figures cannot be checked from the post. The post compares no ORM against hand-written SQL in a controlled test. The author is considering stored procedures but has not adopted them.</p>
+  </article>
+</div>
+</body>
+</html>

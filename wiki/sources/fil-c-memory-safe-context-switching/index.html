@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memory Safe Context Switching</title>
+  <meta name="description" content="A design document explaining how Fil-C makes setjmp, longjmp and the ucontext functions memory safe.">
+  <meta property="og:title" content="Memory Safe Context Switching">
+  <meta property="og:description" content="A design document explaining how Fil-C makes setjmp, longjmp and the ucontext functions memory safe.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Memory Safe Context Switching</nav>
+  <header class="title">
+    <h1>Memory Safe Context Switching</h1>
+    <p class="lede">A design document explaining how Fil-C makes setjmp, longjmp and the ucontext functions memory safe.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (a Fil-C documentation page, written in the first person)</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Project design document</dd>
+      <dt>Original</dt><dd><a href="https://fil-c.org/context_switches">fil-c.org/context_switches</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The page documents how Fil-C, a memory-safe C implementation, supports context switching. It covers setjmp, longjmp and the ucontext functions.</p>
+    <h2>What it says</h2>
+    <ul><li>The page says Fil-C supports setjmp, longjmp and ucontext without allowing stack corruption.</li><li>The page explains that setjmp saves registers, not the stack, so late jumps fail.</li><li>In Fil-C, jmp_buf points to an opaque object, and longjmp panics from unrelated frames.</li><li>Fil-C ignores the user's stack pointer for makecontext and allocates its own hidden stack.</li><li>Each fiber context follows a restricted state machine and stays on its creating thread.</li><li>The page says the collector tracks grey fibers so their stacks are rescanned.</li><li>The ucontext support is new in version 0.681 and only in the glibc build.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The document gives code examples, an assembly listing, a state machine and a collector scenario. It reports results from gcc 11.4.0 and clang 14.0.0 on one example.</p>
+    <h2>Interests and limits</h2>
+    <p>The project describes its own work. No tests or performance figures appear. The text itself says that bugs would most likely be in two named places. Correctness is argued, not proven.</p>
+  </article>
+</div>
+</body>
+</html>

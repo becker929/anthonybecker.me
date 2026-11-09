@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multiplicities</title>
+  <meta name="description" content="A tutorial page from the Idris 2 documentation on how variables carry usage quantities.">
+  <meta property="og:title" content="Multiplicities">
+  <meta property="og:description" content="A tutorial page from the Idris 2 documentation on how variables carry usage quantities.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Multiplicities</nav>
+  <header class="title">
+    <h1>Multiplicities</h1>
+    <p class="lede">A tutorial page from the Idris 2 documentation on how variables carry usage quantities.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>The Idris Community</dd>
+      <dt>Published</dt><dd>Undated; copyright 2020-2023</dd>
+      <dt>Kind</dt><dd>Official language documentation, a tutorial page with code examples</dd>
+      <dt>Original</dt><dd><a href="https://idris2.readthedocs.io/en/latest/tutorial/multiplicities.html">idris2.readthedocs.io/en/latest/tutorial/multiplicities.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The Idris Community wrote this page for the Idris 2 documentation. It teaches the three quantities a variable can have. It then shows what each one allows in a program.</p>
+    <h2>What it says</h2>
+    <ul><li>The page says Idris 2 rests on Quantitative Type Theory, giving each variable a quantity.</li><li>A quantity is 0 for erased, 1 for used exactly once, or unrestricted.</li><li>Linear arguments let types encode resource protocols, such as a door opened, closed, then deleted.</li><li>Leaving out the final delete step in the door example fails type checking.</li><li>Idris 2 implements IO with a world token that is always used linearly.</li><li>Implicitly bound names are erased. Matching on an erased argument is rejected unless its value is inferable.</li><li>Types can be matched on, and only multiplicity 0 arguments are truly parametric.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The page walks through small code examples. It shows hole types and error messages from the Idris 2 checker. It points to a separate paper for details.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors maintain the language, so the page presents its design favorably. It is a tutorial, not a formal treatment. It lists open questions, such as whether linearity could guide memory management. The page is undated.</p>
+  </article>
+</div>
+</body>
+</html>

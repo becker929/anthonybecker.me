@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>12-Factor Agents - Principles for building reliable LLM applications</title>
+  <meta name="description" content="A README that sets out twelve principles for building reliable software around language models.">
+  <meta property="og:title" content="12-Factor Agents - Principles for building reliable LLM applications">
+  <meta property="og:description" content="A README that sets out twelve principles for building reliable software around language models.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / 12-Factor Agents - Principles for building reliable LLM applications</nav>
+  <header class="title">
+    <h1>12-Factor Agents - Principles for building reliable LLM applications</h1>
+    <p class="lede">A README that sets out twelve principles for building reliable software around language models.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Dex, at HumanLayer, as the README signs it</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>GitHub README that introduces a set of design principles</dd>
+      <dt>Original</dt><dd><a href="https://github.com/humanlayer/12-factor-agents">github.com/humanlayer/12-factor-agents</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Dex writes in the style of the 12 Factor App guide. The goal is to find principles for LLM software good enough for production customers. The README gives the argument and lists the twelve factors.</p>
+    <h2>What it says</h2>
+    <ul><li>The README claims many products billed as AI agents are mostly deterministic code. LLM steps are added at chosen points.</li><li>The author says good agents are mostly just software, not a bare loop.</li><li>The README describes an agent as a loop. It says this approach does not work as well as wanted.</li><li>The author describes a common framework path. Builders reach 70-80% quality, then find that is not enough.</li><li>The twelve factors include owning your prompts, your context window and your control flow.</li><li>The author recommends adding small agent ideas to existing products over a full framework rewrite.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The README relies on the author's experience, including talks with at least 100 SaaS builders. It shows a short code sketch of an agent loop. It gives no data or benchmarks.</p>
+    <h2>Interests and limits</h2>
+    <p>The author works on HumanLayer, which sells related tools, and the README links its products. The claims about frameworks come from anecdote. Only the README was read, not the twelve linked factor pages. The details of each factor are therefore not described here.</p>
+  </article>
+</div>
+</body>
+</html>

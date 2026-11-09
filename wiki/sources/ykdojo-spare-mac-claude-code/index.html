@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to set up your spare Mac for Claude Code to fully control - a step-by-step guide</title>
+  <meta name="description" content="A step-by-step guide to setting up a spare Mac that Claude Code can fully control.">
+  <meta property="og:title" content="How to set up your spare Mac for Claude Code to fully control - a step-by-step guide">
+  <meta property="og:description" content="A step-by-step guide to setting up a spare Mac that Claude Code can fully control.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / How to set up your spare Mac for Claude Code to fully control - a step-by-step guide</nav>
+  <header class="title">
+    <h1>How to set up your spare Mac for Claude Code to fully control - a step-by-step guide</h1>
+    <p class="lede">A step-by-step guide to setting up a spare Mac that Claude Code can fully control.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (site and repo named ykdojo)</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Step-by-step setup guide, with helper scripts</dd>
+      <dt>Original</dt><dd><a href="https://ykdojo.github.io/claude-controls-mac/">ykdojo.github.io/claude-controls-mac/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/agent-tools-and-setups/">Agent tools and setups</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The author wants a separate machine for research and development tasks. The author also says containers cannot run Mac-only apps like Unity. The guide covers setup from a wiped Mac to remote control from a phone.</p>
+    <h2>What it says</h2>
+    <ul><li>The guide turns a spare Mac into an always-on machine for Claude Code.</li><li>The author prefers a separate Mac because containers share the main machine.</li><li>Setup uses a fresh account with no Apple ID, SSH, passwordless sudo and no sleep.</li><li>Computer use over SSH needs a LaunchAgent keeping a tmux server in the GUI session.</li><li>Screen Recording and Accessibility can only be granted by a human at the machine.</li><li>The grants go to tmux, not claude, because tmux is the responsible process.</li><li>A final optional step adds Tailscale so the box is reachable from any network.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The guide offers commands, scripts and explanations of why each step is needed. It reports the author's own use. It gives no tests or comparisons.</p>
+    <h2>Interests and limits</h2>
+    <p>It reflects one person's setup and macOS behavior at the time. Several steps run agents with permissions skipped, and the guide notes inherent risk. The linked scripts and repo were not read. The page ends with a newsletter plug.</p>
+  </article>
+</div>
+</body>
+</html>

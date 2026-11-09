@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anti-patterns while working with LLMs</title>
+  <meta name="description" content="This blog post lists five habits to avoid with language models.">
+  <meta property="og:title" content="Anti-patterns while working with LLMs">
+  <meta property="og:description" content="This blog post lists five habits to avoid with language models.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Anti-patterns while working with LLMs</nav>
+  <header class="title">
+    <h1>Anti-patterns while working with LLMs</h1>
+    <p class="lede">This blog post lists five habits to avoid with language models.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Manish (InstaVM blog)</dd>
+      <dt>Published</dt><dd>10 November 2025</dd>
+      <dt>Kind</dt><dd>Company blog post of personal practitioner anecdotes</dd>
+      <dt>Original</dt><dd><a href="https://instavm.io/blog/llm-anti-patterns">instavm.io/blog/llm-anti-patterns</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Manish writes on the InstaVM company blog. The post shares lessons from 15 months of working with LLMs. It defines anti-patterns as behaviors to avoid.</p>
+    <h2>What it says</h2>
+    <ul><li>Agents should not resend near-identical context, such as screenshots that barely differ.</li><li>Ask the model to write code for exact tasks, such as counting Rs in BLUEBERRY.</li><li>An image-text task failed after about 13 tries but worked via a Google Doc.</li><li>Long sessions suffer; in one the model forgot a given database URL and supplied another.</li><li>Models do worse on obscure topics and on topics newer than their training.</li><li>Vibe coding loses the thread; the author caught a password_hash exposed in an API response.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is the author's own anecdotes, with screenshots of some cases. It links a few outside pieces, including one on context management. It gives no measurements or repeated tests.</p>
+    <h2>Interests and limits</h2>
+    <p>InstaVM sells code execution and computer-use infrastructure, and the post promotes its own open-source tool. Each lesson rests on one or two incidents. The screenshots were not viewed. The claims about context size and accuracy are the author's impression.</p>
+  </article>
+</div>
+</body>
+</html>

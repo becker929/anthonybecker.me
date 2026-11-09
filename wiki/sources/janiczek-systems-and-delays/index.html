@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Systems and Delays</title>
+  <meta name="description" content="A blog post that walks through a delay example from the book Thinking in Systems.">
+  <meta property="og:title" content="Systems and Delays">
+  <meta property="og:description" content="A blog post that walks through a delay example from the book Thinking in Systems.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Systems and Delays</nav>
+  <header class="title">
+    <h1>Systems and Delays</h1>
+    <p class="lede">A blog post that walks through a delay example from the book Thinking in Systems.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Martin Janiczek</dd>
+      <dt>Published</dt><dd>24 July 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post, with simulated examples</dd>
+      <dt>Original</dt><dd><a href="https://martin.janiczek.cz/2026/07/24/systems-and-delays.html">martin.janiczek.cz/2026/07/24/systems-and-delays.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-design/">Software design</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Martin Janiczek, a programmer who writes a personal blog, read Thinking in Systems on holiday. The post explains the book's chapter on delays with a simple model. It aims to show that delays behave in ways intuition misses.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says the delays chapter is the highlight of Thinking in Systems.</li><li>The example is a car dealer who wants stock at 10 times daily sales.</li><li>With a 5 day delivery delay and divisor 2, stock oscillates and never settles.</li><li>With divisor 1, stock swung from 132 to 518 cars, against a target near 220.</li><li>With a divisor of 6, the oscillations died out and stock stabilized.</li><li>The author finds no blind rule and advises modelling the system and testing parameters.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The author ran a small simulation and shows charts of stock over time. A toy simulator and its code are linked. The text describes the runs and gives a few figures. The charts were not viewed for this page.</p>
+    <h2>Interests and limits</h2>
+    <p>The model is a simplified example taken from the book, with made up demand figures. The author says the maths behind the oscillations is not understood. No real dealership data is used. The post makes no claim beyond this one setup, though it advises testing other systems.</p>
+  </article>
+</div>
+</body>
+</html>

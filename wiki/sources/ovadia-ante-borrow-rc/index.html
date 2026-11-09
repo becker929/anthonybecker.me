@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ante: A New Way to Blend Borrow Checking and Reference Counting</title>
+  <meta name="description" content="A blog post on how Ante aims to mix borrow checking with reference counting.">
+  <meta property="og:title" content="Ante: A New Way to Blend Borrow Checking and Reference Counting">
+  <meta property="og:description" content="A blog post on how Ante aims to mix borrow checking with reference counting.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Ante: A New Way to Blend Borrow Checking and Reference Counting</nav>
+  <header class="title">
+    <h1>Ante: A New Way to Blend Borrow Checking and Reference Counting</h1>
+    <p class="lede">A blog post on how Ante aims to mix borrow checking with reference counting.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Evan Ovadia</dd>
+      <dt>Published</dt><dd>June 28, 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post on a language design, with code examples</dd>
+      <dt>Original</dt><dd><a href="https://verdagon.dev/blog/ante-blending-borrowing-rc">verdagon.dev/blog/ante-blending-borrowing-rc</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Evan Ovadia, who works on the Vale language, walks through Ante's rules for mutable references. The post explains shape-stability, shared types, unions and temporary uniq conversion.</p>
+    <h2>What it says</h2>
+    <ul><li>Ovadia says Ante blends reference counting and borrow checking for mutable objects without run-time panics.</li><li>Ante's shape-stability allows several mutable borrows of one struct and its fields at once.</li><li>Types marked shared are reference counted, and their fields can be mutably borrowed without locking.</li><li>A mut borrow of a union cannot yield a mut borrow of its variants.</li><li>A temporary uniq reference is allowed if the scope uses nothing that might alias it.</li><li>Ovadia says Ante's creator stressed the check needs type analysis, which could be brittle.</li><li>Ovadia says Rust's Cell cannot give a mutable reference to a String inside an Rc.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers Ante code snippets and the compile errors the design should produce. It gives a Rust Cell comparison in an appendix. It shows no benchmarks and no tests of a running compiler.</p>
+    <h2>Interests and limits</h2>
+    <p>The post says Ante is a work in progress with parts still theoretical. Ovadia works on Vale, a related language, and says so in a note. The post reports no performance numbers. Ovadia, not the creator, calls the type-analysis check possibly brittle.</p>
+  </article>
+</div>
+</body>
+</html>

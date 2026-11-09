@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Actegories</title>
+  <meta name="description" content="A blog post that defines monoidal categories and actegories and models them in Haskell.">
+  <meta property="og:title" content="Actegories">
+  <meta property="og:description" content="A blog post that defines monoidal categories and actegories and models them in Haskell.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Actegories</nav>
+  <header class="title">
+    <h1>Actegories</h1>
+    <p class="lede">A blog post that defines monoidal categories and actegories and models them in Haskell.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Bartosz Milewski</dd>
+      <dt>Published</dt><dd>30 June 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post, category theory with Haskell code</dd>
+      <dt>Original</dt><dd><a href="https://bartoszmilewski.com/2026/06/30/actegories/">bartoszmilewski.com/2026/06/30/actegories/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Bartosz Milewski writes about category theory and Haskell. The post follows an earlier one on Kan extensions. It defines the concepts the post says optics rely on.</p>
+    <h2>What it says</h2>
+    <ul><li>Milewski says actegories play a central role in optics such as lenses, prisms and traversals.</li><li>A monoidal category has a tensor product that is associative and unital up to isomorphism.</li><li>The post models a monoidal category in Haskell as a class over a bifunctor.</li><li>An actegory is a category that supports an action of a monoidal category.</li><li>The post simplifies by making the action a bifunctor and letting it determine the tensor.</li><li>A traversable functor gives an example of a monoidal functor between non-trivial actegories.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives definitions and Haskell class declarations. It shows instances for pairs as the tensor and for a traversable functor. It links to the full Haskell code but offers no proofs or tests.</p>
+    <h2>Interests and limits</h2>
+    <p>The formulas were lost in text extraction, so only prose and code were read. The post is a short setup piece. It does not show how optics are built from actegories.</p>
+  </article>
+</div>
+</body>
+</html>

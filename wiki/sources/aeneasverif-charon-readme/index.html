@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AeneasVerif/charon: Analyze Rust crates without touching compiler internals</title>
+  <meta name="description" content="The README of a tool that exports a Rust crate&#x27;s contents to a file.">
+  <meta property="og:title" content="AeneasVerif/charon: Analyze Rust crates without touching compiler internals">
+  <meta property="og:description" content="The README of a tool that exports a Rust crate&#x27;s contents to a file.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / AeneasVerif/charon: Analyze Rust crates without touching compiler internals</nav>
+  <header class="title">
+    <h1>AeneasVerif/charon: Analyze Rust crates without touching compiler internals</h1>
+    <p class="lede">The README of a tool that exports a Rust crate's contents to a file.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated; the AeneasVerif GitHub organization</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Open-source project README</dd>
+      <dt>Original</dt><dd><a href="https://github.com/AeneasVerif/charon">github.com/AeneasVerif/charon</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/formal-methods-and-proof/">Formal methods and proof</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The README is published by the AeneasVerif GitHub organization, with no named authors. It presents Charon as the front end for analysis and verification tools. It links to a manual and API documentation.</p>
+    <h2>What it says</h2>
+    <ul><li>Charon extracts a Rust crate and its dependencies into a JSON file.</li><li>The output holds types, functions, traits, simplified MIR bodies and source information.</li><li>Run charon inside the crate, like cargo build, to get an llbc file.</li><li>The aim is to centralise the work of getting information out of rustc internals.</li><li>The README says Charon suits semantic analyses and likely will not help with lints.</li><li>It describes Charon as beta software with open bugs and planned breaking changes.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The README shows the output shape and the build commands. It states the purpose and limits in prose. It gives no benchmarks and no list of tested crates.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors describe their own project. The README was read in full, but the linked manual and limitations page were not. The claim that translation is well tested is not backed here. The page is short and mostly a pointer to other documents.</p>
+  </article>
+</div>
+</body>
+</html>

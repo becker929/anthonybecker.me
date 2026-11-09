@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thinking in an array language (ngn-k-tutorial, chapter 12)</title>
+  <meta name="description" content="A tutorial chapter that rewrites matrix multiplication in K, step by step.">
+  <meta property="og:title" content="Thinking in an array language (ngn-k-tutorial, chapter 12)">
+  <meta property="og:description" content="A tutorial chapter that rewrites matrix multiplication in K, step by step.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Thinking in an array language (ngn-k-tutorial, chapter 12)</nav>
+  <header class="title">
+    <h1>Thinking in an array language (ngn-k-tutorial, chapter 12)</h1>
+    <p class="lede">A tutorial chapter that rewrites matrix multiplication in K, step by step.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (razetime ngn-k-tutorial repository)</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Tutorial chapter in a GitHub repository</dd>
+      <dt>Original</dt><dd><a href="https://github.com/razetime/ngn-k-tutorial/blob/main/12-thinking-in-k.md">github.com/razetime/ngn-k-tutorial/blob/main/12-thinking-in-k.md</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>This chapter belongs to a tutorial for the ngn/k interpreter. It teaches the habit of condensing patterns by working through one example.</p>
+    <h2>What it says</h2>
+    <ul><li>The chapter says K programming is a continuous process of simplifying patterns.</li><li>A direct triple-loop translation is called the worst K code the author has written.</li><li>It names the problems: many globals, nested loops and lots of modification.</li><li>A plus fold replaces the innermost loop.</li><li>Each-right and each-left remove the row and column index loops, giving a one-line function.</li><li>Dropping the costly transpose gives a shorter version.</li><li>The final form is a tacit function written as plus-fold of times, applied each-left.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The chapter shows each rewrite as code with a short explanation. Outputs were not shown, so the versions were not run here.</p>
+    <h2>Interests and limits</h2>
+    <p>The chapter is a teaching piece, not a benchmark. It claims shorter code is better without measuring speed. It was read in full but the code was not run.</p>
+  </article>
+</div>
+</body>
+</html>

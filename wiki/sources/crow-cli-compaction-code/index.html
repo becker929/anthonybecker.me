@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compaction - summarize conversation history to reduce context window.</title>
+  <meta name="description" content="A Python module that summarizes a long coding-agent session into a new one.">
+  <meta property="og:title" content="Compaction - summarize conversation history to reduce context window.">
+  <meta property="og:description" content="A Python module that summarizes a long coding-agent session into a new one.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Compaction - summarize conversation history to reduce context window.</nav>
+  <header class="title">
+    <h1>Compaction - summarize conversation history to reduce context window.</h1>
+    <p class="lede">A Python module that summarizes a long coding-agent session into a new one.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Source code file in Python, with long explanatory docstrings</dd>
+      <dt>Original</dt><dd><a href="https://github.com/crow-cli/crow-cli/blob/main/crow-cli/src/crow_cli/agent/compact.py">github.com/crow-cli/crow-cli/blob/main/crow-cli/src/crow_cli/agent/compact.py</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The file is part of crow-cli, a coding agent. It turns an agent's long history into a summary. A new agent record then starts from that summary and recent messages.</p>
+    <h2>What it says</h2>
+    <ul><li>Compaction summarizes a long conversation into a fresh agent record. The old agent and its messages stay untouched.</li><li>The summary is one model call with tool use switched off.</li><li>Compaction is a callable that a project can replace. The default strategy makes one summarizing pass.</li><li>Earlier versions ran two extra passes. A comment says these roughly tripled time and cost.</li><li>The prompt tells the model to compress any earlier summary, not copy it forward.</li><li>A comment reports uncapped handoffs growing from 11k to 172k characters over six generations.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The source is the code and its comments. A comment reports a measured growth in handoff size. The file shows no tests or benchmarks of its own.</p>
+    <h2>Interests and limits</h2>
+    <p>The bookmarked path returns a not-found error. The file was read from src/crow_cli/agent/compact.py on the main branch instead. It is one file, so the rest of the agent was not examined. The code was not run. The author is not stated in the file.</p>
+  </article>
+</div>
+</body>
+</html>

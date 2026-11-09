@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alloy</title>
+  <meta name="description" content="The README of a SQL-building ORM written once in Temper and compiled to six languages.">
+  <meta property="og:title" content="Alloy">
+  <meta property="og:description" content="The README of a SQL-building ORM written once in Temper and compiled to six languages.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Alloy</nav>
+  <header class="title">
+    <h1>Alloy</h1>
+    <p class="lede">The README of a SQL-building ORM written once in Temper and compiled to six languages.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (GitHub user notactuallytreyanastasio)</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>GitHub README for a code repository, with a self-written security analysis</dd>
+      <dt>Original</dt><dd><a href="https://github.com/notactuallytreyanastasio/alloy">github.com/notactuallytreyanastasio/alloy</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/programming-languages-and-types/">Programming languages and types</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The repository holds the ORM source, the CI setup and demo apps. The README gives the architecture, build steps, API summary and security notes.</p>
+    <h2>What it says</h2>
+    <ul><li>Alloy is an ORM written in Temper and compiled to 6 targets.</li><li>A push to main builds the ORM, runs JavaScript tests and publishes six library repos.</li><li>Each library push triggers a workflow that updates the matching demo app.</li><li>Table and column names must pass safeIdentifier, which validates them against a letter-and-underscore pattern.</li><li>User values go through typed SqlPart classes, with strings quote-escaped, instead of being concatenated.</li><li>Update and delete queries refuse to build with an empty WHERE clause.</li><li>The README admits the ORM renders escaped SQL, not parameterized queries, and rates this informational.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The README reports 184 passing tests, six demo apps, and a table of six findings. Three findings are resolved, one is acknowledged and two are new. The security claims rest on the project's own analysis.</p>
+    <h2>Interests and limits</h2>
+    <p>The security assessment is by the project itself, not an independent audit. The README says the ORM builds escaped SQL instead of using parameterized queries. Linked per-app reports and the research file were not read. Demo apps were not run.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Security</title>
+  <meta name="description" content="Five sources on attacks and defenses.">
+  <meta property="og:title" content="Security">
+  <meta property="og:description" content="Five sources on attacks and defenses.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Security</nav>
+  <header class="title">
+    <h1>Security</h1>
+    <p class="lede">Five sources on attacks and defenses.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <p>These sources concern attacks on software and defenses against them. This page lists five sources, oldest first where dated.</p>
+    <section>
+      <h2><a href="/wiki/sources/foster-developers-dont-understand-cors/">Developers don't understand CORS</a></h2>
+      <p class="meta">Chris Foster. 10 July 2019. Personal blog post about a vulnerability, with argument and anecdote.</p>
+      <p>The post draws on a security researcher's report about a Zoom web server on localhost. It corrects one claim in that report and proposes a safer design. It relies on the author's consulting experience and examples, not data. It admits it cannot know why Zoom built the feature as it did.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kaufman-ai-breaking-vulnerability-cultures/">AI is Breaking Two Vulnerability Cultures</a></h2>
+      <p class="meta">Jeff Kaufman. 8 May 2026. Short personal blog post, with one informal test.</p>
+      <p>The post uses a recent Linux bug to compare two ways of handling security bugs. It argues that AI scanning weakens both. The only evidence is one case and a quick, uncontrolled test of three AI models.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/ko-beginners-textbook-fhe/">The Beginner's Textbook for Fully Homomorphic Encryption</a></h2>
+      <p class="meta">Ronny Ko, LG Electronics Inc.. 2 June 2026 (version 26). Open textbook on arXiv, with worked examples and a demo code library.</p>
+      <p>The book builds from basic number theory to four encryption schemes. It works through derivations and small numeric examples. It ends with comparison tables of the schemes and points to a Python demo library. The version read is a very long draft, so only parts of it were read.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/hn-rust-vs-c-memory-safety-cves-thread/">How memory safety CVEs differ between Rust and C/C++ (Hacker News thread)</a></h2>
+      <p class="meta">Posted by nicoburns, with replies from many commenters. 15 June 2026. Hacker News discussion thread about a personal blog post.</p>
+      <p>The thread discusses Kobzol's blog post on how memory-unsafety CVEs are reported, especially for libraries. Commenters argue about Rust soundness, C++ hardening, CVE counts and supply chains. The evidence is opinion, personal experience and links, with little measured data.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/kind-openai-hugging-face-talk-thread/">There are too many crazy parts of this video to pick something to highlight</a></h2>
+      <p class="meta">Posted by @gracekind.net, with replies from many commenters. 7 August 2026. Bluesky thread reacting to a conference talk video, which was not watched.</p>
+      <p>The original poster quotes a post that links a Black Hat talk video. The replies mix disbelief, jokes and reactions to details in the talk. The video was not watched, so the incident is known only through posts. The thread offers reactions, not evidence.</p>
+    </section>
+    <h2>Glossary</h2>
+    <dl><dt>Access-Control-Allow-Origin</dt><dd>A response header that names which sites may read a server's reply.</dd><dt>Agent message board</dt><dd>In the thread, a message board that AI agents were using in the incident.</dd><dt>Azure Key Vault</dt><dd>A Microsoft cloud service for storing secrets such as credentials.</dd><dt>Black Hat</dt><dd>A security conference whose talks are posted as videos.</dd><dt>Bootstrapping</dt><dd>A procedure that resets the noise in a ciphertext so computing can continue.</dd><dt>Borrow checker</dt><dd>The Rust compiler part that checks how references to memory are used.</dd><dt>Commit</dt><dd>A saved change to a codebase, here a fix to the Linux kernel.</dd><dt>Content Security Policy</dt><dd>A header that tells browsers what a page may load or be embedded in.</dd><dt>Coordinated disclosure</dt><dd>Telling maintainers privately and giving them time to fix a bug before publishing.</dd><dt>Copy Fail</dt><dd>The name of a Linux vulnerability that the post says came out a week earlier.</dd><dt>CORS</dt><dd>Cross-Origin Resource Sharing, a browser rule for which sites may call another site's server.</dd><dt>CVE</dt><dd>A public identifier for a reported security vulnerability in software.</dd><dt>Embargo</dt><dd>An agreement to keep a vulnerability secret for a set time during a fix.</dd><dt>Fully homomorphic encryption</dt><dd>Encryption that lets a server compute on data without ever decrypting it.</dd><dt>Lattice-based cryptography</dt><dd>Encryption whose security rests on hard problems about lattices, which resist quantum computers.</dd><dt>Localhost</dt><dd>The address a computer uses to refer to itself.</dd><dt>LWE</dt><dd>Learning with errors, a hard problem where small random noise hides a secret key.</dd><dt>Modulus switching</dt><dd>Changing the modulus of a ciphertext to slow noise growth.</dd><dt>RNS</dt><dd>Residue number system, which stores a big number as remainders under several smaller moduli.</dd><dt>Soundness hole</dt><dd>A way to cause memory errors from safe Rust code, a library bug.</dd><dt>Supply chain risk</dt><dd>The danger that code you depend on has been tampered with or is vulnerable.</dd><dt>TFHE, BFV, CKKS, BGV</dt><dd>Names of four widely used homomorphic encryption schemes.</dd><dt>Undefined behavior (UB)</dt><dd>Code whose result the language standard does not define, so anything may happen.</dd><dt>Zero day</dt><dd>A vulnerability exploited before the software maker has a fix.</dd></dl>
+  </article>
+</div>
+</body>
+</html>

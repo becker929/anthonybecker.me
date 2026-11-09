@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>trollbridge — let your agents run amok</title>
+  <meta name="description" content="A homepage for trollbridge, a proxy that gates network requests from AI agents.">
+  <meta property="og:title" content="trollbridge — let your agents run amok">
+  <meta property="og:description" content="A homepage for trollbridge, a proxy that gates network requests from AI agents.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / trollbridge — let your agents run amok</nav>
+  <header class="title">
+    <h1>trollbridge — let your agents run amok</h1>
+    <p class="lede">A homepage for trollbridge, a proxy that gates network requests from AI agents.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 17:53 UTC (09:53 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated (the page names Dan Driscoll as maintainer)</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Product homepage with FAQ for an open-source proxy</dd>
+      <dt>Original</dt><dd><a href="https://trollbridge.dev/">trollbridge.dev/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/agent-tools-and-setups/">Agent tools and setups</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The maintainer publishes the page to present the tool. It targets people running coding agents with few permission prompts.</p>
+    <h2>What it says</h2>
+    <ul><li>Trollbridge is an HTTP proxy that checks an agent's outbound requests against lists.</li><li>Requests the lists do not cover are held for one-keystroke approval.</li><li>An optional LLM advisor can resolve confident cases, and unsure verdicts wait for the operator.</li><li>It gates the network only and leaves the file system and processes alone.</li><li>The page suggests pairing it with a sandbox such as an Incus VM.</li><li>Every decision goes to a JSONL audit log.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The page offers a terminal mock-up, a comparison table and one anecdote. The anecdote says an agent tried to post to nine review sites. All nine were held and one was approved. No tests are shown.</p>
+    <h2>Interests and limits</h2>
+    <p>The testimonial is attributed to the maintainer. The advisor error rate was not measured. The comparison table is the tool maker's own. Linked docs were not read.</p>
+  </article>
+</div>
+</body>
+</html>
