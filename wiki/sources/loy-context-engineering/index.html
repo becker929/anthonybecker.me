@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Context engineering</title>
+  <meta name="description" content="An explainer that treats everything fed to an LLM as an engineering design problem.">
+  <meta property="og:title" content="Context engineering">
+  <meta property="og:description" content="An explainer that treats everything fed to an LLM as an engineering design problem.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Context engineering</nav>
+  <header class="title">
+    <h1>Context engineering</h1>
+    <p class="lede">An explainer that treats everything fed to an LLM as an engineering design problem.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Chris Loy</dd>
+      <dt>Published</dt><dd>3rd August 2025</dd>
+      <dt>Kind</dt><dd>Personal blog explainer with a worked toy example</dd>
+      <dt>Original</dt><dd><a href="https://chrisloy.dev/post/2025/08/03/context-engineering">chrisloy.dev/post/2025/08/03/context-engineering</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Chris Loy writes a series called Machine Learning for Engineers. This post explains the shift from prompt wording to managing every token in context. It ends with four rules.</p>
+    <h2>What it says</h2>
+    <ul><li>Loy says prompt engineering was often trial-and-error guesswork, closer to incantations than engineering.</li><li>The post says context now holds examples, tool calls, documents and memory. That strains the window.</li><li>Loy argues for treating the LLM as a skilled analyst to brief, not an oracle.</li><li>Loy calls RAG one design pattern for context. Others include tool calling and context compression.</li><li>The post shows a UK box office question. It needs the date, a document and a calculator tool.</li><li>Loy says multiple agents hand off token sequences. The hand-off should be treated as an API contract.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a toy walkthrough. A model quotes an outdated UK box office average of 24 million pounds. With context added, it gives 18.8 million pounds per week. No benchmark or measurement is reported.</p>
+    <h2>Interests and limits</h2>
+    <p>The post is a personal explainer, not a study. The film and box office examples are illustrative. The design pattern analogy is the author's framing. Nothing was tested across models or tasks, and no outcomes were measured.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/kellogg-layers-of-memory/">Layers of Memory, Layers of Compression</a>. Kellogg reads multi-agent research as an exercise in compression. Loy says agents hand off token sequences, and calls that hand-off an API contract. Then a contract is a statement of what a compression must preserve.</li></ul>
+  </article>
+</div>
+</body>
+</html>

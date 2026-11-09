@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How we tracked down a 16-year-old SQLite bug</title>
+  <meta name="description" content="A Tailscale engineer traces months of database corruption to an SQLite bug.">
+  <meta property="og:title" content="How we tracked down a 16-year-old SQLite bug">
+  <meta property="og:description" content="A Tailscale engineer traces months of database corruption to an SQLite bug.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / How we tracked down a 16-year-old SQLite bug</nav>
+  <header class="title">
+    <h1>How we tracked down a 16-year-old SQLite bug</h1>
+    <p class="lede">A Tailscale engineer traces months of database corruption to an SQLite bug.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Alex Chan, Tailscale</dd>
+      <dt>Published</dt><dd>12 August 2026</dd>
+      <dt>Kind</dt><dd>Company engineering blog post, incident postmortem</dd>
+      <dt>Original</dt><dd><a href="https://tailscale.com/blog/sqlite-wal-reset-bug">tailscale.com/blog/sqlite-wal-reset-bug</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/databases-and-storage/">Databases and storage</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Alex Chan writes for Tailscale's blog. The post explains an outage-prone period and apologizes for it. It also tells how the team helped expose the WAL-reset bug.</p>
+    <h2>What it says</h2>
+    <ul><li>Tailscale suffered 19 separate database corruption incidents over six months before the bug was fixed.</li><li>The team found no common trigger, so it relied on passive telemetry in live production.</li><li>A transaction log pipeline showed committed writes that later vanished without any error.</li><li>SQLite developers named a rare checkpoint and write race the WAL-Reset bug.</li><li>The post says the bug lasted at least 16 years. It was rare enough that tests had to force it.</li><li>Tailscale hit the bug more often because it runs checkpoints manually and aggressively.</li><li>The first fix release, 3.52.0, caused false corruption alarms and was withdrawn for 3.51.3.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The evidence is Tailscale's own incident history and logs. A custom warning fired once in production, two months after deployment. The post says four months then passed without a database incident. It shows no controlled reproduction by Tailscale.</p>
+    <h2>Interests and limits</h2>
+    <p>Tailscale is a vendor writing about its own outages. The cause is called likely, not proven in every incident. Its manual checkpointing is unusual, so the odds may not apply to typical SQLite users.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/manino-sqlite-wal-bug-tla/">Hunting a 16-year-old SQLite bug with TLA+: is dqlite affected?</a>. These describe one bug from two sides. Tailscale needed six months and 19 incidents to find it through telemetry. The model checker reached a counterexample in 20 states, once people knew what to model. Finding and confirming turn out to be different jobs.</li></ul>
+  </article>
+</div>
+</body>
+</html>

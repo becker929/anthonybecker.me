@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Nitty Gritty of “Hello World” on macOS</title>
+  <meta name="description" content="A walkthrough of the Mach-O file format using a compiled Hello World program.">
+  <meta property="og:title" content="The Nitty Gritty of “Hello World” on macOS">
+  <meta property="og:description" content="A walkthrough of the Mach-O file format using a compiled Hello World program.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The Nitty Gritty of “Hello World” on macOS</nav>
+  <header class="title">
+    <h1>The Nitty Gritty of “Hello World” on macOS</h1>
+    <p class="lede">A walkthrough of the Mach-O file format using a compiled Hello World program.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Joe Savage</dd>
+      <dt>Published</dt><dd>8 November 2014</dd>
+      <dt>Kind</dt><dd>Personal blog walkthrough, based on hands-on inspection of one binary</dd>
+      <dt>Original</dt><dd><a href="https://www.reinterpretcast.com/hello-world-mach-o">www.reinterpretcast.com/hello-world-mach-o</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Joe Savage wanted to learn how executables talk to the operating system. The post records what the author found in a Hello World binary. It gives an outline and does not explain every byte.</p>
+    <h2>What it says</h2>
+    <ul><li>The author compiled a two-line Hello World on macOS and inspected the 8548-byte output.</li><li>The Mach-O header is the first 32 bytes, opening with the 0xfeedfacf magic value.</li><li>The header says 16 load commands follow, totalling 1376 bytes.</li><li>The __PAGEZERO segment catches NULL pointer dereferences and takes no space on disk.</li><li>The kernel loads the program and dyld, which loads libSystem and binds symbols.</li><li>Lazy symbols resolve on first use through stubs, and execution begins at LC_MAIN.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post shows otool output for the header. It describes the load commands and sections. It includes a colour visualisation of the file bytes. Claims about the loading process lean on Apple documentation and open source code.</p>
+    <h2>Interests and limits</h2>
+    <p>The test used one 2014 laptop running Yosemite and an x86_64 binary. The post does not test newer systems or other chip types. The author calls the account a brief outline. Many parts of dynamic linking go uncovered.</p>
+  </article>
+</div>
+</body>
+</html>

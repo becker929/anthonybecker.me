@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DuckDB Internals: Why is DuckDB Fast? (Part 1)</title>
+  <meta name="description" content="A vendor blog post explaining how DuckDB turns SQL into a plan and stores data.">
+  <meta property="og:title" content="DuckDB Internals: Why is DuckDB Fast? (Part 1)">
+  <meta property="og:description" content="A vendor blog post explaining how DuckDB turns SQL into a plan and stores data.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / DuckDB Internals: Why is DuckDB Fast? (Part 1)</nav>
+  <header class="title">
+    <h1>DuckDB Internals: Why is DuckDB Fast? (Part 1)</h1>
+    <p class="lede">A vendor blog post explaining how DuckDB turns SQL into a plan and stores data.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Kyle Cheung, Co-founder and CEO, Greybeam</dd>
+      <dt>Published</dt><dd>4 May 2026</dd>
+      <dt>Kind</dt><dd>Company blog post, first of a three-part explainer</dd>
+      <dt>Original</dt><dd><a href="https://www.greybeam.ai/blog/duckdb-internals-part-1">www.greybeam.ai/blog/duckdb-internals-part-1</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/databases-and-storage/">Databases and storage</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Kyle Cheung explains why DuckDB is fast, following a query from SQL to storage. Execution is left to later parts.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says DuckDB runs inside the host program, which avoids network serialization costs.</li><li>It cites a 2017 paper finding client protocols often slowest.</li><li>DuckDB runs a sequence of small optimizer passes that users can inspect and disable.</li><li>Join key bounds from one side let the other scan skip row groups.</li><li>Plans split into pipelines at operators like ORDER BY that need all input.</li><li>Each thread keeps its own local state in a sink, then results are merged.</li><li>Data is stored by column in row groups of up to 122,880 rows. Zone maps let scans skip them.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post explains by description, small code and plan examples, and references to papers. It gives no timing tests of its own. It states that the optimization phase usually finishes in about a millisecond.</p>
+    <h2>Interests and limits</h2>
+    <p>The author runs Greybeam, which uses DuckDB and sells a multi-engine router. The post does not compare DuckDB against other engines. Execution is deferred to later parts.</p>
+  </article>
+</div>
+</body>
+</html>

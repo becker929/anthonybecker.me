@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C Is Not a Low-level Language</title>
+  <meta name="description" content="An essay arguing that C no longer matches how modern processors work.">
+  <meta property="og:title" content="C Is Not a Low-level Language">
+  <meta property="og:description" content="An essay arguing that C no longer matches how modern processors work.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / C Is Not a Low-level Language</nav>
+  <header class="title">
+    <h1>C Is Not a Low-level Language</h1>
+    <p class="lede">An essay arguing that C no longer matches how modern processors work.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>David Chisnall</dd>
+      <dt>Published</dt><dd>30 April 2018</dd>
+      <dt>Kind</dt><dd>Opinion essay in ACM Queue, with no new experiments</dd>
+      <dt>Original</dt><dd><a href="https://queue.acm.org/doi/10.1145/3212477.3212479">queue.acm.org/doi/10.1145/3212477.3212479</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>David Chisnall, a researcher at the University of Cambridge, wrote this essay for ACM Queue. It asks what makes a language low-level. It argues that C stopped qualifying once hardware moved on from the PDP-11.</p>
+    <h2>What it says</h2>
+    <ul><li>Chisnall says Spectre and Meltdown came from chips built to imitate a fast PDP-11.</li><li>The essay says fast C needs very complex compilers. It cites about 2 million lines for Clang.</li><li>Chisnall cites a 2015 survey on C. It found 36 percent sure that zeroed struct padding stays zero.</li><li>The essay says C's flat memory model is false, since caches are hidden from C.</li><li>Chisnall says the C11 text never uses the word provenance, so compilers decide its meaning.</li><li>The essay sketches a processor not built for C, with many threads and wide vectors.</li><li>Chisnall says parallel programming is hard only on a C-like abstract machine.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The essay offers argument and examples, not new measurements. It cites compiler size figures, a 2015 survey of C users and a defect report. It points to existing designs such as UltraSPARC Tx, ARM SVE and Project Maxwell.</p>
+    <h2>Interests and limits</h2>
+    <p>The author works on LLVM, Clang and language design, and argues a strong view. Proposed processor designs are not built or tested in the essay. It says such a chip would likely not succeed commercially. This text came from an Internet Archive copy, since the ACM site blocked downloads.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/kato-linux-process-memory/">A Friendly Tour of Process Memory on Linux</a>. Chisnall says C's flat memory is a fiction kept up by hidden caches. Kato describes another fiction nearby: mapped memory is only a promise until first touch. Each layer works by not telling the one above.</li><li><a href="/wiki/sources/turnertrauring-branchless-binary-search/">8× faster binary search: from compiled code to mechanical sympathy</a>. Chisnall traces speculation to chips built to keep sequential code fast. Turner-Trauring's search gets faster by no longer depending on that prediction. Handling 16 values at once then makes the essay's case on one small loop.</li></ul>
+  </article>
+</div>
+</body>
+</html>

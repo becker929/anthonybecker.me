@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Treat Agent Output Like Compiler Output</title>
+  <meta name="description" content="A company blog post arguing that agent-written code should be verified, not read.">
+  <meta property="og:title" content="Treat Agent Output Like Compiler Output">
+  <meta property="og:description" content="A company blog post arguing that agent-written code should be verified, not read.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Treat Agent Output Like Compiler Output</nav>
+  <header class="title">
+    <h1>Treat Agent Output Like Compiler Output</h1>
+    <p class="lede">A company blog post arguing that agent-written code should be verified, not read.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Hugo Venturini, Software Engineer, SkipLabs</dd>
+      <dt>Published</dt><dd>March 9, 2026</dd>
+      <dt>Kind</dt><dd>Company blog post, an argument by analogy</dd>
+      <dt>Original</dt><dd><a href="https://skiplabs.io/blog/codegen_as_compiler">skiplabs.io/blog/codegen_as_compiler</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/compilers-and-interpreters/">Compilers and interpreters</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Hugo Venturini, a SkipLabs engineer, wrote this in reply to Philip Su's lights-out codebases post. It is part of a series on verified AI code generation. The author asks why lights-out feels scary and answers with the compiler comparison.</p>
+    <h2>What it says</h2>
+    <ul><li>Venturini says nobody reads compiler output. Tests, type systems, fuzzing and reproducible builds make that unnecessary.</li><li>The post says agents lack that verification apparatus. The output itself is not what is missing.</li><li>It argues review volume is a symptom, not the problem. One developer landed 417 pull requests in a day.</li><li>The post says quality control moved upstream and downstream, and the manual middle was eliminated.</li><li>It says agents are not deterministic, so test suites must be far more comprehensive.</li><li>The post lists four things to build. They are formal specs, test infrastructure, AI-checks-AI pipelines and production instrumentation.</li><li>It says chip makers already verify black-box components by acceptance tests, not human review.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers argument by analogy. It cites one developer's 417 pull requests in a day as an example of volume. It names no experiment, benchmark or case study of its own.</p>
+    <h2>Interests and limits</h2>
+    <p>The author works at SkipLabs, which sells tools in this area. The post is part of a company series. Nothing was tested. The bookmarked address redirects to the SkipLabs docs home. The text was read at skiplabs.github.io/skip/blog/codegen_as_compiler.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/allspaw-code-review-detection/">There is more to code review than (automatable) detection</a>. Venturini says nobody reads compiler output, so verified agent code need not be read. Allspaw lists what review does beyond detection: confusion as a finding, and named accountability. Tests can replace detection. Which of the other functions has a compiler equivalent?</li></ul>
+  </article>
+</div>
+</body>
+</html>

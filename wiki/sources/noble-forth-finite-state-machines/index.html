@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finite State Machines in Forth</title>
+  <meta name="description" content="A technical note on building finite state machines in Forth from a state table.">
+  <meta property="og:title" content="Finite State Machines in Forth">
+  <meta property="og:description" content="A technical note on building finite state machines in Forth from a state table.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Finite State Machines in Forth</nav>
+  <header class="title">
+    <h1>Finite State Machines in Forth</h1>
+    <p class="lede">A technical note on building finite state machines in Forth from a state table.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>J.V. Noble, Institute for Nuclear and Particle Physics, University of Virginia</dd>
+      <dt>Published</dt><dd>Undated (the page notes it was formatted 11 June 1994 and 17 April 1995)</dd>
+      <dt>Kind</dt><dd>Technical note for Forth programmers, with worked code</dd>
+      <dt>Original</dt><dd><a href="https://www.forth.org/literature/noble.html">www.forth.org/literature/noble.html</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/compilers-and-interpreters/">Compilers and interpreters</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>J.V. Noble, of a university physics institute, wrote this note for Forth programmers. It gives methods for deterministic and nondeterministic finite state automata. The stated goal is a one-to-one match between the definition and the state table.</p>
+    <h2>What it says</h2>
+    <ul><li>Noble says nested IF logic is hard to read, debug or modify. It can also be slow.</li><li>The note replaces history flags with one state variable. A state table gives actions and transitions.</li><li>A brute-force version uses CASE: with one word per state. The note calls it inadequately factored.</li><li>The defining word FSM: compiles a table of execution tokens. State and input column index it.</li><li>The final form reads like the state table. Named transitions such as &gt;1 follow each action.</li><li>Using a word, not a number, for each transition allows nondeterministic machines. No other redefinition is needed.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The note gives complete Forth definitions and short console tests for the number-entry example. It adds an identifier recognizer and floating-point recognizers. It cites no benchmarks, so the speed claims are argument only.</p>
+    <h2>Interests and limits</h2>
+    <p>Some code works only on indirect-threaded Forths, and an appendix gives alternatives. Some helper words are left as an exercise. The claim about speed was not measured.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/brian-agents-control-flow/">agents need control flow, not more prompts</a>. The blog post wants explicit state transitions, with the model as one component. Noble's old note shows what that can look like: a table you can read. Noble also makes each transition a word, which permits nondeterministic machines. A model call could be one such word.</li></ul>
+  </article>
+</div>
+</body>
+</html>

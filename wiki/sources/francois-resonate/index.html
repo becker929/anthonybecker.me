@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resonate</title>
+  <meta name="description" content="A project page describing the Resonate algorithm for low-latency audio spectral analysis.">
+  <meta property="og:title" content="Resonate">
+  <meta property="og:description" content="A project page describing the Resonate algorithm for low-latency audio spectral analysis.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Resonate</nav>
+  <header class="title">
+    <h1>Resonate</h1>
+    <p class="lede">A project page describing the Resonate algorithm for low-latency audio spectral analysis.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Alexandre R.J. François</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Researcher's project page for an algorithm, with papers and audio demos</dd>
+      <dt>Original</dt><dd><a href="https://alexandrefrancois.org/Resonate/">alexandrefrancois.org/Resonate/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/audio-models-and-analysis/">Audio models and analysis</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Alexandre R.J. François, the algorithm's developer, wrote the page. It describes Resonate and an extension where resonators track frequency. The page also covers synthesis, publications and software.</p>
+    <h2>What it says</h2>
+    <ul><li>The page says each resonator updates per sample, with no buffering.</li><li>The page says cost grows linearly with the number of resonators.</li><li>The page says resonators can tune themselves to follow the frequencies in the input.</li><li>The page says Resonate gives finer time resolution than FFT-based spectrograms.</li><li>The page says the dense output can synthesize audio, with pitch and speed changes.</li><li>The page says a live demo used 112 resonators, drawing a slice every 1.46 milliseconds.</li><li>The page lists a Best Paper Award for the 2025 Resonate paper.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The page gives update formulas and side-by-side spectrograms against the constant-Q transform. It embeds audio of songs shifted in pitch and speed. It links to two papers and open source code. It claims real-time performance but gives no timing figures.</p>
+    <h2>Interests and limits</h2>
+    <p>The page is the developer's own, and it links a Resonate Store. Comparisons are shown as images, with no error measures. Performance claims are not backed by figures here. The linked papers were not read for this page.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/izhak-hn-how-cochlea-computes/">How the cochlea computes (2024)</a>. The thread argues over whether the ear really performs a Fourier transform. Resonate updates a bank of resonators on each sample, with no window. The page makes no claim about ears. Still, the thread's account suggests testing it as a model of listening.</li></ul>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audio models and analysis</title>
+  <meta name="description" content="Seven sources on analyzing, compressing and generating sound.">
+  <meta property="og:title" content="Audio models and analysis">
+  <meta property="og:description" content="Seven sources on analyzing, compressing and generating sound.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / Audio models and analysis</nav>
+  <header class="title">
+    <h1>Audio models and analysis</h1>
+    <p class="lede">Seven sources on analyzing, compressing and generating sound.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <p>These sources ask how sound can be analyzed, compressed or generated. Two are Hacker News threads, and they were read without their linked articles. This page lists seven sources, oldest first where dated.</p>
+    <section>
+      <h2><a href="/wiki/sources/szablewski-pl-synth/">Synthesizing Music from JSON</a></h2>
+      <p class="meta">Dominic Szablewski (PhobosLab). 6 January 2025. Personal blog post introducing an open source synth and editor, with code.</p>
+      <p>The post explains how pl_synth works and how the author made the JavaScript version faster. It shows code for the synthesis loop, the editor and song storage. Evidence is shown code and timing figures for the author's own project.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/yang-wildfx-daw-effects/">WildFX: A DAW-Powered Pipeline for In-the-Wild Audio FX Graph Modeling</a></h2>
+      <p class="meta">Qihui Yang, Taylor Berg-Kirkpatrick, Julian McAuley and Zachary Novack, UC San Diego. 17 July 2025. arXiv preprint presenting a dataset-generation tool with one experiment.</p>
+      <p>WildFX is a Docker pipeline that drives the REAPER DAW with real plugins. The paper tests it by training a model to estimate effect graphs. The authors say the results fall short of the earlier work.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/karimf-hn-neural-audio-codecs/">Neural audio codecs: how to get audio into LLMs</a></h2>
+      <p class="meta">Posted by karimf, with replies from many commenters. 21 October 2025. Hacker News discussion thread about an explainer post from Kyutai.</p>
+      <p>The thread discusses a Kyutai explainer on turning audio into tokens for language models. The explainer's author, posting as vvolhejn, replies often. Commenters debate MP3 as a tokenizer and why voice models seem to miss pitch.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/izhak-hn-how-cochlea-computes/">How the cochlea computes (2024)</a></h2>
+      <p class="meta">Posted by izhak, with replies from many commenters. 30 October 2025. Hacker News discussion thread about a blog article on hearing.</p>
+      <p>The thread discusses a 2024 blog article on whether the ear does a Fourier transform. Most replies argue over definitions and whether the title is clickbait. Others add facts about phase, neurons and speech.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/zhinit-kick-drum-diffusion/">How To Train a Generative Kick Drum Model on Your Old Linux Desktop With 6GB of VRAM</a></h2>
+      <p class="meta">Not stated (published on the personal site zhinit.dev, GitHub user zhinit). 16 July 2026. Personal blog post describing a hobby project, with audio samples.</p>
+      <p>The post walks through three models trained to generate kick drums. It covers data cleaning, training choices, deployment and problems that came up. Evidence is the author's own project and a few audio samples.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/francois-resonate/">Resonate</a></h2>
+      <p class="meta">Alexandre R.J. François. Undated. Researcher's project page for an algorithm, with papers and audio demos.</p>
+      <p>The page explains how banks of simple resonators compute spectra sample by sample. It lists two conference papers, a talk and code packages. Evidence is formulas, spectrogram comparisons and audio demos, not a benchmark table.</p>
+    </section>
+    <section>
+      <h2><a href="/wiki/sources/vinyard-sparse-audio-codec/">Toward a Sparse Interpretable Audio Codec</a></h2>
+      <p class="meta">John Vinyard. Undated (the citation block gives the year 2025). Research-style blog write-up of a proof-of-concept model, with audio examples.</p>
+      <p>The page proposes encoding audio as a set of events with times, not fixed frames. It gives model details, a streaming method and five audio examples. The page itself says reconstruction quality is not yet good enough.</p>
+    </section>
+    <h2>Glossary</h2>
+    <dl><dt>Adversarial loss</dt><dd>A training signal from a second model that tries to spot fake outputs.</dd><dt>Basilar membrane</dt><dd>The strip inside the cochlea whose different parts vibrate at different frequencies.</dd><dt>Blind estimation</dt><dd>Working out how audio was processed from the result alone.</dd><dt>Classifier-free guidance</dt><dd>A trick that exaggerates the pull of the text keywords during generation.</dd><dt>Cochlea</dt><dd>The fluid-filled spiral organ in the inner ear that senses sound.</dd><dt>Codec</dt><dd>Software that compresses audio for storage and rebuilds it later.</dd><dt>Constant-Q transform</dt><dd>A spectrum method whose frequency bins are spaced like musical notes.</dd><dt>DAW</dt><dd>Digital audio workstation, the software used to record and edit music.</dd><dt>Demo scene</dt><dd>A hobby community that makes tiny programs with striking graphics and music.</dd><dt>Diffusion model</dt><dd>A model that learns to remove noise step by step.</dd><dt>Directed acyclic graph</dt><dd>A set of nodes and one-way links with no loops.</dd><dt>Docker</dt><dd>A tool that packages software and its dependencies into an isolated container.</dd><dt>Envelope</dt><dd>A shape describing how a sound's volume rises and falls over time.</dd><dt>EWMA</dt><dd>An exponentially weighted moving average, which weights recent values more than old ones.</dd><dt>FFT</dt><dd>The fast Fourier transform, the standard way to compute a spectrum.</dd><dt>Formant</dt><dd>A band of frequencies that a vocal tract strengthens when making vowels.</dd><dt>Fourier transform</dt><dd>A math tool that splits a signal into pure sine waves of different frequencies.</dd><dt>Gabor transform</dt><dd>A Fourier-style analysis that uses a smooth window to keep timing information.</dd><dt>Impulse response</dt><dd>The recorded way a room or object rings after a short sound.</dd><dt>Latent space</dt><dd>A compressed representation in which each point stands for a possible sound.</dd><dt>LFO</dt><dd>A low frequency oscillator, used to wobble another sound setting.</dd><dt>Lookup table</dt><dd>A precomputed list of values read instead of calculating each time.</dd><dt>Mel spectrogram</dt><dd>A picture of sound energy over time, with frequencies spaced like human hearing.</dd><dt>Moshi</dt><dd>A speech-based language model built by Kyutai.</dd><dt>Neural audio codec</dt><dd>A learned model that compresses audio into a small stream of numbers or tokens.</dd><dt>Opus</dt><dd>A common audio codec for voice calls and streaming.</dd><dt>Oscillator</dt><dd>A generator of a repeating wave such as a sine or square.</dd><dt>Phase</dt><dd>Where a wave is in its cycle at a given moment.</dd><dt>Phasor</dt><dd>A rotating complex number that tracks the phase of a wave.</dd><dt>Plugin</dt><dd>An add-on program that applies an effect or makes sound inside a DAW.</dd><dt>REAPER</dt><dd>A commercial DAW that can be scripted.</dd><dt>Residual vector quantization</dt><dd>Coding each slice of audio with several small dictionaries, one correcting the previous.</dd><dt>Resonator</dt><dd>A simple filter that responds strongly to input near one chosen frequency.</dd><dt>Short-time Fourier transform</dt><dd>Fourier analysis applied to short slices of a signal in turn.</dd><dt>Sidechain</dt><dd>A routing where one track's signal controls an effect on another track.</dd><dt>Sparse</dt><dd>Using only a few active elements, with the rest left empty.</dd><dt>Spectrogram</dt><dd>A picture of how sound energy is spread over frequency and time.</dd><dt>T-SNE</dt><dd>A method that flattens many-dimensional data into a plot while keeping neighbors close.</dd><dt>Token</dt><dd>A discrete unit that a language model reads and writes.</dd><dt>Tracker</dt><dd>A music editor where notes are entered in rows of patterns.</dd><dt>U-Net</dt><dd>A neural network shaped like a U, used here to remove noise.</dd><dt>VAE</dt><dd>A variational autoencoder, a model that compresses data into a small code and rebuilds it.</dd><dt>Vocoder</dt><dd>A model that turns a spectrogram back into an audio waveform.</dd><dt>VRAM</dt><dd>The memory on a graphics card.</dd><dt>WASM</dt><dd>WebAssembly, a compact code format that browsers run at near native speed.</dd><dt>Wavelet transform</dt><dd>A way to analyze a signal using short wave shapes of varying width.</dd></dl>
+  </article>
+</div>
+</body>
+</html>

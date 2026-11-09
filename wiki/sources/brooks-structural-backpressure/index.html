@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Structural Backpressure Beats Smarter Agents</title>
+  <meta name="description" content="A blog post arguing that machine-checked gates in coding loops matter more than smarter models.">
+  <meta property="og:title" content="Structural Backpressure Beats Smarter Agents">
+  <meta property="og:description" content="A blog post arguing that machine-checked gates in coding loops matter more than smarter models.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Structural Backpressure Beats Smarter Agents</nav>
+  <header class="title">
+    <h1>Structural Backpressure Beats Smarter Agents</h1>
+    <p class="lede">A blog post arguing that machine-checked gates in coding loops matter more than smarter models.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>reuben brooks</dd>
+      <dt>Published</dt><dd>May 18, 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post introducing the author's own tool, with a running demo</dd>
+      <dt>Original</dt><dd><a href="https://reubenbrooks.dev/blog/structural-backpressure-beats-smarter-agents/">reubenbrooks.dev/blog/structural-backpressure-beats-smarter-agents/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Reuben Brooks built Shen-Backpressure and explains it through a multi-tenant API demo. The post shows how formal specs can gate an AI coding loop.</p>
+    <h2>What it says</h2>
+    <ul><li>Brooks bets structural backpressure beats smarter agents for much production software.</li><li>Prompt rules are behavioral gates that models follow often but not reliably. Compilers and type checkers are structural gates.</li><li>Shen-Backpressure turns a Shen spec into guard types in Go or TypeScript using a generator.</li><li>In the demo, a resource-access value needs a tenant-access value and proof of ownership.</li><li>Each iteration runs five default gates. Failures feed into the next prompt.</li><li>The author claims only that specified invariants become practically impossible to bypass by accident.</li><li>The post concludes that production coding loops need better backpressure more than a better model.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post shows one running demo with a curl transcript. It shows Alice refused access to another tenant. It shows a compiler error when a raw string is passed. It gives no benchmark and no comparison with a smarter model.</p>
+    <h2>Interests and limits</h2>
+    <p>The author built the tool and promotes it. The post tests no model-upgrade alternative. It names costs: writing the spec, and a larger trusted code base. Bypasses through reflection or careless SQL remain possible. The sixth gate is called experimental.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/ronacher-the-coming-loop/">The Coming Loop</a>. Ronacher sees models adding local defenses instead of making bad states impossible. Brooks offers types that refuse such states at compile time. But Ronacher's loop needs only a useful signal, while Brooks wants a hard gate. How much signal does a loop need?</li><li><a href="/wiki/sources/gingerbill-odin-inline-asm/">Everyone Says Assembly Is Untyped—Everyone Is Wrong</a>. GCC passes inline assembly along as a string it barely understands. Brooks says prompt rules have similar standing: followed often, not reliably. gingerBill checks instructions against tables, and Brooks generates guard types. Both move a promise into something a machine can refuse.</li><li><a href="/wiki/sources/minsky-formal-methods-future/">Formal methods and the future of programming</a>. Minsky's cost example is seL4, at 25 person-years for 8,700 lines. Brooks claims much less, covering only invariants someone specified. The two mark ends of one scale. How much guarantee does each hour of specification buy?</li></ul>
+  </article>
+</div>
+</body>
+</html>

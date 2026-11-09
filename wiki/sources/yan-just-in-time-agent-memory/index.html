@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Just-In-Time Agent Memory with Runtime Agentic Research</title>
+  <meta name="description" content="A preprint proposing an agent memory that keeps raw history and searches it per request.">
+  <meta property="og:title" content="Just-In-Time Agent Memory with Runtime Agentic Research">
+  <meta property="og:description" content="A preprint proposing an agent memory that keeps raw history and searches it per request.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Just-In-Time Agent Memory with Runtime Agentic Research</nav>
+  <header class="title">
+    <h1>Just-In-Time Agent Memory with Runtime Agentic Research</h1>
+    <p class="lede">A preprint proposing an agent memory that keeps raw history and searches it per request.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Bingyu Yan and five co-authors, Beijing Academy of Artificial Intelligence</dd>
+      <dt>Published</dt><dd>28 September 2026</dd>
+      <dt>Kind</dt><dd>arXiv preprint with benchmarks and a new training dataset</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/abs/2609.34385">arxiv.org/abs/2609.34385</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/file-based-agent-memory/">File-based agent memory</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The authors work at the Beijing Academy of Artificial Intelligence. The paper contrasts Ahead-of-Time memory, built before a request, with Just-In-Time memory. It introduces JAM, the Memory-Gym training data, and a two-stage training method.</p>
+    <h2>What it says</h2>
+    <ul><li>The authors say memory built ahead of time can discard fine-grained details that later matter.</li><li>JAM has a Memorizer and a Researcher. The Memorizer keeps raw sessions as files in folders with README summaries.</li><li>The Researcher uses open, search and browse tools in a loop. It stops when it judges the evidence sufficient.</li><li>Memory-Gym synthesizes training data with nine task types across six domains.</li><li>The authors report that a 4B-parameter JAM outperforms 7B to 14B trained baselines. This holds across most settings.</li><li>On LongCodeQA, a domain outside the training data, accuracy rose from 54.08% to 75.54%.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The paper reports tables on four benchmarks against ten baselines. It adds ablations, timing and a human audit of 200 training instances. LoCoMo overall F1 was 52.09 for JAM against 43.37 for RAG. Code is released.</p>
+    <h2>Interests and limits</h2>
+    <p>The authors built JAM, Memory-Gym and the comparisons, so results are self-reported. The paper is a preprint. JAM adds query-time latency over one-shot systems. The paper says other memory systems stay competitive on dialogue benchmarks such as LoCoMo. The main text was read, but the appendices were only skimmed.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/kellogg-layers-of-memory/">Layers of Memory, Layers of Compression</a>. Kellogg treats memory as layers of lossy compression. Yan and colleagues say compressing early discards details that later matter. They keep raw sessions and search them. The choice is about when to pay: when writing, or when asking.</li></ul>
+  </article>
+</div>
+</body>
+</html>
