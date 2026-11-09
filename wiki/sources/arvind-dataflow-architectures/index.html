@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dataflow Architectures</title>
+  <meta name="description" content="A 1986 survey of how dataflow computers store tokens and data structures.">
+  <meta property="og:title" content="Dataflow Architectures">
+  <meta property="og:description" content="A 1986 survey of how dataflow computers store tokens and data structures.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Dataflow Architectures</nav>
+  <header class="title">
+    <h1>Dataflow Architectures</h1>
+    <p class="lede">A 1986 survey of how dataflow computers store tokens and data structures.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Arvind and David E. Culler, MIT Laboratory for Computer Science</dd>
+      <dt>Published</dt><dd>12 February 1986</dd>
+      <dt>Kind</dt><dd>Technical memo and survey paper, written in 1986</dd>
+      <dt>Original</dt><dd><a href="https://dspace.mit.edu/entities/publication/db53bf88-50f7-4457-a9a3-f7828b2ae34f">dspace.mit.edu/entities/publication/db53bf88-50f7-4457-a9a3-f7828b2ae34f</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/systems-and-hardware/">Systems and hardware</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Arvind and David Culler wrote this memo at MIT, for a 1986 annual review. It sets out to describe dataflow graphs as a parallel machine language and compare designs.</p>
+    <h2>What it says</h2>
+    <ul><li>Dataflow graphs are described as a machine language for parallel machines.</li><li>Static dataflow allows one token per arc, while dynamic dataflow tags tokens and pools them.</li><li>Enforcing one token per arc reduces the parallelism a program can exploit.</li><li>The paper cites earlier work showing no interpreter offers more parallelism than tagged-token.</li><li>I-structures are slots that can be written at most once, with early reads deferred.</li><li>The survey covers major static and tagged-token dataflow projects and gives a prognosis.</li><li>The authors call dataflow an extreme answer to memory latency, as the processor never waits.</li><li>The prognosis is hedged: dataflow machines are likely competitive, but not claimed lightly.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The memo offers argument, worked examples and descriptions of real machines. It cites earlier papers and reports some hardware figures taken from those projects. It runs no new experiments.</p>
+    <h2>Interests and limits</h2>
+    <p>The text came from a noisy scan, and the figures were not viewed. The MIT server refused the PDF, so the text comes from an archived copy. The authors belong to the MIT group behind the tagged-token machine. The 1986 prognosis predates later hardware. The catalog page lists the date wrongly. The paper warns tagged-token machines can deadlock, so the authors bound parallelism.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/chisnall-c-not-low-level/">C Is Not a Low-level Language</a>. Chisnall sketches a processor not built for C. Arvind's 1986 survey describes one family of attempts, with dataflow graphs as the machine language. Its authors call dataflow an extreme answer to memory latency. Read after Chisnall, it looks like a road not taken.</li></ul>
+  </article>
+</div>
+</body>
+</html>

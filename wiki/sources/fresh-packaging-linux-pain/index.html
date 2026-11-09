@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I hate packaging my software for Linux</title>
+  <meta name="description" content="A maintainer of the Fresh editor describes the cost of many Linux packaging channels.">
+  <meta property="og:title" content="I hate packaging my software for Linux">
+  <meta property="og:description" content="A maintainer of the Fresh editor describes the cost of many Linux packaging channels.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / I hate packaging my software for Linux</nav>
+  <header class="title">
+    <h1>I hate packaging my software for Linux</h1>
+    <p class="lede">A maintainer of the Fresh editor describes the cost of many Linux packaging channels.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Not stated</dd>
+      <dt>Published</dt><dd>Undated</dd>
+      <dt>Kind</dt><dd>Project blog post, a personal account from a maintainer</dd>
+      <dt>Original</dt><dd><a href="https://getfresh.dev/docs/blog/packaging-for-linux/">getfresh.dev/docs/blog/packaging-for-linux/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-tools-and-craft/">Software tools and craft</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The post comes from the Fresh editor's own documentation blog. The author is not named on the page. It explains why the project now favors a static binary that updates itself.</p>
+    <h2>What it says</h2>
+    <ul><li>The author says Windows and macOS are not so bad, Linux differs.</li><li>The project ships through many channels, such as cargo, AppImage, deb, rpm, AUR and nix.</li><li>Flatpak sandboxing fits poorly, the author says, because Fresh is a terminal program.</li><li>AppImage starts slowly because of a squashfs FUSE mount, the author says.</li><li>Debian packaging needs every Rust dependency packaged separately, which the author calls much work.</li><li>The mise install broke after GitHub rotated a certificate and mise kept an old root.</li><li>The planned main Linux channel is a static musl binary that updates itself.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives first-hand anecdotes from one project. It names specific failures, such as the mise certificate problem and AUR being read-only. It gives rough sizes, about 12MB to download and 35MB extracted. It offers no survey or wider data.</p>
+    <h2>Interests and limits</h2>
+    <p>The author is not named and the post is undated. It speaks for one terminal editor, written in Rust. The static binary plan was untested when written. The author admits it may bring surprises. The post is on the project's own site.</p>
+  </article>
+</div>
+</body>
+</html>

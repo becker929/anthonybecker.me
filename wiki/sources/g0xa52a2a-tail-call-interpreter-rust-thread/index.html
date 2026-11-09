@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A tail-call interpreter in (nightly) Rust</title>
+  <meta name="description" content="A Hacker News thread about a blog post on a Rust tail-call interpreter.">
+  <meta property="og:title" content="A tail-call interpreter in (nightly) Rust">
+  <meta property="og:description" content="A Hacker News thread about a blog post on a Rust tail-call interpreter.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / A tail-call interpreter in (nightly) Rust</nav>
+  <header class="title">
+    <h1>A tail-call interpreter in (nightly) Rust</h1>
+    <p class="lede">A Hacker News thread about a blog post on a Rust tail-call interpreter.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Posted by g0xA52A2A, with replies from many commenters</dd>
+      <dt>Published</dt><dd>5 April 2026</dd>
+      <dt>Kind</dt><dd>Hacker News discussion thread of about 56 comments</dd>
+      <dt>Original</dt><dd><a href="https://news.ycombinator.com/item?id=47650312">news.ycombinator.com/item?id=47650312</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/compilers-and-interpreters/">Compilers and interpreters</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>g0xA52A2A posted the link to Matt Keeter's blog post and drew 194 points. Commenters discuss tail calls, bytecode interpreters and Rust language design. The article itself was not fetched for this record.</p>
+    <h2>What it says</h2>
+    <ul><li>Mananaysiempre says serialization formats keep rediscovering bytecode interpreters. Examples named are Microsoft, Protocol Buffers and Swift.</li><li>Gavinray doubts that an interpreter can outperform direct code. After a search, Gavinray cites instruction cache efficiency and branch prediction as the reason.</li><li>Tialaramex says become promises a tail call works or the code will not compile.</li><li>A debate asks why become is a keyword. One answer is that the need belongs to the caller.</li><li>Commenters argue over whether the post's interpreter is tail-call optimized or simply requires tail calls.</li><li>Anematode reports slower tail-call dispatch on WebAssembly in V8 and JSC, not SpiderMonkey.</li><li>Aw1621107 quotes the current RFC as barring become inside async functions.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The thread offers opinions, anecdotes and links to RFCs, blogs and code. Anematode describes tests on WebAssembly engines. No benchmarks are run in the thread itself.</p>
+    <h2>Interests and limits</h2>
+    <p>Commenters are self-selected and their claims are unchecked. Claims about the linked post are secondhand, because that post was not read. Rust's tail-call support was still nightly-only when the thread ran. Later changes are not covered.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>From Benchmarks to Skills: Low-Rank Factors for LLM Evaluation</title>
+  <meta name="description" content="A preprint that finds a few latent skills behind LLM benchmark scores.">
+  <meta property="og:title" content="From Benchmarks to Skills: Low-Rank Factors for LLM Evaluation">
+  <meta property="og:description" content="A preprint that finds a few latent skills behind LLM benchmark scores.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / From Benchmarks to Skills: Low-Rank Factors for LLM Evaluation</nav>
+  <header class="title">
+    <h1>From Benchmarks to Skills: Low-Rank Factors for LLM Evaluation</h1>
+    <p class="lede">A preprint that finds a few latent skills behind LLM benchmark scores.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Aviya Maimon and four co-authors</dd>
+      <dt>Published</dt><dd>11 June 2026 (version 2)</dd>
+      <dt>Kind</dt><dd>Academic preprint with a benchmark analysis and released code</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/abs/2507.20208">arxiv.org/abs/2507.20208</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/language-models-and-training/">Language models and training</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Maimon and colleagues apply psychometric factor analysis to LLM benchmark scores. They ask whether scores reflect many abilities or a few shared ones. They also release code and a leaderboard.</p>
+    <h2>What it says</h2>
+    <ul><li>The paper applies factor analysis to a matrix of 60 models on 44 benchmarks.</li><li>The authors find eight latent factors and label them as skills.</li><li>Tasks that look alike can fall on different skills, such as GPQA and TriviaQA.</li><li>Models with near-equal Chatbot Arena ratings can have very different skill profiles.</li><li>The average skill score correlates with Arena Elo at 0.73 over 13 shared models.</li><li>Twelve tasks were enough to estimate new models' profiles, mean error 0.095 in tests.</li><li>The authors report PCA agrees less with Arena than their method (0.28 against 0.73).</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The paper reports robustness tests on its own 60 by 44 score matrix. These include other factor counts, 30% of models held out, and leave-one-task-out runs. It checks internal consistency, with alpha 0.836. It correlates skill scores with Chatbot Arena for 13 models. It adds a second analysis on the MTEB embedding leaderboard.</p>
+    <h2>Interests and limits</h2>
+    <p>The matrix covers 60 instruction-tuned models, and generation tasks use an LLM judge, DeepSeek-R1. The authors say eight skills is not a unique correct resolution, and names are interpretive. A simple average of task scores correlated 0.86 with Arena, above 0.73. Newer models were reconstructed with higher error than older ones. The main text and appendices C to K were read. The references and appendices A and B were not.</p>
+  </article>
+</div>
+</body>
+</html>

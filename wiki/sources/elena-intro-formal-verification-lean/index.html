@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tutorial: Introduction to Formal Verification with Lean (Part 1)</title>
+  <meta name="description" content="A code-along tutorial that proves the one-time pad correct in Lean 4.">
+  <meta property="og:title" content="Tutorial: Introduction to Formal Verification with Lean (Part 1)">
+  <meta property="og:description" content="A code-along tutorial that proves the one-time pad correct in Lean 4.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Tutorial: Introduction to Formal Verification with Lean (Part 1)</nav>
+  <header class="title">
+    <h1>Tutorial: Introduction to Formal Verification with Lean (Part 1)</h1>
+    <p class="lede">A code-along tutorial that proves the one-time pad correct in Lean 4.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Elena, Cryptography Engineer at HashCloak</dd>
+      <dt>Published</dt><dd>15 July 2026</dd>
+      <dt>Kind</dt><dd>Company blog tutorial with code-along Lean examples</dd>
+      <dt>Original</dt><dd><a href="https://hashcloak.com/blog/tutorial-introduction-to-formal-verification-with-lean-(part-1)">hashcloak.com/blog/tutorial-introduction-to-formal-verification-with-lean-(part-1)</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/checkable-specs/">Checkable specs for coding agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Elena, a cryptography engineer at HashCloak, wrote this tutorial. It ports definitions and proofs from a graduate cryptography textbook into Lean. The author says it is not a guide to Lean best practice.</p>
+    <h2>What it says</h2>
+    <ul><li>Lean lets people write proofs as code and have the compiler check them.</li><li>The tutorial defines bit strings as vectors over integers mod two, and XOR as addition.</li><li>It proves XOR is commutative and associative, and has an identity and self-inverse.</li><li>A Shannon cipher is modeled as a structure with encryption, decryption and a correctness proof.</li><li>The one-time pad's correctness follows from the XOR lemmas, by the textbook's own proof.</li><li>Proofs cover a model of the code, so gaps can remain between code and theorem.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The tutorial gives full Lean code for each step. It ends with a 57-line final listing. It shows what Lean reports at each proof step. It does not run benchmarks. The closing remarks on blockchain verification cite other writing without testing it.</p>
+    <h2>Interests and limits</h2>
+    <p>The post is a tutorial, not a study. It notes a compiled proof is correct only assuming trust in the Lean compiler. Only the correctness of the one-time pad is proved, not its security. The author says security is left for a part two. The post says the proof style is lengthy and not best practice.</p>
+  </article>
+</div>
+</body>
+</html>

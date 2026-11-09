@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>You could have invented transformers from memory</title>
+  <meta name="description" content="A blog post that derives MLP and attention layers by improving a simple key-value memory.">
+  <meta property="og:title" content="You could have invented transformers from memory">
+  <meta property="og:description" content="A blog post that derives MLP and attention layers by improving a simple key-value memory.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / You could have invented transformers from memory</nav>
+  <header class="title">
+    <h1>You could have invented transformers from memory</h1>
+    <p class="lede">A blog post that derives MLP and attention layers by improving a simple key-value memory.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Alex Wang</dd>
+      <dt>Published</dt><dd>15 October 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post with derivations, simulations and interactive widgets</dd>
+      <dt>Original</dt><dd><a href="https://alexwang.ai/posts/associative-memory/">alexwang.ai/posts/associative-memory/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/language-models-and-training/">Language models and training</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Alex Wang writes an explainer on transformers as memory systems. It starts from an outer-product key-value store. It adds fixes that reduce interference until MLP and attention layers appear.</p>
+    <h2>What it says</h2>
+    <ul><li>A plain outer-product memory fails once memories outnumber the key dimension, 64 here.</li><li>A least-squares linear store doubles that capacity, to about 128 memories.</li><li>A nonlinearity on the similarities gives an MLP. Squared ReLU reaches about 2,700 memories.</li><li>Softmax attention follows from the exponential, a sum of all powers. At sharpness 8, capacity is about 1.2 million.</li><li>Attention builds memories from context tokens, so its store grows with context length.</li><li>Scaling sharpness with the log of context length allows essentially unbounded memories.</li><li>The post says the original transformer paper drew this link in versions 2 and 3.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives algebraic derivations and simulations with random unit keys and random values. A summary table lists the capacity of each store at key dimension 64. Interactive widgets let readers vary the settings.</p>
+    <h2>Interests and limits</h2>
+    <p>This is a personal blog post. Capacity counts recall of random vectors before interference equals signal. The post says it ignores training data, which shapes real keys and values. Results come from simulations at key dimension 64.</p>
+  </article>
+</div>
+</body>
+</html>

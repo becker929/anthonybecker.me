@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introducing Kitesurf: The agent-first browser that runs in V8 isolates on Cloudflare Workers</title>
+  <meta name="description" content="A Cloudflare post announcing a lightweight browser built for AI agents on its Workers platform.">
+  <meta property="og:title" content="Introducing Kitesurf: The agent-first browser that runs in V8 isolates on Cloudflare Workers">
+  <meta property="og:description" content="A Cloudflare post announcing a lightweight browser built for AI agents on its Workers platform.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Introducing Kitesurf: The agent-first browser that runs in V8 isolates on Cloudflare Workers</nav>
+  <header class="title">
+    <h1>Introducing Kitesurf: The agent-first browser that runs in V8 isolates on Cloudflare Workers</h1>
+    <p class="lede">A Cloudflare post announcing a lightweight browser built for AI agents on its Workers platform.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Celso Martinho, Ruskin Constant, Rui Figueira and Luís Duarte, Cloudflare</dd>
+      <dt>Published</dt><dd>August 6, 2026</dd>
+      <dt>Kind</dt><dd>Company product announcement and engineering post, with a benchmark table</dd>
+      <dt>Original</dt><dd><a href="https://blog.cloudflare.com/kitesurf/">blog.cloudflare.com/kitesurf/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Four Cloudflare authors announce Kitesurf as an option inside the Browser Run product. The post explains why they built a browser for agents. It also shows how the parts fit. It also says where Kitesurf works today and where it does not.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says Chromium was built for humans. Giving every agent its own costs too much.</li><li>Kitesurf has three main parts: the Engine, PageScript and PageRenderer, each on Workers.</li><li>The team used AI agents for much of the build. The Web Platform Tests suite guided them.</li><li>Kitesurf passes around 215,000 Web Platform Tests, with hundreds more each week.</li><li>Across a 14-URL corpus, Kitesurf used 3 to 7 times less CPU and memory. Wall time was about 1.7 times slower.</li><li>Design rules: fail to a blank frame, treat every page load as untrusted, stay stateless.</li><li>Kitesurf cannot yet play video, render WebGL, pass bot challenges or hold long authenticated sessions.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a count of Web Platform Tests passed. It gives a table of median CPU, memory and wall time over a 14-URL corpus. It names sites that render correctly.</p>
+    <h2>Interests and limits</h2>
+    <p>Cloudflare sells Browser Run, and the post announces its own beta product. The benchmark is the company's own, over a small corpus with five runs. The diagrams, charts and demo images were not viewed, only the page text. The post says the source code is not yet open.</p>
+  </article>
+</div>
+</body>
+</html>

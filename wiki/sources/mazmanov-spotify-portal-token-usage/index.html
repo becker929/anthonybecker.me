@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal by Spotify cut my Claude Code token usage by 90%</title>
+  <meta name="description" content="A Spotify post on sending bulk file reading to a cheaper model.">
+  <meta property="og:title" content="Portal by Spotify cut my Claude Code token usage by 90%">
+  <meta property="og:description" content="A Spotify post on sending bulk file reading to a cheaper model.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Portal by Spotify cut my Claude Code token usage by 90%</nav>
+  <header class="title">
+    <h1>Portal by Spotify cut my Claude Code token usage by 90%</h1>
+    <p class="lede">A Spotify post on sending bulk file reading to a cheaper model.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Dimitri Mazmanov, Principal Product Manager, Spotify</dd>
+      <dt>Published</dt><dd>3 September 2026</dd>
+      <dt>Kind</dt><dd>Company engineering blog post with a how-to and a small benchmark</dd>
+      <dt>Original</dt><dd><a href="https://engineering.atspotify.com/2026/9/portal-by-spotify-cut-my-claude-code-token-usage-by-90">engineering.atspotify.com/2026/9/portal-by-spotify-cut-my-claude-code-token-usage-by-90</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Dimitri Mazmanov, a principal product manager at Spotify, wrote this how-to. It shows two Portal agent modes and a plugin named shunt. It aims to cut Claude Code token use by routing grunt work.</p>
+    <h2>What it says</h2>
+    <ul><li>Mazmanov says much of a coding agent's work is I/O, not reasoning.</li><li>The post routes bulk reading and boilerplate writing to a cheaper model.</li><li>A plugin called shunt uses hooks to block reads of large files and redirect them.</li><li>Tests on a Java monorepo showed mean bulk-read savings near 90%, the post says.</li><li>The post says delegation does not work for editing or for reasoning tasks.</li><li>Per the post, responses typically take 10 to 30 seconds, so small reads stay local.</li><li>The post says the bulk-reader and code-writer modes are public and shareable.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a small benchmark on one Java monorepo across four scenarios. It reports the mean saving but not per-scenario figures. Code-writing savings are said to be hard to measure in tokens. It shows configuration and script examples and one anecdote of a missed bug.</p>
+    <h2>Interests and limits</h2>
+    <p>Spotify publishes this about its own Portal platform and AiKA modes. The author is a product manager there. The savings count Claude tokens, not total cost or output quality. The setup needs a Portal instance, so outside readers may not reproduce it.</p>
+  </article>
+</div>
+</body>
+</html>

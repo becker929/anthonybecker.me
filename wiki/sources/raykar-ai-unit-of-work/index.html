@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The quality of AI-assisted software depends on unit of work management</title>
+  <meta name="description" content="A blog post arguing that breaking AI coding work into small, human-legible units drives quality.">
+  <meta property="og:title" content="The quality of AI-assisted software depends on unit of work management">
+  <meta property="og:description" content="A blog post arguing that breaking AI coding work into small, human-legible units drives quality.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / The quality of AI-assisted software depends on unit of work management</nav>
+  <header class="title">
+    <h1>The quality of AI-assisted software depends on unit of work management</h1>
+    <p class="lede">A blog post arguing that breaking AI coding work into small, human-legible units drives quality.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Atharva Raykar (nilenso)</dd>
+      <dt>Published</dt><dd>15 September 2025</dd>
+      <dt>Kind</dt><dd>Company blog opinion post, with napkin arithmetic</dd>
+      <dt>Original</dt><dd><a href="https://blog.nilenso.com/blog/2025/09/15/ai-unit-of-work/">blog.nilenso.com/blog/2025/09/15/ai-unit-of-work/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Atharva Raykar writes for the nilenso blog about getting better results from AI coding agents. The post links context size, error compounding and task size. It ends by proposing user stories plus extra context as the unit.</p>
+    <h2>What it says</h2>
+    <ul><li>Raykar says the main bottleneck in AI-assisted coding is correct context, not intelligence.</li><li>Errors compound over turns: a 5% error rate over 10 turns gives about 59.9% success.</li><li>METR's tasks are less messy than real software work. The author rates that work at least around 7 to 8 of 16.</li><li>The author extrapolates that GPT-5 falls from 70% to around 40% on two-hour tasks.</li><li>A right-sized unit of work is small, concise and legible to humans.</li><li>User stories are a good starting unit, though the author says they need something more.</li><li>nilenso's StoryMachine experiment reads a PRD and tech specs and produces story cards.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives a table of compounded success rates from assumed per-step error rates. It reads one METR paper and extrapolates from its messiness measure. It adds the author's own experience.</p>
+    <h2>Interests and limits</h2>
+    <p>nilenso is a consultancy that is running the StoryMachine experiment mentioned in the post. The per-step error rates are assumed, not measured. The extrapolation from METR is the author's own, and the proposed unit is untested.</p>
+    <h2>Connections</h2>
+    <p>These links are this wiki's own reading, not claims the sources make.</p>
+    <ul><li><a href="/wiki/sources/lee-reinforcement-learning-explained/">Reinforcement learning, explained with a minimum of math and jargon</a>. Raykar computes it: a 5% error rate over 10 turns gives about 59.9% success. Lee traces the same worry to a 2011 paper on imitation learning. There, correcting the model while it drove worked much better. Is a review loop a kind of DAgger?</li></ul>
+  </article>
+</div>
+</body>
+</html>

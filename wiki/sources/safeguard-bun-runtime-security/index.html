@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bun Runtime Security Considerations: Speed vs. Safety Trade-offs</title>
+  <meta name="description" content="A security vendor&#x27;s blog post weighs the security trade-offs of the Bun JavaScript runtime.">
+  <meta property="og:title" content="Bun Runtime Security Considerations: Speed vs. Safety Trade-offs">
+  <meta property="og:description" content="A security vendor&#x27;s blog post weighs the security trade-offs of the Bun JavaScript runtime.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Bun Runtime Security Considerations: Speed vs. Safety Trade-offs</nav>
+  <header class="title">
+    <h1>Bun Runtime Security Considerations: Speed vs. Safety Trade-offs</h1>
+    <p class="lede">A security vendor's blog post weighs the security trade-offs of the Bun JavaScript runtime.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Bob, Application Security Engineer, Safeguard.sh</dd>
+      <dt>Published</dt><dd>11 February 2026</dd>
+      <dt>Kind</dt><dd>Vendor blog post, a security overview with a product pitch at the end</dd>
+      <dt>Original</dt><dd><a href="https://safeguard.sh/resources/blog/bun-runtime-security-considerations">safeguard.sh/resources/blog/bun-runtime-security-considerations</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/software-tools-and-craft/">Software tools and craft</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>The author is an application security engineer at Safeguard.sh, a software supply chain security company. The post is aimed at teams choosing a runtime. It sets out where Bun's security boundaries lie. The post says it is not an argument against using Bun.</p>
+    <h2>What it says</h2>
+    <ul><li>The post says Bun's native Zig code means bugs could be memory safety issues.</li><li>Zig is not memory safe in the way Rust is, the post says.</li><li>Bun disables registry lifecycle scripts by default, better than npm, but direct dependencies still run.</li><li>The bun.lockb binary lockfile is hard to read and diff, which makes auditing harder.</li><li>Bun has no permission model like Deno's and no equivalent of Node.js's experimental policy system.</li><li>Bun's built-in bundler, test runner and package manager reduce the number of dependencies.</li><li>The post advises OS-level hardening, such as a dedicated user, capabilities, seccomp and containers.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers argument and general technical description. It cites no benchmarks, vulnerability counts or tests of Bun. Its claims about security research coverage are stated without sources.</p>
+    <h2>Interests and limits</h2>
+    <p>Safeguard.sh sells dependency scanning, and the post closes with a section promoting it. Nothing was tested. The comparison reflects Bun as of the post's date.</p>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your type checker may be wrong - an introduction to formal proof verification and the Curry-Howard Correspondence</title>
+  <meta name="description" content="A blog explainer on Curry-Howard and why type checkers may reject correct code.">
+  <meta property="og:title" content="Your type checker may be wrong - an introduction to formal proof verification and the Curry-Howard Correspondence">
+  <meta property="og:description" content="A blog explainer on Curry-Howard and why type checkers may reject correct code.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Your type checker may be wrong - an introduction to formal proof verification and the Curry-Howard Correspondence</nav>
+  <header class="title">
+    <h1>Your type checker may be wrong - an introduction to formal proof verification and the Curry-Howard Correspondence</h1>
+    <p class="lede">A blog explainer on Curry-Howard and why type checkers may reject correct code.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Max (Max's blog)</dd>
+      <dt>Published</dt><dd>25 July 2026</dd>
+      <dt>Kind</dt><dd>Personal blog post, informal explainer with a short proof sketch</dd>
+      <dt>Original</dt><dd><a href="https://max-amb.github.io/blog/your_type_checker_may_be_wrong/">max-amb.github.io/blog/your_type_checker_may_be_wrong/</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/checkable-specs/">Checkable specs for coding agents</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Max wrote this on a personal blog. It introduces how proof assistants use types to check proofs. It then argues that these checkers are necessarily incomplete.</p>
+    <h2>What it says</h2>
+    <ul><li>Under Curry-Howard, returning a proof of a fact means returning a value of a type.</li><li>Logical 'and' becomes a pair of proofs, and implication becomes a function between proof types.</li><li>Languages like Lean restrict recursion so that every check finishes in finite time.</li><li>A language that could settle every statement would solve the halting problem.</li><li>The post says a checker is incomplete, not wrong. It may reject correct code but never accepts incorrect code.</li><li>The post concludes that the halting problem implies Godel's first incompleteness theorem.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post offers a proof by contradiction from Turing's halting problem. It also gives one small Lean theorem, proved step by step. It cites Wikipedia and a few other pages. It has no experiments.</p>
+    <h2>Interests and limits</h2>
+    <p>This is a personal explainer with no stated review. The author says it uses intuition and sacrifices some rigour. The Rust recursion limit example is a joke about practice. The halting-to-incompleteness claim is stated in one paragraph. The post does not discuss checking specifications.</p>
+  </article>
+</div>
+</body>
+</html>

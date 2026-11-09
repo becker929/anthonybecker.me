@@ -16,7 +16,7 @@
   <header class="title">
     <h1>Finite State Machines in Forth</h1>
     <p class="lede">A technical note on building finite state machines in Forth from a state table.</p>
-    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 00:55 UTC (16:55 Pacific)</span></p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
   </header>
   <article>
     <dl class="facts">
@@ -29,7 +29,7 @@
     <h2>What it is</h2>
     <p>J.V. Noble, of a university physics institute, wrote this note for Forth programmers. It gives methods for deterministic and nondeterministic finite state automata. The stated goal is a one-to-one match between the definition and the state table.</p>
     <h2>What it says</h2>
-    <ul><li>Noble says nested IF logic is hard to read, debug or modify. It can also be slow.</li><li>The note replaces history flags with one state variable. A state table gives actions and transitions.</li><li>A brute-force version uses CASE: with one word per state. The note calls it inadequately factored.</li><li>The defining word FSM: compiles a table of execution tokens. State and input column index it.</li><li>The final form reads like the state table. Named transitions such as &gt;1 follow each action.</li><li>Using a word, not a number, for each transition allows nondeterministic machines. No other redefinition is needed.</li></ul>
+    <ul><li>Noble says nested IF logic is hard to read, debug or modify. It can also be slow.</li><li>The note replaces history flags with one state variable. A state table gives actions and transitions.</li><li>A brute-force version uses CASE: with one word per state. The note calls it inadequately factored.</li><li>The defining word FSM: compiles a table of execution tokens. State and input column index it.</li><li>The note's elegant version reads like the state table. Named transitions such as &gt;1 follow each action.</li><li>Using a word, not a number, for each transition allows nondeterministic machines. No other redefinition is needed.</li></ul>
     <h2>What evidence it gives</h2>
     <p>The note gives complete Forth definitions and short console tests for the number-entry example. It adds an identifier recognizer and floating-point recognizers. It cites no benchmarks, so the speed claims are argument only.</p>
     <h2>Interests and limits</h2>

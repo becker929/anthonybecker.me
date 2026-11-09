@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Technical Deep Dive on Streaming AI Agent Desktop Sandboxes: When Gaming Protocols Meet Multi-User Access</title>
+  <meta name="description" content="A company blog post on streaming agent desktops with a game streaming protocol.">
+  <meta property="og:title" content="Technical Deep Dive on Streaming AI Agent Desktop Sandboxes: When Gaming Protocols Meet Multi-User Access">
+  <meta property="og:description" content="A company blog post on streaming agent desktops with a game streaming protocol.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Technical Deep Dive on Streaming AI Agent Desktop Sandboxes: When Gaming Protocols Meet Multi-User Access</nav>
+  <header class="title">
+    <h1>Technical Deep Dive on Streaming AI Agent Desktop Sandboxes: When Gaming Protocols Meet Multi-User Access</h1>
+    <p class="lede">A company blog post on streaming agent desktops with a game streaming protocol.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>9 November 2026, 01:25 UTC (17:25 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Luke Marsden and Chris Sterry (HelixML)</dd>
+      <dt>Published</dt><dd>Oct 30, 2025</dd>
+      <dt>Kind</dt><dd>Company engineering blog post on a Substack, about work in progress</dd>
+      <dt>Original</dt><dd><a href="https://blog.helix.ml/p/technical-deep-dive-on-streaming">blog.helix.ml/p/technical-deep-dive-on-streaming</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/harnesses-and-agent-loops/">Harnesses and agent loops</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Luke Marsden and Chris Sterry describe Helix Code. It runs agents in Linux desktop containers with GPUs. The post explains why they chose Moonlight and Wolf. It also covers where the protocol's single-user design causes trouble.</p>
+    <h2>What it says</h2>
+    <ul><li>Helix streams agent desktops using Wolf, a C++ server for the Moonlight protocol.</li><li>Moonlight assumes one private session per client, but Helix needs many users on one agent.</li><li>In apps mode, the Helix API pretends to be a Moonlight client.</li><li>Wolf's new lobbies mode lets many clients share one screen. Helix is migrating to it.</li><li>Lobbies mode still has bugs, such as wrong mouse scaling and corrupted video.</li><li>The post gives typical Moonlight latency as 50 to 100 ms, working over 4G.</li><li>Helix still runs apps mode for development because it is stable.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The post gives an account of the architecture and the bugs found. It gives one latency range with no method. It shows no benchmark against RDP or VNC. A closing line claims a demo video streams 4K better than RDP or VNC.</p>
+    <h2>Interests and limits</h2>
+    <p>Helix is promoting a private beta of its own product. The latency range is unmeasured in the text. The embedded 4K demo video was not viewed, only the page text. The post is a snapshot of work in progress from the date given.</p>
+  </article>
+</div>
+</body>
+</html>

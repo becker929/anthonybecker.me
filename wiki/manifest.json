@@ -2,61 +2,61 @@
   {
     "slug": "file-based-agent-memory",
     "title": "File-based agent memory",
-    "description": "Eight sources on keeping a coding agent's knowledge in plain files.",
+    "description": "Ten sources on keeping a coding agent's knowledge in plain files.",
     "path": "/wiki/file-based-agent-memory/"
   },
   {
     "slug": "checkable-specs",
     "title": "Checkable specs for coding agents",
-    "description": "Ten sources on what it takes to check an agent's work against a spec.",
+    "description": "20 sources on what it takes to check an agent's work against a spec.",
     "path": "/wiki/checkable-specs/"
   },
   {
     "slug": "images-made-by-rules",
     "title": "Images made by rules",
-    "description": "Six sources where a picture follows from a small set of rules.",
+    "description": "Eight sources where a picture follows from a small set of rules.",
     "path": "/wiki/images-made-by-rules/"
   },
   {
     "slug": "consonance-and-tuning",
     "title": "Consonance and tuning",
-    "description": "Eight sources on why some notes seem to fit, and how scales get divided.",
+    "description": "Eleven sources on why some notes seem to fit, and how scales get divided.",
     "path": "/wiki/consonance-and-tuning/"
   },
   {
     "slug": "harnesses-and-agent-loops",
     "title": "Harnesses and agent loops",
-    "description": "Eight sources on the software that surrounds a coding agent.",
+    "description": "37 sources on the software that surrounds a coding agent.",
     "path": "/wiki/harnesses-and-agent-loops/"
   },
   {
     "slug": "review-taste-expertise",
     "title": "Review, taste and expertise",
-    "description": "Seven sources on what people still add when agents write code.",
+    "description": "Ten sources on what people still add when agents write code.",
     "path": "/wiki/review-taste-expertise/"
   },
   {
     "slug": "compilers-and-interpreters",
     "title": "Compilers and interpreters",
-    "description": "Seven sources on making language tools fast and checkable.",
+    "description": "Thirteen sources on making language tools fast and checkable.",
     "path": "/wiki/compilers-and-interpreters/"
   },
   {
     "slug": "databases-and-storage",
     "title": "Databases and storage",
-    "description": "Six sources on keeping data correct and finding it quickly.",
+    "description": "Eight sources on keeping data correct and finding it quickly.",
     "path": "/wiki/databases-and-storage/"
   },
   {
     "slug": "systems-and-hardware",
     "title": "Systems and hardware",
-    "description": "Six sources on what lies beneath ordinary code.",
+    "description": "Thirteen sources on what lies beneath ordinary code.",
     "path": "/wiki/systems-and-hardware/"
   },
   {
     "slug": "audio-models-and-analysis",
     "title": "Audio models and analysis",
-    "description": "Seven sources on analyzing, compressing and generating sound.",
+    "description": "Nine sources on analyzing, compressing and generating sound.",
     "path": "/wiki/audio-models-and-analysis/"
   },
   {
@@ -64,6 +64,108 @@
     "title": "Art movements and theory",
     "description": "Three reference sources on movements and ideas in art.",
     "path": "/wiki/art-movements-and-theory/"
+  },
+  {
+    "slug": "occult-myth-and-religion",
+    "title": "Occult, myth and religion",
+    "description": "Ten sources on magical traditions, ancient myth and religious ideas.",
+    "path": "/wiki/occult-myth-and-religion/"
+  },
+  {
+    "slug": "fiction-and-literature",
+    "title": "Fiction and literature",
+    "description": "Seven sources on stories and how they get told.",
+    "path": "/wiki/fiction-and-literature/"
+  },
+  {
+    "slug": "games-and-game-design",
+    "title": "Games and game design",
+    "description": "Eleven sources on how games work and get made.",
+    "path": "/wiki/games-and-game-design/"
+  },
+  {
+    "slug": "space-and-orbital-simulation",
+    "title": "Space and orbital simulation",
+    "description": "Six sources on orbits and the software that computes them.",
+    "path": "/wiki/space-and-orbital-simulation/"
+  },
+  {
+    "slug": "science-and-medicine",
+    "title": "Science and medicine",
+    "description": "Six sources from research papers and science writing.",
+    "path": "/wiki/science-and-medicine/"
+  },
+  {
+    "slug": "mathematics-and-optimization",
+    "title": "Mathematics and optimization",
+    "description": "Four sources explaining mathematical ideas.",
+    "path": "/wiki/mathematics-and-optimization/"
+  },
+  {
+    "slug": "writing-and-the-small-web",
+    "title": "Writing and the small web",
+    "description": "Three sources on blogs and who still reads them.",
+    "path": "/wiki/writing-and-the-small-web/"
+  },
+  {
+    "slug": "society-and-technology",
+    "title": "Society and technology",
+    "description": "Five sources on what technology and institutions owe people.",
+    "path": "/wiki/society-and-technology/"
+  },
+  {
+    "slug": "mind-attention-and-practice",
+    "title": "Mind, attention and practice",
+    "description": "Six sources on how people think, focus and improve.",
+    "path": "/wiki/mind-attention-and-practice/"
+  },
+  {
+    "slug": "history-and-places",
+    "title": "History and places",
+    "description": "Four sources on particular people, scripts and places.",
+    "path": "/wiki/history-and-places/"
+  },
+  {
+    "slug": "music-listening-and-scenes",
+    "title": "Music listening and scenes",
+    "description": "Four sources on events, news, history and instruments.",
+    "path": "/wiki/music-listening-and-scenes/"
+  },
+  {
+    "slug": "language-models-and-training",
+    "title": "Language models and training",
+    "description": "Nine sources that explain, test or announce language models.",
+    "path": "/wiki/language-models-and-training/"
+  },
+  {
+    "slug": "software-tools-and-craft",
+    "title": "Software tools and craft",
+    "description": "Four sources on the ordinary work of shipping software.",
+    "path": "/wiki/software-tools-and-craft/"
+  },
+  {
+    "slug": "music-as-code-and-daw-control",
+    "title": "Music as code and DAW control",
+    "description": "Five sources on making music by typing or by driving music software.",
+    "path": "/wiki/music-as-code-and-daw-control/"
+  },
+  {
+    "slug": "film-animation-and-video",
+    "title": "Film, animation and video",
+    "description": "Five sources on moving pictures and the tools behind them.",
+    "path": "/wiki/film-animation-and-video/"
+  },
+  {
+    "slug": "illustration-and-concept-art",
+    "title": "Illustration and concept art",
+    "description": "Four sources on drawing, painting and working as an artist.",
+    "path": "/wiki/illustration-and-concept-art/"
+  },
+  {
+    "slug": "saved-posts",
+    "title": "Saved posts",
+    "description": "Seven short posts saved for their own sake.",
+    "path": "/wiki/saved-posts/"
   },
   {
     "slug": "making-visual-worlds",
