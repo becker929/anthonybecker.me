@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>declauding v0.13.0</title>
+  <meta name="description" content="A release of a Claude skill that edits model-written prose into plain technical prose.">
+  <meta property="og:title" content="declauding v0.13.0">
+  <meta property="og:description" content="A release of a Claude skill that edits model-written prose into plain technical prose.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / declauding v0.13.0</nav>
+  <header class="title">
+    <h1>declauding v0.13.0</h1>
+    <p class="lede">A release of a Claude skill that edits model-written prose into plain technical prose.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>10 November 2026, 01:29 UTC (17:29 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>GitHub user oaustegard, in the claude-skills repository</dd>
+      <dt>Published</dt><dd>9 November 2026</dd>
+      <dt>Kind</dt><dd>GitHub release of a Claude skill, with a README and skill instructions</dd>
+      <dt>Original</dt><dd><a href="https://github.com/oaustegard/claude-skills/releases/tag/declauding-v0.13.0">github.com/oaustegard/claude-skills/releases/tag/declauding-v0.13.0</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/writing-with-models/">Writing with models</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>declauding is a Claude skill that rewrites drafts such as PR descriptions, READMEs and essays. It returns clean text or an annotated HTML diff. Version 0.13.0 adds a step that finds the draft's point before sentences are edited. The release page links a zip to install it in Claude.</p>
+    <h2>What it says</h2>
+    <ul><li>The README says it lists 52 entries, mostly grouped by mechanism and not by phrase.</li><li>The skill says nearly every tic is one move. The sentence stages a finding instead of stating it.</li><li>Version 0.13.0 adds step 1a. Write the draft's one point first, and rebuild if it is missing.</li><li>The skill warns that over-editing is worse than the tics. It leaves flat prose with no opinions.</li><li>The README describes a linter that only finds candidates. A clean report means nothing alone.</li><li>The skill bars the rewrite from adding any fact, name, number, date, quote or citation.</li><li>Step 4a has a subagent that never saw the old version read the final text.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The source gives the skill's own instructions, README and changelog. It reports 169 linter hits on a specimen file and 0 on clean prose. Some claims cite other repositories and an arXiv paper, which were not opened. No independent test appears.</p>
+    <h2>Interests and limits</h2>
+    <p>The skill is the author's own product, described by its author. Its claims about catching tics come from the author's tests. The read covered the release notes, SKILL.md and a few reference files. It did not cover the scripts, tests, register.md, corpus.md, preservation.md or most model profiles. The scripts were not run. Read in part: the release notes, SKILL.md, README, four references and the changelog head.</p>
+  </article>
+</div>
+</body>
+</html>
