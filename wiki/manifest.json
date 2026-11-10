@@ -264,6 +264,12 @@
     "path": "/wiki/art-and-images/"
   },
   {
+    "slug": "writing-with-models",
+    "title": "Writing with models",
+    "description": "Eleven sources on prose written with language models.",
+    "path": "/wiki/writing-with-models/"
+  },
+  {
     "slug": "architecture-and-built-things",
     "title": "Architecture and built things",
     "description": "Three sources on buildings and made objects.",
