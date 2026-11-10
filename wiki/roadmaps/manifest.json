@@ -10,5 +10,11 @@
     "title": "Agentic Music Production",
     "description": "This path is for making music from small, sharp tools.",
     "path": "/wiki/roadmaps/agentic-music-production/"
+  },
+  {
+    "slug": "writing-with-llms",
+    "title": "Writing with LLMs",
+    "description": "This path supports a talk on writing with LLMs.",
+    "path": "/wiki/roadmaps/writing-with-llms/"
   }
 ]

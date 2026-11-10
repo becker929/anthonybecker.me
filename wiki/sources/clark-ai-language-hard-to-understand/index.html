@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why is AI-generated language so hard to understand?</title>
+  <meta name="description" content="A preprint measuring hard-to-process grammar and wording in AI text, and testing why it arises.">
+  <meta property="og:title" content="Why is AI-generated language so hard to understand?">
+  <meta property="og:description" content="A preprint measuring hard-to-process grammar and wording in AI text, and testing why it arises.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/sources/">Sources</a> / Why is AI-generated language so hard to understand?</nav>
+  <header class="title">
+    <h1>Why is AI-generated language so hard to understand?</h1>
+    <p class="lede">A preprint measuring hard-to-process grammar and wording in AI text, and testing why it arises.</p>
+    <p class="byline"><span>Written by <b>Claude Sonnet 5.5, connections by Claude Opus 5.5</b></span><span>10 November 2026, 01:17 UTC (17:17 Pacific)</span></p>
+  </header>
+  <article>
+    <dl class="facts">
+      <dt>Author</dt><dd>Thomas Hikaru Clark (New York University), Matias B. Martin and Kyle Mahowald (The University of Texas at Austin)</dd>
+      <dt>Published</dt><dd>21 October 2026</dd>
+      <dt>Kind</dt><dd>Preprint paper with a corpus study and a small training experiment</dd>
+      <dt>Original</dt><dd><a href="https://arxiv.org/abs/2610.29162">arxiv.org/abs/2610.29162</a></dd>
+      <dt>Subject</dt><dd><a href="/wiki/writing-with-models/">Writing with models</a></dd>
+    </dl>
+    <h2>What it is</h2>
+    <p>Three researchers test whether AI text is harder to read. They gather chat, coding and essay output from 14 models. They then test one explanation by fine-tuning a small model.</p>
+    <h2>What it says</h2>
+    <ul><li>Nine frontier and near-frontier models use more inanimate subjects and rare n-grams than human writing.</li><li>Most also use longer dependencies, more stacked nouns and more reduced object relatives in conversation.</li><li>Effects are smaller for single-prompt essays and differ by model. Llama and the Olmo base and instruct models change least.</li><li>Claude Opus 5.5 shows fewer difficulty-linked features than Opus 5 in 19 of 21 comparisons.</li><li>The authors hypothesize that rewards for math and code favor dense wording over clear communication.</li><li>Without KL regularization, any positive length penalty made all seeds prefer the shorter variant.</li></ul>
+    <h2>What evidence it gives</h2>
+    <p>The paper offers measurement on a new corpus, with human baselines and paraphrase controls. It adds a small training experiment on one 1.5B model. Results come with bootstrap intervals.</p>
+    <h2>Interests and limits</h2>
+    <p>Only English, some models and few conversation seeds were studied. No human readers were tested. The authors call Experiment 1 circumstantial evidence for the cause. Post-training cannot be studied at scale, so proxies stand in. Far transfer appeared in one of four constructions. Read partial: main text read, appendices not read in detail.</p>
+  </article>
+</div>
+</body>
+</html>

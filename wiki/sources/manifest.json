@@ -581,6 +581,13 @@
     "path": "/wiki/sources/silin-all-asteroids-visualized/"
   },
   {
+    "slug": "fox-natya-shastra-writing-video",
+    "title": "How a 2000-Year-Old Writing Secret Can Transform Your Stories",
+    "author": "Bookfox (YouTube channel)",
+    "date": "24 October 2024",
+    "path": "/wiki/sources/fox-natya-shastra-writing-video/"
+  },
+  {
     "slug": "hochstein-carefulness-knob",
     "title": "The carefulness knob",
     "author": "Lorin Hochstein, on the Surfing Complexity blog",
@@ -992,6 +999,13 @@
     "author": "James Vaughan",
     "date": "1 July 2025",
     "path": "/wiki/sources/vaughan-bidirectional-editing-lsp/"
+  },
+  {
+    "slug": "underwood-more-interesting-upside-ai",
+    "title": "A more interesting upside of AI",
+    "author": "Ted Underwood",
+    "date": "2 July 2025",
+    "path": "/wiki/sources/underwood-more-interesting-upside-ai/"
   },
   {
     "slug": "ronacher-tools-code-is-all-you-need",
@@ -1806,6 +1820,13 @@
     "path": "/wiki/sources/kashitsyn-third-hard-problem/"
   },
   {
+    "slug": "hogan-ends-of-ai",
+    "title": "The Ends of AI: Sycophancy and psychosis",
+    "author": "Mél Hogan",
+    "date": "March 2026",
+    "path": "/wiki/sources/hogan-ends-of-ai/"
+  },
+  {
     "slug": "luzzardi-frontier-model-lower-costs",
     "title": "We Upgraded to a Frontier Model and Our Costs Went Down",
     "author": "Andrea Luzzardi, Mendral",
@@ -2002,6 +2023,13 @@
     "path": "/wiki/sources/hn-fda-gene-therapy-hearing-loss/"
   },
   {
+    "slug": "crespo-ai-revised-economics-argument",
+    "title": "Post on an AI-revised economics essay (Bluesky thread)",
+    "author": "Posted by davidcrespo.bsky.social",
+    "date": "29 April 2026",
+    "path": "/wiki/sources/crespo-ai-revised-economics-argument/"
+  },
+  {
     "slug": "hon-strandfall-solarpunk-larp",
     "title": "I'm Making Strandfall, a Solarpunk Orienteering Larp",
     "author": "Adrian Hon",
@@ -2184,6 +2212,13 @@
     "path": "/wiki/sources/guy-mid-tier-clothing-thread/"
   },
   {
+    "slug": "shiv-various-llm-smells",
+    "title": "Various LLM smells",
+    "author": "Shiv (the site is titled Shiv's Page)",
+    "date": "28 May 2026",
+    "path": "/wiki/sources/shiv-various-llm-smells/"
+  },
+  {
     "slug": "stagas-hn-hallucinate-rave",
     "title": "Show HN: Hallucinate – Massively Multiplayer Online Rave",
     "author": "Posted by stagas, with replies from many commenters",
@@ -2210,6 +2245,13 @@
     "author": "Daryl Cecile",
     "date": "31 May 2026",
     "path": "/wiki/sources/cecile-prototyping-speed/"
+  },
+  {
+    "slug": "salvaggio-not-just-x-its-y",
+    "title": "It's Not Just X. It's Y.",
+    "author": "Eryk Salvaggio (Cybernetic Forests)",
+    "date": "31 May 2026",
+    "path": "/wiki/sources/salvaggio-not-just-x-its-y/"
   },
   {
     "slug": "samsonov-future-ux-velocity",
@@ -2574,6 +2616,13 @@
     "author": "Adam Kurkiewicz, Vineyard Finance",
     "date": "8 July 2026",
     "path": "/wiki/sources/kurkiewicz-glm-52-vat-benchmark/"
+  },
+  {
+    "slug": "mastroianni-decline-of-deviance-2",
+    "title": "The Decline of Deviance 2",
+    "author": "Adam Mastroianni",
+    "date": "8 July 2026",
+    "path": "/wiki/sources/mastroianni-decline-of-deviance-2/"
   },
   {
     "slug": "weirdguy-hn-kastor-agent-specs",
@@ -3339,6 +3388,13 @@
     "path": "/wiki/sources/dua-embeddinggemma-2/"
   },
   {
+    "slug": "lynch-software-blogging-antipatterns",
+    "title": "Anti-Patterns in Software Blogging",
+    "author": "Michael Lynch (Refactoring English)",
+    "date": "7 October 2026",
+    "path": "/wiki/sources/lynch-software-blogging-antipatterns/"
+  },
+  {
     "slug": "jbaudanza-hangul-ink-hn",
     "title": "Show HN: Happy Hangul Day! An RNN for Generating Korean Handwriting Strokes",
     "author": "Posted by jbaudanza, with replies from many commenters",
@@ -3400,6 +3456,20 @@
     "author": "Ben Congdon",
     "date": "October 19, 2026",
     "path": "/wiki/sources/congdon-agentic-monitoring/"
+  },
+  {
+    "slug": "clark-ai-language-hard-to-understand",
+    "title": "Why is AI-generated language so hard to understand?",
+    "author": "Thomas Hikaru Clark (New York University), Matias B. Martin and Kyle Mahowald (The University of Texas at Austin)",
+    "date": "21 October 2026",
+    "path": "/wiki/sources/clark-ai-language-hard-to-understand/"
+  },
+  {
+    "slug": "fowler-llm-voice",
+    "title": "LLM Voice",
+    "author": "Martin Fowler",
+    "date": "29 October 2026",
+    "path": "/wiki/sources/fowler-llm-voice/"
   },
   {
     "slug": "wikipedia-satisfiability-modulo-theories",
@@ -3561,6 +3631,13 @@
     "author": "Oakland Review of Books (publication; individual pieces have separate bylines)",
     "date": "2026 (homepage copyright; snapshot read 9 November 2026)",
     "path": "/wiki/sources/oaklandreviewofbooks-homepage/"
+  },
+  {
+    "slug": "sloan-dragoncatcher-lab-index",
+    "title": "Dragoncatcher the blog",
+    "author": "Robin Sloan",
+    "date": "9 November 2026 (latest entry on the page)",
+    "path": "/wiki/sources/sloan-dragoncatcher-lab-index/"
   },
   {
     "slug": "de-chardon-alternate-clocks",
