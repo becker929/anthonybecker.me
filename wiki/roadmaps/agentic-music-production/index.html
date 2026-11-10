@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Music Production</title>
+  <meta name="description" content="This path is for making music from small, sharp tools.">
+  <meta property="og:title" content="Agentic Music Production">
+  <meta property="og:description" content="This path is for making music from small, sharp tools.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/roadmaps/">Roadmaps</a> / Agentic Music Production</nav>
+  <header class="title">
+    <h1>Agentic Music Production</h1>
+    <p class="lede">A reading path for one active project, drawn from this wiki.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>10 November 2026, 01:02 UTC (17:02 Pacific)</span></p>
+  </header>
+  <article>
+    <p>This path is for making music from small, sharp tools. Coding agents glue those tools to Ableton Live. It follows how that practice gets built. First comes music as code, then a program driving the DAW. Then agents connect the pieces. Last, tools listen to the output and someone judges it.</p>
+    <h2>1. What should music look like as code?</h2>
+    <p>Every tool needs a representation of notes, patterns and pitch. These sources show working representations and the theory worth encoding.</p>
+    <ul>
+      <li><a href="/wiki/sources/plum-music-language-list/">PLUM Language List</a>: A catalogue of 156 music languages from 1957 onward. It maps synthesis, algorithmic composition, MIDI scripting and notation formats before you invent one.</li>
+      <li><a href="/wiki/sources/szablewski-pl-synth/">Synthesizing Music from JSON</a>: A whole song as tracks of 32-row patterns, rendered by one short loop. The post logs each speed-up, from about 5000 ms to 250 ms.</li>
+      <li><a href="/wiki/sources/haas-music-theory-for-programmers/">Music theory for programmers</a>: Runnable code from frequency ratios to scales, modes and equal temperament. Its maths is checkable, but its claims about why things sound good are not tested.</li>
+      <li><a href="/wiki/sources/xenharmlib-docs/">xenharmlib documentation</a>: A Python library for scales and intervals across many tunings. It can snap measured frequencies to notes and report the error.</li>
+    </ul>
+    <h2>2. How does a program drive a full DAW?</h2>
+    <p>The DAW does the sound. The question is how a script reaches inside it and knows what happened.</p>
+    <ul>
+      <li><a href="/wiki/sources/leolabs-ableton-js-readme/">ableton-js</a>: A Remote Script plus a local WebSocket lets Node control Live 11 or later. The README admits listeners that hang or never fire.</li>
+      <li><a href="/wiki/sources/monglong-logic-pro-mcp/">Logic Pro MCP Server</a>: An MCP server for Logic Pro. Every change returns confirmed, uncertain or failed, never a bare success. That reporting rule transfers to any Live bridge.</li>
+      <li><a href="/wiki/sources/yang-wildfx-daw-effects/">WildFX</a>: A preprint that runs REAPER headless in Docker to render effect-chain graphs in bulk. The authors note headless REAPER gave no error reporting, so steps were checked by hand.</li>
+    </ul>
+    <h2>3. How do agents glue small tools together?</h2>
+    <p>Small tools only become music when an agent can call and combine them. These sources argue for Unix-style harnesses and agent-shaped command lines.</p>
+    <ul>
+      <li><a href="/wiki/sources/tasci-ambiance-unix-harness/">Towards a Harness That Can Do Anything</a>: The author maps harness parts onto Unix paths and cleans inputs into plain text. A file-watching event bus wakes the model. No trials back it.</li>
+      <li><a href="/wiki/sources/hn-the-code-only-agent-thread/">The Code-Only Agent</a>: Commenters debate one bash tool that writes reusable CLIs. One reports the agent rebuilding a different tool each session. Another says notes and skills fixed that.</li>
+      <li><a href="/wiki/sources/ryan-rethinking-cli-for-ai/">Rethinking CLI interfaces for AI</a>: One developer&#x27;s notes on agents truncating output, losing the working directory and skipping hooks. It proposes small fixes to CLI output.</li>
+      <li><a href="/wiki/sources/faz-ai-music-video-skill/">ai-music-video skill</a>: A Claude Code skill for a song-timed video pipeline. It does cheap, reviewable work first and computes exact timings in code. It asks before spending credits.</li>
+    </ul>
+    <h2>4. How do tools hear what was made?</h2>
+    <p>An agent needs measurements of the render, not only the score. These sources offer analysis methods that suit small tools.</p>
+    <ul>
+      <li><a href="/wiki/sources/francois-resonate/">Resonate</a>: Per-sample resonators with no buffering, at linear cost. The developer claims finer time resolution than FFT spectrograms, shown as images only.</li>
+      <li><a href="/wiki/sources/vinyard-sparse-audio-codec/">Toward a Sparse Interpretable Audio Codec</a>: A proof of concept encoding sound as sparse events: attack, resonance and room. The author says quality falls short of a usable codec.</li>
+      <li><a href="/wiki/sources/megaman821-hn-sam-audio/">Meta Segment Anything Model Audio</a>: Testers report mixed text-prompted separation. One commenter warns a model may invent parts. That matters before trusting stems in a pipeline.</li>
+    </ul>
+    <h2>5. How do you judge the result when taste is the spec?</h2>
+    <p>Code can pass every check and still sound wrong. These sources treat human judgment as the test.</p>
+    <ul>
+      <li><a href="/wiki/sources/brown-plt-human-judgment/">Human Judgment as a Specification</a>: PICK shows a person concrete cases where candidates disagree, and the votes prune them. It needs formal candidates, which renders with chosen parameters could approximate.</li>
+      <li><a href="/wiki/sources/tryggvason-unit-test-taste/">You can&#x27;t unit test for taste</a>: A pipeline with no ground truth keeps the LLM in a supporting role. Each case needed its own weights, and checks stayed manual.</li>
+      <li><a href="/wiki/sources/hn-harmony-explained/">Harmony Explained on Hacker News</a>: Musicians dispute how far physics explains what sounds good. One commenter finds the most consonant intervals boring. Theory can feed tools but cannot replace listening.</li>
+    </ul>
+    <h2>Also in the wiki</h2>
+    <ul>
+      <li><a href="/wiki/sources/strudel-getting-started/">Getting Started (Strudel)</a>: JavaScript port of Tidal Cycles; thin page.</li>
+      <li><a href="/wiki/sources/ofalkaed-hn-radium-music-editor/">Radium Music Editor</a>: trackers and typed note entry versus lanes.</li>
+      <li><a href="/wiki/sources/ossia-score-readme/">ossia score</a>: sequencer over OSC, MIDI and live coding.</li>
+      <li><a href="/wiki/sources/hn-music-theory-for-programmers/">Music Theory for Programmers on Hacker News</a>: musicians push back on the tutorial.</li>
+      <li><a href="/wiki/sources/wilkerson-harmony-explained/">Harmony Explained</a>: preprint deriving scales and chords from hearing.</li>
+      <li><a href="/wiki/sources/vallon-xenharmlib-0-4-0-release-notes/">xenharmlib 0.4.0 release notes</a>: multi-generator tunings, interval arithmetic.</li>
+      <li><a href="/wiki/sources/dallariva-chords-680k-songs/">I Analyzed Chord Progressions in 680k Songs</a>: Chordonomicon dataset; preview only.</li>
+      <li><a href="/wiki/sources/pavlenko-hn-rawl-chord-flags/">See chords as flags</a>: colored scale-degree notation for MIDI.</li>
+      <li><a href="/wiki/sources/hollander-coltrane-tone-circle/">John Coltrane&#x27;s Tone Circle</a>: readings of a pitch-class drawing.</li>
+      <li><a href="/wiki/sources/ashraf-eigendrum-drum-shape/">Eigendrum</a>: drum modes from a drawn shape.</li>
+      <li><a href="/wiki/sources/martin-zx-spectrum-1-bit-sound/">ZX Spectrum: Experimenting With 1-Bit Sound</a>: chords from a beeper, judged by ear.</li>
+      <li><a href="/wiki/sources/zhinit-kick-drum-diffusion/">Generative kick drum model</a>: a small home-trained sound tool.</li>
+      <li><a href="/wiki/sources/izhak-hn-how-cochlea-computes/">How the cochlea computes</a>: phase and time-frequency trade-offs in hearing.</li>
+      <li><a href="/wiki/sources/karimf-hn-neural-audio-codecs/">Neural audio codecs</a>: getting audio into LLMs.</li>
+      <li><a href="/wiki/sources/epestr-hn-spatial-audio-reverse-engineering/">Reverse engineering a spatial audio effect</a>: copying a linear effect.</li>
+      <li><a href="/wiki/sources/bowneanderson-stop-overengineering-harness/">Stop Overengineering Your Agent Harness</a>: harness sized to the job.</li>
+      <li><a href="/wiki/sources/jyn-simple-not-small/">simple is not small</a>: pipelines can be small yet coupled.</li>
+      <li><a href="/wiki/sources/misbahsy-video-audio-mcp-show-hn/">Video and audio MCP</a>: editing tools in one MCP server.</li>
+      <li><a href="/wiki/sources/palmier-pro-video-editor/">Palmier Pro</a>: a media editor driven over MCP.</li>
+      <li><a href="/wiki/sources/ykdojo-spare-mac-claude-code/">Spare Mac for Claude Code</a>: always-on Mac with GUI grants.</li>
+      <li><a href="/wiki/sources/bryant-cultural-evolution-distortion/">Cultural evolution of distortion</a>: why groups keep a noisy timbre.</li>
+      <li><a href="/wiki/sources/meetpateltech-hn-eleven-music/">Eleven Music</a>: users want iterative tools, not slot machines.</li>
+    </ul>
+    <h2>Probably missing</h2>
+    <ul>
+      <li>Stage 1 lacks a core pattern-language paper; the Strudel page is thin. Candidate: Alex McLean&#x27;s Tidal paper, &quot;Making programming languages to dance to&quot; (2014), <a href="https://slab.org/tmp/p63.pdf">https://slab.org/tmp/p63.pdf</a>. Not in the bookmarks.</li>
+      <li>Stage 1 lacks a tuning source that ties scales to timbre. Candidate: William Sethares, Tuning, Timbre, Spectrum, Scale, <a href="https://sethares.engr.wisc.edu/contents.html">https://sethares.engr.wisc.edu/contents.html</a>. Not in the bookmarks.</li>
+      <li>Stage 2 has no Live control layer beyond ableton-js. Candidate: AbletonOSC, <a href="https://github.com/ideoforms/AbletonOSC">https://github.com/ideoforms/AbletonOSC</a>. Not in the bookmarks.</li>
+      <li>Stage 3 lacks guidance written for designing agent tools. Candidate: Anthropic, &quot;Writing effective tools for agents&quot;, <a href="https://www.anthropic.com/engineering/writing-tools-for-agents">https://www.anthropic.com/engineering/writing-tools-for-agents</a>. Not in the bookmarks.</li>
+      <li>Stage 4 lacks a general analysis library a tool would actually call. Candidate: McFee et al., &quot;librosa: Audio and Music Signal Analysis in Python&quot;, <a href="https://proceedings.scipy.org/articles/Majora-7b98e3ed-003">https://proceedings.scipy.org/articles/Majora-7b98e3ed-003</a>. Not in the bookmarks.</li>
+      <li>Stage 4 lacks a measurement standard for renders. Candidate: ITU-R BS.1770, loudness and true-peak, <a href="https://www.itu.int/rec/R-REC-BS.1770-5-202311-I">https://www.itu.int/rec/R-REC-BS.1770-5-202311-I</a>. Not in the bookmarks.</li>
+      <li>Stage 5 lacks a listening-test method. Candidate: ITU-R BS.1534 (MUSHRA), <a href="https://www.itu.int/dms_pubrec/itu-r/rec/bs/R-REC-BS.1534-3-201510-I!!PDF-F.pdf">https://www.itu.int/dms_pubrec/itu-r/rec/bs/R-REC-BS.1534-3-201510-I!!PDF-F.pdf</a>. Not in the bookmarks.</li>
+    </ul>
+    <h2>Caveats</h2>
+    <ul>
+      <li>The pile is thin on DAW control. Only three sources touch it, and none is about Live&#x27;s object model.</li>
+      <li>Most core sources are self-reports by builders. Few measure anything, and none runs a listening test.</li>
+      <li>Theory sources disagree. Haas and Wilkerson argue from physics, while the threads say convention matters as much.</li>
+      <li>PICK is not about music. It fits here as a method: candidates, disagreements, ears vote.</li>
+      <li>The AI music generators (Eleven Music, AudioX) sit outside the path. They make whole tracks rather than small tools.</li>
+    </ul>
+  </article>
+</div>
+</body>
+</html>

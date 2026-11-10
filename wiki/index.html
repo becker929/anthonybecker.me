@@ -15,8 +15,10 @@
     <p class="lede">Narrow subjects, described through their sources.</p>
   </header>
   <article>
+    <h2>Roadmaps</h2>
+    <p>Reading paths for active projects, each with what it is probably missing. <a href="/wiki/roadmaps/">All roadmaps</a></p>
+    <ul class="wiki-list" id="roadmap-list"><li>Loading…</li></ul>
     <h2>Themes</h2>
-    <p id="uniting"></p>
     <p>Twenty themes cut across the subjects, in five groups. A source can carry several. <a href="/wiki/themes/">All themes</a></p>
     <ul class="wiki-list" id="theme-list"><li>Loading…</li></ul>
     <h2>Subjects</h2>
@@ -35,10 +37,19 @@
     .catch(() => {
       document.getElementById('wiki-list').innerHTML = "<li>Couldn't load the page list.</li>";
     });
+  fetch('/wiki/roadmaps/manifest.json')
+    .then((res) => res.json())
+    .then((pages) => {
+      document.getElementById('roadmap-list').innerHTML = pages
+        .map((page) => `<li><a href="${page.path}">${page.title}</a><p>${page.description}</p></li>`)
+        .join('');
+    })
+    .catch(() => {
+      document.getElementById('roadmap-list').innerHTML = "<li>Couldn't load the roadmap list.</li>";
+    });
   fetch('/wiki/themes/manifest.json')
     .then((res) => res.json())
     .then((data) => {
-      document.getElementById('uniting').textContent = data.uniting + '.';
       document.getElementById('theme-list').innerHTML = data.groups
         .map((group) => `<li><a href="/wiki/themes/#${group.slug}">${group.title}</a><p>${group.description}</p><p>${group.themes.map((theme) => `<a href="${theme.path}">${theme.title}</a>`).join(', ')}</p></li>`)
         .join('');

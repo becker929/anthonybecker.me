@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lightweight Formal Methods</title>
+  <meta name="description" content="This path supports a talk on formal methods a working engineer can adopt.">
+  <meta property="og:title" content="Lightweight Formal Methods">
+  <meta property="og:description" content="This path supports a talk on formal methods a working engineer can adopt.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="/wiki/wiki.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/wiki/">Wiki</a> / <a href="/wiki/roadmaps/">Roadmaps</a> / Lightweight Formal Methods</nav>
+  <header class="title">
+    <h1>Lightweight Formal Methods</h1>
+    <p class="lede">A reading path for one active project, drawn from this wiki.</p>
+    <p class="byline"><span>Written by <b>Claude Opus 5.5</b></span><span>10 November 2026, 01:02 UTC (17:02 Pacific)</span></p>
+  </header>
+  <article>
+    <p>This path supports a talk on formal methods a working engineer can adopt. The core is property-based testing, small model checking, types as specs and contracts. Coding agents change what formality costs, so the talk also asks what that shift means. The path runs from why now to specs, cheap checks and specs in code. A short last stage covers the heavy foundations, only where they explain the light practice.</p>
+    <h2>1. Why is formality worth another look now?</h2>
+    <p>The bookmarks argue that agents change what formal methods cost and return. Start here for the talk&#x27;s opening claim.</p>
+    <ul>
+      <li><a href="/wiki/sources/minsky-formal-methods-future/">Formal methods and the future of programming</a>: Minsky says Jane Street long judged formal methods too costly. The post argues agentic coding lowers that cost and makes verification the bottleneck.</li>
+      <li><a href="/wiki/sources/gavran-case-against-verification/">The Case Against Formal Verification, 50 Years Later</a>: Gavran re-reads six arguments from a 1979 paper against verification. It gives the talk the classic objections and a practitioner&#x27;s answer to each.</li>
+      <li><a href="/wiki/sources/skiplabs-codegen-as-compiler/">Treat Agent Output Like Compiler Output</a>: Nobody reads compiler output, the post says, because tests, types and fuzzing back it. It lists formal specs among the apparatus agents still lack.</li>
+    </ul>
+    <h2>2. What is a spec an engineer can actually check?</h2>
+    <p>Before tools, the talk needs a working definition of a spec. These sources argue about how precise, how short and who writes it.</p>
+    <ul>
+      <li><a href="/wiki/sources/lewis-spec-the-agent-can-run/">A spec the agent can&#x27;t run isn&#x27;t a spec yet</a>: Lewis argues executability matters more than format. A check written beforehand, which the agent cannot edit, sits outside the loop.</li>
+      <li><a href="/wiki/sources/gonzalez-sufficiently-detailed-spec/">A sufficiently detailed spec is code</a>: Gonzalez argues a spec precise enough to generate code becomes code. One Haskell trial from a prose spec produced several bugs. It targets specs replacing code, not checks testing it.</li>
+      <li><a href="/wiki/sources/joshi-dsls-and-llms/">DSLs Enable Reliable Use of LLMs</a>: Joshi argues a small language&#x27;s compiler lets an agent check and repair alone. Illegal sequences can fail to compile.</li>
+      <li><a href="/wiki/sources/brown-plt-human-judgment/">Human Judgment as a Specification</a>: PICK shows people concrete cases where candidate specs disagree, and they vote. It answers how vague intent becomes a formal spec without a person rubber-stamping.</li>
+    </ul>
+    <h2>3. How do cheap checks find real bugs?</h2>
+    <p>This is the core of lightweight practice: random properties and small models. The bookmarks have one strong model-checking story and one study of property testing.</p>
+    <ul>
+      <li><a href="/wiki/sources/manino-sqlite-wal-bug-tla/">Hunting a 16-year-old SQLite bug with TLA+: is dqlite affected?</a>: Two actions and one invariant found SQLite&#x27;s WAL bug in 20 states. A second model showed dqlite cannot hit it. This is the talk&#x27;s best worked example.</li>
+      <li><a href="/wiki/sources/feng-sergey-pbt-for-specs/">On the Unreasonable Effectiveness of Property-Based Testing for Validating Formal Specifications</a>: Feng and Sergey use random tests to check specs themselves. About 10% of benchmark specs tested were underspecified. Testing can refute a spec but not prove it.</li>
+      <li><a href="/wiki/sources/hochstein-linearizability-refinement-prophecy/">Linearizability! Refinement! Prophecy!</a>: Hochstein builds TLA+ from a counter up to a queue, for beginners. It frames a spec as a state machine. Its later sections show where model checking turns heavy.</li>
+    </ul>
+    <h2>4. How do types and contracts carry the spec inside everyday code?</h2>
+    <p>Here the spec lives in the language, checked on every build. These sources show it at work in Go, Haskell and an operating system language.</p>
+    <ul>
+      <li><a href="/wiki/sources/brooks-structural-backpressure/">Structural Backpressure Beats Smarter Agents</a>: Brooks separates prompt rules from compiler and type gates. One demo turns a spec into Go guard types for tenant access. The post names the costs too.</li>
+      <li><a href="/wiki/sources/ledger-haskell-koan-nonempty-text/">Haskell koan: Type-checked non-empty strings</a>: A production trick rejects empty string literals at compile time. It is a small, concrete case of a type as a spec.</li>
+      <li><a href="/wiki/sources/duffy-midori-error-model/">The Error Model</a>: Duffy describes Midori&#x27;s <code>requires</code> preconditions replacing most argument-checking exceptions. It is the pile&#x27;s main source on contracts in a real language.</li>
+    </ul>
+    <h2>5. Where does it come from, when the talk needs foundations?</h2>
+    <p>Keep this stage short in the talk. These sources explain why a contract or invariant works, without making proof the goal.</p>
+    <ul>
+      <li><a href="/wiki/sources/aldrich-hoare-logic-lecture-notes/">Lecture Notes: Hoare Logic</a>: The notes treat a specification as a contract with callers. They link contracts, invariants and termination in a few pages.</li>
+      <li><a href="/wiki/sources/sf-hoare-logic-part-two/">Hoare2: Hoare Logic, Part II</a>: The chapter says finding loop invariants is the only creative part. Its worked failed guesses show what an invariant is for.</li>
+      <li><a href="/wiki/sources/lambdaclass-reading-lean4-theorems/">The hitchhiker&#x27;s guide to reading Lean 4 theorems</a>: The post teaches programmers to read theorems as typed code. It warns the kernel checks what was stated, not what was meant.</li>
+    </ul>
+    <h2>Also in the wiki</h2>
+    <ul>
+      <li><a href="/wiki/sources/chan-sqlite-wal-reset-bug/">How we tracked down a 16-year-old SQLite bug</a>: the production side of the TLA+ story.</li>
+      <li><a href="/wiki/sources/eatonphil-software-guarantees-hn-thread/">What can you confidently guarantee about your software?</a>: practitioners on proofs, model checking and property testing.</li>
+      <li><a href="/wiki/sources/bockeler-spec-driven-development-tools/">Understanding Spec-Driven-Development: Kiro, spec-kit, and Tessl</a>: trials of spec-driven agent tools.</li>
+      <li><a href="/wiki/sources/dijkstra-natural-language-programming/">On the foolishness of &quot;natural language programming&quot; (EWD 667)</a>: Dijkstra on why formal symbols help.</li>
+      <li><a href="/wiki/sources/willison-code-proven-to-work/">Your job is to deliver code you have proven to work</a>: a test that fails if the change is reverted.</li>
+      <li><a href="/wiki/sources/bau-vibe-coding/">Vibe Coding</a>: test the tests, since agents pass weak ones.</li>
+      <li><a href="/wiki/sources/agentlanguages-thermite/">Thermite</a>: mandatory contracts with an assurance ladder.</li>
+      <li><a href="/wiki/sources/valim-evolving-languages-ai/">Evolving programming languages in the AI era</a>: agents may favour stronger guarantees.</li>
+      <li><a href="/wiki/sources/imiron-specforge-tour/">A Whirlwind Tour - SpecForge User Guide</a>: temporal specs, monitoring and falsification.</li>
+      <li><a href="/wiki/sources/robbiec-posthog-sql-parser-thread/">I rewrote PostHog&#x27;s SQL parser, 70x faster, while barely looking at the code</a>: old parser kept as a checking oracle.</li>
+      <li><a href="/wiki/sources/yoon-agent-autonomy-levels/">How much can you delegate to agents?</a>: easy-to-check work earns autonomy.</li>
+      <li><a href="/wiki/sources/fowler-phoenix-immutable-code/">Immutable Infrastructure, Immutable Code</a>: specs and evaluations as the lasting asset.</li>
+      <li><a href="/wiki/sources/wolfram-theory-of-bugs/">Towards a Theory of Bugs: The Ruliology of the Unexpected</a>: rare bugs that sampling misses.</li>
+      <li><a href="/wiki/sources/max-type-checker-may-be-wrong/">Your type checker may be wrong - an introduction to formal proof verification and the Curry-Howard Correspondence</a>: Curry-Howard for programmers.</li>
+      <li><a href="/wiki/sources/overreacted-lean-syntax-primer/">A Lean Syntax Primer</a>: a theorem as a test for all inputs.</li>
+      <li><a href="/wiki/sources/elena-intro-formal-verification-lean/">Tutorial: Introduction to Formal Verification with Lean (Part 1)</a>: one-time pad proved correct.</li>
+      <li><a href="/wiki/sources/wadler-theorems-for-free-timeline/">Theorems for Free!</a>: theorems from types alone (thin entry).</li>
+      <li><a href="/wiki/sources/wikipedia-satisfiability-modulo-theories/">Satisfiability modulo theories - Wikipedia</a>: the solvers behind many checkers.</li>
+      <li><a href="/wiki/sources/sf-hoare-logic-part-one/">Hoare: Hoare Logic, Part I</a>, <a href="/wiki/sources/butler-refinement-calculus-tutorial/">Refinement Calculus Tutorial</a>, <a href="/wiki/sources/morgan-refinement-calculus-prg70/">On the Refinement Calculus</a>: the heavy end.</li>
+      <li><a href="/wiki/sources/aeneasverif-aeneas-readme/">AeneasVerif/aeneas: A verification toolchain for Rust programs</a>: Rust to proof assistants.</li>
+      <li><a href="/wiki/sources/gingerbill-odin-inline-asm/">Everyone Says Assembly Is Untyped - Everyone Is Wrong</a>: types checked even on assembly.</li>
+    </ul>
+    <h2>Probably missing</h2>
+    <ul>
+      <li>Stage 1 lacks the source that named the field. Candidate: Jackson and Wing, &quot;Lightweight Formal Methods&quot;, IEEE Computer, 1996, <a href="https://doi.org/10.1109/MC.1996.10038">https://doi.org/10.1109/MC.1996.10038</a>. Not in the bookmarks.</li>
+      <li>Stages 1 and 3 lack an industry report on return. Candidate: Newcombe et al., &quot;How Amazon Web Services Uses Formal Methods&quot;, CACM 2015, <a href="https://www.amazon.science/publications/how-amazon-web-services-uses-formal-methods">https://www.amazon.science/publications/how-amazon-web-services-uses-formal-methods</a>. Not in the bookmarks.</li>
+      <li>Stage 3 has no practical property-based testing guide for mainstream code. Candidate: Hypothesis documentation, <a href="https://hypothesis.readthedocs.io/">https://hypothesis.readthedocs.io/</a>. Not in the bookmarks.</li>
+      <li>Stage 3 has no beginner TLA+ course. Candidate: Hillel Wayne, Learn TLA+, <a href="https://learntla.com/">https://learntla.com/</a>. Not in the bookmarks.</li>
+      <li>Stage 3 has no Alloy. The one &quot;Alloy&quot; bookmark is an unrelated ORM. Candidate: Alloy tools and books, <a href="https://alloytools.org/book.html">https://alloytools.org/book.html</a>. Not in the bookmarks.</li>
+      <li>Stage 4 lacks the everyday types-as-specs essay. Candidate: Alexis King, &quot;Parse, don&#x27;t validate&quot;, <a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/</a>. Not in the bookmarks.</li>
+      <li>Stage 4 has contracts only as history. A checked-contracts language would fill it. Candidate: Dafny, <a href="https://dafny.org/">https://dafny.org/</a>. Not in the bookmarks.</li>
+    </ul>
+    <h2>Caveats</h2>
+    <ul>
+      <li>The heavy end is well stocked: Hoare logic, refinement calculus, Lean, Rocq. The light practice is thin: no Alloy, no hands-on property testing, one TLA+ case.</li>
+      <li>Gonzalez and Fowler pull in opposite directions. Fowler treats the spec as the asset. Gonzalez says a full spec becomes code. Lewis and Joshi offer a middle: small executable checks.</li>
+      <li>Most &quot;why now&quot; sources are argument from interested parties. Minsky is hiring, SkipLabs and Brooks sell tools. None measures agents with formal methods.</li>
+      <li>Feng and Sergey give the one number: about 10% of tested specs were underspecified. It covers Lean benchmarks only.</li>
+      <li>Contracts rest on Duffy alone. Midori never shipped, so pair it with a living tool.</li>
+    </ul>
+  </article>
+</div>
+</body>
+</html>
