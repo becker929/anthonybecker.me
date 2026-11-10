@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "lightweight-formal-methods",
+    "title": "Lightweight Formal Methods",
+    "description": "This path supports a talk on formal methods a working engineer can adopt.",
+    "path": "/wiki/roadmaps/lightweight-formal-methods/"
+  },
+  {
+    "slug": "agentic-music-production",
+    "title": "Agentic Music Production",
+    "description": "This path is for making music from small, sharp tools.",
+    "path": "/wiki/roadmaps/agentic-music-production/"
+  }
+]
