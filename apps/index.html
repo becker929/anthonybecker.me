@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apps — Anthony Becker</title>
+  <meta name="description" content="Apps by Anthony Becker">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <main>
+    <nav class="crumbs"><a href="/">← home</a></nav>
+    <h1>Apps</h1>
+    <ul class="demo-list" id="app-list">
+      <li class="empty">Loading…</li>
+    </ul>
+  </main>
+
+  <script>
+    fetch('/apps/manifest.json')
+      .then((res) => res.json())
+      .then((apps) => {
+        const list = document.getElementById('app-list');
+        if (!apps.length) {
+          list.innerHTML = '<li class="empty">No apps yet.</li>';
+          return;
+        }
+        list.innerHTML = apps
+          .map((app) => `
+            <li>
+              <a href="${app.path}">${app.title}</a>
+              ${app.description ? `<p>${app.description}</p>` : ''}
+            </li>
+          `)
+          .join('');
+      })
+      .catch(() => {
+        document.getElementById('app-list').innerHTML = '<li class="error">Couldn\'t load apps.</li>';
+      });
+  </script>
+</body>
+</html>

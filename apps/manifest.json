@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "onset",
+    "title": "Onset",
+    "description": "A rhythm machine for walking through every 16th-note pattern by rule, with twelve unpitched sounds, an emphasis layer, hearts and MIDI export.",
+    "path": "/apps/onset/"
+  },
+  {
+    "slug": "cadence",
+    "title": "Cadence",
+    "description": "A chord machine for exploring key-relative progressions: circle of 4ths and 5ths, jazz substitutions, every possible chord, with inversion and density controls.",
+    "path": "/apps/cadence/"
+  },
+  {
+    "slug": "pairing",
+    "title": "Pairing",
+    "description": "Loads the histories from Onset and Cadence and plays rhythms against progressions, giving more turns to the ones with more hearts.",
+    "path": "/apps/pairing/"
+  }
+]
