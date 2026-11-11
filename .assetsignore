@@ -13,3 +13,5 @@ wrangler.toml
 /e2e/
 # Lets Node tests import skrng/*.js as ES modules; not site content.
 /skrng/package.json
+# Source for the built apps under /apps/; only the built output is site content.
+/apps/_src/

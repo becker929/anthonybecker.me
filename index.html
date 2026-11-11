@@ -17,6 +17,11 @@
       <li class="empty">Loading…</li>
     </ul>
 
+    <h2 id="apps">Apps</h2>
+    <ul class="demo-list" id="apps-list">
+      <li class="empty">Loading…</li>
+    </ul>
+
     <h2>Research</h2>
     <ul class="demo-list" id="research-list">
       <li class="empty">Loading…</li>
@@ -60,6 +65,22 @@
       })
       .catch(() => {
         document.getElementById('demo-list').innerHTML = '<li class="error">Couldn\'t load demos.</li>';
+      });
+
+    fetch('/apps/manifest.json')
+      .then((res) => res.json())
+      .then((apps) => {
+        document.getElementById('apps-list').innerHTML = apps
+          .map((app) => `
+            <li>
+              <a href="${app.path}">${app.title}</a>
+              ${app.description ? `<p>${app.description}</p>` : ''}
+            </li>
+          `)
+          .join('');
+      })
+      .catch(() => {
+        document.getElementById('apps-list').innerHTML = '<li class="error">Couldn\'t load apps.</li>';
       });
 
     fetch('/research/manifest.json')

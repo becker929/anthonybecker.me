@@ -62,6 +62,13 @@ when browsers live outside the default location.
   was being built on it, by two demos written together, and demo 5's
   behaviour was pinned against its pre-refactor self to prove nothing
   moved. Anything else stays forked.
+- `apps/` — static apps at `/apps/<slug>/`, listed from
+  `apps/manifest.json` on `/` and `/apps/`. Unlike demos they are
+  unnumbered and may be updated in place. Each directory holds built
+  output only: an `index.html` with its styles inline and a bundled
+  `app.js`. Onset, Cadence and Pairing are three builds of one source
+  tree, `apps/_src/music-machines/` (not deployed; see its README).
+  Change them there and rebuild, never by editing `app.js`.
 - `d1/migrations/` — D1 schema.
 
 ## Card Studio routing (non-obvious)
