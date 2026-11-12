@@ -13,6 +13,7 @@ use bevy::{
 
 use crate::{
     cabinet::Cabinet,
+    pad::Pad,
     room::{ROOM_MAX, ROOM_MIN},
 };
 
@@ -21,6 +22,8 @@ const BODY_RADIUS: f32 = 0.3;
 const WALK_SPEED: f32 = 2.4;
 const RUN_SPEED: f32 = 4.2;
 const LOOK_SENSITIVITY: f32 = 0.0022;
+/// Radians per CSS pixel of finger travel.
+const TOUCH_LOOK_SENSITIVITY: f32 = 0.0055;
 
 #[derive(Component)]
 pub struct Player {
@@ -74,19 +77,26 @@ fn look(
     motion: Res<AccumulatedMouseMotion>,
     cursor: Single<&CursorOptions>,
     focus: Res<Focus>,
+    pad: Res<Pad>,
     mut player: Single<&mut Player>,
 ) {
-    if focus.0.is_some() || cursor.grab_mode == CursorGrabMode::None {
+    if focus.0.is_some() {
         return;
     }
-    player.yaw -= motion.delta.x * LOOK_SENSITIVITY;
-    player.pitch = (player.pitch - motion.delta.y * LOOK_SENSITIVITY).clamp(-FRAC_PI_2 + 0.05, FRAC_PI_2 - 0.05);
+    // A finger drags the view directly; the mouse only looks while it is captured.
+    let mut turn = pad.look * TOUCH_LOOK_SENSITIVITY;
+    if cursor.grab_mode != CursorGrabMode::None {
+        turn += motion.delta * LOOK_SENSITIVITY;
+    }
+    player.yaw -= turn.x;
+    player.pitch = (player.pitch - turn.y).clamp(-FRAC_PI_2 + 0.05, FRAC_PI_2 - 0.05);
 }
 
 fn walk(
     time: Res<Time>,
     keys: Res<ButtonInput<KeyCode>>,
     focus: Res<Focus>,
+    pad: Res<Pad>,
     player: Single<(&Player, &mut Transform)>,
     cabinets: Query<&Transform, (With<Cabinet>, Without<Player>)>,
 ) {
@@ -94,14 +104,15 @@ fn walk(
         return;
     }
     let (player, mut tf) = player.into_inner();
-    let mut wish = Vec2::ZERO;
+    let mut wish = pad.stick;
     if keys.pressed(KeyCode::KeyW) || keys.pressed(KeyCode::ArrowUp) { wish.y += 1.0; }
     if keys.pressed(KeyCode::KeyS) || keys.pressed(KeyCode::ArrowDown) { wish.y -= 1.0; }
     if keys.pressed(KeyCode::KeyD) || keys.pressed(KeyCode::ArrowRight) { wish.x += 1.0; }
     if keys.pressed(KeyCode::KeyA) || keys.pressed(KeyCode::ArrowLeft) { wish.x -= 1.0; }
     let speed = if keys.pressed(KeyCode::ShiftLeft) { RUN_SPEED } else { WALK_SPEED };
     let facing = Quat::from_rotation_y(player.yaw);
-    let step = facing * Vec3::new(wish.x, 0.0, -wish.y).normalize_or_zero() * speed * time.delta_secs();
+    let wish = wish.clamp_length_max(1.0);
+    let step = facing * Vec3::new(wish.x, 0.0, -wish.y) * speed * time.delta_secs();
     let mut pos = tf.translation + step;
 
     // Keep out of each cabinet. The test runs in the cabinet's own space, so rotated cabinets work.

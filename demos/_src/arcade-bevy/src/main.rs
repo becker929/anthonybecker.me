@@ -3,6 +3,7 @@
 mod cabinet;
 mod crt;
 mod font;
+mod pad;
 mod player;
 mod room;
 #[cfg(not(target_arch = "wasm32"))]
@@ -35,5 +36,5 @@ fn main() {
             ..default()
         }));
     }
-    app.add_plugins((room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin)).run();
+    app.add_plugins((pad::PadPlugin, room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin)).run();
 }

@@ -12,6 +12,8 @@ bevy = { version = "0.20.1", default-features = false, features = [
 # The web build draws with WebGL2, which every current browser has.
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 bevy = { version = "0.20.1", default-features = false, features = ["webgl2"] }
+# The page's touch controls call into the game through exported functions (src/pad.rs).
+wasm-bindgen = "0.2"
 
 # Small optimisations for our code, full for dependencies: Bevy is slow unoptimised.
 [profile.dev]

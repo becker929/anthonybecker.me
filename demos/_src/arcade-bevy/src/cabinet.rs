@@ -9,6 +9,7 @@ use bevy::{
 use crate::{
     crt::{self, CrtGame},
     font,
+    pad::{self, Pad},
     player::{Focus, Player},
 };
 
@@ -231,15 +232,17 @@ pub fn spawn_cabinet(
 /// E steps up to the cabinet in front of you; E or Escape steps away.
 fn interact(
     keys: Res<ButtonInput<KeyCode>>,
+    pad: Res<Pad>,
     mut focus: ResMut<Focus>,
     player: Single<&Transform, With<Player>>,
     cabinets: Query<(Entity, &Transform), With<Cabinet>>,
 ) {
+    let use_it = keys.just_pressed(KeyCode::KeyE) || pad.tapped(pad::USE);
     if focus.0.is_some() {
-        if keys.just_pressed(KeyCode::KeyE) || keys.just_pressed(KeyCode::Escape) {
+        if use_it || keys.just_pressed(KeyCode::Escape) {
             focus.0 = None;
         }
-    } else if keys.just_pressed(KeyCode::KeyE) {
+    } else if use_it {
         focus.0 = cabinet_in_reach(&player, &cabinets);
     }
 }
@@ -253,20 +256,27 @@ fn cabinet_in_reach(player: &Transform, cabinets: &Query<(Entity, &Transform), W
     })
 }
 
-fn play(time: Res<Time>, keys: Res<ButtonInput<KeyCode>>, focus: Res<Focus>, mut games: Query<&mut CrtGame>) {
+fn play(
+    time: Res<Time>,
+    keys: Res<ButtonInput<KeyCode>>,
+    pad: Res<Pad>,
+    focus: Res<Focus>,
+    mut games: Query<&mut CrtGame>,
+) {
     let Some(mut game) = focus.0.and_then(|e| games.get_mut(e).ok()) else { return };
     let dt = time.delta_secs();
     let axis = |neg: [KeyCode; 2], pos: [KeyCode; 2]| {
         (keys.any_pressed(pos) as i32 - keys.any_pressed(neg) as i32) as f32
     };
-    let turn = axis([KeyCode::KeyA, KeyCode::ArrowLeft], [KeyCode::KeyD, KeyCode::ArrowRight]);
-    let charge = axis([KeyCode::KeyS, KeyCode::ArrowDown], [KeyCode::KeyW, KeyCode::ArrowUp]);
+    // At the cabinet the touch stick turns the two knobs.
+    let turn = (axis([KeyCode::KeyA, KeyCode::ArrowLeft], [KeyCode::KeyD, KeyCode::ArrowRight]) + pad.stick.x).clamp(-1.0, 1.0);
+    let charge = (axis([KeyCode::KeyS, KeyCode::ArrowDown], [KeyCode::KeyW, KeyCode::ArrowUp]) + pad.stick.y).clamp(-1.0, 1.0);
     game.angle = (game.angle + turn * 28.0 * dt).clamp(15.0, 80.0);
     game.power = (game.power + charge * 0.45 * dt).clamp(0.0, 1.0);
-    if keys.just_pressed(KeyCode::Space) {
+    if keys.just_pressed(KeyCode::Space) || pad.tapped(pad::FIRE) {
         game.fire();
     }
-    if keys.just_pressed(KeyCode::KeyR) && game.over {
+    if (keys.just_pressed(KeyCode::KeyR) || pad.tapped(pad::RESTART)) && game.over {
         game.reset();
     }
 }
@@ -286,6 +296,7 @@ fn tick_games(time: Res<Time>, mut images: ResMut<Assets<Image>>, mut games: Que
 fn animate_controls(
     time: Res<Time>,
     keys: Res<ButtonInput<KeyCode>>,
+    pad: Res<Pad>,
     focus: Res<Focus>,
     games: Query<&CrtGame>,
     mut knobs: Query<(&Knob, &mut Transform), Without<FireButton>>,
@@ -298,7 +309,7 @@ fn animate_controls(
         tf.rotation = Quat::from_rotation_y((0.5 - k) * 4.7);
     }
     for (mut button, mut tf) in &mut buttons {
-        let held = focus.0 == Some(button.cabinet) && keys.pressed(KeyCode::Space);
+        let held = focus.0 == Some(button.cabinet) && (keys.pressed(KeyCode::Space) || pad.held(pad::FIRE));
         button.press = if held { 1.0 } else { (button.press - time.delta_secs() * 6.0).max(0.0) };
         tf.translation.y = 0.05 - 0.014 * button.press;
     }
@@ -331,23 +342,53 @@ fn spawn_hud(mut commands: Commands) {
 
 fn update_hud(
     focus: Res<Focus>,
+    pad: Res<Pad>,
     player: Single<&Transform, With<Player>>,
     cabinets: Query<(Entity, &Transform), With<Cabinet>>,
     games: Query<&CrtGame>,
-    mut hud: Single<&mut Text, With<Hud>>,
+    hud: Single<(&mut Text, &mut Node), With<Hud>>,
 ) {
-    let line = if let Some(game) = focus.0.and_then(|e| games.get(e).ok()) {
+    let (mut hud, mut node) = hud.into_inner();
+    // The thumbs and the page's buttons own the bottom of a touch screen, so the score moves up, clear of a notch.
+    if pad.active && node.bottom != Val::Auto {
+        node.bottom = Val::Auto;
+        node.top = px(56);
+    }
+    let playing = focus.0.and_then(|e| games.get(e).ok());
+    let in_reach = playing.is_none() && cabinet_in_reach(&player, &cabinets).is_some();
+    pad::publish_state(
+        if in_reach { pad::STATE_IN_REACH } else { 0 }
+            | if playing.is_some() { pad::STATE_PLAYING } else { 0 }
+            | if playing.is_some_and(|g| g.over) { pad::STATE_OVER } else { 0 },
+    );
+    // With touch the page's own buttons say what to do, so the HUD only keeps score.
+    let line = if pad.active {
+        match playing {
+            Some(game) if game.over => {
+                format!("SHELLS {}   HITS {}   WAVE {}\nOut of shells.", game.shells, game.hits, game.wave)
+            }
+            Some(game) => format!(
+                "SHELLS {}   HITS {}   WAVE {}\nelevation {:.0}   charge {:.0}%",
+                game.shells,
+                game.hits,
+                game.wave,
+                game.angle,
+                game.power * 100.0
+            ),
+            None => String::new(),
+        }
+    } else if let Some(game) = playing {
         let status = format!("SHELLS {}   HITS {}   WAVE {}", game.shells, game.hits, game.wave);
         if game.over {
             format!("{status}\nOut of shells.  R play again   E step away")
         } else {
             format!(
-                "{status}\nA/D elevation {:.0}°   W/S charge {:.0}%   SPACE fire   E step away",
+                "{status}\nA/D elevation {:.0}   W/S charge {:.0}%   SPACE fire   E step away",
                 game.angle,
                 game.power * 100.0
             )
         }
-    } else if cabinet_in_reach(&player, &cabinets).is_some() {
+    } else if in_reach {
         "E  play".to_string()
     } else {
         "WASD walk   SHIFT run   mouse look   click to capture the mouse".to_string()
