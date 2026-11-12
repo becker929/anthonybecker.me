@@ -61,7 +61,8 @@ This is where most of the look is won or lost. The owner's standing note: focus 
 
 - Apply the textures with real scale and deliberate grain direction.
 - The game runs on WebGL2 on phones. It has no reflections, no bounce light and no soft shadows of its own. Whatever the picture needs of those is baked in Blender with Cycles and shipped as data.
-- The method for the bake, its commands and its timings are in `LOOK_NOTES.md`. Follow that file and keep it current.
+- The method for the bake, its commands and its timings are in `LOOK_NOTES.md`. Follow that file and keep it current. In short: Gemini textures made tileable by `blender/textures.py`; diffuse light baked to lightmaps on a second UV set; occlusion maps; a pre-blurred cube picture of the room as the reflection; a mirrored copy of the model under a part-clear floor.
+- A native render proves nothing about phones. After any change to materials or light, build for the web and read the browser console: Bevy 0.20.1 on WebGL2 needed one shader line mended (`mend_bevy_shader` in `src/room.rs`) before lightmaps and reflections would draw together.
 - Budget: everything the page fetches at start, apart from the game binary, stays under about 4 MB.
 
 ## 6. Physical controls
@@ -114,6 +115,11 @@ Then a pull request to `main` with the source. Built output and audio never go i
 - Owner: "That HUD is ass and the planes look too big. TBH the wood and control knobs don't look good either. It's a step in the right direction but I want it to be much better, focus on texture and lighting."
 - Changed because of it: the text HUD is gone (score on the tube, prompts on the page); planes are smaller; steps 3 and 4 are now required; step 5 bakes its light.
 
-### Run 2: the same cabinet, texture and light (in progress)
+### Run 2: the same cabinet, texture and light (12 November 2026)
+
+- Did: steps 3, 4 and 5 properly. Gemini batch `arcade-look-2` (8 calls). Textures, lightmaps, occlusion, a reflection cube, a mirrored floor, new knobs. Notes in `LOOK_NOTES.md`.
+- Found on the way: a stiff knob spring stepped once a frame shook itself to nothing on slow phone frames; step springs in slices. Lightmaps with a reflection failed to compile on WebGL2 until one Bevy shader line was mended.
+- Also in this run: sounds built in Python (`sound/make.py`), by the owner's choice.
+- Owner: not yet judged.
 
 ### Run 3: Bertie the Brain (in progress)

@@ -229,25 +229,15 @@ impl CrtGame {
     /// Paints the tube into an RGBA8 buffer of `W * H` pixels.
     pub fn render(&self, out: &mut [u8]) {
         for (i, px) in out.chunks_exact_mut(4).enumerate() {
-            let (x, y) = (i % W, i / W);
+            let y = i / W;
             let beam = self.phosphor[i].min(2.0);
             let line = self.trail[i].min(1.0);
             let hot = (beam - 0.8).max(0.0);
-            // The tube is never quite black: a faint green field, darker toward the corners.
-            let (u, v) = (x as f32 / W as f32 - 0.5, y as f32 / H as f32 - 0.5);
-            // A little noise hides the steps an 8-bit picture would show in so dim a glow.
-            let grain = ((x * 7919 + y * 104_729) % 251) as f32 / 251.0 - 0.5;
-            let field = (0.016 * (1.0 - 2.2 * (u * u + v * v)).max(0.0) + grain * 0.004).max(0.0);
+            // An unlit tube is black. The glass now mirrors the room for real (the model's baked
+            // reflection), so no glow or sheen is painted here.
             let scan = if y % 2 == 0 { 1.0 } else { 0.82 };
             let g = (beam + line) * scan;
-            // The glass itself is a smoky grey-green, not a pure green.
-            // A faint band of sheen across the top of the glass, as if it caught the room.
-            let sheen = 0.022 * (1.0 - ((v + 0.34 + u * 0.25) / 0.10).abs()).max(0.0);
-            let rgb = [
-                g * GREEN[0] + hot * 0.9 + field * 0.7 + sheen,
-                g + field + sheen,
-                g * GREEN[2] + hot * 0.7 + field * 0.85 + sheen * 1.1,
-            ];
+            let rgb = [g * GREEN[0] + hot * 0.9, g, g * GREEN[2] + hot * 0.7];
             for c in 0..3 {
                 px[c] = (rgb[c].clamp(0.0, 1.0) * 255.0) as u8;
             }

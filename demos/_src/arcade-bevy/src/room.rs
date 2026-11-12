@@ -16,6 +16,7 @@ pub const ROOM_MAX: Vec2 = Vec2::new(4.0, 6.4);
 pub struct RoomPlugin;
 impl Plugin for RoomPlugin {
     fn build(&self, app: &mut App) {
+        app.add_systems(Update, mend_bevy_shader);
         // The room's light is baked into the model's lightmaps (blender/build.py), so there is no
         // ambient light and there are no room lamps here. The only live lamp is the tube's.
         app.insert_resource(GlobalAmbientLight { brightness: 0.0, ..default() }).add_systems(Startup, spawn_key);
@@ -82,5 +83,27 @@ pub fn environment(images: &mut Assets<Image>) -> EnvironmentMapLight {
         diffuse_map: images.add(cube(&ENV[mirror_len..], DIFFUSE_SIZE, 1)),
         intensity: ENV_WHITE / Exposure::default().exposure(),
         ..default()
+    }
+}
+
+/// Mends one line of a shader inside Bevy 0.20.1. Where the renderer has a single reflection probe
+/// (WebGL2, so every phone), a mesh that has both a lightmap and the room's reflection compiles
+/// `bool && u32`, which is refused, and nothing lightmapped is drawn. The line lacks the `!= 0u` that
+/// its twin for several probes has. Remove this when Bevy fixes it.
+fn mend_bevy_shader(mut shaders: ResMut<Assets<bevy::shader::Shader>>, mut done: Local<bool>) {
+    if *done {
+        return;
+    }
+    const BAD: &str = "light_probes.view_environment_map_affects_lightmapped_mesh_diffuse;";
+    const GOOD: &str = "(light_probes.view_environment_map_affects_lightmapped_mesh_diffuse != 0u);";
+    let found = shaders
+        .iter()
+        .find(|(_, shader)| shader.path.ends_with("environment_map.wesl") && shader.source.as_str().contains(BAD))
+        .map(|(id, _)| id);
+    let Some(id) = found else { return };
+    if let Some(mut shader) = shaders.get_mut(id) {
+        let mended = shader.source.as_str().replace(BAD, GOOD);
+        shader.source = bevy::shader::Source::Wesl(mended.into());
+        *done = true;
     }
 }
