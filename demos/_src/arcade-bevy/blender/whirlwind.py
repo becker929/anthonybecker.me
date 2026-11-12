@@ -472,6 +472,10 @@ def finish_buckets():
 
 
 def mesh_object(name, bm, mats, parent=None, location=(0, 0, 0)):
+    # Every textured material needs a UV map on the mesh; without one the exporter writes texCoord -1,
+    # which Bevy refuses, and the whole model fails to load.
+    if not bm.loops.layers.uv:
+        bm.loops.layers.uv.new("UVMap")
     mesh = bpy.data.meshes.new(name)
     bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 4])
     bm.normal_update()

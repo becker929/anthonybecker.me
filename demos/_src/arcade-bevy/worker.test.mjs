@@ -34,7 +34,7 @@ test("scores are added, read back, and refused when malformed", async () => {
   assert.equal(r.status, 200);
   assert.deepEqual((await r.json()).bertie.map((x) => [x.name, x.score]), [["AB", 7]]);
   r = await worker.fetch(new Request("https://arcade.anthonybecker.me/api/scores"), e);
-  assert.deepEqual(Object.keys(await r.json()), ["tube", "bertie"]);
+  assert.deepEqual(Object.keys(await r.json()), ["tube", "bertie", "whirlwind"]);
   for (const bad of [{ game: "pong", name: "A", score: 1 }, { game: "tube", name: "", score: 1 }, { game: "tube", name: "A", score: 0 }, { game: "tube", name: "A", score: 1.5 }, { game: "tube", name: "A", score: 99999 }]) {
     assert.equal((await worker.fetch(post(bad), e)).status, 400, JSON.stringify(bad));
   }
