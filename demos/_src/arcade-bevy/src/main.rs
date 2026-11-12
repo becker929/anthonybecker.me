@@ -9,6 +9,8 @@ mod nimrod;
 mod nimrod_machine;
 mod pad;
 mod player;
+mod prinz;
+mod prinz_machine;
 mod room;
 mod scores;
 #[cfg(not(target_arch = "wasm32"))]
