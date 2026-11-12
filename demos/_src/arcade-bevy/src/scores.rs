@@ -167,7 +167,7 @@ fn paint(data: &mut [u8], tables: &[String]) {
         }
         for (place, (name, score)) in rows.enumerate() {
             // Rows spread down the whole board, so its foot is not left empty.
-            let y = 33 + place * 9;
+            let y = 33 + place * 10;
             let rgb = if place == 0 { CREAM } else { AMBER };
             write(data, &(place + 1).to_string(), x0, y, DIM);
             write(data, &name.chars().take(8).collect::<String>(), x0 + 12, y, rgb);
