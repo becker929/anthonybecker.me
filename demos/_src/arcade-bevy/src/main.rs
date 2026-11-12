@@ -1,0 +1,39 @@
+//! A walkable arcade room with the 1947 Cathode-Ray Tube Amusement Device.
+
+mod cabinet;
+mod crt;
+mod font;
+mod player;
+mod room;
+#[cfg(not(target_arch = "wasm32"))]
+mod shot;
+
+use bevy::prelude::*;
+
+fn main() {
+    let mut app = App::new();
+    app.insert_resource(ClearColor(Color::BLACK));
+    #[cfg(not(target_arch = "wasm32"))]
+    let shot_dir = shot::requested();
+    #[cfg(target_arch = "wasm32")]
+    let shot_dir: Option<std::path::PathBuf> = None;
+    if let Some(dir) = shot_dir {
+        #[cfg(not(target_arch = "wasm32"))]
+        shot::add_headless(&mut app, dir);
+        #[cfg(target_arch = "wasm32")]
+        let _ = dir;
+    } else {
+        app.add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Cathode-Ray Tube Amusement Device".into(),
+                // On the web the game draws into the page's canvas and fills it.
+                canvas: Some("#game".into()),
+                fit_canvas_to_parent: true,
+                prevent_default_event_handling: true,
+                ..default()
+            }),
+            ..default()
+        }));
+    }
+    app.add_plugins((room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin)).run();
+}
