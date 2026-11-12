@@ -15,7 +15,7 @@ npx wrangler deploy
 `dist/` is not in git: the binary is about 22 MB, and every site build clones the whole history.
 `wrangler.toml` here names the Worker and its hostname. The deploy needs a `wrangler login` on this machine.
 The web build draws with WebGL2.
-On a touch screen the page draws the controls: the left thumb walks, the right thumb looks, and PLAY, LEAVE and AGAIN appear when the game offers them. At the cabinet the page lays touch targets over the cabinet's own knobs and red button: a finger turns a knob by going round it, and a tap on the button fires. The page passes all of this to the game through the functions in `src/pad.rs`.
+On a touch screen the page draws the controls: the left thumb walks, the right thumb looks, and PLAY, LEAVE and AGAIN appear when the game offers them. At the cabinet each half of the screen is one knob: a thumb sliding on the left turns elevation, on the right charge. Up is always more; sideways follows the knob, so right is clockwise. The slide's length is what counts, so a straight line, a diagonal and a thumb's arc all turn it smoothly. The cabinet's red button takes taps. On screens with more than two device pixels per CSS pixel the page lays the canvas out smaller and scales it up, so the game draws at two. The page passes all of this to the game through the functions in `src/pad.rs`.
 Cloudflare refuses any asset over 25 MiB. The script fails if the binary grows past that.
 
 ## Run

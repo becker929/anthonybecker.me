@@ -392,7 +392,7 @@ fn update_hud(
     // The thumbs and the page's buttons own the bottom of a touch screen, so the score moves up, below the page's LEAVE button.
     if pad.active && node.bottom != Val::Auto {
         node.bottom = Val::Auto;
-        node.top = px(104);
+        node.top = px(72);
     }
     let playing = focus.0.and_then(|e| games.get(e).ok());
     let in_reach = playing.is_none() && cabinet_in_reach(&player, &cabinets).is_some();
