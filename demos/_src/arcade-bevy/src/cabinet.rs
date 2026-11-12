@@ -424,6 +424,10 @@ fn publish_touch_points(
     buttons: Query<(&FireButton, &GlobalTransform)>,
 ) {
     let (Some(cabinet), true) = (focus.0, pad.active) else { return };
+    // Another machine reports its own controls.
+    if !knobs.iter().any(|(knob, _)| knob.cabinet == cabinet) {
+        return;
+    }
     let (camera, view) = *camera;
     let mut points = [-1000.0; 6];
     let mut put = |slot: usize, at: &GlobalTransform| {
@@ -442,7 +446,7 @@ fn publish_touch_points(
             put(2, at);
         }
     }
-    pad::publish_points(points);
+    pad::publish_points(&points);
 }
 
 /// Tells the page what the player can do now. The page draws the prompts and buttons; the game
@@ -455,10 +459,11 @@ fn publish_game_state(
 ) {
     let playing = focus.0.and_then(|e| games.get(e).ok());
     let flying = games.iter().any(|g| g.in_flight());
-    let in_reach = playing.is_none() && cabinet_in_reach(&player, &cabinets).is_some();
+    // Any machine counts as playing here, so the page offers LEAVE at Bertie too.
+    let in_reach = focus.0.is_none() && cabinet_in_reach(&player, &cabinets).is_some();
     pad::publish_state(
         if in_reach { pad::STATE_IN_REACH } else { 0 }
-            | if playing.is_some() { pad::STATE_PLAYING } else { 0 }
+            | if focus.0.is_some() { pad::STATE_PLAYING } else { 0 }
             | if playing.is_some_and(|g| g.over) { pad::STATE_OVER } else { 0 }
             | if flying { pad::STATE_FLIGHT } else { 0 },
     );

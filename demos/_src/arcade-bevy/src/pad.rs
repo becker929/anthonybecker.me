@@ -32,6 +32,8 @@ pub const STATE_PLAYING: u32 = 2;
 pub const STATE_OVER: u32 = 4;
 /// A shell is in the air.
 pub const STATE_FLIGHT: u32 = 8;
+/// The machine being played is Bertie, not the tube cabinet. The page then offers Bertie's keys.
+pub const STATE_BERTIE: u32 = 16;
 
 static ACTIVE: AtomicBool = AtomicBool::new(false);
 static STICK_X: AtomicU32 = AtomicU32::new(0);
@@ -43,7 +45,11 @@ static LOOK_Y: AtomicU32 = AtomicU32::new(0);
 static KNOB_ELEVATION: AtomicU32 = AtomicU32::new(0);
 static KNOB_CHARGE: AtomicU32 = AtomicU32::new(0);
 // Where the focused cabinet's two knobs and button are on screen, for the page to put its touch targets on.
-static POINTS: Mutex<[f32; 6]> = Mutex::new([0.0; 6]);
+static POINTS: Mutex<Vec<f32>> = Mutex::new(Vec::new());
+// Bertie's keys tapped on a touch screen since the last frame: a bit per square, and bit 9 for its dial.
+static KEYS: AtomicU32 = AtomicU32::new(0);
+// State bits other machines add to what the first cabinet reports.
+static MORE_STATE: AtomicU32 = AtomicU32::new(0);
 static HELD: AtomicU32 = AtomicU32::new(0);
 // Presses are kept until a frame has seen them, so a tap shorter than a frame still counts.
 static TAPPED: AtomicU32 = AtomicU32::new(0);
@@ -62,6 +68,8 @@ pub struct Pad {
     pub look: Vec2,
     /// Clockwise turns of the elevation and charge knobs since the last frame, in radians.
     pub knobs: Vec2,
+    /// Bertie's keys tapped since the last frame: a bit per square, and bit 9 for its dial.
+    pub keys: u32,
     pub held: u32,
     pub tapped: u32,
 }
@@ -87,13 +95,19 @@ fn read_pad(mut pad: ResMut<Pad>) {
     pad.stick = Vec2::new(f32::from_bits(STICK_X.load(Relaxed)), f32::from_bits(STICK_Y.load(Relaxed))).clamp_length_max(1.0);
     pad.look = Vec2::new(LOOK_X.swap(0, Relaxed) as i32 as f32, LOOK_Y.swap(0, Relaxed) as i32 as f32);
     pad.knobs = Vec2::new(KNOB_ELEVATION.swap(0, Relaxed) as i32 as f32, KNOB_CHARGE.swap(0, Relaxed) as i32 as f32) / 1000.0;
+    pad.keys = KEYS.swap(0, Relaxed);
     pad.held = HELD.load(Relaxed);
     pad.tapped = TAPPED.swap(0, Relaxed);
 }
 
 /// Called by the game each frame so the page can show the right buttons.
 pub fn publish_state(state: u32) {
-    STATE.store(state, Relaxed);
+    STATE.store(state | MORE_STATE.load(Relaxed), Relaxed);
+}
+
+/// State bits from a machine other than the first cabinet. Call it every frame; pass 0 to clear them.
+pub fn publish_more_state(bits: u32) {
+    MORE_STATE.store(bits, Relaxed);
 }
 
 /// Asks the page to play these sounds (any of the `SOUND_` bits). Each plays once.
@@ -106,9 +120,10 @@ pub fn publish_hum(level: f32) {
     HUM.store(level.to_bits(), Relaxed);
 }
 
-/// Screen positions, in CSS pixels, of the elevation knob, the charge knob and the fire button.
-pub fn publish_points(points: [f32; 6]) {
-    *POINTS.lock().unwrap() = points;
+/// Screen positions, in CSS pixels, of the focused machine's controls, as x, y pairs. The first cabinet
+/// sends its two knobs and its button; Bertie sends nine keys, its dial and its reset button.
+pub fn publish_points(points: &[f32]) {
+    *POINTS.lock().unwrap() = points.to_vec();
 }
 
 #[cfg(target_arch = "wasm32")]
@@ -150,9 +165,16 @@ mod web {
         acc.store((acc.load(Relaxed) as i32).wrapping_add(millirad) as u32, Relaxed);
     }
 
+    /// A tap on one of Bertie's keys: 0 to 8 for the squares, 9 for the dial.
+    #[wasm_bindgen]
+    pub fn pad_key(key: u32) {
+        ACTIVE.store(true, Relaxed);
+        KEYS.fetch_or(1 << key.min(15), Relaxed);
+    }
+
     #[wasm_bindgen]
     pub fn pad_points() -> Vec<f32> {
-        POINTS.lock().unwrap().to_vec()
+        POINTS.lock().unwrap().clone()
     }
 
     /// The sounds asked for since the last call. Calling it clears them.

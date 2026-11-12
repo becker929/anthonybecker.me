@@ -1,5 +1,7 @@
 //! A walkable arcade room with the 1947 Cathode-Ray Tube Amusement Device.
 
+mod bertie;
+mod bertie_machine;
 mod cabinet;
 mod crt;
 mod font;
@@ -36,7 +38,7 @@ fn main() {
             ..default()
         }));
     }
-    app.add_plugins((pad::PadPlugin, room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin)).run();
+    app.add_plugins((pad::PadPlugin, room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin, bertie_machine::BertiePlugin)).run();
 }
 
 /// The model is fetched as a plain file. There are no `.meta` files beside it to ask for.

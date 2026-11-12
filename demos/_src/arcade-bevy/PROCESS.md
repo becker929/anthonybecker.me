@@ -122,4 +122,11 @@ Then a pull request to `main` with the source. Built output and audio never go i
 - Also in this run: sounds built in Python (`sound/make.py`), by the owner's choice.
 - Owner: not yet judged.
 
-### Run 3: Bertie the Brain (in progress)
+### Run 3: Bertie the Brain (12 November 2026)
+
+- Did: step 1 (`src/bertie.rs`, 12 tests), step 2 (greybox), a review of the greybox in the game, then steps 3 and 4 (Gemini batch `arcade-bertie-1`, 9 calls) and 5 without a bake, 6 (keys, dial, plunger; board squares are tap targets too), 7 (its sounds are in `sound/make.py`), 8.
+- Notes for the next machine are in `BERTIE.md`.
+- Learned: review the greybox in the game before any art. The first keypad was a third of the size a thumb needs, and that is cheap to fix in grey.
+- Learned: a second machine needs its own seat, footprint, state bit and touch points. Bertie still borrows the first cabinet's `Cabinet` marker and corrects the seat afterwards; `src/player.rs` should carry a seat per machine before a third arrives.
+- Not done: Bertie's light is not baked. One live lamp stands in.
+- Owner: not yet judged.
