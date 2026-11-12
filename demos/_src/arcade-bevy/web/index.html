@@ -48,6 +48,11 @@ body.touch.running #touch{display:block}
 .target.down{border-color:rgba(109,255,160,.8)}
 .target span{position:absolute;left:-20px;right:-20px;top:100%;margin-top:4px;text-align:center;font-size:10px;letter-spacing:.14em;color:#9c8f78;text-shadow:0 1px 4px #000;pointer-events:none}
 #t-fire{width:96px;height:96px;margin:-48px 0 0 -48px}
+/* One quiet line of prompt at the foot of the screen, for keyboards. Touch screens get buttons instead. */
+#hint{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:18px;align-items:center;padding:9px 16px;border-radius:999px;background:rgba(12,9,16,.62);border:1px solid rgba(243,230,200,.14);color:#b9ac93;font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .5s}
+#hint.on{opacity:1}
+#hint kbd{font:inherit;color:#f3e6c8;border:1px solid rgba(243,230,200,.35);border-radius:4px;padding:2px 6px;margin-right:6px;letter-spacing:.06em}
+body.touch #hint{display:none}
 #mute{position:fixed;left:calc(10px + env(safe-area-inset-left));top:calc(8px + env(safe-area-inset-top));width:40px;height:40px;padding:8px;border:0;border-radius:50%;background:rgba(20,14,26,.55);color:#f3e6c8;display:none}
 body.running #mute{display:block}
 #mute svg{width:24px;height:24px;display:block}
@@ -68,6 +73,7 @@ body.running #mute{display:block}
   <div class="target" id="t-charge"><span>CHARGE</span></div>
   <div class="target" id="t-fire"><span>FIRE</span></div>
 </div>
+<div id="hint"></div>
 <button id="mute" type="button" aria-label="Sound on or off">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/>
@@ -130,6 +136,7 @@ try {
   document.body.classList.add('running');
   touchControls(game);
   sounds(game);
+  hints(game);
 } catch (e) {
   cover.classList.remove('gone');
   document.getElementById('bar').hidden = true;
@@ -187,6 +194,33 @@ function sounds(game) {
     });
     // The tube hums louder the nearer you stand. That is where you are in the room, not a mix decision.
     if (humGain) humGain.gain.setTargetAtTime(game.pad_hum(), ctx.currentTime, 0.15);
+    requestAnimationFrame(poll);
+  })();
+}
+
+// Prompts for keyboard players: what the keys do, shown when it changes and then let go.
+function hints(game) {
+  const el = document.getElementById('hint');
+  const key = (k, what) => `<span><kbd>${k}</kbd>${what}</span>`;
+  const LINES = {
+    walk: key('W A S D', 'walk') + key('Mouse', 'look') + key('Shift', 'run'),
+    look: key('Click', 'to look around'),
+    reach: key('E', 'play'),
+    play: key('A D', 'elevation') + key('W S', 'charge') + key('Space', 'fire') + key('E', 'leave'),
+    over: 'Out of shells' + key('R', 'play again') + key('E', 'leave'),
+  };
+  const STAYS = { reach: true, over: true, look: true };   // the rest fade after a few seconds
+  let shown = '', timer = 0;
+  (function poll() {
+    const st = game.pad_state();
+    const want = (st & 4) ? 'over' : (st & 2) ? 'play' : (st & 1) ? 'reach' : document.pointerLockElement ? 'walk' : 'look';
+    if (want !== shown) {
+      shown = want;
+      el.innerHTML = LINES[want];
+      el.classList.add('on');
+      clearTimeout(timer);
+      if (!STAYS[want]) timer = setTimeout(() => el.classList.remove('on'), 7000);
+    }
     requestAnimationFrame(poll);
   })();
 }

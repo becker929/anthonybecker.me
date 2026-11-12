@@ -54,8 +54,6 @@ struct FireButton {
 }
 #[derive(Component)]
 struct TubeLight(Entity);
-#[derive(Component)]
-struct Hud;
 
 /// How far the charge knob turns from empty to full, in radians.
 const CHARGE_KNOB_SWEEP: f32 = 4.7;
@@ -67,8 +65,8 @@ pub struct ModelReady(pub bool);
 pub struct CabinetPlugin;
 impl Plugin for CabinetPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<ModelReady>().add_systems(Startup, (spawn_cabinet, spawn_hud))
-            .add_systems(Update, (interact, play, tick_games, report_sounds, animate_controls, update_hud, publish_touch_points).chain());
+        app.init_resource::<ModelReady>().add_systems(Startup, spawn_cabinet)
+            .add_systems(Update, (interact, play, tick_games, report_sounds, animate_controls, publish_game_state, publish_touch_points).chain());
     }
 }
 
@@ -337,40 +335,14 @@ fn publish_touch_points(
     pad::publish_points(points);
 }
 
-fn spawn_hud(mut commands: Commands) {
-    commands.spawn((
-        Hud,
-        Text::new(""),
-        Node { position_type: PositionType::Absolute, left: px(16), bottom: px(14), ..default() },
-    ));
-    // Crosshair.
-    commands.spawn((
-        Node {
-            position_type: PositionType::Absolute,
-            left: percent(50),
-            top: percent(50),
-            width: px(4),
-            height: px(4),
-            ..default()
-        },
-        BackgroundColor(Color::srgba(1.0, 0.9, 0.7, 0.6)),
-    ));
-}
-
-fn update_hud(
+/// Tells the page what the player can do now. The page draws the prompts and buttons; the game
+/// itself puts no words on the screen. The score is on the tube (src/crt.rs).
+fn publish_game_state(
     focus: Res<Focus>,
-    pad: Res<Pad>,
     player: Single<&Transform, With<Player>>,
     cabinets: Query<(Entity, &Transform), With<Cabinet>>,
     games: Query<&CrtGame>,
-    hud: Single<(&mut Text, &mut Node), With<Hud>>,
 ) {
-    let (mut hud, mut node) = hud.into_inner();
-    // The thumbs and the page's buttons own the bottom of a touch screen, so the score moves up, below the page's LEAVE button.
-    if pad.active && node.bottom != Val::Auto {
-        node.bottom = Val::Auto;
-        node.top = px(72);
-    }
     let playing = focus.0.and_then(|e| games.get(e).ok());
     let flying = games.iter().any(|g| g.in_flight());
     let in_reach = playing.is_none() && cabinet_in_reach(&player, &cabinets).is_some();
@@ -380,39 +352,4 @@ fn update_hud(
             | if playing.is_some_and(|g| g.over) { pad::STATE_OVER } else { 0 }
             | if flying { pad::STATE_FLIGHT } else { 0 },
     );
-    // With touch the page's own buttons say what to do, so the HUD only keeps score.
-    let line = if pad.active {
-        match playing {
-            Some(game) if game.over => {
-                format!("SHELLS {}   HITS {}   WAVE {}\nOut of shells.", game.shells, game.hits, game.wave)
-            }
-            Some(game) => format!(
-                "SHELLS {}   HITS {}   WAVE {}\nelevation {:.0}   charge {:.0}%",
-                game.shells,
-                game.hits,
-                game.wave,
-                game.angle,
-                game.power * 100.0
-            ),
-            None => String::new(),
-        }
-    } else if let Some(game) = playing {
-        let status = format!("SHELLS {}   HITS {}   WAVE {}", game.shells, game.hits, game.wave);
-        if game.over {
-            format!("{status}\nOut of shells.  R play again   E step away")
-        } else {
-            format!(
-                "{status}\nA/D elevation {:.0}   W/S charge {:.0}%   SPACE fire   E step away",
-                game.angle,
-                game.power * 100.0
-            )
-        }
-    } else if in_reach {
-        "E  play".to_string()
-    } else {
-        "WASD walk   SHIFT run   mouse look   click to capture the mouse".to_string()
-    };
-    if hud.0 != line {
-        hud.0 = line;
-    }
 }
