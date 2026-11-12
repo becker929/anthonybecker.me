@@ -30,6 +30,11 @@ const BERTIE_YAW: f32 = 0.0;
 /// stands further back than at the first cabinet, so the keys and the whole board are in view.
 const SEAT_EYE: Vec3 = Vec3::new(0.0, 1.52, 1.575);
 const SEAT_AIM: Vec3 = Vec3::new(0.0, 1.49, 0.10);
+/// The camera's vertical field of view (src/player.rs), the depth of the machine's face, and half the
+/// width that must be in view from the seat.
+const SEAT_FOV: f32 = 68.0 * std::f32::consts::PI / 180.0;
+const SEAT_FRONT: f32 = 0.40;
+const SEAT_HALF_WIDTH: f32 = 0.80;
 /// The machine's footprint for walking into: its centre and half its size on the floor, in its own space.
 const BODY_CENTRE: Vec2 = Vec2::new(0.0, 0.125);
 const BODY_HALF: Vec2 = Vec2::new(0.83, 0.55);
@@ -215,8 +220,8 @@ fn make_look(mut commands: Commands, mut materials: ResMut<Assets<StandardMateri
     };
     // Unlit, the board's lamps are smoked glass that all but vanishes against the black field.
     let dark = glass(LinearRgba::BLACK, Color::srgb(0.05, 0.045, 0.04));
-    let x = [glass(LinearRgba::rgb(9.0, 3.2, 0.8), Color::BLACK), dark.clone()];
-    let o = [glass(LinearRgba::rgb(7.0, 5.8, 4.2), Color::BLACK), dark];
+    let x = [glass(LinearRgba::rgb(6.0, 2.3, 0.35), Color::BLACK), dark.clone()];
+    let o = [glass(LinearRgba::rgb(4.2, 3.5, 2.5), Color::BLACK), dark];
     // A sign is the same picture lit or unlit, so its words can just be read when it is dark.
     let mut panel = |image: Image, lit: f32, unlit: f32| {
         let picture = images.add(image);
@@ -557,14 +562,20 @@ fn take_seat(
     focus: Res<Focus>,
     mut seat: ResMut<Seat>,
     machines: Query<&Transform, (With<Bertie>, Without<Player>)>,
-    player: Single<(&mut Player, &mut Transform)>,
+    player: Single<(&mut Player, &mut Transform, &Camera)>,
 ) {
-    let (mut player, mut tf) = player.into_inner();
+    let (mut player, mut tf, camera) = player.into_inner();
     let Some(machine) = focus.0.and_then(|e| machines.get(e).ok()) else {
         seat.0 = *tf;
         return;
     };
-    let want = Transform::from_translation(machine.transform_point(SEAT_EYE))
+    // On an upright phone the view is narrow, so the seat steps back until the whole width of the
+    // machine is in it: the plunger, the dial and the signs at the sides.
+    let aspect = camera.logical_viewport_size().map_or(16.0 / 9.0, |size| size.x / size.y.max(1.0));
+    let half_width_per_metre = (SEAT_FOV / 2.0).tan() * aspect;
+    let mut eye = SEAT_EYE;
+    eye.z = eye.z.max(SEAT_FRONT + SEAT_HALF_WIDTH / half_width_per_metre);
+    let want = Transform::from_translation(machine.transform_point(eye))
         .looking_at(machine.transform_point(SEAT_AIM), Vec3::Y);
     // `place_camera` has already moved the camera toward the wrong seat this frame, so the path is
     // kept here and written over it. It starts from where the camera was when the player stepped up.
