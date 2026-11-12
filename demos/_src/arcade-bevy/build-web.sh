@@ -30,7 +30,7 @@ cp target/web-out/crt_arcade_bg.opt.wasm "dist/pkg-$H/crt_arcade_bg.wasm"
 cp target/web-out/crt_arcade.js "dist/pkg-$H/"
 sed "s#'./pkg/#'./pkg-$H/#g" web/index.html > dist/index.html
 # The model the game fetches at start (blender/build.py makes it). The game asks for assets/arcade.glb.
-mkdir -p dist/assets && cp assets/arcade.glb assets/bertie.glb dist/assets/
+mkdir -p dist/assets && cp assets/arcade.glb assets/bertie.glb assets/nimrod.glb dist/assets/
 # The sounds the page plays (sound/make.py builds them; audio is not in git). Without them the page is silent.
 if [ -f sound/out/sounds.json ]; then
   mkdir -p dist/sounds && cp sound/out/* dist/sounds/

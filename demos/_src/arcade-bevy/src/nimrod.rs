@@ -53,7 +53,6 @@ pub enum Outcome {
 }
 
 /// The lamps of the instruction panel, in order. Only one is lit, while the machine works.
-pub const INSTRUCTIONS: usize = 8;
 pub const I_READ: u8 = 0;
 pub const I_FOURS: u8 = 1;
 pub const I_TWOS: u8 = 2;
@@ -313,6 +312,7 @@ impl NimrodGame {
         self.play_self
     }
 
+    #[allow(dead_code)] // read by the tests
     pub fn phase(&self) -> Phase {
         self.phase
     }
@@ -321,6 +321,7 @@ impl NimrodGame {
         self.heaps.get(heap).copied().unwrap_or(0)
     }
 
+    #[allow(dead_code)] // read by the tests
     pub fn heaps(&self) -> [u8; HEAPS] {
         self.heaps
     }
