@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Builds the web version into <repo>/arcade/, which the site serves at arcade.anthonybecker.me.
+# Builds the web version into <repo>/arcade-bevy/, which the site serves at arcade.anthonybecker.me.
 # Needs: rustup target add wasm32-unknown-unknown, and wasm-opt (brew install binaryen).
 set -euo pipefail
 cd "$(dirname "$0")"
-OUT=../../../arcade
+OUT=../../../arcade-bevy
 WASM=target/wasm32-unknown-unknown/web/crt_arcade.wasm
 
 cargo build --profile web --target wasm32-unknown-unknown

@@ -388,8 +388,8 @@ async function handleUnarchiveSkill(env, id) {
 }
 
 const WEB_HOST = "web.anthonybecker.me";
-// arcade.anthonybecker.me is the Bevy arcade room, built into arcade/ from
-// demos/_src/arcade-bevy. Its page loads everything by /arcade/... paths.
+// arcade.anthonybecker.me is the Bevy arcade room, built into arcade-bevy/ from
+// demos/_src/arcade-bevy. Its page loads everything by /arcade-bevy/... paths.
 const ARCADE_HOST = "arcade.anthonybecker.me";
 
 export default {
@@ -408,7 +408,7 @@ export default {
 
     if (url.hostname === ARCADE_HOST && path === "/") {
       const assetUrl = new URL(request.url);
-      assetUrl.pathname = "/arcade/";
+      assetUrl.pathname = "/arcade-bevy/";
       return env.ASSETS.fetch(new Request(assetUrl.toString(), request));
     }
 

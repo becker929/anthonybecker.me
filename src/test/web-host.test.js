@@ -16,10 +16,10 @@ test("web host root serves web/", async () => {
   assert.deepEqual(e.seen, ["/web/"]);
 });
 
-test("arcade host root serves arcade/", async () => {
+test("arcade host root serves arcade-bevy/", async () => {
   const e = env();
   await worker.fetch(new Request("https://arcade.anthonybecker.me/"), e);
-  assert.deepEqual(e.seen, ["/arcade/"]);
+  assert.deepEqual(e.seen, ["/arcade-bevy/"]);
 });
 
 test("apex root is left to the static site", async () => {

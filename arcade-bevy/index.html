@@ -36,7 +36,7 @@ a{color:#9c8f78}
 </div>
 <script type="module">
 const status = document.getElementById('status'), fill = document.getElementById('fill'), cover = document.getElementById('cover');
-const WASM = '/arcade/crt_arcade_bg.wasm';
+const WASM = '/arcade-bevy/crt_arcade_bg.wasm';
 try {
   if (!document.createElement('canvas').getContext('webgl2')) throw new Error('This browser has no WebGL2.');
   // Fetch the binary ourselves so the bar can show progress.
@@ -52,7 +52,7 @@ try {
   }
   fill.style.width = '100%';
   status.textContent = 'Starting…';
-  const { default: init } = await import('/arcade/crt_arcade.js');
+  const { default: init } = await import('/arcade-bevy/crt_arcade.js');
   const bytes = await new Blob(parts).arrayBuffer();
   // Bevy takes over the page's event loop by throwing; that is not a failure.
   const started = init({ module_or_path: bytes }).catch(e => {
