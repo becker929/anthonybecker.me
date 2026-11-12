@@ -16,10 +16,9 @@ use bevy::{
 
 use crate::{
     bertie::{self, BertieGame, Mark},
-    cabinet::Cabinet,
     font,
     pad::{self, Pad},
-    player::{Focus, Player},
+    player::{Focus, Machine, Player},
 };
 
 // WIRE: choose where Bertie stands. This is to the right of the first cabinet, back to the same wall.
@@ -32,14 +31,11 @@ const SEAT_EYE: Vec3 = Vec3::new(0.0, 1.52, 1.575);
 const SEAT_AIM: Vec3 = Vec3::new(0.0, 1.49, 0.10);
 /// The camera's vertical field of view (src/player.rs), the depth of the machine's face, and half the
 /// width that must be in view from the seat.
-const SEAT_FOV: f32 = 68.0 * std::f32::consts::PI / 180.0;
 const SEAT_FRONT: f32 = 0.40;
 const SEAT_HALF_WIDTH: f32 = 0.80;
 /// The machine's footprint for walking into: its centre and half its size on the floor, in its own space.
 const BODY_CENTRE: Vec2 = Vec2::new(0.0, 0.125);
 const BODY_HALF: Vec2 = Vec2::new(0.83, 0.55);
-/// As in src/player.rs.
-const PLAYER_RADIUS: f32 = 0.3;
 
 /// One notch of the dial, in radians. blender/bertie.py puts the five ticks round it at the same step.
 const DIAL_STEP: f32 = 0.6;
@@ -134,18 +130,12 @@ struct Look {
     signs: [[Handle<StandardMaterial>; 2]; 5],
 }
 
-/// Where the camera was last frame, as `take_seat` left it. Its eased path to the seat starts here.
-#[derive(Resource, Default)]
-struct Seat(Transform);
 
 pub struct BertiePlugin;
 impl Plugin for BertiePlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<Seat>()
-            .add_systems(Startup, (make_look, spawn_bertie).chain())
-            .add_systems(Update, (play, tick_games, report_sounds, light_lamps, animate_controls, publish).chain())
-            // WIRE: these two stand in for src/player.rs until it knows about a second machine. See each.
-            .add_systems(PostUpdate, (keep_out, take_seat).chain().before(TransformSystems::Propagate));
+        app.add_systems(Startup, (make_look, spawn_bertie).chain())
+            .add_systems(Update, (play, tick_games, report_sounds, light_lamps, animate_controls, publish).chain());
     }
 }
 
@@ -251,10 +241,15 @@ fn spawn_bertie(mut commands: Commands, assets: Res<AssetServer>) {
     let root = commands
         .spawn((
             Bertie { game: BertieGame::new(0x1950) },
-            // WIRE: `Cabinet` is borrowed so that E, Escape and the PLAY button step up to Bertie through
-            // src/cabinet.rs and src/player.rs as they stand. Once those know about a second kind of
-            // machine, give Bertie whatever they then ask for and remove this.
-            Cabinet,
+            Machine {
+                id: pad::GAME_BERTIE,
+                seat_eye: SEAT_EYE,
+                seat_aim: SEAT_AIM,
+                seat_half_width: SEAT_HALF_WIDTH,
+                seat_front: SEAT_FRONT,
+                body_centre: BODY_CENTRE,
+                body_half: BODY_HALF,
+            },
             Transform::from_translation(BERTIE_AT).with_rotation(Quat::from_rotation_y(BERTIE_YAW)),
             // WIRE: build-web.sh must copy assets/bertie.glb into dist/assets/ beside arcade.glb.
             WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("bertie.glb"))),
@@ -529,75 +524,6 @@ fn touch_points(
         }
     }
     points
-}
-
-// ---------------------------------------------------------------- the player at the machine
-
-/// Keeps the player out of the machine's body.
-// WIRE: `walk` in src/player.rs pushes the player out of every `Cabinet`, but with the first cabinet's
-// size, and Bertie is twice as wide. Give each machine its own footprint there and remove this.
-fn keep_out(
-    focus: Res<Focus>,
-    machines: Query<&Transform, (With<Bertie>, Without<Player>)>,
-    mut player: Single<&mut Transform, With<Player>>,
-) {
-    if focus.0.is_some() {
-        return;
-    }
-    for machine in &machines {
-        let mut local = machine.compute_affine().inverse().transform_point3(player.translation);
-        let half = BODY_HALF + PLAYER_RADIUS;
-        let d = Vec2::new(local.x, local.z) - BODY_CENTRE;
-        if d.x.abs() < half.x && d.y.abs() < half.y {
-            // Push out along the shallowest axis.
-            if half.x - d.x.abs() < half.y - d.y.abs() {
-                local.x = BODY_CENTRE.x + half.x * d.x.signum();
-            } else {
-                local.z = BODY_CENTRE.y + half.y * d.y.signum();
-            }
-            player.translation = machine.transform_point(local);
-        }
-    }
-}
-
-/// Moves the camera to Bertie's seat while the player is at it.
-// WIRE: `place_camera` in src/player.rs moves to the first cabinet's seat for any focused `Cabinet`,
-// which is too close to see Bertie's board. This runs after it and overrides it. Give each machine
-// its own eye and aim in src/player.rs (SEAT_EYE and SEAT_AIM here) and remove this.
-fn take_seat(
-    time: Res<Time>,
-    focus: Res<Focus>,
-    mut seat: ResMut<Seat>,
-    machines: Query<&Transform, (With<Bertie>, Without<Player>)>,
-    player: Single<(&mut Player, &mut Transform, &Camera)>,
-) {
-    let (mut player, mut tf, camera) = player.into_inner();
-    let Some(machine) = focus.0.and_then(|e| machines.get(e).ok()) else {
-        seat.0 = *tf;
-        return;
-    };
-    // On an upright phone the view is narrow, so the seat steps back until the whole width of the
-    // machine is in it: the plunger, the dial and the signs at the sides.
-    let aspect = camera.logical_viewport_size().map_or(16.0 / 9.0, |size| size.x / size.y.max(1.0));
-    let half_width_per_metre = (SEAT_FOV / 2.0).tan() * aspect;
-    let mut eye = SEAT_EYE;
-    eye.z = eye.z.max(SEAT_FRONT + SEAT_HALF_WIDTH / half_width_per_metre);
-    let want = Transform::from_translation(machine.transform_point(eye))
-        .looking_at(machine.transform_point(SEAT_AIM), Vec3::Y);
-    // `place_camera` has already moved the camera toward the wrong seat this frame, so the path is
-    // kept here and written over it. It starts from where the camera was when the player stepped up.
-    let k = 1.0 - (-8.0 * time.delta_secs()).exp();
-    let now = Transform {
-        translation: seat.0.translation.lerp(want.translation, k),
-        rotation: seat.0.rotation.slerp(want.rotation, k),
-        scale: Vec3::ONE,
-    };
-    seat.0 = now;
-    *tf = now;
-    // Remember where we are looking, so leaving the machine does not snap the view.
-    let (yaw, pitch, _) = now.rotation.to_euler(EulerRot::YXZ);
-    player.yaw = yaw;
-    player.pitch = pitch;
 }
 
 // ---------------------------------------------------------------- the page

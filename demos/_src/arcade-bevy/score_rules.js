@@ -2,7 +2,7 @@
 // (A Worker module may export nothing but its handler.)
 
 export const GAMES = { tube: { max: 500 }, bertie: { max: 5000 } };
-export const ROWS = 8;
+export const ROWS = 7;
 
 
 /// A name as the board can show it: capitals and digits, eight at most. Returns "" if nothing is left.

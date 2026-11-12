@@ -21,13 +21,13 @@ const BOARD_W: f32 = 2.6;
 const BOARD_H: f32 = 1.3;
 const BOARD_AT: Vec3 = Vec3::new(ROOM_MAX.x - 0.075, 1.78, 2.6);
 /// How many entries of each table fit.
-pub const ROWS: usize = 8;
+pub const ROWS: usize = 7;
 
 const AMBER: [u8; 3] = [255, 150, 48];
 const CREAM: [u8; 3] = [255, 214, 160];
 const DIM: [u8; 3] = [150, 84, 26];
 /// An unlit lamp still shows a little, so the board reads as lamps and not as a black sheet.
-const UNLIT: [u8; 3] = [9, 6, 4];
+const UNLIT: [u8; 3] = [24, 14, 6];
 
 const TITLES: [&str; 2] = ["TUBE 1947", "BERTIE 1950"];
 
@@ -78,7 +78,7 @@ fn hang_board(
         perceptual_roughness: 0.4,
         ..default()
     });
-    let rim = 0.04;
+    let rim = 0.065;
     let mut bar = |size: Vec3, offset: Vec3| {
         commands.spawn((
             Mesh3d(meshes.add(Cuboid::from_size(size))),
@@ -87,15 +87,16 @@ fn hang_board(
         ));
     };
     // Sizes are (depth into the wall, height, length along the wall).
-    bar(Vec3::new(0.05, rim, BOARD_W + rim * 2.0), Vec3::new(0.0, BOARD_H / 2.0 + rim / 2.0, 0.0));
-    bar(Vec3::new(0.05, rim, BOARD_W + rim * 2.0), Vec3::new(0.0, -BOARD_H / 2.0 - rim / 2.0, 0.0));
-    bar(Vec3::new(0.05, BOARD_H, rim), Vec3::new(0.0, 0.0, BOARD_W / 2.0 + rim / 2.0));
-    bar(Vec3::new(0.05, BOARD_H, rim), Vec3::new(0.0, 0.0, -BOARD_W / 2.0 - rim / 2.0));
+    bar(Vec3::new(0.07, rim, BOARD_W + rim * 2.0), Vec3::new(0.0, BOARD_H / 2.0 + rim / 2.0, 0.0));
+    bar(Vec3::new(0.07, rim, BOARD_W + rim * 2.0), Vec3::new(0.0, -BOARD_H / 2.0 - rim / 2.0, 0.0));
+    bar(Vec3::new(0.07, BOARD_H, rim), Vec3::new(0.0, 0.0, BOARD_W / 2.0 + rim / 2.0));
+    bar(Vec3::new(0.07, BOARD_H, rim), Vec3::new(0.0, 0.0, -BOARD_W / 2.0 - rim / 2.0));
     bar(Vec3::new(0.02, BOARD_H, BOARD_W), Vec3::new(0.02, 0.0, 0.0));
     // The board's glow on the floor and on whoever stands reading it.
     commands.spawn((
-        PointLight { color: Color::srgb(1.0, 0.62, 0.30), intensity: 9_000.0, range: 3.5, ..default() },
-        Transform::from_translation(BOARD_AT + Vec3::new(-0.6, 0.0, 0.0)),
+        PointLight { color: Color::srgb(1.0, 0.62, 0.30), intensity: 14_000.0, range: 3.5, ..default() },
+        // Close to the face, so the wall round the frame catches a little amber too.
+        Transform::from_translation(BOARD_AT + Vec3::new(-0.35, 0.0, 0.0)),
     ));
     commands.insert_resource(Board(picture));
 }
@@ -143,7 +144,7 @@ fn write_centred(data: &mut [u8], text: &str, cx: usize, y: usize, rgb: [u8; 3])
 }
 
 /// Paints the whole board from the two tables. Each table is a line per entry: name, a tab, score.
-fn paint(data: &mut [u8], tables: &[String; 2]) {
+fn paint(data: &mut [u8], tables: &[String]) {
     for px in data.chunks_exact_mut(4) {
         px.copy_from_slice(&[0, 0, 0, 255]);
     }
@@ -152,20 +153,21 @@ fn paint(data: &mut [u8], tables: &[String; 2]) {
             lamp(data, x, y, UNLIT);
         }
     }
-    write_centred(data, "HIGH SCORES", LAMPS_W / 2, 3, CREAM);
-    for (side, table) in tables.iter().enumerate() {
+    write_centred(data, "HIGH SCORES", LAMPS_W / 2, 6, CREAM);
+    for (side, table) in tables.iter().take(2).enumerate() {
         // Each column is sixteen letters wide: place, name, score.
         let x0 = 6 + side * 104;
-        write_centred(data, TITLES[side], x0 + 48, 14, CREAM);
+        write_centred(data, TITLES[side], x0 + 48, 19, CREAM);
         for x in x0..x0 + 96 {
-            lamp(data, x, 23, DIM);
+            lamp(data, x, 28, DIM);
         }
         let mut rows = table.lines().filter_map(|line| line.split_once('\t')).take(ROWS).peekable();
         if rows.peek().is_none() {
-            write_centred(data, "NO SCORES YET", x0 + 48, 28, DIM);
+            write_centred(data, "NO SCORES YET", x0 + 48, 34, DIM);
         }
         for (place, (name, score)) in rows.enumerate() {
-            let y = 27 + place * 9;
+            // Rows spread down the whole board, so its foot is not left empty.
+            let y = 33 + place * 9;
             let rgb = if place == 0 { CREAM } else { AMBER };
             write(data, &(place + 1).to_string(), x0, y, DIM);
             write(data, &name.chars().take(8).collect::<String>(), x0 + 12, y, rgb);

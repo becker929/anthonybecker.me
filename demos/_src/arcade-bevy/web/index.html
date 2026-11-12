@@ -225,6 +225,9 @@ function sounds(game) {
       if (bits & (1 << i)) { play(name); if (on && BUZZ[name] && navigator.vibrate) navigator.vibrate(BUZZ[name]); }
     });
     // The tube hums louder the nearer you stand. That is where you are in the room, not a mix decision.
+    // Machines may also ask for sounds by name.
+    const named = game.pad_named_sounds();
+    if (named) named.split('\n').forEach(name => play(name));
     if (humGain) humGain.gain.setTargetAtTime(game.pad_hum(), ctx.currentTime, 0.15);
     requestAnimationFrame(poll);
   })();
@@ -233,7 +236,7 @@ function sounds(game) {
 // High scores. The server keeps the tables (worker.js). The page gives them to the game, which shows
 // them on the board on the wall, and asks for a name when a finished game's score makes a table.
 function highScores(game) {
-  const GAMES = ['tube', 'bertie'], TITLES = { tube: 'The tube, 1947', bertie: 'Bertie the Brain' }, ROWS = 8;
+  const GAMES = ['tube', 'bertie'], TITLES = { tube: 'The tube, 1947', bertie: 'Bertie the Brain' }, ROWS = 7;
   const box = document.getElementById('name'), input = document.getElementById('name-input');
   let tables = { tube: [], bertie: [] }, asking = null;
   const waiting = [];

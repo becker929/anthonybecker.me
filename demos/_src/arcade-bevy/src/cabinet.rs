@@ -15,7 +15,7 @@ use crate::{
     crt::{self, CrtGame},
     font,
     pad::{self, Pad},
-    player::{Focus, Player},
+    player::{Focus, Machine, Player},
 };
 
 #[derive(Component)]
@@ -161,6 +161,15 @@ fn spawn_cabinet(
     let root = commands
         .spawn((
             Cabinet,
+            Machine {
+                id: pad::GAME_TUBE,
+                seat_eye: Vec3::new(0.0, 1.52, 1.12),
+                seat_aim: Vec3::new(0.0, 1.33, 0.16),
+                seat_half_width: 0.3,
+                seat_front: 0.3,
+                body_centre: Vec2::new(0.0, 0.11),
+                body_half: Vec2::new(0.42, 0.49),
+            },
             CrtGame::new(0x1947),
             Dials { elevation: 47.5, charge: 0.5 },
             CrtScreen(screen),
@@ -274,7 +283,7 @@ fn interact(
     pad: Res<Pad>,
     mut focus: ResMut<Focus>,
     player: Single<&Transform, With<Player>>,
-    cabinets: Query<(Entity, &Transform), With<Cabinet>>,
+    cabinets: Query<(Entity, &Transform, &Machine)>,
 ) {
     let use_it = keys.just_pressed(KeyCode::KeyE) || pad.tapped(pad::USE);
     if focus.0.is_some() {
@@ -290,12 +299,13 @@ fn interact(
     }
 }
 
-fn cabinet_in_reach(player: &Transform, cabinets: &Query<(Entity, &Transform), With<Cabinet>>) -> Option<Entity> {
-    cabinets.iter().find_map(|(e, cab)| {
+/// The machine the player is standing in front of and facing, if any.
+fn cabinet_in_reach(player: &Transform, cabinets: &Query<(Entity, &Transform, &Machine)>) -> Option<Entity> {
+    cabinets.iter().find_map(|(e, cab, machine)| {
         let local = cab.compute_affine().inverse().transform_point3(player.translation);
         let to_cab = (cab.translation - player.translation).with_y(0.0).normalize_or_zero();
         let facing = player.forward().as_vec3().with_y(0.0).normalize_or_zero().dot(to_cab) > 0.5;
-        (local.x.abs() < 0.9 && local.z > 0.4 && local.z < 2.2 && facing).then_some(e)
+        (machine.in_reach(local) && facing).then_some(e)
     })
 }
 
@@ -458,7 +468,7 @@ fn publish_touch_points(
 fn publish_game_state(
     focus: Res<Focus>,
     player: Single<&Transform, With<Player>>,
-    cabinets: Query<(Entity, &Transform), With<Cabinet>>,
+    cabinets: Query<(Entity, &Transform, &Machine)>,
     games: Query<&CrtGame>,
 ) {
     let playing = focus.0.and_then(|e| games.get(e).ok());

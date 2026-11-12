@@ -29,6 +29,14 @@ pub const SOUND_BUTTON_UP: u32 = 1024;
 /// The games, as the high score table numbers them.
 pub const GAME_TUBE: u32 = 0;
 pub const GAME_BERTIE: u32 = 1;
+#[allow(dead_code)] // for the machines being added
+pub const GAME_NIMROD: u32 = 2;
+#[allow(dead_code)] // for the machines being added
+pub const GAME_WHIRLWIND: u32 = 3;
+#[allow(dead_code)] // for the machines being added
+pub const GAME_PRINZ: u32 = 4;
+/// How many games keep a table.
+pub const GAMES: usize = 5;
 
 /// What the page should offer, as told to it by `pad_state`.
 pub const STATE_IN_REACH: u32 = 1;
@@ -62,7 +70,12 @@ static SOUNDS: AtomicU32 = AtomicU32::new(0);
 // Finished games' scores, waiting for the page to take them to the table: (game, score).
 static SCORES: Mutex<Vec<(u32, u32)>> = Mutex::new(Vec::new());
 // The tables as the page last fetched them, one text per game, and a count of how often they changed.
-static TABLES: Mutex<[String; 2]> = Mutex::new([String::new(), String::new()]);
+static TABLES: Mutex<[String; GAMES]> = Mutex::new([const { String::new() }; GAMES]);
+// Sounds asked for by name since the page last looked.
+#[allow(dead_code)] // for the machines being added
+static NAMED: Mutex<Vec<String>> = Mutex::new(Vec::new());
+// Controls tapped on a touch screen since the last frame, by the index of their published point.
+static TAPS: Mutex<Vec<u32>> = Mutex::new(Vec::new());
 static TABLES_CHANGED: AtomicU32 = AtomicU32::new(0);
 // How loud the tube's hum should be for where the player stands, 0 to 1, as f32 bits.
 static HUM: AtomicU32 = AtomicU32::new(0);
@@ -77,8 +90,11 @@ pub struct Pad {
     pub look: Vec2,
     /// Clockwise turns of the elevation and charge knobs since the last frame, in radians.
     pub knobs: Vec2,
-    /// Bertie's keys tapped since the last frame: a bit per square, and bit 9 for its dial.
+    /// Controls tapped since the last frame, a bit each, by the index of their published point (the
+    /// first 32 only; `taps` has them all).
     pub keys: u32,
+    /// Every control tapped since the last frame, by the index of its published point.
+    pub taps: Vec<u32>,
     pub held: u32,
     pub tapped: u32,
 }
@@ -105,6 +121,7 @@ fn read_pad(mut pad: ResMut<Pad>) {
     pad.look = Vec2::new(LOOK_X.swap(0, Relaxed) as i32 as f32, LOOK_Y.swap(0, Relaxed) as i32 as f32);
     pad.knobs = Vec2::new(KNOB_ELEVATION.swap(0, Relaxed) as i32 as f32, KNOB_CHARGE.swap(0, Relaxed) as i32 as f32) / 1000.0;
     pad.keys = KEYS.swap(0, Relaxed);
+    pad.taps = std::mem::take(&mut *TAPS.lock().unwrap());
     pad.held = HELD.load(Relaxed);
     pad.tapped = TAPPED.swap(0, Relaxed);
 }
@@ -128,8 +145,14 @@ pub fn score(game: u32, score: u32) {
 
 /// The high score tables, one text per game: a line per entry, the name, a tab, the score. The number
 /// goes up whenever the page sends new ones, so the wall display knows to repaint.
-pub fn tables() -> ([String; 2], u32) {
+pub fn tables() -> ([String; GAMES], u32) {
     (TABLES.lock().unwrap().clone(), TABLES_CHANGED.load(Relaxed))
+}
+
+/// Asks the page to play the sound of this name once (a file named in sounds/sounds.json).
+#[allow(dead_code)] // for the machines being added
+pub fn play(name: &str) {
+    NAMED.lock().unwrap().push(name.to_string());
 }
 
 /// Replaces one game's table. The page does this through `pad_table`; the headless capture does it
@@ -200,7 +223,10 @@ mod web {
     #[wasm_bindgen]
     pub fn pad_key(key: u32) {
         ACTIVE.store(true, Relaxed);
-        KEYS.fetch_or(1 << key.min(15), Relaxed);
+        if key < 32 {
+            KEYS.fetch_or(1 << key, Relaxed);
+        }
+        TAPS.lock().unwrap().push(key);
     }
 
     #[wasm_bindgen]
@@ -212,6 +238,12 @@ mod web {
     #[wasm_bindgen]
     pub fn pad_sounds() -> u32 {
         SOUNDS.swap(0, Relaxed)
+    }
+
+    /// Sounds asked for by name since the last call, one per line. Calling it clears them.
+    #[wasm_bindgen]
+    pub fn pad_named_sounds() -> String {
+        std::mem::take(&mut *NAMED.lock().unwrap()).join("\n")
     }
 
     #[wasm_bindgen]

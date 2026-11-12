@@ -33,6 +33,8 @@ const VIEWS: &[(&str, Vec3, Vec3)] = &[
     ("bertie", Vec3::new(2.0, 1.52, 1.575), Vec3::new(2.0, 1.49, 0.10)),
     // The high score board on the right-hand wall.
     ("scores", Vec3::new(1.2, 1.7, 2.6), Vec3::new(4.0, 1.75, 2.6)),
+    // The picture links to the site show: both machines, close, with the board out of frame.
+    ("card", Vec3::new(0.7, 1.55, 3.0), Vec3::new(1.05, 1.35, 0.0)),
     ("pair", Vec3::new(1.0, 1.7, 4.4), Vec3::new(1.0, 1.4, 0.0)),
 ];
 
