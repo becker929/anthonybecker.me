@@ -66,6 +66,13 @@ The game finds these parts by name and gives them behaviour in `src/cabinet.rs`:
 The room's light is baked in Blender with Cycles: two lightmaps on a second UV set, two occlusion maps, and a small cube picture of the room (`assets/env.bin`, compiled into the game) that steel, glass and the floor reflect. The only live lights are the tube's and one spot for sheen. `LOOK_NOTES.md` has the method, commands and timings.
 `src/room.rs` mends one line of a Bevy 0.20.1 shader at startup: without it, lightmaps and the reflection together fail to compile on WebGL2.
 
+## High scores
+
+Each game keeps a table of its best seven. `worker.js` is the site's Worker: it serves the built site and answers `/api/scores` (GET the tables, POST `{ game, name, score }`), keeping one KV key per game. `score_rules.js` holds the rules (names are up to eight capitals and digits; a game's highest allowed score), and `node --test worker.test.mjs` tests them.
+When a game ends, it hands its score to the page (`pad::score`). If the score makes the table, the page asks for a name once and remembers it for next time. The page also hands the tables back to the game, and `src/scores.rs` spells them out on a board of amber lamps on the right-hand wall.
+The tube's score is its hits in a game. Bertie's is a run of wins: each win adds the level of difficulty it was won at (1 to 5), and a loss, a draw or walking away ends the run.
+Nothing checks that a score was really played; the game runs in the visitor's browser.
+
 ## Controls that clunk
 
 The game puts no words on the screen. The score is marks on the tube: a tick per shell left, a pip per wave cleared. The page shows key prompts and touch buttons.

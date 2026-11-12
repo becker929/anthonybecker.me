@@ -37,6 +37,8 @@ if [ -f sound/out/sounds.json ]; then
 else
   echo "no sounds: run sound/make.py first (see sound/README.md)" >&2
 fi
+# The picture links to the site show.
+cp web/card.jpg dist/
 printf '/pkg-*/*\n  Cache-Control: public, max-age=31536000, immutable\n' > dist/_headers
 
 # Cloudflare refuses any single asset over 25 MiB.

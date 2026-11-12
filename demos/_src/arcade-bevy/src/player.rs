@@ -12,7 +12,6 @@ use bevy::{
 };
 
 use crate::{
-    cabinet::Cabinet,
     pad::Pad,
     room::{self, ROOM_MAX, ROOM_MIN},
 };
@@ -31,7 +30,44 @@ pub struct Player {
     pub pitch: f32,
 }
 
-/// The cabinet the player is standing at and playing, if any.
+/// A machine the player can step up to. On the machine's root entity; positions are in its own space.
+#[derive(Component, Clone)]
+pub struct Machine {
+    /// Which game it is, as `pad::GAME_` numbers it.
+    #[allow(dead_code)] // for the machines being added
+    pub id: u32,
+    /// Where the eye goes while playing, and what it looks at.
+    pub seat_eye: Vec3,
+    pub seat_aim: Vec3,
+    /// Half the width that must stay in view, and how far forward the machine's face stands. On a
+    /// narrow screen the seat steps back until that width fits.
+    pub seat_half_width: f32,
+    pub seat_front: f32,
+    /// The footprint the player cannot walk into: its centre and half its size on the floor.
+    pub body_centre: Vec2,
+    pub body_half: Vec2,
+}
+
+impl Machine {
+    /// The seat for a view of this aspect (width over height), in the machine's own space.
+    pub fn eye_for(&self, aspect: f32) -> Vec3 {
+        let half_width_per_metre = (FOV / 2.0).tan() * aspect;
+        let mut eye = self.seat_eye;
+        eye.z = eye.z.max(self.seat_front + self.seat_half_width / half_width_per_metre);
+        eye
+    }
+
+    /// Whether a player standing at `at` (in the machine's space) is in front of it, close enough to play.
+    pub fn in_reach(&self, at: Vec3) -> bool {
+        let front = self.body_centre.y + self.body_half.y;
+        at.x.abs() < self.body_half.x + 0.5 && at.z > front - 0.1 && at.z < front + 1.8
+    }
+}
+
+/// The camera's vertical field of view.
+pub const FOV: f32 = 68.0 * std::f32::consts::PI / 180.0;
+
+/// The machine the player is standing at and playing, if any.
 #[derive(Resource, Default)]
 pub struct Focus(pub Option<Entity>);
 
@@ -54,7 +90,7 @@ fn spawn_player(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
         Bloom { intensity: 0.07, ..Bloom::NATURAL },
         // What polished things mirror: a baked picture of the room.
         room::environment(&mut images),
-        Projection::from(PerspectiveProjection { fov: 68.0_f32.to_radians(), ..default() }),
+        Projection::from(PerspectiveProjection { fov: FOV, ..default() }),
         Transform::from_xyz(0.0, EYE_HEIGHT, 3.6),
     ));
 }
@@ -101,7 +137,7 @@ fn walk(
     focus: Res<Focus>,
     pad: Res<Pad>,
     player: Single<(&Player, &mut Transform)>,
-    cabinets: Query<&Transform, (With<Cabinet>, Without<Player>)>,
+    machines: Query<(&Transform, &Machine), Without<Player>>,
 ) {
     if focus.0.is_some() {
         return;
@@ -118,12 +154,12 @@ fn walk(
     let step = facing * Vec3::new(wish.x, 0.0, -wish.y) * speed * time.delta_secs();
     let mut pos = tf.translation + step;
 
-    // Keep out of each cabinet. The test runs in the cabinet's own space, so rotated cabinets work.
-    for cab in &cabinets {
+    // Keep out of each machine. The test runs in the machine's own space, so turned machines work.
+    for (cab, machine) in &machines {
         let to_local = cab.compute_affine().inverse();
         let mut local = to_local.transform_point3(pos);
-        let centre = Vec2::new(0.0, 0.11);
-        let half = Vec2::new(0.42, 0.49) + BODY_RADIUS;
+        let centre = machine.body_centre;
+        let half = machine.body_half + BODY_RADIUS;
         let d = Vec2::new(local.x, local.z) - centre;
         if d.x.abs() < half.x && d.y.abs() < half.y {
             // Push out along the shallowest axis.
@@ -144,14 +180,15 @@ fn walk(
 fn place_camera(
     time: Res<Time>,
     focus: Res<Focus>,
-    player: Single<(&mut Player, &mut Transform)>,
-    cabinets: Query<&Transform, (With<Cabinet>, Without<Player>)>,
+    player: Single<(&mut Player, &mut Transform, &Camera)>,
+    machines: Query<(&Transform, &Machine), Without<Player>>,
 ) {
-    let (mut player, mut tf) = player.into_inner();
+    let (mut player, mut tf, camera) = player.into_inner();
     let k = 1.0 - (-8.0 * time.delta_secs()).exp();
-    if let Some(cab) = focus.0.and_then(|e| cabinets.get(e).ok()) {
-        let eye = cab.transform_point(Vec3::new(0.0, 1.52, 1.12));
-        let aim = cab.transform_point(Vec3::new(0.0, 1.33, 0.16));
+    if let Some((cab, machine)) = focus.0.and_then(|e| machines.get(e).ok()) {
+        let aspect = camera.logical_viewport_size().map_or(16.0 / 9.0, |size| size.x / size.y.max(1.0));
+        let eye = cab.transform_point(machine.eye_for(aspect));
+        let aim = cab.transform_point(machine.seat_aim);
         let want = Transform::from_translation(eye).looking_at(aim, Vec3::Y);
         tf.translation = tf.translation.lerp(want.translation, k);
         tf.rotation = tf.rotation.slerp(want.rotation, k);

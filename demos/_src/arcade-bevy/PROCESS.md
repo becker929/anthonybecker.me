@@ -86,6 +86,8 @@ The page plays recorded files. The game only says what happened.
 
 ## 8. Wire it into the room
 
+- Every machine has a high score. Decide what a score is in step 1 (the game exposes `take_ended()`); the engine side hands it over with `pad::score`. Add the game to `GAMES` in `score_rules.js` with its highest allowed score, and give it a column on the board in `src/scores.rs`.
+- The machine's root carries a `player::Machine`: its seat, how much width must stay in view, and its footprint.
 - A plugin in `src/main.rs`. The machine spawns its model and wires the named nodes when the model is ready (see `wire_model` in `src/cabinet.rs`).
 - Stepping up, leaving and the seat camera go through `Focus` in `src/player.rs`.
 - The machine reports its state bits to the page (`pad_state`) so the page can offer the right buttons and prompts.

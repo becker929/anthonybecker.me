@@ -1,11 +1,20 @@
-# The arcade's own Worker: static assets only, at arcade.anthonybecker.me.
+# The arcade's own Worker, at arcade.anthonybecker.me: the built site as static assets, and the high score tables.
 # ./build-web.sh fills dist/ (not in git); `npx wrangler deploy` from this directory publishes it.
 # The site's Worker (wrangler.toml at the repo root) must not list this hostname: a hostname belongs to one Worker.
 name = "arcade-anthonybecker-me"
 compatibility_date = "2026-07-24"
+main = "worker.js"
 routes = [
   { pattern = "arcade.anthonybecker.me", custom_domain = true },
 ]
 
 [assets]
 directory = "./dist"
+binding = "ASSETS"
+# Only the score API runs the Worker. Everything else is served straight from the assets.
+run_worker_first = ["/api/*"]
+
+# The high score tables: one key per game (worker.js).
+[[kv_namespaces]]
+binding = "SCORES"
+id = "fc8d1a6563444e81a1dc6ff64636cfe7"
