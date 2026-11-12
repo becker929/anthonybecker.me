@@ -50,7 +50,8 @@ fn spawn_player(mut commands: Commands) {
         Camera3d::default(),
         Hdr,
         Tonemapping::TonyMcMapface,
-        Bloom::NATURAL,
+        // A light bloom: the tube and the light lines glow, but nothing smears.
+        Bloom { intensity: 0.07, ..Bloom::NATURAL },
         Projection::from(PerspectiveProjection { fov: 68.0_f32.to_radians(), ..default() }),
         Transform::from_xyz(0.0, EYE_HEIGHT, 3.6),
     ));

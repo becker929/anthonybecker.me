@@ -1,7 +1,9 @@
-//! Arcade cabinets. `spawn_cabinet` builds one; add more calls to fill the room.
+//! The arcade cabinet: its model's working parts, the controls, and the HUD.
 
 use bevy::{
     asset::RenderAssetUsages,
+    gltf::GltfAssetLabel,
+    world_serialization::WorldInstanceReady,
     prelude::*,
     render::render_resource::{Extent3d, TextureDimension, TextureFormat},
 };
@@ -12,10 +14,6 @@ use crate::{
     pad::{self, Pad},
     player::{Focus, Player},
 };
-
-/// Where each cabinet stands: position on the floor and yaw in radians.
-/// A cabinet faces +Z at yaw 0. Add entries here to add machines.
-const CABINETS: &[(Vec3, f32)] = &[(Vec3::new(0.0, 0.0, 0.0), 0.0)];
 
 #[derive(Component)]
 pub struct Cabinet;
@@ -28,11 +26,31 @@ pub struct CrtScreen(pub Handle<Image>);
 struct Knob {
     cabinet: Entity,
     charge: bool,
+    /// Where the knob is drawn, and how fast it is turning. It springs after the game's value, so it
+    /// lands on each notch with a little overshoot.
+    turn: f32,
+    speed: f32,
 }
+
+/// The knobs as the player's hands have left them. The game's values follow in notches.
+#[derive(Component)]
+struct Dials {
+    elevation: f32,
+    charge: f32,
+}
+
+/// How much green light the tube throws on the deck and the player. A hit makes it flare.
+const TUBE_LIGHT: f32 = 380.0;
+
+/// One notch of each knob. The controls are heavy switchgear, not fine instruments.
+const ELEVATION_NOTCH: f32 = 2.5;
+const CHARGE_NOTCH: f32 = 0.05;
 #[derive(Component)]
 struct FireButton {
     cabinet: Entity,
     press: f32,
+    /// Where the model put it; pressing sinks it from here.
+    rest: Vec3,
 }
 #[derive(Component)]
 struct TubeLight(Entity);
@@ -42,23 +60,15 @@ struct Hud;
 /// How far the charge knob turns from empty to full, in radians.
 const CHARGE_KNOB_SWEEP: f32 = 4.7;
 
+/// True once the Blender model has loaded and its parts are wired up.
+#[derive(Resource, Default)]
+pub struct ModelReady(pub bool);
+
 pub struct CabinetPlugin;
 impl Plugin for CabinetPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, (spawn_cabinets, spawn_hud))
-            .add_systems(Update, (interact, play, tick_games, animate_controls, update_hud, publish_touch_points).chain());
-    }
-}
-
-fn spawn_cabinets(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
-    mut images: ResMut<Assets<Image>>,
-) {
-    for (i, (pos, yaw)) in CABINETS.iter().enumerate() {
-        let at = Transform::from_translation(*pos).with_rotation(Quat::from_rotation_y(*yaw));
-        spawn_cabinet(&mut commands, &mut meshes, &mut materials, &mut images, at, 0x1947 + i as u32);
+        app.init_resource::<ModelReady>().add_systems(Startup, (spawn_cabinet, spawn_hud))
+            .add_systems(Update, (interact, play, tick_games, report_sounds, animate_controls, update_hud, publish_touch_points).chain());
     }
 }
 
@@ -67,12 +77,12 @@ fn marquee_image() -> Image {
     let mut data = vec![0u8; w * h * 4];
     for (i, px) in data.chunks_exact_mut(4).enumerate() {
         let v = (i / w) as f32 / h as f32;
-        let edge = i / w < 6 || i / w >= h - 6;
-        let c = if edge { [26, 13, 5] } else { [255, (200.0 - 70.0 * (v - 0.4).abs()) as u8, (110.0 - 80.0 * v) as u8] };
+        let edge = i / w < 5 || i / w >= h - 5;
+        let c = if edge { [20, 10, 4] } else { [255, (190.0 - 70.0 * (v - 0.4).abs()) as u8, (96.0 - 70.0 * v) as u8] };
         px.copy_from_slice(&[c[0], c[1], c[2], 255]);
     }
-    font::draw_text(&mut data, w, "CATHODE-RAY TUBE", w / 2, 24, 4, [26, 13, 5]);
-    font::draw_text(&mut data, w, "AMUSEMENT DEVICE 1947", w / 2, 80, 2, [26, 13, 5]);
+    font::draw_text(&mut data, w, "CATHODE-RAY TUBE", w / 2, 24, 4, [20, 10, 4]);
+    font::draw_text(&mut data, w, "AMUSEMENT DEVICE 1947", w / 2, 80, 2, [20, 10, 4]);
     Image::new(
         Extent3d { width: w as u32, height: h as u32, depth_or_array_layers: 1 },
         TextureDimension::D2,
@@ -82,15 +92,9 @@ fn marquee_image() -> Image {
     )
 }
 
-/// Builds one cabinet. Its origin is on the floor and its screen faces local +Z.
-pub fn spawn_cabinet(
-    commands: &mut Commands,
-    meshes: &mut Assets<Mesh>,
-    materials: &mut Assets<StandardMaterial>,
-    images: &mut Assets<Image>,
-    at: Transform,
-    seed: u32,
-) -> Entity {
+/// The cabinet and the room are one model, made in Blender (blender/build.py). This spawns it and
+/// the game that runs on its tube. The model's named parts get their behaviour in `wire_model`.
+fn spawn_cabinet(mut commands: Commands, assets: Res<AssetServer>, mut images: ResMut<Assets<Image>>) {
     let screen = images.add(Image::new_fill(
         Extent3d { width: crt::W as u32, height: crt::H as u32, depth_or_array_layers: 1 },
         TextureDimension::D2,
@@ -98,138 +102,75 @@ pub fn spawn_cabinet(
         TextureFormat::Rgba8UnormSrgb,
         RenderAssetUsages::MAIN_WORLD | RenderAssetUsages::RENDER_WORLD,
     ));
-    let marquee = images.add(marquee_image());
+    let root = commands
+        .spawn((
+            Cabinet,
+            CrtGame::new(0x1947),
+            Dials { elevation: 47.5, charge: 0.5 },
+            CrtScreen(screen),
+            Transform::default(),
+            WorldAssetRoot(assets.load(GltfAssetLabel::Scene(0).from_asset("arcade.glb"))),
+        ))
+        .observe(wire_model)
+        .id();
+    // The tube lights the player and the deck; a hit makes it flare.
+    commands.spawn((
+        TubeLight(root),
+        PointLight { color: Color::srgb(0.35, 1.0, 0.55), intensity: TUBE_LIGHT, range: 1.7, ..default() },
+        Transform::from_xyz(0.0, 1.42, 0.42),
+        ChildOf(root),
+    ));
+}
 
-    let mut flat = |r: f32, g: f32, b: f32, rough: f32, metal: f32| {
-        materials.add(StandardMaterial {
-            base_color: Color::srgb(r, g, b),
-            perceptual_roughness: rough,
-            metallic: metal,
-            ..default()
-        })
-    };
-    let body = flat(0.035, 0.05, 0.10, 0.55, 0.0);
-    let black = flat(0.01, 0.01, 0.012, 0.4, 0.0);
-    let panel = flat(0.09, 0.09, 0.10, 0.35, 0.2);
-    let brass = flat(0.72, 0.55, 0.28, 0.3, 0.9);
-    let amber = flat(0.85, 0.42, 0.06, 0.5, 0.0);
-    let teal = flat(0.08, 0.5, 0.42, 0.5, 0.0);
-    let red = materials.add(StandardMaterial {
-        base_color: Color::srgb(0.75, 0.06, 0.04),
-        emissive: LinearRgba::rgb(0.5, 0.02, 0.01),
-        perceptual_roughness: 0.3,
-        ..default()
-    });
+/// Runs once the model is in the world: finds its named parts and makes them work.
+fn wire_model(
+    ready: On<WorldInstanceReady>,
+    mut commands: Commands,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+    mut images: ResMut<Assets<Image>>,
+    mut model: ResMut<ModelReady>,
+    screens: Query<&CrtScreen>,
+    children: Query<&Children>,
+    named: Query<(&Name, &Transform)>,
+) {
+    let root = ready.entity;
+    let Ok(screen) = screens.get(root) else { return };
     let tube = materials.add(StandardMaterial {
         base_color: Color::BLACK,
-        emissive: LinearRgba::rgb(200.0, 200.0, 200.0),
-        emissive_texture: Some(screen.clone()),
-        perceptual_roughness: 0.08,
+        emissive: LinearRgba::rgb(26.0, 26.0, 26.0),
+        emissive_texture: Some(screen.0.clone()),
+        // Lamps would show in the glass as stray coloured dots, so it takes no highlights. Its sheen is
+        // painted into the picture instead (src/crt.rs).
+        perceptual_roughness: 0.5,
+        reflectance: 0.0,
         ..default()
     });
     let sign = materials.add(StandardMaterial {
         base_color: Color::BLACK,
-        emissive: LinearRgba::rgb(9.0, 9.0, 9.0),
-        emissive_texture: Some(marquee),
+        emissive: LinearRgba::rgb(1.3, 1.3, 1.3),
+        emissive_texture: Some(images.add(marquee_image())),
         ..default()
     });
-    let slot = materials.add(StandardMaterial {
-        base_color: Color::BLACK,
-        emissive: LinearRgba::rgb(30.0, 8.0, 1.0),
-        ..default()
-    });
-
-    let root = commands.spawn((Cabinet, CrtGame::new(seed), CrtScreen(screen), at, Visibility::default())).id();
-
-    let mut bx = |size: Vec3, pos: Vec3, mat: &Handle<StandardMaterial>| {
-        (Mesh3d(meshes.add(Cuboid::from_size(size))), MeshMaterial3d(mat.clone()), Transform::from_translation(pos))
-    };
-    // Body: base, then the upper box built around the screen recess.
-    let parts = vec![
-        bx(Vec3::new(0.84, 1.00, 0.76), Vec3::new(0.0, 0.50, 0.0), &body),
-        bx(Vec3::new(0.84, 0.90, 0.54), Vec3::new(0.0, 1.45, -0.11), &body),
-        bx(Vec3::new(0.06, 0.90, 0.06), Vec3::new(-0.39, 1.45, 0.19), &body),
-        bx(Vec3::new(0.06, 0.90, 0.06), Vec3::new(0.39, 1.45, 0.19), &body),
-        bx(Vec3::new(0.72, 0.205, 0.06), Vec3::new(0.0, 1.7975, 0.19), &body),
-        bx(Vec3::new(0.72, 0.145, 0.06), Vec3::new(0.0, 1.0725, 0.19), &body),
-        // Marquee housing.
-        bx(Vec3::new(0.84, 0.20, 0.64), Vec3::new(0.0, 1.99, -0.04), &black),
-    ];
-    for p in parts {
-        commands.spawn((p, ChildOf(root)));
-    }
-    // Side art: two diagonal stripes per side.
-    for side in [-1.0f32, 1.0] {
-        for (y, mat) in [(1.12, &amber), (0.88, &teal)] {
-            commands.spawn((
-                Mesh3d(meshes.add(Cuboid::new(0.006, 0.09, 0.66))),
-                MeshMaterial3d(mat.clone()),
-                Transform::from_xyz(side * 0.421, y, 0.0).with_rotation(Quat::from_rotation_x(0.6)),
-                ChildOf(root),
-            ));
+    for entity in children.iter_descendants(root) {
+        let Ok((name, at)) = named.get(entity) else { continue };
+        // A named part is a node; the meshes drawn for it are its children.
+        let repaint = |commands: &mut Commands, mat: &Handle<StandardMaterial>| {
+            for mesh in children.iter_descendants(entity) {
+                commands.entity(mesh).insert(MeshMaterial3d(mat.clone()));
+            }
+        };
+        match name.as_str() {
+            "Screen" => repaint(&mut commands, &tube),
+            "Marquee" => repaint(&mut commands, &sign),
+            "Knob_Elevation" => drop(commands.entity(entity).insert(Knob { cabinet: root, charge: false, turn: 0.0, speed: 0.0 })),
+            "Knob_Charge" => drop(commands.entity(entity).insert(Knob { cabinet: root, charge: true, turn: 0.0, speed: 0.0 })),
+            "Button_Fire" => {
+                commands.entity(entity).insert(FireButton { cabinet: root, press: 0.0, rest: at.translation });
+            }
+            _ => {}
         }
     }
-
-    let mut quad = |size: Vec2, pos: Vec3, mat: Handle<StandardMaterial>| {
-        (Mesh3d(meshes.add(Rectangle::from_size(size))), MeshMaterial3d(mat), Transform::from_translation(pos))
-    };
-    let quads = vec![
-        quad(Vec2::new(0.72, 0.55), Vec3::new(0.0, 1.42, 0.1605), black.clone()), // bezel
-        quad(Vec2::new(0.68, 0.51), Vec3::new(0.0, 1.42, 0.1615), tube),          // the tube face
-        quad(Vec2::new(0.80, 0.17), Vec3::new(0.0, 1.99, 0.2805), sign),          // marquee
-        quad(Vec2::new(0.26, 0.38), Vec3::new(0.0, 0.47, 0.3805), black.clone()), // coin door
-        quad(Vec2::new(0.024, 0.07), Vec3::new(0.0, 0.52, 0.381), slot),
-    ];
-    for q in quads {
-        commands.spawn((q, ChildOf(root)));
-    }
-
-    // Control panel, tilted toward the player. Knobs and button are its children.
-    let deck = commands
-        .spawn((
-            Mesh3d(meshes.add(Cuboid::new(0.84, 0.07, 0.40))),
-            MeshMaterial3d(panel),
-            Transform::from_xyz(0.0, 1.0, 0.40).with_rotation(Quat::from_rotation_x(0.30)),
-            ChildOf(root),
-        ))
-        .id();
-    let knob_mesh = meshes.add(Cylinder::new(0.05, 0.06));
-    let pointer_mesh = meshes.add(Cuboid::new(0.012, 0.006, 0.045));
-    for (x, charge) in [(-0.22, false), (0.22, true)] {
-        commands.spawn((
-            Knob { cabinet: root, charge },
-            Mesh3d(knob_mesh.clone()),
-            MeshMaterial3d(brass.clone()),
-            Transform::from_xyz(x, 0.065, 0.0),
-            ChildOf(deck),
-            children![(
-                Mesh3d(pointer_mesh.clone()),
-                MeshMaterial3d(black.clone()),
-                Transform::from_xyz(0.0, 0.031, -0.026),
-            )],
-        ));
-    }
-    commands.spawn((
-        FireButton { cabinet: root, press: 0.0 },
-        Mesh3d(meshes.add(Cylinder::new(0.04, 0.04))),
-        MeshMaterial3d(red),
-        Transform::from_xyz(0.0, 0.05, 0.03),
-        ChildOf(deck),
-    ));
-
-    // The tube and the marquee light the player and the floor.
-    commands.spawn((
-        TubeLight(root),
-        PointLight { color: Color::srgb(0.3, 1.0, 0.5), intensity: 9_000.0, range: 5.0, ..default() },
-        Transform::from_xyz(0.0, 1.42, 0.45),
-        ChildOf(root),
-    ));
-    commands.spawn((
-        PointLight { color: Color::srgb(1.0, 0.62, 0.22), intensity: 14_000.0, range: 5.0, ..default() },
-        Transform::from_xyz(0.0, 1.99, 0.5),
-        ChildOf(root),
-    ));
-    root
+    model.0 = true;
 }
 
 /// E steps up to the cabinet in front of you; E or Escape steps away.
@@ -244,9 +185,13 @@ fn interact(
     if focus.0.is_some() {
         if use_it || keys.just_pressed(KeyCode::Escape) {
             focus.0 = None;
+            pad::sound(pad::SOUND_STEP_AWAY);
         }
     } else if use_it {
         focus.0 = cabinet_in_reach(&player, &cabinets);
+        if focus.0.is_some() {
+            pad::sound(pad::SOUND_STEP_UP);
+        }
     }
 }
 
@@ -264,9 +209,9 @@ fn play(
     keys: Res<ButtonInput<KeyCode>>,
     pad: Res<Pad>,
     focus: Res<Focus>,
-    mut games: Query<&mut CrtGame>,
+    mut games: Query<(&mut CrtGame, &mut Dials)>,
 ) {
-    let Some(mut game) = focus.0.and_then(|e| games.get_mut(e).ok()) else { return };
+    let Some((mut game, mut dials)) = focus.0.and_then(|e| games.get_mut(e).ok()) else { return };
     let dt = time.delta_secs();
     let axis = |neg: [KeyCode; 2], pos: [KeyCode; 2]| {
         (keys.any_pressed(pos) as i32 - keys.any_pressed(neg) as i32) as f32
@@ -275,14 +220,40 @@ fn play(
     // clockwise too: down toward the horizon. A finger turns the knobs by the angle it travels.
     let turn = axis([KeyCode::KeyA, KeyCode::ArrowLeft], [KeyCode::KeyD, KeyCode::ArrowRight]);
     let charge = axis([KeyCode::KeyS, KeyCode::ArrowDown], [KeyCode::KeyW, KeyCode::ArrowUp]);
-    game.angle = (game.angle - turn * 28.0 * dt - pad.knobs.x.to_degrees()).clamp(15.0, 80.0);
-    game.power = (game.power + charge * 0.45 * dt + pad.knobs.y / CHARGE_KNOB_SWEEP).clamp(0.0, 1.0);
+    dials.elevation = (dials.elevation - turn * 28.0 * dt - pad.knobs.x.to_degrees()).clamp(15.0, 80.0);
+    dials.charge = (dials.charge + charge * 0.45 * dt + pad.knobs.y / CHARGE_KNOB_SWEEP).clamp(0.0, 1.0);
+    // The game only ever sees whole notches. Each one it moves through is heard and felt.
+    let angle = (dials.elevation / ELEVATION_NOTCH).round() * ELEVATION_NOTCH;
+    let power = (dials.charge / CHARGE_NOTCH).round() * CHARGE_NOTCH;
+    if angle != game.angle || (power - game.power).abs() > CHARGE_NOTCH * 0.5 {
+        game.angle = angle;
+        game.power = power;
+        pad::sound(pad::SOUND_NOTCH);
+    }
     if keys.just_pressed(KeyCode::Space) || pad.tapped(pad::FIRE) {
-        game.fire();
+        pad::sound(if game.fire() { pad::SOUND_FIRE } else { pad::SOUND_DUD });
+    }
+    if keys.just_released(KeyCode::Space) {
+        pad::sound(pad::SOUND_BUTTON_UP);
     }
     if (keys.just_pressed(KeyCode::KeyR) || pad.tapped(pad::RESTART)) && game.over {
         game.reset();
+        pad::sound(pad::SOUND_RESTART);
     }
+}
+
+/// Passes on what the game says happened, and how loud the tube hums from where the player stands.
+fn report_sounds(mut games: Query<(&mut CrtGame, &Transform)>, player: Single<&Transform, (With<Player>, Without<CrtGame>)>) {
+    let mut hum: f32 = 0.0;
+    for (mut game, at) in &mut games {
+        if game.happened != 0 {
+            pad::sound(game.happened);
+            game.happened = 0;
+        }
+        let tube = at.translation + Vec3::new(0.0, 1.42, 0.13);
+        hum = hum.max(1.0 / (1.0 + player.translation.distance_squared(tube) * 0.9));
+    }
+    pad::publish_hum(hum);
 }
 
 /// Every cabinet keeps running, so idle machines still glow.
@@ -303,30 +274,36 @@ fn animate_controls(
     pad: Res<Pad>,
     focus: Res<Focus>,
     games: Query<&CrtGame>,
-    mut knobs: Query<(&Knob, &mut Transform), Without<FireButton>>,
+    mut knobs: Query<(&mut Knob, &mut Transform), Without<FireButton>>,
     mut buttons: Query<(&mut FireButton, &mut Transform)>,
     mut lights: Query<(&TubeLight, &mut PointLight)>,
 ) {
-    for (knob, mut tf) in &mut knobs {
+    let dt = time.delta_secs().min(0.05);
+    for (mut knob, mut tf) in &mut knobs {
         let Ok(game) = games.get(knob.cabinet) else { continue };
         // Seen from the player, a negative turn about Y is clockwise. At rest the pointer aims up the panel.
-        let turn = if knob.charge {
+        let want = if knob.charge {
             (0.5 - game.power) * CHARGE_KNOB_SWEEP
         } else {
             // Up the panel is a beam at 90 degrees, so the pointer always lies along the beam.
             (game.angle - 90.0).to_radians()
         };
-        tf.rotation = Quat::from_rotation_y(turn);
+        // A stiff, under-damped spring: the knob jumps to the notch, overshoots a touch and settles.
+        let pull = (want - knob.turn) * 1400.0 - knob.speed * 34.0;
+        knob.speed += pull * dt;
+        knob.turn += knob.speed * dt;
+        tf.rotation = Quat::from_rotation_y(knob.turn);
     }
     for (mut button, mut tf) in &mut buttons {
         let held = focus.0 == Some(button.cabinet) && (keys.pressed(KeyCode::Space) || pad.held(pad::FIRE));
-        button.press = if held { 1.0 } else { (button.press - time.delta_secs() * 6.0).max(0.0) };
-        tf.translation.y = 0.05 - 0.014 * button.press;
+        // It drops fast under the hand and comes back slowly, like a sprung plunger.
+        button.press = if held { (button.press + dt * 22.0).min(1.0) } else { (button.press - dt * 4.0).max(0.0) };
+        tf.translation = button.rest - Vec3::Y * 0.016 * button.press;
     }
     for (light, mut point) in &mut lights {
         let Ok(game) = games.get(light.0) else { continue };
         let flight = if game.in_flight() { 0.4 } else { 0.0 };
-        point.intensity = 9_000.0 * (1.0 + flight + 3.0 * game.flash);
+        point.intensity = TUBE_LIGHT * (1.0 + flight + 3.0 * game.flash);
     }
 }
 
@@ -395,11 +372,13 @@ fn update_hud(
         node.top = px(72);
     }
     let playing = focus.0.and_then(|e| games.get(e).ok());
+    let flying = games.iter().any(|g| g.in_flight());
     let in_reach = playing.is_none() && cabinet_in_reach(&player, &cabinets).is_some();
     pad::publish_state(
         if in_reach { pad::STATE_IN_REACH } else { 0 }
             | if playing.is_some() { pad::STATE_PLAYING } else { 0 }
-            | if playing.is_some_and(|g| g.over) { pad::STATE_OVER } else { 0 },
+            | if playing.is_some_and(|g| g.over) { pad::STATE_OVER } else { 0 }
+            | if flying { pad::STATE_FLIGHT } else { 0 },
     );
     // With touch the page's own buttons say what to do, so the HUD only keeps score.
     let line = if pad.active {

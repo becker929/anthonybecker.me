@@ -12,10 +12,26 @@ pub const USE: u32 = 1;
 pub const FIRE: u32 = 2;
 pub const RESTART: u32 = 4;
 
+/// Sounds the game asks the page to play, as bits. The page owns the audio (it plays recorded files);
+/// the game only says what happened. See `sound` and `pad_sounds`.
+pub const SOUND_NOTCH: u32 = 1;
+pub const SOUND_FIRE: u32 = 2;
+pub const SOUND_DUD: u32 = 4;
+pub const SOUND_HIT: u32 = 8;
+pub const SOUND_GROUND: u32 = 16;
+pub const SOUND_WAVE: u32 = 32;
+pub const SOUND_OVER: u32 = 64;
+pub const SOUND_STEP_UP: u32 = 128;
+pub const SOUND_STEP_AWAY: u32 = 256;
+pub const SOUND_RESTART: u32 = 512;
+pub const SOUND_BUTTON_UP: u32 = 1024;
+
 /// What the page should offer, as told to it by `pad_state`.
 pub const STATE_IN_REACH: u32 = 1;
 pub const STATE_PLAYING: u32 = 2;
 pub const STATE_OVER: u32 = 4;
+/// A shell is in the air.
+pub const STATE_FLIGHT: u32 = 8;
 
 static ACTIVE: AtomicBool = AtomicBool::new(false);
 static STICK_X: AtomicU32 = AtomicU32::new(0);
@@ -32,6 +48,9 @@ static HELD: AtomicU32 = AtomicU32::new(0);
 // Presses are kept until a frame has seen them, so a tap shorter than a frame still counts.
 static TAPPED: AtomicU32 = AtomicU32::new(0);
 static STATE: AtomicU32 = AtomicU32::new(0);
+static SOUNDS: AtomicU32 = AtomicU32::new(0);
+// How loud the tube's hum should be for where the player stands, 0 to 1, as f32 bits.
+static HUM: AtomicU32 = AtomicU32::new(0);
 
 #[derive(Resource, Default)]
 pub struct Pad {
@@ -75,6 +94,16 @@ fn read_pad(mut pad: ResMut<Pad>) {
 /// Called by the game each frame so the page can show the right buttons.
 pub fn publish_state(state: u32) {
     STATE.store(state, Relaxed);
+}
+
+/// Asks the page to play these sounds (any of the `SOUND_` bits). Each plays once.
+pub fn sound(bits: u32) {
+    SOUNDS.fetch_or(bits, Relaxed);
+}
+
+/// Tells the page how loud the tube's hum is from where the player stands, 0 to 1.
+pub fn publish_hum(level: f32) {
+    HUM.store(level.to_bits(), Relaxed);
 }
 
 /// Screen positions, in CSS pixels, of the elevation knob, the charge knob and the fire button.
@@ -124,6 +153,17 @@ mod web {
     #[wasm_bindgen]
     pub fn pad_points() -> Vec<f32> {
         POINTS.lock().unwrap().to_vec()
+    }
+
+    /// The sounds asked for since the last call. Calling it clears them.
+    #[wasm_bindgen]
+    pub fn pad_sounds() -> u32 {
+        SOUNDS.swap(0, Relaxed)
+    }
+
+    #[wasm_bindgen]
+    pub fn pad_hum() -> f32 {
+        f32::from_bits(HUM.load(Relaxed))
     }
 
     #[wasm_bindgen]
