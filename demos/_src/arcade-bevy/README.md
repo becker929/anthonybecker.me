@@ -15,7 +15,7 @@ npx wrangler deploy
 `dist/` is not in git: the binary is about 22 MB, and every site build clones the whole history.
 `wrangler.toml` here names the Worker and its hostname. The deploy needs a `wrangler login` on this machine.
 The web build draws with WebGL2.
-On a touch screen the page draws the controls: the left thumb walks, the right thumb looks, and PLAY, FIRE, LEAVE and AGAIN appear when the game offers them. At the cabinet the left thumb turns the knobs. The page passes all of this to the game through the functions in `src/pad.rs`.
+On a touch screen the page draws the controls: the left thumb walks, the right thumb looks, and PLAY, LEAVE and AGAIN appear when the game offers them. At the cabinet the page lays touch targets over the cabinet's own knobs and red button: a finger turns a knob by going round it, and a tap on the button fires. The page passes all of this to the game through the functions in `src/pad.rs`.
 Cloudflare refuses any asset over 25 MiB. The script fails if the binary grows past that.
 
 ## Run
@@ -32,7 +32,7 @@ The first build takes several minutes.
 | Where | Keys |
 | --- | --- |
 | Walking | WASD or arrows to walk, Shift to run, mouse to look. Click to capture the mouse, Esc to free it. |
-| At a cabinet | E to step up. A/D set elevation, W/S set charge, Space fires. R restarts. E or Esc steps away. |
+| At a cabinet | E to step up. A/D turn the elevation knob (D is clockwise, which lowers the beam), W/S set charge, Space fires. R restarts. E or Esc steps away. |
 
 ## Layout
 
