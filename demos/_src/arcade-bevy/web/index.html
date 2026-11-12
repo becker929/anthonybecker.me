@@ -44,6 +44,7 @@ body.touch.running #touch{display:block}
 .target{position:absolute;left:0;top:0;width:116px;height:116px;margin:-58px 0 0 -58px;border-radius:50%;border:1px dashed rgba(243,230,200,.3);touch-action:none;display:none;pointer-events:none}
 #t-fire{pointer-events:auto}
 .target.key{width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:12px;pointer-events:auto}
+.target.key.cell{width:64px;height:64px;margin:-32px 0 0 -32px;border-color:transparent}
 .target.key.wide{width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%}
 #tip.low{top:auto;bottom:calc(10px + env(safe-area-inset-bottom))}
 .target.on{display:block}
@@ -329,15 +330,16 @@ function touchControls(game) {
     el.addEventListener('pointerup', set(false)); el.addEventListener('pointercancel', set(false));
   }
   // Bertie's controls: nine keys, the difficulty dial and the reset button, each a tap.
-  const keys = Array.from({ length: 11 }, (_, i) => {
+  // Slots 11 to 19 lie over the board's own squares: tapping a square presses its key.
+  const keys = Array.from({ length: 20 }, (_, i) => {
     const el = document.createElement('div');
-    el.className = 'target key' + (i >= 9 ? ' wide' : '');
+    el.className = 'target key' + (i === 9 || i === 10 ? ' wide' : '') + (i > 10 ? ' cell' : '');
     if (i === 9) el.innerHTML = '<span>HARDER</span>';
     if (i === 10) el.innerHTML = '<span>NEW GAME</span>';
     layer.appendChild(el);
     el.addEventListener('pointerdown', e => {
       e.preventDefault(); el.classList.add('down');
-      if (i < 10) game.pad_key(i); else game.pad_button(4, true);
+      if (i > 10) game.pad_key(i - 11); else if (i < 10) game.pad_key(i); else game.pad_button(4, true);
     });
     const up = () => { el.classList.remove('down'); if (i === 10) game.pad_button(4, false); };
     el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up); el.addEventListener('pointerleave', up);
@@ -365,7 +367,7 @@ function touchControls(game) {
     }
     if ((st & 18) === 18) {
       const p = game.pad_points();
-      if (p.length >= 22) keys.forEach((k, i) => { k.style.transform = `translate(${p[i * 2] * SCALE}px,${p[i * 2 + 1] * SCALE}px)`; });
+      if (p.length >= 40) keys.forEach((k, i) => { k.style.transform = `translate(${p[i * 2] * SCALE}px,${p[i * 2 + 1] * SCALE}px)`; });
     } else if ((st & 6) === 2) {
       // The camera eases in to the cabinet, so the targets follow every frame.
       const p = game.pad_points();

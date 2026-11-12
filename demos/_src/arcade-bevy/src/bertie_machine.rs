@@ -463,9 +463,20 @@ fn animate_controls(
         let middle = (bertie::LEVELS - 1) as f32 / 2.0;
         let want = (middle - bertie.game.level() as f32) * DIAL_STEP;
         // The same stiff spring as the first cabinet's knobs: it jumps to the notch and settles.
-        let pull = (want - dial.turn) * 1400.0 - dial.speed * 34.0;
-        dial.speed += pull * dt;
-        dial.turn += dial.speed * dt;
+        // Stepped in slices of a few milliseconds: a whole slow frame at once makes a spring this stiff
+        // gain energy until the dial shakes itself out of sight.
+        let mut left = dt.min(0.05);
+        while left > 0.0 {
+            let h = left.min(0.004);
+            left -= h;
+            let pull = (want - dial.turn) * 1400.0 - dial.speed * 34.0;
+            dial.speed += pull * h;
+            dial.turn += dial.speed * h;
+        }
+        if !dial.turn.is_finite() || !dial.speed.is_finite() {
+            dial.turn = want;
+            dial.speed = 0.0;
+        }
         tf.rotation = Quat::from_rotation_y(dial.turn);
     }
     for (mut button, mut tf) in &mut buttons {
@@ -475,8 +486,9 @@ fn animate_controls(
     }
 }
 
-/// Where the focused machine's nine keys, its dial and its reset button are on screen, in the
-/// window's logical pixels: eleven (x, y) pairs. A part that is out of view is at -1000.
+/// Where the focused machine's controls are on screen, in the window's logical pixels, as (x, y) pairs:
+/// the nine keys, the dial, the reset button, then the nine squares of the board, which a finger may
+/// press instead of a key. A part that is out of view is at -1000.
 fn touch_points(
     machine: Entity,
     camera: &Camera,
@@ -484,8 +496,9 @@ fn touch_points(
     caps: &Query<(&Key, &GlobalTransform)>,
     dials: &Query<(&Dial, &GlobalTransform)>,
     buttons: &Query<(&ResetButton, &GlobalTransform)>,
-) -> [f32; 22] {
-    let mut points = [-1000.0; 22];
+    lamps: &Query<(&Lamp, &GlobalTransform)>,
+) -> [f32; 40] {
+    let mut points = [-1000.0; 40];
     let mut put = |slot: usize, at: &GlobalTransform| {
         if let Ok(p) = camera.world_to_viewport(view, at.translation()) {
             points[slot * 2] = p.x;
@@ -500,6 +513,11 @@ fn touch_points(
     }
     for (_, at) in buttons.iter().filter(|(button, _)| button.machine == machine) {
         put(10, at);
+    }
+    for (lamp, at) in lamps.iter().filter(|(lamp, _)| lamp.machine == machine) {
+        if let Shows::X(cell) = lamp.shows {
+            put(11 + cell, at);
+        }
     }
     points
 }
@@ -579,6 +597,7 @@ fn publish(
     caps: Query<(&Key, &GlobalTransform)>,
     dials: Query<(&Dial, &GlobalTransform)>,
     buttons: Query<(&ResetButton, &GlobalTransform)>,
+    lamps: Query<(&Lamp, &GlobalTransform)>,
 ) {
     let Some((machine, bertie)) = focus.0.and_then(|e| machines.get(e).ok().map(|b| (e, b))) else {
         pad::publish_more_state(0);
@@ -587,6 +606,6 @@ fn publish(
     pad::publish_more_state(pad::STATE_BERTIE | if bertie.game.over().is_some() { pad::STATE_OVER } else { 0 });
     if pad.active {
         let (camera, view) = *camera;
-        pad::publish_points(&touch_points(machine, camera, view, &caps, &dials, &buttons));
+        pad::publish_points(&touch_points(machine, camera, view, &caps, &dials, &buttons, &lamps));
     }
 }
