@@ -8,8 +8,12 @@ Everything here is written in the game's coordinates (metres, Y up, the cabinet 
 facing +Z) and converted on the way in. The glTF exporter converts back, so a point given here
 as (x, y, z) is at (x, y, z) in the game.
 
+    <bpy venv>/bin/python blender/build.py --bake   also bakes the light first (minutes)
+
 The game finds these objects by name (src/cabinet.rs): Screen, Marquee, Knob_Elevation,
-Knob_Charge, Button_Fire. Everything else is scenery, joined into one mesh per material.
+Knob_Charge, Button_Fire. Everything else is scenery, joined into one mesh per material and named
+Cabinet_<material> or Room_<material>. Scenery has two UV maps: the first for its texture, the
+second for its place in the group's lightmap. LM_Cabinet and LM_Room carry the lightmaps.
 """
 
 import math
@@ -21,7 +25,9 @@ from mathutils import Matrix, Vector
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "assets")
-TEX = 1024
+TEXDIR = os.path.join(HERE, "tex")    # tiling material textures, made by textures.py
+BAKEDIR = os.path.join(HERE, "bake")  # baked lightmaps, made by `build.py --bake`
+LM_SIZE = 1024
 
 # ---------------------------------------------------------------- coordinates
 
@@ -36,140 +42,40 @@ def rot_x(a):
     return Matrix.Rotation(a, 4, "X")
 
 
-# ---------------------------------------------------------------- textures
-
-
-def bake(name, build_nodes):
-    """Bakes a procedural colour to an image by rendering its emission on a unit plane."""
-    img = bpy.data.images.new(name, TEX, TEX)
-    mat = bpy.data.materials.new("bake_" + name)
-    mat.use_nodes = True
-    nt = mat.node_tree
-    nt.nodes.clear()
-    out = nt.nodes.new("ShaderNodeOutputMaterial")
-    emit = nt.nodes.new("ShaderNodeEmission")
-    nt.links.new(emit.outputs[0], out.inputs[0])
-    nt.links.new(build_nodes(nt), emit.inputs["Color"])
-    target = nt.nodes.new("ShaderNodeTexImage")
-    target.image = img
-    nt.nodes.active = target
-
-    bpy.ops.mesh.primitive_plane_add(size=1)
-    plane = bpy.context.active_object
-    plane.data.materials.append(mat)
-    bpy.context.scene.render.engine = "CYCLES"
-    bpy.context.scene.cycles.samples = 1
-    bpy.context.scene.cycles.device = "CPU"
-    bpy.ops.object.bake(type="EMIT")
-    path = os.path.join(OUT, "_" + name + ".png")
-    img.filepath_raw = path
-    img.file_format = "PNG"
-    img.save()
-    bpy.data.objects.remove(plane)
-    bpy.data.materials.remove(mat)
-    return img
-
-
-def wood_nodes(nt):
-    """Dark walnut: long wavering grain with fine streaks. The grain runs along V."""
-    n, l = nt.nodes, nt.links
-    coord = n.new("ShaderNodeTexCoord")
-    stretch = n.new("ShaderNodeMapping")
-    stretch.inputs["Scale"].default_value = (4.0, 0.35, 1.0)
-    l.new(coord.outputs["UV"], stretch.inputs["Vector"])
-    wobble = n.new("ShaderNodeTexNoise")
-    wobble.inputs["Scale"].default_value = 2.2
-    wobble.inputs["Detail"].default_value = 3.0
-    l.new(stretch.outputs[0], wobble.inputs["Vector"])
-    wave = n.new("ShaderNodeTexWave")
-    wave.wave_type = "BANDS"
-    wave.bands_direction = "X"
-    wave.inputs["Scale"].default_value = 0.9
-    wave.inputs["Distortion"].default_value = 9.0
-    wave.inputs["Detail"].default_value = 2.5
-    wave.inputs["Detail Scale"].default_value = 1.4
-    l.new(stretch.outputs[0], wave.inputs["Vector"])
-    streak_map = n.new("ShaderNodeMapping")
-    streak_map.inputs["Scale"].default_value = (55.0, 1.5, 1.0)
-    l.new(coord.outputs["UV"], streak_map.inputs["Vector"])
-    streak = n.new("ShaderNodeTexNoise")
-    streak.inputs["Scale"].default_value = 1.0
-    streak.inputs["Detail"].default_value = 2.0
-    l.new(streak_map.outputs[0], streak.inputs["Vector"])
-    mix = n.new("ShaderNodeMath")
-    mix.operation = "ADD"
-    scale_a = n.new("ShaderNodeMath")
-    scale_a.operation = "MULTIPLY"
-    scale_a.inputs[1].default_value = 0.55
-    l.new(wave.outputs["Fac"], scale_a.inputs[0])
-    scale_b = n.new("ShaderNodeMath")
-    scale_b.operation = "MULTIPLY"
-    scale_b.inputs[1].default_value = 0.22
-    l.new(streak.outputs["Fac"], scale_b.inputs[0])
-    l.new(scale_a.outputs[0], mix.inputs[0])
-    l.new(scale_b.outputs[0], mix.inputs[1])
-    cloud = n.new("ShaderNodeMath")
-    cloud.operation = "MULTIPLY_ADD"
-    cloud.inputs[1].default_value = 0.45
-    l.new(wobble.outputs["Fac"], cloud.inputs[0])
-    l.new(mix.outputs[0], cloud.inputs[2])
-    ramp = n.new("ShaderNodeValToRGB")
-    e = ramp.color_ramp.elements
-    # Walnut, kept dark and close in tone: the grain should be seen, not counted.
-    e[0].position, e[0].color = 0.15, (0.012, 0.0055, 0.0035, 1)
-    e[1].position, e[1].color = 1.05, (0.056, 0.026, 0.014, 1)
-    mid = e.new(0.6)
-    mid.color = (0.028, 0.013, 0.0075, 1)
-    l.new(cloud.outputs[0], ramp.inputs[0])
-    return ramp.outputs["Color"]
-
-
-def concrete_nodes(nt):
-    """Polished concrete: broad cool-grey clouds with a little grit."""
-    n, l = nt.nodes, nt.links
-    coord = n.new("ShaderNodeTexCoord")
-    big = n.new("ShaderNodeTexNoise")
-    big.inputs["Scale"].default_value = 3.0
-    big.inputs["Detail"].default_value = 6.0
-    big.inputs["Roughness"].default_value = 0.6
-    l.new(coord.outputs["UV"], big.inputs["Vector"])
-    grit = n.new("ShaderNodeTexNoise")
-    grit.inputs["Scale"].default_value = 90.0
-    grit.inputs["Detail"].default_value = 2.0
-    l.new(coord.outputs["UV"], grit.inputs["Vector"])
-    add = n.new("ShaderNodeMath")
-    add.operation = "MULTIPLY_ADD"
-    add.inputs[1].default_value = 0.18
-    l.new(grit.outputs["Fac"], add.inputs[0])
-    l.new(big.outputs["Fac"], add.inputs[2])
-    ramp = n.new("ShaderNodeValToRGB")
-    e = ramp.color_ramp.elements
-    e[0].position, e[0].color = 0.25, (0.085, 0.087, 0.092, 1)
-    e[1].position, e[1].color = 0.90, (0.200, 0.202, 0.210, 1)
-    l.new(add.outputs[0], ramp.inputs[0])
-    return ramp.outputs["Color"]
-
-
 # ---------------------------------------------------------------- materials
 
 MATS = {}
 
+# One texture repeat covers this many metres.
+TEX_METRES = {"walnut": 0.70, "steel": 0.25, "concrete": 2.0, "navy": 1.0}
+# Materials that take no baked light: metal has no diffuse colour, and lamps light themselves.
+NO_LM = {"steel", "glow", "cove", "slot", "pip", "ink", "tube", "dome", "dome_fire"}
 
-def material(name, color=(1, 1, 1), rough=0.5, metal=0.0, emit=None, emit_strength=0.0, image=None):
+
+def material(name, color=(1, 1, 1), rough=0.5, metal=0.0, emit=None, emit_strength=0.0, tex=None):
     mat = bpy.data.materials.new(name)
     mat.use_nodes = True
-    bsdf = mat.node_tree.nodes["Principled BSDF"]
+    nt = mat.node_tree
+    bsdf = nt.nodes["Principled BSDF"]
     bsdf.inputs["Base Color"].default_value = (*color, 1)
     bsdf.inputs["Roughness"].default_value = rough
     bsdf.inputs["Metallic"].default_value = metal
     if emit:
         bsdf.inputs["Emission Color"].default_value = (*emit, 1)
         bsdf.inputs["Emission Strength"].default_value = emit_strength
-    if image:
-        tex = mat.node_tree.nodes.new("ShaderNodeTexImage")
-        tex.image = image
-        tex.extension = "MIRROR"  # hides the seam where the bake repeats
-        mat.node_tree.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+    if tex:
+        base = nt.nodes.new("ShaderNodeTexImage")
+        base.image = bpy.data.images.load(os.path.join(TEXDIR, tex + ".jpg"))
+        nt.links.new(base.outputs["Color"], bsdf.inputs["Base Color"])
+        # Green is roughness and blue is metal, as glTF packs them.
+        orm = nt.nodes.new("ShaderNodeTexImage")
+        orm.image = bpy.data.images.load(os.path.join(TEXDIR, tex + "_orm.jpg"))
+        orm.image.colorspace_settings.name = "Non-Color"
+        split = nt.nodes.new("ShaderNodeSeparateColor")
+        nt.links.new(orm.outputs["Color"], split.inputs[0])
+        nt.links.new(split.outputs["Green"], bsdf.inputs["Roughness"])
+        nt.links.new(split.outputs["Blue"], bsdf.inputs["Metallic"])
+    mat["tex_scale"] = 1.0 / TEX_METRES[tex] if tex else 1.0
     MATS[name] = mat
     return mat
 
@@ -178,6 +84,8 @@ def material(name, color=(1, 1, 1), rough=0.5, metal=0.0, emit=None, emit_streng
 
 # Scenery gathers here, one bmesh per (group, material), and becomes one object each at the end.
 BUCKETS = {}
+# Plain upright boxes, as (min, max) corners. A face buried in one of these is never seen.
+SOLIDS = []
 
 
 def bucket(group, mat):
@@ -185,13 +93,22 @@ def bucket(group, mat):
     if key not in BUCKETS:
         bm = bmesh.new()
         bm.loops.layers.uv.new("UVMap")
+        bm.loops.layers.uv.new("LM")
+        bm.faces.layers.float.new("lm_weight")
         BUCKETS[key] = bm
     return BUCKETS[key]
 
 
+def set_weight(bm, faces, weight):
+    """How much lightmap room these faces get, relative to their area."""
+    layer = bm.faces.layers.float["lm_weight"]
+    for f in faces:
+        f[layer] = weight
+
+
 def box_uv(bm, faces, scale=1.0):
     """Projects each face along its main axis, in metres. The V axis is up, so wood grain stands."""
-    uv = bm.loops.layers.uv.verify()
+    uv = bm.loops.layers.uv["UVMap"]
     for f in faces:
         n = f.normal
         ax, ay, az = abs(n.x), abs(n.y), abs(n.z)
@@ -206,20 +123,55 @@ def box_uv(bm, faces, scale=1.0):
             loop[uv].uv = (u * scale, v * scale)
 
 
-def add_box(group, mat, size, pos, tilt=0.0, pivot=None, uv_scale=1.0):
+def long_uv(bm, faces, scale=1.0):
+    """Lays U along each face's longest edge, so brushed steel is brushed along every strip."""
+    uv = bm.loops.layers.uv["UVMap"]
+    for f in faces:
+        edge = max(f.edges, key=lambda e: e.calc_length())
+        u_axis = (edge.verts[1].co - edge.verts[0].co).normalized()
+        v_axis = f.normal.cross(u_axis)
+        for loop in f.loops:
+            p = loop.vert.co
+            loop[uv].uv = (p.dot(u_axis) * scale, p.dot(v_axis) * scale)
+
+
+def paint_uv(bm, faces, mat):
+    scale = MATS[mat]["tex_scale"]
+    (long_uv if mat == "steel" else box_uv)(bm, faces, scale)
+
+
+def add_box(group, mat, size, pos, tilt=0.0, pivot=None, weight=1.0, frame=None):
     """A box of `size` centred on `pos` (game coordinates). `tilt` rotates it about the game's
-    X axis around `pivot` (default: its own centre)."""
+    X axis around `pivot` (default: its own centre). `frame` places it in another frame instead."""
     bm = bucket(group, mat)
     sx, sy, sz = size
     made = bmesh.ops.create_cube(bm, size=1.0)
     verts = made["verts"]
-    centre = B(*pos)
-    piv = B(*pivot) if pivot else centre
-    m = Matrix.Translation(piv) @ rot_x(tilt) @ Matrix.Translation(centre - piv) @ Matrix.Diagonal((sx, sz, sy, 1.0))
+    if frame is not None:
+        m = frame @ Matrix.Translation(Vector((pos[0], -pos[2], pos[1]))) @ Matrix.Diagonal((sx, sz, sy, 1.0))
+    else:
+        centre = B(*pos)
+        piv = B(*pivot) if pivot else centre
+        m = Matrix.Translation(piv) @ rot_x(tilt) @ Matrix.Translation(centre - piv) @ Matrix.Diagonal((sx, sz, sy, 1.0))
+        if tilt == 0.0:
+            half = Vector((sx, sz, sy)) / 2
+            SOLIDS.append((centre - half, centre + half))
     bmesh.ops.transform(bm, matrix=m, verts=verts)
     faces = {f for v in verts for f in v.link_faces}
     bm.normal_update()
-    box_uv(bm, faces, uv_scale)
+    paint_uv(bm, faces, mat)
+    set_weight(bm, faces, weight)
+
+
+def add_floor(group, mat, lo, hi, y, weight=1.0):
+    """One flat face looking up. The game mirrors the room under the floor, so it has no underside."""
+    bm = bucket(group, mat)
+    (x0, z0), (x1, z1) = lo, hi
+    verts = [bm.verts.new(B(x, y, z)) for x, z in ((x0, z1), (x1, z1), (x1, z0), (x0, z0))]
+    f = bm.faces.new(verts)
+    bm.normal_update()
+    paint_uv(bm, [f], mat)
+    set_weight(bm, [f], weight)
 
 
 def add_strip(group, mat, a, b, width, thick, x):
@@ -228,10 +180,126 @@ def add_strip(group, mat, a, b, width, thick, x):
     length = math.hypot(z1 - z0, y1 - y0)
     tilt = math.atan2(z1 - z0, y1 - y0)  # 0 when the bar stands upright
     mid = (x, (y0 + y1) / 2, (z0 + z1) / 2)
-    add_box(group, mat, (width, length, thick), mid, tilt=tilt)
+    add_box(group, mat, (width, length, thick), mid, tilt=tilt or 1e-9)
+
+
+def lathe(bm, profile, segs=48, mat_index=0, smooth=True, hard=True, knurl=0.0, matrix=None, uv_scale=4.0):
+    """Turns a profile of (radius, height) points about the up axis, bottom to top. With `hard`, each
+    band has its own vertices, so bands meet at a crisp edge. `knurl` cuts flutes of that depth."""
+    uv = bm.loops.layers.uv["UVMap"]
+
+    def ring(r, z):
+        if r <= 1e-9:
+            return [bm.verts.new((0, 0, z))]
+        out = []
+        for i in range(segs):
+            a = 2 * math.pi * i / segs
+            rr = r - (knurl if i % 2 else 0.0)
+            out.append(bm.verts.new((rr * math.cos(a), rr * math.sin(a), z)))
+        return out
+
+    faces = []
+    run = 0.0
+    rings = None if hard else [ring(r, z) for r, z in profile]
+    for k, ((r0, z0), (r1, z1)) in enumerate(zip(profile, profile[1:])):
+        lo, hi = (ring(r0, z0), ring(r1, z1)) if hard else (rings[k], rings[k + 1])
+        step = math.hypot(r1 - r0, z1 - z0)
+        for i in range(segs):
+            j = (i + 1) % segs
+            if len(lo) == 1:
+                vs, us = [lo[0], hi[j], hi[i]], [(i + 0.5, 0), (i + 1, 1), (i, 1)]
+            elif len(hi) == 1:
+                vs, us = [lo[i], lo[j], hi[0]], [(i, 0), (i + 1, 0), (i + 0.5, 1)]
+            else:
+                vs, us = [lo[i], lo[j], hi[j], hi[i]], [(i, 0), (i + 1, 0), (i + 1, 1), (i, 1)]
+            f = bm.faces.new(vs)
+            f.smooth = smooth
+            f.material_index = mat_index
+            for loop, (ua, vt) in zip(f.loops, us):
+                # U runs round the axis, so brushed steel reads as turned on a lathe.
+                loop[uv].uv = (ua / segs * uv_scale, (run + vt * step) * 4.0)
+            faces.append(f)
+        run += step
+    if matrix is not None:
+        bmesh.ops.transform(bm, matrix=matrix, verts=list({v for f in faces for v in f.verts}))
+    return faces
+
+
+def hidden(f):
+    """True when the face lies wholly inside the plain boxes: against a wall, or between two parts."""
+    centre = f.calc_center_median()
+    for v in [None] + list(f.verts):
+        p = centre if v is None else centre + (v.co - centre) * 0.9
+        p = p + f.normal * 0.002
+        if not any(all(lo[i] + 5e-4 < p[i] < hi[i] - 5e-4 for i in range(3)) for lo, hi in SOLIDS):
+            return False
+    return True
+
+
+def pack_lightmap(group):
+    """Gives every face that takes baked light its own rectangle in the group's lightmap. The scale is
+    the largest at which everything fits. Hidden faces and metal share one spare texel."""
+    rects = []  # [w, h, bm, face, u_axis, v_axis, origin]
+    spare = []
+    for (g, mat), bm in BUCKETS.items():
+        if g != group:
+            continue
+        weight = bm.faces.layers.float["lm_weight"]
+        for f in bm.faces:
+            if mat in NO_LM or f[weight] <= 0.0 or hidden(f):
+                spare.append((bm, f))
+                continue
+            edge = max(f.edges, key=lambda e: e.calc_length())
+            ua = (edge.verts[1].co - edge.verts[0].co).normalized()
+            va = f.normal.cross(ua)
+            us = [v.co.dot(ua) for v in f.verts]
+            vs = [v.co.dot(va) for v in f.verts]
+            w, h = (max(us) - min(us)) * f[weight], (max(vs) - min(vs)) * f[weight]
+            rects.append((w, h, bm, f, ua, va, (min(us), min(vs), max(us) - min(us), max(vs) - min(vs))))
+    pad = 2
+
+    def place(scale):
+        """Shelf packing, tallest first. Returns the places, or None if they overflow."""
+        sized = sorted(((max(2, math.ceil(r[0] * scale)), max(2, math.ceil(r[1] * scale)), i) for i, r in enumerate(rects)),
+                       key=lambda t: (-t[1], -t[0]))
+        x, y, row = 8, pad, 0  # the first 8 pixels of the first row are the spare texel
+        out = {}
+        for w, h, i in sized:
+            if w + 2 * pad > LM_SIZE:
+                return None
+            if x + w + 2 * pad > LM_SIZE:
+                x, y, row = 0, y + row + pad, 0
+            if y + h + pad > LM_SIZE:
+                return None
+            out[i] = (x + pad, y, w, h)
+            x += w + pad
+            row = max(row, h)
+        return out
+
+    lo, hi = 1.0, 4000.0
+    for _ in range(24):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if place(mid) else (lo, mid)
+    places = place(lo)
+    for i, (w, h, bm, f, ua, va, (u0, v0, du, dv)) in enumerate(rects):
+        uv = bm.loops.layers.uv["LM"]
+        x, y, pw, ph = places[i]
+        for loop in f.loops:
+            s = (loop.vert.co.dot(ua) - u0) / max(du, 1e-9)
+            t = (loop.vert.co.dot(va) - v0) / max(dv, 1e-9)
+            loop[uv].uv = ((x + s * pw) / LM_SIZE, (y + t * ph) / LM_SIZE)
+    for bm, f in spare:
+        uv = bm.loops.layers.uv["LM"]
+        for loop in f.loops:
+            loop[uv].uv = (3.0 / LM_SIZE, 3.0 / LM_SIZE)
+    print(f"lightmap {group}: {len(rects)} faces at {lo:.0f} px per metre, {len(spare)} spare")
 
 
 def finish_buckets():
+    for group in sorted({g for g, _ in BUCKETS}):
+        for bm in (bm for (g, _), bm in BUCKETS.items() if g == group):
+            bm.normal_update()
+        pack_lightmap(group)
     for (group, mat), bm in BUCKETS.items():
         mesh = bpy.data.meshes.new(f"{group}_{mat}")
         bm.to_mesh(mesh)
@@ -243,6 +311,7 @@ def finish_buckets():
 
 def mesh_object(name, bm, mats, parent=None, location=(0, 0, 0)):
     mesh = bpy.data.meshes.new(name)
+    bm.normal_update()
     bm.to_mesh(mesh)
     bm.free()
     for m in mats:
@@ -251,8 +320,6 @@ def mesh_object(name, bm, mats, parent=None, location=(0, 0, 0)):
     obj.location = location
     obj.parent = parent
     bpy.context.collection.objects.link(obj)
-    for poly in mesh.polygons:
-        poly.use_smooth = True
     return obj
 
 
@@ -297,6 +364,7 @@ def screen():
         for i in range(nx):
             quad = [grid[j][i], grid[j][i + 1], grid[j + 1][i + 1], grid[j + 1][i]]
             f = bm.faces.new([q[0] for q in quad])
+            f.smooth = True
             for loop, q in zip(f.loops, quad):
                 # Image row 0 is the top of the tube.
                 loop[uv].uv = (q[1][0], q[1][1])
@@ -315,40 +383,74 @@ def quad_object(name, mat, w, h, pos):
     return mesh_object(name, bm, [mat], location=B(*pos))
 
 
-def control(name, parent, at, collar_r, collar_h, dome_r, dome_mat, pip):
-    """A domed control on a steel collar. Its origin is on the deck; it turns about its own up axis."""
+def deck_frame():
+    """The deck's own frame: x across, y up the deck away from the player, z out of its face."""
+    return Matrix.Translation(B(*DECK_C)) @ rot_x(DECK_TILT)
+
+
+def dome_profile(r, z, rise, steps=8):
+    return [(r * math.cos(t), z + rise * math.sin(t)) for t in (math.pi / 2 * i / steps for i in range(steps + 1))]
+
+
+def knob(name, parent, at):
+    """A rotary selector from a switchboard: a fixed steel dial plate with engraved ticks, and on it a
+    knurled steel drum with an opal cap and a thick pointer bar whose nose hangs over the dial.
+    The drum's origin is on the deck and it turns about its own up axis. At rest it points up the deck."""
+    here = deck_frame() @ Matrix.Translation((at[0], -at[2], at[1]))
+    # Fixed parts are scenery: they take the baked shadows and never move.
+    steel = bucket("Cabinet", "steel")
+    faces = lathe(steel, [(0.082, 0.0), (0.082, 0.005), (0.079, 0.007), (0.0, 0.007)], segs=64, matrix=here)
+    set_weight(steel, faces, 0.0)
+    for i in range(19):
+        a = math.radians(-135 + 15 * i)
+        long = i % 3 == 0
+        length = 0.015 if long else 0.009
+        add_box("Cabinet", "ink", (0.0030 if long else 0.0020, 0.0008, length), (0, 0.0072, -(0.0775 - length / 2)),
+                frame=here @ Matrix.Rotation(-a, 4, "Z"), weight=0.0)
+
     bm = bmesh.new()
     bm.loops.layers.uv.new("UVMap")
-    # Collar: material slot 0.
-    made = bmesh.ops.create_cone(bm, cap_ends=True, segments=40, radius1=collar_r, radius2=collar_r * 0.94, depth=collar_h)
-    bmesh.ops.translate(bm, verts=made["verts"], vec=(0, 0, collar_h / 2))
-    # Dome: slot 1. A squashed half sphere sitting in the collar.
-    before = set(bm.faces)
-    ball = bmesh.ops.create_uvsphere(bm, u_segments=40, v_segments=20, radius=dome_r)
-    low = [v for v in ball["verts"] if v.co.z < -1e-6]
-    bmesh.ops.delete(bm, geom=low, context="VERTS")
-    dome_verts = [v for v in bm.verts if any(f not in before for f in v.link_faces)]
-    bmesh.ops.scale(bm, verts=dome_verts, vec=(1, 1, 0.62))
-    bmesh.ops.translate(bm, verts=dome_verts, vec=(0, 0, collar_h * 0.9))
-    for f in bm.faces:
-        if f not in before:
-            f.material_index = 1
-    if pip:
-        # A thick steel tab on the collar shows which way the knob points, with a lit line along it.
-        # At rest it points up the deck.
+    r = 0.058
+    lathe(bm, [(0.050, 0.008), (r, 0.010)], segs=96)
+    lathe(bm, [(r, 0.010), (r - 0.003, 0.010)], segs=96)          # closes the foot of the flutes
+    lathe(bm, [(r, 0.010), (r, 0.044)], segs=96, smooth=False, knurl=0.0024)
+    lathe(bm, [(r - 0.003, 0.044), (r, 0.044)], segs=96)          # and their top
+    lathe(bm, [(r, 0.044), (r, 0.047), (r - 0.003, 0.050), (0.049, 0.050)], segs=96)
+    lathe(bm, dome_profile(0.049, 0.050, 0.009), segs=48, mat_index=1, hard=False)
+
+    def block(size, centre, mat_index):
         made = bmesh.ops.create_cube(bm, size=1.0)
-        bmesh.ops.scale(bm, verts=made["verts"], vec=(0.016, 0.052, 0.012))
-        bmesh.ops.translate(bm, verts=made["verts"], vec=(0, collar_r + 0.020, 0.006))
-        before = set(bm.faces)
-        made = bmesh.ops.create_cube(bm, size=1.0)
-        bmesh.ops.scale(bm, verts=made["verts"], vec=(0.006, 0.046, 0.002))
-        bmesh.ops.translate(bm, verts=made["verts"], vec=(0, collar_r + 0.020, 0.013))
-        for f in bm.faces:
-            if f not in before:
-                f.material_index = 2
-    bm.normal_update()
-    obj = mesh_object(name, bm, ["steel", dome_mat, "pip"], parent=parent)
-    # `at` is in the deck's own frame: x across, y out of the deck, z down the deck toward the player.
+        bmesh.ops.scale(bm, verts=made["verts"], vec=size)
+        bmesh.ops.translate(bm, verts=made["verts"], vec=centre)
+        for f in {f for v in made["verts"] for f in v.link_faces}:
+            f.material_index = mat_index
+
+    # The pointer: a bar across the cap, running out past the drum and down its side as a nose.
+    block((0.024, 0.118, 0.008), (0, 0.019, 0.052), 0)
+    block((0.020, 0.114, 0.010), (0, 0.019, 0.061), 0)
+    block((0.024, 0.024, 0.038), (0, 0.066, 0.029), 0)
+    # A cream line let into the bar and the nose, so the direction reads from the seat.
+    block((0.007, 0.074, 0.0014), (0, 0.038, 0.0667), 2)
+    block((0.007, 0.0014, 0.050), (0, 0.0787, 0.037), 2)
+    long_uv(bm, [f for f in bm.faces if not f.smooth and f.material_index == 0 and len(f.verts) == 4 and f.calc_area() > 1e-4], 4.0)
+    obj = mesh_object(name, bm, ["steel", "dome", "pip"], parent=parent)
+    obj.location = (at[0], -at[2], at[1])
+    return obj
+
+
+def plunger(name, parent, at):
+    """A fat push button: a fixed steel collar on a flange, and a domed amber plunger that sinks into it."""
+    here = deck_frame() @ Matrix.Translation((at[0], -at[2], at[1]))
+    steel = bucket("Cabinet", "steel")
+    faces = lathe(steel, [(0.068, 0.0), (0.068, 0.004), (0.065, 0.006), (0.057, 0.006)], segs=64, matrix=here)
+    faces += lathe(steel, [(0.057, 0.006), (0.057, 0.027), (0.054, 0.030), (0.0445, 0.030)], segs=64, matrix=here)
+    faces += lathe(steel, [(0.0445, 0.030), (0.0445, 0.0)], segs=64, matrix=here)
+    set_weight(steel, faces, 0.0)
+    bm = bmesh.new()
+    bm.loops.layers.uv.new("UVMap")
+    lathe(bm, [(0.0430, -0.014), (0.0430, 0.035)], segs=48)
+    lathe(bm, dome_profile(0.0430, 0.035, 0.017), segs=48, hard=False)
+    obj = mesh_object(name, bm, ["dome_fire"], parent=parent)
     obj.location = (at[0], -at[2], at[1])
     return obj
 
@@ -373,7 +475,8 @@ def side_panels():
             faces.append(bm.faces.new([verts_a[j], verts_a[i], verts_b[i], verts_b[j]]))
         bmesh.ops.recalc_face_normals(bm, faces=faces)
         bm.normal_update()
-        box_uv(bm, faces)
+        paint_uv(bm, faces, "wood")
+        set_weight(bm, faces, 1.0)
         # Steel edging down the front, with a line of warm light set into it.
         for a, b in zip(front, front[1:]):
             add_strip("Cabinet", "steel", a, b, PANEL_T + 0.006, 0.014, x)
@@ -412,7 +515,7 @@ def cabinet():
     add_box(g, steel, (0.80, 0.012, 0.012), (0, 1.946, 0.292))
     # The control deck: a wooden slab tilted toward the player, edged in steel.
     dw, dt, dd = 0.80, 0.05, 0.44
-    add_box(g, wood, (dw, dt, dd), DECK_C, tilt=DECK_TILT)
+    add_box(g, wood, (dw, dt, dd), DECK_C, tilt=DECK_TILT, weight=2.5)
     add_box(g, steel, (dw, dt + 0.008, 0.022), (0, DECK_C[1], DECK_C[2] + dd / 2 + 0.011), tilt=DECK_TILT, pivot=DECK_C)
     add_box(g, steel, (dw, 0.006, dd), (0, DECK_C[1] - dt / 2 - 0.003, DECK_C[2]), tilt=DECK_TILT, pivot=DECK_C)
     for s in (-1, 1):
@@ -437,9 +540,9 @@ def cabinet():
     deck.rotation_euler = (DECK_TILT, 0, 0)
     bpy.context.collection.objects.link(deck)
     top = dt / 2
-    control("Knob_Elevation", deck, (-0.22, top, 0.0), 0.072, 0.050, 0.056, "dome", pip=True)
-    control("Knob_Charge", deck, (0.22, top, 0.0), 0.072, 0.050, 0.056, "dome", pip=True)
-    control("Button_Fire", deck, (0.0, top, 0.03), 0.060, 0.040, 0.046, "dome_fire", pip=False)
+    knob("Knob_Elevation", deck, (-0.22, top, 0.0))
+    knob("Knob_Charge", deck, (0.22, top, 0.0))
+    plunger("Button_Fire", deck, (0.0, top, 0.03))
 
 
 # ---------------------------------------------------------------- the room
@@ -452,8 +555,8 @@ def room():
     (x0, z0), (x1, z1) = ROOM_MIN, ROOM_MAX
     w, d = x1 - x0, z1 - z0
     cx, cz = (x0 + x1) / 2, (z0 + z1) / 2
-    add_box(g, "concrete", (w, 0.1, d), (cx, -0.05, cz), uv_scale=0.4)
-    add_box(g, "ceiling", (w, 0.1, d), (cx, ROOM_H + 0.05, cz))
+    add_floor(g, "concrete", ROOM_MIN, ROOM_MAX, 0.0, weight=1.0)
+    add_box(g, "ceiling", (w, 0.1, d), (cx, ROOM_H + 0.05, cz), weight=0.3)
     plinth, gap, pt = 0.24, 0.018, 0.04
 
     def wall(along_x, fixed, lo, hi, inward):
@@ -461,9 +564,9 @@ def room():
         length = hi - lo
         mid = (lo + hi) / 2
         if along_x:
-            add_box(g, "backing", (length, ROOM_H, 0.1), (mid, ROOM_H / 2, fixed - inward * 0.05))
+            add_box(g, "backing", (length, ROOM_H, 0.1), (mid, ROOM_H / 2, fixed - inward * 0.05), weight=0.25)
         else:
-            add_box(g, "backing", (0.1, ROOM_H, length), (fixed - inward * 0.05, ROOM_H / 2, mid))
+            add_box(g, "backing", (0.1, ROOM_H, length), (fixed - inward * 0.05, ROOM_H / 2, mid), weight=0.25)
         count = max(1, round(length / 1.35))
         pw = length / count
         for i in range(count):
@@ -472,9 +575,9 @@ def room():
                 size_h = y_hi - y_lo
                 yc = (y_lo + y_hi) / 2
                 if along_x:
-                    add_box(g, "navy", (pw - gap, size_h, pt), (c, yc, fixed + inward * pt / 2))
+                    add_box(g, "navy", (pw - gap, size_h, pt), (c, yc, fixed + inward * pt / 2), weight=0.8)
                 else:
-                    add_box(g, "navy", (pt, size_h, pw - gap), (fixed + inward * pt / 2, yc, c))
+                    add_box(g, "navy", (pt, size_h, pw - gap), (fixed + inward * pt / 2, yc, c), weight=0.8)
         # The cove: a lit strip tucked under the panels, washing the floor.
         if along_x:
             add_box(g, "cove", (length, 0.03, 0.012), (mid, plinth - 0.03, fixed + inward * 0.012))
@@ -489,33 +592,32 @@ def room():
     # A run of walnut slats on the left wall.
     for i in range(22):
         z = 1.2 + i * 0.11
-        add_box(g, "wood", (0.045, ROOM_H - plinth - 0.02, 0.07), (x0 + pt + 0.0225, (ROOM_H + plinth) / 2, z))
+        add_box(g, "wood", (0.045, ROOM_H - plinth - 0.02, 0.07), (x0 + pt + 0.0225, (ROOM_H + plinth) / 2, z), weight=0.5)
 
 
 # ---------------------------------------------------------------- build and export
 
 
-def main():
+def build_scene():
     os.makedirs(OUT, exist_ok=True)
     bpy.ops.wm.read_factory_settings(use_empty=True)
-    wood = bake("wood", wood_nodes)
-    concrete = bake("concrete", concrete_nodes)
 
-    material("wood", rough=0.48, image=wood)
-    material("concrete", rough=0.28, image=concrete)
-    # The game has no surroundings for metal to mirror, and pure metal would render black. Part metal stays grey.
-    material("steel", color=(0.30, 0.30, 0.29), rough=0.36, metal=0.3)
-    material("black", color=(0.004, 0.004, 0.005), rough=0.9)
-    material("door", color=(0.03, 0.03, 0.035), rough=0.4, metal=0.4)
-    material("navy", color=(0.026, 0.044, 0.110), rough=0.5)
+    material("wood", rough=0.42, tex="walnut")
+    material("concrete", rough=0.25, tex="concrete")
+    # Full metal: it shows only what it mirrors, which is the room picture the game carries (assets/env.bin).
+    material("steel", rough=0.34, metal=1.0, tex="steel")
+    material("navy", rough=0.36, tex="navy")
+    material("black", color=(0.006, 0.006, 0.007), rough=0.85)
+    material("ink", color=(0.004, 0.004, 0.004), rough=0.8)
+    material("door", color=(0.020, 0.020, 0.024), rough=0.45)
     material("backing", color=(0.008, 0.010, 0.016), rough=0.9)
-    material("ceiling", color=(0.012, 0.014, 0.020), rough=0.9)
-    material("glow", color=(0, 0, 0), emit=(1.0, 0.52, 0.18), emit_strength=3.2)
-    material("cove", color=(0, 0, 0), emit=(1.0, 0.60, 0.30), emit_strength=3.0)
+    material("ceiling", color=(0.020, 0.022, 0.030), rough=0.9)
+    material("glow", color=(0, 0, 0), emit=(1.0, 0.56, 0.22), emit_strength=3.4)
+    material("cove", color=(0, 0, 0), emit=(1.0, 0.62, 0.32), emit_strength=3.2)
     material("slot", color=(0, 0, 0), emit=(1.0, 0.34, 0.06), emit_strength=3.0)
-    material("pip", color=(0, 0, 0), emit=(1.0, 0.55, 0.20), emit_strength=7.0)
-    material("dome", color=(0.80, 0.74, 0.62), rough=0.24, emit=(1.0, 0.90, 0.74), emit_strength=0.55)
-    material("dome_fire", color=(0.86, 0.72, 0.60), rough=0.24, emit=(1.0, 0.50, 0.26), emit_strength=1.1)
+    material("pip", color=(0.55, 0.50, 0.40), rough=0.4, emit=(1.0, 0.80, 0.52), emit_strength=0.9)
+    material("dome", color=(0.62, 0.60, 0.55), rough=0.22, emit=(1.0, 0.92, 0.80), emit_strength=0.10)
+    material("dome_fire", color=(0.70, 0.27, 0.05), rough=0.16, emit=(1.0, 0.38, 0.06), emit_strength=0.55)
     # The game replaces this on Screen and Marquee with its own lit textures.
     material("tube", color=(0.0, 0.0, 0.0), rough=0.08)
 
@@ -523,6 +625,238 @@ def main():
     room()
     finish_buckets()
 
+
+# ---------------------------------------------------------------- baked light
+
+# The game draws with no bounce light, soft shadows or reflections of its own, so Cycles works them
+# out here once. A lightmap holds the light that falls on each face (not its colour). The game
+# multiplies it by the face's own texture.
+
+GROUPS = ("Cabinet", "Room")
+BAKE_SAMPLES = 512
+# A lightmap pixel of 1.0 is this much light. src/cabinet.rs has the same number.
+LM_WHITE = 6.0
+# The lamps are brighter in the bake than they are drawn: a drawn strip is only the lit slot's lip.
+BAKE_EMIT = {"cove": 14.0, "glow": 6.0, "slot": 3.0}
+# The key light: a big soft panel up and to the left of the player, aimed at the cabinet.
+KEY_AT, KEY_AIM, KEY_SIZE, KEY_POWER = (-1.1, 3.0, 2.0), (0.0, 1.1, 0.2), 1.5, 6.0
+KEY_COLOR = (1.0, 0.90, 0.80)
+# Two wide, weak, cool panels overhead keep the far walls from going black.
+FILLS = [((-2.4, 3.12, 4.2), 2.2, 0.35), ((2.4, 3.12, 2.4), 2.2, 0.35)]
+FILL_COLOR = (0.62, 0.74, 1.0)
+# The room picture for reflections is taken from here, in front of the cabinet at chest height.
+ENV_AT = (0.0, 1.25, 0.75)
+ENV_SIZE, DIFFUSE_SIZE, ENV_WHITE = 64, 8, 8.0
+
+
+def use_gpu(scene):
+    scene.render.engine = "CYCLES"
+    try:
+        prefs = bpy.context.preferences.addons["cycles"].preferences
+        prefs.compute_device_type = "METAL"
+        prefs.get_devices()
+        for d in prefs.devices:
+            d.use = True
+        scene.cycles.device = "GPU"
+    except Exception as err:  # no GPU: slower, same picture
+        print("cycles on the CPU:", err)
+        scene.cycles.device = "CPU"
+
+
+def panel_light(name, at, aim, size, power, color):
+    """A glowing square. It is a mesh, not a lamp, so it also shows in the reflection picture."""
+    mat = bpy.data.materials.new(name)
+    mat.use_nodes = True
+    nt = mat.node_tree
+    nt.nodes.clear()
+    out = nt.nodes.new("ShaderNodeOutputMaterial")
+    emit = nt.nodes.new("ShaderNodeEmission")
+    emit.inputs["Color"].default_value = (*color, 1)
+    emit.inputs["Strength"].default_value = power
+    nt.links.new(emit.outputs[0], out.inputs[0])
+    bpy.ops.mesh.primitive_plane_add(size=size)
+    obj = bpy.context.active_object
+    obj.name = name
+    obj.data.materials.append(mat)
+    obj.location = B(*at)
+    # A plane's face looks along its +Z; turn that toward the aim.
+    obj.rotation_euler = (B(*aim) - B(*at)).to_track_quat("Z", "Y").to_euler()
+    return obj
+
+
+def light_scene():
+    """Adds the lamps that exist only for the bake, and turns the drawn ones up."""
+    scene = bpy.context.scene
+    scene.world = bpy.data.worlds.new("dark")
+    scene.world.use_nodes = True
+    scene.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0, 0, 0, 1)
+    panel_light("key", KEY_AT, KEY_AIM, KEY_SIZE, KEY_POWER, KEY_COLOR)
+    for i, (at, size, power) in enumerate(FILLS):
+        panel_light(f"fill{i}", at, (at[0], 0.0, at[2]), size, power, FILL_COLOR)
+    for name, gain in BAKE_EMIT.items():
+        MATS[name].node_tree.nodes["Principled BSDF"].inputs["Emission Strength"].default_value *= gain
+    # The sign glows amber in the game; give it that here so its spill is baked.
+    sign = material("bake_sign", color=(0, 0, 0), emit=(1.0, 0.62, 0.26), emit_strength=1.6)
+    bpy.data.objects["Marquee"].data.materials[0] = sign
+
+
+def srgb(a):
+    import numpy as np
+    a = np.clip(a, 0.0, 1.0)
+    return np.where(a <= 0.0031308, a * 12.92, 1.055 * np.power(a, 1 / 2.4) - 0.055)
+
+
+def bake_lightmaps():
+    import numpy as np
+    from PIL import Image
+
+    os.makedirs(BAKEDIR, exist_ok=True)
+    scene = bpy.context.scene
+    use_gpu(scene)
+    scene.cycles.samples = BAKE_SAMPLES
+    scene.cycles.use_denoising = False
+    scene.render.bake.margin = 3
+    scene.render.bake.use_clear = False
+    for group in GROUPS:
+        img = bpy.data.images.new("lm_bake_" + group, LM_SIZE, LM_SIZE, float_buffer=True, alpha=False)
+        objs = [o for o in bpy.data.objects if o.name.startswith(group + "_") and o.type == "MESH"]
+        for o in objs:
+            # Cycles bakes into the image of each material's active texture node, through the active UV map.
+            nt = o.data.materials[0].node_tree
+            node = nt.nodes.get("LM") or nt.nodes.new("ShaderNodeTexImage")
+            node.name = "LM"
+            node.image = img
+            nt.nodes.active = node
+            o.data.uv_layers["UVMap"].active_render = True
+            o.data.uv_layers.active = o.data.uv_layers["LM"]
+        bpy.ops.object.select_all(action="DESELECT")
+        for o in objs:
+            o.select_set(True)
+        bpy.context.view_layer.objects.active = objs[0]
+        bpy.ops.object.bake(type="DIFFUSE", pass_filter={"DIRECT", "INDIRECT"})
+        px = np.empty(LM_SIZE * LM_SIZE * 4, np.float32)
+        img.pixels.foreach_get(px)
+        px = px.reshape(LM_SIZE, LM_SIZE, 4)[::-1, :, :3]
+        print(f"baked {group}: mean {px.mean():.3f}, 99th percentile {np.percentile(px, 99):.2f}, max {px.max():.1f}")
+        out = (srgb(px / LM_WHITE) * 255 + 0.5).astype(np.uint8)
+        Image.fromarray(out).save(os.path.join(BAKEDIR, f"lm_{group}.jpg"), quality=90, optimize=True)
+
+
+def render_env():
+    """Photographs the room as a cube from in front of the cabinet, blurs it for each roughness, and
+    writes assets/env.bin: the mirror picture for steel, glass and varnish, and the soft light for
+    the moving controls. src/room.rs reads it."""
+    import tempfile
+
+    import numpy as np
+
+    scene = bpy.context.scene
+    use_gpu(scene)
+    scene.cycles.samples = 192
+    scene.cycles.use_denoising = True
+    hide = [o for o in bpy.data.objects if o.name.startswith(("Cabinet_", "Knob_", "Button_", "Screen", "Marquee", "LM_"))]
+    for o in hide:
+        o.hide_render = True
+    cam = bpy.data.cameras.new("env")
+    cam.sensor_fit = "VERTICAL"
+    cam.angle = math.pi / 2
+    cam.clip_start = 0.02
+    obj = bpy.data.objects.new("env", cam)
+    bpy.context.collection.objects.link(obj)
+    scene.camera = obj
+    n = ENV_SIZE * 2  # rendered at twice the size and halved, which smooths it
+    scene.render.resolution_x = scene.render.resolution_y = n
+    scene.render.resolution_percentage = 100
+    scene.render.image_settings.file_format = "OPEN_EXR"
+    scene.render.image_settings.color_depth = "32"
+    # Cube faces in the order +X -X +Y -Y +Z -Z, as (look, up) in cube space. The game flips Z when it
+    # looks a direction up in a cube, so cube space is game space with Z negated.
+    faces = [((1, 0, 0), (0, 1, 0)), ((-1, 0, 0), (0, 1, 0)), ((0, 1, 0), (0, 0, -1)),
+             ((0, -1, 0), (0, 0, 1)), ((0, 0, 1), (0, 1, 0)), ((0, 0, -1), (0, 1, 0))]
+    cube = np.zeros((6, ENV_SIZE, ENV_SIZE, 3), np.float32)
+    tmp = tempfile.mkdtemp()
+    for i, (look, up) in enumerate(faces):
+        look_b = B(look[0], look[1], -look[2]).normalized()
+        up_b = B(up[0], up[1], -up[2]).normalized()
+        right_b = look_b.cross(up_b)
+        obj.matrix_world = Matrix.Translation(B(*ENV_AT)) @ Matrix((right_b, up_b, -look_b)).transposed().to_4x4()
+        scene.render.filepath = os.path.join(tmp, f"face{i}.exr")
+        bpy.ops.render.render(write_still=True)
+        img = bpy.data.images.load(scene.render.filepath)
+        px = np.empty(n * n * 4, np.float32)
+        img.pixels.foreach_get(px)
+        px = px.reshape(n, n, 4)[::-1, :, :3]
+        cube[i] = px.reshape(ENV_SIZE, 2, ENV_SIZE, 2, 3).mean(axis=(1, 3))
+    for o in hide:
+        o.hide_render = False
+
+    def directions(size):
+        """Unit directions and solid angles of a cube's texels, face by face."""
+        c = (np.arange(size) + 0.5) / size * 2 - 1
+        s, t = np.meshgrid(c, c)  # s runs right, t runs down
+        one = np.ones_like(s)
+        d = np.stack([np.stack(v, -1) for v in ((one, -t, -s), (-one, -t, s), (s, one, t), (s, -one, -t), (s, -t, one), (-s, -t, -one))])
+        length = np.linalg.norm(d, axis=-1, keepdims=True)
+        return (d / length).reshape(-1, 3), (1.0 / length[..., 0] ** 3).reshape(-1)
+
+    def blurred(size, power):
+        """Each texel becomes the average of the room seen through a lobe of cos^power about it."""
+        src_size = min(ENV_SIZE, 32)
+        src = cube.reshape(6, src_size, ENV_SIZE // src_size, src_size, ENV_SIZE // src_size, 3).mean(axis=(2, 4)).reshape(-1, 3)
+        sd, sw = directions(src_size)
+        od, _ = directions(size)
+        w = np.clip(od @ sd.T, 0, 1) ** power * sw
+        return ((w @ src) / w.sum(1, keepdims=True)).reshape(6, size, size, 3)
+
+    levels = [cube]
+    size, level = ENV_SIZE // 2, 1
+    last = int(math.log2(ENV_SIZE))
+    while size >= 1:
+        # The game picks a level by roughness. A lobe this wide matches that roughness.
+        alpha = max((level / last) ** 2, 1e-3)
+        power = max(2.0 / (alpha * alpha) - 2.0, 1.0)
+        if power > 400:
+            prev = levels[-1]
+            levels.append(prev.reshape(6, size, 2, size, 2, 3).mean(axis=(2, 4)))
+        else:
+            levels.append(blurred(size, power))
+        size, level = size // 2, level + 1
+    diffuse = blurred(DIFFUSE_SIZE, 1.0)
+
+    def pack(a):
+        rgb = (srgb(a / ENV_WHITE) * 255 + 0.5).astype(np.uint8)
+        return np.concatenate([rgb, np.full(rgb.shape[:-1] + (1,), 255, np.uint8)], axis=-1)
+
+    with open(os.path.join(OUT, "env.bin"), "wb") as f:
+        # One face after another, each with all its sizes, then the soft cube the same way.
+        for face in range(6):
+            for lv in levels:
+                f.write(pack(lv[face]).tobytes())
+        for face in range(6):
+            f.write(pack(diffuse[face]).tobytes())
+    print("env: mean", cube.mean(axis=(0, 1, 2)).round(3), "max", float(cube.max()), "face means", cube.mean(axis=(1, 2, 3)).round(3),
+          "diffuse up/down", diffuse[2].mean().round(3), diffuse[3].mean().round(3))
+
+
+def carry_lightmaps():
+    """Puts the baked lightmaps in the model file. Each rides on a small hidden part named LM_<group>;
+    the game takes the picture from that part's material and hides the part."""
+    for group in GROUPS:
+        mat = bpy.data.materials.new("lm_" + group)
+        mat.use_nodes = True
+        tex = mat.node_tree.nodes.new("ShaderNodeTexImage")
+        tex.image = bpy.data.images.load(os.path.join(BAKEDIR, f"lm_{group}.jpg"))
+        mat.node_tree.links.new(tex.outputs["Color"], mat.node_tree.nodes["Principled BSDF"].inputs["Base Color"])
+        mesh = bpy.data.meshes.new("LM_" + group)
+        mesh.from_pydata([(0, 0, 0), (0.01, 0, 0), (0, 0.01, 0)], [], [(0, 1, 2)])
+        mesh.uv_layers.new(name="UVMap")
+        mesh.materials.append(mat)
+        obj = bpy.data.objects.new("LM_" + group, mesh)
+        obj.location = B(0, -1.0, 0)
+        bpy.context.collection.objects.link(obj)
+
+
+def export():
     path = os.path.join(OUT, "arcade.glb")
     bpy.ops.export_scene.gltf(
         filepath=path,
@@ -535,9 +869,25 @@ def main():
         export_cameras=False,
         export_lights=False,
     )
-    for name in ("_wood.png", "_concrete.png"):
-        os.remove(os.path.join(OUT, name))
     print("wrote", path, os.path.getsize(path), "bytes")
+
+
+def main():
+    import sys
+
+    build_scene()
+    if "--bake" in sys.argv:
+        # Slow: a few minutes on the GPU. The results are kept in blender/bake and assets/env.bin.
+        light_scene()
+        bake_lightmaps()
+        render_env()
+        # Start again clean, so nothing from the bake's lamps reaches the model file.
+        BUCKETS.clear()
+        SOLIDS.clear()
+        MATS.clear()
+        build_scene()
+    carry_lightmaps()
+    export()
 
 
 if __name__ == "__main__":

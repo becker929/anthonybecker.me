@@ -26,6 +26,9 @@ const VIEWS: &[(&str, Vec3, Vec3)] = &[
     ("playing", Vec3::new(0.0, 1.52, 1.12), Vec3::new(0.0, 1.33, 0.16)),
     // The angle of the reference picture the look was built from.
     ("hero", Vec3::new(-0.24, 1.74, 0.98), Vec3::new(0.02, 1.27, 0.20)),
+    // Close on the controls, and low across the floor for its reflections.
+    ("controls", Vec3::new(0.0, 1.38, 0.86), Vec3::new(0.0, 1.02, 0.42)),
+    ("floor", Vec3::new(1.6, 0.9, 3.4), Vec3::new(-0.4, 0.5, 0.0)),
 ];
 
 #[derive(Resource)]

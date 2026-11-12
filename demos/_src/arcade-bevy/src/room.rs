@@ -3,8 +3,10 @@
 
 use bevy::{
     asset::RenderAssetUsages,
+    camera::Exposure,
+    image::{ImageFilterMode, ImageSampler, ImageSamplerDescriptor},
     prelude::*,
-    render::render_resource::{Extent3d, TextureDimension, TextureFormat},
+    render::render_resource::{Extent3d, TextureDimension, TextureFormat, TextureViewDescriptor, TextureViewDimension},
 };
 
 /// Walkable bounds of the room on the floor plane.
@@ -15,84 +17,52 @@ pub const ROOM_HEIGHT: f32 = 3.2;
 pub struct RoomPlugin;
 impl Plugin for RoomPlugin {
     fn build(&self, app: &mut App) {
-        // A cool, even fill, so the navy walls and the concrete read as themselves in the dark.
-        app.insert_resource(GlobalAmbientLight { color: Color::srgb(0.62, 0.72, 1.0), brightness: 70.0, ..default() })
-            .add_systems(Startup, spawn_lights);
+        // The room's light is baked into the model's lightmaps (blender/build.py), so there is no
+        // ambient light and there are no room lamps here. The only live lamp is the tube's.
+        app.insert_resource(GlobalAmbientLight { brightness: 0.0, ..default() });
     }
 }
 
-/// A strip of warm light that is brightest at one long edge and gone by the other.
-fn wash_image() -> Image {
-    let (w, h) = (4usize, 64usize);
-    let mut data = Vec::with_capacity(w * h * 4);
-    for y in 0..h {
-        let t = 1.0 - y as f32 / (h - 1) as f32; // 1 at the wall
-        let a = (t * t * t * 62.0) as u8;
-        for _ in 0..w {
-            data.extend_from_slice(&[255, 206, 158, a]);
-        }
-    }
-    Image::new(
-        Extent3d { width: w as u32, height: h as u32, depth_or_array_layers: 1 },
+/// A picture of the room as a cube, taken in Blender from in front of the cabinet
+/// (blender/build.py, `render_env`). Steel, glass and varnish mirror it, since the game cannot work
+/// out reflections itself. It is built into the program, so it is there before the first frame.
+static ENV: &[u8] = include_bytes!("../assets/env.bin");
+/// Face size of the mirror cube and of the soft cube that lights the moving controls.
+const ENV_SIZE: u32 = 64;
+const DIFFUSE_SIZE: u32 = 8;
+/// A pixel of 1.0 in the cube is this bright. blender/build.py has the same number (ENV_WHITE).
+const ENV_WHITE: f32 = 8.0;
+
+fn cube(bytes: &[u8], size: u32, levels: u32) -> Image {
+    let mut image = Image::new_uninit(
+        Extent3d { width: size, height: size, depth_or_array_layers: 6 },
         TextureDimension::D2,
-        data,
         TextureFormat::Rgba8UnormSrgb,
         RenderAssetUsages::RENDER_WORLD,
-    )
-}
-
-fn spawn_lights(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
-    mut images: ResMut<Assets<Image>>,
-) {
-    // The coves at the foot of each wall wash the floor with warm light. Real lamps that low would
-    // each leave a hot round spot, so the wash is painted: a soft strip lying on the floor by each wall.
-    let wash = materials.add(StandardMaterial {
-        base_color_texture: Some(images.add(wash_image())),
-        unlit: true,
-        alpha_mode: AlphaMode::Blend,
+    );
+    // The file holds each face with all its sizes, largest first: rougher surfaces read smaller, blurrier ones.
+    image.texture_descriptor.mip_level_count = levels;
+    image.data = Some(bytes.to_vec());
+    image.texture_view_descriptor = Some(TextureViewDescriptor { dimension: Some(TextureViewDimension::Cube), ..default() });
+    image.sampler = ImageSampler::Descriptor(ImageSamplerDescriptor {
+        mag_filter: ImageFilterMode::Linear,
+        min_filter: ImageFilterMode::Linear,
+        mipmap_filter: ImageFilterMode::Linear,
         ..default()
     });
-    let (lo, hi) = (ROOM_MIN, ROOM_MAX);
-    let (size, mid) = (hi - lo, (lo + hi) * 0.5);
-    let reach = 0.8;
-    // Each strip is a quad lying flat, turned so the bright edge of the picture meets its wall.
-    let mut strip = |length: f32, at: Vec3, yaw: f32| {
-        commands.spawn((
-            Mesh3d(meshes.add(Rectangle::new(length, reach))),
-            MeshMaterial3d(wash.clone()),
-            Transform::from_translation(at)
-                .with_rotation(Quat::from_rotation_y(yaw) * Quat::from_rotation_x(-std::f32::consts::FRAC_PI_2)),
-        ));
-    };
-    let y = 0.004;
-    let half = reach / 2.0 + 0.04;
-    strip(size.x, Vec3::new(mid.x, y, lo.y + half), 0.0);
-    strip(size.x, Vec3::new(mid.x, y, hi.y - half), std::f32::consts::PI);
-    strip(size.y, Vec3::new(lo.x + half, y, mid.y), std::f32::consts::FRAC_PI_2);
-    strip(size.y, Vec3::new(hi.x - half, y, mid.y), -std::f32::consts::FRAC_PI_2);
+    image
+}
 
-    // A few wide, weak lamps overhead keep the walls and floor from going flat. They are cool, so the
-    // concrete stays grey and the warmth is left to the coves and the cabinet.
-    for (x, z) in [(-2.6, 1.4), (2.6, 1.4), (-2.6, 4.6), (2.6, 4.6)] {
-        commands.spawn((
-            PointLight { color: Color::srgb(0.80, 0.86, 1.0), intensity: 16_000.0, range: 7.0, radius: 0.4, ..default() },
-            Transform::from_xyz(x, 2.3, z),
-        ));
+/// The room's reflection and soft light, for the camera to carry.
+pub fn environment(images: &mut Assets<Image>) -> EnvironmentMapLight {
+    let levels = ENV_SIZE.ilog2() + 1;
+    let mirror_len = (0..levels).map(|l| (ENV_SIZE >> l).pow(2) * 4).sum::<u32>() as usize * 6;
+    let soft_len = (DIFFUSE_SIZE * DIFFUSE_SIZE * 4 * 6) as usize;
+    assert_eq!(ENV.len(), mirror_len + soft_len, "assets/env.bin does not match the sizes in src/room.rs");
+    EnvironmentMapLight {
+        specular_map: images.add(cube(&ENV[..mirror_len], ENV_SIZE, levels)),
+        diffuse_map: images.add(cube(&ENV[mirror_len..], DIFFUSE_SIZE, 1)),
+        intensity: ENV_WHITE / Exposure::default().exposure(),
+        ..default()
     }
-    // One soft lamp overhead picks the cabinet out and gives it a shadow on the floor.
-    commands.spawn((
-        SpotLight {
-            color: Color::srgb(1.0, 0.88, 0.76),
-            intensity: 240_000.0,
-            range: 9.0,
-            inner_angle: 0.12,
-            outer_angle: 0.62,
-            shadow_maps_enabled: true,
-            ..default()
-        },
-        Transform::from_xyz(0.5, ROOM_HEIGHT - 0.15, 2.6).looking_at(Vec3::new(0.0, 0.9, 0.3), Vec3::Y),
-    ));
 }
