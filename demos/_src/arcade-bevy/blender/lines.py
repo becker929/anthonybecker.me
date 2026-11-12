@@ -2,7 +2,7 @@
 
     <bpy venv>/bin/python blender/lines.py [out_dir]
 
-Writes <view>_lines.png and <view>_depth.png (near is white, 16 bit) into reference/ by default.
+Writes <view>_lines.png and <view>_depth.png (near is white) into reference/ by default.
 The views match src/shot.rs, so generated art lines up with the game's own captures.
 """
 
@@ -76,14 +76,16 @@ def edges(depth_path, normal_path, out_path):
     import numpy as np
     from PIL import Image
 
-    d = np.asarray(Image.open(depth_path).convert("I;16")).astype(np.float32) / 65535.0
+    d = np.asarray(Image.open(depth_path).convert("L")).astype(np.float32) / 255.0
     n = np.asarray(Image.open(normal_path).convert("RGB")).astype(np.float32) / 255.0
     line = np.zeros(d.shape, bool)
     for axis in (0, 1):
         dd = np.abs(np.diff(d, axis=axis, append=d.take([-1], axis=axis)))
         dn = np.abs(np.diff(n, axis=axis, append=n.take([-1], axis=axis))).sum(axis=2)
         line |= (dd > 0.012) | (dn > 0.35)
-    Image.fromarray(np.where(line, 0, 255).astype(np.uint8)).save(out_path)
+    Image.fromarray(np.where(line, 0, 255).astype(np.uint8)).save(out_path, optimize=True)
+    # The depth picture is kept small: half size and 8 bits is plenty for an image model's depth hint.
+    Image.fromarray((d * 255).astype(np.uint8)).resize((640, 360), Image.BILINEAR).save(depth_path, optimize=True)
 
 
 def main():
@@ -97,7 +99,6 @@ def main():
     scene.cycles.filter_width = 0.01  # no blur across edges: the edge finder wants hard steps
     scene.render.resolution_x, scene.render.resolution_y = SIZE
     scene.render.image_settings.file_format = "PNG"
-    scene.render.image_settings.color_depth = "16"
     scene.view_settings.view_transform = "Raw"
     scene.world = bpy.data.worlds.new("w")
     layer = scene.view_layers[0]

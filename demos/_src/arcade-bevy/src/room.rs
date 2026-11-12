@@ -12,15 +12,33 @@ use bevy::{
 /// Walkable bounds of the room on the floor plane.
 pub const ROOM_MIN: Vec2 = Vec2::new(-4.0, -0.6);
 pub const ROOM_MAX: Vec2 = Vec2::new(4.0, 6.4);
-pub const ROOM_HEIGHT: f32 = 3.2;
 
 pub struct RoomPlugin;
 impl Plugin for RoomPlugin {
     fn build(&self, app: &mut App) {
         // The room's light is baked into the model's lightmaps (blender/build.py), so there is no
         // ambient light and there are no room lamps here. The only live lamp is the tube's.
-        app.insert_resource(GlobalAmbientLight { brightness: 0.0, ..default() });
+        app.insert_resource(GlobalAmbientLight { brightness: 0.0, ..default() }).add_systems(Startup, spawn_key);
     }
+}
+
+/// The key lamp again, where the bake has it (KEY_AT in blender/build.py). The bake already holds its
+/// soft light on the scenery, so there it adds only the sheen on varnish and steel. The controls
+/// move, so they are not baked, and this is what shapes them.
+fn spawn_key(mut commands: Commands) {
+    commands.spawn((
+        SpotLight {
+            color: Color::srgb(1.0, 0.90, 0.80),
+            intensity: 260_000.0,
+            range: 6.0,
+            radius: 0.5,
+            inner_angle: 0.35,
+            outer_angle: 0.75,
+            affects_lightmapped_mesh_diffuse: false,
+            ..default()
+        },
+        Transform::from_xyz(-1.1, 3.0, 2.0).looking_at(Vec3::new(0.0, 1.0, 0.4), Vec3::Y),
+    ));
 }
 
 /// A picture of the room as a cube, taken in Blender from in front of the cabinet
@@ -28,7 +46,7 @@ impl Plugin for RoomPlugin {
 /// out reflections itself. It is built into the program, so it is there before the first frame.
 static ENV: &[u8] = include_bytes!("../assets/env.bin");
 /// Face size of the mirror cube and of the soft cube that lights the moving controls.
-const ENV_SIZE: u32 = 64;
+const ENV_SIZE: u32 = 128;
 const DIFFUSE_SIZE: u32 = 8;
 /// A pixel of 1.0 in the cube is this bright. blender/build.py has the same number (ENV_WHITE).
 const ENV_WHITE: f32 = 8.0;

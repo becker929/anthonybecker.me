@@ -4,6 +4,7 @@ use bevy::{
     asset::RenderAssetUsages,
     camera::Exposure,
     gltf::GltfAssetLabel,
+    mesh::UvChannel,
     pbr::Lightmap,
     world_serialization::WorldInstanceReady,
     prelude::*,
@@ -42,11 +43,25 @@ struct Dials {
 }
 
 /// How much green light the tube throws on the deck and the player. A hit makes it flare.
-const TUBE_LIGHT: f32 = 420.0;
+const TUBE_LIGHT: f32 = 600.0;
 /// A lightmap pixel of 1.0 is this much light. blender/build.py has the same number (LM_WHITE).
 const LM_WHITE: f32 = 6.0;
 /// How solid the floor is. The rest shows the room mirrored beneath it, which reads as polish.
-const FLOOR_OPACITY: f32 = 0.84;
+const FLOOR_OPACITY: f32 = 0.76;
+/// How strongly each scenery part mirrors the room picture (Bevy's `reflectance`; 0.5 is ordinary
+/// varnish). The picture is one view from the cabinet, so on big matt surfaces far from it a full
+/// reflection is false light that greys the blacks. Parts not listed keep the model's value.
+const SHEEN: &[(&str, f32)] = &[
+    ("Room_navy", 0.22),
+    ("Room_backing", 0.0),
+    ("Room_ceiling", 0.0),
+    ("Room_wood", 0.25),
+    ("Room_concrete", 0.45),
+    ("Cabinet_black", 0.08),
+    ("Cabinet_ink", 0.1),
+    ("Cabinet_wood", 0.32),
+    ("Cabinet_door", 0.3),
+];
 
 /// The second copy of the model, upside down under the floor: the floor's reflection.
 #[derive(Component)]
@@ -130,8 +145,8 @@ fn spawn_cabinet(
             emissive: LinearRgba::rgb(26.0, 26.0, 26.0),
             emissive_texture: Some(screen.clone()),
             // Polished glass: it mirrors the room picture (src/room.rs), softly.
-            perceptual_roughness: 0.10,
-            reflectance: 0.5,
+            perceptual_roughness: 0.05,
+            reflectance: 0.3,
             ..default()
         }),
         sign: materials.add(StandardMaterial {
@@ -163,7 +178,7 @@ fn spawn_cabinet(
     // glass, so the glass itself shows no hot spot from it.
     commands.spawn((
         TubeLight(root),
-        PointLight { color: Color::srgb(0.35, 1.0, 0.55), intensity: TUBE_LIGHT, range: 1.9, radius: 0.12, ..default() },
+        PointLight { color: Color::srgb(0.35, 1.0, 0.55), intensity: TUBE_LIGHT, range: 1.5, radius: 0.12, ..default() },
         Transform::from_xyz(0.0, 1.42, 0.07),
         ChildOf(root),
     ));
@@ -182,17 +197,19 @@ fn wire_model(
 ) {
     let root = ready.entity;
     let Ok((paint, mirror)) = roots.get(root) else { return };
-    // The baked lightmaps ride in the model on two small parts. Take each one's picture.
-    let lightmap_of = |group: &str| {
+    // The baked maps ride in the model on small parts of their own. Take each one's picture.
+    let carried = |part: String| {
         children.iter_descendants(root).find_map(|e| {
             let (name, _) = named.get(e).ok()?;
-            (name.as_str() == format!("LM_{group}")).then_some(())?;
+            (name.as_str() == part).then_some(())?;
             let carrier = children.iter_descendants(e).find_map(|m| painted.get(m).ok())?;
             materials.get(&carrier.0)?.base_color_texture.clone()
         })
     };
-    let lightmaps = [("Cabinet_", lightmap_of("Cabinet")), ("Room_", lightmap_of("Room"))];
+    let groups = ["Cabinet", "Room"].map(|g| (format!("{g}_"), carried(format!("LM_{g}")), carried(format!("AO_{g}"))));
     let exposure = LM_WHITE / Exposure::default().exposure();
+    // A material shared by both groups needs a copy for each, since each has its own occlusion map.
+    let mut copies: Vec<(usize, AssetId<StandardMaterial>, Handle<StandardMaterial>)> = Vec::new();
     for entity in children.iter_descendants(root) {
         let Ok((name, at)) = named.get(entity) else { continue };
         let name = name.as_str();
@@ -212,20 +229,35 @@ fn wire_model(
             }
             _ => {}
         }
-        if name.starts_with("LM_") || (mirror && name == "Room_concrete") {
+        if name.starts_with("LM_") || name.starts_with("AO_") || (mirror && name == "Room_concrete") {
             commands.entity(entity).insert(Visibility::Hidden);
         }
         // Scenery takes its light from the bake: soft shadows, bounce and the glow of the coves.
-        let Some((_, Some(image))) = lightmaps.iter().find(|(prefix, _)| name.starts_with(prefix)) else { continue };
+        let Some(group) = groups.iter().position(|(prefix, ..)| name.starts_with(prefix.as_str())) else { continue };
+        let (_, Some(light), occlusion) = &groups[group] else { continue };
         for mesh in children.iter_descendants(entity) {
             let Ok(mat) = painted.get(mesh) else { continue };
-            commands.entity(mesh).insert(Lightmap { image: image.clone(), ..default() });
-            let Some(mut mat) = materials.get_mut(&mat.0) else { continue };
-            mat.lightmap_exposure = exposure;
-            if name == "Room_concrete" {
-                mat.base_color.set_alpha(FLOOR_OPACITY);
-                mat.alpha_mode = AlphaMode::Blend;
-            }
+            let copy = match copies.iter().find(|(g, id, _)| *g == group && *id == mat.0.id()) {
+                Some((.., copy)) => copy.clone(),
+                None => {
+                    let Some(mut made) = materials.get(&mat.0).cloned() else { continue };
+                    made.lightmap_exposure = exposure;
+                    // The occlusion map shares the lightmap's layout, the mesh's second UV set.
+                    made.occlusion_texture = occlusion.clone();
+                    made.occlusion_channel = UvChannel::Uv1;
+                    if let Some((_, sheen)) = SHEEN.iter().find(|(part, _)| *part == name) {
+                        made.reflectance = *sheen;
+                    }
+                    if name == "Room_concrete" {
+                        made.base_color.set_alpha(FLOOR_OPACITY);
+                        made.alpha_mode = AlphaMode::Blend;
+                    }
+                    let copy = materials.add(made);
+                    copies.push((group, mat.0.id(), copy.clone()));
+                    copy
+                }
+            };
+            commands.entity(mesh).insert((MeshMaterial3d(copy), Lightmap { image: light.clone(), ..default() }));
         }
     }
     if !mirror {

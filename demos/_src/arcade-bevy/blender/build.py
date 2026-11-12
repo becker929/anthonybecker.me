@@ -48,8 +48,9 @@ MATS = {}
 
 # One texture repeat covers this many metres.
 TEX_METRES = {"walnut": 0.70, "steel": 0.25, "concrete": 2.0, "navy": 1.0}
-# Materials that take no baked light: metal has no diffuse colour, and lamps light themselves.
-NO_LM = {"steel", "glow", "cove", "slot", "pip", "ink", "tube", "dome", "dome_fire"}
+# Materials that get no room in the lightmaps: lamps light themselves. Steel has no diffuse colour,
+# but it keeps its place for the occlusion map, which dims its reflections in corners.
+NO_LM = {"satin", "glow", "cove", "slot", "pip", "ink", "tube", "dome", "dome_fire"}
 
 
 def material(name, color=(1, 1, 1), rough=0.5, metal=0.0, emit=None, emit_strength=0.0, tex=None):
@@ -75,6 +76,15 @@ def material(name, color=(1, 1, 1), rough=0.5, metal=0.0, emit=None, emit_streng
         nt.links.new(orm.outputs["Color"], split.inputs[0])
         nt.links.new(split.outputs["Green"], bsdf.inputs["Roughness"])
         nt.links.new(split.outputs["Blue"], bsdf.inputs["Metallic"])
+        relief = os.path.join(TEXDIR, tex + "_n.jpg")
+        if os.path.exists(relief):
+            img = nt.nodes.new("ShaderNodeTexImage")
+            img.image = bpy.data.images.load(relief)
+            img.image.colorspace_settings.name = "Non-Color"
+            bump = nt.nodes.new("ShaderNodeNormalMap")
+            bump.uv_map = "UVMap"
+            nt.links.new(img.outputs["Color"], bump.inputs["Color"])
+            nt.links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
     mat["tex_scale"] = 1.0 / TEX_METRES[tex] if tex else 1.0
     MATS[name] = mat
     return mat
@@ -392,48 +402,61 @@ def dome_profile(r, z, rise, steps=8):
     return [(r * math.cos(t), z + rise * math.sin(t)) for t in (math.pi / 2 * i / steps for i in range(steps + 1))]
 
 
+def gasket(here, r):
+    """A black rubber ring under a control's base. It reads as the shadow line that seats the part."""
+    ink = bucket("Cabinet", "ink")
+    faces = lathe(ink, [(r + 0.0045, 0.0), (r + 0.0045, 0.0012), (r - 0.001, 0.0012)], segs=48, matrix=here)
+    set_weight(ink, faces, 0.0)
+
+
 def knob(name, parent, at):
     """A rotary selector from a switchboard: a fixed steel dial plate with engraved ticks, and on it a
-    knurled steel drum with an opal cap and a thick pointer bar whose nose hangs over the dial.
+    low knurled steel drum with an opal cap and a thick pointer bar whose nose hangs over the dial.
     The drum's origin is on the deck and it turns about its own up axis. At rest it points up the deck."""
     here = deck_frame() @ Matrix.Translation((at[0], -at[2], at[1]))
     # Fixed parts are scenery: they take the baked shadows and never move.
-    steel = bucket("Cabinet", "steel")
-    faces = lathe(steel, [(0.082, 0.0), (0.082, 0.005), (0.079, 0.007), (0.0, 0.007)], segs=64, matrix=here)
+    steel = bucket("Cabinet", "satin")
+    faces = lathe(steel, [(0.080, 0.0), (0.080, 0.004), (0.078, 0.006), (0.0, 0.006)], segs=48, matrix=here)
     set_weight(steel, faces, 0.0)
-    for i in range(19):
-        a = math.radians(-135 + 15 * i)
-        long = i % 3 == 0
-        length = 0.015 if long else 0.009
-        add_box("Cabinet", "ink", (0.0030 if long else 0.0020, 0.0008, length), (0, 0.0072, -(0.0775 - length / 2)),
+    gasket(here, 0.080)
+    for i in range(25):
+        a = math.radians(-150 + 12.5 * i)
+        long = i % 4 == 0
+        length = 0.016 if long else 0.009
+        add_box("Cabinet", "ink", (0.0042 if long else 0.0028, 0.0008, length), (0, 0.0062, -(0.0765 - length / 2)),
                 frame=here @ Matrix.Rotation(-a, 4, "Z"), weight=0.0)
 
     bm = bmesh.new()
     bm.loops.layers.uv.new("UVMap")
-    r = 0.058
-    lathe(bm, [(0.050, 0.008), (r, 0.010)], segs=96)
-    lathe(bm, [(r, 0.010), (r - 0.003, 0.010)], segs=96)          # closes the foot of the flutes
-    lathe(bm, [(r, 0.010), (r, 0.044)], segs=96, smooth=False, knurl=0.0024)
-    lathe(bm, [(r - 0.003, 0.044), (r, 0.044)], segs=96)          # and their top
-    lathe(bm, [(r, 0.044), (r, 0.047), (r - 0.003, 0.050), (0.049, 0.050)], segs=96)
-    lathe(bm, dome_profile(0.049, 0.050, 0.009), segs=48, mat_index=1, hard=False)
+    r, n = 0.054, 144
+    lathe(bm, [(0.048, 0.007), (r, 0.009)], segs=n)
+    lathe(bm, [(r, 0.009), (r - 0.002, 0.009)], segs=n)          # closes the foot of the flutes
+    lathe(bm, [(r, 0.009), (r, 0.030)], segs=n, smooth=False, knurl=0.0013)
+    lathe(bm, [(r - 0.002, 0.030), (r, 0.030)], segs=n)          # and their top
+    lathe(bm, [(r, 0.030), (r, 0.0335), (r - 0.0025, 0.036), (0.046, 0.036)], segs=n)
+    lathe(bm, dome_profile(0.046, 0.036, 0.007), segs=48, mat_index=1, hard=False)
 
-    def block(size, centre, mat_index):
+    def block(size, centre, mat_index, bevel=0.0):
         made = bmesh.ops.create_cube(bm, size=1.0)
         bmesh.ops.scale(bm, verts=made["verts"], vec=size)
         bmesh.ops.translate(bm, verts=made["verts"], vec=centre)
-        for f in {f for v in made["verts"] for f in v.link_faces}:
+        faces = {f for v in made["verts"] for f in v.link_faces}
+        for f in faces:
             f.material_index = mat_index
+        if bevel:
+            # A small chamfer on every edge catches a line of light, which is what makes it look milled.
+            edges = list({e for f in faces for e in f.edges})
+            bmesh.ops.bevel(bm, geom=edges, offset=bevel, segments=1, affect="EDGES")
 
-    # The pointer: a bar across the cap, running out past the drum and down its side as a nose.
-    block((0.024, 0.118, 0.008), (0, 0.019, 0.052), 0)
-    block((0.020, 0.114, 0.010), (0, 0.019, 0.061), 0)
-    block((0.024, 0.024, 0.038), (0, 0.066, 0.029), 0)
-    # A cream line let into the bar and the nose, so the direction reads from the seat.
-    block((0.007, 0.074, 0.0014), (0, 0.038, 0.0667), 2)
-    block((0.007, 0.0014, 0.050), (0, 0.0787, 0.037), 2)
-    long_uv(bm, [f for f in bm.faces if not f.smooth and f.material_index == 0 and len(f.verts) == 4 and f.calc_area() > 1e-4], 4.0)
-    obj = mesh_object(name, bm, ["steel", "dome", "pip"], parent=parent)
+    # The pointer: one bar across the cap, running out past the drum and down its side as a nose.
+    block((0.022, 0.106, 0.012), (0, 0.011, 0.0415), 0, bevel=0.0018)
+    block((0.022, 0.016, 0.028), (0, 0.056, 0.0225), 0, bevel=0.0018)
+    # A lit amber line let into the bar and the nose, so the direction reads from the seat.
+    block((0.006, 0.058, 0.0012), (0, 0.033, 0.0478), 2)
+    block((0.006, 0.0012, 0.032), (0, 0.0644, 0.030), 2)
+    bm.normal_update()
+    long_uv(bm, [f for f in bm.faces if not f.smooth and f.material_index == 0 and len(f.verts) == 4 and f.calc_area() > 5e-5], 4.0)
+    obj = mesh_object(name, bm, ["satin", "dome", "pip"], parent=parent)
     obj.location = (at[0], -at[2], at[1])
     return obj
 
@@ -441,15 +464,16 @@ def knob(name, parent, at):
 def plunger(name, parent, at):
     """A fat push button: a fixed steel collar on a flange, and a domed amber plunger that sinks into it."""
     here = deck_frame() @ Matrix.Translation((at[0], -at[2], at[1]))
-    steel = bucket("Cabinet", "steel")
-    faces = lathe(steel, [(0.068, 0.0), (0.068, 0.004), (0.065, 0.006), (0.057, 0.006)], segs=64, matrix=here)
-    faces += lathe(steel, [(0.057, 0.006), (0.057, 0.027), (0.054, 0.030), (0.0445, 0.030)], segs=64, matrix=here)
-    faces += lathe(steel, [(0.0445, 0.030), (0.0445, 0.0)], segs=64, matrix=here)
+    steel = bucket("Cabinet", "satin")
+    faces = lathe(steel, [(0.068, 0.0), (0.068, 0.004), (0.065, 0.006), (0.057, 0.006)], segs=48, matrix=here)
+    faces += lathe(steel, [(0.057, 0.006), (0.057, 0.024), (0.054, 0.027), (0.0445, 0.027)], segs=48, matrix=here)
+    faces += lathe(steel, [(0.0445, 0.027), (0.0445, 0.0)], segs=48, matrix=here)
     set_weight(steel, faces, 0.0)
+    gasket(here, 0.068)
     bm = bmesh.new()
     bm.loops.layers.uv.new("UVMap")
-    lathe(bm, [(0.0430, -0.014), (0.0430, 0.035)], segs=48)
-    lathe(bm, dome_profile(0.0430, 0.035, 0.017), segs=48, hard=False)
+    lathe(bm, [(0.0430, -0.014), (0.0430, 0.031)], segs=48)
+    lathe(bm, dome_profile(0.0430, 0.031, 0.022, steps=10), segs=48, hard=False)
     obj = mesh_object(name, bm, ["dome_fire"], parent=parent)
     obj.location = (at[0], -at[2], at[1])
     return obj
@@ -556,7 +580,8 @@ def room():
     w, d = x1 - x0, z1 - z0
     cx, cz = (x0 + x1) / 2, (z0 + z1) / 2
     add_floor(g, "concrete", ROOM_MIN, ROOM_MAX, 0.0, weight=1.0)
-    add_box(g, "ceiling", (w, 0.1, d), (cx, ROOM_H + 0.05, cz), weight=0.3)
+    # The ceiling takes no baked light: it stays a black void, as in the reference.
+    add_box(g, "ceiling", (w, 0.1, d), (cx, ROOM_H + 0.05, cz), weight=0.0)
     plinth, gap, pt = 0.24, 0.018, 0.04
 
     def wall(along_x, fixed, lo, hi, inward):
@@ -606,6 +631,9 @@ def build_scene():
     material("concrete", rough=0.25, tex="concrete")
     # Full metal: it shows only what it mirrors, which is the room picture the game carries (assets/env.bin).
     material("steel", rough=0.34, metal=1.0, tex="steel")
+    # The controls are bead-blasted, not brushed: a matt metal gathers light from the whole ceiling, so
+    # it never mirrors a dark patch of room and goes black, as polished steel does up close.
+    material("satin", color=(0.47, 0.46, 0.45), rough=0.46, metal=1.0)
     material("navy", rough=0.36, tex="navy")
     material("black", color=(0.006, 0.006, 0.007), rough=0.85)
     material("ink", color=(0.004, 0.004, 0.004), rough=0.8)
@@ -615,9 +643,9 @@ def build_scene():
     material("glow", color=(0, 0, 0), emit=(1.0, 0.56, 0.22), emit_strength=3.4)
     material("cove", color=(0, 0, 0), emit=(1.0, 0.62, 0.32), emit_strength=3.2)
     material("slot", color=(0, 0, 0), emit=(1.0, 0.34, 0.06), emit_strength=3.0)
-    material("pip", color=(0.55, 0.50, 0.40), rough=0.4, emit=(1.0, 0.80, 0.52), emit_strength=0.9)
-    material("dome", color=(0.62, 0.60, 0.55), rough=0.22, emit=(1.0, 0.92, 0.80), emit_strength=0.10)
-    material("dome_fire", color=(0.70, 0.27, 0.05), rough=0.16, emit=(1.0, 0.38, 0.06), emit_strength=0.55)
+    material("pip", color=(0.30, 0.18, 0.08), rough=0.4, emit=(1.0, 0.58, 0.22), emit_strength=2.6)
+    material("dome", color=(0.46, 0.44, 0.40), rough=0.10, emit=(1.0, 0.92, 0.80), emit_strength=0.05)
+    material("dome_fire", color=(0.45, 0.09, 0.008), rough=0.10, emit=(1.0, 0.26, 0.02), emit_strength=0.6)
     # The game replaces this on Screen and Marquee with its own lit textures.
     material("tube", color=(0.0, 0.0, 0.0), rough=0.08)
 
@@ -633,20 +661,26 @@ def build_scene():
 # multiplies it by the face's own texture.
 
 GROUPS = ("Cabinet", "Room")
-BAKE_SAMPLES = 512
+BAKE_SAMPLES = 1536
 # A lightmap pixel of 1.0 is this much light. src/cabinet.rs has the same number.
 LM_WHITE = 6.0
 # The lamps are brighter in the bake than they are drawn: a drawn strip is only the lit slot's lip.
-BAKE_EMIT = {"cove": 14.0, "glow": 6.0, "slot": 3.0}
+BAKE_EMIT = {"cove": 12.0, "glow": 25.0, "slot": 3.0}
 # The key light: a big soft panel up and to the left of the player, aimed at the cabinet.
-KEY_AT, KEY_AIM, KEY_SIZE, KEY_POWER = (-1.1, 3.0, 2.0), (0.0, 1.1, 0.2), 1.5, 6.0
+KEY_AT, KEY_AIM, KEY_SIZE, KEY_POWER = (-1.1, 3.0, 2.0), (0.0, 1.0, 0.4), 1.0, 22.0
 KEY_COLOR = (1.0, 0.90, 0.80)
 # Two wide, weak, cool panels overhead keep the far walls from going black.
-FILLS = [((-2.4, 3.12, 4.2), 2.2, 0.35), ((2.4, 3.12, 2.4), 2.2, 0.35)]
-FILL_COLOR = (0.62, 0.74, 1.0)
+FILLS = [((-2.4, 3.12, 4.2), 2.2, 0.30), ((2.4, 3.12, 2.4), 2.2, 0.30)]
+FILL_COLOR = (0.50, 0.66, 1.0)
+# A lit slot in the ceiling over the cabinet. Polished steel and glass need something bright overhead
+# to mirror, or they go black in a dark room.
+# It is a long thin strip, so what they mirror is a crisp line, not a grey haze.
+TOP_AT, TOP_SIZE, TOP_NARROW, TOP_POWER, TOP_COLOR = (0.0, 3.14, 0.85), 1.6, 0.14, 12.0, (1.0, 0.94, 0.86)
 # The room picture for reflections is taken from here, in front of the cabinet at chest height.
 ENV_AT = (0.0, 1.25, 0.75)
-ENV_SIZE, DIFFUSE_SIZE, ENV_WHITE = 64, 8, 8.0
+ENV_SIZE, DIFFUSE_SIZE, ENV_WHITE = 128, 8, 8.0
+# Corners count as shut in when something is within this many metres.
+AO_DISTANCE = 0.4
 
 
 def use_gpu(scene):
@@ -663,7 +697,7 @@ def use_gpu(scene):
         scene.cycles.device = "CPU"
 
 
-def panel_light(name, at, aim, size, power, color):
+def panel_light(name, at, aim, size, power, color, narrow=1.0):
     """A glowing square. It is a mesh, not a lamp, so it also shows in the reflection picture."""
     mat = bpy.data.materials.new(name)
     mat.use_nodes = True
@@ -672,15 +706,32 @@ def panel_light(name, at, aim, size, power, color):
     out = nt.nodes.new("ShaderNodeOutputMaterial")
     emit = nt.nodes.new("ShaderNodeEmission")
     emit.inputs["Color"].default_value = (*color, 1)
-    emit.inputs["Strength"].default_value = power
     nt.links.new(emit.outputs[0], out.inputs[0])
+    # Only the face glows. The back is dark, or it would paint a bright square on the ceiling.
+    side = nt.nodes.new("ShaderNodeNewGeometry")
+    front = nt.nodes.new("ShaderNodeMath")
+    front.operation = "MULTIPLY_ADD"
+    front.inputs[1].default_value = -power
+    front.inputs[2].default_value = power
+    nt.links.new(side.outputs["Backfacing"], front.inputs[0])
+    nt.links.new(front.outputs[0], emit.inputs["Strength"])
     bpy.ops.mesh.primitive_plane_add(size=size)
     obj = bpy.context.active_object
     obj.name = name
     obj.data.materials.append(mat)
     obj.location = B(*at)
+    obj.scale = (1.0, narrow, 1.0)
     # A plane's face looks along its +Z; turn that toward the aim.
-    obj.rotation_euler = (B(*aim) - B(*at)).to_track_quat("Z", "Y").to_euler()
+    turn = (B(*aim) - B(*at)).to_track_quat("Z", "Y")
+    obj.rotation_euler = turn.to_euler()
+    # A black card just behind it, so no light escapes backwards onto the ceiling.
+    bpy.ops.mesh.primitive_plane_add(size=size * 1.05)
+    card = bpy.context.active_object
+    card.name = name + "_card"
+    card.data.materials.append(MATS["black"])
+    card.location = obj.location - turn @ Vector((0, 0, 0.004))
+    card.rotation_euler = turn.to_euler()
+    card.scale = obj.scale
     return obj
 
 
@@ -691,6 +742,7 @@ def light_scene():
     scene.world.use_nodes = True
     scene.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0, 0, 0, 1)
     panel_light("key", KEY_AT, KEY_AIM, KEY_SIZE, KEY_POWER, KEY_COLOR)
+    panel_light("top", TOP_AT, (TOP_AT[0], 0.0, TOP_AT[2]), TOP_SIZE, TOP_POWER, TOP_COLOR, narrow=TOP_NARROW)
     for i, (at, size, power) in enumerate(FILLS):
         panel_light(f"fill{i}", at, (at[0], 0.0, at[2]), size, power, FILL_COLOR)
     for name, gain in BAKE_EMIT.items():
@@ -734,12 +786,35 @@ def bake_lightmaps():
             o.select_set(True)
         bpy.context.view_layer.objects.active = objs[0]
         bpy.ops.object.bake(type="DIFFUSE", pass_filter={"DIRECT", "INDIRECT"})
-        px = np.empty(LM_SIZE * LM_SIZE * 4, np.float32)
-        img.pixels.foreach_get(px)
-        px = px.reshape(LM_SIZE, LM_SIZE, 4)[::-1, :, :3]
+        px = read_pixels(img)
         print(f"baked {group}: mean {px.mean():.3f}, 99th percentile {np.percentile(px, 99):.2f}, max {px.max():.1f}")
         out = (srgb(px / LM_WHITE) * 255 + 0.5).astype(np.uint8)
         Image.fromarray(out).save(os.path.join(BAKEDIR, f"lm_{group}.jpg"), quality=90, optimize=True)
+        # The second map says how shut in each spot is. The game dims reflections by it, since its one
+        # room picture would otherwise shine into corners that cannot see the room.
+        ao = bpy.data.images.new("ao_bake_" + group, LM_SIZE, LM_SIZE, float_buffer=True, alpha=False)
+        for o in objs:
+            o.data.materials[0].node_tree.nodes["LM"].image = ao
+        scene.cycles.samples = 128
+        scene.world.light_settings.distance = AO_DISTANCE
+        bpy.ops.object.bake(type="AO")
+        scene.cycles.samples = BAKE_SAMPLES
+        px = read_pixels(ao).mean(axis=2)
+        px[-8:, :8] = 1.0  # the spare texel: parts with no place of their own count as in the open
+        print(f"occlusion {group}: mean {px.mean():.3f}")
+        # Softened a little, then stored with the sRGB curve, because the game reads every picture in
+        # the model that way.
+        Image.fromarray((srgb(px ** 0.6) * 255 + 0.5).astype(np.uint8)).save(os.path.join(BAKEDIR, f"ao_{group}.jpg"), quality=88, optimize=True)
+
+
+def read_pixels(img):
+    """A Blender image as rows from the top, RGB."""
+    import numpy as np
+
+    w, h = img.size
+    px = np.empty(w * h * 4, np.float32)
+    img.pixels.foreach_get(px)
+    return px.reshape(h, w, 4)[::-1, :, :3]
 
 
 def render_env():
@@ -754,7 +829,7 @@ def render_env():
     use_gpu(scene)
     scene.cycles.samples = 192
     scene.cycles.use_denoising = True
-    hide = [o for o in bpy.data.objects if o.name.startswith(("Cabinet_", "Knob_", "Button_", "Screen", "Marquee", "LM_"))]
+    hide = [o for o in bpy.data.objects if o.name.startswith(("Cabinet_", "Knob_", "Button_", "Screen", "Marquee", "LM_", "AO_"))]
     for o in hide:
         o.hide_render = True
     cam = bpy.data.cameras.new("env")
@@ -801,7 +876,7 @@ def render_env():
 
     def blurred(size, power):
         """Each texel becomes the average of the room seen through a lobe of cos^power about it."""
-        src_size = min(ENV_SIZE, 32)
+        src_size = 32
         src = cube.reshape(6, src_size, ENV_SIZE // src_size, src_size, ENV_SIZE // src_size, 3).mean(axis=(2, 4)).reshape(-1, 3)
         sd, sw = directions(src_size)
         od, _ = directions(size)
@@ -839,21 +914,23 @@ def render_env():
 
 
 def carry_lightmaps():
-    """Puts the baked lightmaps in the model file. Each rides on a small hidden part named LM_<group>;
-    the game takes the picture from that part's material and hides the part."""
-    for group in GROUPS:
-        mat = bpy.data.materials.new("lm_" + group)
-        mat.use_nodes = True
-        tex = mat.node_tree.nodes.new("ShaderNodeTexImage")
-        tex.image = bpy.data.images.load(os.path.join(BAKEDIR, f"lm_{group}.jpg"))
-        mat.node_tree.links.new(tex.outputs["Color"], mat.node_tree.nodes["Principled BSDF"].inputs["Base Color"])
-        mesh = bpy.data.meshes.new("LM_" + group)
-        mesh.from_pydata([(0, 0, 0), (0.01, 0, 0), (0, 0.01, 0)], [], [(0, 1, 2)])
-        mesh.uv_layers.new(name="UVMap")
-        mesh.materials.append(mat)
-        obj = bpy.data.objects.new("LM_" + group, mesh)
-        obj.location = B(0, -1.0, 0)
-        bpy.context.collection.objects.link(obj)
+    """Puts the baked maps in the model file. Each rides on a small hidden part named LM_<group> or
+    AO_<group>; the game takes the picture from that part's material and hides the part."""
+    for kind in ("lm", "ao"):
+        for group in GROUPS:
+            name = f"{kind.upper()}_{group}"
+            mat = bpy.data.materials.new(name)
+            mat.use_nodes = True
+            tex = mat.node_tree.nodes.new("ShaderNodeTexImage")
+            tex.image = bpy.data.images.load(os.path.join(BAKEDIR, f"{kind}_{group}.jpg"))
+            mat.node_tree.links.new(tex.outputs["Color"], mat.node_tree.nodes["Principled BSDF"].inputs["Base Color"])
+            mesh = bpy.data.meshes.new(name)
+            mesh.from_pydata([(0, 0, 0), (0.01, 0, 0), (0, 0.01, 0)], [], [(0, 1, 2)])
+            mesh.uv_layers.new(name="UVMap")
+            mesh.materials.append(mat)
+            obj = bpy.data.objects.new(name, mesh)
+            obj.location = B(0, -1.0, 0)
+            bpy.context.collection.objects.link(obj)
 
 
 def export():
@@ -865,7 +942,7 @@ def export():
         export_apply=True,
         export_image_format="JPEG",
         export_jpeg_quality=88,
-        export_tangents=False,
+        export_tangents=True,
         export_cameras=False,
         export_lights=False,
     )
