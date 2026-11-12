@@ -9,9 +9,21 @@ bevy = { version = "0.20.1", default-features = false, features = [
   "x11", "wayland", "3d_bevy_render", "ui_api", "ui_bevy_render",
 ] }
 
+# The web build draws with WebGL2, which every current browser has.
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+bevy = { version = "0.20.1", default-features = false, features = ["webgl2"] }
+
 # Small optimisations for our code, full for dependencies: Bevy is slow unoptimised.
 [profile.dev]
 opt-level = 1
 
 [profile.dev.package."*"]
 opt-level = 3
+
+# The web build: size matters more than the last few frames per second.
+[profile.web]
+inherits = "release"
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"

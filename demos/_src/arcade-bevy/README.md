@@ -3,7 +3,18 @@
 A walkable arcade room in Bevy 0.20. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
 
 This directory is source only. `.assetsignore` keeps it out of the deployed site.
-A web build has not been made yet. It needs the `wasm32-unknown-unknown` target and `wasm-bindgen`, and the game has no touch controls.
+The web build lives in `/arcade/` at the repo root and is served at https://arcade.anthonybecker.me/.
+
+## Web build
+
+```
+./build-web.sh
+```
+
+This compiles to `wasm32-unknown-unknown` with the `web` profile, runs `wasm-bindgen` and `wasm-opt`, and writes `crt_arcade.js` and `crt_arcade_bg.wasm` into `/arcade/`. Commit both; the site has no build step.
+The page is `/arcade/index.html`. `src/index.js` sends `/` on the arcade host to it, and `wrangler.toml` lists the host as a custom domain.
+The web build draws with WebGL2. It has no touch controls, so it needs a keyboard and mouse.
+Cloudflare refuses any asset over 25 MiB. The script fails if the binary grows past that.
 
 ## Run
 
