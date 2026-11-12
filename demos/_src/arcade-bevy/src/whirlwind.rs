@@ -304,6 +304,7 @@ const FLASH_TIME: f32 = 0.05;
 const GLOW_TIME: f32 = 1.6;
 const FLASH: [f32; 3] = [0.70, 0.82, 1.0];
 const GLOW: [f32; 3] = [0.78, 1.0, 0.36];
+const PHOSPHOR: [f32; 3] = [0.034, 0.042, 0.036];
 
 pub struct Whirlwind {
     pub bounce: i32,
@@ -573,10 +574,11 @@ impl Whirlwind {
                 continue;
             }
             let (f, g) = (self.flash[i].min(2.0), self.glow[i].min(1.5));
-            // The curved glass is a touch dimmer toward its rim.
+            // The curved glass is a touch dimmer toward its rim. Unlit phosphor is a faint grey-green,
+            // so the face reads as glass, not as a hole.
             let rim = 1.0 - 0.25 * d * d * d * d;
             for k in 0..3 {
-                px[k] = (((f * FLASH[k] + g * GLOW[k]) * rim).clamp(0.0, 1.0) * 255.0) as u8;
+                px[k] = (((f * FLASH[k] + g * GLOW[k] + PHOSPHOR[k]) * rim).clamp(0.0, 1.0) * 255.0) as u8;
             }
             px[3] = 255;
         }
