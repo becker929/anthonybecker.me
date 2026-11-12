@@ -47,7 +47,10 @@ const TUBE_LIGHT: f32 = 600.0;
 /// A lightmap pixel of 1.0 is this much light. blender/build.py has the same number (LM_WHITE).
 const LM_WHITE: f32 = 6.0;
 /// How solid the floor is. The rest shows the room mirrored beneath it, which reads as polish.
-const FLOOR_OPACITY: f32 = 0.76;
+const FLOOR_OPACITY: f32 = if FLOOR_MIRROR { 0.76 } else { 1.0 };
+/// Whether the room is drawn again under the floor as its reflection. Off for now: only the light
+/// lines showed in it, as bright fragments floating apart from the cabinet, which read as a fault.
+const FLOOR_MIRROR: bool = false;
 /// How strongly each scenery part mirrors the room picture (Bevy's `reflectance`; 0.5 is ordinary
 /// varnish). The picture is one view from the cabinet, so on big matt surfaces far from it a full
 /// reflection is false light that greys the blacks. Parts not listed keep the model's value.
@@ -169,9 +172,11 @@ fn spawn_cabinet(
         .id();
     // The same model again, flipped under the floor. The floor is a little see-through, so this
     // shows as the reflection a polished floor would have. It costs one more draw of a small model.
-    commands
-        .spawn((Mirror, paint, Transform::from_scale(Vec3::new(1.0, -1.0, 1.0)), WorldAssetRoot(model)))
-        .observe(wire_model);
+    if FLOOR_MIRROR {
+        commands
+            .spawn((Mirror, paint, Transform::from_scale(Vec3::new(1.0, -1.0, 1.0)), WorldAssetRoot(model)))
+            .observe(wire_model);
+    }
     // The tube lights the player and the deck; a hit makes it flare. The lamp sits just behind the
     // glass, so the glass itself shows no hot spot from it.
     commands.spawn((
