@@ -5,6 +5,8 @@ mod bertie_machine;
 mod cabinet;
 mod crt;
 mod font;
+mod nimrod;
+mod nimrod_machine;
 mod pad;
 mod player;
 mod room;
@@ -41,7 +43,7 @@ fn main() {
             ..default()
         }));
     }
-    app.add_plugins((pad::PadPlugin, room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin, bertie_machine::BertiePlugin, whirlwind_machine::WhirlwindPlugin, scores::ScoresPlugin)).run();
+    app.add_plugins((pad::PadPlugin, room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin, bertie_machine::BertiePlugin, nimrod_machine::NimrodPlugin, whirlwind_machine::WhirlwindPlugin, prinz_machine::PrinzPlugin, scores::ScoresPlugin)).run();
 }
 
 /// The model is fetched as a plain file. There are no `.meta` files beside it to ask for.
