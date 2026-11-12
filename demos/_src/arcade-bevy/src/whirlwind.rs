@@ -49,7 +49,7 @@ pub const FLOOR_Y: f32 = -0.50;
 pub const FLOOR_X0: f32 = -0.80;
 pub const FLOOR_X1: f32 = 0.80;
 pub const START: (f32, f32) = (-0.74, 0.55);
-pub const BALL_R: f32 = 0.022;
+pub const BALL_R: f32 = 0.026;
 const GRAVITY: f32 = 2.4;
 /// Each touch of the floor keeps this much of the ball's speed along it.
 const SCUFF: f32 = 0.93;
@@ -128,7 +128,7 @@ impl Hole {
         let n = n.max(1) as f32;
         Hole {
             x: -0.25 + pick * 0.97,
-            half: (0.065 - 0.003 * (n - 1.0)).max(0.04),
+            half: (0.085 - 0.0035 * (n - 1.0)).max(0.05),
             // From the sixth hole on, the gap slides to and fro, a little further each time.
             drift: (0.035 * (n - 5.0)).clamp(0.0, 0.20),
             rate: 1.3,
@@ -246,6 +246,9 @@ impl Rng {
     }
 }
 
+/// No hole may be passed by more than this many of the 81 settings, so the knobs always matter.
+const MOST_ANSWERS: usize = 20;
+
 /// Places hole `n`: somewhere at least one setting drops through, away from where the last hole was.
 /// Early holes want several answers, so the first few are forgiving.
 fn place_hole(n: u32, last: Option<f32>, rng: &mut Rng) -> Hole {
@@ -261,10 +264,10 @@ fn place_hole(n: u32, last: Option<f32>, rng: &mut Rng) -> Hole {
             continue;
         }
         let count = solutions(&hole).len();
-        if count >= want {
+        if (want..=MOST_ANSWERS).contains(&count) {
             return hole;
         }
-        if count > 0 && best.is_none_or(|(c, _)| count > c) {
+        if count > 0 && count <= MOST_ANSWERS && best.is_none_or(|(c, _)| count > c) {
             best = Some((count, hole));
         }
     }
@@ -689,7 +692,7 @@ mod tests {
                 let good = solutions(&hole);
                 assert!(!good.is_empty(), "seed {seed} hole {n} {hole:?} has no answer");
                 // Most settings miss: the hole is a real target.
-                assert!(good.len() < (NOTCHES * NOTCHES) as usize / 3, "seed {seed} hole {n}: {} answers is too many", good.len());
+                assert!(good.len() <= MOST_ANSWERS, "seed {seed} hole {n}: {} answers is too many", good.len());
                 for (b, s) in &good {
                     assert_eq!(fly(*b, *s, &hole), Landing::Drop);
                 }
