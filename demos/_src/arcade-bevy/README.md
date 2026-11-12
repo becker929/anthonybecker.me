@@ -1,6 +1,7 @@
 # CRT Arcade
 
 A walkable arcade room in Bevy 0.20. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
+The cabinet and the room are a model built in Blender; the game loads it and brings its named parts to life.
 
 The site does not serve this directory (`.assetsignore`). The web build is its own Cloudflare Worker at https://arcade.anthonybecker.me/.
 
@@ -39,19 +40,32 @@ The first build takes several minutes.
 | File | Job |
 | --- | --- |
 | `src/main.rs` | App setup. |
-| `src/room.rs` | Floor, walls, house light, room bounds. |
+| `src/room.rs` | Room bounds and lights. |
 | `src/player.rs` | First-person controller, collision, the camera move to a cabinet. |
-| `src/cabinet.rs` | Cabinet geometry, interaction, knobs, HUD. |
+| `src/cabinet.rs` | Loads the model, wires its parts, interaction, knobs, HUD. |
+| `blender/build.py` | Builds the model, `assets/arcade.glb`. |
 | `src/crt.rs` | The game. It runs on the CPU and paints a texture each frame. |
 | `src/pad.rs` | Touch input from the web page. |
 | `src/font.rs` | A 5x7 bitmap font for the marquee. |
 | `src/shot.rs` | Headless capture to PNG. |
 
-## Adding cabinets
+## The model
 
-Add entries to `CABINETS` in `src/cabinet.rs`. Each entry is a floor position and a yaw.
-Every cabinet owns its own `CrtGame` and screen texture, so they run independently.
-To add a different game, give the cabinet a different game component and a system that paints its `CrtScreen` texture.
+`blender/build.py` builds the cabinet and the room and writes `assets/arcade.glb`. Run it with Blender's Python module (`bpy`), not the app:
+
+```
+<bpy venv>/bin/python blender/build.py
+```
+
+The script is written in the game's coordinates: metres, Y up, the cabinet at the origin facing +Z.
+The wood and the concrete are procedural textures baked to images. Everything else is flat materials.
+The game finds these parts by name and gives them behaviour in `src/cabinet.rs`: `Screen`, `Marquee`, `Knob_Elevation`, `Knob_Charge`, `Button_Fire`. Scenery is joined into one mesh per material.
+The game has no reflections, so the look leans on painted light: the warm wash by the walls (`src/room.rs`) and the sheen on the tube (`src/crt.rs`).
+
+## Controls that clunk
+
+The knobs move in notches (2.5 degrees of elevation, 5% of charge). The drawn knob springs to each notch and overshoots a little. The fire button drops fast and returns slowly.
+The game reports what happened as bits (`SOUND_` in `src/pad.rs`): a notch, a shot, a hit and so on. The web page plays a recorded file for each, from `sounds/sounds.json`, and buzzes a phone that can vibrate. With no sound files the page stays silent.
 
 ## Headless capture
 
@@ -59,7 +73,7 @@ To add a different game, give the cabinet a different game component and a syste
 cargo run -- --shot shots
 ```
 
-This renders three fixed views to `shots/*.png` with no window. It needs a Vulkan driver; a software one such as lavapipe works.
+This renders four fixed views to `shots/*.png` with no window. It needs a Vulkan driver; a software one such as lavapipe works.
 
 ## Notes
 
