@@ -476,6 +476,8 @@ def turned_uv(bm, faces, centre, axis, side):
 def finish_buckets():
     for mat, bm in BUCKETS.items():
         mesh = bpy.data.meshes.new(f"Nimrod_{mat}")
+        if not bm.loops.layers.uv:
+            bm.loops.layers.uv.new("UVMap")
         # The exporter cannot work out tangents for faces with more than four corners.
         bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 4])
         smooth = [f.smooth for f in bm.faces]
@@ -495,6 +497,14 @@ def finish_buckets():
 
 def mesh_object(name, bm, mats, parent=None, location=(0, 0, 0)):
     mesh = bpy.data.meshes.new(name)
+    # Every part gets a UV map: a textured material on a mesh without one exports as "texCoord": -1,
+    # and Bevy then refuses the whole file. Steel is brushed along each face's longest edge.
+    if not bm.loops.layers.uv:
+        bm.loops.layers.uv.new("UVMap")
+        # Left at zero where nothing is textured, so smooth parts keep shared vertices.
+        if any(m in TEXTURED for m in mats):
+            bm.normal_update()
+            steel_uv(bm, bm.faces[:])
     bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 4])
     bm.normal_update()
     bm.to_mesh(mesh)
