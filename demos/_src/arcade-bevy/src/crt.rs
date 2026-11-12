@@ -13,7 +13,9 @@ const GREEN: [f32; 3] = [0.42, 1.0, 0.62];
 const AMBER: [f32; 3] = [1.0, 0.66, 0.22];
 const GUN: Vec2 = Vec2::new(26.0, 261.0);
 const GRAVITY: f32 = 225.0;
-const HIT_RADIUS: f32 = 24.0;
+/// How much larger than the outline's own units a plane is drawn.
+const PLANE_SIZE: f32 = 1.35;
+const HIT_RADIUS: f32 = 17.0;
 const BURST_TIME: f32 = 0.8;
 
 /// Outline of a paper aeroplane overlay, nose pointing along +x.
@@ -114,8 +116,8 @@ impl CrtGame {
             if self.targets.len() == 4 {
                 break;
             }
-            let pos = Vec2::new(120.0 + self.rng.next() * 225.0, 44.0 + self.rng.next() * 180.0);
-            if self.targets.iter().all(|t| t.pos.distance(pos) > 84.0) {
+            let pos = Vec2::new(124.0 + self.rng.next() * 230.0, 36.0 + self.rng.next() * 180.0);
+            if self.targets.iter().all(|t| t.pos.distance(pos) > 62.0) {
                 let rot = std::f32::consts::PI + (self.rng.next() - 0.5) * 0.9;
                 let amber = self.targets.len() % 2 == 1;
                 self.targets.push(Target { pos, rot, alive: true, amber });
@@ -255,11 +257,25 @@ impl CrtGame {
         for t in self.targets.iter().filter(|t| t.alive) {
             let (s, c) = t.rot.sin_cos();
             let poly: Vec<Vec2> =
-                PLANE.iter().map(|p| t.pos + Vec2::new(p[0] * c - p[1] * s, p[0] * s + p[1] * c) * 2.2).collect();
+                PLANE.iter().map(|p| t.pos + Vec2::new(p[0] * c - p[1] * s, p[0] * s + p[1] * c) * PLANE_SIZE).collect();
             let color = if t.amber { AMBER } else { GREEN };
             for i in 0..poly.len() {
                 stroke(out, poly[i], poly[(i + 1) % poly.len()], color);
             }
+        }
+        // The score is kept on the tube itself, the way a scope shows things: marks, not words.
+        // One short tick per shell left, along the bottom. One amber pip per wave cleared, top left.
+        let dim = |c: [f32; 3], k: f32| [c[0] * k, c[1] * k, c[2] * k];
+        for i in 0..self.shells.min(30) {
+            let x = 58.0 + i as f32 * 9.0;
+            stroke(out, Vec2::new(x, 274.0), Vec2::new(x, 280.0), dim(GREEN, 0.55));
+        }
+        for i in 0..(self.wave - 1).min(20) {
+            glow_dot(out, Vec2::new(16.0 + i as f32 * 9.0, 14.0), 1.6, dim(AMBER, 0.7));
+        }
+        // Out of shells: the sweep line of a tube with nothing left to show.
+        if self.over {
+            stroke(out, Vec2::new(40.0, 150.0), Vec2::new(344.0, 150.0), dim(GREEN, 0.35));
         }
         // The shell is a bright amber point at the head of its arc.
         if let Some(shell) = &self.shell {

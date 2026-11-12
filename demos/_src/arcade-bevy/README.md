@@ -1,6 +1,6 @@
 # CRT Arcade
 
-A walkable arcade room in Bevy 0.20. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
+A walkable arcade room in Bevy 0.20. `PROCESS.md` is how a machine gets into it. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
 The cabinet and the room are a model built in Blender; the game loads it and brings its named parts to life.
 
 The site does not serve this directory (`.assetsignore`). The web build is its own Cloudflare Worker at https://arcade.anthonybecker.me/.
@@ -64,6 +64,7 @@ The game has no reflections, so the look leans on painted light: the warm wash b
 
 ## Controls that clunk
 
+The game puts no words on the screen. The score is marks on the tube: a tick per shell left, a pip per wave cleared. The page shows key prompts and touch buttons.
 The knobs move in notches (2.5 degrees of elevation, 5% of charge). The drawn knob springs to each notch and overshoots a little. The fire button drops fast and returns slowly.
 The game reports what happened as bits (`SOUND_` in `src/pad.rs`): a notch, a shot, a hit and so on. The web page plays a recorded file for each, from `sounds/sounds.json`, and buzzes a phone that can vibrate. With no sound files the page stays silent.
 
