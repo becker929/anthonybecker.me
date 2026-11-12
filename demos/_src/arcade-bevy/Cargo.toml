@@ -7,6 +7,8 @@ edition = "2024"
 bevy = { version = "0.20.1", default-features = false, features = [
   "default_app", "std", "bevy_winit", "default_font", "multi_threaded",
   "x11", "wayland", "3d_bevy_render", "ui_api", "ui_bevy_render",
+  # The cabinet and room are a glTF model with JPEG textures, spawned as a scene.
+  "scene", "jpeg",
 ] }
 
 # The web build draws with WebGL2, which every current browser has.

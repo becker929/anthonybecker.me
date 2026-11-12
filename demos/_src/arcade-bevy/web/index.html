@@ -48,6 +48,11 @@ body.touch.running #touch{display:block}
 .target.down{border-color:rgba(109,255,160,.8)}
 .target span{position:absolute;left:-20px;right:-20px;top:100%;margin-top:4px;text-align:center;font-size:10px;letter-spacing:.14em;color:#9c8f78;text-shadow:0 1px 4px #000;pointer-events:none}
 #t-fire{width:96px;height:96px;margin:-48px 0 0 -48px}
+#mute{position:fixed;left:calc(10px + env(safe-area-inset-left));top:calc(8px + env(safe-area-inset-top));width:40px;height:40px;padding:8px;border:0;border-radius:50%;background:rgba(20,14,26,.55);color:#f3e6c8;display:none}
+body.running #mute{display:block}
+#mute svg{width:24px;height:24px;display:block}
+#mute.off .waves{display:none}
+#mute:not(.off) .cross{display:none}
 </style></head>
 <body>
 <div id="stage"><canvas id="game" tabindex="0"></canvas></div>
@@ -63,6 +68,13 @@ body.touch.running #touch{display:block}
   <div class="target" id="t-charge"><span>CHARGE</span></div>
   <div class="target" id="t-fire"><span>FIRE</span></div>
 </div>
+<button id="mute" type="button" aria-label="Sound on or off">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/>
+    <path class="waves" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.6 7.6 0 0 1 0 11"/>
+    <path class="cross" d="M16 9.5l5 5M21 9.5l-5 5"/>
+  </svg>
+</button>
 <div id="cover">
   <h1>Cathode-Ray Tube Amusement Device</h1>
   <div id="bar"><div id="fill"></div></div>
@@ -117,10 +129,66 @@ try {
   await started;
   document.body.classList.add('running');
   touchControls(game);
+  sounds(game);
 } catch (e) {
   cover.classList.remove('gone');
   document.getElementById('bar').hidden = true;
   status.textContent = e.message || String(e);
+}
+
+// Sound. The page only plays recorded files, as they were rendered; the game says what happened.
+// sounds/sounds.json maps a name to a file. Names ending in -1, -2... are takes of one sound, played in turn.
+function sounds(game) {
+  const EVENTS = ['notch', 'fire', 'dud', 'hit', 'ground', 'wave', 'over', 'step-up', 'step-away', 'restart', 'button-up'];
+  const BUZZ = { notch: 7, fire: 22, dud: 10, hit: 30 };   // milliseconds, where the phone can vibrate
+  const mute = document.getElementById('mute');
+  let on = true, ctx = null, out = null, hum = null, humGain = null;
+  const takes = {}, turn = {};
+  try { on = localStorage.getItem('arcade-sound') !== 'off'; } catch {}
+  mute.classList.toggle('off', !on);
+  mute.addEventListener('click', () => {
+    on = !on; mute.classList.toggle('off', !on);
+    try { localStorage.setItem('arcade-sound', on ? 'on' : 'off'); } catch {}
+    if (out) out.gain.value = on ? 1 : 0;
+    start();
+  });
+  // Browsers only let sound start from a touch or a key, so the files load on the first one.
+  async function start() {
+    if (ctx) { ctx.resume(); return; }
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    out = ctx.createGain(); out.gain.value = on ? 1 : 0; out.connect(ctx.destination);
+    let list;
+    try { list = await (await fetch('./sounds/sounds.json')).json(); } catch { return; }
+    await Promise.all(Object.entries(list).map(async ([name, file]) => {
+      try {
+        const buf = await ctx.decodeAudioData(await (await fetch('./sounds/' + file)).arrayBuffer());
+        const key = name.replace(/-\d+$/, '');
+        (takes[key] ||= []).push(buf);
+      } catch {}
+    }));
+    if (takes.hum) {
+      hum = ctx.createBufferSource(); hum.buffer = takes.hum[0]; hum.loop = true;
+      humGain = ctx.createGain(); humGain.gain.value = 0;
+      hum.connect(humGain).connect(out); hum.start();
+    }
+  }
+  for (const type of ['pointerdown', 'keydown']) addEventListener(type, start, { capture: true });
+  function play(name) {
+    const set = takes[name];
+    if (!set || !ctx || ctx.state !== 'running') return;
+    const src = ctx.createBufferSource();
+    src.buffer = set[turn[name] = ((turn[name] ?? -1) + 1) % set.length];
+    src.connect(out); src.start();
+  }
+  (function poll() {
+    const bits = game.pad_sounds();
+    if (bits) EVENTS.forEach((name, i) => {
+      if (bits & (1 << i)) { play(name); if (on && BUZZ[name] && navigator.vibrate) navigator.vibrate(BUZZ[name]); }
+    });
+    // The tube hums louder the nearer you stand. That is where you are in the room, not a mix decision.
+    if (humGain) humGain.gain.setTargetAtTime(game.pad_hum(), ctx.currentTime, 0.15);
+    requestAnimationFrame(poll);
+  })();
 }
 
 function touchControls(game) {

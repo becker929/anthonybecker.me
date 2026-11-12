@@ -1,8 +1,8 @@
-//! The arcade room: floor, walls, ceiling and house lights.
+//! The arcade room. Its walls, floor and light coves are part of the Blender model that
+//! src/cabinet.rs loads; this file keeps the walkable bounds and lights the place.
 
 use bevy::{
     asset::RenderAssetUsages,
-    image::ImageSampler,
     prelude::*,
     render::render_resource::{Extent3d, TextureDimension, TextureFormat},
 };
@@ -15,87 +15,84 @@ pub const ROOM_HEIGHT: f32 = 3.2;
 pub struct RoomPlugin;
 impl Plugin for RoomPlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(GlobalAmbientLight { color: Color::srgb(0.6, 0.6, 1.0), brightness: 14.0, ..default() })
-            .add_systems(Startup, spawn_room);
+        // A cool, even fill, so the navy walls and the concrete read as themselves in the dark.
+        app.insert_resource(GlobalAmbientLight { color: Color::srgb(0.62, 0.72, 1.0), brightness: 70.0, ..default() })
+            .add_systems(Startup, spawn_lights);
     }
 }
 
-fn spawn_room(
+/// A strip of warm light that is brightest at one long edge and gone by the other.
+fn wash_image() -> Image {
+    let (w, h) = (4usize, 64usize);
+    let mut data = Vec::with_capacity(w * h * 4);
+    for y in 0..h {
+        let t = 1.0 - y as f32 / (h - 1) as f32; // 1 at the wall
+        let a = (t * t * t * 62.0) as u8;
+        for _ in 0..w {
+            data.extend_from_slice(&[255, 206, 158, a]);
+        }
+    }
+    Image::new(
+        Extent3d { width: w as u32, height: h as u32, depth_or_array_layers: 1 },
+        TextureDimension::D2,
+        data,
+        TextureFormat::Rgba8UnormSrgb,
+        RenderAssetUsages::RENDER_WORLD,
+    )
+}
+
+fn spawn_lights(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut images: ResMut<Assets<Image>>,
 ) {
-    let size = ROOM_MAX - ROOM_MIN;
-    let mid = (ROOM_MIN + ROOM_MAX) * 0.5;
-
-    // Checkerboard floor: one texel per half-metre tile.
-    let (tx, tz) = ((size.x * 2.0) as u32, (size.y * 2.0) as u32);
-    let mut data = Vec::with_capacity((tx * tz * 4) as usize);
-    for z in 0..tz {
-        for x in 0..tx {
-            data.extend_from_slice(if (x + z) % 2 == 0 { &[28, 24, 34, 255] } else { &[120, 106, 96, 255] });
-        }
-    }
-    let mut checker = Image::new(
-        Extent3d { width: tx, height: tz, depth_or_array_layers: 1 },
-        TextureDimension::D2,
-        data,
-        TextureFormat::Rgba8UnormSrgb,
-        RenderAssetUsages::RENDER_WORLD,
-    );
-    checker.sampler = ImageSampler::nearest();
-    commands.spawn((
-        Mesh3d(meshes.add(Plane3d::new(Vec3::Y, size * 0.5))),
-        MeshMaterial3d(materials.add(StandardMaterial {
-            base_color_texture: Some(images.add(checker)),
-            perceptual_roughness: 0.35,
-            ..default()
-        })),
-        Transform::from_xyz(mid.x, 0.0, mid.y),
-    ));
-
-    let wall = materials.add(StandardMaterial {
-        base_color: Color::srgb(0.20, 0.12, 0.24),
-        perceptual_roughness: 0.9,
+    // The coves at the foot of each wall wash the floor with warm light. Real lamps that low would
+    // each leave a hot round spot, so the wash is painted: a soft strip lying on the floor by each wall.
+    let wash = materials.add(StandardMaterial {
+        base_color_texture: Some(images.add(wash_image())),
+        unlit: true,
+        alpha_mode: AlphaMode::Blend,
         ..default()
     });
-    let wood = materials.add(StandardMaterial {
-        base_color: Color::srgb(0.10, 0.065, 0.05),
-        perceptual_roughness: 0.6,
-        ..default()
-    });
-    let t = 0.1; // wall thickness
-    let mut slab = |size: Vec3, at: Vec3, mat: &Handle<StandardMaterial>| {
+    let (lo, hi) = (ROOM_MIN, ROOM_MAX);
+    let (size, mid) = (hi - lo, (lo + hi) * 0.5);
+    let reach = 0.8;
+    // Each strip is a quad lying flat, turned so the bright edge of the picture meets its wall.
+    let mut strip = |length: f32, at: Vec3, yaw: f32| {
         commands.spawn((
-            Mesh3d(meshes.add(Cuboid::from_size(size))),
-            MeshMaterial3d(mat.clone()),
-            Transform::from_translation(at),
+            Mesh3d(meshes.add(Rectangle::new(length, reach))),
+            MeshMaterial3d(wash.clone()),
+            Transform::from_translation(at)
+                .with_rotation(Quat::from_rotation_y(yaw) * Quat::from_rotation_x(-std::f32::consts::FRAC_PI_2)),
         ));
     };
-    let h = ROOM_HEIGHT;
-    // Walls: back, front, left, right. Then the ceiling.
-    slab(Vec3::new(size.x, h, t), Vec3::new(mid.x, h / 2.0, ROOM_MIN.y - t / 2.0), &wall);
-    slab(Vec3::new(size.x, h, t), Vec3::new(mid.x, h / 2.0, ROOM_MAX.y + t / 2.0), &wall);
-    slab(Vec3::new(t, h, size.y), Vec3::new(ROOM_MIN.x - t / 2.0, h / 2.0, mid.y), &wall);
-    slab(Vec3::new(t, h, size.y), Vec3::new(ROOM_MAX.x + t / 2.0, h / 2.0, mid.y), &wall);
-    slab(Vec3::new(size.x, t, size.y), Vec3::new(mid.x, h + t / 2.0, mid.y), &wall);
-    // Wood wainscot along the lower wall.
-    let (w, d) = (0.9, 0.03);
-    slab(Vec3::new(size.x, w, d), Vec3::new(mid.x, w / 2.0, ROOM_MIN.y + d / 2.0), &wood);
-    slab(Vec3::new(size.x, w, d), Vec3::new(mid.x, w / 2.0, ROOM_MAX.y - d / 2.0), &wood);
-    slab(Vec3::new(d, w, size.y), Vec3::new(ROOM_MIN.x + d / 2.0, w / 2.0, mid.y), &wood);
-    slab(Vec3::new(d, w, size.y), Vec3::new(ROOM_MAX.x - d / 2.0, w / 2.0, mid.y), &wood);
+    let y = 0.004;
+    let half = reach / 2.0 + 0.04;
+    strip(size.x, Vec3::new(mid.x, y, lo.y + half), 0.0);
+    strip(size.x, Vec3::new(mid.x, y, hi.y - half), std::f32::consts::PI);
+    strip(size.y, Vec3::new(lo.x + half, y, mid.y), std::f32::consts::FRAC_PI_2);
+    strip(size.y, Vec3::new(hi.x - half, y, mid.y), -std::f32::consts::FRAC_PI_2);
 
-    // One dim, warm house light. The cabinets do most of the lighting.
+    // A few wide, weak lamps overhead keep the walls and floor from going flat. They are cool, so the
+    // concrete stays grey and the warmth is left to the coves and the cabinet.
+    for (x, z) in [(-2.6, 1.4), (2.6, 1.4), (-2.6, 4.6), (2.6, 4.6)] {
+        commands.spawn((
+            PointLight { color: Color::srgb(0.80, 0.86, 1.0), intensity: 16_000.0, range: 7.0, radius: 0.4, ..default() },
+            Transform::from_xyz(x, 2.3, z),
+        ));
+    }
+    // One soft lamp overhead picks the cabinet out and gives it a shadow on the floor.
     commands.spawn((
-        PointLight {
-            color: Color::srgb(1.0, 0.8, 0.62),
-            intensity: 420_000.0,
-            range: 14.0,
+        SpotLight {
+            color: Color::srgb(1.0, 0.88, 0.76),
+            intensity: 240_000.0,
+            range: 9.0,
+            inner_angle: 0.12,
+            outer_angle: 0.62,
             shadow_maps_enabled: true,
             ..default()
         },
-        Transform::from_xyz(1.2, ROOM_HEIGHT - 0.3, 3.4),
+        Transform::from_xyz(0.5, ROOM_HEIGHT - 0.15, 2.6).looking_at(Vec3::new(0.0, 0.9, 0.3), Vec3::Y),
     ));
 }

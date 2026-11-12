@@ -24,7 +24,7 @@ fn main() {
         #[cfg(target_arch = "wasm32")]
         let _ = dir;
     } else {
-        app.add_plugins(DefaultPlugins.set(WindowPlugin {
+        app.add_plugins(DefaultPlugins.set(assets()).set(WindowPlugin {
             primary_window: Some(Window {
                 title: "Cathode-Ray Tube Amusement Device".into(),
                 // On the web the game draws into the page's canvas and fills it.
@@ -37,4 +37,9 @@ fn main() {
         }));
     }
     app.add_plugins((pad::PadPlugin, room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin)).run();
+}
+
+/// The model is fetched as a plain file. There are no `.meta` files beside it to ask for.
+pub fn assets() -> bevy::asset::AssetPlugin {
+    bevy::asset::AssetPlugin { meta_check: bevy::asset::AssetMetaCheck::Never, ..default() }
 }

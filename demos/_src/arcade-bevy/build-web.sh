@@ -29,6 +29,8 @@ rm -rf dist && mkdir -p "dist/pkg-$H"
 cp target/web-out/crt_arcade_bg.opt.wasm "dist/pkg-$H/crt_arcade_bg.wasm"
 cp target/web-out/crt_arcade.js "dist/pkg-$H/"
 sed "s#'./pkg/#'./pkg-$H/#g" web/index.html > dist/index.html
+# The model the game fetches at start (blender/build.py makes it). The game asks for assets/arcade.glb.
+mkdir -p dist/assets && cp assets/arcade.glb dist/assets/
 printf '/pkg-*/*\n  Cache-Control: public, max-age=31536000, immutable\n' > dist/_headers
 
 # Cloudflare refuses any single asset over 25 MiB.

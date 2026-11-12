@@ -15,7 +15,7 @@ use bevy::{
     winit::WinitPlugin,
 };
 
-use crate::{crt::CrtGame, player::Player};
+use crate::{cabinet::ModelReady, crt::CrtGame, player::Player};
 
 const SIZE: UVec2 = UVec2::new(1280, 720);
 const FRAMES_PER_VIEW: u32 = 40;
@@ -24,6 +24,8 @@ const VIEWS: &[(&str, Vec3, Vec3)] = &[
     ("wide", Vec3::new(2.6, 1.6, 5.2), Vec3::new(0.0, 1.2, 0.0)),
     ("approach", Vec3::new(-1.1, 1.6, 2.4), Vec3::new(0.0, 1.25, 0.0)),
     ("playing", Vec3::new(0.0, 1.52, 1.12), Vec3::new(0.0, 1.33, 0.16)),
+    // The angle of the reference picture the look was built from.
+    ("hero", Vec3::new(-0.24, 1.74, 0.98), Vec3::new(0.02, 1.27, 0.20)),
 ];
 
 #[derive(Resource)]
@@ -44,6 +46,7 @@ pub fn add_headless(app: &mut App, dir: PathBuf) {
     std::fs::create_dir_all(&dir).expect("could not create the output directory");
     app.add_plugins(
         DefaultPlugins
+            .set(crate::assets())
             .set(WindowPlugin { primary_window: None, exit_condition: ExitCondition::DontExit, ..default() })
             .disable::<WinitPlugin>(),
     )
@@ -71,7 +74,17 @@ fn capture(
     mut camera: Single<&mut Transform, With<Camera3d>>,
     mut games: Query<&mut CrtGame>,
     mut exit: MessageWriter<AppExit>,
+    model: Res<ModelReady>,
+    mut settle: Local<u32>,
 ) {
+    // Nothing to photograph until the model has loaded and its textures have reached the GPU.
+    if !model.0 {
+        return;
+    }
+    *settle += 1;
+    if *settle < 30 {
+        return;
+    }
     let view = (shot.frame / FRAMES_PER_VIEW) as usize;
     let phase = shot.frame % FRAMES_PER_VIEW;
     shot.frame += 1;
