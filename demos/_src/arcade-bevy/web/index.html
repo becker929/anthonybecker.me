@@ -43,6 +43,8 @@ body.touch.running #touch{display:block}
 /* Touch targets laid over the cabinet's own knobs and red button. The game says where they are. */
 .target{position:absolute;left:0;top:0;width:116px;height:116px;margin:-58px 0 0 -58px;border-radius:50%;border:1px dashed rgba(243,230,200,.3);touch-action:none;display:none;pointer-events:none}
 #t-fire{pointer-events:auto}
+.target.key{width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:12px;pointer-events:auto}
+.target.key.wide{width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%}
 #tip.low{top:auto;bottom:calc(10px + env(safe-area-inset-bottom))}
 .target.on{display:block}
 .target.down{border-color:rgba(109,255,160,.8)}
@@ -146,8 +148,9 @@ try {
 // Sound. The page only plays recorded files, as they were rendered; the game says what happened.
 // sounds/sounds.json maps a name to a file. Names ending in -1, -2... are takes of one sound, played in turn.
 function sounds(game) {
-  const EVENTS = ['notch', 'fire', 'dud', 'hit', 'ground', 'wave', 'over', 'step-up', 'step-away', 'restart', 'button-up'];
-  const BUZZ = { notch: 7, fire: 22, dud: 10, hit: 30 };   // milliseconds, where the phone can vibrate
+  const EVENTS = ['notch', 'fire', 'dud', 'hit', 'ground', 'wave', 'over', 'step-up', 'step-away', 'restart', 'button-up',
+    'bertie-key', 'bertie-lamp', 'bertie-win', 'bertie-lose', 'bertie-draw', 'bertie-reset', 'bertie-refused', 'bertie-dial'];
+  const BUZZ = { notch: 7, fire: 22, dud: 10, hit: 30, 'bertie-key': 12, 'bertie-dial': 7, 'bertie-win': 40 };   // milliseconds, where the phone can vibrate
   const mute = document.getElementById('mute');
   let on = true, ctx = null, out = null, hum = null, humGain = null;
   const takes = {}, turn = {};
@@ -208,12 +211,14 @@ function hints(game) {
     reach: key('E', 'play'),
     play: key('A D', 'elevation') + key('W S', 'charge') + key('Space', 'fire') + key('E', 'leave'),
     over: 'Out of shells' + key('R', 'play again') + key('E', 'leave'),
+    bertie: key('1 – 9', 'press a square') + key('[ ]', 'easier, harder') + key('R', 'new game') + key('E', 'leave'),
+    bertieOver: key('R', 'new game') + key('E', 'leave'),
   };
-  const STAYS = { reach: true, over: true, look: true };   // the rest fade after a few seconds
+  const STAYS = { reach: true, over: true, look: true, bertieOver: true };   // the rest fade after a few seconds
   let shown = '', timer = 0;
   (function poll() {
     const st = game.pad_state();
-    const want = (st & 4) ? 'over' : (st & 2) ? 'play' : (st & 1) ? 'reach' : document.pointerLockElement ? 'walk' : 'look';
+    const want = (st & 16) ? ((st & 4) ? 'bertieOver' : 'bertie') : (st & 4) ? 'over' : (st & 2) ? 'play' : (st & 1) ? 'reach' : document.pointerLockElement ? 'walk' : 'look';
     if (want !== shown) {
       shown = want;
       el.innerHTML = LINES[want];
@@ -235,12 +240,13 @@ function touchControls(game) {
   let stick = null, look = null;  // { id, x, y } of the finger doing each job
 
   layer.addEventListener('pointerdown', e => {
-    if (e.target.closest('button') || e.target.id === 't-fire') return;
+    if (e.target.closest('button') || e.target.id === 't-fire' || e.target.classList.contains('key')) return;
     e.preventDefault();
     try { layer.setPointerCapture(e.pointerId); } catch {}
     if (shown & 2) {
-      // At the cabinet each half of the screen is one knob: left elevation, right charge.
-      if ((shown & 4) === 0) {
+      // At the tube cabinet each half of the screen is one knob: left elevation, right charge.
+      // Bertie has keys to tap instead, so a touch elsewhere does nothing there.
+      if ((shown & 20) === 0) {
         const knob = e.clientX < innerWidth / 2 ? 0 : 1;
         slides.set(e.pointerId, { knob, x: e.clientX, y: e.clientY, axis: null, fx: 0, fy: 0, carry: 0 });
         targets[knob].classList.add('down');
@@ -322,6 +328,21 @@ function touchControls(game) {
     el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch {} set(true)(e); });
     el.addEventListener('pointerup', set(false)); el.addEventListener('pointercancel', set(false));
   }
+  // Bertie's controls: nine keys, the difficulty dial and the reset button, each a tap.
+  const keys = Array.from({ length: 11 }, (_, i) => {
+    const el = document.createElement('div');
+    el.className = 'target key' + (i >= 9 ? ' wide' : '');
+    if (i === 9) el.innerHTML = '<span>HARDER</span>';
+    if (i === 10) el.innerHTML = '<span>NEW GAME</span>';
+    layer.appendChild(el);
+    el.addEventListener('pointerdown', e => {
+      e.preventDefault(); el.classList.add('down');
+      if (i < 10) game.pad_key(i); else game.pad_button(4, true);
+    });
+    const up = () => { el.classList.remove('down'); if (i === 10) game.pad_button(4, false); };
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up); el.addEventListener('pointerleave', up);
+    return el;
+  });
   // The game says what is on offer: 1 a cabinet in reach, 2 playing, 4 out of shells.
   (function poll() {
     const st = game.pad_state();
@@ -330,18 +351,22 @@ function touchControls(game) {
       buttons.play[1].classList.toggle('on', !!(st & 1));
       buttons.leave[1].classList.toggle('on', !!(st & 2));
       document.getElementById('buttons').classList.toggle('playing', !!(st & 2));
-      for (const t of targets) t.classList.toggle('on', (st & 6) === 2);
+      for (const t of targets) t.classList.toggle('on', (st & 22) === 2);
+      for (const k of keys) k.classList.toggle('on', (st & 18) === 18);
       if (targets[2].classList.contains('down')) { targets[2].classList.remove('down'); game.pad_button(2, false); }
       if (stick) { stick = null; ring.style.display = 'none'; game.pad_stick(0, 0); }
       look = null;
       slides.clear(); targets[0].classList.remove('down'); targets[1].classList.remove('down');
-      if ((st & 6) === 2 && !taught) { tip.textContent = 'slide a thumb on each side to turn the knobs · tap the red button'; tip.classList.add('low'); tip.style.opacity = 1; }
+      if ((st & 22) === 2 && !taught) { tip.textContent = 'slide a thumb on each side to turn the knobs · tap the red button'; tip.classList.add('low'); tip.style.opacity = 1; }
       else if (st & 2) tip.style.opacity = 0;
       buttons.again[1].classList.toggle('on', (st & 6) === 6);
       // A hidden button never gets its pointerup, so let go of everything on a change.
       for (const b of Object.values(buttons)) if (b[1].classList.contains('down')) { b[1].classList.remove('down'); game.pad_button(b[0], false); }
     }
-    if ((st & 6) === 2) {
+    if ((st & 18) === 18) {
+      const p = game.pad_points();
+      if (p.length >= 22) keys.forEach((k, i) => { k.style.transform = `translate(${p[i * 2] * SCALE}px,${p[i * 2 + 1] * SCALE}px)`; });
+    } else if ((st & 6) === 2) {
       // The camera eases in to the cabinet, so the targets follow every frame.
       const p = game.pad_points();
       targets.forEach((t, i) => { t.style.transform = `translate(${p[i * 2] * SCALE}px,${p[i * 2 + 1] * SCALE}px)`; });
