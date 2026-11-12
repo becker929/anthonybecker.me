@@ -14,7 +14,8 @@ npx wrangler deploy
 `build-web.sh` compiles to `wasm32-unknown-unknown` with the `web` profile, runs `wasm-bindgen` and `wasm-opt`, and fills `dist/`. The page is `web/index.html`.
 `dist/` is not in git: the binary is about 22 MB, and every site build clones the whole history.
 `wrangler.toml` here names the Worker and its hostname. The deploy needs a `wrangler login` on this machine.
-The web build draws with WebGL2. It has no touch controls, so it needs a keyboard and mouse.
+The web build draws with WebGL2.
+On a touch screen the page draws the controls: the left thumb walks, the right thumb looks, and PLAY, FIRE, LEAVE and AGAIN appear when the game offers them. At the cabinet the left thumb turns the knobs. The page passes all of this to the game through the functions in `src/pad.rs`.
 Cloudflare refuses any asset over 25 MiB. The script fails if the binary grows past that.
 
 ## Run
@@ -42,6 +43,7 @@ The first build takes several minutes.
 | `src/player.rs` | First-person controller, collision, the camera move to a cabinet. |
 | `src/cabinet.rs` | Cabinet geometry, interaction, knobs, HUD. |
 | `src/crt.rs` | The game. It runs on the CPU and paints a texture each frame. |
+| `src/pad.rs` | Touch input from the web page. |
 | `src/font.rs` | A 5x7 bitmap font for the marquee. |
 | `src/shot.rs` | Headless capture to PNG. |
 
