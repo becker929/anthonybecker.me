@@ -304,7 +304,7 @@ const FLASH_TIME: f32 = 0.05;
 const GLOW_TIME: f32 = 1.6;
 const FLASH: [f32; 3] = [0.70, 0.82, 1.0];
 const GLOW: [f32; 3] = [0.78, 1.0, 0.36];
-const PHOSPHOR: [f32; 3] = [0.034, 0.042, 0.036];
+const PHOSPHOR: [f32; 3] = [0.040, 0.064, 0.048];
 
 pub struct Whirlwind {
     pub bounce: i32,
@@ -641,6 +641,8 @@ fn splat(buf: &mut [f32], x: f32, y: f32, r: f32, a: f32) {
 
 /// Adds a soft dot straight to the picture, for things refreshed every frame.
 fn dot(out: &mut [u8], x: f32, y: f32, r: f32, a: f32, color: [f32; 3]) {
+    // Dots are drawn a little fatter than the beam, so the trace reads from the seat and on a phone.
+    let r = r * 1.6;
     let (cx, cy) = to_px(x, y);
     let reach = r * 2.0;
     let (x0, x1) = ((cx - reach).floor().max(0.0) as usize, ((cx + reach).ceil().max(0.0) as usize).min(N - 1));

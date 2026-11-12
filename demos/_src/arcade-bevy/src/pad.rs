@@ -81,6 +81,8 @@ static NAMED: Mutex<Vec<String>> = Mutex::new(Vec::new());
 static TAPS: Mutex<Vec<u32>> = Mutex::new(Vec::new());
 // The labels of the focused machine's touch targets, one per published point.
 static LABELS: Mutex<Vec<String>> = Mutex::new(Vec::new());
+// The focused machine's keyboard prompt: `keys|what` pairs separated by `;`.
+static HINT: Mutex<String> = Mutex::new(String::new());
 static TABLES_CHANGED: AtomicU32 = AtomicU32::new(0);
 // How loud the tube's hum should be for where the player stands, 0 to 1, as f32 bits.
 static HUM: AtomicU32 = AtomicU32::new(0);
@@ -164,6 +166,15 @@ pub fn publish_labels(labels: &[&str]) {
         *held = labels.iter().map(|l| l.to_string()).collect();
     }
     MORE_STATE.fetch_or(STATE_TARGETS, Relaxed);
+}
+
+/// The focused machine's keyboard prompt for the page: `keys|what` pairs separated by `;`, such as
+/// `"W S|bounce;Space|release"`. Call it with `publish_labels`, every frame the machine is focused.
+pub fn publish_hint(hint: &str) {
+    let mut held = HINT.lock().unwrap();
+    if *held != hint {
+        *held = hint.to_string();
+    }
 }
 
 /// Asks the page to play the sound of this name once (a file named in sounds/sounds.json).
@@ -261,6 +272,12 @@ mod web {
     #[wasm_bindgen]
     pub fn pad_named_sounds() -> String {
         std::mem::take(&mut *NAMED.lock().unwrap()).join("\n")
+    }
+
+    /// The focused machine's keyboard prompt.
+    #[wasm_bindgen]
+    pub fn pad_hint() -> String {
+        HINT.lock().unwrap().clone()
     }
 
     /// The focused machine's target labels, one per line.

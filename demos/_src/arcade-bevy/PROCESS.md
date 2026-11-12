@@ -132,3 +132,13 @@ Then a pull request to `main` with the source. Built output and audio never go i
 - Learned: a second machine needs its own seat, footprint, state bit and touch points. Bertie still borrows the first cabinet's `Cabinet` marker and corrects the seat afterwards; `src/player.rs` should carry a seat per machine before a third arrives.
 - Not done: Bertie's light is not baked. One live lamp stands in.
 - Owner: not yet judged.
+
+### Runs 4 to 6: Nimrod, Whirlwind's bouncing ball, Prinz's chess problems (12 November 2026)
+
+- Did: all three at once, one agent each, from the brief in this process, against the shared machine code (`player::Machine`, `pad::play`, `pad::publish_labels`, `pad::publish_hint`). Each did steps 1 to 6 and 8 and listed its sounds; a fourth pass built the sounds; I merged, wired the page and reviewed.
+- Notes per machine: `NIMROD.md`, `WHIRLWIND.md`, `PRINZ.md`. Gemini batches `arcade-nimrod-1`, `arcade-whirlwind-1`, `arcade-prinz-1`.
+- Learned: check every model with `cargo run -- --shot` before anything else. Whirlwind's model failed to load because Blender wrote `"texCoord": -1` for a textured part with no UV map; every `mesh_object` now adds one, and the JSON is checked for it.
+- Learned: the page lays one target per published point, sized to each target's nearest neighbour. Dense desks (Nimrod's 32 buttons) still end up near 23 px on an upright phone, which is small for a thumb.
+- Learned: lit and unlit lamps need a large gap in glow (Nimrod's lit lamps were raised to 12x); a scope picture needs fatter dots than looks right natively (Whirlwind).
+- Not done: no light baked for any of the three.
+- Owner: not yet judged.

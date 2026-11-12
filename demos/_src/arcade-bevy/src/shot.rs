@@ -36,7 +36,7 @@ const VIEWS: &[(&str, Vec3, Vec3)] = &[
     // Prinz's chess desk on the left wall, from its seat: (-3.4, 0, 4.6) turned to face +X.
     ("prinz", Vec3::new(-2.54, 1.58, 4.6), Vec3::new(-3.38, 1.13, 4.6)),
     // The high score board on the right-hand wall.
-    ("scores", Vec3::new(1.2, 1.7, 2.6), Vec3::new(4.0, 1.75, 2.6)),
+    ("scores", Vec3::new(-1.0, 1.7, 2.9), Vec3::new(4.0, 1.75, 2.9)),
     // The picture links to the site show: both machines, close, with the board out of frame.
     ("card", Vec3::new(0.95, 1.5, 2.35), Vec3::new(1.05, 1.38, 0.0)),
     ("pair", Vec3::new(1.0, 1.7, 4.4), Vec3::new(1.0, 1.4, 0.0)),
@@ -62,6 +62,9 @@ pub fn add_headless(app: &mut App, dir: PathBuf) {
     // Sample tables, so the board on the wall has something to show in the pictures.
     crate::pad::set_table(0, "ANTHONY\t14\nGRACE\t11\nALAN\t9\nJOSEF\t7\nADA\t4".into());
     crate::pad::set_table(1, "KATES\t23\nANTHONY\t12\nDANNY\t6\nMAVIS\t3".into());
+    crate::pad::set_table(2, "FERRANTI\t9\nTURING\t4".into());
+    crate::pad::set_table(3, "GILMORE\t340\nADAMS\t120".into());
+    crate::pad::set_table(4, "PRINZ\t45\nKASPAROV\t12".into());
     std::fs::create_dir_all(&dir).expect("could not create the output directory");
     app.add_plugins(
         DefaultPlugins

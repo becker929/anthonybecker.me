@@ -19,7 +19,7 @@ const LAMP_PX: usize = 3;
 /// Its size on the wall in metres, and where its centre hangs: on the right-hand wall, facing in.
 const BOARD_W: f32 = BOARD_H * LAMPS_W as f32 / LAMPS_H as f32;
 const BOARD_H: f32 = 1.3;
-const BOARD_AT: Vec3 = Vec3::new(ROOM_MAX.x - 0.075, 1.78, 2.6);
+const BOARD_AT: Vec3 = Vec3::new(ROOM_MAX.x - 0.075, 1.78, 2.9);
 /// How many entries of each table fit.
 pub const ROWS: usize = 7;
 
@@ -34,7 +34,9 @@ const UNLIT: [u8; 3] = [24, 14, 6];
 const COLUMNS: &[(u32, &str)] = &[
     (pad::GAME_TUBE, "TUBE 1947"),
     (pad::GAME_BERTIE, "BERTIE 1950"),
+    (pad::GAME_NIMROD, "NIMROD 1951"),
     (pad::GAME_WHIRLWIND, "WHIRLWIND 1951"),
+    (pad::GAME_PRINZ, "PRINZ 1951"),
 ];
 /// Each column is 104 lamps wide.
 const COLUMN_W: usize = 104;

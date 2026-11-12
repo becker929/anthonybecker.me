@@ -24,6 +24,8 @@ const PRINZ_YAW: f32 = std::f32::consts::FRAC_PI_2;
 
 /// The seat, in the machine's own space. From here the board, the lamp rail and the monitor are in
 /// view at the 68 degree field of view. blender/prinz.py uses the same numbers for its checks.
+/// The pieces are drawn larger than the model's templates, so a phone can tell them apart.
+const PIECE_SCALE: f32 = 1.3;
 const SEAT_EYE: Vec3 = Vec3::new(0.0, 1.58, 0.86);
 const SEAT_AIM: Vec3 = Vec3::new(0.0, 1.13, 0.02);
 /// On a narrow screen the eye steps back until the board's near edge (z 0.43, 0.56 m wide with its
@@ -165,9 +167,9 @@ fn make_look(mut commands: Commands, mut materials: ResMut<Assets<StandardMateri
     let mut lit = |tint: Color, glow: LinearRgba| {
         materials.add(StandardMaterial { base_color: tint, emissive: glow, perceptual_roughness: 0.2, ..default() })
     };
-    let legal = lit(Color::BLACK, LinearRgba::rgb(3.2, 1.35, 0.30));
-    let selected = lit(Color::BLACK, LinearRgba::rgb(6.0, 5.0, 3.6));
-    let cursor = lit(Color::BLACK, LinearRgba::rgb(1.1, 2.6, 3.4));
+    let legal = lit(Color::BLACK, LinearRgba::rgb(7.0, 3.0, 0.65));
+    let selected = lit(Color::BLACK, LinearRgba::rgb(12.0, 10.0, 7.2));
+    let cursor = lit(Color::BLACK, LinearRgba::rgb(2.2, 5.2, 6.8));
     let white = lit(Color::srgb(0.9, 0.86, 0.78), LinearRgba::rgb(4.0, 3.4, 2.4));
     let think = lit(Color::srgb(0.6, 0.32, 0.08), LinearRgba::rgb(4.0, 1.7, 0.3));
     let mate = lit(Color::srgb(0.2, 0.5, 0.25), LinearRgba::rgb(0.9, 4.2, 1.2));
@@ -422,7 +424,7 @@ fn lay_pieces(mut commands: Commands, mut machines: Query<(Entity, &mut Prinz, &
                         PieceOf(machine),
                         Mesh3d(mesh),
                         MeshMaterial3d(mat),
-                        Transform::from_translation(to + Vec3::Y * 0.06),
+                        Transform::from_translation(to + Vec3::Y * 0.06).with_scale(Vec3::splat(PIECE_SCALE)),
                         Slide { from: to + Vec3::Y * 0.06, to, t: -(sq as f32) * 0.004, time: 0.22, hop: 0.0, becomes: None },
                         ChildOf(board),
                     ))
@@ -609,6 +611,11 @@ fn publish(
     };
     let solved = matches!(prinz.game.phase(), Phase::Solved(_));
     pad::publish_more_state(if solved { pad::STATE_OVER } else { 0 });
+    // The squares need no words; the button does.
+    let mut labels = [""; 65];
+    labels[64] = "NEXT";
+    pad::publish_labels(&labels);
+    pad::publish_hint("Arrows|move;Enter|pick a piece, then a square;N|next problem;E|leave");
     if !pad.active {
         return;
     }

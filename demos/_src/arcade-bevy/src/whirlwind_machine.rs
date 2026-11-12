@@ -44,7 +44,7 @@ const TOUCH_SIDE: f32 = 0.115;
 /// The idle machine shows off a ball this often while nobody plays.
 const DEMO_EVERY: f32 = 3.5;
 /// How bright the tube's picture is. A dot of 1.0 in the texture blooms a little.
-const TUBE_GLOW: f32 = 9.0;
+const TUBE_GLOW: f32 = 20.0;
 /// The tube's green light on the desk and the player.
 const TUBE_LIGHT: f32 = 260.0;
 /// Lit lamps: their glass glows this much in their own colour.
@@ -455,10 +455,11 @@ fn publish(
 ) {
     let Some(machine) = focus.0 else { return };
     let Ok((console, root)) = machines.get(machine) else { return };
+    pad::publish_labels(&["LESS", "MORE", "LESS", "MORE", "RELEASE"]);
+    pad::publish_hint("W S|bounce;A D|speed;Space|release;R|new run;E|leave");
     pad::publish_more_state(if console.game.over() { pad::STATE_OVER } else { 0 });
     if pad.active {
         let (camera, view) = *camera;
         pad::publish_points(&touch_points(machine, root, camera, view, &knobs, &plungers));
-        pad::publish_labels(&["LESS", "MORE", "LESS", "MORE", "RELEASE"]);
     }
 }

@@ -50,6 +50,8 @@ body.touch.running #touch{display:block}
 #t-fire{pointer-events:auto}
 .target.key{width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:12px;pointer-events:auto}
 .target.key.named{width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%}
+.target.key.named.small span{display:none}
+.target.key.named.small{border-color:rgba(243,230,200,.18)}
 .target.key.cell{width:64px;height:64px;margin:-32px 0 0 -32px;border-color:transparent}
 .target.key.wide{width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%}
 #tip.low{top:auto;bottom:calc(10px + env(safe-area-inset-bottom))}
@@ -238,8 +240,8 @@ function sounds(game) {
 // them on the board on the wall, and asks for a name when a finished game's score makes a table.
 function highScores(game) {
   // Indexed by the game's number in src/pad.rs. A game the server keeps no table for is null.
-  const GAMES = ['tube', 'bertie', null, 'whirlwind'], ROWS = 7;
-  const TITLES = { tube: 'The tube, 1947', bertie: 'Bertie the Brain', whirlwind: 'Whirlwind bouncing ball' };
+  const GAMES = ['tube', 'bertie', 'nimrod', 'whirlwind', 'prinz'], ROWS = 7;
+  const TITLES = { tube: 'The tube, 1947', bertie: 'Bertie the Brain', whirlwind: 'Whirlwind bouncing ball', nimrod: 'Nimrod', prinz: "Prinz's chess problems" };
   const box = document.getElementById('name'), input = document.getElementById('name-input');
   let tables = {}, asking = null;
   const waiting = [];
@@ -295,7 +297,6 @@ function hints(game) {
     over: 'Out of shells' + key('R', 'play again') + key('E', 'leave'),
     bertie: key('1 – 9', 'press a square') + key('[ ]', 'easier, harder') + key('R', 'new game') + key('E', 'leave'),
     bertieOver: key('R', 'new game') + key('E', 'leave'),
-    machine: key('W S', 'first knob') + key('A D', 'second knob') + key('Space', 'go') + key('E', 'leave'),
     machineOver: key('R', 'again') + key('E', 'leave'),
   };
   const STAYS = { reach: true, over: true, look: true, bertieOver: true };   // the rest fade after a few seconds
@@ -303,7 +304,8 @@ function hints(game) {
   (function poll() {
     const st = game.pad_state();
     const want = (st & 32) ? ((st & 4) ? 'machineOver' : 'machine') : (st & 16) ? ((st & 4) ? 'bertieOver' : 'bertie') : (st & 4) ? 'over' : (st & 2) ? 'play' : (st & 1) ? 'reach' : document.pointerLockElement ? 'walk' : 'look';
-    if (want !== shown) {
+    if (want === 'machine') LINES.machine = game.pad_hint().split(';').filter(Boolean).map(p => { const [k, w] = p.split('|'); return key(k, w || ''); }).join('');
+    if (want !== shown || (want === 'machine' && el.innerHTML !== LINES.machine)) {
       shown = want;
       el.innerHTML = LINES[want];
       el.classList.add('on');
@@ -469,7 +471,22 @@ function touchControls(game) {
       const labels = game.pad_labels();
       if (labels !== namedLabels) nameTargets(labels);
       const p = game.pad_points();
-      named.forEach((el, i) => { el.style.transform = `translate(${p[i * 2] * SCALE}px,${p[i * 2 + 1] * SCALE}px)`; });
+      // Targets are as large as the gap to their nearest neighbour allows, so dense desks do not overlap.
+      // Each target is sized to its own nearest neighbour, so near rows get bigger targets than far ones.
+      const gaps = named.map(() => 64);
+      for (let i = 0; i < named.length; i++) for (let j = i + 1; j < named.length; j++) {
+        if (p[i * 2] < -999 || p[j * 2] < -999) continue;
+        const d = Math.hypot(p[i * 2] - p[j * 2], p[i * 2 + 1] - p[j * 2 + 1]) * SCALE * 0.96;
+        if (d < gaps[i]) gaps[i] = d;
+        if (d < gaps[j]) gaps[j] = d;
+      }
+      named.forEach((el, i) => {
+        const size = Math.max(22, Math.min(64, gaps[i]));
+        el.style.width = el.style.height = size + 'px';
+        el.style.margin = -size / 2 + 'px 0 0 ' + -size / 2 + 'px';
+        el.classList.toggle('small', size < 40);
+        el.style.transform = `translate(${p[i * 2] * SCALE}px,${p[i * 2 + 1] * SCALE}px)`;
+      });
     } else if ((st & 18) === 18) {
       const p = game.pad_points();
       if (p.length >= 40) keys.forEach((k, i) => { k.style.transform = `translate(${p[i * 2] * SCALE}px,${p[i * 2 + 1] * SCALE}px)`; });

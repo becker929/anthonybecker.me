@@ -186,11 +186,12 @@ fn spawn_nimrod(mut commands: Commands, assets: Res<AssetServer>) {
 /// The colour and strength a lamp glows at when lit, by what it shows.
 fn glow(shows: Shows) -> LinearRgba {
     match shows {
-        Shows::Changed(_) => WHITE * 5.0,
-        Shows::Select(_) | Shows::Odd(_) => RED * 5.0,
-        Shows::Legend(_) => WARM * 3.0,
-        Shows::Key(..) => WARM * 1.6,
-        _ => WARM * 5.0,
+        // Lit lamps must stand well clear of the unlit ones, which are warm brown glass.
+        Shows::Changed(_) => WHITE * 11.0,
+        Shows::Select(_) | Shows::Odd(_) => RED * 11.0,
+        Shows::Legend(_) => WARM * 6.0,
+        Shows::Key(..) => WARM * 2.6,
+        _ => WARM * 12.0,
     }
 }
 
@@ -552,6 +553,14 @@ fn publish(
         return;
     };
     pad::publish_more_state(if nimrod.game.over().is_some() { pad::STATE_OVER } else { 0 });
+    // The desk buttons say how many lamps they leave; the rest say what they are.
+    const LABELS: [&str; 35] = [
+        "0", "1", "2", "3", "4", "5", "6", "7", "0", "1", "2", "3", "4", "5", "6", "7",
+        "0", "1", "2", "3", "4", "5", "6", "7", "0", "1", "2", "3", "4", "5", "6", "7",
+        "COMP. MOVE", "GAME", "NEW GAME",
+    ];
+    pad::publish_labels(&LABELS);
+    pad::publish_hint("1 - 4|pick a heap;0 - 7|leave that many;Space|computer starts;G|game;R|deal;E|leave");
     if pad.active {
         let (camera, view) = *camera;
         pad::publish_points(&touch_points(machine, camera, view, &caps, &plungers, &levers));
