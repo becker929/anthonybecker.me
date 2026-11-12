@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arcade: Cathode-Ray Tube Amusement Device (1947) — Anthony Becker</title>
+<meta name="description" content="A walkable arcade room with one cabinet. On its tube runs the 1947 Cathode-Ray Tube Amusement Device.">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://arcade.anthonybecker.me/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Anthony Becker">
+<meta property="og:title" content="Arcade">
+<meta property="og:description" content="Walk up to the cabinet and play the 1947 Cathode-Ray Tube Amusement Device.">
+<meta property="og:url" content="https://arcade.anthonybecker.me/">
+<style>
+html,body{height:100%;margin:0;background:#000;color:#f3e6c8;font:14px/1.5 ui-monospace,Menlo,monospace;overflow:hidden}
+#stage{position:fixed;inset:0}
+#game{display:block;width:100%;height:100%;outline:none}
+#cover{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;background:#000;transition:opacity .4s}
+#cover.gone{opacity:0;pointer-events:none}
+#cover h1{margin:0;font:400 clamp(20px,5vw,34px)/1.2 Georgia,serif;color:#ffb347;letter-spacing:.03em}
+#cover p{margin:0;max-width:34em;color:#9c8f78}
+#cover b{color:#6dffa0;font-weight:400}
+#bar{width:min(320px,70vw);height:4px;background:#2a2118;border-radius:2px;overflow:hidden}
+#fill{height:100%;width:0;background:#6dffa0;transition:width .15s}
+#status{min-height:1.5em}
+a{color:#9c8f78}
+</style></head>
+<body>
+<div id="stage"><canvas id="game" tabindex="0"></canvas></div>
+<div id="cover">
+  <h1>Cathode-Ray Tube Amusement Device</h1>
+  <div id="bar"><div id="fill"></div></div>
+  <p id="status">Loading the arcade…</p>
+  <p><b>WASD</b> walk · <b>mouse</b> look (click first) · <b>E</b> step up to the cabinet<br>
+  At the cabinet: <b>A/D</b> elevation · <b>W/S</b> charge · <b>Space</b> fire · <b>R</b> restart</p>
+  <p>Needs a keyboard and mouse. <a href="https://anthonybecker.me/">anthonybecker.me</a></p>
+</div>
+<script type="module">
+const status = document.getElementById('status'), fill = document.getElementById('fill'), cover = document.getElementById('cover');
+const WASM = './pkg/crt_arcade_bg.wasm';
+try {
+  if (!document.createElement('canvas').getContext('webgl2')) throw new Error('This browser has no WebGL2.');
+  // Fetch the binary ourselves so the bar can show progress.
+  const res = await fetch(WASM);
+  if (!res.ok) throw new Error('Could not load the game (' + res.status + ').');
+  const total = +res.headers.get('content-length') || 0, reader = res.body.getReader(), parts = [];
+  let got = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    parts.push(value); got += value.length;
+    if (total) fill.style.width = Math.min(100, 100 * got / total) + '%';
+  }
+  fill.style.width = '100%';
+  status.textContent = 'Starting…';
+  const { default: init } = await import('./pkg/crt_arcade.js');
+  const bytes = await new Blob(parts).arrayBuffer();
+  // Bevy takes over the page's event loop by throwing; that is not a failure.
+  const started = init({ module_or_path: bytes }).catch(e => {
+    if (!String(e && e.message).includes('Using exceptions for control flow')) throw e;
+  });
+  const hide = setTimeout(() => { cover.classList.add('gone'); document.getElementById('game').focus(); }, 600);
+  started.catch(() => clearTimeout(hide));
+  await started;
+} catch (e) {
+  cover.classList.remove('gone');
+  document.getElementById('bar').hidden = true;
+  status.textContent = e.message || String(e);
+}
+</script>
+</body></html>

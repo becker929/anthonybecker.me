@@ -1,1 +1,4 @@
 /target
+/dist
+.wrangler
+node_modules

@@ -2,8 +2,20 @@
 
 A walkable arcade room in Bevy 0.20. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
 
-This directory is source only. `.assetsignore` keeps it out of the deployed site.
-A web build has not been made yet. It needs the `wasm32-unknown-unknown` target and `wasm-bindgen`, and the game has no touch controls.
+The site does not serve this directory (`.assetsignore`). The web build is its own Cloudflare Worker at https://arcade.anthonybecker.me/.
+
+## Web build and deploy
+
+```
+./build-web.sh
+npx wrangler deploy
+```
+
+`build-web.sh` compiles to `wasm32-unknown-unknown` with the `web` profile, runs `wasm-bindgen` and `wasm-opt`, and fills `dist/`. The page is `web/index.html`.
+`dist/` is not in git: the binary is about 22 MB, and every site build clones the whole history.
+`wrangler.toml` here names the Worker and its hostname. The deploy needs a `wrangler login` on this machine.
+The web build draws with WebGL2. It has no touch controls, so it needs a keyboard and mouse.
+Cloudflare refuses any asset over 25 MiB. The script fails if the binary grows past that.
 
 ## Run
 

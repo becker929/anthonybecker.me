@@ -1,0 +1,11 @@
+# The arcade's own Worker: static assets only, at arcade.anthonybecker.me.
+# ./build-web.sh fills dist/ (not in git); `npx wrangler deploy` from this directory publishes it.
+# The site's Worker (wrangler.toml at the repo root) must not list this hostname: a hostname belongs to one Worker.
+name = "arcade-anthonybecker-me"
+compatibility_date = "2026-07-24"
+routes = [
+  { pattern = "arcade.anthonybecker.me", custom_domain = true },
+]
+
+[assets]
+directory = "./dist"
