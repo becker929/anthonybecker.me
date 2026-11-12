@@ -387,8 +387,15 @@ fn tick_games(time: Res<Time>, mut machines: Query<&mut Bertie>) {
 }
 
 /// Passes on what the game says happened.
-fn report_sounds(mut machines: Query<&mut Bertie>) {
-    for mut bertie in &mut machines {
+fn report_sounds(focus: Res<Focus>, mut machines: Query<(Entity, &mut Bertie)>) {
+    for (machine, mut bertie) in &mut machines {
+        // Walking away from the machine ends a run of wins, as losing or drawing does.
+        if focus.0 != Some(machine) {
+            bertie.game.end_streak();
+        }
+        if let Some(score) = bertie.game.take_ended() {
+            pad::score(pad::GAME_BERTIE, score);
+        }
         if bertie.game.events != 0 {
             pad::sound(bertie.game.events << SOUND_SHIFT);
             bertie.game.events = 0;

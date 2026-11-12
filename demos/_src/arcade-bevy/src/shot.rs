@@ -31,6 +31,8 @@ const VIEWS: &[(&str, Vec3, Vec3)] = &[
     ("floor", Vec3::new(1.6, 0.9, 3.4), Vec3::new(-0.4, 0.5, 0.0)),
     // Bertie from where its player stands, and the two machines together.
     ("bertie", Vec3::new(2.0, 1.52, 1.575), Vec3::new(2.0, 1.49, 0.10)),
+    // The high score board on the right-hand wall.
+    ("scores", Vec3::new(1.2, 1.7, 2.6), Vec3::new(4.0, 1.75, 2.6)),
     ("pair", Vec3::new(1.0, 1.7, 4.4), Vec3::new(1.0, 1.4, 0.0)),
 ];
 
@@ -49,6 +51,9 @@ pub fn requested() -> Option<PathBuf> {
 }
 
 pub fn add_headless(app: &mut App, dir: PathBuf) {
+    // Sample tables, so the board on the wall has something to show in the pictures.
+    crate::pad::set_table(0, "ANTHONY\t14\nGRACE\t11\nALAN\t9\nJOSEF\t7\nADA\t4".into());
+    crate::pad::set_table(1, "KATES\t23\nANTHONY\t12\nDANNY\t6\nMAVIS\t3".into());
     std::fs::create_dir_all(&dir).expect("could not create the output directory");
     app.add_plugins(
         DefaultPlugins

@@ -26,6 +26,10 @@ pub const SOUND_STEP_AWAY: u32 = 256;
 pub const SOUND_RESTART: u32 = 512;
 pub const SOUND_BUTTON_UP: u32 = 1024;
 
+/// The games, as the high score table numbers them.
+pub const GAME_TUBE: u32 = 0;
+pub const GAME_BERTIE: u32 = 1;
+
 /// What the page should offer, as told to it by `pad_state`.
 pub const STATE_IN_REACH: u32 = 1;
 pub const STATE_PLAYING: u32 = 2;
@@ -55,6 +59,11 @@ static HELD: AtomicU32 = AtomicU32::new(0);
 static TAPPED: AtomicU32 = AtomicU32::new(0);
 static STATE: AtomicU32 = AtomicU32::new(0);
 static SOUNDS: AtomicU32 = AtomicU32::new(0);
+// Finished games' scores, waiting for the page to take them to the table: (game, score).
+static SCORES: Mutex<Vec<(u32, u32)>> = Mutex::new(Vec::new());
+// The tables as the page last fetched them, one text per game, and a count of how often they changed.
+static TABLES: Mutex<[String; 2]> = Mutex::new([String::new(), String::new()]);
+static TABLES_CHANGED: AtomicU32 = AtomicU32::new(0);
 // How loud the tube's hum should be for where the player stands, 0 to 1, as f32 bits.
 static HUM: AtomicU32 = AtomicU32::new(0);
 
@@ -108,6 +117,28 @@ pub fn publish_state(state: u32) {
 /// State bits from a machine other than the first cabinet. Call it every frame; pass 0 to clear them.
 pub fn publish_more_state(bits: u32) {
     MORE_STATE.store(bits, Relaxed);
+}
+
+/// Hands a finished game's score to the page, which keeps the high score table.
+pub fn score(game: u32, score: u32) {
+    if score > 0 {
+        SCORES.lock().unwrap().push((game, score));
+    }
+}
+
+/// The high score tables, one text per game: a line per entry, the name, a tab, the score. The number
+/// goes up whenever the page sends new ones, so the wall display knows to repaint.
+pub fn tables() -> ([String; 2], u32) {
+    (TABLES.lock().unwrap().clone(), TABLES_CHANGED.load(Relaxed))
+}
+
+/// Replaces one game's table. The page does this through `pad_table`; the headless capture does it
+/// to have something on the board.
+pub fn set_table(game: u32, rows: String) {
+    if let Some(table) = TABLES.lock().unwrap().get_mut(game as usize) {
+        *table = rows;
+        TABLES_CHANGED.fetch_add(1, Relaxed);
+    }
 }
 
 /// Asks the page to play these sounds (any of the `SOUND_` bits). Each plays once.
@@ -186,6 +217,25 @@ mod web {
     #[wasm_bindgen]
     pub fn pad_hum() -> f32 {
         f32::from_bits(HUM.load(Relaxed))
+    }
+
+    /// The next finished score, as game * 1,000,000 + score, or -1 if there is none.
+    #[wasm_bindgen]
+    pub fn pad_score() -> i32 {
+        let mut scores = SCORES.lock().unwrap();
+        if scores.is_empty() { -1 } else { let (game, score) = scores.remove(0); (game * 1_000_000 + score.min(999_999)) as i32 }
+    }
+
+    /// Reports a score as if a game had just ended. The page's tests use it to reach the name prompt.
+    #[wasm_bindgen]
+    pub fn pad_report_score(game: u32, score: u32) {
+        super::score(game, score);
+    }
+
+    /// The page sends a game's table for the wall display: a line per entry, name, tab, score.
+    #[wasm_bindgen]
+    pub fn pad_table(game: u32, rows: String) {
+        super::set_table(game, rows);
     }
 
     #[wasm_bindgen]

@@ -170,6 +170,10 @@ pub struct BertieGame {
     pub wins: u32,
     pub losses: u32,
     pub draws: u32,
+    /// The score of the run of wins in progress: each win adds the dial's level, 1 to 5.
+    streak: u32,
+    /// A run that has just ended, waiting for the owner to take it to the high score table.
+    ended: Option<u32>,
     x: u16,
     o: u16,
     phase: Phase,
@@ -189,6 +193,8 @@ impl BertieGame {
             wins: 0,
             losses: 0,
             draws: 0,
+            streak: 0,
+            ended: None,
             x: 0,
             o: 0,
             phase: Phase::PlayerTurn,
@@ -218,6 +224,25 @@ impl BertieGame {
     #[allow(dead_code)] // the tests read it, and a display of the machine thinking will
     pub fn phase(&self) -> Phase {
         self.phase
+    }
+
+    /// The score of the run of wins in progress.
+    #[allow(dead_code)] // read by the tests; a lamp for it may follow
+    pub fn streak(&self) -> u32 {
+        self.streak
+    }
+
+    /// Ends the run of wins, as a loss, a draw or walking away does. Its score waits in `take_ended`.
+    pub fn end_streak(&mut self) {
+        if self.streak > 0 {
+            self.ended = Some(self.streak);
+            self.streak = 0;
+        }
+    }
+
+    /// The score of a run that has ended, once.
+    pub fn take_ended(&mut self) -> Option<u32> {
+        self.ended.take()
     }
 
     pub fn over(&self) -> Option<Outcome> {
@@ -333,6 +358,13 @@ impl BertieGame {
             Outcome::Lose => (self.losses += 1, self.events |= EV_LOSE),
             Outcome::Draw => (self.draws += 1, self.events |= EV_DRAW),
         };
+        // A win is worth the level it was won at, and wins add up for as long as they keep coming.
+        // Anything but a win ends the run.
+        if outcome == Outcome::Win {
+            self.streak += self.level as u32 + 1;
+        } else {
+            self.end_streak();
+        }
         self.clock = 0.0;
         self.phase = Phase::Over(outcome);
         true
@@ -442,6 +474,39 @@ mod tests {
         let wins: Vec<u32> = (0..LEVELS).map(|level| careful_player_results(level, 400).0).collect();
         assert!(wins.windows(2).all(|w| w[0] > w[1]), "wins by level: {wins:?}");
         assert_eq!(wins[PERFECT as usize], 0);
+    }
+
+    #[test]
+    fn a_streak_adds_each_win_times_its_level_and_ends_on_anything_else() {
+        let mut game = BertieGame::new(1);
+        let win = |game: &mut BertieGame, level: u8| {
+            game.reset();
+            game.level = level;
+            game.phase = Phase::PlayerTurn;
+            game.o = 0b000_000_011;
+            game.x = 0b000_011_000;
+            assert!(game.press(2));
+        };
+        win(&mut game, 0);
+        win(&mut game, 2);
+        win(&mut game, 2);
+        assert_eq!(game.streak(), 1 + 3 + 3);
+        assert_eq!(game.take_ended(), None);
+        // A loss ends the run and hands its score over once.
+        game.reset();
+        game.phase = Phase::PlayerTurn;
+        game.x = 0b000_000_111;
+        game.o = 0b000_011_000;
+        assert!(game.finish());
+        assert_eq!(game.streak(), 0);
+        assert_eq!(game.take_ended(), Some(7));
+        assert_eq!(game.take_ended(), None);
+        // Walking away ends it too. A run of nothing is not a score.
+        win(&mut game, 4);
+        game.end_streak();
+        assert_eq!(game.take_ended(), Some(5));
+        game.end_streak();
+        assert_eq!(game.take_ended(), None);
     }
 
     #[test]

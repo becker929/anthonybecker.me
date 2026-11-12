@@ -342,6 +342,10 @@ fn report_sounds(mut games: Query<(&mut CrtGame, &Transform)>, player: Single<&T
     let mut hum: f32 = 0.0;
     for (mut game, at) in &mut games {
         if game.happened != 0 {
+            // Out of shells: the game is over, and its hits are its score.
+            if game.happened & pad::SOUND_OVER != 0 {
+                pad::score(pad::GAME_TUBE, game.hits);
+            }
             pad::sound(game.happened);
             game.happened = 0;
         }
