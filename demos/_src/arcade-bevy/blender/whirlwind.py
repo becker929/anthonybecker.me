@@ -73,10 +73,10 @@ LOWER_Z = 0.30        # the front of the pedestal under the desk
 LOWER_TOP = 0.80
 # The tube: a 16-inch round face, as on Whirlwind's display consoles.
 TUBE_C = (0.0, 1.43)
-SCREEN_R = 0.21
-HOOD_R = 0.242        # the hood's inside
-HOOD_WALL = 0.016
-HOOD_MIN, HOOD_MAX = 0.11, 0.19   # how far the hood stands out at the bottom and at the top
+SCREEN_R = 0.23
+HOOD_R = 0.268        # half the hood's inside at its root
+HOOD_FRONT = 0.292    # and at its mouth: it flares
+HOOD_MIN, HOOD_MAX = 0.12, 0.18   # how far the hood stands out at the bottom and at the top
 SCREEN_Z = FACE_Z + 0.030
 # The desk slopes down toward the player.
 DECK_C = (0.0, 0.965, 0.29)
@@ -92,7 +92,7 @@ SCORE_Y, ROW2_Y = 2.015, 1.925
 SWITCH_Y = 1.80
 NAME_Y = 2.15
 # Where the player's eye is at the machine and what it looks at (src/whirlwind_machine.rs).
-SEAT_EYE, SEAT_AIM, SEAT_FOV = (0.0, 1.55, 1.15), (0.0, 1.47, 0.15), 68.0
+SEAT_EYE, SEAT_AIM, SEAT_FOV = (0.0, 1.55, 1.15), (0.0, 1.42, 0.15), 68.0
 HERO_EYE, HERO_AIM = (-1.55, 1.70, 2.70), (0.0, 1.32, 0.10)
 
 DECK = Matrix.Translation(B(*DECK_C)) @ rot_x(DECK_TILT)
@@ -521,28 +521,29 @@ def screen():
 
 def lamp(name, mat, x, y):
     """A domed glass jewel in a steel bezel. The bezel is scenery; the jewel is what lights."""
-    add_front_lathe("steel", [(0.026, 0.0), (0.026, 0.006), (0.022, 0.010), (0.019, 0.010)], x, y, FACE_Z, segs=24)
+    add_front_lathe("steel", [(0.029, 0.0), (0.029, 0.005), (0.022, 0.010)], x, y, FACE_Z, segs=16)
     bm = bmesh.new()
-    lathe(bm, [(0.019, 0.0), (0.019, 0.004), (0.016, 0.011), (0.010, 0.016), (0.0, 0.018)], segs=24)
+    lathe(bm, [(0.022, 0.0), (0.022, 0.004), (0.018, 0.012), (0.011, 0.018), (0.0, 0.020)], segs=16)
     bmesh.ops.transform(bm, matrix=FACING, verts=bm.verts[:])
     uv = bm.loops.layers.uv.verify()
     u0, v0, u1, v1 = atlas_uv("lens")
     for f in bm.faces:
         for loop in f.loops:
             p = loop.vert.co
-            loop[uv].uv = (u0 + (p.x / 0.04 + 0.5) * (u1 - u0), v0 + (p.z / 0.04 + 0.5) * (v1 - v0))
+            loop[uv].uv = (u0 + (p.x / 0.046 + 0.5) * (u1 - u0), v0 + (p.z / 0.046 + 0.5) * (v1 - v0))
     return mesh_object(name, bm, [mat], location=B(x, y, FACE_Z + 0.006))
 
 
 def knob(name, parent, x, z):
-    """A heavy knob: a fluted black drum on a steel skirt, an opal cap, and a cream pointer bar that
-    reaches out over the dial's ticks with a lit line along it. At rest it points up the deck."""
+    """A heavy knob: a fluted black drum on a steel skirt, an opal cap, and a black pointer bar that
+    reaches out over the dial's ticks with a lit line along it. The bar lies low across the cap, so
+    it reads as a pointer, not a lever. At rest it points up the deck."""
     bm = bmesh.new()
     lathe(bm, [(0.080, 0.004), (0.080, 0.014), (0.074, 0.018)], segs=48, mat_index=0)
     lathe(bm, [(0.072, 0.018), (0.072, 0.056)], segs=48, mat_index=1, smooth=False, flute=0.004)
     lathe(bm, [(0.072, 0.056), (0.066, 0.062), (0.050, 0.064)], segs=48, mat_index=1)
-    lathe(bm, [(0.050, 0.064), (0.046, 0.072), (0.030, 0.078), (0.0, 0.080)], segs=48, mat_index=2)
-    w, tail, shoulder, tip, lo, hi = 0.015, -0.030, 0.090, 0.112, 0.060, 0.084
+    lathe(bm, [(0.050, 0.064), (0.044, 0.068), (0.026, 0.071), (0.0, 0.072)], segs=48, mat_index=2)
+    w, tail, shoulder, tip, lo, hi = 0.014, -0.060, 0.088, 0.110, 0.058, 0.076
     outline = [(-w, tail), (w, tail), (w, shoulder), (0.0, tip), (-w, shoulder)]
     a = [bm.verts.new((px, py, lo)) for px, py in outline]
     b = [bm.verts.new((px * 0.8, py if py != tip else py - 0.004, hi)) for px, py in outline]
@@ -558,7 +559,7 @@ def knob(name, parent, x, z):
     bmesh.ops.translate(bm, verts=line["verts"], vec=(0, 0.040, hi + 0.001))
     for f in {f for v in line["verts"] for f in v.link_faces}:
         f.material_index = 4
-    obj = mesh_object(name, bm, ["steel", "bakelite", "dome", "cream", "pip"], parent=parent)
+    obj = mesh_object(name, bm, ["steel", "bakelite", "dome", "bakelite", "pip"], parent=parent)
     obj.location = (x, -z, 0.004)
     return obj
 
@@ -619,72 +620,51 @@ def body():
     # A shadow gap above the desk and a steel kick plate along the foot of the pedestal.
     add_box("black", (w, 0.007, 0.004), (0, far[1] + 0.03, FACE_Z + 0.001))
     add_box("steel", (w, 0.075, 0.006), (0, 0.105, LOWER_Z + 0.003), bevel=0.002)
-    # A louvred vent in the pedestal: the valves inside ran hot.
-    add_box("black", (0.70, 0.26, 0.004), (0, 0.44, LOWER_Z + 0.002))
-    for i in range(6):
-        add_box("steel", (0.70, 0.026, 0.008), (0, 0.335 + i * 0.042, LOWER_Z + 0.009), tilt=-0.7)
-    add_bevel_frame("steel", 0, 0.44, 0.70, 0.26, LOWER_Z, LOWER_Z + 0.016, 0.014, 0.006, LOWER_Z + 0.004)
     front_plate("parts", "maker", 0.36, 0.056, (0.0, 0.69, LOWER_Z + 0.003))
 
 
 def tube():
+    """The round tube in a deep steel box hood that flares toward the player and stands out further
+    at the top, as both target pictures drew it."""
     cx, cy = TUBE_C
-    # A square steel bezel plate round the hood's root, set into the walnut.
-    add_bevel_frame("steel", cx, cy, 2 * HOOD_R + 0.03, 2 * HOOD_R + 0.03, FACE_Z, FACE_Z + 0.010, 0.022, 0.006, FACE_Z + 0.002)
-    add_box("black", (2 * HOOD_R + 0.04, 2 * HOOD_R + 0.04, 0.004), (cx, cy, FACE_Z + 0.002))
-    # The hood: a steel tube round the face, standing out further at the top, like a visor.
-    segs = 72
-    steel, black = bucket("steel"), bucket("black")
-    ro, ri = HOOD_R + HOOD_WALL, HOOD_R
+    steel = bucket("steel")
+    wall, chamfer = 0.012, 0.022
 
-    def depth(a):
-        return FACE_Z + HOOD_MIN + (HOOD_MAX - HOOD_MIN) * (0.5 + 0.5 * math.sin(a)) ** 1.5
+    def rect(half, z_of, grow=0.0):
+        h = half + grow
+        c = chamfer + grow * 0.4
+        pts = [(h - c, -h), (h, -h + c), (h, h - c), (h - c, h), (-h + c, h), (-h, h - c), (-h, -h + c), (-h + c, -h)]
+        return [(cx + x, cy + y, z_of(y)) for x, y in pts]
 
-    rings = {}
-    for key, bm, r, front in (("ob", steel, ro, False), ("of", steel, ro, True), ("lip", steel, ro - 0.005, "lip"),
-                              ("if", black, ri, True), ("ib", black, ri, False), ("ib2", steel, ri + 0.003, "lip2")):
-        pts = []
-        for i in range(segs):
-            a = 2 * math.pi * i / segs
-            z = FACE_Z if front is False else depth(a) + (0.004 if front == "lip" else 0.0)
-            if front == "lip2":
-                z = depth(a)
-            pts.append(bm.verts.new(B(cx + r * math.cos(a), cy + r * math.sin(a), z)))
-        rings[key] = pts
+    def front(y):
+        t = (y + HOOD_FRONT + wall) / (2 * (HOOD_FRONT + wall))
+        return FACE_Z + HOOD_MIN + (HOOD_MAX - HOOD_MIN) * t
 
-    def band(bm, lo, hi, mat):
-        faces = []
-        for i in range(segs):
-            j = (i + 1) % segs
-            f = bm.faces.new([lo[i], lo[j], hi[j], hi[i]])
-            f.smooth = True
-            faces.append(f)
-        bmesh.ops.recalc_face_normals(bm, faces=faces)
-        return faces
-
-    outer = band(steel, rings["ob"], rings["of"], "steel") + band(steel, rings["of"], rings["lip"], "steel") + band(steel, rings["lip"], rings["ib2"], "steel")
-    inner = band(black, rings["if"], rings["ib"], "black")
-    steel.normal_update()
-    black.normal_update()
-    # The outside must face out and the inside in.
-    for f in outer:
-        c = f.calc_center_median()
-        radial = Vector((c.x - cx, 0, c.z - cy))
-        if f.normal.dot(radial) < -1e-6 or (abs(f.normal.dot(radial)) < 1e-6 and f.normal.y > 0):
-            f.normal_flip()
-    for f in inner:
-        c = f.calc_center_median()
-        if f.normal.dot(Vector((c.x - cx, 0, c.z - cy))) > 0:
-            f.normal_flip()
-    uv = steel.loops.layers.uv["UVMap"]
-    for f in outer:
-        for loop in f.loops:
-            p = loop.vert.co
-            loop[uv].uv = (math.atan2(p.z - cy, p.x - cx) / math.pi * 2.0, -p.y * 4.0)
-    # A black mask round the face, and a thin steel ring where the glass meets it.
-    add_front_lathe("black", [(HOOD_R, 0.0), (SCREEN_R + 0.012, 0.0), (SCREEN_R + 0.012, SCREEN_Z - FACE_Z - 0.004)], cx, cy, FACE_Z + 0.004, segs=72)
-    add_front_lathe("steel", [(SCREEN_R + 0.012, SCREEN_Z - FACE_Z - 0.004), (SCREEN_R + 0.010, SCREEN_Z - FACE_Z + 0.002), (SCREEN_R - 0.001, SCREEN_Z - FACE_Z + 0.001)],
-                    cx, cy, FACE_Z, segs=72)
+    back = lambda y: FACE_Z
+    rings = [rect(HOOD_R, back, wall), rect(HOOD_FRONT, front, wall), rect(HOOD_FRONT, front), rect(HOOD_R, lambda y: FACE_Z + 0.004)]
+    pieces = []
+    for k, (lo, hi) in enumerate(zip(rings, rings[1:])):
+        tmp = bmesh.new()
+        a = [tmp.verts.new(B(*p)) for p in lo]
+        b = [tmp.verts.new(B(*p)) for p in hi]
+        for i in range(8):
+            j = (i + 1) % 8
+            tmp.faces.new([a[i], a[j], b[j], b[i]])
+        tmp.normal_update()
+        for f in tmp.faces:
+            c = f.calc_center_median()
+            radial = Vector((c.x - cx, 0, c.z - cy))
+            # Outside and lip face away from the tube and toward the player; the lining faces in.
+            want = radial if k == 0 else Vector((0, -1, 0)) if k == 1 else -radial
+            if f.normal.dot(want) < 0:
+                f.normal_flip()
+        pieces.append((tmp, "black" if k == 2 else "steel"))
+    for tmp, mat in pieces:
+        merge(tmp, mat)
+    # A black mask behind the glass, and a thick turned steel ring round the face.
+    add_box("black", (2 * HOOD_R, 2 * HOOD_R, 0.004), (cx, cy, FACE_Z + 0.002))
+    add_front_lathe("steel", [(SCREEN_R + 0.032, 0.0), (SCREEN_R + 0.032, 0.010), (SCREEN_R + 0.020, 0.022), (SCREEN_R + 0.004, SCREEN_Z - FACE_Z),
+                              (SCREEN_R - 0.002, SCREEN_Z - FACE_Z - 0.001)], cx, cy, FACE_Z + 0.004, segs=72)
     screen()
 
 
@@ -715,7 +695,7 @@ def register():
     add_box("steel", (span + 0.04, 0.07, 0.008), (0, SWITCH_Y, FACE_Z + 0.004), bevel=0.003)
     for bit in range(16):
         x = score_x(bit)
-        add_front_lathe("steel", [(0.011, 0.0), (0.011, 0.010), (0.008, 0.012), (0.005, 0.012)], x, SWITCH_Y, FACE_Z + 0.008, segs=16)
+        add_front_lathe("steel", [(0.011, 0.0), (0.011, 0.010), (0.005, 0.012)], x, SWITCH_Y, FACE_Z + 0.008, segs=10)
         up = 1 if (bit * 7) % 5 < 2 else -1
         add_box("steel", (0.006, 0.036, 0.006), (x, SWITCH_Y + up * 0.012, FACE_Z + 0.030), tilt=-up * 0.45, bevel=0.002)
     add_box("glow", (span + 0.10, 0.004, 0.004), (0, SWITCH_Y - 0.052, FACE_Z + 0.002))

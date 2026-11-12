@@ -20,7 +20,7 @@ STEEL = os.path.join(HERE, "tex", "steel.jpg")
 FONT = "/System/Library/Fonts/Supplemental/DIN Condensed Bold.ttf"
 
 # Generated pictures used, by id. None until the art pass has made them.
-LENS = None   # a faceted glass pilot-lamp jewel, seen straight on
+LENS = "20261112-224434-6dd00d"   # a faceted glass pilot-lamp jewel, seen straight on
 
 # The same table as ATLAS in whirlwind.py: left, top, right, bottom in pixels.
 ATLAS = {
@@ -114,7 +114,7 @@ def dial(size, scale=2):
 def lens(size):
     """The lamp's jewel. From the generated picture if there is one, else a drawn dome of facets."""
     if LENS:
-        img = Image.open(f"{SRC}/{LENS}.png").convert("RGB")
+        img = Image.open(f"{SRC}/{LENS}.jpg").convert("RGB")
         s = min(img.size)
         img = img.crop(((img.width - s) // 2, (img.height - s) // 2, (img.width + s) // 2, (img.height + s) // 2))
         # Grey it, so one picture serves every colour: the material's tint decides the hue.
