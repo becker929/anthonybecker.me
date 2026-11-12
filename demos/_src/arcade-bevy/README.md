@@ -1,6 +1,6 @@
 # CRT Arcade
 
-A walkable arcade room in Bevy 0.20. `PROCESS.md` is how a machine gets into it. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
+A walkable arcade room in Bevy 0.20, with two machines: the 1947 Cathode-Ray Tube Amusement Device and Bertie, after the 1950 tic-tac-toe computer Bertie the Brain (`BERTIE.md`). `PROCESS.md` is how a machine gets into it. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
 The cabinet and the room are a model built in Blender; the game loads it and brings its named parts to life.
 
 The site does not serve this directory (`.assetsignore`). The web build is its own Cloudflare Worker at https://arcade.anthonybecker.me/.
@@ -46,6 +46,8 @@ The first build takes several minutes.
 | `blender/build.py` | Builds the model, `assets/arcade.glb`. |
 | `src/crt.rs` | The game. It runs on the CPU and paints a texture each frame. |
 | `src/pad.rs` | Touch input from the web page. |
+| `src/bertie.rs` | Bertie's game: tic-tac-toe with five levels of difficulty. No engine types. |
+| `src/bertie_machine.rs` | Bertie's model, lamps, keys, dial and seat. |
 | `src/font.rs` | A 5x7 bitmap font for the marquee. |
 | `src/shot.rs` | Headless capture to PNG. |
 

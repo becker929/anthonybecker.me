@@ -137,6 +137,7 @@ try {
   started.catch(() => clearTimeout(hide));
   await started;
   document.body.classList.add('running');
+  window.__game = game;   // a hook for tests
   touchControls(game);
   sounds(game);
   hints(game);

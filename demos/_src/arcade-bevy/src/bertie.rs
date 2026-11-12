@@ -295,6 +295,7 @@ impl BertieGame {
     }
 
     /// True while the key under a free square is lit to invite a press.
+    #[allow(dead_code)] // for keys that light when their square is free
     pub fn key_lit(&self, cell: usize) -> bool {
         self.phase == Phase::PlayerTurn && self.mark(cell) == Mark::Empty
     }

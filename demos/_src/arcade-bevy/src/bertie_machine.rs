@@ -28,19 +28,19 @@ const BERTIE_YAW: f32 = 0.0;
 
 /// Where the player's eye goes when playing, and what it looks at, in the machine's own space. It
 /// stands further back than at the first cabinet, so the keys and the whole board are in view.
-const SEAT_EYE: Vec3 = Vec3::new(0.0, 1.62, 2.05);
-const SEAT_AIM: Vec3 = Vec3::new(0.0, 1.86, 0.10);
+const SEAT_EYE: Vec3 = Vec3::new(0.0, 1.52, 1.575);
+const SEAT_AIM: Vec3 = Vec3::new(0.0, 1.49, 0.10);
 /// The machine's footprint for walking into: its centre and half its size on the floor, in its own space.
-const BODY_CENTRE: Vec2 = Vec2::new(0.0, 0.12);
-const BODY_HALF: Vec2 = Vec2::new(0.81, 0.55);
+const BODY_CENTRE: Vec2 = Vec2::new(0.0, 0.125);
+const BODY_HALF: Vec2 = Vec2::new(0.83, 0.55);
 /// As in src/player.rs.
 const PLAYER_RADIUS: f32 = 0.3;
 
 /// One notch of the dial, in radians. blender/bertie.py puts the five ticks round it at the same step.
 const DIAL_STEP: f32 = 0.6;
 /// How far a key sinks under a finger, in metres.
-const KEY_TRAVEL: f32 = 0.008;
-const RESET_TRAVEL: f32 = 0.016;
+const KEY_TRAVEL: f32 = 0.014;
+const RESET_TRAVEL: f32 = 0.020;
 
 /// The game's `EV_` bits are passed to the page shifted up by this, past the first cabinet's sounds.
 // WIRE: in src/pad.rs name these bits (SOUND_BERTIE_KEY = 1 << 11 and so on, in the order of the
@@ -73,8 +73,6 @@ enum Shows {
     X(usize),
     /// The O lamp of a square on the board.
     O(usize),
-    /// The lamp inside a key.
-    Key(usize),
     Player,
     Machine,
     Win,
@@ -127,10 +125,8 @@ struct BoardLight(Entity);
 struct Look {
     x: [Handle<StandardMaterial>; 2],
     o: [Handle<StandardMaterial>; 2],
-    key: [Handle<StandardMaterial>; 2],
     /// Lit and unlit, in the order Player, Machine, Win, Lose, Draw.
     signs: [[Handle<StandardMaterial>; 2]; 5],
-    marquee: Handle<StandardMaterial>,
 }
 
 /// Where the camera was last frame, as `take_seat` left it. Its eased path to the seat starts here.
@@ -187,7 +183,7 @@ fn letters(buf: &mut [u8], w: usize, text: &str, cx: usize, y: usize, scale: usi
 const INK: [u8; 3] = [20, 10, 4];
 /// The machine's colour, as on its X lamps, and the player's, as on the O lamps.
 const AMBER: [f32; 3] = [255.0, 150.0, 58.0];
-const CREAM: [f32; 3] = [255.0, 222.0, 176.0];
+const CREAM: [f32; 3] = [255.0, 196.0, 128.0];
 
 /// A lit panel with dark lettering, as on the first cabinet's marquee. Each line is its text, the
 /// row of its top edge, and its scale.
@@ -221,14 +217,10 @@ fn make_look(mut commands: Commands, mut materials: ResMut<Assets<StandardMateri
     let dark = glass(LinearRgba::BLACK, Color::srgb(0.05, 0.045, 0.04));
     let x = [glass(LinearRgba::rgb(9.0, 3.2, 0.8), Color::BLACK), dark.clone()];
     let o = [glass(LinearRgba::rgb(7.0, 5.8, 4.2), Color::BLACK), dark];
-    // The keys are milky caps. All glow a little so the pad can be found; the free ones glow brightly.
-    let milky = Color::srgb(0.80, 0.74, 0.62);
-    let key = [glass(LinearRgba::rgb(2.6, 2.2, 1.7), milky), glass(LinearRgba::rgb(0.10, 0.085, 0.065), milky)];
-
     // A sign is the same picture lit or unlit, so its words can just be read when it is dark.
-    let mut panel = |image: Image, lit: f32| {
+    let mut panel = |image: Image, lit: f32, unlit: f32| {
         let picture = images.add(image);
-        [lit, 0.035].map(|level| {
+        [lit, unlit].map(|level| {
             materials.add(StandardMaterial {
                 base_color: Color::BLACK,
                 emissive: LinearRgba::rgb(level, level, level),
@@ -239,17 +231,13 @@ fn make_look(mut commands: Commands, mut materials: ResMut<Assets<StandardMateri
     };
     // The pictures match the panels' shapes in blender/bertie.py.
     let signs = [
-        panel(sign_image(128, 192, CREAM, &[("HUMAN", 16, 2), ("BRAIN", 38, 2), ("O", 84, 12)]), 1.5),
-        panel(sign_image(128, 192, AMBER, &[("ELECTRONIC", 16, 2), ("BRAIN", 38, 2), ("X", 84, 12)]), 1.5),
-        panel(sign_image(120, 84, CREAM, &[("WIN", 24, 5)]), 2.2),
-        panel(sign_image(120, 84, AMBER, &[("WIN", 24, 5)]), 2.2),
-        panel(sign_image(240, 60, CREAM, &[("DRAW", 12, 5)]), 2.2),
+        panel(sign_image(128, 192, CREAM, &[("HUMAN", 16, 2), ("BRAIN", 38, 2), ("O", 84, 12)]), 1.5, 0.024),
+        panel(sign_image(128, 192, AMBER, &[("ELECTRONIC", 16, 2), ("BRAIN", 38, 2), ("X", 84, 12)]), 1.5, 0.035),
+        panel(sign_image(120, 84, CREAM, &[("WIN", 24, 5)]), 2.2, 0.024),
+        panel(sign_image(120, 84, AMBER, &[("WIN", 24, 5)]), 2.2, 0.035),
+        panel(sign_image(240, 60, CREAM, &[("DRAW", 12, 5)]), 2.2, 0.024),
     ];
-    let [marquee, _] = panel(
-        sign_image(568, 96, AMBER, &[("BERTIE THE BRAIN", 12, 5), ("THE ELECTRONIC WONDER", 66, 2)]),
-        1.3,
-    );
-    commands.insert_resource(Look { x, o, key, signs, marquee });
+    commands.insert_resource(Look { x, o, signs });
 }
 
 // ---------------------------------------------------------------- the model
@@ -271,8 +259,24 @@ fn spawn_bertie(mut commands: Commands, assets: Res<AssetServer>) {
     commands.spawn((
         BoardLight(root),
         PointLight { color: Color::srgb(1.0, 0.72, 0.45), intensity: 0.0, range: 3.0, ..default() },
-        Transform::from_xyz(0.0, 2.08, 0.55),
+        Transform::from_xyz(0.0, 1.80, 0.55),
         ChildOf(root),
+    ));
+    // Bertie's light is not baked yet, and the room has no ambient light of its own, so one soft lamp
+    // from above and in front stands in for the room's light on it. It leaves the baked scenery alone.
+    commands.spawn((
+        SpotLight {
+            color: Color::srgb(1.0, 0.90, 0.80),
+            intensity: 420_000.0,
+            range: 7.0,
+            radius: 0.6,
+            inner_angle: 0.30,
+            outer_angle: 0.80,
+            affects_lightmapped_mesh_diffuse: false,
+            ..default()
+        },
+        Transform::from_translation(BERTIE_AT + Vec3::new(-0.9, 3.0, 2.6))
+            .looking_at(BERTIE_AT + Vec3::new(0.0, 1.5, 0.2), Vec3::Y),
     ));
 }
 
@@ -306,10 +310,8 @@ fn wire_model(
         } else if let Some(cell) = cell("Lamp_O_") {
             commands.entity(entity).insert(lamp(Shows::O(cell), &look.o));
         } else if let Some(cell) = cell("Key_") {
-            commands.entity(entity).insert((
-                lamp(Shows::Key(cell), &look.key),
-                Key { machine: root, cell, press: 0.0, rest: at.translation },
-            ));
+            // The caps keep the picture the model gives them. Only their travel is driven.
+            commands.entity(entity).insert(Key { machine: root, cell, press: 0.0, rest: at.translation });
         } else {
             match name {
                 "Sign_Player" => drop(commands.entity(entity).insert(lamp(Shows::Player, &look.signs[0]))),
@@ -320,12 +322,6 @@ fn wire_model(
                 "Dial_Difficulty" => drop(commands.entity(entity).insert(Dial { machine: root, turn: 0.0, speed: 0.0 })),
                 "Button_Reset" => {
                     commands.entity(entity).insert(ResetButton { machine: root, press: 0.0, rest: at.translation });
-                }
-                "Marquee_Bertie" => {
-                    // A named part is a node; the meshes drawn for it are its children.
-                    for mesh in children.iter_descendants(entity) {
-                        commands.entity(mesh).insert(MeshMaterial3d(look.marquee.clone()));
-                    }
                 }
                 _ => {}
             }
@@ -410,9 +406,10 @@ fn light_lamps(
         let (lit, hidden) = match lamp.shows {
             // The X and O lamps of a square overlap. Once a square is taken, the other shape is put
             // away, so nothing dark crosses the lit one.
-            Shows::X(cell) => (game.lamp(cell) == Mark::X, game.mark(cell) == Mark::O),
-            Shows::O(cell) => (game.lamp(cell) == Mark::O, game.mark(cell) == Mark::X),
-            Shows::Key(cell) => (game.key_lit(cell), false),
+            // An unlit shape is put away too: an idle square shows only the model's frosted pane and
+            // dark bulb, not a ring laid over a cross.
+            Shows::X(cell) => (game.lamp(cell) == Mark::X, game.lamp(cell) != Mark::X),
+            Shows::O(cell) => (game.lamp(cell) == Mark::O, game.lamp(cell) != Mark::O),
             Shows::Player => (signs.player, false),
             Shows::Machine => (signs.machine, false),
             Shows::Win => (signs.win, false),
