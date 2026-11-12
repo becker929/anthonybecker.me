@@ -15,3 +15,5 @@ wrangler.toml
 /skrng/package.json
 # Source for the built apps under /apps/; only the built output is site content.
 /apps/_src/
+# Source for demos that need a build (the Bevy arcade); only built output under /demos/<n>/ is site content.
+/demos/_src/
