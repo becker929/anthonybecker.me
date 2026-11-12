@@ -678,9 +678,9 @@ def register():
     add_box("glow", (span + 0.10, 0.004, 0.004), (0, py + panel_h / 2 + 0.024, FACE_Z + 0.002))
     for bit in range(16):
         lamp(f"Lamp_Score_{bit}", "lamp_score", score_x(bit), SCORE_Y)
-        # A short white mark under every fourth lamp, as on a register, so the bits can be counted.
-        if bit % 4 == 0:
-            add_box("cream", (0.003, 0.010, 0.002), (score_x(bit) - LAMP_PITCH / 2 + 0.0015 + LAMP_PITCH, SCORE_Y - 0.034, FACE_Z + 0.007))
+    # Short white marks part the register into groups of four bits, as on a console, so they can be counted.
+    for bit in (4, 8, 12):
+        add_box("cream", (0.003, 0.012, 0.002), (score_x(bit) + LAMP_PITCH / 2, SCORE_Y - 0.030, FACE_Z + 0.007))
     # The lower row: balls left on the left, the bounce lamps on the right, steady lamps between.
     for i in range(5):
         lamp(f"Lamp_Ball_{i}", "lamp_ball", (i - 7.5) * LAMP_PITCH, ROW2_Y)
