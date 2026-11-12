@@ -80,7 +80,8 @@ The page plays recorded files. The game only says what happened.
 
 - Each `SOUND_` bit names an event. `web/index.html` maps the bits to names and plays `sounds/<file>` from `sounds/sounds.json`. Takes named `x-1`, `x-2` are played in turn. `hum` loops, louder the nearer the visitor stands.
 - Sounds are built from recorded foley and old-equipment textures (static, amp hum, radio crackle, switches, latches), not synthesised.
-- How the files are made is not settled yet. See the log.
+- They are made offline by `sound/make.py` (Python: numpy, scipy, soundfile) from Ableton's Core Library samples, and written to `sound/out/`, which is not in git. `build-web.sh` copies them into `dist/sounds/`. The owner chose this on 12 November 2026 ("Use Python for sounds"); Live is not involved.
+- Nobody can listen while building. Every sound is measured instead (length, peak, level, onset, band balance), and the owner judges by ear on the site.
 
 ## 8. Wire it into the room
 
