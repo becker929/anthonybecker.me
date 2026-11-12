@@ -54,13 +54,15 @@ The first build takes several minutes.
 `blender/build.py` builds the cabinet and the room and writes `assets/arcade.glb`. Run it with Blender's Python module (`bpy`), not the app:
 
 ```
-<bpy venv>/bin/python blender/build.py
+<bpy venv>/bin/python blender/build.py --bake   # bake the light, then export (about 2 minutes)
+<bpy venv>/bin/python blender/build.py          # export again from the kept bake
 ```
 
 The script is written in the game's coordinates: metres, Y up, the cabinet at the origin facing +Z.
-The wood and the concrete are procedural textures baked to images. Everything else is flat materials.
+The walnut, steel, concrete and navy lacquer are tiling textures made from Gemini pictures by `blender/textures.py` (sources in `blender/tex/`, listed in `assets/ART.md`). `blender/lines.py` renders the line art and depth that Gemini is given.
 The game finds these parts by name and gives them behaviour in `src/cabinet.rs`: `Screen`, `Marquee`, `Knob_Elevation`, `Knob_Charge`, `Button_Fire`. Scenery is joined into one mesh per material.
-The game has no reflections, so the look leans on painted light: the warm wash by the walls (`src/room.rs`) and the sheen on the tube (`src/crt.rs`).
+The room's light is baked in Blender with Cycles: two lightmaps on a second UV set, two occlusion maps, and a small cube picture of the room (`assets/env.bin`, compiled into the game) that steel, glass and the floor reflect. The only live lights are the tube's and one spot for sheen. `LOOK_NOTES.md` has the method, commands and timings.
+`src/room.rs` mends one line of a Bevy 0.20.1 shader at startup: without it, lightmaps and the reflection together fail to compile on WebGL2.
 
 ## Controls that clunk
 

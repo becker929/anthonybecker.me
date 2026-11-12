@@ -14,7 +14,7 @@ use bevy::{
 use crate::{
     cabinet::Cabinet,
     pad::Pad,
-    room::{ROOM_MAX, ROOM_MIN},
+    room::{self, ROOM_MAX, ROOM_MIN},
 };
 
 const EYE_HEIGHT: f32 = 1.6;
@@ -44,7 +44,7 @@ impl Plugin for PlayerPlugin {
     }
 }
 
-fn spawn_player(mut commands: Commands) {
+fn spawn_player(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
     commands.spawn((
         Player { yaw: 0.0, pitch: -0.06 },
         Camera3d::default(),
@@ -52,6 +52,8 @@ fn spawn_player(mut commands: Commands) {
         Tonemapping::TonyMcMapface,
         // A light bloom: the tube and the light lines glow, but nothing smears.
         Bloom { intensity: 0.07, ..Bloom::NATURAL },
+        // What polished things mirror: a baked picture of the room.
+        room::environment(&mut images),
         Projection::from(PerspectiveProjection { fov: 68.0_f32.to_radians(), ..default() }),
         Transform::from_xyz(0.0, EYE_HEIGHT, 3.6),
     ));
