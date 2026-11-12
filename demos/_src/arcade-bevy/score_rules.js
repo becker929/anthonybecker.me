@@ -1,7 +1,7 @@
 // The rules of the high score tables, apart from the Worker so its tests can import them.
 // (A Worker module may export nothing but its handler.)
 
-export const GAMES = { tube: { max: 500 }, bertie: { max: 5000 } };
+export const GAMES = { tube: { max: 500 }, bertie: { max: 5000 }, whirlwind: { max: 5000 }, nimrod: { max: 5000 }, prinz: { max: 5000 } };
 export const ROWS = 7;
 
 

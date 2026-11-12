@@ -46,6 +46,9 @@ pub const STATE_OVER: u32 = 4;
 pub const STATE_FLIGHT: u32 = 8;
 /// The machine being played is Bertie, not the tube cabinet. The page then offers Bertie's keys.
 pub const STATE_BERTIE: u32 = 16;
+/// The machine being played names its own touch targets (`publish_labels`), and the page lays one
+/// tap target over each published point.
+pub const STATE_TARGETS: u32 = 32;
 
 static ACTIVE: AtomicBool = AtomicBool::new(false);
 static STICK_X: AtomicU32 = AtomicU32::new(0);
@@ -76,6 +79,10 @@ static TABLES: Mutex<[String; GAMES]> = Mutex::new([const { String::new() }; GAM
 static NAMED: Mutex<Vec<String>> = Mutex::new(Vec::new());
 // Controls tapped on a touch screen since the last frame, by the index of their published point.
 static TAPS: Mutex<Vec<u32>> = Mutex::new(Vec::new());
+// The labels of the focused machine's touch targets, one per published point.
+static LABELS: Mutex<Vec<String>> = Mutex::new(Vec::new());
+// The focused machine's keyboard prompt: `keys|what` pairs separated by `;`.
+static HINT: Mutex<String> = Mutex::new(String::new());
 static TABLES_CHANGED: AtomicU32 = AtomicU32::new(0);
 // How loud the tube's hum should be for where the player stands, 0 to 1, as f32 bits.
 static HUM: AtomicU32 = AtomicU32::new(0);
@@ -120,6 +127,7 @@ fn read_pad(mut pad: ResMut<Pad>) {
     pad.stick = Vec2::new(f32::from_bits(STICK_X.load(Relaxed)), f32::from_bits(STICK_Y.load(Relaxed))).clamp_length_max(1.0);
     pad.look = Vec2::new(LOOK_X.swap(0, Relaxed) as i32 as f32, LOOK_Y.swap(0, Relaxed) as i32 as f32);
     pad.knobs = Vec2::new(KNOB_ELEVATION.swap(0, Relaxed) as i32 as f32, KNOB_CHARGE.swap(0, Relaxed) as i32 as f32) / 1000.0;
+    MORE_STATE.store(0, Relaxed);
     pad.keys = KEYS.swap(0, Relaxed);
     pad.taps = std::mem::take(&mut *TAPS.lock().unwrap());
     pad.held = HELD.load(Relaxed);
@@ -128,12 +136,13 @@ fn read_pad(mut pad: ResMut<Pad>) {
 
 /// Called by the game each frame so the page can show the right buttons.
 pub fn publish_state(state: u32) {
-    STATE.store(state | MORE_STATE.load(Relaxed), Relaxed);
+    STATE.store(state, Relaxed);
 }
 
-/// State bits from a machine other than the first cabinet. Call it every frame; pass 0 to clear them.
+/// State bits from the focused machine, added to the first cabinet's. They are cleared at the start of
+/// every frame, so a machine adds them each frame it is focused, and passing 0 does nothing.
 pub fn publish_more_state(bits: u32) {
-    MORE_STATE.store(bits, Relaxed);
+    MORE_STATE.fetch_or(bits, Relaxed);
 }
 
 /// Hands a finished game's score to the page, which keeps the high score table.
@@ -147,6 +156,25 @@ pub fn score(game: u32, score: u32) {
 /// goes up whenever the page sends new ones, so the wall display knows to repaint.
 pub fn tables() -> ([String; GAMES], u32) {
     (TABLES.lock().unwrap().clone(), TABLES_CHANGED.load(Relaxed))
+}
+
+/// Names the focused machine's touch targets, one label per published point, and tells the page to
+/// lay a target over each. Call it every frame the machine is focused, with its points.
+pub fn publish_labels(labels: &[&str]) {
+    let mut held = LABELS.lock().unwrap();
+    if held.len() != labels.len() || held.iter().zip(labels).any(|(a, b)| a != b) {
+        *held = labels.iter().map(|l| l.to_string()).collect();
+    }
+    MORE_STATE.fetch_or(STATE_TARGETS, Relaxed);
+}
+
+/// The focused machine's keyboard prompt for the page: `keys|what` pairs separated by `;`, such as
+/// `"W S|bounce;Space|release"`. Call it with `publish_labels`, every frame the machine is focused.
+pub fn publish_hint(hint: &str) {
+    let mut held = HINT.lock().unwrap();
+    if *held != hint {
+        *held = hint.to_string();
+    }
 }
 
 /// Asks the page to play the sound of this name once (a file named in sounds/sounds.json).
@@ -246,6 +274,18 @@ mod web {
         std::mem::take(&mut *NAMED.lock().unwrap()).join("\n")
     }
 
+    /// The focused machine's keyboard prompt.
+    #[wasm_bindgen]
+    pub fn pad_hint() -> String {
+        HINT.lock().unwrap().clone()
+    }
+
+    /// The focused machine's target labels, one per line.
+    #[wasm_bindgen]
+    pub fn pad_labels() -> String {
+        LABELS.lock().unwrap().join("\n")
+    }
+
     #[wasm_bindgen]
     pub fn pad_hum() -> f32 {
         f32::from_bits(HUM.load(Relaxed))
@@ -272,6 +312,6 @@ mod web {
 
     #[wasm_bindgen]
     pub fn pad_state() -> u32 {
-        STATE.load(Relaxed)
+        STATE.load(Relaxed) | MORE_STATE.load(Relaxed)
     }
 }

@@ -6,7 +6,7 @@ Writes sound/out/: one file per sound and sounds.json (name -> file name). Audio
 One-shots are AAC .m4a (afconvert). The hum is a 16-bit mono WAV at 24 kHz, because AAC pads a file
 with silence and a padded file cannot loop.
 
-The machines are from 1947 and 1950, so every sound is one of two kinds:
+The machines are from 1947 to 1951, so every sound is one of two kinds:
 
 - mechanical (plungers, keys, detents, relays, contactors, bells): heard straight from the cabinet,
   full range with real low thump. Built from foley and percussion one-shots (wood, knocks, a door
@@ -661,6 +661,450 @@ def bertie_dial():
     return finish(lp(x, 5000, 1), -13)
 
 
+# ---------------------------------------------------------------- parts for the three 1951 machines
+
+def hum_glide(dur, rng, st0, st1, rise, fall, harmonics=3):
+    """The hum voice gliding from st0 to st1 semitones under a swell, through the speaker's band."""
+    n = int(dur * SR)
+    src = int(n * 2 ** (max(st0, st1, 0) / 12)) + SR // 5      # a glide up reads faster, so needs more
+    h = bend(hum_voice(src, SR, rng, harmonics=harmonics), st0, st1)
+    assert len(h) >= n, "the hum source is too short for this glide"
+    h = lp(hp(h[:n], 60), 3000) * swell(n, rise, fall)
+    return h / np.abs(h).max()
+
+
+def tick(name, st, dur=0.03, t60=0.025):
+    """A relay's armature alone, with no contact tack. For sounds that repeat many times."""
+    return strike(name, st, dur=dur, t60=t60)
+
+
+def clack(st=0.0):
+    """A boxwood chess piece on a varnished board: the piece's clack, the board's knock under it."""
+    piece = strike("Wood Clack.wav", st - 3, dur=0.10, t60=0.08)
+    board = strike("Wood Block Low.aif", st - 2, dur=0.12, t60=0.09)
+    knock = strike("Wood Dry Low.aif", st - 5, dur=0.08, t60=0.07)
+    return mix([(piece, 0, 0), (board, 0.001, -7), (knock, 0, -6)])
+
+
+def buzz(dur, st, at=4.0, drive=2.5):
+    """A mains buzzer: a slice of a recorded 50 Hz buzz, repitched, through the speaker."""
+    x = load("Buzz Noise.wav")[int(at * SR):]
+    x = pitch(x, st)[:int(dur * SR) + SR // 10]
+    x = speaker(x, drive=drive)[SR // 10:]                 # drop the filters' start-up
+    assert len(x) == int(dur * SR), "the buzz recording is too short for this slice"
+    return x / np.abs(x).max()
+
+
+def hoot(hz, dur):
+    """One note of the Mark 1's hooter: a tonewheel organ's C3 repitched, through the speaker, hard on and off.
+
+    The hooter was the machine's own pulses sent to a loudspeaker, so it is clean but square-edged.
+    The speaker's saturation gives it those edges.
+    """
+    st = 12 * np.log2(hz / 130.81)
+    x = pitch(load("Organ Tonewheel C3.wav")[int(0.3 * SR):], st)[:int(dur * SR) + SR // 10]
+    x = speaker(x, drive=2.2)[SR // 10:]
+    assert len(x) == int(dur * SR), "the organ recording is too short for this note"
+    return fade(x / np.abs(x).max(), a=0.0015, r=0.015)
+
+
+# ---------------------------------------------------------------- Nimrod
+
+def nimrod_press():
+    """nimrod-press: a heavy bakelite button bottoms out, then the lamps to its right go out in a ripple.
+
+    Button: a hard snap (Perc Snap Tap) for the bakelite, Wood MPC 3 down 6 for the body, a short
+    thump. Ripple: four relays 25-30 ms apart, each a little lower.
+    """
+    rng = np.random.default_rng(2101)
+    times = 0.03 + np.cumsum([0, 0.026, 0.028, 0.03])
+    x = mix([
+        (strike("Perc Snap Tap.wav", -2, dur=0.08, t60=0.06), 0, 0),
+        (strike("Wood MPC 3.wav", -6, dur=0.12, t60=0.10), 0, -3),
+        (thump(-2, 80, 50)[:int(0.12 * SR)], 0, -9),
+        (chatter(times, rng, -3, -6, 3), 0, -6),
+    ], dur=0.26)
+    return finish(room(lp(x, 7000, 1)), -9)
+
+
+def nimrod_refused():
+    """nimrod-refused: the button hits its stop and does nothing. A dull thunk, no relay."""
+    x = mix([
+        (strike("Wood Under The Rug.wav", -7, dur=0.12, t60=0.08), 0, 0),
+        (strike("Wood Clog Medium.wav", -9, dur=0.09, t60=0.07), 0.002, -7),
+        (thump(-3, 70, 45)[:int(0.13 * SR)], 0, -8),
+    ], dur=0.15)
+    return finish(lp(x, 1800), -12)
+
+
+def nimrod_step():
+    """nimrod-step-1..4: one step of the machine's work. A small crisp relay and a faint filament tick.
+
+    It plays 6 to 8 times a move, 0.22 s apart, so it is short, quiet and dry. Each take uses a
+    different click for the armature, so the takes differ in waveform, not only in pitch.
+    """
+    takes = []
+    for name, st, ping_st in (("Wood Tip Tag.wav", -2, -9), ("Clap Snap Fings.wav", -4, -10),
+                              ("Rimshot Serendipity of Surprise.wav", -5, -8.5), ("E-Perc Metal Chop.wav", -6, -9.5)):
+        x = mix([
+            (tick(name, st), 0, 0),
+            (strike("E-Perc Click Unsounded.wav", st / 2, dur=0.03, t60=0.03), 0, -10),
+            (strike("E-Perc Tube 1.aif", ping_st, dur=0.05, t60=0.05), 0.004, -24),
+        ], dur=0.055)
+        takes.append(finish(lp(hp(x, 200), 8000, 1), 0))
+    return match(takes, -19)
+
+
+def nimrod_move():
+    """nimrod-move: the machine's move. A bank of relays dropping together, a clack with a short tail.
+
+    Six relays inside 8 ms and a contactor down 4 make the clack. Three contacts bounce after it
+    (25-70 ms), and a metal rattle (Metallic Rattle, down 7, low-passed) dies in 0.25 s.
+    """
+    rng = np.random.default_rng(2102)
+    bank = [(relay(rng, rng.uniform(-7, -3)), rng.uniform(0, 0.008), -rng.uniform(0, 3)) for _ in range(6)]
+    bounces = [(relay(rng, -4), t, g) for t, g in ((0.025, -10), (0.045, -13), (0.07, -16))]
+    rattle = lp(strike("Metallic Rattle.wav", -7, dur=0.25, t60=0.22), 3000)
+    x = mix(bank + bounces + [(clunk(-4), 0, -2), (thump(-3, 75, 46), 0, -10), (rattle, 0.01, -16)], dur=0.36)
+    return finish(room(x), -7)
+
+
+def nimrod_win():
+    """nimrod-win: the visitor wins. A bright cascade of relays settling, then the lamps' warm hum swells.
+
+    Fourteen relays rising in pitch, the gaps widening as they settle. A contactor at 0.55 s as the
+    lamps come on, and the hum voice rising 3 semitones to pitch, swelling for 0.35 s and dying over
+    a second. Pleased but old: no bell.
+    """
+    rng = np.random.default_rng(2103)
+    times = np.cumsum([0, 0.022, 0.022, 0.024, 0.026, 0.028, 0.03, 0.033, 0.036, 0.04, 0.045, 0.05, 0.057, 0.065])
+    h = hum_glide(1.3, rng, -3, 0, 0.35, 0.9)
+    x = mix([(chatter(times, rng, -5, 1, 3), 0, 0), (clunk(-3), 0.55, -4),
+             (h, 0.5, -6), (static(1.3, at=0.2) * swell(int(1.3 * SR), 0.35, 0.8), 0.5, -20)], dur=1.85)
+    return finish(room(x), -6)
+
+
+def nimrod_lose():
+    """nimrod-lose: the machine wins. Two heavy relay clunks and a falling transformer hum. Final.
+
+    Contactors down 6 and down 9, 0.3 s apart, each with a thump. The hum voice falls 9 semitones
+    over 1.5 s.
+    """
+    rng = np.random.default_rng(2104)
+    h = hum_glide(1.6, rng, 0, -9, 0.02, 1.3)
+    x = mix([(clunk(-6), 0, 0), (thump(-3, 80, 46), 0, -7), (clunk(-9), 0.30, 0), (thump(-5, 70, 42), 0.30, -6),
+             (relay(rng, -8), 0.31, -8), (h, 0.02, -7)], dur=1.75)
+    return finish(room(x), -7)
+
+
+def nimrod_deal():
+    """nimrod-deal: a new position. Relays rattle as rows of lamps come on, then a soft hum.
+
+    Twelve relays over 0.4 s, rising a little. The hum voice swells in under them and settles.
+    """
+    rng = np.random.default_rng(2105)
+    times = np.cumsum([0] + list(rng.uniform(0.025, 0.045, 11)))
+    h = hum_glide(0.9, rng, -2, 0, 0.3, 0.5)
+    x = mix([(chatter(times, rng, -6, -2, 4), 0, 0), (h, 0.15, -10)], dur=1.05)
+    return finish(room(x), -9)
+
+
+def nimrod_switch():
+    """nimrod-switch: a big lever toggle snapping over centre. A hard clack with a spring ring.
+
+    Clack: the door-lock contactor down 1 and a hard wood clack. Ring: a sprung metal hit (E-Perc
+    Spring) down 4, dying in 0.35 s.
+    """
+    ring = strike("E-Perc Spring.wav", -4, dur=0.35, t60=0.35)
+    x = mix([(clunk(-1), 0, 0), (strike("Wood Clack.wav", -4, dur=0.08, t60=0.06), 0, -3),
+             (thump(-2, 85, 50)[:int(0.14 * SR)], 0, -10), (lp(ring, 5000, 1), 0.004, -11)], dur=0.38)
+    return finish(room(x), -8)
+
+
+def nimrod_comp():
+    """nimrod-comp: COMP. MOVE pressed. A deep plunger into a soft rubber stop, then the first relay.
+
+    The plunger down 5, low-passed at 1.4 kHz so the stop is soft. A relay pulls in at 80 ms.
+    """
+    rng = np.random.default_rng(2106)
+    x = mix([(lp(plunger(-5), 1400), 0, 0), (relay(rng, -3), 0.08, -6)], dur=0.24)
+    return finish(room(x), -9)
+
+
+# ---------------------------------------------------------------- Whirlwind
+
+def whirlwind_notch():
+    """whirlwind-notch-1..4: a heavy rotary switch's detent. A short dry clack with a little ring of steel.
+
+    Clack: Wood Clack and Perc Knock Rattle, pitched down. Ring: a short metal hit (Metallic High
+    Short) down 12, about 2.7 kHz, 16-18 dB under. It repeats as the knob turns, so it is quiet.
+    """
+    takes = []
+    for clack_st, knock_st, ring_st, ring_g in ((-5, -8, -12, -16), (-4, -9.5, -11, -18),
+                                                (-6, -7, -12.5, -17), (-4.5, -10, -11.5, -16)):
+        x = mix([
+            (strike("Wood Clack.wav", clack_st, dur=0.04, t60=0.035), 0, 0),
+            (strike("Perc Knock Rattle.wav", knock_st, dur=0.045, t60=0.04), 0.0005, -4),
+            (strike("Metallic High Short.aif", ring_st, dur=0.09, t60=0.08), 0.002, ring_g),
+        ], dur=0.09)
+        takes.append(finish(lp(x, 7000, 1), 0))
+    return match(takes, -15)
+
+
+def whirlwind_stop():
+    """whirlwind-stop: the detent against its end stop. A duller thud, no ring."""
+    x = mix([
+        (strike("Wood Under The Rug.wav", -6, dur=0.09, t60=0.07), 0, 0),
+        (strike("Perc Knock Rattle.wav", -10, dur=0.05, t60=0.04), 0, -6),
+        (thump(-2, 75, 48)[:int(0.10 * SR)], 0, -10),
+    ], dur=0.11)
+    return finish(lp(x, 1500), -14)
+
+
+def whirlwind_release():
+    """whirlwind-release: the plunger slammed home, a deep sprung thunk, then a relay pulling in.
+
+    The plunger down 3 with a spring (Clave Spring, down 6) ringing under it. A contactor and a
+    relay pull in at 70 ms.
+    """
+    rng = np.random.default_rng(2201)
+    spring = strike("Clave Spring.wav", -6, dur=0.25, t60=0.3)
+    x = mix([(plunger(-3), 0, 0), (spring, 0.004, -12), (clunk(-2), 0.07, -7), (relay(rng, -3), 0.072, -6)], dur=0.36)
+    return finish(room(x), -6)
+
+
+def whirlwind_bounce():
+    """whirlwind-bounce-1..4: a bounce. A quiet dry relay tick with a soft electronic tick on the tube.
+
+    The relay is an armature click, a different one each take, moved a semitone or so. The tube's
+    tick is a vinyl click through the speaker. 2 to 11 play per ball, so it is short and quiet.
+    """
+    takes = []
+    for name, st in (("Wood Tip Tag.wav", -3), ("Wood MS.wav", -4), ("Clap Snap Fings.wav", -2.5), ("Perc Knock Rattle.wav", -3.5)):
+        el = speaker(strike("Click Vinyl.wav", st, dur=0.02, t60=0.015), drive=1.2)
+        x = mix([(tick(name, st, dur=0.025, t60=0.02), 0, 0), (fade(el, r=0.004), 0.001, -9)], dur=0.035)
+        takes.append(finish(lp(hp(x, 250), 7000, 1), 0))
+    return match(takes, -21)
+
+
+def whirlwind_drop():
+    """whirlwind-drop: the ball goes through. A quick run of relays, then a struck steel rod.
+
+    Six relays in 0.15 s. The rod: a tube hit (Tube Hit, about 880 Hz) down 4, near 700 Hz, with
+    a copy 8 cents flat so it beats a little, damped to about a second. A relay fires with it.
+    """
+    rng = np.random.default_rng(2202)
+    times = np.cumsum([0, 0.03, 0.028, 0.03, 0.026, 0.03])
+    x = mix([(chatter(times, rng, -5, -2, 3), 0, -3), (relay(rng, -4), 0.2, -7),
+             (bell("Tube Hit.wav", -4, 1.0, cents=-8, lowpass=4000), 0.21, 0)], dur=1.3)
+    return finish(room(x), -6)
+
+
+def whirlwind_miss():
+    """whirlwind-miss: a register clearing. A short low buzz between two relays.
+
+    A relay, then 0.25 s of recorded mains buzz moved up to about 60 Hz, through the speaker, so
+    its harmonics carry it. A relay lets go at the end.
+    """
+    rng = np.random.default_rng(2203)
+    b = buzz(0.25, 3)
+    b = b * swell(len(b), 0.006, 0.22)
+    x = mix([(relay(rng, -4), 0, 0), (b, 0.006, -3), (relay(rng, -6), 0.27, -4)], dur=0.33)
+    return finish(x, -10)
+
+
+def whirlwind_over():
+    """whirlwind-over: the fifth miss. Relays drop out one after another over a fading transformer hum.
+
+    A contactor at the start, then five relays, falling in pitch, the gaps widening. The hum voice
+    falls 9 semitones over 1.8 s.
+    """
+    rng = np.random.default_rng(2204)
+    times = np.array([0.0, 0.22, 0.47, 0.76, 1.1, 1.45])
+    h = hum_glide(1.9, rng, 0, -9, 0.02, 1.5)
+    x = mix([(clunk(-5), 0, 0), (chatter(times, rng, -3, -10, 1), 0.01, -3), (h, 0.02, -6),
+             (static(1.9, at=3.5) * swell(int(1.9 * SR), 0.02, 1.2), 0.02, -16)], dur=1.95)
+    return finish(room(x), -7)
+
+
+def whirlwind_hole():
+    """whirlwind-hole: a new hole. A stepping switch ratchets five steps.
+
+    Each step is a knock (Perc Knock Rattle, down 5) with a metal pawl (E-Perc Metal Chop) on top,
+    55 ms apart, all at one pitch the way a ratchet sounds. The last step seats a little heavier.
+    """
+    steps = []
+    for k in range(5):
+        st = -5 - 0.3 * (k % 2)                         # the pawl alternates two teeth, very slightly
+        s = mix([(strike("Perc Knock Rattle.wav", st, dur=0.04, t60=0.035), 0, 0),
+                 (strike("E-Perc Metal Chop.wav", st + 4, dur=0.025, t60=0.02), 0.002, -6),
+                 (strike("E-Perc Click Unsounded.wav", st / 2, dur=0.03), 0, -10)])
+        steps.append((s, 0.055 * k, -2 if k < 4 else 0))
+    steps.append((clunk(-3), 0.22, -9))
+    return finish(lp(mix(steps, dur=0.34), 7000, 1), -10)
+
+
+def whirlwind_refused():
+    """whirlwind-refused: the plunger while a ball is out. A dead thump with a small rattle."""
+    x = mix([
+        (strike("Wood Under The Rug.wav", -5, dur=0.12, t60=0.09), 0, 0),
+        (strike("Wood Clog Medium.wav", -8, dur=0.10, t60=0.08), 0.003, -6),
+        (thump(-2, 70, 45)[:int(0.14 * SR)], 0, -8),
+        (lp(strike("Metallic Rattle.wav", -6, dur=0.12, t60=0.1), 3000), 0.006, -13),
+    ], dur=0.18)
+    return finish(lp(x, 2600), -10)
+
+
+def whirlwind_reset():
+    """whirlwind-reset: a new run. A heavy toggle snap, then relays settling.
+
+    The toggle: a contactor down 2, a wood clack, and the spring ring. Then five relays over 0.45 s,
+    the gaps widening.
+    """
+    rng = np.random.default_rng(2205)
+    times = 0.12 + np.cumsum([0, 0.06, 0.075, 0.09, 0.11])
+    ring = strike("E-Perc Spring.wav", -5, dur=0.3, t60=0.3)
+    x = mix([(clunk(-2), 0, 0), (strike("Wood Clack.wav", -5, dur=0.08, t60=0.06), 0, -4),
+             (thump(-2, 80, 48)[:int(0.14 * SR)], 0, -9), (lp(ring, 5000, 1), 0.004, -14),
+             (chatter(times, rng, -3, -6, 3), 0, -5)], dur=0.68)
+    return finish(room(x), -7)
+
+
+# ---------------------------------------------------------------- Prinz
+
+def prinz_select():
+    """prinz-select: a piece picked up or put back. A soft wooden tick and a little felt scuff.
+
+    Tick: Wood Tip Tag down 2 with a dry low wood under it, low-passed at 4 kHz. Scuff: Perc Wood
+    Scratch, low-passed and band-limited, 14 dB under.
+    """
+    scuff = lp(hp(strike("Perc Wood Scratch.aif", -2, dur=0.12, t60=0.12), 300), 2500)
+    x = mix([(strike("Wood Tip Tag.wav", -2, dur=0.05, t60=0.04), 0, 0),
+             (strike("Wood Dry Low.aif", -3, dur=0.05, t60=0.04), 0, -5), (scuff, 0.012, -14)], dur=0.14)
+    return finish(lp(x, 4000), -15)
+
+
+def prinz_place():
+    """prinz-place: the visitor's piece set down. A solid boxwood clack on a varnished board."""
+    x = mix([(clack(0), 0, 0), (thump(-2, 90, 55)[:int(0.12 * SR)], 0, -14)], dur=0.17)
+    return finish(room(x, -24), -8)
+
+
+def prinz_capture():
+    """prinz-capture: a piece taken. A clack, then the taken piece dropping onto baize, muffled.
+
+    The clack, a little higher. The drop: Wood Under The Rug down 4, low-passed at 900 Hz with a
+    soft thump, at 130 ms, and a smaller bounce 60 ms after it.
+    """
+    drop = lp(strike("Wood Under The Rug.wav", -4, dur=0.12, t60=0.09), 900)
+    x = mix([(clack(1), 0, 0), (drop, 0.13, -5), (thump(-4, 65, 45)[:int(0.12 * SR)], 0.13, -13),
+             (lp(strike("Wood Under The Rug.wav", -2, dur=0.06, t60=0.05), 900), 0.19, -15)], dur=0.36)
+    return finish(room(x, -24), -8)
+
+
+def prinz_refused():
+    """prinz-refused: a square that cannot be chosen. A short, low, dull relay clunk."""
+    x = mix([(clunk(-9), 0, 0), (thump(-4, 70, 45)[:int(0.12 * SR)], 0, -8)], dur=0.16)
+    return finish(lp(x, 1500), -12)
+
+
+def prinz_think():
+    """prinz-think: the machine searches. About 3 s of fast relay and uniselector chatter over a faint valve hum.
+
+    Relays at random, about 22 a second, with gaps from 15 to 75 ms. Five uniselector runs of 6-10
+    steps, 25 ms apart, each at one pitch. Under them the hum voice and static, faint, swelling in
+    and out. The whole fades over its last 0.3 s.
+    """
+    rng = np.random.default_rng(2301)
+    dur = 3.0
+    n = int(dur * SR)
+    t, times = 0.0, []
+    while t < dur - 0.2:
+        times.append(t)
+        t += rng.uniform(0.015, 0.075)
+    layers = [(chatter(times, rng, -4, -4, 9), 0, -3)]
+    for start in (0.25, 0.8, 1.4, 1.95, 2.45):
+        st = rng.uniform(-7, -3)
+        steps = rng.integers(6, 11)
+        for k in range(steps):
+            if start + 0.025 * k < dur - 0.15:
+                layers.append((tick("Perc Knock Rattle.wav", st, dur=0.022, t60=0.02), start + 0.025 * k, -6))
+    h = hum_glide(dur, rng, 0, 0, 0.3, 4.0)
+    s = static(dur, at=6.5) * swell(n, 0.3, 4.0)
+    layers += [(h, 0, -16), (s, 0, -22)]
+    x = mix(layers, dur=dur)
+    x = x * np.minimum(1, np.linspace(dur, 0, n) / 0.3)       # a linear fade over the last 0.3 s
+    return finish(room(x), -8)
+
+
+def prinz_reply():
+    """prinz-reply: the machine moves a Black piece. A relay click, then a heavier wooden clack 90 ms later."""
+    rng = np.random.default_rng(2302)
+    x = mix([(relay(rng, -3), 0, 0), (clack(-2), 0.09, -1), (thump(-3, 80, 50)[:int(0.12 * SR)], 0.09, -12)], dur=0.27)
+    return finish(room(x, -24), -8)
+
+
+def prinz_mate():
+    """prinz-mate: the Mark 1's hooter. A short clean two-note hoot, about 0.6 s.
+
+    The hooter's notes were whole fractions of the machine's pulse rate. These are 417 and 521 Hz
+    (a major third), a tonewheel organ repitched and squared by the speaker. A relay keys it.
+    """
+    rng = np.random.default_rng(2303)
+    x = mix([(relay(rng, -4), 0, -8), (hoot(417, 0.26), 0.002, 0), (hoot(521, 0.30), 0.30, 0)], dur=0.62)
+    return finish(x, -14)                 # a steady tone is dense, so its peak sits low
+
+
+def prinz_refuted():
+    """prinz-refuted: a wrong move shown. A low buzzer burst, about 0.4 s.
+
+    The recorded mains buzz up an octave to 100 Hz, as a 50 Hz buzzer sounds, through the speaker
+    and saturated. A relay starts it and lets it go.
+    """
+    rng = np.random.default_rng(2304)
+    b = fade(buzz(0.38, 12, drive=3.0), a=0.003, r=0.02)
+    x = mix([(relay(rng, -4), 0, -2), (b, 0.004, 0), (relay(rng, -5), 0.39, -6)], dur=0.45)
+    return finish(x, -17)                 # a steady buzz is dense, so its peak sits low
+
+
+def prinz_reset():
+    """prinz-reset: the pieces go back. Wooden pieces set out quickly, a short rattle, about 0.8 s.
+
+    Fourteen small clacks from four wood samples, 25-60 ms apart, louder at first. A wooden rattle
+    (Sticks Rattle, low-passed) runs under the first half.
+    """
+    rng = np.random.default_rng(2305)
+    woods = ("Wood Clack.wav", "Wood Dry Low.aif", "Wood Tip Tag.wav", "Wood MS.wav")
+    t, layers = 0.0, []
+    for k in range(14):
+        piece = strike(woods[rng.integers(len(woods))], rng.uniform(-5, -1), dur=0.07, t60=0.06)
+        layers.append((piece, t, -rng.uniform(0, 4) - 0.4 * k))
+        t += rng.uniform(0.025, 0.06)
+    rattle = load("Sticks Rattle.aif")[int(0.45 * SR):int(0.85 * SR)]
+    rattle = lp(rattle, 3000) * swell(len(rattle), 0.02, 0.3)
+    layers.append((rattle / np.abs(rattle).max(), 0.03, -12))
+    return finish(room(mix(layers, dur=0.8), -24), -9)
+
+
+def prinz_next():
+    """prinz-next: the big button sets the next problem. A heavy latch clunk."""
+    x = mix([(plunger(-4), 0, 0), (clunk(-4), 0.012, -2), (thump(-4, 75, 44), 0.012, -8)], dur=0.34)
+    return finish(room(x), -7)
+
+
+def prinz_cursor():
+    """prinz-cursor-1..3: the keyboard's square moves. A tiny stepping-switch tick.
+
+    A metal pawl and a light knock, 25 ms, high-passed so it stays small. A different pair each take.
+    """
+    takes = []
+    for pawl, st in (("E-Perc Metal Chop.wav", -2), ("Wood Tip Tag.wav", 0), ("Rimshot Serendipity of Surprise.wav", -3)):
+        x = mix([(tick(pawl, st, dur=0.022, t60=0.018), 0, 0),
+                 (strike("Perc Knock Rattle.wav", st - 3, dur=0.022, t60=0.018), 0.001, -6)], dur=0.028)
+        takes.append(finish(lp(hp(x, 400), 7000, 1), 0))
+    return match(takes, -22)
+
+
 def build() -> dict:
     """Every sound by the name the page plays."""
     out = {}
@@ -674,6 +1118,24 @@ def build() -> dict:
     out.update({"bertie-lamp": bertie_lamp(), "bertie-win": bertie_win(), "bertie-lose": bertie_lose(),
                 "bertie-draw": bertie_draw(), "bertie-reset": bertie_reset(),
                 "bertie-refused": bertie_refused(), "bertie-dial": bertie_dial()})
+    for k, x in enumerate(nimrod_step()):
+        out[f"nimrod-step-{k + 1}"] = x
+    out.update({"nimrod-press": nimrod_press(), "nimrod-refused": nimrod_refused(), "nimrod-move": nimrod_move(),
+                "nimrod-win": nimrod_win(), "nimrod-lose": nimrod_lose(), "nimrod-deal": nimrod_deal(),
+                "nimrod-switch": nimrod_switch(), "nimrod-comp": nimrod_comp()})
+    for group, takes in (("whirlwind-notch", whirlwind_notch()), ("whirlwind-bounce", whirlwind_bounce())):
+        for k, x in enumerate(takes):
+            out[f"{group}-{k + 1}"] = x
+    out.update({"whirlwind-stop": whirlwind_stop(), "whirlwind-release": whirlwind_release(),
+                "whirlwind-drop": whirlwind_drop(), "whirlwind-miss": whirlwind_miss(),
+                "whirlwind-over": whirlwind_over(), "whirlwind-hole": whirlwind_hole(),
+                "whirlwind-refused": whirlwind_refused(), "whirlwind-reset": whirlwind_reset()})
+    out.update({"prinz-select": prinz_select(), "prinz-place": prinz_place(), "prinz-capture": prinz_capture(),
+                "prinz-refused": prinz_refused(), "prinz-think": prinz_think(), "prinz-reply": prinz_reply(),
+                "prinz-mate": prinz_mate(), "prinz-refuted": prinz_refuted(), "prinz-reset": prinz_reset(),
+                "prinz-next": prinz_next()})
+    for k, x in enumerate(prinz_cursor()):
+        out[f"prinz-cursor-{k + 1}"] = x
     return out
 
 
@@ -682,7 +1144,14 @@ def build() -> dict:
 # Longest allowed length in seconds, and whether the sound must start with a click (onset < 5 ms).
 LIMITS = {"notch": (0.07, True), "bertie-dial": (0.15, True), "bertie-key": (0.15, True),
           "wave": (2.05, True), "over": (2.05, True), "bertie-win": (2.05, True), "bertie-lose": (2.05, True),
-          "step-up": (1.2, False), "step-away": (1.2, False), "hum": (4.01, False)}
+          "step-up": (1.2, False), "step-away": (1.2, False), "hum": (4.01, False),
+          "nimrod-step": (0.08, True), "whirlwind-notch": (0.12, True), "whirlwind-bounce": (0.06, True),
+          "prinz-cursor": (0.05, True), "nimrod-win": (2.05, True), "nimrod-lose": (2.05, True),
+          "whirlwind-over": (2.05, True), "whirlwind-drop": (1.5, True), "prinz-think": (3.1, True),
+          "prinz-mate": (0.7, True), "prinz-refuted": (0.5, True), "prinz-reset": (0.9, True)}
+# Takes of one sound: how many there are. They must differ in waveform and match in loudness.
+TAKE_COUNTS = {"notch": 4, "bertie-key": 3, "nimrod-step": 4, "whirlwind-notch": 4, "whirlwind-bounce": 4, "prinz-cursor": 3}
+SIZE_LIMIT_KB = 1200
 
 
 def encode(x, path: Path, tmp: Path) -> np.ndarray:
@@ -807,11 +1276,11 @@ def main():
             bad.append(f"{name}: last 5 ms at {m['tail']:.1f} dBFS")
     total = sum(p.stat().st_size for p in OUT.iterdir())
     print(f"\ntotal size of sound/out: {total / 1024:.0f} KB in {len(list(OUT.iterdir()))} files")
-    if total > 600 * 1024:
-        bad.append("sound/out is over 600 KB")
+    if total > SIZE_LIMIT_KB * 1024:
+        bad.append(f"sound/out is over {SIZE_LIMIT_KB} KB")
 
     print("\ntakes: best correlation between any two, and the spread of their RMS")
-    for group, count in (("notch", 4), ("bertie-key", 3)):
+    for group, count in TAKE_COUNTS.items():
         names = [f"{group}-{k + 1}" for k in range(count)]
         cors = [take_correlation(played[a][0], played[b][0]) for i, a in enumerate(names) for b in names[i + 1:]]
         rms = [stats[n]["rms"] for n in names]

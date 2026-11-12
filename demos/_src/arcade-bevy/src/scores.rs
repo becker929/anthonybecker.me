@@ -13,13 +13,13 @@ use bevy::{
 use crate::{font, pad, room::ROOM_MAX};
 
 /// The board in lamps, and how many pixels of picture each lamp gets.
-const LAMPS_W: usize = 208;
+const LAMPS_W: usize = 8 + COLUMNS.len() * COLUMN_W;
 const LAMPS_H: usize = 104;
 const LAMP_PX: usize = 3;
 /// Its size on the wall in metres, and where its centre hangs: on the right-hand wall, facing in.
-const BOARD_W: f32 = 2.6;
+const BOARD_W: f32 = BOARD_H * LAMPS_W as f32 / LAMPS_H as f32;
 const BOARD_H: f32 = 1.3;
-const BOARD_AT: Vec3 = Vec3::new(ROOM_MAX.x - 0.075, 1.78, 2.6);
+const BOARD_AT: Vec3 = Vec3::new(ROOM_MAX.x - 0.075, 1.78, 2.9);
 /// How many entries of each table fit.
 pub const ROWS: usize = 7;
 
@@ -29,7 +29,17 @@ const DIM: [u8; 3] = [150, 84, 26];
 /// An unlit lamp still shows a little, so the board reads as lamps and not as a black sheet.
 const UNLIT: [u8; 3] = [24, 14, 6];
 
-const TITLES: [&str; 2] = ["TUBE 1947", "BERTIE 1950"];
+/// The columns, left to right: the game's `pad::GAME_` number and its title. A new machine adds its
+/// own here, and the board grows to fit.
+const COLUMNS: &[(u32, &str)] = &[
+    (pad::GAME_TUBE, "TUBE 1947"),
+    (pad::GAME_BERTIE, "BERTIE 1950"),
+    (pad::GAME_NIMROD, "NIMROD 1951"),
+    (pad::GAME_WHIRLWIND, "WHIRLWIND 1951"),
+    (pad::GAME_PRINZ, "PRINZ 1951"),
+];
+/// Each column is 104 lamps wide.
+const COLUMN_W: usize = 104;
 
 #[derive(Resource)]
 struct Board(Handle<Image>);
@@ -49,7 +59,7 @@ fn hang_board(
 ) {
     let (w, h) = (LAMPS_W * LAMP_PX, LAMPS_H * LAMP_PX);
     let mut data = vec![0u8; w * h * 4];
-    paint(&mut data, &[String::new(), String::new()]);
+    paint(&mut data, &[]);
     let picture = images.add(Image::new(
         Extent3d { width: w as u32, height: h as u32, depth_or_array_layers: 1 },
         TextureDimension::D2,
@@ -154,10 +164,11 @@ fn paint(data: &mut [u8], tables: &[String]) {
         }
     }
     write_centred(data, "HIGH SCORES", LAMPS_W / 2, 6, CREAM);
-    for (side, table) in tables.iter().take(2).enumerate() {
+    for (side, &(game, title)) in COLUMNS.iter().enumerate() {
+        let Some(table) = tables.get(game as usize) else { continue };
         // Each column is sixteen letters wide: place, name, score.
-        let x0 = 6 + side * 104;
-        write_centred(data, TITLES[side], x0 + 48, 19, CREAM);
+        let x0 = 6 + side * COLUMN_W;
+        write_centred(data, title, x0 + 48, 19, CREAM);
         for x in x0..x0 + 96 {
             lamp(data, x, 28, DIM);
         }

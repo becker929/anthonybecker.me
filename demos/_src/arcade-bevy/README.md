@@ -1,6 +1,6 @@
 # CRT Arcade
 
-A walkable arcade room in Bevy 0.20, with two machines: the 1947 Cathode-Ray Tube Amusement Device and Bertie, after the 1950 tic-tac-toe computer Bertie the Brain (`BERTIE.md`). `PROCESS.md` is how a machine gets into it. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
+A walkable arcade room in Bevy 0.20, with five machines: the 1947 Cathode-Ray Tube Amusement Device; Bertie, after the 1950 tic-tac-toe computer Bertie the Brain (`BERTIE.md`); Nimrod, the 1951 Festival of Britain Nim computer (`NIMROD.md`); the bouncing ball on MIT's Whirlwind, 1951 (`WHIRLWIND.md`); and Dietrich Prinz's 1951 mate-in-two solver, turned round so the visitor solves (`PRINZ.md`). `PROCESS.md` is how a machine gets into it. One cabinet runs the 1947 Cathode-Ray Tube Amusement Device.
 The cabinet and the room are a model built in Blender; the game loads it and brings its named parts to life.
 
 The site does not serve this directory (`.assetsignore`). The web build is its own Cloudflare Worker at https://arcade.anthonybecker.me/.
