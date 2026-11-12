@@ -66,7 +66,7 @@ The game has no reflections, so the look leans on painted light: the warm wash b
 
 The game puts no words on the screen. The score is marks on the tube: a tick per shell left, a pip per wave cleared. The page shows key prompts and touch buttons.
 The knobs move in notches (2.5 degrees of elevation, 5% of charge). The drawn knob springs to each notch and overshoots a little. The fire button drops fast and returns slowly.
-The game reports what happened as bits (`SOUND_` in `src/pad.rs`): a notch, a shot, a hit and so on. The web page plays a recorded file for each, from `sounds/sounds.json`, and buzzes a phone that can vibrate. With no sound files the page stays silent.
+The game reports what happened as bits (`SOUND_` in `src/pad.rs`): a notch, a shot, a hit and so on. The web page plays a recorded file for each, from `sounds/sounds.json`, and buzzes a phone that can vibrate. The files are built by `sound/make.py` from recorded samples (see `sound/README.md`) into `sound/out/`, which is not in git; `build-web.sh` ships them. With no sound files the page stays silent.
 
 ## Headless capture
 
