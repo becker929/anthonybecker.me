@@ -1,7 +1,10 @@
 //! Touch input. The web page draws the stick and buttons and calls the exported functions
 //! below; the game reads the result from the `Pad` resource. Native builds never fill it.
 
-use std::sync::atomic::{AtomicBool, AtomicU32, Ordering::Relaxed};
+use std::sync::{
+    atomic::{AtomicBool, AtomicU32, Ordering::Relaxed},
+    Mutex,
+};
 
 use bevy::prelude::*;
 
@@ -20,6 +23,11 @@ static STICK_Y: AtomicU32 = AtomicU32::new(0);
 // Look movement arrives as whole pixels and is summed until the next frame takes it.
 static LOOK_X: AtomicU32 = AtomicU32::new(0);
 static LOOK_Y: AtomicU32 = AtomicU32::new(0);
+// How far a finger has turned each knob since the last frame, in thousandths of a radian, clockwise.
+static KNOB_ELEVATION: AtomicU32 = AtomicU32::new(0);
+static KNOB_CHARGE: AtomicU32 = AtomicU32::new(0);
+// Where the focused cabinet's two knobs and button are on screen, for the page to put its touch targets on.
+static POINTS: Mutex<[f32; 6]> = Mutex::new([0.0; 6]);
 static HELD: AtomicU32 = AtomicU32::new(0);
 // Presses are kept until a frame has seen them, so a tap shorter than a frame still counts.
 static TAPPED: AtomicU32 = AtomicU32::new(0);
@@ -33,6 +41,8 @@ pub struct Pad {
     pub stick: Vec2,
     /// Finger movement since the last frame, in CSS pixels.
     pub look: Vec2,
+    /// Clockwise turns of the elevation and charge knobs since the last frame, in radians.
+    pub knobs: Vec2,
     pub held: u32,
     pub tapped: u32,
 }
@@ -57,6 +67,7 @@ fn read_pad(mut pad: ResMut<Pad>) {
     pad.active = ACTIVE.load(Relaxed);
     pad.stick = Vec2::new(f32::from_bits(STICK_X.load(Relaxed)), f32::from_bits(STICK_Y.load(Relaxed))).clamp_length_max(1.0);
     pad.look = Vec2::new(LOOK_X.swap(0, Relaxed) as i32 as f32, LOOK_Y.swap(0, Relaxed) as i32 as f32);
+    pad.knobs = Vec2::new(KNOB_ELEVATION.swap(0, Relaxed) as i32 as f32, KNOB_CHARGE.swap(0, Relaxed) as i32 as f32) / 1000.0;
     pad.held = HELD.load(Relaxed);
     pad.tapped = TAPPED.swap(0, Relaxed);
 }
@@ -64,6 +75,11 @@ fn read_pad(mut pad: ResMut<Pad>) {
 /// Called by the game each frame so the page can show the right buttons.
 pub fn publish_state(state: u32) {
     STATE.store(state, Relaxed);
+}
+
+/// Screen positions, in CSS pixels, of the elevation knob, the charge knob and the fire button.
+pub fn publish_points(points: [f32; 6]) {
+    *POINTS.lock().unwrap() = points;
 }
 
 #[cfg(target_arch = "wasm32")]
@@ -95,6 +111,19 @@ mod web {
         } else {
             HELD.fetch_and(!button, Relaxed);
         }
+    }
+
+    /// `knob` 0 is elevation, 1 is charge. `millirad` is clockwise as the player sees it.
+    #[wasm_bindgen]
+    pub fn pad_knob(knob: u32, millirad: i32) {
+        ACTIVE.store(true, Relaxed);
+        let acc = if knob == 0 { &KNOB_ELEVATION } else { &KNOB_CHARGE };
+        acc.store((acc.load(Relaxed) as i32).wrapping_add(millirad) as u32, Relaxed);
+    }
+
+    #[wasm_bindgen]
+    pub fn pad_points() -> Vec<f32> {
+        POINTS.lock().unwrap().to_vec()
     }
 
     #[wasm_bindgen]

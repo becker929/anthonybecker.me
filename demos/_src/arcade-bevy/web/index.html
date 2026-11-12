@@ -37,8 +37,15 @@ body.touch.running #touch{display:block}
 #buttons button{font:600 14px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;color:#f3e6c8;background:rgba(20,14,26,.7);border:1px solid #6b5536;border-radius:999px;min-width:96px;min-height:52px;padding:0 20px;touch-action:none;display:none}
 #buttons button.on{display:block}
 #buttons button.down{background:rgba(120,90,50,.8)}
-#buttons #b-fire{width:96px;height:96px;border-radius:50%;border:3px solid #5a140c;background:radial-gradient(circle at 35% 30%,#ff6a50,#e2331c 55%,#8c1a0c);color:#fff4e8;font-size:16px}
-#buttons #b-fire.down{filter:brightness(.75)}
+/* At the cabinet the buttons move to the top corner, clear of the control panel. */
+#buttons.playing{bottom:auto;top:calc(8px + env(safe-area-inset-top));flex-direction:row}
+#buttons.playing button{min-height:40px;min-width:84px;font-size:12px}
+/* Touch targets laid over the cabinet's own knobs and red button. The game says where they are. */
+.target{position:absolute;left:0;top:0;width:116px;height:116px;margin:-58px 0 0 -58px;border-radius:50%;border:1px dashed rgba(243,230,200,.3);touch-action:none;display:none}
+.target.on{display:block}
+.target.down{border-color:rgba(109,255,160,.8)}
+.target span{position:absolute;left:-20px;right:-20px;top:100%;margin-top:4px;text-align:center;font-size:10px;letter-spacing:.14em;color:#9c8f78;text-shadow:0 1px 4px #000;pointer-events:none}
+#t-fire{width:96px;height:96px;margin:-48px 0 0 -48px}
 </style></head>
 <body>
 <div id="stage"><canvas id="game" tabindex="0"></canvas></div>
@@ -49,8 +56,10 @@ body.touch.running #touch{display:block}
     <button id="b-leave" type="button">LEAVE</button>
     <button id="b-again" type="button">AGAIN</button>
     <button id="b-play" type="button">PLAY</button>
-    <button id="b-fire" type="button">FIRE</button>
   </div>
+  <div class="target" id="t-elevation"><span>ELEVATION</span></div>
+  <div class="target" id="t-charge"><span>CHARGE</span></div>
+  <div class="target" id="t-fire"><span>FIRE</span></div>
 </div>
 <div id="cover">
   <h1>Cathode-Ray Tube Amusement Device</h1>
@@ -59,7 +68,7 @@ body.touch.running #touch{display:block}
   <p class="keys-only"><b>WASD</b> walk · <b>mouse</b> look (click first) · <b>E</b> step up to the cabinet<br>
   At the cabinet: <b>A/D</b> elevation · <b>W/S</b> charge · <b>Space</b> fire · <b>R</b> restart</p>
   <p class="touch-only"><b>Left thumb</b> walks · <b>right thumb</b> looks · walk up to the cabinet and press <b>PLAY</b><br>
-  At the cabinet the left thumb turns the knobs: <b>sideways</b> for elevation, <b>up and down</b> for charge</p>
+  At the cabinet: <b>turn the two knobs</b> with a finger and <b>tap the red button</b> to fire</p>
   <p><a href="https://anthonybecker.me/">anthonybecker.me</a></p>
 </div>
 <script type="module">
@@ -106,10 +115,11 @@ function touchControls(game) {
   const layer = document.getElementById('touch'), ring = document.getElementById('ring'), nub = document.getElementById('nub');
   const tip = document.getElementById('tip');
   const REACH = 60;            // stick travel in CSS pixels for full speed
+  let shown = -1;              // the game's state bits, as last shown
   let stick = null, look = null;  // { id, x, y } of the finger doing each job
 
   layer.addEventListener('pointerdown', e => {
-    if (e.target.closest('button')) return;
+    if (e.target.closest('button') || (shown & 2)) return;  // at the cabinet only its controls take touches
     e.preventDefault();
     try { layer.setPointerCapture(e.pointerId); } catch {}
     if (e.clientX < innerWidth / 2 && !stick) {
@@ -142,7 +152,7 @@ function touchControls(game) {
   layer.addEventListener('contextmenu', e => e.preventDefault());
 
   // Button bits match src/pad.rs.
-  const buttons = { play: [1], leave: [1], fire: [2], again: [4] };
+  const buttons = { play: [1], leave: [1], again: [4] };
   for (const [name, b] of Object.entries(buttons)) {
     const el = b[1] = document.getElementById('b-' + name);
     const set = down => e => { e.preventDefault(); el.classList.toggle('down', down); game.pad_button(b[0], down); };
@@ -150,18 +160,50 @@ function touchControls(game) {
     el.addEventListener('pointerup', set(false));
     el.addEventListener('pointercancel', set(false));
   }
+  // The cabinet's own controls. A knob follows the finger round its centre; near the centre, where the
+  // angle is not steady, a sideways drag turns it instead.
+  const targets = ['elevation', 'charge', 'fire'].map(n => document.getElementById('t-' + n));
+  const angleAt = (el, e) => { const r = el.getBoundingClientRect(), x = e.clientX - (r.left + r.width / 2), y = e.clientY - (r.top + r.height / 2); return { a: Math.atan2(y, x), r: Math.hypot(x, y) }; };
+  targets.slice(0, 2).forEach((el, knob) => {
+    let last = null;
+    el.addEventListener('pointerdown', e => { e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch {} last = { id: e.pointerId, x: e.clientX, ...angleAt(el, e) }; el.classList.add('down'); });
+    el.addEventListener('pointermove', e => {
+      if (!last || e.pointerId !== last.id) return;
+      const now = angleAt(el, e);
+      let turn;
+      if (now.r < 18 || last.r < 18) turn = (e.clientX - last.x) / 50;
+      else { turn = now.a - last.a; if (turn > Math.PI) turn -= 2 * Math.PI; if (turn < -Math.PI) turn += 2 * Math.PI; }
+      const milli = Math.round(turn * 1000);  // screen y runs down, so a growing angle is clockwise
+      if (milli) { game.pad_knob(knob, milli); last = { id: last.id, x: e.clientX, ...now }; }
+    });
+    const up = e => { if (last && e.pointerId === last.id) { last = null; el.classList.remove('down'); } };
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+  });
+  {
+    const el = targets[2], set = down => e => { e.preventDefault(); el.classList.toggle('down', down); game.pad_button(2, down); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch {} set(true)(e); });
+    el.addEventListener('pointerup', set(false)); el.addEventListener('pointercancel', set(false));
+  }
   // The game says what is on offer: 1 a cabinet in reach, 2 playing, 4 out of shells.
-  let shown = -1;
   (function poll() {
     const st = game.pad_state();
     if (st !== shown) {
       shown = st;
       buttons.play[1].classList.toggle('on', !!(st & 1));
       buttons.leave[1].classList.toggle('on', !!(st & 2));
-      buttons.fire[1].classList.toggle('on', (st & 6) === 2);
+      document.getElementById('buttons').classList.toggle('playing', !!(st & 2));
+      for (const t of targets) t.classList.toggle('on', (st & 6) === 2);
+      if (targets[2].classList.contains('down')) { targets[2].classList.remove('down'); game.pad_button(2, false); }
+      if (stick) { stick = null; ring.style.display = 'none'; game.pad_stick(0, 0); }
+      look = null;
       buttons.again[1].classList.toggle('on', (st & 6) === 6);
       // A hidden button never gets its pointerup, so let go of everything on a change.
       for (const b of Object.values(buttons)) if (b[1].classList.contains('down')) { b[1].classList.remove('down'); game.pad_button(b[0], false); }
+    }
+    if ((st & 6) === 2) {
+      // The camera eases in to the cabinet, so the targets follow every frame.
+      const p = game.pad_points();
+      targets.forEach((t, i) => { t.style.transform = `translate(${p[i * 2]}px,${p[i * 2 + 1]}px)`; });
     }
     requestAnimationFrame(poll);
   })();

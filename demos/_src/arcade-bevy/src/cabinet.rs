@@ -39,11 +39,14 @@ struct TubeLight(Entity);
 #[derive(Component)]
 struct Hud;
 
+/// How far the charge knob turns from empty to full, in radians.
+const CHARGE_KNOB_SWEEP: f32 = 4.7;
+
 pub struct CabinetPlugin;
 impl Plugin for CabinetPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, (spawn_cabinets, spawn_hud))
-            .add_systems(Update, (interact, play, tick_games, animate_controls, update_hud).chain());
+            .add_systems(Update, (interact, play, tick_games, animate_controls, update_hud, publish_touch_points).chain());
     }
 }
 
@@ -268,11 +271,12 @@ fn play(
     let axis = |neg: [KeyCode; 2], pos: [KeyCode; 2]| {
         (keys.any_pressed(pos) as i32 - keys.any_pressed(neg) as i32) as f32
     };
-    // At the cabinet the touch stick turns the two knobs.
-    let turn = (axis([KeyCode::KeyA, KeyCode::ArrowLeft], [KeyCode::KeyD, KeyCode::ArrowRight]) + pad.stick.x).clamp(-1.0, 1.0);
-    let charge = (axis([KeyCode::KeyS, KeyCode::ArrowDown], [KeyCode::KeyW, KeyCode::ArrowUp]) + pad.stick.y).clamp(-1.0, 1.0);
-    game.angle = (game.angle + turn * 28.0 * dt).clamp(15.0, 80.0);
-    game.power = (game.power + charge * 0.45 * dt).clamp(0.0, 1.0);
+    // The elevation knob's pointer lies along the beam, so turning it clockwise (D, or a finger) swings the beam
+    // clockwise too: down toward the horizon. A finger turns the knobs by the angle it travels.
+    let turn = axis([KeyCode::KeyA, KeyCode::ArrowLeft], [KeyCode::KeyD, KeyCode::ArrowRight]);
+    let charge = axis([KeyCode::KeyS, KeyCode::ArrowDown], [KeyCode::KeyW, KeyCode::ArrowUp]);
+    game.angle = (game.angle - turn * 28.0 * dt - pad.knobs.x.to_degrees()).clamp(15.0, 80.0);
+    game.power = (game.power + charge * 0.45 * dt + pad.knobs.y / CHARGE_KNOB_SWEEP).clamp(0.0, 1.0);
     if keys.just_pressed(KeyCode::Space) || pad.tapped(pad::FIRE) {
         game.fire();
     }
@@ -305,8 +309,14 @@ fn animate_controls(
 ) {
     for (knob, mut tf) in &mut knobs {
         let Ok(game) = games.get(knob.cabinet) else { continue };
-        let k = if knob.charge { game.power } else { (game.angle - 15.0) / 65.0 };
-        tf.rotation = Quat::from_rotation_y((0.5 - k) * 4.7);
+        // Seen from the player, a negative turn about Y is clockwise. At rest the pointer aims up the panel.
+        let turn = if knob.charge {
+            (0.5 - game.power) * CHARGE_KNOB_SWEEP
+        } else {
+            // Up the panel is a beam at 90 degrees, so the pointer always lies along the beam.
+            (game.angle - 90.0).to_radians()
+        };
+        tf.rotation = Quat::from_rotation_y(turn);
     }
     for (mut button, mut tf) in &mut buttons {
         let held = focus.0 == Some(button.cabinet) && (keys.pressed(KeyCode::Space) || pad.held(pad::FIRE));
@@ -318,6 +328,36 @@ fn animate_controls(
         let flight = if game.in_flight() { 0.4 } else { 0.0 };
         point.intensity = 9_000.0 * (1.0 + flight + 3.0 * game.flash);
     }
+}
+
+/// Tells the page where the focused cabinet's knobs and button are on screen, so fingers can work them directly.
+fn publish_touch_points(
+    focus: Res<Focus>,
+    pad: Res<Pad>,
+    camera: Single<(&Camera, &GlobalTransform), With<Player>>,
+    knobs: Query<(&Knob, &GlobalTransform)>,
+    buttons: Query<(&FireButton, &GlobalTransform)>,
+) {
+    let (Some(cabinet), true) = (focus.0, pad.active) else { return };
+    let (camera, view) = *camera;
+    let mut points = [-1000.0; 6];
+    let mut put = |slot: usize, at: &GlobalTransform| {
+        if let Ok(p) = camera.world_to_viewport(view, at.translation()) {
+            points[slot * 2] = p.x;
+            points[slot * 2 + 1] = p.y;
+        }
+    };
+    for (knob, at) in &knobs {
+        if knob.cabinet == cabinet {
+            put(knob.charge as usize, at);
+        }
+    }
+    for (button, at) in &buttons {
+        if button.cabinet == cabinet {
+            put(2, at);
+        }
+    }
+    pad::publish_points(points);
 }
 
 fn spawn_hud(mut commands: Commands) {
@@ -349,10 +389,10 @@ fn update_hud(
     hud: Single<(&mut Text, &mut Node), With<Hud>>,
 ) {
     let (mut hud, mut node) = hud.into_inner();
-    // The thumbs and the page's buttons own the bottom of a touch screen, so the score moves up, clear of a notch.
+    // The thumbs and the page's buttons own the bottom of a touch screen, so the score moves up, below the page's LEAVE button.
     if pad.active && node.bottom != Val::Auto {
         node.bottom = Val::Auto;
-        node.top = px(56);
+        node.top = px(104);
     }
     let playing = focus.0.and_then(|e| games.get(e).ok());
     let in_reach = playing.is_none() && cabinet_in_reach(&player, &cabinets).is_some();
