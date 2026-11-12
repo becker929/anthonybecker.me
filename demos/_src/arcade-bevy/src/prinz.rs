@@ -274,6 +274,7 @@ impl Position {
         self.in_check(self.white_to_move) && self.legal_moves().is_empty()
     }
 
+    #[allow(dead_code)] // the tests use it to prove each problem sound
     pub fn is_stalemate(&self) -> bool {
         !self.in_check(self.white_to_move) && self.legal_moves().is_empty()
     }
@@ -283,11 +284,13 @@ impl Position {
         self.legal_moves().into_iter().filter(|&m| self.play(m).is_checkmate()).collect()
     }
 
+    #[allow(dead_code)] // the tests use it to prove each problem sound
     /// Whether the side to move mates in `n` moves or fewer, against every defence.
     pub fn mates_in(&self, n: u32) -> bool {
         self.legal_moves().into_iter().any(|m| self.play(m).forced(n))
     }
 
+    #[allow(dead_code)] // the tests use it to prove each problem sound
     /// After the attacker's move: whether the defender, to move here, is mated within `n` moves of
     /// the attacker's counting from the move just made.
     fn forced(&self, n: u32) -> bool {
@@ -298,12 +301,14 @@ impl Position {
         n > 1 && replies.into_iter().all(|r| self.play(r).mates_in(n - 1))
     }
 
+    #[allow(dead_code)] // the tests use it to prove each problem sound
     /// Every first move that mates in `n` or fewer against every defence. A problem has one.
     pub fn keys(&self, n: u32) -> Vec<Move> {
         self.legal_moves().into_iter().filter(|&m| self.play(m).forced(n)).collect()
     }
 }
 
+#[allow(dead_code)] // the tests name keys with it
 /// A move in the usual short notation, such as "Rh6", "gxh6" or "e8=Q". Check signs are left off.
 pub fn notation(pos: &Position, m: Move) -> String {
     let p = pos.sq[m.from as usize];
@@ -347,6 +352,7 @@ pub fn notation(pos: &Position, m: Move) -> String {
 // ---------------------------------------------------------------- the problems
 
 /// One mate-in-two problem: White to move and mate in two.
+#[allow(dead_code)] // `by` and `key` document each problem; the tests check `key`
 pub struct Problem {
     pub fen: &'static str,
     /// Who made it, and when.
@@ -546,6 +552,7 @@ impl PrinzGame {
         self.ended.take()
     }
 
+    #[allow(dead_code)] // read by the tests
     /// The score of the run in progress: the points of every problem solved since the last mistake.
     pub fn streak(&self) -> u32 {
         self.streak
@@ -565,6 +572,7 @@ impl PrinzGame {
         self.phase
     }
 
+    #[allow(dead_code)] // read by the tests
     pub fn board(&self) -> &[Piece; 64] {
         &self.pos.sq
     }

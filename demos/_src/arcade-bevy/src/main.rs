@@ -7,6 +7,8 @@ mod crt;
 mod font;
 mod pad;
 mod player;
+mod prinz;
+mod prinz_machine;
 mod room;
 mod scores;
 #[cfg(not(target_arch = "wasm32"))]
@@ -39,7 +41,7 @@ fn main() {
             ..default()
         }));
     }
-    app.add_plugins((pad::PadPlugin, room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin, bertie_machine::BertiePlugin, scores::ScoresPlugin)).run();
+    app.add_plugins((pad::PadPlugin, room::RoomPlugin, player::PlayerPlugin, cabinet::CabinetPlugin, bertie_machine::BertiePlugin, prinz_machine::PrinzPlugin, scores::ScoresPlugin)).run();
 }
 
 /// The model is fetched as a plain file. There are no `.meta` files beside it to ask for.
