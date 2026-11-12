@@ -287,9 +287,22 @@ fn animate_controls(
             (game.angle - 90.0).to_radians()
         };
         // A stiff, under-damped spring: the knob jumps to the notch, overshoots a touch and settles.
-        let pull = (want - knob.turn) * 1400.0 - knob.speed * 34.0;
-        knob.speed += pull * dt;
-        knob.turn += knob.speed * dt;
+        // A spring this stiff cannot be stepped a whole frame at a time: on a slow frame it gains energy
+        // every step, shakes harder and harder, and ends as a number that is not a number, which makes
+        // the knob vanish. So it is stepped in slices of a few milliseconds.
+        let mut left = dt;
+        while left > 0.0 {
+            let h = left.min(0.004);
+            left -= h;
+            let pull = (want - knob.turn) * 1400.0 - knob.speed * 34.0;
+            knob.speed += pull * h;
+            knob.turn += knob.speed * h;
+        }
+        // Should it ever go wrong anyway, put the knob where it belongs.
+        if !knob.turn.is_finite() || !knob.speed.is_finite() || (knob.turn - want).abs() > 6.0 {
+            knob.turn = want;
+            knob.speed = 0.0;
+        }
         tf.rotation = Quat::from_rotation_y(knob.turn);
     }
     for (mut button, mut tf) in &mut buttons {
