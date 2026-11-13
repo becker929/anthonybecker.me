@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Videos — Anthony Becker</title>
+  <meta name="description" content="Films of the things built on anthonybecker.me, made automatically as they ship.">
+  <meta property="og:title" content="Videos">
+  <meta property="og:description" content="Films of the things built on anthonybecker.me, made automatically as they ship.">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body { display: block; }
+    main.lib { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem 4rem; text-align: left; }
+    .lib h1 { margin: 0.5rem 0 0.25rem; }
+    .lib .intro { opacity: 0.75; max-width: 46rem; line-height: 1.5; }
+    .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1.25rem 0 0.5rem; }
+    .filters button { font: inherit; font-size: 0.9rem; padding: 0.4rem 0.9rem; border-radius: 999px; border: 1px solid currentColor; background: none; color: var(--fg); opacity: 0.6; cursor: pointer; }
+    .filters button[aria-pressed="true"] { opacity: 1; background: var(--fg); color: var(--bg); }
+    .subject { border-top: 1px solid rgba(128,128,128,.3); padding: 1.75rem 0 0.5rem; margin-top: 1.5rem; }
+    .subject h2 { margin: 0 0 0.25rem; font-size: 1.35rem; }
+    .subject .meta { font-size: 0.85rem; opacity: 0.6; margin-bottom: 0.4rem; }
+    .subject .pitch { margin: 0 0 1rem; line-height: 1.5; max-width: 46rem; }
+    .subject .pitch a { color: inherit; }
+    .films { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; align-items: start; }
+    .film { margin: 0; }
+    .film video { width: 100%; display: block; border-radius: 8px; background: #000; }
+    .film.v { max-width: 300px; }
+    .film figcaption { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.4rem; font-size: 0.85rem; }
+    .film .style { font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; opacity: 0.8; }
+    .film .acts { display: flex; gap: 0.25rem; }
+    .film .acts a, .film .acts button { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.3rem 0.5rem; border-radius: 6px; border: 1px solid rgba(128,128,128,.4); background: none; color: var(--fg); font: inherit; font-size: 0.8rem; text-decoration: none; cursor: pointer; }
+    .film .acts svg { width: 15px; height: 15px; }
+    .empty, .error { opacity: 0.6; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main class="lib">
+    <nav class="crumbs"><a href="/">← home</a></nav>
+    <h1>Videos</h1>
+    <p class="intro">Every few hours a job on the Mac mini looks for things built here that have no films yet, and makes three: a calm documentary, a hype cut whose camera work, cutting and type are drawn fresh each time, and a ten-second vertical.</p>
+    <div class="filters" role="group" aria-label="Show">
+      <button type="button" data-style="all" aria-pressed="true">All</button>
+      <button type="button" data-style="calm" aria-pressed="false">Documentary</button>
+      <button type="button" data-style="hype" aria-pressed="false">Hype</button>
+      <button type="button" data-style="short" aria-pressed="false">10 seconds</button>
+    </div>
+    <div id="library"><p class="empty">Loading…</p></div>
+  </main>
+  <script>
+    const NAMES = { calm: 'Documentary', hype: 'Hype', short: '10 seconds' };
+    const ORDER = ['calm', 'hype', 'short'];
+    const ICON = {
+      link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>',
+      down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12"/><path d="m6 11 6 6 6-6"/><path d="M5 20h14"/></svg>',
+      sky: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.3 4.4C8.8 6.3 11.5 10 12 11.6c.5-1.6 3.2-5.3 5.7-7.2 1.8-1.4 4.8-2.4 4.8 1 0 .7-.4 5.7-.6 6.5-.8 2.8-3.6 3.5-6.1 3.1 4.4.8 5.5 3.3 3.1 5.7-4.6 4.7-6.6-1.2-7.1-2.7l-.1-.3-.1.3c-.5 1.5-2.5 7.4-7.1 2.7-2.4-2.4-1.3-4.9 3.1-5.7-2.5.4-5.3-.3-6.1-3.1-.2-.8-.6-5.8-.6-6.5 0-3.4 3-2.4 4.8-1z"/></svg>',
+    };
+    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    const abs = (p) => new URL(p, location.origin).href;
+    function film(v, style) {
+      const f = v.styles[style];
+      if (!f) return '';
+      const vertical = f.h > f.w;
+      const text = `${v.title}: ${NAMES[style].toLowerCase()} film. ${abs('/videos/#' + v.slug)}`;
+      return `<figure class="film ${vertical ? 'v' : 'h'}" data-style="${style}">
+        <video src="${esc(f.video)}" poster="${esc(f.poster)}" controls playsinline preload="none" ${style === 'short' ? 'loop' : ''}></video>
+        <figcaption><span class="style">${NAMES[style]} · ${Math.round(f.seconds)} s</span>
+          <span class="acts">
+            <a href="https://bsky.app/intent/compose?text=${encodeURIComponent(text)}" target="_blank" rel="noopener" title="Post on Bluesky" aria-label="Post on Bluesky">${ICON.sky}</a>
+            <button type="button" data-copy="${esc(abs(f.video))}" title="Copy the video's link" aria-label="Copy the video's link">${ICON.link}</button>
+            <a href="${esc(f.video)}" download title="Download the MP4" aria-label="Download the MP4">${ICON.down}</a>
+          </span></figcaption></figure>`;
+    }
+    fetch('/audio/video/library/index.json', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((index) => {
+        const vids = index.videos || [];
+        const el = document.getElementById('library');
+        if (!vids.length) { el.innerHTML = '<p class="empty">No videos yet.</p>'; return; }
+        el.innerHTML = vids.map((v) => `<section class="subject" id="${esc(v.slug)}">
+          <h2>${esc(v.title)}</h2>
+          <div class="meta">${esc(v.when || '')}${v.repo ? ' · ' + esc(v.repo) : ''}</div>
+          <p class="pitch">${esc(v.pitch || '')}${v.url ? ` <a href="${esc(v.url)}">Open it.</a>` : ''}</p>
+          <div class="films">${ORDER.map((s) => film(v, s)).join('')}</div></section>`).join('');
+        if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+      })
+      .catch(() => { document.getElementById('library').innerHTML = '<p class="error">Couldn\'t load the library.</p>'; });
+    document.addEventListener('click', (e) => {
+      const copy = e.target.closest('[data-copy]');
+      if (copy) { navigator.clipboard.writeText(copy.dataset.copy).then(() => { copy.title = 'Copied'; }); }
+      const f = e.target.closest('.filters button');
+      if (f) {
+        document.querySelectorAll('.filters button').forEach((b) => b.setAttribute('aria-pressed', String(b === f)));
+        document.querySelectorAll('.film').forEach((x) => { x.hidden = f.dataset.style !== 'all' && x.dataset.style !== f.dataset.style; });
+      }
+    });
+  </script>
+</body>
+</html>

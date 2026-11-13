@@ -17,3 +17,5 @@ wrangler.toml
 /apps/_src/
 # Source for demos that need a build. The Bevy arcade deploys from here as its own Worker (arcade.anthonybecker.me).
 /demos/_src/
+# Source for the video library's pipeline (videos/_src); only the index page is site content.
+/videos/_src/
