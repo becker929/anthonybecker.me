@@ -172,3 +172,11 @@ Nine calls, eight images: four targets (seat A and B, hero A and B), and maple, 
 - The tall king (88 mm) hides part of the square behind it from the seat.
 - The board's near rank ring is at the board's frame edge; the file letters are small at phone size.
 - The dressing toggles and neons are simple and untextured.
+
+## Changes after the owner played it (12 November 2026)
+
+Anthony: "I think the chess game is broken or too hard btw. I couldn't solve the first puzzle." The game was not broken (the key Rh6 is accepted; the machine then plays its strongest defence, not the obvious capture, so the visitor needs a second, different mate), but Prinz's own position opens with a sacrifice and was a poor first puzzle.
+
+- Prinz's position moved to fifth, after four warm-ups; it is worth 2 points now.
+- Hints: if the visitor seems stuck, the square of the piece to move pulses (after a wrong try or 25 s), then its destination too (after two wrong tries or 50 s). Once Black has answered, a mate is hinted after 20 s, its square after 40 s. Tested in `a_stuck_visitor_is_shown_the_key_then_its_square`.
+- The seat looks down on the board more steeply and the pieces are 1.5x the template size: a reviewer reading a render could then name every piece and square correctly (before, it could not tell bishop from pawn or king from queen).

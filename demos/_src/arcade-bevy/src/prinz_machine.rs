@@ -24,10 +24,11 @@ const PRINZ_YAW: f32 = std::f32::consts::FRAC_PI_2;
 
 /// The seat, in the machine's own space. From here the board, the lamp rail and the monitor are in
 /// view at the 68 degree field of view. blender/prinz.py uses the same numbers for its checks.
-/// The pieces are drawn larger than the model's templates, so a phone can tell them apart.
-const PIECE_SCALE: f32 = 1.3;
-const SEAT_EYE: Vec3 = Vec3::new(0.0, 1.58, 0.86);
-const SEAT_AIM: Vec3 = Vec3::new(0.0, 1.13, 0.02);
+/// The pieces are drawn larger than the model's templates, and the seat looks down on the board more
+/// steeply, so king, queen, bishop and pawn can be told apart on a phone.
+const PIECE_SCALE: f32 = 1.5;
+const SEAT_EYE: Vec3 = Vec3::new(0.0, 1.66, 0.64);
+const SEAT_AIM: Vec3 = Vec3::new(0.0, 1.02, 0.10);
 /// On a narrow screen the eye steps back until the board's near edge (z 0.43, 0.56 m wide with its
 /// frame) fits. On an upright phone the board is then about nine tenths of the width.
 const SEAT_HALF_WIDTH: f32 = 0.25;
@@ -476,8 +477,14 @@ fn lamp_state(prinz: &Prinz, shows: Shows) -> u8 {
     let blink = |rate: f32| (prinz.clock * rate).fract() < 0.5;
     match shows {
         Shows::Square(sq) => {
+            let hint = if game.selected().is_none() { game.hint() } else { None };
             if game.selected() == Some(sq as u8) {
                 2
+            } else if hint.is_some_and(|(from, _)| from == sq as u8) {
+                // The piece to move pulses, slowly.
+                if blink(1.2) { 2 } else { 0 }
+            } else if hint.is_some_and(|(_, to)| to == Some(sq as u8)) {
+                if blink(1.2) { 1 } else { 0 }
             } else if prinz.keyboard && prinz.cursor == sq && game.visitor_to_move() {
                 3
             } else if prinz.dest & (1 << sq) != 0 {

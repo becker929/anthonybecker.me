@@ -301,7 +301,6 @@ impl Position {
         n > 1 && replies.into_iter().all(|r| self.play(r).mates_in(n - 1))
     }
 
-    #[allow(dead_code)] // the tests use it to prove each problem sound
     /// Every first move that mates in `n` or fewer against every defence. A problem has one.
     pub fn keys(&self, n: u32) -> Vec<Move> {
         self.legal_moves().into_iter().filter(|&m| self.play(m).forced(n)).collect()
@@ -369,11 +368,12 @@ pub struct Problem {
 /// ordered by hand in November 2026.
 pub const PROBLEMS: &[Problem] = &[
     // PROBLEMS_START
-    Problem { fen: "5Kbk/6pp/6P1/8/8/8/8/7R w - - 0 1", by: "Dietrich Prinz, 1951 (Robot Chess, 1952)", key: "Rh6", points: 1 },
     Problem { fen: "8/k7/6B1/8/2Q5/4K3/8/8 w - - 0 1", by: "Composed for this machine, 2026", key: "Qc7", points: 1 },
     Problem { fen: "8/6k1/8/8/8/6K1/5R2/3Q4 w - - 0 1", by: "Composed for this machine, 2026", key: "Qg4", points: 1 },
     Problem { fen: "8/8/4K3/7k/R7/8/8/8 w - - 0 1", by: "Composed for this machine, 2026", key: "Kf6", points: 2 },
     Problem { fen: "2k5/7P/K7/8/8/8/8/6R1 w - - 0 1", by: "Composed for this machine, 2026", key: "Rg7", points: 2 },
+    // Prinz's own position starts with a sacrifice, so it comes after the warm-ups rather than first.
+    Problem { fen: "5Kbk/6pp/6P1/8/8/8/8/7R w - - 0 1", by: "Dietrich Prinz, 1951 (Robot Chess, 1952)", key: "Rh6", points: 2 },
     Problem { fen: "4k3/8/5PP1/7K/R7/8/8/8 w - - 0 1", by: "Composed for this machine, 2026", key: "Rd4", points: 2 },
     Problem { fen: "1k6/8/2Kp1p2/8/8/8/7Q/8 w - - 0 1", by: "Composed for this machine, 2026", key: "Qh7", points: 3 },
     Problem { fen: "5k2/4R3/7K/5p2/8/8/2Q1p3/8 w - - 0 1", by: "Composed for this machine, 2026", key: "Qc7", points: 3 },
@@ -488,6 +488,11 @@ pub struct PrinzGame {
     streak: u32,
     ended: Option<u32>,
     rng: Rng,
+    /// Wrong tries at this problem, and seconds spent on the move now wanted. They bring on the hint.
+    misses: u32,
+    waited: f32,
+    /// The move the hint points at: the key, or once Black has answered, a mate.
+    hint_move: Option<Move>,
 }
 
 impl PrinzGame {
@@ -502,6 +507,9 @@ impl PrinzGame {
             selected: None,
             moved: Vec::new(),
             version: 0,
+            misses: 0,
+            waited: 0.0,
+            hint_move: None,
             solved: 0,
             streak: 0,
             ended: None,
@@ -516,6 +524,7 @@ impl PrinzGame {
     fn set(&mut self, i: usize) {
         self.problem = i % PROBLEMS.len();
         self.start = Position::from_fen(PROBLEMS[self.problem].fen);
+        self.misses = 0;
         self.reset_board();
         self.events |= EV_NEXT;
     }
@@ -523,6 +532,8 @@ impl PrinzGame {
     fn reset_board(&mut self) {
         self.pos = self.start;
         self.phase = Phase::Key;
+        self.waited = 0.0;
+        self.hint_move = self.start.keys(2).first().copied();
         self.selected = None;
         self.moved.clear();
         self.version = self.version.wrapping_add(1);
@@ -703,6 +714,7 @@ impl PrinzGame {
     }
 
     fn refuted(&mut self) {
+        self.misses += 1;
         self.phase = Phase::Refuted(REFUTED_TIME);
         self.events |= EV_REFUTED;
         self.end_run();
@@ -723,14 +735,29 @@ impl PrinzGame {
                     self.refuted();
                 } else {
                     self.phase = Phase::Mate;
+                    self.waited = 0.0;
+                    self.hint_move = self.pos.mates().first().copied();
                 }
             }
             Phase::Refuted(left) if left > dt => self.phase = Phase::Refuted(left - dt),
             Phase::Refuted(_) => self.reset_board(),
             Phase::Solved(t) if t + dt < SOLVED_TIME => self.phase = Phase::Solved(t + dt),
             Phase::Solved(_) => self.set(self.problem + 1),
-            Phase::Key | Phase::Mate => {}
+            Phase::Key | Phase::Mate => self.waited += dt,
         }
+    }
+
+    /// What the lamps should hint at, if the visitor seems stuck: the square of the piece to move, and
+    /// later the square it goes to. The key is hinted after a wrong try or 25 s; its square after two
+    /// wrong tries or 50 s. Once Black has answered, a mate is hinted after 20 s, its square after 40 s.
+    pub fn hint(&self) -> Option<(u8, Option<u8>)> {
+        let m = self.hint_move?;
+        let (first, second) = match self.phase {
+            Phase::Key => (self.misses >= 1 || self.waited > 25.0, self.misses >= 2 || self.waited > 50.0),
+            Phase::Mate => (self.waited > 20.0, self.waited > 40.0),
+            _ => return None,
+        };
+        first.then_some((m.from, second.then_some(m.to)))
     }
 }
 
@@ -815,6 +842,32 @@ mod tests {
         }
     }
 
+    /// Where Prinz's own position sits in the list.
+    fn prinz() -> usize {
+        PROBLEMS.iter().position(|p| p.key == "Rh6").unwrap()
+    }
+
+    #[test]
+    fn a_stuck_visitor_is_shown_the_key_then_its_square() {
+        let mut game = PrinzGame::new(1);
+        assert_eq!(game.hint(), None);
+        for _ in 0..26 { game.step(1.0); }
+        let (from, to) = game.hint().expect("a hint after 25 s");
+        assert_eq!(to, None);
+        let key = game.start.keys(2)[0];
+        assert_eq!(from, key.from);
+        for _ in 0..25 { game.step(1.0); }
+        assert_eq!(game.hint(), Some((key.from, Some(key.to))));
+        // The hinted move is the key: playing it leads to the mate phase, whose hint is a mate.
+        assert!(game.press(key.from as usize) && game.press(key.to as usize));
+        for _ in 0..10 { game.step(1.0); }
+        assert_eq!(game.phase(), Phase::Mate);
+        for _ in 0..41 { game.step(1.0); }
+        let (f, t) = game.hint().expect("a mate hint");
+        assert!(game.press(f as usize) && game.press(t.unwrap() as usize));
+        assert!(matches!(game.phase(), Phase::Solved(_)));
+    }
+
     #[test]
     fn problems_get_no_easier() {
         let points: Vec<u32> = PROBLEMS.iter().map(|p| p.points).collect();
@@ -841,7 +894,7 @@ mod tests {
 
     #[test]
     fn prinz_position_is_solved_by_rook_h6() {
-        let pos = Position::from_fen(PROBLEMS[0].fen);
+        let pos = Position::from_fen(PROBLEMS[prinz()].fen);
         let keys = pos.keys(2);
         assert_eq!(keys, vec![Move { from: sq("h1") as u8, to: sq("h6") as u8, promo: 0 }]);
     }
@@ -942,6 +995,7 @@ mod tests {
     #[test]
     fn selection_and_refusals() {
         let mut game = PrinzGame::new(1);
+        game.set(prinz());
         let (rook, king, black_bishop, empty) = (sq("h1"), sq("f8"), sq("g8"), sq("a1"));
         assert!(!game.press(black_bishop), "Black's pieces cannot be picked up");
         assert!(!game.press(empty));
@@ -964,6 +1018,7 @@ mod tests {
     #[test]
     fn moves_are_reported_for_animation() {
         let mut game = PrinzGame::new(1);
+        game.set(prinz());
         game.take_moves();
         game.press(sq("h1"));
         game.press(sq("h6"));
