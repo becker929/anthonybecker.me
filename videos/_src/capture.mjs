@@ -50,6 +50,9 @@ for (const shot of subject.shots) {
     const page = await context.newPage();
     await page.goto(shot.url, { waitUntil: 'load', timeout: 60000 });
     await page.waitForTimeout(shot.wait ?? 2500);
+    // A page's own prompts and buttons are not part of the picture.
+    const hide = shot.hide ?? subject.hide;
+    if (hide) await page.addStyleTag({ content: `${hide} { display: none !important; }` });
     if (shot.setup) await page.evaluate(shot.setup);
     const cdp = await context.newCDPSession(page);
     const frames = [];

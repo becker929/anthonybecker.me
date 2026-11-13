@@ -37,7 +37,7 @@ export const FONTS = {
   serif: ['Didot', 'Baskerville', 'New York', 'Hoefler Text', 'Bodoni 72', 'Big Caslon'],
   sans: ['Avenir Next', 'Helvetica Neue', 'Futura', 'Gill Sans', 'Optima', 'Avenir Next Condensed'],
   display: ['Arial Black', 'Impact', 'Futura', 'Rockwell', 'Copperplate', 'Superclarendon', 'Phosphate', 'Silom', 'Krungthep'],
-  hand: ['Marker Felt', 'Chalkboard SE', 'Chalkduster', 'Trattatello', 'Apple Chancery'],
+  hand: ['Trattatello', 'Apple Chancery', 'American Typewriter'],
   mono: ['Menlo', 'Courier New', 'American Typewriter'],
 };
 
@@ -53,9 +53,10 @@ export const SHOTS = [
   'handheld',    // small wandering shake
   'split2',      // two sources side by side
   'split3',      // three strips
-  'pip',         // a small inset over a blurred copy
+  'pip',         // a small inset over a blurred copy of itself
+  'punch',       // a hard punch-in on a detail, held, then out
+  'flicker',     // the footage flickers like a tube warming up
   'grid4',       // four tiles, each a different moment
-  'mirror',      // mirrored halves
   'freeze',      // a held frame, cut out like a sticker on a colour field
 ];
 
@@ -68,7 +69,7 @@ export const TRANSITIONS = [
 /// Picture effects laid over a shot.
 export const EFFECTS = [
   'none', 'rgb-split', 'pixelate', 'posterize', 'scanlines', 'grain-heavy', 'halftone', 'duotone',
-  'invert-flash', 'strobe', 'trails', 'vhs', 'bloom', 'high-contrast-bw', 'saturate', 'chroma-wobble',
+  'invert-flash', 'strobe', 'trails', 'vhs', 'bloom', 'saturate', 'chroma-wobble',
 ];
 
 /// How the edit decides when to cut.
@@ -91,7 +92,8 @@ export const CAPTIONS = [
   'stamp',            // slammed on with a shake
   'ticker',           // a scrolling strip
   'label',            // small technical labels with leader lines
-  'sticker',          // rotated cut-out stickers
+  'plain',            // clean type straight on the picture, no box
+  'card',             // a hard cut to black with the words alone
 ];
 
 /// Colour treatments for the whole film.
@@ -102,8 +104,8 @@ export const GRADES = [
   { name: 'bleach', filter: 'saturate(0.55) contrast(1.35)' },
   { name: 'punch', filter: 'saturate(1.6) contrast(1.25)' },
   { name: 'faded', filter: 'contrast(0.88) brightness(1.06) saturate(0.85)' },
-  { name: 'mono', filter: 'grayscale(1) contrast(1.3)' },
-  { name: 'acid', filter: 'hue-rotate(40deg) saturate(1.8) contrast(1.2)' },
+  { name: 'tungsten', filter: 'sepia(0.35) saturate(1.35) contrast(1.15) brightness(0.96)' },
+  { name: 'crushed', filter: 'contrast(1.45) saturate(1.15) brightness(0.92)' },
 ];
 
 /// Accent colours for text and cards, in pairs (main, second).

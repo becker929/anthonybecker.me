@@ -131,8 +131,11 @@ async function drawShot(c, shot, n) {
     if (kind === 'handheld') { dx = (hash(n) - 0.5) * 14 + Math.sin(n * 0.17) * 10; dy = (hash(n + 7) - 0.5) * 10 + Math.cos(n * 0.13) * 8; zz *= 1.06; }
     if (kind === 'whip') { const k = clamp(sec / 0.22); dx = (1 - easeOut(k)) * W * 0.9 * (m.dir ?? 1); }
     if (kind === 'crash') zz *= lerp(1, m.punch ?? 1.6, back(clamp(sec / 0.18)));
+    // A punch: in hard on a detail for the middle of the shot, out again at the end.
+    if (kind === 'punch') zz *= t > 0.25 && t < 0.8 ? (m.punch ?? 1.8) : 1;
     const img = await image(at(0));
     cover(c, img, zz, cx, cy, rot, dx, dy);
+    if (kind === 'flicker') { const f = 0.55 + 0.45 * hash(n >> 1); g.fillStyle = `rgba(0,0,0,${1 - f})`; g.fillRect(0, 0, W, H); if (hash(n * 3) < 0.08) { g.fillStyle = 'rgba(255,255,255,.18)'; g.fillRect(0, 0, W, H); } }
     if (kind === 'whip' && sec < 0.22) {
       g.globalAlpha = 0.5; g.filter = 'blur(18px)'; g.drawImage(c, 30, 0); g.filter = 'none'; g.globalAlpha = 1;
     }
@@ -320,36 +323,38 @@ function card(c, n) {
     ctx.fillStyle = ink; ctx.font = `400 ${Math.round(34 * S)}px "Avenir Next"`; ctx.letterSpacing = '5px';
     ctx.fillText((c.label || '').toUpperCase(), W / 2, H / 2 + 120 * S);
   } else if (c.kind === 'bars') {
+    ctx.fillStyle = `rgba(8,9,11,${0.9 * fade})`; ctx.fillRect(0, 0, W, H);
     const rows = c.rows || [], max = Math.max(1, ...rows.map((r) => r.value));
-    const bw = W * 0.56, x0 = (W - bw) / 2 + W * 0.08, rh = Math.min(70 * S, (H * 0.6) / Math.max(1, rows.length));
+    const bw = W * 0.56, x0 = (W - bw) / 2 + W * 0.12, rh = Math.min(96 * S, (H * 0.6) / Math.max(1, rows.length));
     const y0 = H / 2 - (rows.length * rh) / 2;
-    ctx.fillStyle = ink; ctx.font = `400 ${Math.round(30 * S)}px "${font}"`; ctx.textAlign = 'left';
-    if (c.title) ctx.fillText(c.title, (W - bw) / 2 - W * 0.04, y0 - rh * 0.7);
+    ctx.fillStyle = ink; ctx.font = `400 ${Math.round(52 * S)}px "${font}"`; ctx.textAlign = 'left';
+    if (c.title) ctx.fillText(c.title, (W - bw) / 2 - W * 0.04, y0 - rh * 0.9);
     rows.forEach((r, i) => {
       const k = easeOut(clamp(t * 2.5 - i * 0.12));
       const y = y0 + i * rh;
       ctx.globalAlpha = fade;
-      ctx.fillStyle = ink; ctx.textAlign = 'right'; ctx.font = `400 ${Math.round(24 * S)}px "Avenir Next"`;
+      ctx.fillStyle = ink; ctx.textAlign = 'right'; ctx.font = `400 ${Math.round(40 * S)}px "Avenir Next"`;
       ctx.fillText(r.label, x0 - 18 * S, y + rh * 0.62);
       ctx.fillStyle = accent; ctx.fillRect(x0, y + rh * 0.2, (bw - W * 0.08) * (r.value / max) * k, rh * 0.6);
       ctx.fillStyle = ink; ctx.textAlign = 'left';
       ctx.fillText(Math.round(r.value * k).toLocaleString('en'), x0 + (bw - W * 0.08) * (r.value / max) * k + 12 * S, y + rh * 0.62);
     });
   } else if (c.kind === 'timeline') {
+    ctx.fillStyle = `rgba(8,9,11,${0.85 * fade})`; ctx.fillRect(0, 0, W, H);
     const pts = c.points || [], x0 = W * 0.12, x1 = W * 0.88, y = H * 0.55;
     ctx.strokeStyle = ink; ctx.globalAlpha = fade * 0.5; ctx.lineWidth = 2 * S;
     ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(lerp(x0, x1, easeOut(clamp(t * 1.8))), y); ctx.stroke();
     ctx.globalAlpha = fade;
-    if (c.title) { ctx.fillStyle = ink; ctx.textAlign = 'center'; ctx.font = `400 ${Math.round(40 * S)}px "${font}"`; ctx.fillText(c.title, W / 2, H * 0.3); }
+    if (c.title) { ctx.fillStyle = ink; ctx.textAlign = 'center'; ctx.font = `400 ${Math.round(56 * S)}px "${font}"`; ctx.fillText(c.title, W / 2, H * 0.27); }
     pts.forEach((p, i) => {
       const k = easeOut(clamp(t * 2.2 - (i / Math.max(1, pts.length)) * 1.2));
       const x = lerp(x0, x1, pts.length < 2 ? 0.5 : i / (pts.length - 1));
       ctx.globalAlpha = fade * k;
       ctx.fillStyle = accent; ctx.beginPath(); ctx.arc(x, y, 9 * S, 0, 7); ctx.fill();
-      ctx.fillStyle = ink; ctx.textAlign = 'center'; ctx.font = `400 ${Math.round(22 * S)}px "Avenir Next"`;
+      ctx.fillStyle = ink; ctx.textAlign = 'center'; ctx.font = `400 ${Math.round(36 * S)}px "Avenir Next"`;
       const up = i % 2 === 0 ? -1 : 1;
-      wrap(p.label, x, y + up * 46 * S, 230 * S, 28 * S, up < 0);
-      ctx.fillStyle = accent; ctx.font = `600 ${Math.round(18 * S)}px "Menlo"`; ctx.fillText(p.when || '', x, y - up * 30 * S);
+      wrap(p.label, x, y + up * 60 * S, 300 * S, 42 * S, up < 0);
+      ctx.fillStyle = accent; ctx.font = `600 ${Math.round(30 * S)}px "Menlo"`; ctx.fillText(p.when || '', x, y - up * 40 * S);
     });
   } else if (c.kind === 'list') {
     ctx.textAlign = 'left'; const items = c.items || [];
@@ -465,6 +470,28 @@ function words(c, n) {
       ctx.fillStyle = '#111'; ctx.fillText(text, 0, 2 * S);
       break;
     }
+    case 'phrases': {
+      // Two or three words at a time, centred, each group popping on.
+      const ws = text.split(' '), groups = [];
+      for (let i = 0; i < ws.length;) { const k = ws.length - i === 4 ? 2 : Math.min(3, ws.length - i); groups.push(ws.slice(i, i + k).join(' ')); i += k; }
+      const per = Math.max(1, (c.f1 - c.f0) / groups.length), i = Math.min(groups.length - 1, Math.floor((n - c.f0) / per));
+      const k = back(clamp(((n - c.f0) - i * per) / 5));
+      ctx.translate(x, (c.y ?? 0.5) * H); ctx.scale(k, k);
+      ctx.lineWidth = size * 0.2; ctx.strokeStyle = '#000'; ctx.strokeText(groups[i], 0, 0);
+      ctx.fillStyle = i % 2 ? accent : ink; ctx.fillText(groups[i], 0, 0);
+      break;
+    }
+    case 'plain': {
+      ctx.globalAlpha = fade; ctx.shadowColor = 'rgba(0,0,0,.65)'; ctx.shadowBlur = 24 * S;
+      ctx.fillStyle = ink; ctx.fillText(text, x, y);
+      break;
+    }
+    case 'card': {
+      // A hard cut to black, the words alone on it.
+      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = (n >> 2) % 2 && sec < 0.4 ? accent : ink; ctx.fillText(text, W / 2, H / 2);
+      break;
+    }
     default: { ctx.globalAlpha = fade; ctx.fillStyle = ink; ctx.fillText(text, x, y); }
   }
   ctx.restore();
@@ -507,7 +534,7 @@ function overlay(o, n) {
   else if (o.kind === 'letterbox') { const b = H * (o.amount ?? 0.1); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, b); ctx.fillRect(0, H - b, W, b); }
   else if (o.kind === 'fade-in') { ctx.fillStyle = `rgba(0,0,0,${1 - clamp((n - o.f0) / Math.max(1, o.f1 - o.f0))})`; ctx.fillRect(0, 0, W, H); }
   else if (o.kind === 'fade-out') { ctx.fillStyle = `rgba(0,0,0,${clamp((n - o.f0) / Math.max(1, o.f1 - o.f0))})`; ctx.fillRect(0, 0, W, H); }
-  else if (o.kind === 'progress') { ctx.fillStyle = o.color || '#fff'; ctx.fillRect(0, H - 8, W * (n / EDL.frames), 8); }
+  else if (o.kind === 'progress') { ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(0, H - 16, W, 16); ctx.fillStyle = o.color || '#fff'; ctx.fillRect(0, H - 16, W * (n / EDL.frames), 16); }
   ctx.restore();
 }
 

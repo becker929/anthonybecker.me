@@ -55,10 +55,12 @@ function calm(subject, keys, lengthOf, vox, r) {
   const font = r.pick(['Baskerville', 'Didot', 'New York', 'Hoefler Text', 'Big Caslon']);
   const accent = r.pick(['#e8c27a', '#a9d6c4', '#d9b8a0', '#c9d3e6']);
   let t = 0, k = 0;
+  const seen = {};
   const shot = (dur) => {
     const key = keys[k++ % keys.length];
     const q = quietMove(r);
-    shots.push({ src: [key], f0: f(t), f1: f(t + dur), t0: Math.max(0, Math.min(lengthOf(key) - dur, r.range(0, 1))), speed: 0.85, ...q, tin: shots.length ? { type: 'dissolve', n: f(1.2) } : undefined });
+    const used = (seen[key] = (seen[key] ?? -1) + 1);
+    shots.push({ src: [key], f0: f(t), f1: f(t + dur), t0: Math.max(0, Math.min(lengthOf(key) - dur * 0.85, used * dur * 0.85)), speed: 0.85, ...q, tin: shots.length ? { type: 'dissolve', n: f(1.2) } : undefined });
   };
   // Opening: the title over the first picture, rising out of black.
   shot(6);
@@ -71,7 +73,12 @@ function calm(subject, keys, lengthOf, vox, r) {
   vox.forEach((line, i) => {
     plan.push({ line, i });
     if (i === 1 && stat) plan.push({ card: { kind: 'stat', value: stat.value, unit: stat.unit || '', label: stat.label } });
-    if (i === 3 && facts.filter((x) => typeof x.value === 'number').length > 2) plan.push({ card: { kind: 'bars', title: subject.barsTitle || 'By the numbers', rows: facts.filter((x) => typeof x.value === 'number').slice(0, 6).map((x) => ({ label: x.label, value: x.value })) } });
+    // Bars only say something when the numbers are of one kind and size; otherwise a second number card.
+    const nums = facts.filter((x) => typeof x.value === 'number');
+    const bars = subject.bars || nums;
+    const spread = Math.max(...bars.map((x) => x.value)) / Math.max(1, Math.min(...bars.map((x) => x.value)));
+    if (i === 3 && bars.length > 2 && spread < 25) plan.push({ card: { kind: 'bars', title: subject.barsTitle || 'By the numbers', rows: bars.slice(0, 6).map((x) => ({ label: x.label, value: x.value })) } });
+    else if (i === 3 && nums[1]) plan.push({ card: { kind: 'stat', value: nums[1].value, unit: nums[1].unit || '', label: nums[1].label } });
     if (i === vox.length - 2 && subject.timeline?.length) plan.push({ card: { kind: 'timeline', title: subject.timelineTitle || 'How it came together', points: subject.timeline.slice(0, 6) } });
   });
   for (const p of plan) {
@@ -87,7 +94,7 @@ function calm(subject, keys, lengthOf, vox, r) {
     audio.vox.push({ file: p.line.file, at: t + 0.6 });
     // Quiet subtitles, as on a documentary with the sound low.
     words.push({ f0: f(t + 0.6), f1: f(t + 0.6 + p.line.seconds + 0.3), text: p.line.text, style: 'subtitle', font: 'Avenir Next', size: 34, y: 0.9 });
-    if (p.i === 0) words.push({ f0: f(t + 0.3), f1: f(t + dur), text: subject.title, sub: subject.lower || subject.repo || '', style: 'lower', font, size: 54, accent });
+    if (p.i === 0 && subject.lower) words.push({ f0: f(t + 0.3), f1: f(t + dur), text: subject.site || subject.short_title || '', sub: subject.lower, style: 'lower', font, size: 54, accent });
     t += dur;
   }
   // Close on the site's name.
@@ -164,13 +171,13 @@ function hype(subject, keys, lengthOf, r, recent) {
     const t0 = Math.round(((i + 0.5) * per) / spb) * spb;
     words.push({
       f0: f(t0), f1: f(Math.min(total - 0.2, t0 + Math.max(spb * 4, per * 0.8))), text, style: g.captions, font: g.font,
-      size: g.captions === 'label' ? 52 : g.captions === 'ticker' ? 46 : 92, upper: !['type', 'label'].includes(g.captions),
+      size: g.captions === 'label' ? 52 : g.captions === 'ticker' ? 46 : g.captions === 'card' ? 120 : 92, upper: !['type', 'label'].includes(g.captions),
       x: 0.5, y: g.captions === 'ticker' ? 0.88 : r.pick([0.22, 0.5, 0.78]), accent: palette[0], ink: '#fff', rot: r.range(-0.08, 0.08),
     });
   });
   // The last bar: the title and the site, slammed on.
   words.push({ f0: f(total - spb * 4), f1: f(total), text: subject.short_title || subject.title, style: 'stamp', font: g.font, size: 110, upper: true, x: 0.5, y: 0.45, accent: palette[0] });
-  words.push({ f0: f(total - spb * 3), f1: f(total), text: subject.site || 'anthonybecker.me', style: 'box', font: g.font2, size: 40, x: 0.5, y: 0.66, accent: palette[1] === '#000000' ? '#ffffff' : palette[1] });
+  words.push({ f0: f(total - spb * 3), f1: f(total), text: subject.site || 'anthonybecker.me', style: 'plain', font: g.font2, weight: 700, size: 64, x: 0.5, y: 0.68, ink: '#ffffff' });
   const frames = f(total);
   const overlays = [{ kind: 'grain', f0: 0, f1: frames, amount: 0.07 }];
   if (g.letterbox) overlays.push({ kind: 'letterbox', f0: 0, f1: frames, amount: 0.09 });
@@ -204,11 +211,11 @@ function short(subject, keys, lengthOf, vox, r) {
   let t = 0.9;
   for (const line of vox) {
     audio.vox.push({ file: line.file, at: t });
-    words.push({ f0: f(t), f1: f(Math.min(total - 0.1, t + line.seconds + 0.2)), text: line.text, style: 'kinetic', font, size: 96, upper: true, accent });
+    words.push({ f0: f(t), f1: f(Math.min(total - 1.7, t + line.seconds + 0.2)), text: line.text, style: 'phrases', font, size: 88, upper: true, accent });
     t += line.seconds + 0.25;
     if (t > total - 1.5) break;
   }
-  words.push({ f0: f(total - 1.6), f1: f(total), text: subject.site || 'anthonybecker.me', style: 'sticker', font: 'Avenir Next', size: 54, y: 0.86, accent });
+  words.push({ f0: f(total - 1.6), f1: f(total), text: subject.site || 'anthonybecker.me', style: 'card', font, size: 64, accent });
   const frames = f(total);
   return {
     w: W, h: H, frames, shots, words, cards: [], palette: [accent, '#ffffff'], grade: 'saturate(1.25) contrast(1.1)',
