@@ -52,5 +52,11 @@
     "title": "Room World in Bevy: a trial",
     "description": "Room World rebuilt in Bevy: nine real rooms, and a first game in them. Find five orbs with the drone and open the way to the capybara. A second, ?game=keys, saves to your own Bluesky repo.",
     "path": "https://world2.anthonybecker.me/world3/"
+  },
+  {
+    "slug": "production-map",
+    "title": "From references to release: a production map",
+    "description": "How zpkt makes a hard techno Short, drawn as a land map: eight stages from references to release, each piece of work coloured by whether it is built, partly built or still missing.",
+    "path": "/research/production-map/"
   }
 ]
