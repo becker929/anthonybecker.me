@@ -146,12 +146,15 @@ function hype(subject, keys, lengthOf, r, recent) {
   const light = (c) => parseInt(c.slice(1, 3), 16) + parseInt(c.slice(3, 5), 16) + parseInt(c.slice(5, 7), 16) > 560;
   const capLines = (subject.captions?.hype?.length ? subject.captions.hype : [subject.title]).map((c) => (typeof c === 'string' ? { text: c } : c));
   const capPer = total / (capLines.length + 1);
-  const capAt = capLines.map((c, i) => ({ ...c, t0: Math.round(((i + 0.5) * capPer) / spb) * spb }));
+  const capAt = capLines.map((c, i) => { const t0 = Math.round(((i + 0.5) * capPer) / spb) * spb; return { ...c, t0, t1: Math.min(total - 0.2, t0 + Math.max(spb * 4, capPer * 0.8)) }; });
   for (let i = 0; i < cuts.length - 1; i++) {
     const dur = cuts[i + 1] - cuts[i];
-    const kind = g.shots[i % g.shots.length];
+    const drawn = g.shots[i % g.shots.length];
+    // Under a caption about one thing, show that thing alone.
+    const wantedHere = capAt.some((c) => c.shot && cuts[i] < c.t1 && cuts[i + 1] > c.t0);
+    const kind = wantedHere && ['split2', 'split3', 'grid4', 'freeze'].includes(drawn) ? r.pick(['push', 'punch', 'handheld', 'crash']) : drawn;
     const stutter = g.cut === 'stutter' && dur < spb;
-    const wanted = capAt.find((c) => c.shot && c.t0 >= cuts[i] - 0.01 && c.t0 < cuts[i + 1] && keys.includes(`${c.shot}-h`));
+    const wanted = capAt.find((c) => c.shot && cuts[i] < c.t1 && cuts[i + 1] > c.t0 && keys.includes(`${c.shot}-h`));
     const key = wanted ? `${wanted.shot}-h` : stutter && shots.length ? shots[shots.length - 1].src[0] : keys[k++ % keys.length];
     const srcs = kind.startsWith('split') || kind === 'grid4' ? [0, 1, 2, 3].map((j) => keys[(k + j) % keys.length]) : [key];
     const x = r.range(0.25, 0.75), y = r.range(0.3, 0.7);
@@ -160,7 +163,7 @@ function hype(subject, keys, lengthOf, r, recent) {
       x0: x, y0: y, x1: g.cut === 'match' ? x : x + r.range(-0.1, 0.1), y1: y, rot: r.range(-0.12, 0.12) || 0.08, dir: r() < 0.5 ? 1 : -1, punch: r.range(1.4, 2.1),
     };
     const fx = r() < 0.55 ? [r.pick(g.effects)] : [];
-    const tt = i > 0 && r() < 0.45 ? r.pick(g.transitions) : 'cut';
+    const tt = i > 0 && !wantedHere && r() < 0.45 ? r.pick(g.transitions) : 'cut';
     shots.push({
       src: srcs, f0: f(cuts[i]), f1: f(cuts[i + 1]), kind, move, fx,
       t0: stutter ? shots[shots.length - 1]?.t0 ?? 0 : Math.max(0, lengthOf(srcs[0]) - dur - 0.2) * r(),
@@ -172,9 +175,9 @@ function hype(subject, keys, lengthOf, r, recent) {
   // Words: the subject's hype lines, in the drawn caption style, on the beat.
   const words = [];
   const per = capPer;
-  capAt.forEach(({ text, t0 }) => {
+  capAt.forEach(({ text, t0, t1 }) => {
     words.push({
-      f0: f(t0), f1: f(Math.min(total - 0.2, t0 + Math.max(spb * 4, per * 0.8))), text, style: g.captions, font: g.font,
+      f0: f(t0), f1: f(t1), text, style: g.captions, font: g.font,
       size: g.captions === 'label' ? 96 : g.captions === 'ticker' ? 56 : g.captions === 'card' ? 120 : 92, upper: !['type', 'label'].includes(g.captions),
       x: 0.5, y: g.captions === 'ticker' ? 0.88 : r.pick([0.22, 0.5, 0.78]), accent: palette[0], ink: '#fff', rot: r.range(-0.08, 0.08),
     });
