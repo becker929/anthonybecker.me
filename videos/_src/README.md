@@ -61,8 +61,8 @@ Other tools:
   "lower": "the lower third's second line",
   "facts": [{ "label": "machines", "value": 5 }],          "barsTitle": "One day of work, counted",
   "timeline": [{ "when": "1947", "label": "..." }],         "timelineTitle": "...",
-  "narration": { "calm": ["6 to 9 sentences"], "short": ["2 short sentences"] },
-  "captions": { "hype": ["4 to 7 short lines"] },
+  "narration": { "calm": [{ "text": "a sentence", "shot": "tube" }], "short": ["Five of the first | video games, | rebuilt."] },
+  "captions": { "hype": ["a short line", { "text": "Bertie never blinks", "shot": "bertie" }] },
   "shots": [
     { "key": "room", "url": "https://...", "wait": 18000, "seconds": 8, "setup": "js before filming", "during": "js while filming, may await" },
     { "key": "hero", "image": "/abs/path/to/a/render.png" },
@@ -70,6 +70,8 @@ Other tools:
   ]
 }
 ```
+
+A narration line or hype caption may name the shot it belongs to (`shot`), and the edit then puts that shot under it. Do this whenever a line is about one thing on screen; reviews caught lines landing over the wrong machine. In the short's lines, `|` marks where the words break into groups on screen; break on meaning.
 
 The `prs` list is what marks the work as covered, so list every pull request the films are about. Shots should show the thing working, with motion in them: scrolling, playing, a game in progress. A 3D page needs its `wait` (the arcade loads in about 15 s).
 
