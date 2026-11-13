@@ -34,7 +34,7 @@ const VIEWS: &[(&str, Vec3, Vec3)] = &[
     // Nimrod from where its player stands.
     ("nimrod", Vec3::new(-2.3, 1.55, 1.55), Vec3::new(-2.3, 1.56, -0.05)),
     // Prinz's chess desk on the left wall, from its seat: (-3.4, 0, 4.6) turned to face +X.
-    ("prinz", Vec3::new(-2.54, 1.58, 4.6), Vec3::new(-3.38, 1.13, 4.6)),
+    ("prinz", Vec3::new(-2.76, 1.66, 4.6), Vec3::new(-3.30, 1.02, 4.6)),
     // The high score board on the right-hand wall.
     ("scores", Vec3::new(-1.0, 1.7, 2.9), Vec3::new(4.0, 1.75, 2.9)),
     // The picture links to the site show: both machines, close, with the board out of frame.
