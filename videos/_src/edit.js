@@ -199,9 +199,9 @@ function effect(c, fx, n, t) {
     case 'halftone': {
       const k = copy(); const kg = k.getContext('2d'); const step = Math.round(Math.min(W, H) / 90);
       const d = kg.getImageData(0, 0, W, H).data;
-      g.fillStyle = '#f4f1ea'; g.fillRect(0, 0, W, H); g.fillStyle = '#111';
+      g.fillStyle = '#0d0d0d'; g.fillRect(0, 0, W, H); g.fillStyle = EDL.palette?.[0] || '#f4f1ea';
       for (let y = step / 2; y < H; y += step) for (let x = step / 2; x < W; x += step) {
-        const i = (Math.floor(y) * W + Math.floor(x)) * 4; const v = 1 - (d[i] + d[i + 1] + d[i + 2]) / 765;
+        const i = (Math.floor(y) * W + Math.floor(x)) * 4; const v = (d[i] + d[i + 1] + d[i + 2]) / 765;
         g.beginPath(); g.arc(x, y, (step / 2) * Math.sqrt(v) * 1.15, 0, 7); g.fill();
       }
       break;
@@ -213,8 +213,8 @@ function effect(c, fx, n, t) {
       break;
     }
     case 'invert-flash': if (hash(n >> 2) < 0.18) { g.globalCompositeOperation = 'difference'; g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); } break;
-    case 'strobe': if ((n >> 1) % 3 === 0) { g.globalAlpha = 0.5; g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); } break;
-    case 'trails': if (prevFrame === n - 1) { g.globalAlpha = 0.45; g.globalCompositeOperation = 'lighten'; g.drawImage(PREV, 0, 0); } break;
+    case 'strobe': if ((n >> 1) % 4 === 0) { g.globalAlpha = 0.22; g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); } break;
+    case 'trails': if (prevFrame === n - 1) { g.globalAlpha = 0.3; g.globalCompositeOperation = 'lighten'; g.drawImage(PREV, 0, 0); } break;
     case 'bloom': { const k = copy(); g.filter = 'blur(24px) brightness(1.3)'; g.globalCompositeOperation = 'screen'; g.globalAlpha = 0.55; g.drawImage(k, 0, 0); break; }
     case 'high-contrast-bw': { const k = copy(); g.filter = 'grayscale(1) contrast(1.9) brightness(1.05)'; g.drawImage(k, 0, 0); break; }
     case 'saturate': { const k = copy(); g.filter = 'saturate(2.1) contrast(1.15)'; g.drawImage(k, 0, 0); break; }
@@ -308,7 +308,7 @@ function card(c, n) {
   const ink = c.ink || '#f4f1ea', accent = c.accent || '#e8c27a';
   ctx.save();
   ctx.globalAlpha = fade;
-  if (c.scrim !== false) { ctx.fillStyle = `rgba(6,8,10,${0.55 * fade})`; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = fade; }
+  if (c.scrim !== false) { ctx.fillStyle = `rgba(6,8,10,${(c.kind === 'stat' ? 0.85 : 0.55) * fade})`; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = fade; }
   const grow = easeOut(clamp(t * 2.2));
   if (c.kind === 'title') {
     ctx.fillStyle = ink; ctx.textAlign = 'center';
@@ -347,7 +347,8 @@ function card(c, n) {
     ctx.globalAlpha = fade;
     if (c.title) { ctx.fillStyle = ink; ctx.textAlign = 'center'; ctx.font = `400 ${Math.round(56 * S)}px "${font}"`; ctx.fillText(c.title, W / 2, H * 0.27); }
     pts.forEach((p, i) => {
-      const k = easeOut(clamp(t * 2.2 - (i / Math.max(1, pts.length)) * 1.2));
+      // Every point is up by the card's middle, so the whole line can be read.
+      const k = easeOut(clamp(t * 4 - i * 0.3));
       const x = lerp(x0, x1, pts.length < 2 ? 0.5 : i / (pts.length - 1));
       ctx.globalAlpha = fade * k;
       ctx.fillStyle = accent; ctx.beginPath(); ctx.arc(x, y, 9 * S, 0, 7); ctx.fill();
@@ -396,7 +397,7 @@ function words(c, n) {
     case 'lower': {
       // A documentary lower third: a thin rule, a name, a quiet line under it.
       ctx.globalAlpha = fade; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-      const lx = W * 0.07, ly = H * 0.83;
+      const lx = W * 0.07, ly = H * (c.y ?? 0.83);
       ctx.fillStyle = accent; ctx.fillRect(lx, ly - size * 1.05, 70 * S * easeOut(clamp(sec / 0.8)), 2 * S);
       ctx.fillStyle = ink; ctx.font = `400 ${size}px "${c.font || 'Baskerville'}"`; ctx.fillText(text, lx, ly);
       if (c.sub) { ctx.font = `400 ${Math.round(size * 0.42)}px "Avenir Next"`; ctx.letterSpacing = '4px'; ctx.fillStyle = 'rgba(244,241,234,.75)'; ctx.fillText(c.sub.toUpperCase(), lx, ly + size * 0.75); }
@@ -417,10 +418,17 @@ function words(c, n) {
       break;
     }
     case 'box': {
-      const tw = ctx.measureText(text).width, k = easeOut(clamp(sec / 0.15));
+      // One tag per line, wrapped to stay inside the frame.
+      const k = c.instant ? 1 : easeOut(clamp(sec / 0.15));
+      const lines = []; let line = '';
+      for (const w of text.split(' ')) { const t2 = line ? line + ' ' + w : w; if (ctx.measureText(t2).width > W * 0.84 && line) { lines.push(line); line = w; } else line = t2; }
+      if (line) lines.push(line);
       ctx.translate(x, y); ctx.rotate(c.rot || 0);
-      ctx.fillStyle = accent; ctx.fillRect(-tw / 2 - 20 * S, -size * 0.68, (tw + 40 * S) * k, size * 1.36);
-      ctx.fillStyle = c.boxInk || '#000'; if (k > 0.6) ctx.fillText(text, 0, 2 * S);
+      lines.forEach((l, i) => {
+        const tw = ctx.measureText(l).width, ly = (i - (lines.length - 1) / 2) * size * 1.5;
+        ctx.fillStyle = accent; ctx.fillRect(-tw / 2 - 20 * S, ly - size * 0.68, (tw + 40 * S) * k, size * 1.36);
+        ctx.fillStyle = c.boxInk || '#000'; if (k > 0.6) ctx.fillText(l, 0, ly + 2 * S);
+      });
       break;
     }
     case 'type': {
@@ -455,7 +463,8 @@ function words(c, n) {
       break;
     }
     case 'label': {
-      ctx.globalAlpha = fade; ctx.font = `500 ${Math.round(size * 0.6)}px "${c.font || 'Menlo'}"`; ctx.textAlign = 'left';
+      ctx.globalAlpha = fade; ctx.font = `700 ${Math.round(size * 0.8)}px "${c.font || 'Menlo'}"`; ctx.textAlign = 'left';
+      ctx.shadowColor = 'rgba(0,0,0,.7)'; ctx.shadowBlur = 18 * S;
       const tx = c.tx ?? x / W - 0.12, ty = c.ty ?? y / H - 0.1;
       ctx.strokeStyle = accent; ctx.lineWidth = 2 * S; ctx.beginPath(); ctx.arc(x, y, 7 * S, 0, 7); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(tx * W, ty * H); ctx.lineTo(tx * W + 30 * S, ty * H); ctx.stroke();
@@ -472,8 +481,8 @@ function words(c, n) {
     }
     case 'phrases': {
       // Two or three words at a time, centred, each group popping on.
-      const ws = text.split(' '), groups = [];
-      for (let i = 0; i < ws.length;) { const k = ws.length - i === 4 ? 2 : Math.min(3, ws.length - i); groups.push(ws.slice(i, i + k).join(' ')); i += k; }
+      const ws = text.split(' '), groups = text.includes('|') ? text.split('|').map((g) => g.trim()).filter(Boolean) : [];
+      if (!groups.length) for (let i = 0; i < ws.length;) { const k = ws.length - i === 4 ? 2 : Math.min(3, ws.length - i); groups.push(ws.slice(i, i + k).join(' ')); i += k; }
       const per = Math.max(1, (c.f1 - c.f0) / groups.length), i = Math.min(groups.length - 1, Math.floor((n - c.f0) / per));
       const k = back(clamp(((n - c.f0) - i * per) / 5));
       ctx.translate(x, (c.y ?? 0.5) * H); ctx.scale(k, k);
