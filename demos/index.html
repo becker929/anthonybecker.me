@@ -4,39 +4,32 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Demos — Anthony Becker</title>
-  <meta name="description" content="Demos by Anthony Becker">
-  <link rel="stylesheet" href="../style.css">
+  <meta name="description" content="Small games and experiments that run in the browser.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/home.css">
 </head>
 <body>
   <main>
-    <nav class="crumbs"><a href="/">← home</a></nav>
-    <h1>Demos</h1>
-    <ul class="demo-list" id="demo-list">
-      <li class="empty">Loading…</li>
-    </ul>
+    <nav class="crumbs"><a href="/">← Anthony Becker</a></nav>
+    <header class="mast">
+      <h1>Demos</h1>
+      <p class="lede">Small games and experiments that run in the browser.</p>
+    </header>
+    <section style="margin-top:32px">
+      <p class="kicker"><span data-count="demos">—</span> in all, newest first</p>
+      <ul class="rows long" id="list"><li class="empty">Loading…</li></ul>
+    </section>
+    <footer>
+      <a href="/">anthonybecker.me</a>
+      <button class="theme" type="button">Light / dark</button>
+    </footer>
   </main>
-
-  <script>
-    fetch('/demos/manifest.json')
-      .then((res) => res.json())
-      .then((demos) => {
-        const list = document.getElementById('demo-list');
-        if (!demos.length) {
-          list.innerHTML = '<li class="empty">No demos yet.</li>';
-          return;
-        }
-        list.innerHTML = demos
-          .map((demo) => `
-            <li>
-              <a href="${demo.path}"><span class="demo-number">#${demo.number}</span>${demo.title}</a>
-              ${demo.description ? `<p>${demo.description}</p>` : ''}
-            </li>
-          `)
-          .join('');
-      })
-      .catch(() => {
-        document.getElementById('demo-list').innerHTML = '<li class="error">Couldn\'t load demos.</li>';
-      });
+  <script type="module">
+    import { fill, rows, themeToggle } from '/home.js';
+    themeToggle();
+    fill('list', 'demos', (x) => rows(x, { numbered: true }), { count: true });
   </script>
 </body>
 </html>
