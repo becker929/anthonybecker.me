@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fuzz, not a click: matching a kick's texture</title>
+<meta name="description" content="HW002's kick had the references' mid-high energy but not their fuzz. Measuring the texture of a kick's mid-highs, finding where the click came from, and folding the kick's punch until it matched.">
+<meta property="og:title" content="Fuzz, not a click: matching a kick's texture">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+body { margin: 0; }
+
+/* Layout: one reading column. Two charts sit in it (the mid-highs' envelope over the hit, and the kick's spectrum),
+   and one table (the texture measures). Colour: KSMS green, HW002 as it was grey, the punch fuzz orange. */
+:root {
+  --bg: #eef0eb; --paper: #f7f8f4; --ink: #1d2320; --muted: #5b655f; --line: #d3d8d0; --grid: #e2e6df;
+  --accent: #b5651d; --ksms: #2f8f5b; --was: #8a938d; --punch: #c8571b;
+  --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121614; --paper: #171c19; --ink: #e5eae6; --muted: #98a39c; --line: #2a322d; --grid: #1f2622;
+  --accent: #e2a052; --ksms: #5fcf8e; --was: #7d8781; --punch: #ff8a4c; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #121614; --paper: #171c19; --ink: #e5eae6; --muted: #98a39c; --line: #2a322d; --grid: #1f2622;
+  --accent: #e2a052; --ksms: #5fcf8e; --was: #7d8781; --punch: #ff8a4c; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 26px 48px; }
+.wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+.crumbs { font-size: 12.5px; color: var(--muted); }
+.crumbs a { color: var(--muted); }
+.eyebrow { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 700 clamp(32px, 6vw, 50px)/1 var(--display); margin: 6px 0 0; text-wrap: balance; }
+h2 { font: 600 26px/1.1 var(--display); margin: 22px 0 0; letter-spacing: .01em; }
+p { margin: 0; }
+.lede { font-size: 17.5px; color: var(--muted); }
+.lede b { color: var(--ink); font-weight: 600; }
+a { color: var(--accent); }
+q { font-style: italic; }
+q::before, q::after { content: ""; }
+.quote { border-left: 3px solid var(--accent); padding: 2px 0 2px 14px; font-style: italic; }
+.quote cite { display: block; font-style: normal; font-size: 13px; color: var(--muted); margin-top: 4px; }
+figure { margin: 4px 0; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 14px 14px 10px; }
+figure svg { width: 100%; height: auto; display: block; }
+figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+.key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.key span { display: inline-flex; align-items: center; gap: 6px; }
+.key i { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+svg text { font-family: var(--body); fill: var(--muted); }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+th, td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; font-variant-numeric: tabular-nums; }
+th:first-child, td:first-child { text-align: left; }
+th { font: 500 12px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+tr.ksms td:first-child { color: var(--ksms); font-weight: 600; }
+tr.pick td:first-child { color: var(--punch); font-weight: 600; }
+tr.was td:first-child { color: var(--was); }
+tr.sep td { border-bottom: 2px solid var(--line); }
+ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+code { font: 14px var(--mono); }
+footer { color: var(--muted); font-size: 13px; display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 14px; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / Research / Kick fuzz</nav>
+  <header>
+    <div class="eyebrow">Research · 13 November 2026 · written by Claude (Opus 5.5)</div>
+    <h1>Fuzz, not a click</h1>
+  </header>
+  <p class="lede">HW002 is a hard techno Short made with <a href="https://github.com/becker929/zpkt">zpkt</a>. Next to its references the kick was the problem. They all have <b>a nasty mid-high fuzz</b>, and ours didn't. Matching the spectrum put back the energy but not the fuzz. Measuring the <b>texture</b> of the mid-highs did better: how long they last, how dense they are, how compressed they are. So did finding the device in HW002's chain that had been turning fuzz into a click.</p>
+
+  <h2>The spectrum said what, not how</h2>
+  <p>The first comparison was spectral. A reference's kick can't be soloed, but in a drop the kick lands on every beat. So every beat of the drop was lined up on its kick onset, and the median spectrogram over all 64 beats was taken. That keeps what repeats on every beat and drops what doesn't: stabs, vocals, risers. The slice from the onset to the next sixteenth is the kick. HW002's mix went through the same method, and so did HW002's kick on its own. Below 4 kHz the two agreed to within 1 dB, so the isolation was clean there. Against the four references, our kick was <b>8–9 dB short at 2.5–4 kHz</b> and had 2–5 dB too much body at 80–200 Hz.</p>
+  <p>The obvious fixes followed. HW002's kick rack already had a fuzz layer: a second kick sample, <i>052</i>, high-passed and run into a COLDFIRE distortion. Turning it up, unhiding a 3.4 kHz cut and fitting an EQ to the gap put the spectrum inside the references' range. Anthony's verdict:</p>
+  <p class="quote">All of the options add some high freq info but it's basically a soft noise, like an echo of a stick hit. The reference is fuzzy and compressed.<cite>Anthony, on the A/B page. He named KSMS's <i>Roses Of Flesh And Blood</i> the canonical reference.</cite></p>
+
+  <h2>Measuring texture</h2>
+  <p>Band levels can't tell a stick hit from fuzz. Both put energy at 3 kHz. What separates them is how that energy behaves, so each kick's mid-highs (1–6 kHz) were measured over its median beat:</p>
+  <ul>
+    <li><b>Hold.</b> How long the mid-highs stay within 12 dB of their peak. A tick is gone in a few milliseconds. Fuzz made by clipping the kick lasts as long as what it clips.</li>
+    <li><b>Tail.</b> How much is left 100–170 ms after the hit, before an offbeat would land.</li>
+    <li><b>Density.</b> Spectral flatness of the band, from 0 for a few clean harmonics to 1 for noise. Fuzz is dense.</li>
+    <li><b>Crest.</b> Peak against RMS of the band's envelope. Compressed is low.</li>
+    <li><b>Level.</b> The band's share of the kick's energy.</li>
+  </ul>
+  <p>Combined into one distance from KSMS, the other three references land 1.7–2.9 away. HW002's kick as it was is 6.2 away. Its mid-highs held for 8 ms with a flatness of 0.11. That's the stick hit, in numbers.</p>
+  <figure>
+    <div class="key"><span><i style="background:var(--ksms)"></i>KSMS</span><span><i style="background:var(--was)"></i>HW002 as it was</span><span><i style="background:var(--punch)"></i>Punch fuzz, matched to KSMS</span></div>
+    <svg id="env" viewBox="0 0 680 260" role="img" aria-label="Mid-high envelope over the first 150 ms of the kick"></svg>
+    <figcaption>The mid-highs (1–6 kHz) over the first 150 ms of the hit: the median over every beat, each kick against its own peak, drawn smoothed over 10 ms. HW002's kick was a spike, 16 dB down within 12 ms and 20–30 dB down after that. KSMS's fuzz arrives about 12 ms in, stays within 5 dB of its peak until about 25 ms, sits 8–12 dB down until 70 ms, then settles 15–19 dB down. The punch fuzz starts at its peak, is 13–17 dB down by 16 ms, and stays about there: by 80 ms it's level with KSMS, but it has no plateau at 10–25 ms.</figcaption>
+  </figure>
+
+  <h2>Where the click came from</h2>
+  <p>The 052 layer was high-passed at 958 Hz <i>before</i> COLDFIRE. Nothing low enough to clip reached the distortion, only the click. COLDFIRE had been turning a click into a louder click. Every option that turned that layer up added more stick hit.</p>
+  <p>Fuzz comes from clipping something with a body. Ten rounds of options went through HW002's own kick chain in Live, each bounced as the arranger's kick loop and measured against KSMS:</p>
+  <ul>
+    <li><b>Roar on the whole kick group</b> clipped the rumble too. The fuzz never stopped: it held for over 300 ms.</li>
+    <li><b>Roar on the kick track</b> clipped the kick's long low boom, with the same result.</li>
+    <li><b>Noise or bit-crushed grain</b> on top didn't make the band denser.</li>
+    <li>The measure itself had a bug for a while. The onset finder locked onto the rumble's swell between kicks and smeared our median beats by ±30 ms. Our loops are bounced on the grid, so they're now read on it.</li>
+    <li>What worked used <b>Roar's multiband mode, already in HW002's kick group and switched off</b>. Only the kick's low band (under 200 Hz) went into a Tri Fold shaper at 24 dB drive, with a high-pass after the shaper keeping only what the folding adds, 35% under the clean kick. This <i>body fuzz</i> scored closest to KSMS, at 2.2.</li>
+  </ul>
+
+  <h2>The ear picked the punch</h2>
+  <p>Anthony picked a different option: <b>punch fuzz</b>. It folds only the middle band, 200 Hz–2 kHz. That's the kick's punch, which decays faster than its sub and where the rumble has almost nothing. Its mid-highs are the densest of anything made (flatness 0.40, KSMS 0.32), and its tail sits in the references' range (−20.7 dB; theirs −16.5 to −20.4). It holds for a shorter time than the body fuzz, and it scored a little further from KSMS (2.8). The whole-spectrum match came second: an EQ Eight fitted to KSMS's isolated kick, with the loudness kept where it was. Matched, it scores 2.3.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Kick</th><th>Hold</th><th>Tail</th><th>Density</th><th>Crest</th><th>Level</th><th>From KSMS</th></tr></thead>
+    <tbody id="tex"></tbody>
+  </table></div>
+  <p style="font-size:13.5px;color:var(--muted)">Hold in ms; tail, crest and level in dB; density is spectral flatness (0–1); the last column is the combined distance. Other references: DJ JS x RedLotus <i>Hedon</i>, BSLS <i>I Peed On You But You Were Never Mine</i>, Remon Verhoeve <i>Patriotic</i>.</p>
+  <p>The numbers ranked the body fuzz first and the ear chose the punch. Density and tail are where the punch fuzz is closest to KSMS. Hold is where the body fuzz is. So the ear seems to weigh grain and decay over sustain, and the distance should probably weight them that way too.</p>
+  <figure>
+    <div class="key"><span><i style="background:var(--ksms)"></i>KSMS</span><span><i style="background:var(--was)"></i>HW002 as it was</span><span><i style="background:var(--punch)"></i>Punch fuzz, matched to KSMS</span></div>
+    <svg id="spec" viewBox="0 0 680 260" role="img" aria-label="Isolated kick spectrum in third octaves"></svg>
+    <figcaption>The kick isolated by the beat, in third octaves, each against its own total. The punch fuzz closed the gap from 1.6 to 4 kHz, where HW002's kick had been 8–11 dB under KSMS. Two gaps remain. From 0.6 to 1.3 kHz it's still 7–12 dB short. Below 50 Hz it's 6–18 dB short, and no EQ fixed that. Easing HW002's own deep cuts at 30 Hz didn't either. Our rumble ducks under every kick, while KSMS has sub right on the hit. That's the next thing to design.</figcaption>
+  </figure>
+
+  <h2>How it was heard</h2>
+  <p>Every kick here was rendered in Ableton Live from HW002's own set. Each was turned so that it played at the same loudness as before: a fuzzier kick isn't allowed to win by being louder. Anthony compared them on two pages on his phone. One is a kick-only A/B/C page, with each kick's spectrum pre-computed frame by frame and drawn as it plays. The other is a page of full mixes, with the kick swapped in. The pages only play what Live rendered; zpkt doesn't let the browser make or change sound. There's no audio here: the references are commercial releases, and HW002's kick is built from purchased samples.</p>
+
+  <footer>
+    <div>Tools, in zpkt's HW002 arranger: <code>kickiso.py</code> isolates kicks by the beat, <code>kicktexture.py</code> measures their texture, <code>kickfuzz.py</code> makes options from HW002's chain in Live and renders them, and <code>kickdesign.py</code> pre-computes the kick page's spectra.</div>
+    <div>Related: <a href="/research/production-map/">From references to release</a>, the map of how zpkt makes a Short. This work is in its Mix stage.</div>
+  </footer>
+</div>
+
+<script>
+// measured on 13 November 2026 (see the footer); the envelopes and spectra are medians over every beat
+const D = {"t":[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,132,134,136,138,140,142,144,146,148,150],"env":{"ksms":[-22.1,-18.3,-23.9,-25.1,-21.8,-0.3,-2.1,-6.9,-0.4,-1.8,-4.9,-5.7,-3.9,-8.0,-8.8,-8.4,-10.2,-9.2,-7.8,-9.3,-11.2,-10.8,-7.8,-8.2,-9.7,-9.1,-9.7,-10.9,-12.9,-9.9,-11.1,-6.5,-11.3,-9.1,-11.6,-9.9,-15.1,-17.5,-8.8,-15.8,-16.7,-11.6,-19.2,-13.0,-14.9,-16.4,-15.0,-12.3,-16.7,-16.2,-13.0,-21.2,-18.9,-13.4,-12.9,-13.7,-15.5,-13.2,-18.8,-18.2,-16.2,-17.4,-19.4,-20.2,-17.9,-16.7,-18.5,-16.5,-18.9,-18.9,-20.2,-16.4,-14.3,-12.2,-20.0,-18.5],"base":[-1.1,-6.8,-6.9,-11.0,-12.1,-11.5,-15.8,-12.5,-15.5,-20.2,-20.1,-15.8,-18.1,-14.9,-21.5,-21.9,-19.6,-23.5,-22.6,-22.8,-21.8,-18.5,-26.9,-23.3,-29.1,-23.8,-17.9,-29.7,-20.9,-23.4,-28.0,-25.5,-24.0,-27.4,-27.4,-30.9,-24.1,-27.9,-24.1,-17.1,-23.4,-32.6,-27.2,-23.5,-31.9,-31.1,-26.3,-27.1,-32.9,-25.8,-19.2,-28.1,-24.0,-20.5,-24.2,-28.7,-20.4,-18.6,-23.9,-22.9,-29.9,-21.2,-25.6,-24.1,-30.0,-19.2,-24.5,-29.1,-27.9,-22.8,-28.3,-22.0,-24.7,-23.2,-18.9,-24.9],"punchk":[-0.4,-1.1,-1.2,-6.1,-6.5,-10.5,-8.2,-8.9,-12.8,-15.4,-16.0,-15.1,-13.8,-14.4,-16.6,-14.0,-16.4,-17.4,-23.9,-14.7,-15.0,-14.5,-21.0,-19.9,-17.8,-15.6,-34.6,-15.7,-23.2,-16.4,-18.1,-39.5,-15.8,-22.2,-18.3,-16.2,-36.7,-20.5,-19.4,-31.9,-15.1,-20.2,-41.8,-18.9,-16.5,-26.0,-23.5,-15.3,-35.8,-46.5,-19.6,-16.9,-27.8,-22.5,-13.9,-16.3,-37.0,-38.1,-16.8,-14.8,-18.2,-18.4,-15.3,-18.7,-43.1,-33.8,-15.9,-14.3,-18.2,-18.3,-15.1,-13.9,-17.5,-34.3,-23.6,-14.9]},"f":[32,40,50,63,79,100,126,159,200,252,318,400,504,635,800,1008,1270,1600,2016,2540,3200,4032,5080,6400,8064],"iso":{"ksms":[-13.1,-14.2,-12.3,-11.1,-15.8,-6.9,-9.1,-14.4,-10.8,-15.4,-18.6,-14.4,-14.4,-16.6,-15.2,-14.2,-17.5,-18.2,-19.2,-19.2,-19.8,-22.9,-23.0,-23.2,-25.1],"base":[-27.8,-22.9,-20.3,-19.7,-9.2,-5.8,-5.9,-9.0,-10.3,-14.8,-18.4,-17.4,-20.1,-23.4,-20.3,-22.5,-22.2,-23.8,-27.3,-29.9,-30.1,-34.8,-36.1,-37.3,-38.1],"punchk":[-31.0,-22.4,-18.1,-17.2,-9.6,-5.7,-5.2,-10.2,-10.7,-17.3,-22.4,-21.4,-27.3,-25.7,-23.7,-25.5,-23.3,-21.1,-21.0,-21.8,-20.3,-22.4,-25.3,-25.5,-27.6]}};
+const TEX = [
+  ['KSMS', 'ksms', 55.1, -16.5, 0.32, 11.8, -15.9, 0.00],
+  ['DJ JS x RedLotus', '', 22.1, -20.1, 0.317, 13.1, -15.7, 1.73],
+  ['BSLS', '', 55.1, -16.5, 0.23, 12.6, -13.9, 1.96],
+  ['Remon Verhoeve', 'sep', 18.1, -20.4, 0.38, 15.4, -15.4, 2.87],
+  ['HW002 as it was', 'was', 8.2, -23.3, 0.11, 16.6, -22.4, 6.21],
+  ['052 layer +6 dB (the click, louder)', '', 12.6, -20.6, 0.14, 16.0, -15.0, 4.80],
+  ['Body fuzz', '', 19.3, -14.3, 0.25, 13.0, -15.5, 2.22],
+  ['Punch fuzz', 'pick', 14.8, -20.7, 0.404, 12.1, -17.0, 2.77],
+  ['Punch fuzz, matched to KSMS', 'pick', 14.6, -20.4, 0.363, 12.0, -14.9, 2.34],
+];
+document.getElementById('tex').innerHTML = TEX.map(([n, c, h, t, f, cr, l, d]) =>
+  `<tr class="${c}"><td>${n}</td><td>${h.toFixed(0)}</td><td>${t.toFixed(1)}</td><td>${f.toFixed(2)}</td><td>${cr.toFixed(1)}</td><td>${l.toFixed(1)}</td><td>${d.toFixed(1)}</td></tr>`).join('');
+
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function chart(id, xs, series, { xLog, xLabel, yMin, yMax, xTicks }) {
+  const W = 680, H = 260, L = 44, R = 10, T = 10, B = 34;
+  const x = v => L + (xLog ? Math.log(v / xs[0]) / Math.log(xs[xs.length - 1] / xs[0]) : (v - xs[0]) / (xs[xs.length - 1] - xs[0])) * (W - L - R);
+  const y = v => T + (yMax - Math.max(yMin, Math.min(yMax, v))) / (yMax - yMin) * (H - T - B);
+  let s = '';
+  for (let v = yMax; v >= yMin; v -= 10) s += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="${css('--grid')}"/><text x="${L - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end">${v}</text>`;
+  for (const [v, l] of xTicks) s += `<line x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${H - B}" stroke="${css('--grid')}"/><text x="${x(v)}" y="${H - B + 16}" font-size="11" text-anchor="middle">${l}</text>`;
+  s += `<text x="${(L + W - R) / 2}" y="${H - 2}" font-size="11" text-anchor="middle">${xLabel}</text>`;
+  s += `<text x="12" y="${(T + H - B) / 2}" font-size="11" text-anchor="middle" transform="rotate(-90 12 ${(T + H - B) / 2})">dB</text>`;
+  for (const [ys, col, w] of series) s += `<path d="${ys.map((v, i) => `${i ? 'L' : 'M'}${x(xs[i]).toFixed(1)},${y(v).toFixed(1)}`).join('')}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linejoin="round"/>`;
+  document.getElementById(id).innerHTML = s;
+}
+function draw() {
+  // smoothed over 10 ms (in power) so the curves read; the table's numbers are from the unsmoothed envelopes
+  const sm = a => a.map((v, i) => { const w = a.slice(Math.max(0, i - 2), i + 3); return 10 * Math.log10(w.reduce((p, q) => p + Math.pow(10, q / 10), 0) / w.length); });
+  chart('env', D.t, [[sm(D.env.base), css('--was'), 2], [sm(D.env.ksms), css('--ksms'), 2.6], [sm(D.env.punchk), css('--punch'), 2.6]],
+        { xLabel: 'ms after the hit', yMin: -40, yMax: 0, xTicks: [[0, '0'], [25, '25'], [50, '50'], [75, '75'], [100, '100'], [125, '125'], [150, '150']] });
+  chart('spec', D.f, [[D.iso.base, css('--was'), 2], [D.iso.ksms, css('--ksms'), 2.6], [D.iso.punchk, css('--punch'), 2.6]],
+        { xLog: true, xLabel: 'Hz', yMin: -40, yMax: 0, xTicks: [[50, '50'], [100, '100'], [200, '200'], [500, '500'], [1000, '1k'], [2000, '2k'], [5000, '5k']] });
+}
+draw();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+</script>
+</body>
+</html>

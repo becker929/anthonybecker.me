@@ -58,5 +58,11 @@
     "title": "From references to release: a production map",
     "description": "How zpkt makes a hard techno Short, drawn as a land map: eight stages from references to release, each piece of work coloured by whether it is built, partly built or still missing.",
     "path": "/research/production-map/"
+  },
+  {
+    "slug": "kick-fuzz",
+    "title": "Fuzz, not a click: matching a kick's texture",
+    "path": "/research/kick-fuzz/",
+    "description": "HW002's kick had the references' mid-high energy but not their fuzz. Measuring the texture of a kick's mid-highs, finding the device that turned fuzz into a click, and folding the kick's punch until it matched."
   }
 ]
