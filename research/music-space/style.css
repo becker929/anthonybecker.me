@@ -1,3 +1,4 @@
+@import url("/editorial.css");
 /* Research page: long-form reading, dark by default, light if asked.
    Copied from the humming-transcription page; chart tokens added at the end. */
 :root {

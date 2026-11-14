@@ -1,3 +1,4 @@
+@import url("/editorial.css");
 /* Wiki pages: one narrow column, generous space and no rules.
    Standalone on purpose, so changes to the notes style cannot reach the wiki. */
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap");

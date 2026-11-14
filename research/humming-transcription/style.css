@@ -1,3 +1,4 @@
+@import url("/editorial.css");
 /* Research page: long-form reading, dark by default, light if asked. */
 :root {
   color-scheme: light dark;

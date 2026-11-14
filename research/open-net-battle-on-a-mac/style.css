@@ -1,3 +1,4 @@
+@import url("/editorial.css");
 /* Research page: long-form reading, dark by default, light if asked.
    Started from research/humming-transcription/style.css. Adds chart tokens
    (validated with the dataviz palette checker in both modes), inline-SVG
