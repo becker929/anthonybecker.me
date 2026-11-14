@@ -1,0 +1,72 @@
+/* Site-wide look for reading pages: research, notes, wiki, apps, videos.
+   Imported at the top of each page's own stylesheet. It overrides only the
+   shared tokens (surfaces, ink, lines, accent, fonts) and the base type, so
+   chart and data colours defined by each page keep their meaning.
+   Selectors are doubled up (:root:root:root, html body) so this file wins
+   over the page stylesheet that imports it, whatever the order. */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap");
+
+:root:root:root {
+  --e-canvas: #FAF9F6; --e-card: #FFFFFF; --e-ink: #111111; --e-ink2: #5C5C58; --e-line: #E2E2DE; --e-accent: #E63900;
+  --e-sans: "Geist", "Inter", "Helvetica Neue", system-ui, sans-serif;
+  --e-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+  --e-serif: "Newsreader", "Source Serif 4", Georgia, serif;
+  --e-ease: cubic-bezier(0.2, 0, 0, 1);
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:root:root:not([data-theme="light"]) {
+    --e-canvas: #0E0E0D; --e-card: #161615; --e-ink: #F5F5F3; --e-ink2: #8E8E8A; --e-line: #2A2A28; --e-accent: #FF4A12;
+  }
+}
+:root:root:root[data-theme="dark"] {
+  --e-canvas: #0E0E0D; --e-card: #161615; --e-ink: #F5F5F3; --e-ink2: #8E8E8A; --e-line: #2A2A28; --e-accent: #FF4A12;
+}
+
+/* Every page's own names for the same tokens. */
+:root:root:root {
+  --bg: var(--e-canvas); --canvas: var(--e-canvas);
+  --panel: var(--e-card); --paper: var(--e-card); --card: var(--e-card);
+  --ink: var(--e-ink); --fg: var(--e-ink);
+  --ink-dim: var(--e-ink2); --dim: var(--e-ink2); --muted: var(--e-ink2); --ink2: var(--e-ink2);
+  --line: var(--e-line);
+  --accent: var(--e-accent);
+  --sans: var(--e-sans); --body: var(--e-sans); --display: var(--e-serif); --serif: var(--e-serif);
+  --mono: var(--e-mono);
+}
+
+html body {
+  background: var(--e-canvas); color: var(--e-ink);
+  font-family: var(--e-sans); font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased;
+}
+
+/* Long-form prose in the serif, at a reading measure. */
+html body :is(.wrap, main, article) :is(p, li, dd):not(figure *, table *, nav *, .ex *, .roles *, .legend *, .tally *, .byline, .byline *, .meta, .kicker, .eyebrow, .card *, .grid *, button *, form *, label *, .controls *) {
+  font-family: var(--e-serif); font-size: 18px; line-height: 1.65;
+}
+html body :is(.wrap, article) > p { max-width: 68ch; }
+
+/* Headlines in the serif, tight. */
+html body :is(h1, h2) { font-family: var(--e-serif); font-weight: 500; letter-spacing: -0.025em; }
+html body h1 { line-height: 1.02; }
+html body h3 { font-family: var(--e-sans); font-weight: 600; letter-spacing: -0.01em; }
+
+/* Mono for small labels. */
+html body :is(.kicker, .eyebrow, .crumbs, nav.crumbs, .byline, th, code, kbd, time) { font-family: var(--e-mono); }
+html body :is(.kicker, .eyebrow), html body header.title .kicker { color: var(--e-ink2); }
+html body :is(.crumbs, nav.crumbs) { font-size: 12px; }
+
+/* Links: ink with a hairline, accent on hover. */
+html body a:not(.card):not(.row):not(.btn) {
+  color: inherit; text-decoration: none;
+  border-bottom: 1px solid var(--e-line);
+  transition: border-color 140ms var(--e-ease), color 120ms var(--e-ease);
+}
+html body a:not(.card):not(.row):not(.btn):hover { border-bottom-color: var(--e-accent); color: var(--e-ink); }
+html body :is(.crumbs, nav.crumbs) a { border-bottom: 0; color: var(--e-ink2); }
+html body :is(.crumbs, nav.crumbs) a:hover { color: var(--e-accent); }
+
+/* Flat surfaces: hairlines, small radii, no shadows. */
+html body * { box-shadow: none !important; text-shadow: none !important; }
+html body :is(.ex, .roles li, figure img, .viz-box, .callout, .box, .panel, ol.ranked > li) { border-radius: 5px; }
+html body :focus-visible { outline: 2px solid var(--e-accent); outline-offset: 2px; }
