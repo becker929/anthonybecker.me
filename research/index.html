@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research — Anthony Becker</title>
+  <meta name="description" content="Measured work, in plain language: sound in hard techno, humming, games, and engines.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/home.css">
+</head>
+<body>
+  <main>
+    <nav class="crumbs"><a href="/">← Anthony Becker</a></nav>
+    <header class="mast">
+      <h1>Research</h1>
+      <p class="lede">Measured work, in plain language: sound in hard techno, humming, games, and engines.</p>
+    </header>
+    <section style="margin-top:32px">
+      <p class="kicker"><span data-count="research">—</span> in all, newest first</p>
+      <ul class="rows long" id="list"><li class="empty">Loading…</li></ul>
+    </section>
+    <footer>
+      <a href="/">anthonybecker.me</a>
+      <button class="theme" type="button">Light / dark</button>
+    </footer>
+  </main>
+  <script type="module">
+    import { fill, rows, themeToggle } from '/home.js';
+    themeToggle();
+    fill('list', 'research', (x) => rows(x, { numbered: false }), { count: true });
+  </script>
+</body>
+</html>
