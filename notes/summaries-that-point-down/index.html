@@ -33,7 +33,7 @@
     <li>Use the cheapest model of the engine that ran the turn: the Flash-Lite tier for Gemini, Haiku for Claude Code.</li>
     <li>Do it on the server, once, and store the line as an event. Every device then replays the same line.</li>
     <li>A summary that fails a check is dropped. The template line is always there, so nothing waits on the model.</li>
-    <li>Nothing here is built yet. Four decisions are yours; they are at the end.</li>
+    <li>Decided on 17 November: the purpose line leads, steps and turns are on by default, session titles stay yours, and Claude Code waits. The decisions are at the end.</li>
   </ul>
 
   <h2>What exists today</h2>
@@ -150,13 +150,15 @@ Answer as JSON: [{"id": "...", "line": "..."}]</pre>
     <li>After a week of real use: count the lines you marked wrong. Keep, narrow or remove.</li>
   </ol>
 
-  <h2>Your decisions</h2>
+  <h2>Decided</h2>
+  <p>Anthony answered the four open questions the same day. The design above is the proposal as written; this is what will be built.</p>
   <ol>
-    <li><b>Which line leads?</b> I propose the purpose line as the title, with the template under it. The other way round is safer and duller.</li>
-    <li><b>On by default?</b> I propose steps and turns on, session titles off until you have seen them.</li>
-    <li><b>Is a delay fine on Claude Code?</b> Lines would arrive a few seconds after the turn ends.</li>
-    <li><b>Should session titles change under you?</b> A title that tracks the work is easier to find later, and harder to recognise the next minute.</li>
+    <li><b>The purpose line leads.</b> It is the row's title, with the template line under it.</li>
+    <li><b>On by default,</b> for steps, subagents and turns.</li>
+    <li><b>No session titles from the model.</b> A title changes only when Anthony changes it. Instead, the top of the chat shows the current action: the most recent thing the agent did.</li>
+    <li><b>Claude Code is not built yet.</b> Its summarizer is a stub that reports "not implemented". Turns run on Claude Code keep their template lines.</li>
   </ol>
+  <p>That removes step 3 and step 4 from the order of work, and adds two small things: the current-action line, and a way to rename a session by hand.</p>
 
   <h2>Glossary</h2>
   <dl class="glossary">
