@@ -202,5 +202,11 @@
     "ordered": true,
     "announce": "/audio/skrng/tts/batch-8-7-502bc3.mp3",
     "say": "Colour in the break. The break's COLDFIRE colour: two darker, then one brighter. Each track starts with the new colour, then switches back, every 2 bars. Track 4 goes round."
+  },
+  {
+    "n": 9,
+    "title": "Batch 9 — glass-hour: a song made end to end in Zpkt web (18 Nov)",
+    "notes": "Not HW002. The first whole song made with instrument panels, grids of versions, a song arrangement and a mix panel, all rendered in Live.",
+    "ordered": true
   }
 ]

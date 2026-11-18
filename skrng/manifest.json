@@ -1,5 +1,17 @@
 [
   {
+    "id": "2026-11-18-glass-hour",
+    "title": "glass-hour",
+    "date": "2026-11-18",
+    "file": "/audio/skrng/2026-11-18-glass-hour.mp3",
+    "batch": 9,
+    "bpm": 122,
+    "duration_s": 129.8,
+    "lufs": -17.5,
+    "true_peak_dbtp": -3.1,
+    "notes": "A whole song made through Zpkt web: 64 bars in A minor (Am9, Fmaj7, Cmaj7, Em7). 909 kit, hats, saw bass, pad, square arp, triangle lead. Intro 1-8, build 9-16, drop 17-32, break 33-40, drop 2 41-56, outro 57-64. Rendered in Live by resampling. The bass cutoff (700 Hz) and the drum level (+6 dB) were chosen from grids by measurement, not by ear. Not mastered."
+  },
+  {
     "id": "2026-10-09-hw002-b8-7-break-colour-t1",
     "title": "HW002 — Track 1: colour 0.3, darker",
     "date": "2026-10-09",
