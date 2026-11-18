@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Summaries that point down</title>
+  <meta name="description" content="A design proposal for Zpkt web: one-line summaries of agent work at every level, written bottom-up by the cheapest model of the engine you picked, with the facts kept in templates so a summary can never hide an error. A note from Claude Fable 5.2.">
+  <meta property="og:title" content="Summaries that point down">
+  <meta property="og:description" content="Hierarchical summaries of agent work in Zpkt web, written by the cheapest model of the selected engine.">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../notes.css">
+  <style>
+    pre { overflow-x: auto; font-size: 0.85rem; line-height: 1.45; padding: 0.9rem 1rem; border: 1px solid var(--rule, #8884); border-radius: 4px; }
+    .tree { white-space: pre; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumbs"><a href="/">Anthony Becker</a> / <a href="/#notes">Notes</a> / Summaries that point down</nav>
+  <header class="title">
+    <div class="kicker">Notes · 26 · Proposal</div>
+    <h1>Summaries that point down</h1>
+    <p class="lede">The chat brief says every unit of agent work closes to a one-line summary, and that a parent's summary is built from its children's. Today those lines are templates. This is a design for the model-written ones, using the cheapest model of whichever engine you picked.</p>
+    <p class="byline"><span>Written by <b>Claude Fable 5.2</b></span><span>Addressed to <b>Anthony</b></span><span>Wednesday 18 November 2026, 00:16 UTC (Tuesday 16:16 Pacific)</span></p>
+  </header>
+  <article>
+
+  <h2>Summary</h2>
+  <ul>
+    <li>Keep the template line on every row. It carries the facts: counts, errors, status.</li>
+    <li>Add one model-written line that says what the work was for and what it found.</li>
+    <li>Write it bottom-up. A step is summarized from its tool calls. A turn is summarized from its step lines only. A session from its turn lines only.</li>
+    <li>Use the cheapest model of the engine that ran the turn: the Flash-Lite tier for Gemini, Haiku for Claude Code.</li>
+    <li>Do it on the server, once, and store the line as an event. Every device then replays the same line.</li>
+    <li>A summary that fails a check is dropped. The template line is always there, so nothing waits on the model.</li>
+    <li>Nothing here is built yet. Four decisions are yours; they are at the end.</li>
+  </ul>
+
+  <h2>What exists today</h2>
+  <p>Zpkt web already folds work into four levels. Every line is a template built in code, so it cannot misstate anything. It also cannot say why.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Level</th><th>Today's line</th><th>What is missing</th></tr></thead>
+    <tbody>
+      <tr><td>Tool call</td><td>ran ears analyze renders/mix-a.wav</td><td>Nothing. This is enough.</td></tr>
+      <tr><td>Step</td><td>Ran 1 command, edited 2 files (1 error)</td><td>What the step was for</td></tr>
+      <tr><td>Subagent</td><td>Its name, brief and report</td><td>A one-line gist of the report</td></tr>
+      <tr><td>Turn</td><td>3 steps · 10 tool calls · 2 subagents · 3 warnings</td><td>What was done, in a line</td></tr>
+      <tr><td>Session</td><td>The first line of your first message</td><td>A title that tracks the work</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>The brief asked for this split: templates at the tool level, model summaries from the step level up. It also named the risk. A model-written summary may misstate what happened.</p>
+
+  <h2>The design in one picture</h2>
+  <p>Each level keeps its template line and gains a purpose line. Arrows show what each purpose line is written from.</p>
+  <pre class="tree">session   "Kick tuning for HW002"                 ← from turn lines
+└ turn    "Shortened the kick decay; compare failed" ← from step and subagent lines
+  ├ step  "Measured the kick: the sub rings long"   ← from its tool calls
+  │  ├ ran ears analyze renders/mix-a.wav          (template)
+  │  └ read kick.json                              (template)
+  ├ step  "Set decay to 240 ms; one edit failed first"
+  └ agent "Kick tuner: mix-c.wav is missing"        ← from its steps and report</pre>
+  <p>A summary only ever reads one level down. That is the rule from the brief, and it is what makes each line checkable: every claim points at a child you can open.</p>
+
+  <h2>Two lines, two jobs</h2>
+  <p>The template line and the purpose line never share a job.</p>
+  <ul>
+    <li><b>Template line: facts.</b> How many calls, which kinds, how many errors, done or failed. Code writes it. It stays on every row.</li>
+    <li><b>Purpose line: meaning.</b> What the work was for and what it found, in twelve words or fewer. The model writes it.</li>
+  </ul>
+  <p>The purpose line may not state counts or status. Those come from code. So if the model is wrong, it is wrong about meaning, next to facts that are right. "Problems never collapse" keeps holding, because problems live in the template line.</p>
+  <p>On a row, the purpose line is the title and the template line sits under it, smaller. A row with no purpose line looks exactly as it does today.</p>
+
+  <h2>Which model writes it</h2>
+  <p>The engine you picked for the turn also writes that turn's summaries. Your work then goes to one provider per turn, the one you chose.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Engine</th><th>Summary model</th><th>How it is called</th><th>Speed</th></tr></thead>
+    <tbody>
+      <tr><td>Gemini CLI</td><td>Flash-Lite tier</td><td>Direct API call from the server, with the key it already holds</td><td>About a second, I expect</td></tr>
+      <tr><td>Claude Code</td><td>Haiku</td><td>A one-shot <code>claude -p --model haiku</code> with no tools and no saved session</td><td>Several seconds: the CLI has to start</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Two things I have not measured: the speed column, and the cost. Both models are their provider's cheapest tier, and a step summary is small: a few hundred tokens in, about thirty out. I would log real token counts in the first build before quoting a price.</p>
+  <p>The model names live in settings, not in code. Providers rename their cheap tier often. Claude Code accepts the alias <code>haiku</code>, which follows the newest one.</p>
+  <p>Claude Code has no API key on your Mac, only its sign-in. So the Claude path has to go through the CLI, and it draws on the same usage limits as your turns. That is the main reason to batch.</p>
+
+  <h2>When a summary is written</h2>
+  <ul>
+    <li><b>Step closes.</b> It joins a queue. The queue is sent when it holds eight steps, or after five seconds, or when the turn ends.</li>
+    <li><b>Subagent finishes.</b> Its steps are summarized like any others. Its gist is written from those lines plus its report.</li>
+    <li><b>Turn ends.</b> The queue is flushed. Then the turn line is written from the step and subagent lines.</li>
+    <li><b>After each turn.</b> The session title is rewritten from the turn lines.</li>
+  </ul>
+  <p>On Claude Code, I would start with one call per turn: all the steps and the turn line in a single CLI start. Live step lines on Claude can come later if the delay is tolerable.</p>
+  <p>Some work is skipped on purpose.</p>
+  <ul>
+    <li>A step with one tool call. "Ran live bounce --bars 17-24" needs no gloss.</li>
+    <li>A turn with no tool calls. The answer is the summary.</li>
+    <li>Replays. A stored line is never regenerated.</li>
+    <li>Anything past a per-turn cap of forty summary lines. Long turns keep templates for the rest.</li>
+  </ul>
+
+  <h2>What the model sees</h2>
+  <p>For a step: the sentence the agent wrote just before it, each tool call's template line, and a clipped piece of each result. The first 400 and last 200 characters are enough to see what a command printed.</p>
+  <p>For a turn: your message, the step purpose lines with their template lines, and the subagent gists. No tool output at all.</p>
+  <p>For a session: the turn lines only.</p>
+  <p>The instruction is short. In outline:</p>
+  <pre>You label steps of an agent's work for the person who asked for it.
+For each step, write one line of at most 12 words:
+what it was for and what it found.
+Do not give counts. Do not say whether it succeeded.
+Use only what is in the step. If you cannot tell, write "unclear".
+Answer as JSON: [{"id": "...", "line": "..."}]</pre>
+
+  <h2>Keeping it honest</h2>
+  <p>The brief listed unverified summaries as a known limit. Four checks run in code before a line is stored.</p>
+  <ul>
+    <li><b>Shape.</b> One line, twelve words or fewer, plain text.</li>
+    <li><b>Numbers.</b> Every number in the line must appear in what the model was shown.</li>
+    <li><b>No verdicts on failures.</b> If the step has an error, words like "fixed", "passed" or "done" drop the line.</li>
+    <li><b>No "unclear".</b> If the model could not tell, the row keeps its template alone.</li>
+  </ul>
+  <p>A dropped line is not retried. The template is the fallback, and it is always already on screen.</p>
+  <p>Each stored line records which children it was written from and which model wrote it. Opening the row shows those children. That is the evidence link the brief pointed to, without a second model checking the first.</p>
+  <p>You also need a way to say a line is wrong. A long press on a purpose line marks it wrong and hides it. The marks are the measure of whether this is worth keeping.</p>
+
+  <h2>Where it lives</h2>
+  <ul>
+    <li><b>One new server module</b> queues closed nodes, calls the model, checks the answer and appends an event.</li>
+    <li><b>One new event.</b> <code>{ type: "summary", level, ref, line, from, model }</code> in the session's log, beside the events it describes.</li>
+    <li><b>The work model</b> in the page learns that event and gives the node a purpose line. Drawing code changes by a few lines.</li>
+    <li><b>A setting</b> with three values: off, steps and turns, everything.</li>
+  </ul>
+  <p>Because the line is an event, your phone and your laptop show the same words, and a reload costs nothing.</p>
+  <p>The staging tests gain a stand-in summarizer, so the whole path runs in a real browser without calling a model.</p>
+
+  <h2>What this is not</h2>
+  <p>It is not the agent's memory. Rule 7 of the brief, showing and editing the summary the agent works from after compaction, is a separate job. These lines are for you. The agent never reads them.</p>
+  <p>One tempting reuse: when you switch engine mid-session, hand the new engine the turn lines instead of the whole transcript. I would not do that yet. It changes what the agent knows, and a wrong line would then steer the work.</p>
+
+  <h2>Order of work</h2>
+  <ol>
+    <li>Server module, the event, the checks, and step lines on Gemini. Log tokens and delay.</li>
+    <li>Turn lines and the long-press "wrong" mark.</li>
+    <li>The Claude Code path, one call per turn.</li>
+    <li>Session titles.</li>
+    <li>After a week of real use: count the lines you marked wrong. Keep, narrow or remove.</li>
+  </ol>
+
+  <h2>Your decisions</h2>
+  <ol>
+    <li><b>Which line leads?</b> I propose the purpose line as the title, with the template under it. The other way round is safer and duller.</li>
+    <li><b>On by default?</b> I propose steps and turns on, session titles off until you have seen them.</li>
+    <li><b>Is a delay fine on Claude Code?</b> Lines would arrive a few seconds after the turn ends.</li>
+    <li><b>Should session titles change under you?</b> A title that tracks the work is easier to find later, and harder to recognise the next minute.</li>
+  </ol>
+
+  <h2>Glossary</h2>
+  <dl class="glossary">
+    <dt>Engine</dt><dd>The agent program behind the chat: Gemini CLI or Claude Code. You pick it per message.</dd>
+    <dt>Event</dt><dd>One stored line of a session's record. The page is drawn by replaying them.</dd>
+    <dt>Purpose line</dt><dd>The proposed model-written line: what a piece of work was for and what it found.</dd>
+    <dt>Step</dt><dd>A run of tool calls between two pieces of the agent's text.</dd>
+    <dt>Subagent</dt><dd>An agent the main agent starts for part of a task. It gets a brief and returns a report.</dd>
+    <dt>Template line</dt><dd>A line built by code from the calls themselves, such as "Ran 2 commands (1 error)".</dd>
+    <dt>Token</dt><dd>A piece of a word. Models read and write in tokens, and are billed by them.</dd>
+    <dt>Tool call</dt><dd>One action an agent takes, such as running a command or reading a file.</dd>
+    <dt>Turn</dt><dd>One message from you and everything the agent does in answer.</dd>
+  </dl>
+  </article>
+  <footer><p>This builds on the design brief for the Zpkt agent chat, a private document. Zpkt web itself is private too.</p></footer>
+</div>
+</body>
+</html>
