@@ -28,8 +28,7 @@ const assets = {
     return new Response(fs.readFileSync(file), { headers: { "Content-Type": TYPES[path.extname(file)] || "application/octet-stream" } });
   },
 };
-const SKRNG_TOKEN = process.env.SKRNG_TOKEN || "e2e-skrng-token";
-const env = { SKRNG_TOKEN, DEMO_PASSWORD: PASSWORD, AUDIO_KV: new FakeKV(), AUDIO_BUCKET: new FakeR2(), CARD_DB: new FakeD1(), CARD_BUCKET: new FakeR2(), CORES: new FakeDONamespace(CoreLibrary), ASSETS: assets };
+const env = { DEMO_PASSWORD: PASSWORD, AUDIO_KV: new FakeKV(), AUDIO_BUCKET: new FakeR2(), CARD_DB: new FakeD1(), CARD_BUCKET: new FakeR2(), CORES: new FakeDONamespace(CoreLibrary), ASSETS: assets };
 
 http.createServer(async (req, res) => {
   try {

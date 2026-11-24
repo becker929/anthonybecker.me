@@ -19,3 +19,5 @@ wrangler.toml
 /demos/_src/
 # Source for the video library's pipeline (videos/_src); only the index page is site content.
 /videos/_src/
+# Tools that publish renders to /skrng (they upload to R2); not site content.
+/skrng/_src/
