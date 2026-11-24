@@ -17,24 +17,6 @@
     <section class="batch-head" id="batch-head" hidden>
       <h2 id="batch-title"></h2>
       <p class="batch-notes" id="batch-notes"></p>
-      <button type="button" class="review" id="review" hidden>Review by voice</button>
-      <p class="review-alt"><a href="#" id="rv-from-start" hidden>Review from track 1</a></p>
-      <section class="rv" id="rv" hidden aria-label="Voice review">
-        <p class="rv-state" id="rv-state" aria-live="polite"></p>
-        <p class="rv-heard" id="rv-heard" aria-live="polite"></p>
-        <div class="rv-buttons">
-          <button type="button" id="rv-done" class="rv-done" disabled>Done</button>
-          <button type="button" id="rv-again" disabled>Again</button>
-          <button type="button" id="rv-stop">Stop</button>
-        </div>
-        <label class="rv-type">Or type a note for this track
-          <input id="rv-typed" type="text" autocomplete="off" enterkeyhint="done">
-        </label>
-        <p class="rv-help">Say <b>next</b> to finish an answer, <b>again</b> to replay, <b>go back</b> for the previous track, <b>stop review</b> or <b>that's all</b> to end. An earbud click skips to the question, or ends your answer.</p>
-      </section>
-      <p class="rv-key" id="rv-key"></p>
-      <p class="rv-where" id="rv-where" hidden></p>
-      <p class="review-alt"><a href="#" id="rv-export" hidden>Copy all my answers</a></p>
       <button type="button" class="play-batch" id="play-batch">Play batch</button>
       <p class="now" id="now" aria-live="polite"></p>
     </section>
@@ -42,20 +24,7 @@
       <li class="empty">Loading…</li>
     </ul>
     <nav class="batch-nav" id="batch-nav"></nav>
-    <section class="agent" id="agent" hidden>
-      <h2 id="jobs">Agent</h2>
-      <p class="ag-status" id="ag-status" aria-live="polite">Checking the Mac…</p>
-      <p class="ag-help">A finished voice review starts a Claude Code job on the Mac that reads your answers and acts on them. You get a notification when it starts and when it is done; the result stays here.</p>
-      <button type="button" class="ag-feedback" id="ag-feedback" disabled>Start a job from this batch's answers</button>
-      <ul class="ag-jobs" id="ag-jobs"></ul>
-      <form class="ag-ask" id="ag-ask">
-        <label for="ag-q">Ask about this batch (read-only, answers in under two minutes)</label>
-        <div class="ag-ask-row"><input id="ag-q" type="text" autocomplete="off" enterkeyhint="send"><button type="submit" disabled>Ask</button></div>
-      </form>
-      <p class="ag-answer" id="ag-answer" aria-live="polite" hidden></p>
-    </section>
     <audio id="seq" preload="none"></audio>
-    <audio id="rv-audio" preload="none"></audio>
   </main>
   <div class="transport" role="region" aria-label="Player">
     <button type="button" id="t-prev" aria-label="Previous track (plays its announcement)"></button>
@@ -311,8 +280,7 @@
         tPrev.addEventListener('click', prev);
         tNext.addEventListener('click', next);
 
-        // The car's and lock screen's buttons, over Bluetooth too. The voice
-        // review takes them while it runs (review.js) and hands them back.
+        // The car's and lock screen's buttons, over Bluetooth too.
         function claimButtons() {
           if (!MS) return;
           const set = (action, fn) => { try { MS.setActionHandler(action, fn); } catch {} };
@@ -329,10 +297,6 @@
         claimButtons();
         render();
 
-        // Hand the batch to the voice review (review.js).
-        window.skrngPage = { n, meta, items, list, players, stopRun: () => { if (running) stopRun(); }, claimButtons };
-        window.dispatchEvent(new CustomEvent('skrng:ready', { detail: window.skrngPage }));
-
         // A #id link scrolls to that render once the list exists.
         if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
       })
@@ -340,7 +304,5 @@
         document.getElementById('renders').innerHTML = '<li class="error">Couldn\'t load renders.</li>';
       });
   </script>
-  <script type="module" src="review.js"></script>
-  <script type="module" src="agent.js"></script>
 </body>
 </html>

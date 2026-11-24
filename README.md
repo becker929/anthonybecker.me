@@ -47,53 +47,13 @@ batch's intro (`"announce"` in `batches.json`, the experiment said once),
 then each track's announcement and the track. Everything goes through one
 hidden `<audio>` element, so it keeps going on a locked phone. The car's or
 lock screen's buttons (Media Session: play, pause, next, previous, stop;
-Bluetooth AVRCP buttons arrive as these) drive it, outside a voice review
-too; the review takes them while it runs and hands them back. The order
-comes from `skrng/playlist.js` (tested in `src/test/skrng-playlist.test.js`).
+Bluetooth AVRCP buttons arrive as these) drive it. The order comes from
+`skrng/playlist.js` (tested in `src/test/skrng-playlist.test.js`).
 zpkt `lib/record/batch_intro.py` makes a batch's intro and sets `announce`.
 
-### Voice review
-
-"Review by voice" runs a batch hands-free. For each track it says where you
-are and what differs, plays the track, asks "What did you think?", and
-listens until you say **next** (or tap Done, or click an earbud). Also:
-**again** replays, **go back** returns a track, **stop review** or
-**that's all** ends (Chrome's recogniser drops a bare "stop", so it is
-not taught, though it still works where a recogniser passes it through). The words
-come from `skrng/voice.js` (tested in `src/test/skrng-voice.test.js`); the
-browser side is `skrng/review.js`.
-
-Write a batch for the ear. A track is announced as its number, the text
-after the colon in its title, then its length, so titles in a group should
-read `<group>: <what differs>, <n> s`. Name each group in `batches.json`
-with `"groups": [{ "from": 1, "to": 3, "label": "...", "say": "..." }]`
-(1-based, inclusive) when the title prefix would be confusing aloud, and
-give a track `"say"` to replace its derived description.
-
-Answers are text only (the recogniser's transcript plus any typed note),
-kept on the phone and posted to `/api/skrng/feedback`. Both reading and
-writing need the `SKRNG_TOKEN` secret; without it the routes return 503
-and answers stay on the phone.
-
-```
-npx wrangler secret put SKRNG_TOKEN       # once
-# on the phone, once: https://anthonybecker.me/skrng/#key=<token>
-curl -H "Authorization: Bearer $SKRNG_TOKEN" \
-  "https://anthonybecker.me/api/skrng/feedback?batch=4.1"   # what was said
-```
-
-### Talk test
-
-`/skrng/talk/` proves the spoken loop one step at a time on a real phone:
-the key, speech out, 8 s of music, speech in, the words stored and read
-back, and an answer from the Mac (`ask` over `/api/rpc`) read aloud. **Talk
-with Claude** loops the last three as a conversation, ending each turn on a
-pause; "that's all" ends it. Records land as batch 0 (`talk-test`, and
-`talk-test-log` with the page's own log), so the agent can see which step
-broke. `node e2e/skrng-talk.mjs` tests it in Chromium.
-
-`node e2e/skrng.mjs` (with `node e2e/server.mjs` running) drives a review in
-Chromium with scripted speech in and out.
+The page is for listening only. Its voice review (spoken feedback), talk
+test and agent panel (Claude Code jobs on the Mac) were removed on
+24 November 2026.
 
 Redirects (old/short paths → canonical `/demos/<n>/<slug>/`) live in
 `_redirects`, read natively by Cloudflare.
