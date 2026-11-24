@@ -1,8 +1,8 @@
 #!/bin/zsh
 # Publish a render to anthonybecker.me/skrng: upload the MP3 to R2 and print
-# the manifest entry to add to skrng/manifest.json in the site repo.
+# the manifest entry to add to skrng/manifest.json in this repo.
 #
-#   contrib/skrng/publish_render.sh render.mp3 2026-10-01-hw002-kick-loop "HW002 — kick loop, night 1"
+#   skrng/_src/publish_render.sh render.mp3 2026-10-01-hw002-kick-loop "HW002 — kick loop, night 1"
 #
 # Publishing is public: only run it for renders Anthony has approved.
 set -euo pipefail

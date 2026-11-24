@@ -27,7 +27,8 @@ other page needs to change.
 `/skrng/` ("scrounge") streams work-in-progress renders. It lists
 `skrng/manifest.json`, newest first by `date`. Audio lives in R2, not in
 git — every clone (including each Workers Build) would otherwise carry every
-render ever posted. To add one:
+render ever posted. To add one, `skrng/_src/publish_render.sh` uploads it
+and prints its manifest entry (see `skrng/_src/README.md`). By hand:
 
 ```
 npx wrangler r2 object put anthonybecker-audio/audio/skrng/<date>-<slug>.mp3 \
@@ -49,7 +50,7 @@ hidden `<audio>` element, so it keeps going on a locked phone. The car's or
 lock screen's buttons (Media Session: play, pause, next, previous, stop;
 Bluetooth AVRCP buttons arrive as these) drive it. The order comes from
 `skrng/playlist.js` (tested in `src/test/skrng-playlist.test.js`).
-zpkt `lib/record/batch_intro.py` makes a batch's intro and sets `announce`.
+`skrng/_src/batch_intro.py` makes a batch's intro and sets `announce`.
 
 The page is for listening only. Its voice review (spoken feedback), talk
 test and agent panel (Claude Code jobs on the Mac) were removed on

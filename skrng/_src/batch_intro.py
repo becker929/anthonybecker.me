@@ -1,16 +1,15 @@
 """Spoken intros for /skrng batches: what a batch tests, said once before its first track.
 
-  python3 contrib/skrng/batch_intro.py SITE 7.5                  # words from the batch title
-  python3 contrib/skrng/batch_intro.py SITE 8 "Kick distortion. ..."
-  python3 contrib/skrng/batch_intro.py SITE all                  # every batch without an intro
+  python3 skrng/_src/batch_intro.py 7.5                   # words from the batch title
+  python3 skrng/_src/batch_intro.py 8 "Kick distortion. ..."
+  python3 skrng/_src/batch_intro.py all                   # every batch without an intro
 
-SITE is a checkout of the site repo (e.g. ~/_agent_scratch/site). Makes the MP3 with
-`say` (Daniel, as the track announcements), uploads it to R2 at
-audio/skrng/tts/batch-<n>-<hash>.mp3 and sets "announce" and "say" on the batch in
-skrng/batches.json ("say" without the batch id: the voice review says that
-itself). New words give a new URL, so a cached old intro never plays.
+Works on the site checkout this file is in. Makes the MP3 with `say` (Daniel, as the
+track announcements), uploads it to R2 at audio/skrng/tts/batch-<n>-<hash>.mp3 and sets
+"announce" and "say" on the batch in skrng/batches.json ("say" is the words, without
+the batch id). New words give a new URL, so a cached old intro never plays.
 Publishing is public: only run it for batches Anthony has approved. Commit and PR the
-batches.json change in the site repo as usual.
+batches.json change as usual.
 """
 import hashlib
 import json
@@ -21,6 +20,7 @@ import sys
 import tempfile
 
 BUCKET = "anthonybecker-audio"
+SITE = pathlib.Path(__file__).resolve().parents[2]  # skrng/_src/ -> the repo root
 
 
 def spoken_id(n) -> str:
@@ -62,13 +62,15 @@ def publish(site: pathlib.Path, batches: list, n, text: str) -> str:
         tts(text, mp3)
         subprocess.run(["npx", "-y", "wrangler@4.145.0", "r2", "object", "put", f"{BUCKET}/{key}", "--file", str(mp3),
                         "--content-type", "audio/mpeg", "--remote"], check=True, capture_output=True, cwd=site)
-    # The voice review says "Batch N. K tracks." itself, then "say": keep the batch id out of it.
+    # "say" keeps the words as text, without the batch id, as every earlier batch has them.
     entry["announce"], entry["say"] = "/" + key, re.sub(r"^Batch \d+(, part \d+)?\.\s*", "", text)
     return key
 
 
 def main() -> None:
-    site, which = pathlib.Path(sys.argv[1]).expanduser(), sys.argv[2]
+    if len(sys.argv) < 2:
+        sys.exit(__doc__)
+    site, which = SITE, sys.argv[1]
     path = site / "skrng/batches.json"
     batches = json.loads(path.read_text())
     if which == "all":
@@ -76,7 +78,7 @@ def main() -> None:
     else:
         n = next(b["n"] for b in batches if str(b["n"]) == which)
         title = next(b["title"] for b in batches if b["n"] == n)
-        todo = [(n, sys.argv[3] if len(sys.argv) > 3 else from_title(n, title))]
+        todo = [(n, sys.argv[2] if len(sys.argv) > 2 else from_title(n, title))]
     for n, text in todo:
         print(f"{n}: {publish(site, batches, n, text)}  {text}", flush=True)
         path.write_text(json.dumps(batches, indent=2, ensure_ascii=False) + "\n")
