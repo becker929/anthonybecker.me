@@ -53,7 +53,10 @@ zpkt `lib/record/batch_intro.py` makes a batch's intro and sets `announce`.
 
 The page is for listening only. Its voice review (spoken feedback), talk
 test and agent panel (Claude Code jobs on the Mac) were removed on
-24 November 2026.
+24 November 2026, with the Worker routes behind them: `/api/skrng/feedback`,
+`/api/rpc` and `/api/rig/connect` (the `RigBroker` Durable Object). They now
+404. The old feedback is still in the `AUDIO_KV` namespace under
+`skrng:fb:*`, unread.
 
 Redirects (old/short paths → canonical `/demos/<n>/<slug>/`) live in
 `_redirects`, read natively by Cloudflare.

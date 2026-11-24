@@ -143,11 +143,12 @@ pushes build preview versions only. Things learned the hard way:
   checkout of the merged `main` commit is the same deploy Workers Builds
   runs (`--dry-run` first to confirm bindings). A build that fires later
   redeploys identical content.
-- **A new Durable Object class fails the branch build.** Preview versions
+- **A new Durable Object migration fails the branch build.** Preview versions
   (`wrangler versions upload`) cannot apply a `[[migrations]]` entry, so the
   PR that added `RigBroker` (v1-rig) failed its branch build by design; the
   production build on `main` runs `wrangler deploy`, which applies it. Expect
-  the same for any later migration tag.
+  the same for any later migration tag, including v3-rig-removed, which
+  deleted `RigBroker` again.
 - **Don't delete a merged branch until its builds finish.** A queued build
   that clones by branch name fails at the clone step once the branch is gone.
 - **Keep audio and other large media out of git.** Every build clones the
@@ -163,6 +164,15 @@ folder he shares by link; list it with the Drive connector, write a manifest,
 and fetch with `research/sound-function/repo/lab/drive_fetch.py`. Analysis
 runs locally (`lab/runner.py --local`, `transcriber/pilot.py`). Anything
 still stored under R2 `lab/` or KV `lab:item:*` is the owner's to delete.
+
+## /skrng is for listening
+
+On 24 November 2026 Anthony kept /skrng for listening to batches and dropped
+the render feedback: the voice review, `/skrng/talk/`, the agent panel, and
+the Worker side, `/api/skrng/feedback`, `/api/rpc` and the `RigBroker` socket
+that ran Claude Code jobs on the Mac. Those paths now 404 and a test checks
+it. Do not build feedback or jobs back into the site. Old feedback records
+stay in KV `skrng:fb:*`; they are the owner's to delete.
 
 ## End-to-end tests (e2e/)
 
