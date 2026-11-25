@@ -18,7 +18,9 @@ import { render, writeWav } from './music.mjs';
 const HERE = import.meta.dirname;
 const WORK = resolve(process.argv[2]);
 const STYLES = process.argv.slice(3).length ? process.argv.slice(3) : ['calm', 'hype', 'short'];
-const VOICE = `${process.env.HOME}/Desktop/zpkt/contrib/voice/.venv/bin/python`;
+// Kokoro, from zpkt's old voice package (zpkt dropped it in the 2026-11 upgrade; kept on the Mac for narration).
+const VOICE_DIR = process.env.KOKORO_VOICE_DIR || `${process.env.HOME}/_agent_scratch/kokoro-voice`;
+const VOICE = `${VOICE_DIR}/.venv/bin/python`;
 const run = (cmd, args, opts = {}) => execFileSync(cmd, args, { stdio: 'inherit', ...opts });
 const subject = JSON.parse(await readFile(join(WORK, 'subject.json'), 'utf8'));
 // A remake keeps its first seed, so the same films come out unless the subject sets a new one.
@@ -28,7 +30,7 @@ const seed = subject.seed ?? before.seed ?? (Date.now() % 1e9);
 if (!existsSync(join(WORK, 'footage'))) run('node', [join(HERE, 'capture.mjs'), WORK]);
 for (const style of ['calm', 'short']) {
   if (STYLES.includes(style) && !existsSync(join(WORK, 'vox', `${style}.json`))) {
-    run(VOICE, [join(HERE, 'narrate.py'), WORK, style], { cwd: `${process.env.HOME}/Desktop/zpkt/contrib/voice` });
+    run(VOICE, [join(HERE, 'narrate.py'), WORK, style], { cwd: VOICE_DIR });
   }
 }
 const recent = existsSync(join(WORK, 'recent.json')) ? JSON.parse(await readFile(join(WORK, 'recent.json'), 'utf8')) : [];

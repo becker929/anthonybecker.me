@@ -37,7 +37,7 @@ node videos/_src/publish.mjs $W                    # R2 and the index
 `make.mjs` runs these steps, and skips any whose output is already there:
 
 1. `capture.mjs` films each shot in Chrome, wide and tall, from Chrome's screencast. The browser is muted, so nothing plays on this Mac's speakers.
-2. `narrate.py` speaks the narration with Kokoro (af_heart), from zpkt's voice package.
+2. `narrate.py` speaks the narration with Kokoro (af_heart), from zpkt's old voice package, kept in `~/_agent_scratch/kokoro-voice` (`KOKORO_VOICE_DIR` overrides).
 3. `direct.mjs` writes each style's edit decision list.
 4. `shoot.mjs` paints every frame with `edit.html` and `edit.js`.
 5. `music.mjs` renders the music; ffmpeg lays the voice over it and ducks the music under the voice.
