@@ -1,6 +1,7 @@
-"""Speaks every narration line of a film once, with the Kokoro voice in zpkt's voice package.
+"""Speaks every narration line of a film once, with the Kokoro voice in zpkt's old voice package (kept in
+~/_agent_scratch/kokoro-voice since zpkt dropped it in the 2026-11 upgrade; KOKORO_VOICE_DIR overrides).
 
-    ~/Desktop/zpkt/contrib/voice/.venv/bin/python narrate.py <work> <style>
+    ~/_agent_scratch/kokoro-voice/.venv/bin/python narrate.py <work> <style>
 
 Reads <work>/subject.json, writes <work>/vox/<style>-NN.wav (24 kHz mono) and <work>/vox/<style>.json
 with each line's text and length, which direct.mjs times the edit to. The model loads once.
